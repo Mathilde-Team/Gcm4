@@ -1,5 +1,5 @@
 PKG_NAME    = gnome-connection-manager
-PKG_VERSION = 1.3.3
+PKG_VERSION = 4.0.0
 PKG_MAINTAINER = "MathildeDec <mathilde.deuscher@gmail.com>"
 PKG_DESCRIPTION = "Multi-protocol tabbed connection manager (SSH/RDP/VNC/SPICE/Serial)"
 PKG_VENDOR  = MathildeDec

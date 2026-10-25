@@ -46,7 +46,7 @@ CI.
 
     ```sh
     make deb-gcm4
-    sudo apt install ./build-deb/dist/gcm4_1.3.3_all.deb
+    sudo apt install ./build-deb/dist/gcm4_4.0.0_all.deb
     ```
 
     apt installe les dépendances : `python3-gi`, `gir1.2-gtk-4.0`,
@@ -56,7 +56,7 @@ CI.
 
     ```sh
     make rpm-gcm4
-    sudo dnf install ./build-rpm/dist/gcm4-1.3.3-1.noarch.rpm
+    sudo dnf install ./build-rpm/dist/gcm4-4.0.0-1.noarch.rpm
     ```
 
     dnf installe les dépendances : `python3-gobject`,

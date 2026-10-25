@@ -11,8 +11,8 @@ VNC, SPICE, série, telnet, local, IPMI SOL, Web/BMC) pour GNOME/GTK3, en
 onglets dans une fenêtre unique, avec import d'infrastructure virtualisée
 (libvirt, Proxmox, VirtualBox, oVirt) et outils de déploiement de
 configuration en masse (Netmiko, SNMP). Fork de kuthulux/gnome-connection-manager,
-maintenu par MathildeDec. Version courante : **1.3.3** (numérotation
-post-renommage non tranchée).
+maintenu par MathildeDec. Version courante : **4.0.0** (redémarrage de la
+numérotation aligné sur le nom gcm4, décision du 2026-10-22, #299).
 
 Renommage en cours vers **gcm4** avec le passage à GTK4 : fait dans les
 livrables et la documentation, **pas fait dans le code** (module
