@@ -96,7 +96,7 @@ generate_pot() {
         --keyword=_ --keyword=N_ --keyword=ngettext:1,2 --keyword=pgettext:1c,2 \
         --add-comments=TRANSLATORS: --add-location=file --sort-by-file --no-wrap \
         --package-name="GNOME Connection Manager" \
-        --msgid-bugs-address="https://github.com/Mathide-Team/Gcm4/issues" \
+        --msgid-bugs-address="https://github.com/Mathilde-Team/Gcm4/issues" \
         --copyright-holder="Mathilde Deuscher" 2>"$TMP/xgettext.log")
     # Lanceur (clés traduisibles de la spécification desktop) et AppStream
     # (règles ITS de lang/its, voir GETTEXTDATADIRS plus haut).
@@ -105,7 +105,7 @@ generate_pot() {
     # garde sa place et gagne la référence data/. Mêmes options d'en-tête,
     # sinon xgettext remet l'en-tête par défaut.
     local entete=(--package-name="GNOME Connection Manager"
-        --msgid-bugs-address="https://github.com/Mathide-Team/Gcm4/issues"
+        --msgid-bugs-address="https://github.com/Mathilde-Team/Gcm4/issues"
         --copyright-holder="Mathilde Deuscher")
     (cd "$ROOT" && xgettext --join-existing --output="$out" --language=Desktop \
         --keyword= --keyword=Name --keyword=GenericName --keyword=Comment --keyword=Keywords \
