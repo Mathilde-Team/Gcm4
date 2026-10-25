@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
 "POT-Creation-Date: 2026-10-24 09:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -4810,8 +4810,110 @@ msgstr "Розділити по вертикалі"
 msgid "Unsplit all consoles"
 msgstr "Об'єднати всі консолі"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Кольори та клавіші"
+#~ msgid "xfreerdp log:"
+#~ msgstr "Журнал xfreerdp:"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "page 2"
+#~ msgstr "сторінка 2"
+
+#~ msgid "page 1"
+#~ msgstr "сторінка 1"
+
+#~ msgid "local"
+#~ msgstr "локальний"
+
+#~ msgid "label"
+#~ msgstr "позначка"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "_Edit"
+#~ msgstr "_Редагувати"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Розділити консоль по вертикалі"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Розділити консоль по горизонталі"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Показати панель інструментів"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Надіслати команди кількох хостам одночасно"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Секунд між keep-alive пакетами"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Зберегти буфер активної консолі у файл"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (недоступно тут: Proxmox потребує API-тикет/проксі)"
+
+#~ msgid "Open local console"
+#~ msgstr "Відкрити локальну консоль"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Локальний порт вже призначено"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Імпортувати список серверів з файлу"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Додаткові аргументи для командного рядка"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Експортувати список серверів у файл"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Редагувати властивості хостів"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Виявлені цілі Proxmox (dconf):"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Виявлена ціль Proxmox"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Створити динамічне перенаправлення порту"
+
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Підключитися до вибраного хоста або всіх хостів вибраної групи"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -4824,107 +4926,5 @@ msgstr "Об'єднати всі консолі"
 #~ "1: мін\n"
 #~ "9: макс"
 
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Підключитися до вибраного хоста або всіх хостів вибраної групи"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Створити динамічне перенаправлення порту"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Виявлена ціль Proxmox"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Виявлені цілі Proxmox (dconf):"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Редагувати властивості хостів"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Експортувати список серверів у файл"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Додаткові аргументи для командного рядка"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Імпортувати список серверів з файлу"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Локальний порт вже призначено"
-
-#~ msgid "Open local console"
-#~ msgstr "Відкрити локальну консоль"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (недоступно тут: Proxmox потребує API-тикет/проксі)"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Зберегти буфер активної консолі у файл"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Секунд між keep-alive пакетами"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Надіслати команди кількох хостам одночасно"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Показати панель інструментів"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Розділити консоль по горизонталі"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Розділити консоль по вертикалі"
-
-#~ msgid "_Edit"
-#~ msgstr "_Редагувати"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "label"
-#~ msgstr "позначка"
-
-#~ msgid "local"
-#~ msgstr "локальний"
-
-#~ msgid "page 1"
-#~ msgstr "сторінка 1"
-
-#~ msgid "page 2"
-#~ msgstr "сторінка 2"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "xfreerdp log:"
-#~ msgstr "Журнал xfreerdp:"
+#~ msgid "Colors and Keys"
+#~ msgstr "Кольори та клавіші"

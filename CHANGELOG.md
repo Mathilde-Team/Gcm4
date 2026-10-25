@@ -2,6 +2,9 @@
 
 ## [Non publié]
 
+### Fixed
+- **Nom d'organisation erroné** (#310) : la faute de frappe « Mathide-Team » (sans le « l ») remplacée par « Mathilde-Team » dans tous les fichiers suivis — workflow `ci.yml` (installation d'asyncvnc2), condition du job i18n (jamais vraie, catalogues jamais mis à jour automatiquement), `check_branch_protection.py`, `i18n-update.sh` (adresse des rapports de bug, recopiée dans l'en-tête des 30 catalogues, régénérés), `mkdocs.yml`, test d'intégration bureau. Nouveau test `tests/test_nom_organisation.py` : l'ancien nom est interdit dans tout fichier suivi.
+
 ## [4.0.0] — 2026-10-24
 
 > Première version de **gcm4** (réécriture GTK4/libadwaita). La numérotation

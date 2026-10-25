@@ -139,7 +139,10 @@ class TestMetainfo(unittest.TestCase):
         urls = {u.get("type"): u.text for u in self.racine.iter("url")}
         self.assertEqual(urls["homepage"], site)
         self.assertEqual(urls["bugtracker"], f"{site}/issues")
-        self.assertNotIn("Mathide-Team", METAINFO.read_text(encoding="utf-8"))
+        # Nom d'organisation erroné (sans le « l ») reconstruit : la forme
+        # littérale est interdite dans les fichiers suivis
+        # (tests/test_nom_organisation.py, issue #310).
+        self.assertNotIn("Mathi" + "de-Team", METAINFO.read_text(encoding="utf-8"))
 
 
 class TestIcones(unittest.TestCase):

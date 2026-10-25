@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
 "POT-Creation-Date: 2026-10-24 09:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -4810,8 +4810,110 @@ msgstr "বিভক্ত V"
 msgid "Unsplit all consoles"
 msgstr "সব কনসোলের বিভক্তি বাতিল করুন"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "রঙ এবং কী"
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp লগ:"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "page 2"
+#~ msgstr "পৃষ্ঠা ২"
+
+#~ msgid "page 1"
+#~ msgstr "পৃষ্ঠা ১"
+
+#~ msgid "local"
+#~ msgstr "লোকাল"
+
+#~ msgid "label"
+#~ msgstr "লেবেল"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "_Edit"
+#~ msgstr "_সম্পাদনা"
+
+#~ msgid "Split console vertically"
+#~ msgstr "কনসোল উলম্বভাবে বিভক্ত করুন"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "কনসোল আনুভূমিকভাবে বিভক্ত করুন"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "টুলবার দেখান"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "একসাথে একাধিক হোস্টে কমান্ড পাঠান"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Keep-alive প্যাকেটের মধ্যে সেকেন্ড"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "অ্যাক্টিভ কনসোল বাফার ফাইলে সংরক্ষণ করুন"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (এখানে উপলব্ধ নয়: Proxmox-এর জন্য API টিকিট/প্রক্সি প্রয়োজন)"
+
+#~ msgid "Open local console"
+#~ msgstr "লোকাল কনসোল খুলুন"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "লোকাল পোর্ট ইতিমধ্যে নির্ধারিত"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Import server list from file"
+#~ msgstr "ফাইল থেকে সার্ভার তালিকা আমদানি করুন"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "কমান্ড লাইনে পাস করার জন্য অতিরিক্ত আর্গুমেন্ট"
+
+#~ msgid "Export server list to file"
+#~ msgstr "ফাইলে সার্ভার তালিকা এক্সপোর্ট করুন"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "হোস্টের প্রপার্টিজ সম্পাদনা করুন"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "সনাক্ত করা Proxmox লক্ষ্য (dconf):"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "সনাক্ত করা Proxmox লক্ষ্য"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "ডায়নামিক পোর্ট ফরওয়ার্ডিং তৈরি করুন"
+
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "নির্বাচিত হোস্ট বা নির্বাচিত গ্রুপের সব হোস্টে সংযোগ করুন"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -4824,107 +4926,5 @@ msgstr "সব কনসোলের বিভক্তি বাতিল ক�
 #~ "1: সর্বনিম্ন\n"
 #~ "9: সর্বোচ্চ"
 
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "নির্বাচিত হোস্ট বা নির্বাচিত গ্রুপের সব হোস্টে সংযোগ করুন"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "ডায়নামিক পোর্ট ফরওয়ার্ডিং তৈরি করুন"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "সনাক্ত করা Proxmox লক্ষ্য"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "সনাক্ত করা Proxmox লক্ষ্য (dconf):"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "হোস্টের প্রপার্টিজ সম্পাদনা করুন"
-
-#~ msgid "Export server list to file"
-#~ msgstr "ফাইলে সার্ভার তালিকা এক্সপোর্ট করুন"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "কমান্ড লাইনে পাস করার জন্য অতিরিক্ত আর্গুমেন্ট"
-
-#~ msgid "Import server list from file"
-#~ msgstr "ফাইল থেকে সার্ভার তালিকা আমদানি করুন"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "লোকাল পোর্ট ইতিমধ্যে নির্ধারিত"
-
-#~ msgid "Open local console"
-#~ msgstr "লোকাল কনসোল খুলুন"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (এখানে উপলব্ধ নয়: Proxmox-এর জন্য API টিকিট/প্রক্সি প্রয়োজন)"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "অ্যাক্টিভ কনসোল বাফার ফাইলে সংরক্ষণ করুন"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Keep-alive প্যাকেটের মধ্যে সেকেন্ড"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "একসাথে একাধিক হোস্টে কমান্ড পাঠান"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "টুলবার দেখান"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "কনসোল আনুভূমিকভাবে বিভক্ত করুন"
-
-#~ msgid "Split console vertically"
-#~ msgstr "কনসোল উলম্বভাবে বিভক্ত করুন"
-
-#~ msgid "_Edit"
-#~ msgstr "_সম্পাদনা"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "label"
-#~ msgstr "লেবেল"
-
-#~ msgid "local"
-#~ msgstr "লোকাল"
-
-#~ msgid "page 1"
-#~ msgstr "পৃষ্ঠা ১"
-
-#~ msgid "page 2"
-#~ msgstr "পৃষ্ঠা ২"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp লগ:"
+#~ msgid "Colors and Keys"
+#~ msgstr "রঙ এবং কী"
