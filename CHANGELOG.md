@@ -108,6 +108,7 @@
   agent (humain ou IA) travaillant sur le dépôt
 
 ### Fixed
+- **Nom de l'organisation** (#310) : l'ancien nom mal orthographié (sans « l », compte GitHub inexistant) remplacé par `Mathilde-Team` dans la CI (installation d'`asyncvnc2`), la condition du job `i18n.yml` (qui ne tournait jamais), `check_branch_protection.py`, `i18n-update.sh` et l'en-tête des catalogues, `mkdocs.yml` et le test d'intégration. `tests/test_nom_organisation.py` refuse l'ancien nom dans les fichiers suivis
 - gcm4 sur Debian 12 (GTK 4.8, libadwaita 1.2, #223) : le repli
   `Gtk.CssProvider.load_from_data` passait deux arguments et une chaîne
   (exception à chaque démarrage, CSS de l'arbre non chargé) ; il reçoit

@@ -1,5 +1,5 @@
 # mkdocs.yml -- documentation navigable de Gcm4 (règle commune à tous les
-# dépôts de Mathide-Team, modèle Netcross #282 / IAO #183).
+# dépôts de Mathilde-Team, modèle Netcross #282 / IAO #183).
 #
 # La doc existante est déjà en Markdown : aucun fichier n'est copié.
 # README.md, Documentation-fr.md et CHANGELOG.md (racine du dépôt) sont
@@ -13,8 +13,8 @@ site_name: Gcm4
 site_description: >-
   Gestionnaire de connexions multi-protocoles pour GNOME (SSH, RDP, VNC,
   SPICE, série, telnet, BMC), en cours de migration vers GTK4.
-repo_url: https://github.com/Mathide-Team/Gcm4
-repo_name: Mathide-Team/Gcm4
+repo_url: https://github.com/Mathilde-Team/Gcm4
+repo_name: Mathilde-Team/Gcm4
 docs_dir: docs
 exclude_docs: |
   sessions/
