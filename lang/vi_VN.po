@@ -4810,8 +4810,110 @@ msgstr "Chia V"
 msgid "Unsplit all consoles"
 msgstr "Hủy chia tất cả console"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Màu và Phím"
+#~ msgid "xfreerdp log:"
+#~ msgstr "Nhật ký xfreerdp:"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "page 2"
+#~ msgstr "trang 2"
+
+#~ msgid "page 1"
+#~ msgstr "trang 1"
+
+#~ msgid "local"
+#~ msgstr "cục bộ"
+
+#~ msgid "label"
+#~ msgstr "nhãn"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "_Edit"
+#~ msgstr "_Chỉnh sửa"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Chia console theo chiều dọc"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Chia console theo chiều ngang"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Hiển thị Thanh công cụ"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Gửi lệnh đến nhiều host cùng lúc"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Số giây giữa các gói keep-alive"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Lưu buffer console hiện tại vào tệp"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (không khả dụng ở đây: Proxmox yêu cầu ticket/proxy API)"
+
+#~ msgid "Open local console"
+#~ msgstr "Mở console cục bộ"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Cổng cục bộ đã được sử dụng"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Nhập danh sách server từ tệp"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Đối số bổ sung truyền cho dòng lệnh"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Xuất danh sách server ra tệp"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Chỉnh sửa thuộc tính host"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Đích Proxmox được phát hiện (dconf):"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Đích Proxmox được phát hiện"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Tạo chuyển tiếp cổng động"
+
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Kết nối đến host đã chọn hoặc tất cả host trong nhóm đã chọn"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -4824,107 +4926,5 @@ msgstr "Hủy chia tất cả console"
 #~ "1: thấp nhất\n"
 #~ "9: cao nhất"
 
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Kết nối đến host đã chọn hoặc tất cả host trong nhóm đã chọn"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Tạo chuyển tiếp cổng động"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Đích Proxmox được phát hiện"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Đích Proxmox được phát hiện (dconf):"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Chỉnh sửa thuộc tính host"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Xuất danh sách server ra tệp"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Đối số bổ sung truyền cho dòng lệnh"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Nhập danh sách server từ tệp"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Cổng cục bộ đã được sử dụng"
-
-#~ msgid "Open local console"
-#~ msgstr "Mở console cục bộ"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (không khả dụng ở đây: Proxmox yêu cầu ticket/proxy API)"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Lưu buffer console hiện tại vào tệp"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Số giây giữa các gói keep-alive"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Gửi lệnh đến nhiều host cùng lúc"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Hiển thị Thanh công cụ"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Chia console theo chiều ngang"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Chia console theo chiều dọc"
-
-#~ msgid "_Edit"
-#~ msgstr "_Chỉnh sửa"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "label"
-#~ msgstr "nhãn"
-
-#~ msgid "local"
-#~ msgstr "cục bộ"
-
-#~ msgid "page 1"
-#~ msgstr "trang 1"
-
-#~ msgid "page 2"
-#~ msgstr "trang 2"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "xfreerdp log:"
-#~ msgstr "Nhật ký xfreerdp:"
+#~ msgid "Colors and Keys"
+#~ msgstr "Màu và Phím"
