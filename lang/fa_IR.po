@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 10:23+0000\n"
+"POT-Creation-Date: 2026-10-25 23:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -440,6 +440,7 @@ msgstr "عمومی"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "گروه"
 
@@ -637,7 +638,8 @@ msgstr "چسباندن"
 msgid "Paste on right click"
 msgstr "چسباندن با کلیک راست"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "پورت"
 
@@ -3072,6 +3074,10 @@ msgstr "کپی آدرس"
 msgid "Duplicate Host"
 msgstr "تکثیر میزبان"
 
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "ویرایش میزبان‌های انتخاب‌شده…"
+
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
 msgstr "گسترش همه"
@@ -3398,8 +3404,30 @@ msgstr "نشانی رونوشت شد"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "از قبل در گروه مقصد وجود دارد: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "اعمال"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "تغییر درگاه"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "تغییرات ذخیره نشد: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "درگاه پیش‌فرض پروتکل"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "ویرایش {count} میزبان"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3411,8 +3439,17 @@ msgstr "نام گروه"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "میزبان‌های به‌روزشده: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "شامل {hosts} میزبان و {groups} زیرگروه است که آن‌ها نیز حذف می‌شوند."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "انتقال به گروه"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3432,6 +3469,10 @@ msgstr "میزبان «{name}» حذف شود؟"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "این کار برگشت‌پذیر نیست."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "فیلدهای علامت‌نخورده بدون تغییر می‌مانند."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
