@@ -195,3 +195,38 @@ class TestFumee(unittest.TestCase):
         )
         self.assertNotEqual(resultat.returncode, 0)
         self.assertIn("mode inconnu", resultat.stderr)
+
+
+class TestCibleMakeDeb(unittest.TestCase):
+    """``make deb`` construit le paquet gcm4 : plus de .deb GTK3 (#156)."""
+
+    MAKEFILE = (ROOT / "Makefile").read_text(encoding="utf-8")
+    RELEASE = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+
+    def recette(self, cible: str) -> list[str]:
+        """Lignes de la recette d'une cible du Makefile."""
+        bloc = re.search(rf"^{cible}:.*\n((?:\t.*\n)*)", self.MAKEFILE, re.M)
+        assert bloc, f"cible {cible} absente du Makefile"
+        return [ligne.strip() for ligne in bloc.group(1).splitlines()]
+
+    def test_make_deb_appelle_build_sh(self):
+        """La recette de ``deb`` est build-deb/build.sh, sans fpm."""
+        self.assertEqual(self.recette("deb"), ["build-deb/build.sh"])
+        self.assertNotIn("fpm -t deb", self.MAKEFILE)
+
+    def test_ancien_nom_deb_gcm4_conserve(self):
+        """``make deb-gcm4`` reste un alias de ``make deb``."""
+        self.assertRegex(self.MAKEFILE, r"(?m)^deb-gcm4: deb$")
+
+    def test_release_publie_le_paquet_gcm4(self):
+        """Le workflow de release construit et joint le .deb de gcm4."""
+        self.assertIn("make deb\n", self.RELEASE)
+        self.assertNotIn("make deb PKG_VERSION", self.RELEASE)
+        self.assertIn("cp build-deb/dist/gcm4_*_all.deb .", self.RELEASE)
+        for outil in ("debhelper", "dh-python", "dpkg-dev", "python3-build", "python3-hatchling"):
+            self.assertIn(outil, self.RELEASE)
+
+    def test_release_verifie_le_contenu_du_deb_gcm4(self):
+        """Le .deb est vérifié sur le lanceur et le dossier /usr/share/gcm4."""
+        self.assertIn("/usr/bin/gcm4 /usr/share/gcm4/gcm4/__init__.py", self.RELEASE)
+        self.assertNotIn('"$RUNNER_TEMP"/deb.txt "$RUNNER_TEMP"/*.rpm.txt', self.RELEASE)

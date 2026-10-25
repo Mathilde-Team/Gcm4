@@ -1,6 +1,6 @@
 [project]
 name = "gnome-connection-manager"
-version = "1.3.3"
+version = "4.0.0"
 description = "Simple tabbed SSH/Telnet/RDP/VNC/SPICE/Serial connection manager for GTK3"
 license = "GPL-3.0-or-later"
 readme = "README.md"
@@ -34,9 +34,9 @@ Changelog = "https://github.com/MathildeDec/gnome-connection-manager/blob/main/C
 # capture les erreurs d'import et désactive juste le plugin concerné
 # (message "n outil(s)/plugin(s) n'ont pas pu se charger" au démarrage) :
 #   - netmiko    : push de config en masse (netmiko_bulk_core.py, plugin_netmiko_push.py)
-#   - paramiko   : SPICE via libvirt, push SNMP/inventaire (plugin_spice.py,
-#                  snmp_push_core.py, hypervisor_import_common.py, tools/*.py),
-#                  plugin sftp de gcm4 (plugins/sftp/, #75)
+#   - paramiko   : SPICE via libvirt, dépôt SFTP du push SNMP/inventaire
+#                  (plugin_spice.py, snmp_bulk_core.py, hypervisor_import_common.py,
+#                  tools/*.py), plugin sftp de gcm4 (plugins/sftp/, #75)
 #   - libvirt    : import de VM SPICE via libvirt-python (plugin_spice.py)
 #   - vnc        : plugin_vnc.py (import top-level de Cryptodome pour
 #                  l'authentification VNC/DES) — nécessite en plus le
@@ -81,6 +81,7 @@ dev = [
     "pytest-cov>=5.0.0",
     "mypy>=1.11",
     "pyyaml>=6.0",
+    # Serveurs SFTP locaux des tests (#74, #75).
     "paramiko>=3.4.0",
 ]
 
@@ -159,7 +160,6 @@ files = [
     "popup_menu_core.py",
     "putty_import_core.py",
     "snmp_bulk_core.py",
-    "snmp_push_core.py",
     "tab_context_menu_core.py",
     "plugins/plugin_base.py",
     "plugins/ssh/core.py",
