@@ -645,8 +645,10 @@ class PushResult:
 
 
 class PushResultLike(Protocol):
-    """Forme commune de ``PushResult`` et ``snmp_push_core.SnmpPushResult``
-    (journal, manifeste et synthèse sont partagés par les deux transports).
+    """Forme attendue par le journal, le manifeste et la synthèse.
+
+    ``PushResult`` la respecte ; le ``SnmpPushResult`` de l'ancien
+    ``snmp_push_core.py`` (supprimé, #74) aussi.
     """
 
     row: InventoryRow
