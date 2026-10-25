@@ -11,6 +11,7 @@
 > (journal) et `features.md` (§4.1).
 
 ### Added
+- **Push SNMP : dépôt du fichier rendu** (#74) : `snmp_bulk_core.py` dépose la configuration rendue sur le serveur de dépôt avant le `SNMP SET` (`FileTransferConfig`, `upload_config_file` : SFTP avec clé d'hôte vérifiée dans `known_hosts`, FTP, TFTP RFC 1350) et transmet le protocole de récupération au driver (`FETCH_PROTOCOLS` : H3C ftp/tftp, Cisco tftp/ftp/sftp, Huawei ftp/tftp/sftp) au lieu du TFTP codé en dur. Paramètre `transfer` optionnel de `push_to_device`/`run_bulk_push`, comportement inchangé sans lui. Testé contre de vrais serveurs SFTP, FTP et TFTP locaux
 - **Plugin SFTP GTK4** (#75) : `plugins/sftp/` au contrat v1, navigateur de fichiers distant (paramiko). Navigation, téléchargement sans écraser (`download-dir` ou dossier XDG), envoi par bouton ou glisser-déposer, nouveau dossier, renommage, suppression confirmée. Clé d'hôte vérifiée dans `~/.ssh/known_hosts` (clé inconnue : empreinte SHA256 à accepter dans l'onglet ; clé changée : refus), mot de passe, fichier de clé ou agent SSH, mot de passe demandé en cas de refus. Réseau dans un fil de travail, jamais dans la boucle GTK. Testé contre un vrai serveur SSH/SFTP paramiko (`tests/serveur_sftp.py`) ; guide `docs/guide/sftp.md`
 - **Journalisation SOCLE §8, lot 1** (#294) : logger loguru dans les 11 modules qui n'en avaient pas (`MODULES_SANS_LOGGER` vide). Les 6 nouveaux `*_core.py` se mettent en sourdine à l'import et sont ajoutés à `CORE_MODULES` (#130). 23 `except` hérités journalisent désormais le type et le message de l'exception (191 → 168) ; l'`except:` nu de `models.HostUtils.get_val` devient `except BaseException as exc:`, sémantique inchangée. Traces d'entrée et de sortie ajoutées dans ces modules : référence de l'audit 1042 → 970. Les valeurs ne sont journalisées que pour les modules sans données sensibles. Dans `pyAES.py`, seules les fonctions par opération ou par bloc sont tracées, pas les primitives de ronde.
 - **gcm4, base GTK4** (#126, réécriture, paquet `src/gcm4`) : commande `gcm4`
@@ -106,6 +107,9 @@
 - **`CONSIGNES-AGENTS-IA.md`**, `.pre-commit-config.yaml` et
   `tools/check_circular_imports.py` : règles et outillage qualité pour tout
   agent (humain ou IA) travaillant sur le dépôt
+
+### Removed
+- `snmp_push_core.py` (#74) : double implémentation orpheline du push SNMP, jamais importée ; ses transports sont repris dans `snmp_bulk_core.py`
 
 ### Fixed
 - **Nom de l'organisation** (#310) : l'ancien nom mal orthographié (sans « l », compte GitHub inexistant) remplacé par `Mathilde-Team` dans la CI (installation d'`asyncvnc2`), la condition du job `i18n.yml` (qui ne tournait jamais), `check_branch_protection.py`, `i18n-update.sh` et l'en-tête des catalogues, `mkdocs.yml` et le test d'intégration. `tests/test_nom_organisation.py` refuse l'ancien nom dans les fichiers suivis
