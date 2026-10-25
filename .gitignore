@@ -24,3 +24,11 @@ __pycache__/
 .coverage
 .coverage.*
 site/
+
+# Paquet .deb de la base GTK4 (#156)
+build-deb/_build/
+build-deb/dist/
+build-deb/gcm4_*
+# Paquet .rpm de la base GTK4 (#157)
+build-rpm/_build/
+build-rpm/dist/

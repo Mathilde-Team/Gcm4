@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-19 12:52+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-24 10:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,70 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "Connection Manager"
+msgstr "ตัวจัดการการเชื่อมต่อ"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+msgid "Gnome Connection Manager"
+msgstr "Gnome Connection Manager"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Organize your hosts and open their connections in tabs"
+msgstr "จัดระเบียบโฮสต์และเปิดการเชื่อมต่อของโฮสต์ในแท็บ"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "connection;remote;host;session;terminal;gcm4;"
+msgstr "การเชื่อมต่อ;ระยะไกล;โฮสต์;เซสชัน;เทอร์มินัล;gcm4;"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "gcm4 (debug mode)"
+msgstr "gcm4 (โหมดดีบัก)"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Connection protocols provided by plugins"
+msgstr "โพรโทคอลการเชื่อมต่อมาจากส่วนขยาย"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: src/gcm4/ui/host_dialog.py
+msgid "Edit Host"
+msgstr "แก้ไขโฮสต์"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Gnome Connection Manager keeps your hosts in groups and opens each connection in a tab of a single window."
+msgstr "Gnome Connection Manager เก็บโฮสต์ของคุณไว้ในกลุ่ม และเปิดการเชื่อมต่อแต่ละรายการในแท็บของหน้าต่างเดียว"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Groups and hosts in a searchable tree, with colors and drag and drop"
+msgstr "กลุ่มและโฮสต์ในแผนผังที่ค้นหาได้ พร้อมสีและการลากและวาง"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Groups and hosts in the main window"
+msgstr "กลุ่มและโฮสต์ในหน้าต่างหลัก"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Host passwords stored encrypted"
+msgstr "รหัสผ่านของโฮสต์ถูกจัดเก็บแบบเข้ารหัส"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Last release of the GTK3 application; the GTK4 base is not released yet."
+msgstr "รุ่นล่าสุดของแอปพลิเคชัน GTK3 ฐาน GTK4 ยังไม่ได้เผยแพร่"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Open tabs restored at the next start"
+msgstr "กู้คืนแท็บที่เปิดอยู่เมื่อเริ่มโปรแกรมครั้งถัดไป"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
+msgid "Settings"
+msgstr "การตั้งค่า"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
+msgstr "แอปพลิเคชันพื้นฐานไม่มีโพรโทคอลใดในตัว: การเชื่อมต่อต้องใช้ส่วนขยายที่เกี่ยวข้อง"
 
 #: gnome_connection_manager.py
 msgid "+ Add"
@@ -36,7 +100,7 @@ msgstr ""
 msgid "<span size=\"smaller\">CTRL+UP/CTRL+DOWN for history</span>"
 msgstr "<span size=\"smaller\">CTRL+ขึ้น/CTRL+ลง สำหรับประวัติ</span>"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid ""
 "<span size='smaller'>Use ##D=milliseconds to add a delay.\n"
 "Ex: ##D=1000</span>"
@@ -57,11 +121,11 @@ msgstr "มีเวอร์ชันใหม่พร้อมใช้งา
 msgid "A simple ssh connection manager for gnome"
 msgstr "ตัวจัดการการเชื่อมต่อ SSH แบบง่ายสำหรับ Gnome"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "ASCII Backspace \t[Ctrl+H 0x08]"
 msgstr "ASCII Backspace \t[Ctrl+H 0x08]"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "ASCII Delete    \t[Ctrl+? 0x7F]"
 msgstr "ASCII Delete    \t[Ctrl+? 0x7F]"
 
@@ -89,7 +153,7 @@ msgstr "หลังตัดการเชื่อมต่อ"
 msgid "Always"
 msgstr "เสมอ"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Automatic"
 msgstr "อัตโนมัติ"
 
@@ -97,7 +161,7 @@ msgstr "อัตโนมัติ"
 msgid "Background color:"
 msgstr "สีพื้นหลัง:"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Backspace:"
 msgstr "Backspace:"
 
@@ -137,9 +201,10 @@ msgstr "ไม่สามารถเปิดไฟล์บันทึกเ
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py src/gcm4/ui/contexte.py
+#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "ยกเลิก"
 
@@ -151,7 +216,7 @@ msgstr "ตรวจสอบการอัปเดต"
 msgid "Choose Group Color"
 msgstr ""
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Circle around tabs when going to the previous/next tab"
 msgstr "วนรอบแท็บเมื่อไปยังแท็บก่อนหน้า/ถัดไป"
 
@@ -159,11 +224,13 @@ msgstr "วนรอบแท็บเมื่อไปยังแท็บก
 msgid "Clear selection"
 msgstr "ล้างการเลือก"
 
-#: gnome_connection_manager.py ssh_config_editor.py ssh_key_manager_dialog.py
+#: gnome_connection_manager.py src/gcm4/ui/echange.py
+#: src/gcm4/ui/main_window.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Close"
 msgstr "ปิด"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py widgets.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/main_window.py widgets.py
 msgid "Close console"
 msgstr "ปิดคอนโซล"
 
@@ -185,11 +252,11 @@ msgstr "สี"
 msgid "Command"
 msgstr "คำสั่ง"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Confirm on close console"
 msgstr "ยืนยันเมื่อปิดคอนโซล"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Confirm on close console with middle click"
 msgstr "ยืนยันเมื่อปิดคอนโซลด้วยคลิกกลาง"
 
@@ -243,11 +310,11 @@ msgstr "บิตข้อมูล"
 msgid "Default colors"
 msgstr "สีเริ่มต้น"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Delete Sequence \t[@7]"
 msgstr "ลำดับ Delete \t[@7]"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Delete:"
 msgstr "Delete:"
 
@@ -255,7 +322,7 @@ msgstr "Delete:"
 msgid "Description"
 msgstr "คำอธิบาย"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Disable alternating stripes in hosts window"
 msgstr "ปิดใช้งานแถบสีสลับในหน้าต่างโฮสต์"
 
@@ -275,7 +342,7 @@ msgstr "คุณต้องการลบโฮสต์ทั้งหมด
 msgid "Do you really want to remove host"
 msgstr "คุณต้องการลบโฮสต์จริงหรือไม่"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Dynamic title"
 msgstr "ชื่อแบบไดนามิก"
 
@@ -283,10 +350,6 @@ msgstr "ชื่อแบบไดนามิก"
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Edit"
 msgstr "แก้ไข"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Edit Host"
-msgstr "แก้ไขโฮสต์"
 
 #: gnome_connection_manager.py
 msgid "Enable Logging"
@@ -320,11 +383,9 @@ msgstr ""
 msgid "Export Servers"
 msgstr "ส่งออกเซิร์ฟเวอร์"
 
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Export servers"
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Export servers"
-msgstr "_ส่งออกเซิร์ฟเวอร์"
+msgstr "ส่งออกเซิร์ฟเวอร์"
 
 #: gnome_connection_manager.py plugins/plugin_export_csv.py
 msgid "Export to CSV"
@@ -376,10 +437,6 @@ msgstr ""
 msgid "General"
 msgstr "ทั่วไป"
 
-#: gnome_connection_manager.py
-msgid "Gnome Connection Manager"
-msgstr "Gnome Connection Manager"
-
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
@@ -419,11 +476,9 @@ msgstr "ชื่อโฮสต์"
 msgid "Import Servers"
 msgstr "นำเข้าเซิร์ฟเวอร์"
 
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Import servers"
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Import servers"
-msgstr "_นำเข้าเซิร์ฟเวอร์"
+msgstr "นำเข้าเซิร์ฟเวอร์"
 
 #: gnome_connection_manager.py
 #, fuzzy
@@ -650,7 +705,7 @@ msgstr "เลือกแบบอักษร"
 msgid "Select foreground color"
 msgstr "เลือกสีพื้นหน้า"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Send commands after login"
 msgstr "ส่งคำสั่งหลังจากเข้าสู่ระบบ"
 
@@ -671,10 +726,6 @@ msgstr "รายการเซิร์ฟเวอร์จะถูกเข
 #| msgid "_Servers"
 msgid "Servers"
 msgstr "เ_ซิร์ฟเวอร์"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/preferences.py
-msgid "Settings"
-msgstr "การตั้งค่า"
 
 #: gnome_connection_manager.py
 #, python-brace-format
@@ -710,11 +761,11 @@ msgstr "หยุด"
 msgid "System"
 msgstr "ตามระบบ"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "TTY Erase"
 msgstr "ลบ TTY"
 
@@ -738,7 +789,7 @@ msgstr ""
 msgid "Tip: use #P=password to send a password without keeping it in clear text in the command history"
 msgstr ""
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Title"
 msgstr "ชื่อเรื่อง"
 
@@ -869,6 +920,11 @@ msgstr ""
 #: key_picker_dialog.py
 msgid "⚙ Generate…"
 msgstr ""
+
+#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#, python-brace-format
+msgid "{program} not found"
+msgstr "ไม่พบ {program}"
 
 #: plugins/plugin_export_csv.py
 #, python-brace-format
@@ -1441,7 +1497,7 @@ msgid "IPMI (SOL)"
 msgstr ""
 
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py
+#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "เซสชันสิ้นสุดลง"
 
@@ -1779,7 +1835,7 @@ msgstr ""
 msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
+#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
 msgid "Authentication failed"
 msgstr ""
 
@@ -2659,6 +2715,230 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/sftp/core.py
+msgid "B"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "GiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "KiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "MiB"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Busy, try again when the current operation is finished"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Connecting…"
+msgid "Connecting to {host}…"
+msgstr "กำลังเชื่อมต่อ…"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Initialization failed: {error}"
+msgid "Connection failed: {error}"
+msgstr "เริ่มต้นไม่สำเร็จ: {error}"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Create"
+msgstr "สร้าง"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Creating {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Delete:"
+msgid "Delete"
+msgstr "Delete:"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Delete the empty folder {name}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "Delete {name}?"
+msgstr "ชื่อเทมเพลต"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Deleting {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Download"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloaded to {path}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloading {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Import failed: {error}"
+msgid "Error: {error}"
+msgstr "นำเข้าไม่สำเร็จ: {error}"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "xfreerdp not found"
+msgid "File not found"
+msgstr "ไม่พบ xfreerdp"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Folders not uploaded: {names}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Home folder"
+msgstr "โฟลเดอร์ล็อก"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Host key of {host} has changed (fingerprint {fingerprint}). Connection refused: check the server, then remove the old key from {file}."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Invalid name: {name}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Listing {path}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "New folder"
+msgstr "โฟลเดอร์ล็อก"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "VM name"
+msgid "New folder name:"
+msgstr "ชื่อ VM"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Copy Address"
+msgid "No address"
+msgstr "คัดลอกที่อยู่"
+
+#: plugins/sftp/gtk4.py
+msgid "Nothing to upload (folders are not uploaded)"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Parent folder"
+msgstr "โฟลเดอร์ล็อก"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Private key file:"
+msgstr "คีย์ส่วนตัว"
+
+#: plugins/sftp/gtk4.py
+msgid "Refresh"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder"
+msgstr "พอร์ตระยะไกล"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder:"
+msgstr "พอร์ตระยะไกล"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Rename"
+msgstr "เปลี่ยนชื่อ"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Rename {name} to:"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Renaming {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Retry"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "SSH agent and ~/.ssh keys"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid ""
+"The authenticity of host {host} can't be established.\n"
+"Key fingerprint is {fingerprint}. Trust it and add it to {file}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Trust and connect"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Unknown host key"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Upload files"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Uploading {count} file(s)…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "{path}: {count} items"
+msgstr ""
+
 #: src/gcm4/app.py
 msgid "The old configuration is intact: fix the problem (permissions, disk space), then start gcm4 again."
 msgstr "การตั้งค่าเดิมยังอยู่ครบ: แก้ไขปัญหา (สิทธิ์การเข้าถึง พื้นที่ดิสก์) แล้วเปิด gcm4 อีกครั้ง"
@@ -2705,6 +2985,72 @@ msgstr "ไม่สามารถอ่านไฟล์การตั้ง
 #, python-format
 msgid "Unable to write the configuration file %s: %s"
 msgstr "ไม่สามารถเขียนไฟล์การตั้งค่า %s: %s"
+
+#: src/gcm4/core/echange_cli.py src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Hosts exported: {count} ({file})"
+msgstr "โฮสต์ที่ส่งออก: {count} ({file})"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: the host name is missing"
+msgstr "%s: ไม่มีชื่อโฮสต์"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: too many cells"
+msgstr "%s: มีเซลล์มากเกินไป"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: unexpected value for %s"
+msgstr "%s: ค่าที่ไม่คาดคิดสำหรับ %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "The file %s is not a valid host export: %s"
+msgstr "ไฟล์ %s ไม่ใช่การส่งออกโฮสต์ที่ถูกต้อง: %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "Unable to read the file %s: %s"
+msgstr "ไม่สามารถอ่านไฟล์ %s: %s"
+
+#: src/gcm4/core/exchange.py src/gcm4/core/sauvegarde.py
+#, python-format
+msgid "Unable to write the file %s: %s"
+msgstr "ไม่สามารถเขียนไฟล์ %s: %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "entry %d"
+msgstr "รายการ %d"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "line %d"
+msgstr "บรรทัด %d"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "the column %s is missing"
+msgstr "ไม่มีคอลัมน์ %s"
+
+#: src/gcm4/core/exchange.py
+msgid "unsupported format or version"
+msgstr "ไม่รองรับรูปแบบหรือรุ่นนี้"
+
+#: src/gcm4/core/menu.py
+msgid "Next tab"
+msgstr "แท็บถัดไป"
+
+#: src/gcm4/core/menu.py
+msgid "Previous tab"
+msgstr "แท็บก่อนหน้า"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/echange.py
+msgid "Save configuration as…"
+msgstr "บันทึกการตั้งค่าเป็น…"
 
 #: src/gcm4/core/menu.py
 msgid "Search"
@@ -2797,6 +3143,25 @@ msgstr "โพรโทคอล '{protocol}' ถูกจัดการโด�
 msgid "{file} does not define PLUGIN."
 msgstr "{file} ไม่ได้กำหนด PLUGIN"
 
+#: src/gcm4/core/sauvegarde.py
+msgid "Choose a folder other than the configuration folder."
+msgstr "เลือกโฟลเดอร์อื่นที่ไม่ใช่โฟลเดอร์การตั้งค่า"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-brace-format
+msgid "Import of {file}: added {added}, replaced {replaced}, renamed {renamed}, ignored {ignored}, new groups {groups}"
+msgstr "นำเข้า {file}: เพิ่ม {added}, แทนที่ {replaced}, เปลี่ยนชื่อ {renamed}, ข้าม {ignored}, กลุ่มใหม่ {groups}"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-format
+msgid "No configuration to save yet: %s"
+msgstr "ยังไม่มีการตั้งค่าให้บันทึก: %s"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-brace-format
+msgid "{folder} already contains {file}."
+msgstr "{folder} มี {file} อยู่แล้ว"
+
 #: src/gcm4/core/validation.py
 #, python-brace-format
 msgid "A host named «{name}» already exists in this group."
@@ -2819,10 +3184,65 @@ msgstr "พอร์ตต้องเป็นตัวเลขระหว่
 msgid "The name must not contain «/»."
 msgstr "ชื่อต้องไม่มี '/'"
 
+#: src/gcm4/ui/application.py
+#, python-brace-format
+msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
+msgstr "gcm4 กำลังทำงานอยู่แล้วด้วยโฟลเดอร์การตั้งค่าอื่น: ปิดก่อนเพื่อใช้ {requested}"
+
 #: src/gcm4/ui/contexte.py
 #, python-brace-format
 msgid "Password for {target}"
 msgstr "รหัสผ่านสำหรับ {target}"
+
+#: src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Configuration saved to {folder}"
+msgstr "บันทึกการตั้งค่าไว้ที่ {folder} แล้ว"
+
+#: src/gcm4/ui/echange.py
+msgid "Export"
+msgstr "ส่งออก"
+
+#: src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Hosts in {file}: {count}, already present: {existing}"
+msgstr "โฮสต์ใน {file}: {count}, มีอยู่แล้ว: {existing}"
+
+#: src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "หากมีโฮสต์อยู่แล้ว:"
+
+#: src/gcm4/ui/echange.py
+msgid "Import"
+msgstr "นำเข้า"
+
+#: src/gcm4/ui/echange.py
+msgid "Include passwords (in clear text)"
+msgstr "รวมรหัสผ่าน (ข้อความธรรมดา)"
+
+#: src/gcm4/ui/echange.py
+msgid "JSON or CSV file, chosen by its extension."
+msgstr "ไฟล์ JSON หรือ CSV ตามนามสกุลไฟล์"
+
+#: src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "เก็บโฮสต์เดิมไว้"
+
+#: src/gcm4/ui/echange.py
+msgid "Passwords will be written in clear text: keep this file safe."
+msgstr "รหัสผ่านจะถูกเขียนเป็นข้อความธรรมดา: เก็บไฟล์นี้ไว้ในที่ปลอดภัย"
+
+#: src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "เปลี่ยนชื่อโฮสต์ที่นำเข้า"
+
+#: src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "แทนที่โฮสต์เดิม"
+
+#: src/gcm4/ui/echange.py
+msgid "This file contains passwords in clear text."
+msgstr "ไฟล์นี้มีรหัสผ่านเป็นข้อความธรรมดา"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Background color"
@@ -2932,6 +3352,11 @@ msgid "Home"
 msgstr "หน้าแรก"
 
 #: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Host not found: {hosts}"
+msgstr "ไม่พบโฮสต์: {hosts}"
+
+#: src/gcm4/ui/main_window.py
 msgid "Hosts and groups will appear in the left panel."
 msgstr "โฮสต์และกลุ่มจะปรากฏในแผงด้านซ้าย"
 
@@ -2977,10 +3402,6 @@ msgid "Changes not saved: {error}"
 msgstr "ไม่ได้บันทึกการเปลี่ยนแปลง: {error}"
 
 #: src/gcm4/ui/menu_arbre.py
-msgid "Create"
-msgstr "สร้าง"
-
-#: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
 msgstr "สีของกลุ่ม"
 
@@ -3007,10 +3428,6 @@ msgstr "ลบกลุ่ม '{name}' หรือไม่"
 #, python-brace-format
 msgid "Remove host «{name}»?"
 msgstr "ลบโฮสต์ '{name}' หรือไม่"
-
-#: src/gcm4/ui/menu_arbre.py
-msgid "Rename"
-msgstr "เปลี่ยนชื่อ"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
@@ -3042,8 +3459,16 @@ msgid "Appearance"
 msgstr "รูปลักษณ์"
 
 #: src/gcm4/ui/preferences.py
+msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
+msgstr "คลิกทางลัดเพื่อเปลี่ยน หรือกด Backspace ในกล่องโต้ตอบเพื่อปิดใช้งาน"
+
+#: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "ระดับล็อกเริ่มต้น"
+
+#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "ปิดใช้งาน"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3108,6 +3533,36 @@ msgstr "ใช้แบบอักษรของระบบ"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "รุ่น {version}"
+
+#: src/gcm4/ui/raccourcis.py
+#, python-brace-format
+msgid "Already used by “{action}”."
+msgstr "ถูกใช้โดย “{action}” แล้ว"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Press a key combination"
+msgstr "กดคีย์ผสม"
+
+#: src/gcm4/ui/raccourcis.py
+#, python-brace-format
+msgid "Press the new shortcut for “{action}”, or Backspace to disable it."
+msgstr "กดทางลัดใหม่สำหรับ “{action}” หรือกด Backspace เพื่อปิดใช้งาน"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Reset to default"
+msgstr "คืนค่าเริ่มต้น"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Set"
+msgstr "ตั้งค่า"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Set Shortcut"
+msgstr "ตั้งค่าทางลัด"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Use Ctrl, Alt or Super with this key."
+msgstr "ใช้ Ctrl, Alt หรือ Super ร่วมกับปุ่มนี้"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

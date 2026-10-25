@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Gnome Connection Manager
+GenericName=Connection Manager
+Comment=Organize your hosts and open their connections in tabs
+Exec=gcm4
+Icon=io.github.MathildeDec.gcm4
+Terminal=false
+StartupNotify=true
+StartupWMClass=io.github.MathildeDec.gcm4
+Categories=GTK;GNOME;Network;RemoteAccess;
+Keywords=connection;remote;host;session;terminal;gcm4;
+Actions=debug;
+
+[Desktop Action debug]
+Name=gcm4 (debug mode)
+Exec=gcm4 --debug

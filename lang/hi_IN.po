@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-19 12:52+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-24 10:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,70 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "Connection Manager"
+msgstr "कनेक्शन प्रबंधक"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+msgid "Gnome Connection Manager"
+msgstr "Gnome Connection Manager"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Organize your hosts and open their connections in tabs"
+msgstr "अपने होस्ट व्यवस्थित करें और उनके कनेक्शन टैब में खोलें"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "connection;remote;host;session;terminal;gcm4;"
+msgstr "कनेक्शन;दूरस्थ;होस्ट;सत्र;टर्मिनल;gcm4;"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "gcm4 (debug mode)"
+msgstr "gcm4 (डीबग मोड)"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Connection protocols provided by plugins"
+msgstr "कनेक्शन प्रोटोकॉल एक्सटेंशन से मिलते हैं"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: src/gcm4/ui/host_dialog.py
+msgid "Edit Host"
+msgstr "होस्ट संपादित करें"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Gnome Connection Manager keeps your hosts in groups and opens each connection in a tab of a single window."
+msgstr "Gnome Connection Manager आपके होस्ट को समूहों में रखता है और हर कनेक्शन को एक ही विंडो के एक टैब में खोलता है।"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Groups and hosts in a searchable tree, with colors and drag and drop"
+msgstr "खोजने योग्य ट्री में समूह और होस्ट, रंगों और खींचकर छोड़ने की सुविधा के साथ"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Groups and hosts in the main window"
+msgstr "मुख्य विंडो में समूह और होस्ट"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Host passwords stored encrypted"
+msgstr "होस्ट के पासवर्ड एन्क्रिप्ट करके सहेजे जाते हैं"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Last release of the GTK3 application; the GTK4 base is not released yet."
+msgstr "GTK3 एप्लिकेशन का अंतिम संस्करण; GTK4 आधार अभी जारी नहीं हुआ है।"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Open tabs restored at the next start"
+msgstr "अगली बार शुरू होने पर खुले टैब पुनर्स्थापित"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
+msgid "Settings"
+msgstr "सेटिंग्स"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
+msgstr "मूल एप्लिकेशन अपने आप कोई प्रोटोकॉल नहीं देता: कनेक्शन के लिए संबंधित एक्सटेंशन आवश्यक है।"
 
 #: gnome_connection_manager.py
 msgid "+ Add"
@@ -36,7 +100,7 @@ msgstr ""
 msgid "<span size=\"smaller\">CTRL+UP/CTRL+DOWN for history</span>"
 msgstr "<span size=\"smaller\">इतिहास के लिए CTRL+UP/CTRL+DOWN</span>"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid ""
 "<span size='smaller'>Use ##D=milliseconds to add a delay.\n"
 "Ex: ##D=1000</span>"
@@ -57,11 +121,11 @@ msgstr "एक नया संस्करण उपलब्ध है: https:
 msgid "A simple ssh connection manager for gnome"
 msgstr "Gnome के लिए एक सरल SSH कनेक्शन मैनेजर"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "ASCII Backspace \t[Ctrl+H 0x08]"
 msgstr "ASCII बैकस्पेस \t[Ctrl+H 0x08]"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "ASCII Delete    \t[Ctrl+? 0x7F]"
 msgstr "ASCII डिलीट    \t[Ctrl+? 0x7F]"
 
@@ -89,7 +153,7 @@ msgstr "डिस्कनेक्ट के बाद"
 msgid "Always"
 msgstr "हमेशा"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Automatic"
 msgstr "ऑटोमैटिक"
 
@@ -97,7 +161,7 @@ msgstr "ऑटोमैटिक"
 msgid "Background color:"
 msgstr "पृष्ठभूमि रंग:"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Backspace:"
 msgstr "बैकस्पेस:"
 
@@ -137,9 +201,10 @@ msgstr "लॉग फ़ाइल को लिखने के लिए नह
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py src/gcm4/ui/contexte.py
+#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "रद्द करें"
 
@@ -151,7 +216,7 @@ msgstr "अपडेट जांचें"
 msgid "Choose Group Color"
 msgstr ""
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Circle around tabs when going to the previous/next tab"
 msgstr "पिछले/अगले टैब पर जाते समय टैब के बीच चक्र करें"
 
@@ -159,11 +224,13 @@ msgstr "पिछले/अगले टैब पर जाते समय ट
 msgid "Clear selection"
 msgstr "चयन साफ़ करें"
 
-#: gnome_connection_manager.py ssh_config_editor.py ssh_key_manager_dialog.py
+#: gnome_connection_manager.py src/gcm4/ui/echange.py
+#: src/gcm4/ui/main_window.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Close"
 msgstr "बंद करें"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py widgets.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/main_window.py widgets.py
 msgid "Close console"
 msgstr "कंसोल बंद करें"
 
@@ -185,11 +252,11 @@ msgstr "रंग"
 msgid "Command"
 msgstr "कमांड"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Confirm on close console"
 msgstr "कंसोल बंद करने पर पुष्टि करें"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Confirm on close console with middle click"
 msgstr "मध्य-क्लिक से कंसोल बंद करने पर पुष्टि करें"
 
@@ -243,11 +310,11 @@ msgstr "डेटा बिट्स"
 msgid "Default colors"
 msgstr "डिफ़ॉल्ट रंग"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Delete Sequence \t[@7]"
 msgstr "डिलीट सीक्वेंस \t[@7]"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Delete:"
 msgstr "डिलीट:"
 
@@ -255,7 +322,7 @@ msgstr "डिलीट:"
 msgid "Description"
 msgstr "विवरण"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Disable alternating stripes in hosts window"
 msgstr "होस्ट विंडो में वैकल्पिक स्ट्राइप्स अक्षम करें"
 
@@ -275,7 +342,7 @@ msgstr "क्या आप वास्तव में समूह में 
 msgid "Do you really want to remove host"
 msgstr "क्या आप वास्तव में होस्ट को हटाना चाहते हैं"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Dynamic title"
 msgstr "डायनामिक शीर्षक"
 
@@ -283,10 +350,6 @@ msgstr "डायनामिक शीर्षक"
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Edit"
 msgstr "संपादित करें"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Edit Host"
-msgstr "होस्ट संपादित करें"
 
 #: gnome_connection_manager.py
 msgid "Enable Logging"
@@ -320,11 +383,9 @@ msgstr ""
 msgid "Export Servers"
 msgstr "सर्वर निर्यात करें"
 
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Export servers"
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Export servers"
-msgstr "_सर्वर निर्यात करें"
+msgstr "सर्वर निर्यात करें"
 
 #: gnome_connection_manager.py plugins/plugin_export_csv.py
 msgid "Export to CSV"
@@ -376,10 +437,6 @@ msgstr ""
 msgid "General"
 msgstr "सामान्य"
 
-#: gnome_connection_manager.py
-msgid "Gnome Connection Manager"
-msgstr "Gnome Connection Manager"
-
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
@@ -419,11 +476,9 @@ msgstr "होस्ट नाम"
 msgid "Import Servers"
 msgstr "सर्वर आयात करें"
 
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Import servers"
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Import servers"
-msgstr "_सर्वर आयात करें"
+msgstr "सर्वर आयात करें"
 
 #: gnome_connection_manager.py
 #, fuzzy
@@ -650,7 +705,7 @@ msgstr "फ़ॉन्ट चुनें"
 msgid "Select foreground color"
 msgstr "फ़ोरग्राउंड रंग चुनें"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Send commands after login"
 msgstr "लॉगिन के बाद कमांड भेजें"
 
@@ -671,10 +726,6 @@ msgstr "सर्वर सूची अधिलेखित हो जाए�
 #| msgid "_Servers"
 msgid "Servers"
 msgstr "_सर्वर"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/preferences.py
-msgid "Settings"
-msgstr "सेटिंग्स"
 
 #: gnome_connection_manager.py
 #, python-brace-format
@@ -710,11 +761,11 @@ msgstr "स्टॉप"
 msgid "System"
 msgstr "सिस्टम"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "TTY Erase"
 msgstr "TTY इरेज़"
 
@@ -738,7 +789,7 @@ msgstr ""
 msgid "Tip: use #P=password to send a password without keeping it in clear text in the command history"
 msgstr ""
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Title"
 msgstr "शीर्षक"
 
@@ -869,6 +920,11 @@ msgstr ""
 #: key_picker_dialog.py
 msgid "⚙ Generate…"
 msgstr ""
+
+#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#, python-brace-format
+msgid "{program} not found"
+msgstr "{program} नहीं मिला"
 
 #: plugins/plugin_export_csv.py
 #, python-brace-format
@@ -1441,7 +1497,7 @@ msgid "IPMI (SOL)"
 msgstr ""
 
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py
+#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "सत्र समाप्त हुआ"
 
@@ -1779,7 +1835,7 @@ msgstr ""
 msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
+#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
 msgid "Authentication failed"
 msgstr ""
 
@@ -2659,6 +2715,230 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/sftp/core.py
+msgid "B"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "GiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "KiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "MiB"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Busy, try again when the current operation is finished"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Connecting…"
+msgid "Connecting to {host}…"
+msgstr "कनेक्ट हो रहा है…"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Initialization failed: {error}"
+msgid "Connection failed: {error}"
+msgstr "प्रारंभ विफल: {error}"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Create"
+msgstr "बनाएँ"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Creating {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Delete:"
+msgid "Delete"
+msgstr "डिलीट:"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Delete the empty folder {name}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "Delete {name}?"
+msgstr "टेम्पलेट नाम"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Deleting {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Download"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloaded to {path}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloading {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Import failed: {error}"
+msgid "Error: {error}"
+msgstr "आयात विफल: {error}"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "xfreerdp not found"
+msgid "File not found"
+msgstr "xfreerdp नहीं मिला"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Folders not uploaded: {names}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Home folder"
+msgstr "लॉग फ़ोल्डर"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Host key of {host} has changed (fingerprint {fingerprint}). Connection refused: check the server, then remove the old key from {file}."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Invalid name: {name}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Listing {path}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "New folder"
+msgstr "लॉग फ़ोल्डर"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "VM name"
+msgid "New folder name:"
+msgstr "VM नाम"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Copy Address"
+msgid "No address"
+msgstr "पता कॉपी करें"
+
+#: plugins/sftp/gtk4.py
+msgid "Nothing to upload (folders are not uploaded)"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Parent folder"
+msgstr "लॉग फ़ोल्डर"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Private key file:"
+msgstr "प्राइवेट की"
+
+#: plugins/sftp/gtk4.py
+msgid "Refresh"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder"
+msgstr "रिमोट पोर्ट"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder:"
+msgstr "रिमोट पोर्ट"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Rename"
+msgstr "नाम बदलें"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Rename {name} to:"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Renaming {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Retry"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "SSH agent and ~/.ssh keys"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid ""
+"The authenticity of host {host} can't be established.\n"
+"Key fingerprint is {fingerprint}. Trust it and add it to {file}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Trust and connect"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Unknown host key"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Upload files"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Uploading {count} file(s)…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "{path}: {count} items"
+msgstr ""
+
 #: src/gcm4/app.py
 msgid "The old configuration is intact: fix the problem (permissions, disk space), then start gcm4 again."
 msgstr "पुराना कॉन्फ़िगरेशन सुरक्षित है: समस्या (अनुमतियाँ, डिस्क स्थान) ठीक करें, फिर gcm4 दोबारा शुरू करें।"
@@ -2705,6 +2985,72 @@ msgstr "कॉन्फ़िगरेशन फ़ाइल %s पढ़ी न
 #, python-format
 msgid "Unable to write the configuration file %s: %s"
 msgstr "कॉन्फ़िगरेशन फ़ाइल %s लिखी नहीं जा सकी: %s"
+
+#: src/gcm4/core/echange_cli.py src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Hosts exported: {count} ({file})"
+msgstr "निर्यात किए गए होस्ट: {count} ({file})"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: the host name is missing"
+msgstr "%s: होस्ट का नाम नहीं है"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: too many cells"
+msgstr "%s: बहुत अधिक सेल"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: unexpected value for %s"
+msgstr "%s: %s के लिए अनपेक्षित मान"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "The file %s is not a valid host export: %s"
+msgstr "फ़ाइल %s मान्य होस्ट निर्यात नहीं है: %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "Unable to read the file %s: %s"
+msgstr "फ़ाइल %s पढ़ी नहीं जा सकी: %s"
+
+#: src/gcm4/core/exchange.py src/gcm4/core/sauvegarde.py
+#, python-format
+msgid "Unable to write the file %s: %s"
+msgstr "फ़ाइल %s लिखी नहीं जा सकी: %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "entry %d"
+msgstr "प्रविष्टि %d"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "line %d"
+msgstr "पंक्ति %d"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "the column %s is missing"
+msgstr "कॉलम %s नहीं है"
+
+#: src/gcm4/core/exchange.py
+msgid "unsupported format or version"
+msgstr "असमर्थित प्रारूप या संस्करण"
+
+#: src/gcm4/core/menu.py
+msgid "Next tab"
+msgstr "अगला टैब"
+
+#: src/gcm4/core/menu.py
+msgid "Previous tab"
+msgstr "पिछला टैब"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/echange.py
+msgid "Save configuration as…"
+msgstr "कॉन्फ़िगरेशन इस रूप में सहेजें…"
 
 #: src/gcm4/core/menu.py
 msgid "Search"
@@ -2797,6 +3143,25 @@ msgstr "प्रोटोकॉल '{protocol}' पहले से '{other}' �
 msgid "{file} does not define PLUGIN."
 msgstr "{file} में PLUGIN परिभाषित नहीं है।"
 
+#: src/gcm4/core/sauvegarde.py
+msgid "Choose a folder other than the configuration folder."
+msgstr "कॉन्फ़िगरेशन फ़ोल्डर के अलावा कोई अन्य फ़ोल्डर चुनें।"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-brace-format
+msgid "Import of {file}: added {added}, replaced {replaced}, renamed {renamed}, ignored {ignored}, new groups {groups}"
+msgstr "{file} का आयात: जोड़े गए {added}, बदले गए {replaced}, नाम बदले गए {renamed}, छोड़े गए {ignored}, नए समूह {groups}"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-format
+msgid "No configuration to save yet: %s"
+msgstr "सहेजने के लिए अभी कोई कॉन्फ़िगरेशन नहीं: %s"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-brace-format
+msgid "{folder} already contains {file}."
+msgstr "{folder} में पहले से {file} है।"
+
 #: src/gcm4/core/validation.py
 #, python-brace-format
 msgid "A host named «{name}» already exists in this group."
@@ -2819,10 +3184,65 @@ msgstr "पोर्ट {min} से {max} के बीच की संख्�
 msgid "The name must not contain «/»."
 msgstr "नाम में '/' नहीं होना चाहिए।"
 
+#: src/gcm4/ui/application.py
+#, python-brace-format
+msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
+msgstr "gcm4 पहले से किसी अन्य कॉन्फ़िगरेशन फ़ोल्डर के साथ चल रहा है: {requested} का उपयोग करने के लिए इसे बंद करें।"
+
 #: src/gcm4/ui/contexte.py
 #, python-brace-format
 msgid "Password for {target}"
 msgstr "{target} के लिए पासवर्ड"
+
+#: src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Configuration saved to {folder}"
+msgstr "कॉन्फ़िगरेशन {folder} में सहेजा गया"
+
+#: src/gcm4/ui/echange.py
+msgid "Export"
+msgstr "निर्यात करें"
+
+#: src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Hosts in {file}: {count}, already present: {existing}"
+msgstr "{file} में होस्ट: {count}, पहले से मौजूद: {existing}"
+
+#: src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "यदि होस्ट पहले से मौजूद है:"
+
+#: src/gcm4/ui/echange.py
+msgid "Import"
+msgstr "आयात करें"
+
+#: src/gcm4/ui/echange.py
+msgid "Include passwords (in clear text)"
+msgstr "पासवर्ड शामिल करें (सादे पाठ में)"
+
+#: src/gcm4/ui/echange.py
+msgid "JSON or CSV file, chosen by its extension."
+msgstr "JSON या CSV फ़ाइल, एक्सटेंशन के अनुसार।"
+
+#: src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "मौजूदा होस्ट रखें"
+
+#: src/gcm4/ui/echange.py
+msgid "Passwords will be written in clear text: keep this file safe."
+msgstr "पासवर्ड सादे पाठ में लिखे जाएंगे: इस फ़ाइल को सुरक्षित रखें।"
+
+#: src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "आयातित होस्ट का नाम बदलें"
+
+#: src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "मौजूदा होस्ट बदलें"
+
+#: src/gcm4/ui/echange.py
+msgid "This file contains passwords in clear text."
+msgstr "इस फ़ाइल में सादे पाठ में पासवर्ड हैं।"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Background color"
@@ -2932,6 +3352,11 @@ msgid "Home"
 msgstr "होम"
 
 #: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Host not found: {hosts}"
+msgstr "होस्ट नहीं मिला: {hosts}"
+
+#: src/gcm4/ui/main_window.py
 msgid "Hosts and groups will appear in the left panel."
 msgstr "होस्ट और समूह बाएँ पैनल में दिखाई देंगे।"
 
@@ -2977,10 +3402,6 @@ msgid "Changes not saved: {error}"
 msgstr "बदलाव सहेजे नहीं गए: {error}"
 
 #: src/gcm4/ui/menu_arbre.py
-msgid "Create"
-msgstr "बनाएँ"
-
-#: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
 msgstr "समूह का रंग"
 
@@ -3007,10 +3428,6 @@ msgstr "समूह '{name}' हटाएँ?"
 #, python-brace-format
 msgid "Remove host «{name}»?"
 msgstr "होस्ट '{name}' हटाएँ?"
-
-#: src/gcm4/ui/menu_arbre.py
-msgid "Rename"
-msgstr "नाम बदलें"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
@@ -3042,8 +3459,16 @@ msgid "Appearance"
 msgstr "दिखावट"
 
 #: src/gcm4/ui/preferences.py
+msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
+msgstr "किसी शॉर्टकट को बदलने के लिए उस पर क्लिक करें, या उसे अक्षम करने के लिए संवाद में Backspace दबाएँ।"
+
+#: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "डिफ़ॉल्ट लॉग स्तर"
+
+#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "अक्षम"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3108,6 +3533,36 @@ msgstr "सिस्टम फ़ॉन्ट का उपयोग करे�
 #, python-brace-format
 msgid "Version {version}"
 msgstr "संस्करण {version}"
+
+#: src/gcm4/ui/raccourcis.py
+#, python-brace-format
+msgid "Already used by “{action}”."
+msgstr "पहले से “{action}” द्वारा उपयोग में है।"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Press a key combination"
+msgstr "कोई कुंजी संयोजन दबाएँ"
+
+#: src/gcm4/ui/raccourcis.py
+#, python-brace-format
+msgid "Press the new shortcut for “{action}”, or Backspace to disable it."
+msgstr "“{action}” के लिए नया शॉर्टकट दबाएँ, या उसे अक्षम करने के लिए Backspace दबाएँ।"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Reset to default"
+msgstr "डिफ़ॉल्ट पर रीसेट करें"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Set"
+msgstr "सेट करें"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Set Shortcut"
+msgstr "शॉर्टकट सेट करें"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Use Ctrl, Alt or Super with this key."
+msgstr "इस कुंजी के साथ Ctrl, Alt या Super का उपयोग करें।"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

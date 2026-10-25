@@ -126,11 +126,13 @@ class TestContratsImports(unittest.TestCase):
     def test_aucun_protocole_en_litteral_dans_src_gcm4(self):
         """Cœur et interface du futur paquet : pas de "ssh"/"rdp"... en dur."""
         racines = [ROOT / "src" / "gcm4" / "core", ROOT / "src" / "gcm4" / "ui"]
-        if not any(r.is_dir() for r in racines):
-            self.skipTest("src/gcm4 pas encore créé (épopée GTK4)")
+        # src/gcm4 existe depuis #133 : un dossier manquant (renommage,
+        # déplacement) ferait passer le test à vide, il doit échouer.
+        for racine in racines:
+            self.assertTrue(racine.is_dir(), f"{racine} absent")
         fautes = []
         for racine in racines:
-            for path in sorted(racine.rglob("*.py")) if racine.is_dir() else []:
+            for path in sorted(racine.rglob("*.py")):
                 rel = path.relative_to(ROOT).as_posix()
                 tree = _parse(path)
                 docstrings = {

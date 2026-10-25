@@ -53,6 +53,12 @@ décision de l'appelant, prise à l'exécution une fois `msgconfirm()` connu
 sites de l'audit session-38 (point 3) sont désormais tous portés.
 """
 
+from loguru import logger
+
+# Convention bibliothèque (#130) : muet à l'import, réactivé par
+# logging_config.configure_logging() (CORE_MODULES).
+logger.disable(__name__)
+
 #: Issues possibles de la classification d'un clic sur treeServers, voir
 #: :func:`classify_tree_servers_press`.
 TREE_SERVERS_PRESS_OUTCOMES = ("open-menu", "swallow", "propagate")
@@ -101,10 +107,14 @@ def classify_tree_servers_press(*, button, n_press):
         str: Une valeur de :data:`TREE_SERVERS_PRESS_OUTCOMES` — voir
             ci-dessus pour la signification de chacune.
     """
+    logger.debug("classify_tree_servers_press: entrée")
     if button == 3 and n_press == 1:
+        logger.debug("classify_tree_servers_press: sortie")
         return "open-menu"
     if n_press >= 2:
+        logger.debug("classify_tree_servers_press: sortie")
         return "swallow"
+    logger.debug("classify_tree_servers_press: sortie")
     return "propagate"
 
 
@@ -172,10 +182,14 @@ def classify_terminal_click(*, button, n_press, ctrl_pressed, paste_on_right_cli
         str: Une valeur de :data:`TERMINAL_CLICK_OUTCOMES` — voir ci-dessus
             pour la signification de chacune.
     """
+    logger.debug("classify_terminal_click: entrée")
     if button == 3 and n_press == 1:
+        logger.debug("classify_terminal_click: sortie")
         return "paste" if paste_on_right_click else "open-menu"
     if button == 1 and n_press == 1 and ctrl_pressed:
+        logger.debug("classify_terminal_click: sortie")
         return "check-url"
+    logger.debug("classify_terminal_click: sortie")
     return "propagate"
 
 
@@ -238,8 +252,12 @@ def classify_tab_label_click(*, button, n_press):
         str: Une valeur de :data:`TAB_LABEL_CLICK_OUTCOMES` — voir
             ci-dessus pour la signification de chacune.
     """
+    logger.debug("classify_tab_label_click: entrée")
     if button == 3 and n_press == 1:
+        logger.debug("classify_tab_label_click: sortie")
         return "open-menu"
     if button == 2 and n_press == 1:
+        logger.debug("classify_tab_label_click: sortie")
         return "close-tab"
+    logger.debug("classify_tab_label_click: sortie")
     return "propagate"

@@ -14,6 +14,11 @@
 #                                       msgfmt --check puis compilation en
 #                                       DIR/<locale>/LC_MESSAGES/<domaine>.mo
 #                                       (défaut : lang, lu par bindtextdomain)
+#   scripts/i18n-update.sh --desktop DIR
+#                                       msgfmt --desktop / --xml : lanceur et
+#                                       métadonnées AppStream de data/ avec
+#                                       les traductions, écrits dans DIR
+#                                       (paquets .deb/.rpm, #274)
 #
 # Langues : lang/LINGUAS, nulle part ailleurs. Les nouvelles chaînes arrivent
 # avec msgstr "" : aucune traduction automatique n'est insérée.
@@ -21,7 +26,9 @@
 # GCM_I18N_DOMAIN permet de compiler sous un autre nom.
 # Sources : fichiers Python suivis par git, hors tests/, tools/, scripts/ et
 # des sous-projets qui gèrent leurs propres catalogues (SSH-Studio/,
-# gtk-frdp/).
+# gtk-frdp/) ; lanceur et métadonnées AppStream de gcm4 dans data/ (#274).
+# Codes de langue du lanceur et d'AppStream : la langue seule (fr, de...),
+# sauf pt_BR et zh_CN qui ont leur variante ; un « fr » couvre fr_BE, fr_CA...
 #
 # Prérequis : gettext (apt-get install gettext / dnf install gettext).
 
@@ -30,6 +37,12 @@ export LC_ALL=C.UTF-8
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LANG_DIR="$ROOT/lang"
+# Règles ITS AppStream du dépôt (lang/its, #274) : xgettext et msgfmt --xml
+# les trouvent dans $GETTEXTDATADIRS/its. Sans elles, le résultat dépendait
+# de la machine : gettext 0.21 n'a pas de règle pour *.metainfo.xml (« cannot
+# locate ITS rules », sauf si le paquet appstream est installé) et la règle
+# intégrée à gettext 0.23 n'extrait pas les notes de version.
+export GETTEXTDATADIRS="$LANG_DIR${GETTEXTDATADIRS:+:$GETTEXTDATADIRS}"
 POT="$LANG_DIR/messages.pot"
 DOMAIN="${GCM_I18N_DOMAIN:-gcm-lang}"
 MODE="update"
@@ -39,7 +52,11 @@ case "${1:-}" in
     "") ;;
     --check) MODE="check" ;;
     --compile) MODE="compile"; DEST="${2:-$DEST}" ;;
-    -h|--help) sed -n '2,25p' "$0"; exit 0 ;;
+    --desktop)
+        MODE="desktop"
+        [ -n "${2:-}" ] || { echo "--desktop : dossier de sortie requis" >&2; exit 2; }
+        DEST="$2" ;;
+    -h|--help) sed -n '2,34p' "$0"; exit 0 ;;
     *) echo "option inconnue : $1" >&2; exit 2 ;;
 esac
 
@@ -55,6 +72,18 @@ normalize() {
     grep -vE '^"(POT-Creation-Date|PO-Revision-Date):' "$1" | msgcat --no-wrap --sort-by-file - 2>/dev/null || true
 }
 
+APP_ID="io.github.MathildeDec.gcm4"
+DESKTOP="data/$APP_ID.desktop"
+METAINFO="data/$APP_ID.metainfo.xml"
+
+# Code de langue d'un .po dans le lanceur et AppStream (voir en-tête).
+desktop_locale() {
+    case "$1" in
+        pt_BR|zh_CN) echo "$1" ;;
+        *) echo "${1%%_*}" ;;
+    esac
+}
+
 sources() {
     (cd "$ROOT" && git ls-files '*.py' \
         | grep -vE '^(tests|tools|scripts|SSH-Studio|gtk-frdp)/' | sort -u)
@@ -67,8 +96,22 @@ generate_pot() {
         --keyword=_ --keyword=N_ --keyword=ngettext:1,2 --keyword=pgettext:1c,2 \
         --add-comments=TRANSLATORS: --add-location=file --sort-by-file --no-wrap \
         --package-name="GNOME Connection Manager" \
-        --msgid-bugs-address="https://github.com/Mathide-Team/Gcm4/issues" \
+        --msgid-bugs-address="https://github.com/Mathilde-Team/Gcm4/issues" \
         --copyright-holder="Mathilde Deuscher" 2>"$TMP/xgettext.log")
+    # Lanceur (clés traduisibles de la spécification desktop) et AppStream
+    # (règles ITS de lang/its, voir GETTEXTDATADIRS plus haut).
+    # Ajoutées au même modèle (--join-existing), à la suite des chaînes
+    # Python : une chaîne déjà présente (« Gnome Connection Manager »)
+    # garde sa place et gagne la référence data/. Mêmes options d'en-tête,
+    # sinon xgettext remet l'en-tête par défaut.
+    local entete=(--package-name="GNOME Connection Manager"
+        --msgid-bugs-address="https://github.com/Mathilde-Team/Gcm4/issues"
+        --copyright-holder="Mathilde Deuscher")
+    (cd "$ROOT" && xgettext --join-existing --output="$out" --language=Desktop \
+        --keyword= --keyword=Name --keyword=GenericName --keyword=Comment --keyword=Keywords \
+        --add-location=file --no-wrap "${entete[@]}" "$DESKTOP" 2>>"$TMP/xgettext.log")
+    (cd "$ROOT" && xgettext --join-existing --output="$out" --from-code=UTF-8 \
+        --add-location=file --no-wrap "${entete[@]}" "$METAINFO" 2>>"$TMP/xgettext.log")
     # xgettext laisse CHARSET dans l'en-tête du modèle ; les .po héritent d'UTF-8.
     sed -i 's/charset=CHARSET/charset=UTF-8/' "$out"
 }
@@ -169,5 +212,21 @@ compile)
             2> >(grep -v 'still has the initial default value' >&2)
     done
     echo "$(linguas | wc -l) catalogue(s) compilé(s) dans $DEST"
+    ;;
+desktop)
+    check_all
+    # msgfmt prend le nom de chaque .po comme code de langue : un dossier
+    # temporaire les expose sous leur code de lanceur (desktop_locale).
+    mkdir -p "$TMP/desktop" "$DEST"
+    for loc in $(linguas); do
+        code="$(desktop_locale "$loc")"
+        cp "$LANG_DIR/$loc.po" "$TMP/desktop/$code.po"
+        echo "$code" >> "$TMP/desktop/LINGUAS"
+    done
+    msgfmt --desktop --template="$ROOT/$DESKTOP" -d "$TMP/desktop" \
+        --output-file="$DEST/$APP_ID.desktop"
+    msgfmt --xml --template="$ROOT/$METAINFO" -d "$TMP/desktop" \
+        --output-file="$DEST/$APP_ID.metainfo.xml"
+    echo "lanceur et AppStream traduits ($(linguas | wc -l) langue(s)) dans $DEST"
     ;;
 esac

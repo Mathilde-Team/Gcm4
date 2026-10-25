@@ -221,7 +221,8 @@ def dep_install_hint(pkg_debian: str, pkg_fedora: str, pkg_arch: str | None = No
     try:
         with open("/etc/os-release") as _f:
             _rel = _f.read().lower()
-    except OSError:
+    except OSError as exc:
+        app_logger.debug("dep_install_hint: {} : {}", type(exc).__name__, exc)
         _rel = ""
     if any(
         x in _rel for x in ("ubuntu", "debian", "mint", "pop", "kali", "raspbian", "linuxmint")
@@ -267,6 +268,8 @@ def bindtextdomain(app_name: str, locale_dir: str | None = None) -> None:
             list[str]: Codes de langue par ordre de préférence.
         """
 
+        app_logger.debug("bindtextdomain._lang_candidates: entrée")
+
         def _expand_locale(loc: str) -> list[str]:
             """Décompose une locale en variantes de repli successives.
 
@@ -276,7 +279,9 @@ def bindtextdomain(app_name: str, locale_dir: str | None = None) -> None:
             Returns:
                 list[str]: Variantes ordonnées (précise -> générique).
             """
+            app_logger.debug("bindtextdomain._lang_candidates._expand_locale: entrée")
             if not loc:
+                app_logger.debug("bindtextdomain._lang_candidates._expand_locale: sortie")
                 return []
             out = [loc]
             base = loc.split("@", 1)[0]
@@ -287,6 +292,7 @@ def bindtextdomain(app_name: str, locale_dir: str | None = None) -> None:
                 short = base.split("_", 1)[0]
                 if short and short not in out:
                     out.append(short)
+            app_logger.debug("bindtextdomain._lang_candidates._expand_locale: sortie")
             return out
 
         langs = []
@@ -313,6 +319,7 @@ def bindtextdomain(app_name: str, locale_dir: str | None = None) -> None:
             if fallback not in seen:
                 seen.add(fallback)
                 langs.append(fallback)
+        app_logger.debug("bindtextdomain._lang_candidates: sortie")
         return langs
 
     try:
@@ -342,6 +349,7 @@ def bindtextdomain(app_name: str, locale_dir: str | None = None) -> None:
     except Exception:
         builtins.__dict__["_"] = lambda x: x
         app_logger.debug("bindtextdomain() returning | échec traduction, _() = identité")
+    app_logger.debug("bindtextdomain: fin")
 
 
 # ─────────────────────────────────────────────────────────────────────────
@@ -365,6 +373,7 @@ def setup_app_logger(config_dir: str, debug: bool = False):
     Returns:
         loguru.Logger: Le logger configuré (``app_logger`` de ce module).
     """
+    app_logger.debug("setup_app_logger: entrée")
     import logging_config
 
     logger_ = logging_config.configure_logging(

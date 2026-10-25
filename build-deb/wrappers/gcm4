@@ -1,0 +1,15 @@
+#!/usr/bin/python3
+"""Lanceur de gcm4 installé par le paquet .deb (#156).
+
+La base vit dans /usr/share/gcm4 (dossier privé) : il est placé en tête de
+sys.path avant l'import, pour que ses modules priment sur d'éventuels
+homonymes de dist-packages.
+"""
+
+import sys
+
+sys.path.insert(0, "/usr/share/gcm4")
+
+from gcm4.app import main  # noqa: E402  (après sys.path)
+
+sys.exit(main())

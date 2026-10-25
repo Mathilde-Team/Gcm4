@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-19 12:52+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-24 10:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,70 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "Connection Manager"
+msgstr "Trình quản lý kết nối"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+msgid "Gnome Connection Manager"
+msgstr "Gnome Connection Manager"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Organize your hosts and open their connections in tabs"
+msgstr "Sắp xếp các host và mở kết nối của chúng trong các thẻ"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "connection;remote;host;session;terminal;gcm4;"
+msgstr "kết nối;từ xa;host;phiên;thiết bị đầu cuối;terminal;gcm4;"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "gcm4 (debug mode)"
+msgstr "gcm4 (chế độ gỡ lỗi)"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Connection protocols provided by plugins"
+msgstr "Giao thức kết nối do các phần mở rộng cung cấp"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: src/gcm4/ui/host_dialog.py
+msgid "Edit Host"
+msgstr "Chỉnh sửa Host"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Gnome Connection Manager keeps your hosts in groups and opens each connection in a tab of a single window."
+msgstr "Gnome Connection Manager lưu các host của bạn theo nhóm và mở mỗi kết nối trong một thẻ của một cửa sổ duy nhất."
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Groups and hosts in a searchable tree, with colors and drag and drop"
+msgstr "Nhóm và host trong một cây có thể tìm kiếm, với màu sắc và kéo thả"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Groups and hosts in the main window"
+msgstr "Nhóm và host trong cửa sổ chính"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Host passwords stored encrypted"
+msgstr "Mật khẩu của host được lưu ở dạng mã hóa"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Last release of the GTK3 application; the GTK4 base is not released yet."
+msgstr "Bản phát hành cuối cùng của ứng dụng GTK3; nền tảng GTK4 chưa được phát hành."
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Open tabs restored at the next start"
+msgstr "Các thẻ đang mở được khôi phục ở lần khởi động tiếp theo"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
+msgid "Settings"
+msgstr "Cài đặt"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
+msgstr "Ứng dụng cơ sở không tự cung cấp giao thức nào: các kết nối cần phần mở rộng tương ứng."
 
 #: gnome_connection_manager.py
 msgid "+ Add"
@@ -36,7 +100,7 @@ msgstr ""
 msgid "<span size=\"smaller\">CTRL+UP/CTRL+DOWN for history</span>"
 msgstr "<span size=\"smaller\">CTRL+LÊN/CTRL+XUỐNG để xem lịch sử</span>"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid ""
 "<span size='smaller'>Use ##D=milliseconds to add a delay.\n"
 "Ex: ##D=1000</span>"
@@ -57,11 +121,11 @@ msgstr "Có phiên bản mới: https://github.com/MathildeDec/gnome-connection-
 msgid "A simple ssh connection manager for gnome"
 msgstr "Trình quản lý kết nối ssh đơn giản cho Gnome"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "ASCII Backspace \t[Ctrl+H 0x08]"
 msgstr "ASCII Backspace \t[Ctrl+H 0x08]"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "ASCII Delete    \t[Ctrl+? 0x7F]"
 msgstr "ASCII Delete    \t[Ctrl+? 0x7F]"
 
@@ -89,7 +153,7 @@ msgstr "Sau khi ngắt kết nối"
 msgid "Always"
 msgstr "Luôn luôn"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Automatic"
 msgstr "Tự động"
 
@@ -97,7 +161,7 @@ msgstr "Tự động"
 msgid "Background color:"
 msgstr "Màu nền:"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Backspace:"
 msgstr "Backspace:"
 
@@ -137,9 +201,10 @@ msgstr "Không thể mở tệp nhật ký để viết"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py src/gcm4/ui/contexte.py
+#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "Hủy"
 
@@ -151,7 +216,7 @@ msgstr "Kiểm tra cập nhật"
 msgid "Choose Group Color"
 msgstr ""
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Circle around tabs when going to the previous/next tab"
 msgstr "Xoay vòng các tab khi chuyển đến tab trước/sau"
 
@@ -159,11 +224,13 @@ msgstr "Xoay vòng các tab khi chuyển đến tab trước/sau"
 msgid "Clear selection"
 msgstr "Xóa lựa chọn"
 
-#: gnome_connection_manager.py ssh_config_editor.py ssh_key_manager_dialog.py
+#: gnome_connection_manager.py src/gcm4/ui/echange.py
+#: src/gcm4/ui/main_window.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Close"
 msgstr "Đóng"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py widgets.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/main_window.py widgets.py
 msgid "Close console"
 msgstr "Đóng console"
 
@@ -185,11 +252,11 @@ msgstr "Màu"
 msgid "Command"
 msgstr "Lệnh"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Confirm on close console"
 msgstr "Xác nhận khi đóng console"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Confirm on close console with middle click"
 msgstr "Xác nhận khi đóng console bằng nhấp chuột giữa"
 
@@ -243,11 +310,11 @@ msgstr "Bit dữ liệu"
 msgid "Default colors"
 msgstr "Màu mặc định"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Delete Sequence \t[@7]"
 msgstr "Trình tự Delete \t[@7]"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Delete:"
 msgstr "Delete:"
 
@@ -255,7 +322,7 @@ msgstr "Delete:"
 msgid "Description"
 msgstr "Mô tả"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Disable alternating stripes in hosts window"
 msgstr "Tắt sọc xen kẽ trong cửa sổ host"
 
@@ -275,7 +342,7 @@ msgstr "Bạn có chắc muốn xóa tất cả host trong nhóm"
 msgid "Do you really want to remove host"
 msgstr "Bạn có chắc muốn xóa host"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Dynamic title"
 msgstr "Tiêu đề động"
 
@@ -283,10 +350,6 @@ msgstr "Tiêu đề động"
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Edit"
 msgstr "Chỉnh sửa"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Edit Host"
-msgstr "Chỉnh sửa Host"
 
 #: gnome_connection_manager.py
 msgid "Enable Logging"
@@ -320,11 +383,9 @@ msgstr ""
 msgid "Export Servers"
 msgstr "Xuất Server"
 
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Export servers"
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Export servers"
-msgstr "_Xuất server"
+msgstr "Xuất máy chủ"
 
 #: gnome_connection_manager.py plugins/plugin_export_csv.py
 msgid "Export to CSV"
@@ -376,10 +437,6 @@ msgstr ""
 msgid "General"
 msgstr "Chung"
 
-#: gnome_connection_manager.py
-msgid "Gnome Connection Manager"
-msgstr "Gnome Connection Manager"
-
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
@@ -419,11 +476,9 @@ msgstr "Tên host"
 msgid "Import Servers"
 msgstr "Nhập Server"
 
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Import servers"
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Import servers"
-msgstr "_Nhập server"
+msgstr "Nhập máy chủ"
 
 #: gnome_connection_manager.py
 #, fuzzy
@@ -650,7 +705,7 @@ msgstr "Chọn phông chữ"
 msgid "Select foreground color"
 msgstr "Chọn màu chữ"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Send commands after login"
 msgstr "Gửi lệnh sau khi đăng nhập"
 
@@ -671,10 +726,6 @@ msgstr "Danh sách server sẽ bị ghi đè, tiếp tục?"
 #| msgid "_Servers"
 msgid "Servers"
 msgstr "_Server"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/preferences.py
-msgid "Settings"
-msgstr "Cài đặt"
 
 #: gnome_connection_manager.py
 #, python-brace-format
@@ -710,11 +761,11 @@ msgstr "Stop"
 msgid "System"
 msgstr "Hệ thống"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "TTY Erase"
 msgstr "Xóa TTY"
 
@@ -738,7 +789,7 @@ msgstr ""
 msgid "Tip: use #P=password to send a password without keeping it in clear text in the command history"
 msgstr ""
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Title"
 msgstr "Tiêu đề"
 
@@ -869,6 +920,11 @@ msgstr ""
 #: key_picker_dialog.py
 msgid "⚙ Generate…"
 msgstr ""
+
+#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#, python-brace-format
+msgid "{program} not found"
+msgstr "Không tìm thấy {program}"
 
 #: plugins/plugin_export_csv.py
 #, python-brace-format
@@ -1441,7 +1497,7 @@ msgid "IPMI (SOL)"
 msgstr ""
 
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py
+#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "Phiên đã kết thúc"
 
@@ -1779,7 +1835,7 @@ msgstr ""
 msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
+#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
 msgid "Authentication failed"
 msgstr ""
 
@@ -2659,6 +2715,230 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/sftp/core.py
+msgid "B"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "GiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "KiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "MiB"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Busy, try again when the current operation is finished"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Connecting…"
+msgid "Connecting to {host}…"
+msgstr "Đang kết nối…"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Initialization failed: {error}"
+msgid "Connection failed: {error}"
+msgstr "Khởi tạo thất bại: {error}"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Create"
+msgstr "Tạo"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Creating {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Delete:"
+msgid "Delete"
+msgstr "Delete:"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Delete the empty folder {name}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "Delete {name}?"
+msgstr "Tên mẫu"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Deleting {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Download"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloaded to {path}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloading {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Import failed: {error}"
+msgid "Error: {error}"
+msgstr "Nhập thất bại: {error}"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "xfreerdp not found"
+msgid "File not found"
+msgstr "Không tìm thấy xfreerdp"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Folders not uploaded: {names}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Home folder"
+msgstr "Thư mục nhật ký"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Host key of {host} has changed (fingerprint {fingerprint}). Connection refused: check the server, then remove the old key from {file}."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Invalid name: {name}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Listing {path}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "New folder"
+msgstr "Thư mục nhật ký"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "VM name"
+msgid "New folder name:"
+msgstr "Tên VM"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Copy Address"
+msgid "No address"
+msgstr "Sao chép địa chỉ"
+
+#: plugins/sftp/gtk4.py
+msgid "Nothing to upload (folders are not uploaded)"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Parent folder"
+msgstr "Thư mục nhật ký"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Private key file:"
+msgstr "Khóa riêng tư"
+
+#: plugins/sftp/gtk4.py
+msgid "Refresh"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder"
+msgstr "Cổng Từ Xa"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder:"
+msgstr "Cổng Từ Xa"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Rename"
+msgstr "Đổi tên"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Rename {name} to:"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Renaming {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Retry"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "SSH agent and ~/.ssh keys"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid ""
+"The authenticity of host {host} can't be established.\n"
+"Key fingerprint is {fingerprint}. Trust it and add it to {file}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Trust and connect"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Unknown host key"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Upload files"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Uploading {count} file(s)…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "{path}: {count} items"
+msgstr ""
+
 #: src/gcm4/app.py
 msgid "The old configuration is intact: fix the problem (permissions, disk space), then start gcm4 again."
 msgstr "Cấu hình cũ vẫn nguyên vẹn: hãy khắc phục sự cố (quyền truy cập, dung lượng đĩa), rồi khởi động lại gcm4."
@@ -2705,6 +2985,72 @@ msgstr "Không thể đọc tệp cấu hình %s: %s"
 #, python-format
 msgid "Unable to write the configuration file %s: %s"
 msgstr "Không thể ghi tệp cấu hình %s: %s"
+
+#: src/gcm4/core/echange_cli.py src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Hosts exported: {count} ({file})"
+msgstr "Máy chủ đã xuất: {count} ({file})"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: the host name is missing"
+msgstr "%s: thiếu tên máy chủ"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: too many cells"
+msgstr "%s: quá nhiều ô"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: unexpected value for %s"
+msgstr "%s: giá trị không mong đợi cho %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "The file %s is not a valid host export: %s"
+msgstr "Tệp %s không phải là bản xuất máy chủ hợp lệ: %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "Unable to read the file %s: %s"
+msgstr "Không thể đọc tệp %s: %s"
+
+#: src/gcm4/core/exchange.py src/gcm4/core/sauvegarde.py
+#, python-format
+msgid "Unable to write the file %s: %s"
+msgstr "Không thể ghi tệp %s: %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "entry %d"
+msgstr "mục %d"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "line %d"
+msgstr "dòng %d"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "the column %s is missing"
+msgstr "thiếu cột %s"
+
+#: src/gcm4/core/exchange.py
+msgid "unsupported format or version"
+msgstr "định dạng hoặc phiên bản không được hỗ trợ"
+
+#: src/gcm4/core/menu.py
+msgid "Next tab"
+msgstr "Thẻ tiếp theo"
+
+#: src/gcm4/core/menu.py
+msgid "Previous tab"
+msgstr "Thẻ trước"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/echange.py
+msgid "Save configuration as…"
+msgstr "Lưu cấu hình thành…"
 
 #: src/gcm4/core/menu.py
 msgid "Search"
@@ -2797,6 +3143,25 @@ msgstr "Giao thức '{protocol}' đã được '{other}' xử lý."
 msgid "{file} does not define PLUGIN."
 msgstr "{file} không định nghĩa PLUGIN."
 
+#: src/gcm4/core/sauvegarde.py
+msgid "Choose a folder other than the configuration folder."
+msgstr "Hãy chọn thư mục khác thư mục cấu hình."
+
+#: src/gcm4/core/sauvegarde.py
+#, python-brace-format
+msgid "Import of {file}: added {added}, replaced {replaced}, renamed {renamed}, ignored {ignored}, new groups {groups}"
+msgstr "Nhập {file}: thêm {added}, thay thế {replaced}, đổi tên {renamed}, bỏ qua {ignored}, nhóm mới {groups}"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-format
+msgid "No configuration to save yet: %s"
+msgstr "Chưa có cấu hình để lưu: %s"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-brace-format
+msgid "{folder} already contains {file}."
+msgstr "{folder} đã chứa {file}."
+
 #: src/gcm4/core/validation.py
 #, python-brace-format
 msgid "A host named «{name}» already exists in this group."
@@ -2819,10 +3184,65 @@ msgstr "Cổng phải là số từ {min} đến {max}."
 msgid "The name must not contain «/»."
 msgstr "Tên không được chứa '/'."
 
+#: src/gcm4/ui/application.py
+#, python-brace-format
+msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
+msgstr "gcm4 đang chạy với một thư mục cấu hình khác: hãy đóng nó để dùng {requested}."
+
 #: src/gcm4/ui/contexte.py
 #, python-brace-format
 msgid "Password for {target}"
 msgstr "Mật khẩu cho {target}"
+
+#: src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Configuration saved to {folder}"
+msgstr "Đã lưu cấu hình vào {folder}"
+
+#: src/gcm4/ui/echange.py
+msgid "Export"
+msgstr "Xuất"
+
+#: src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Hosts in {file}: {count}, already present: {existing}"
+msgstr "Máy chủ trong {file}: {count}, đã có: {existing}"
+
+#: src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "Nếu máy chủ đã tồn tại:"
+
+#: src/gcm4/ui/echange.py
+msgid "Import"
+msgstr "Nhập"
+
+#: src/gcm4/ui/echange.py
+msgid "Include passwords (in clear text)"
+msgstr "Bao gồm mật khẩu (văn bản thuần)"
+
+#: src/gcm4/ui/echange.py
+msgid "JSON or CSV file, chosen by its extension."
+msgstr "Tệp JSON hoặc CSV, theo phần mở rộng."
+
+#: src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "Giữ máy chủ hiện có"
+
+#: src/gcm4/ui/echange.py
+msgid "Passwords will be written in clear text: keep this file safe."
+msgstr "Mật khẩu sẽ được ghi dưới dạng văn bản thuần: hãy giữ tệp này an toàn."
+
+#: src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "Đổi tên máy chủ được nhập"
+
+#: src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "Thay thế máy chủ hiện có"
+
+#: src/gcm4/ui/echange.py
+msgid "This file contains passwords in clear text."
+msgstr "Tệp này chứa mật khẩu dạng văn bản thuần."
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Background color"
@@ -2932,6 +3352,11 @@ msgid "Home"
 msgstr "Trang chủ"
 
 #: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Host not found: {hosts}"
+msgstr "Không tìm thấy máy chủ: {hosts}"
+
+#: src/gcm4/ui/main_window.py
 msgid "Hosts and groups will appear in the left panel."
 msgstr "Các máy chủ và nhóm sẽ hiển thị ở bảng bên trái."
 
@@ -2977,10 +3402,6 @@ msgid "Changes not saved: {error}"
 msgstr "Chưa lưu thay đổi: {error}"
 
 #: src/gcm4/ui/menu_arbre.py
-msgid "Create"
-msgstr "Tạo"
-
-#: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
 msgstr "Màu nhóm"
 
@@ -3007,10 +3428,6 @@ msgstr "Xóa nhóm '{name}'?"
 #, python-brace-format
 msgid "Remove host «{name}»?"
 msgstr "Xóa máy chủ '{name}'?"
-
-#: src/gcm4/ui/menu_arbre.py
-msgid "Rename"
-msgstr "Đổi tên"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
@@ -3042,8 +3459,16 @@ msgid "Appearance"
 msgstr "Giao diện"
 
 #: src/gcm4/ui/preferences.py
+msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
+msgstr "Nhấp vào một phím tắt để thay đổi, hoặc nhấn Backspace trong hộp thoại để tắt phím tắt đó."
+
+#: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "Mức nhật ký mặc định"
+
+#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "Đã tắt"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3108,6 +3533,36 @@ msgstr "Dùng phông chữ hệ thống"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Phiên bản {version}"
+
+#: src/gcm4/ui/raccourcis.py
+#, python-brace-format
+msgid "Already used by “{action}”."
+msgstr "Đã được dùng bởi “{action}”."
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Press a key combination"
+msgstr "Nhấn một tổ hợp phím"
+
+#: src/gcm4/ui/raccourcis.py
+#, python-brace-format
+msgid "Press the new shortcut for “{action}”, or Backspace to disable it."
+msgstr "Nhấn phím tắt mới cho “{action}”, hoặc Backspace để tắt phím tắt này."
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Reset to default"
+msgstr "Khôi phục mặc định"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Set"
+msgstr "Đặt"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Set Shortcut"
+msgstr "Đặt phím tắt"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Use Ctrl, Alt or Super with this key."
+msgstr "Dùng Ctrl, Alt hoặc Super với phím này."
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

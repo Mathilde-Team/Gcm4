@@ -1,5 +1,5 @@
 PKG_NAME    = gnome-connection-manager
-PKG_VERSION = 1.3.3
+PKG_VERSION = 4.0.0
 PKG_MAINTAINER = "MathildeDec <mathilde.deuscher@gmail.com>"
 PKG_DESCRIPTION = "Multi-protocol tabbed connection manager (SSH/RDP/VNC/SPICE/Serial)"
 PKG_VENDOR  = MathildeDec
@@ -7,7 +7,6 @@ PKG_URL     = https://github.com/MathildeDec/gnome-connection-manager
 PKG_ARCH    = all
 PKG_ARCH_RPM = noarch
 PKG_LICENSE = GPLv3
-PKG_DEB     = $(PKG_NAME)_$(PKG_VERSION)_$(PKG_ARCH).deb
 PKG_RPM     = $(PKG_NAME)-$(PKG_VERSION).$(PKG_ARCH_RPM).rpm
 PKG_OPENSUSE = $(PKG_NAME)-opensuse-$(PKG_VERSION).$(PKG_ARCH_RPM).rpm
 
@@ -29,14 +28,17 @@ FPM_COMMON = -s dir -n $(PKG_NAME) -v $(PKG_VERSION) -C $(TMPINSTALLDIR) \
 	--category net --url $(PKG_URL)
 
 # ── Cibles principales ────────────────────────────────────────────────────────
-.PHONY: all run-gtk4 deb rpm opensuse install translate i18n-update i18n-check i18n-report class-diagram ci test lint validate clean help docs
+.PHONY: all run-gtk4 deb deb-gcm4 smoke-deb rpm rpm-gcm4 smoke-rpm opensuse install translate i18n-update i18n-check i18n-report class-diagram ci check-desktop icons test lint validate clean help docs
 
 all:  test lint deb rpm opensuse translate validate
 
 help:
 	@echo "Cibles disponibles :"
 	@echo "  make          → deb + rpm (défaut)"
-	@echo "  make deb      → paquet .deb (Debian/Ubuntu)"
+	@echo "  make deb      → paquet .deb de gcm4 (build-deb/dist/gcm4_*.deb)"
+	@echo "  make smoke-deb → installe ce paquet (sudo apt) et le vérifie"
+	@echo "  make rpm-gcm4 → paquet .rpm de la base GTK4 (build-rpm/dist/gcm4-*.rpm)"
+	@echo "  make smoke-rpm → vérifie le contenu de ce paquet (rpm -qpl, sans l'installer)"
 	@echo "  make rpm      → paquet .rpm (Fedora/RHEL/CentOS)"
 	@echo "  make opensuse → paquet .rpm (openSUSE — dépendances zypper)"
 	@echo "  make translate → compile tous les .po → .mo"
@@ -45,7 +47,9 @@ help:
 	@echo "  make i18n-report → taux de traduction par langue"
 	@echo "  make run-gtk4 → lance gcm4 (GTK4) dans .venv ; venv créé par bootstrap-dev.sh"
 	@echo "  make class-diagram → régénère docs/class-diagram.md"
-	@echo "  make ci       → rejoue les étapes des jobs Qualité, Types, i18n et documentation"
+	@echo "  make ci       → rejoue les étapes des jobs Qualité, Types, i18n, bureau et documentation"
+	@echo "  make check-desktop → valide lanceur, AppStream et icônes (data/)"
+	@echo "  make icons   → régénère data/icons/hicolor/ depuis icon.png"
 	@echo "  make docs     → construit la documentation MkDocs (site/, strict)"
 	@echo "  make test     → lance la suite pytest"
 	@echo "  make lint     → ruff + flake8"
@@ -100,27 +104,29 @@ install: translate
 	done
 	chmod 755 $(DESTDIR)/usr/share/$(PKG_NAME)/gnome_connection_manager.py
 
-# ── Paquet .deb (Debian / Ubuntu) ────────────────────────────────────────────
+# ── Paquet .deb de gcm4 (#156) ───────────────────────────────────────────────
+# build-deb/build.sh (dpkg-buildpackage) : paquet gcm4 de la base GTK4, sans
+# aucun plugin, version lue dans pyproject.toml. Plus de .deb de l'application
+# GTK3 (décision du 2026-10-22, #156). deb-gcm4 : ancien nom, conservé.
+# smoke-deb l'installe avec apt (sudo) puis le vérifie, comme le job
+# « Paquets » de la CI : à lancer dans un conteneur ou une machine de test.
 deb:
-	rm -rf $(TMPINSTALLDIR) $(PKG_DEB)
-	chmod -R g-w *
-	$(MAKE) install DESTDIR=$(TMPINSTALLDIR)
-	fpm -t deb -p $(PKG_DEB) $(FPM_COMMON) \
-		-a $(PKG_ARCH) \
-		-d python3 \
-		-d python3-gi \
-		-d gir1.2-vte-2.91 \
-		-d gir1.2-gtk-3.0 \
-		-d gir1.2-gtk-vnc-2.0 \
-		-d gir1.2-spiceclientgtk-3.0 \
-		-d "freerdp2-x11 | freerdp3-x11" \
-		-d expect \
-		-d python3-paramiko \
-		-d python3-loguru \
-		--after-install postinst \
-		--deb-priority optional \
-		usr
-	@echo "\033[92mOK: $(PKG_DEB)\033[0m"
+	build-deb/build.sh
+
+deb-gcm4: deb
+
+smoke-deb:
+	scripts/smoke-test-packages.sh deb $(wildcard build-deb/dist/gcm4_*_all.deb)
+
+# ── Paquet .rpm de la base GTK4 (#157) ───────────────────────────────────────
+# build-rpm/build.sh (rpmbuild, Fedora ou construction croisée avec le paquet
+# rpm de Debian/Ubuntu). smoke-rpm vérifie le contenu sans installer ; sur
+# Fedora, « scripts/smoke-test-packages.sh rpm-dnf » l'installe et le lance.
+rpm-gcm4:
+	build-rpm/build.sh
+
+smoke-rpm:
+	scripts/smoke-test-packages.sh rpm $(wildcard build-rpm/dist/gcm4-*.noarch.rpm)
 
 # ── Paquet .rpm (Fedora / RHEL / CentOS) ─────────────────────────────────────
 rpm:
@@ -178,12 +184,22 @@ ci:
 	uv run ruff format --check .
 	uvx pre-commit run --all-files --show-diff-on-failure
 	uv run python tools/check_circular_imports.py
-	uv run python -m pytest tests/ -q --cov --cov-report=term-missing:skip-covered
+	GCM_TESTS_EXIGES=gettext uv run python -m pytest tests/ -q -rs --cov --cov-report=term-missing:skip-covered --cov-fail-under=0
 	uv run coverage report --include='src/gcm4/core/*' --fail-under=95
 	uv run mypy
 	uv run python tools/validate_po.py lang/*.po
 	scripts/i18n-update.sh --check
+	scripts/check-desktop.sh
 	uvx --with mkdocs-material --with pymdown-extensions --from "mkdocs<2" mkdocs build --strict
+
+# ── Intégration au bureau (issue #155) ──
+# check-desktop : lanceur, AppStream et icônes (desktop-file-utils, appstream).
+# icons : régénère data/icons/hicolor/ depuis icon.png (ImageMagick).
+check-desktop:
+	scripts/check-desktop.sh
+
+icons:
+	scripts/generer-icones.sh
 
 # ── Documentation (MkDocs, issue #127) ──
 docs:
@@ -231,7 +247,8 @@ validate:
 # ── Nettoyage ─────────────────────────────────────────────────────────────────
 clean:
 	rm -rf $(TMPINSTALLDIR)
-	rm -f $(PKG_DEB) $(PKG_RPM)
+	rm -rf build-deb/_build build-deb/dist
+	rm -f $(PKG_RPM)
 	find . -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 	find . -name "*.pyc" -delete 2>/dev/null || true
 

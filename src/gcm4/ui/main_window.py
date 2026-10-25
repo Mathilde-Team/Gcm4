@@ -5,25 +5,38 @@
 d'accueil. Taille et largeur du panneau restaurées depuis ``gcm4.conf`` et
 enregistrées à la fermeture.
 
+Menu Fichier (#153) : import/export des hôtes et copie de la configuration,
+dans :mod:`gcm4.ui.echange`.
+
 Connexions (#151) : ``win.connect-host`` demande au registre des plugins
 le plugin du protocole de l'hôte. Sans plugin, un message le dit ; sinon
 sa session devient un onglet, fermée par le bouton de l'onglet ou à la
 fermeture de la fenêtre.
+
+Onglets (#247, options de base de ``Wconfig``) : confirmation avant de
+fermer un onglet (bouton, clic du milieu sur l'onglet), onglet suivant /
+précédent (raccourcis, molette sur les onglets) avec bouclage optionnel,
+titre de la fenêtre personnalisable et suivant l'onglet courant. La
+fermeture de la fenêtre ne redemande rien onglet par onglet : elle a sa
+propre confirmation (#147).
 """
 
 from __future__ import annotations
 
-from gi.repository import Adw, Gio, GLib, Gtk
+from collections.abc import Sequence
+
+from gi.repository import Adw, Gdk, Gio, GLib, Gtk
 from loguru import logger
 
-from gcm4.core import chemins, menu, onglets, window_state
+from gcm4.core import chemins, comportement_onglets, menu, onglets, window_state
 from gcm4.core.chiffrement import ChiffrementGcm
-from gcm4.core.config import ConfigError, load_config, save_config, update_keys
+from gcm4.core.config import AppConfig, ConfigError, load_config, save_config, update_keys
 from gcm4.core.i18n import _
 from gcm4.core.plugins import Session
 from gcm4.core.registre import PluginRegistry
 from gcm4.core.replies import ecrire_replies
 from gcm4.ui import dialogues
+from gcm4.ui.echange import Echange
 from gcm4.ui.host_tree import HostTree
 
 LARGEUR_DEFAUT = 1000
@@ -59,7 +72,7 @@ class MainWindow(Adw.ApplicationWindow):
     def __init__(self, application: Adw.Application, config_dir: str) -> None:
         """Construit la fenêtre et restaure son état depuis ``config_dir/gcm4.conf``."""
         logger.debug("MainWindow.__init__: config_dir={}", config_dir)
-        super().__init__(application=application, title="Gnome Connection Manager")
+        super().__init__(application=application, title=comportement_onglets.NOM_APPLICATION)
         self.config_file = chemins.fichier_conf(config_dir)
         self.etat = window_state.load_window_state(self.config_file)
         registre = getattr(application, "registre", None)
@@ -72,6 +85,10 @@ class MainWindow(Adw.ApplicationWindow):
         #: Dialogue « Quitter quand même ? » affiché (#147), sinon ``None``.
         self.confirmation_fermeture: Adw.Dialog | Adw.MessageDialog | None = None
         self._fermeture_confirmee = False
+        #: Contenu d'onglet -> titre affiché (titre dynamique, confirmation, #247).
+        self.titres_onglets: dict[Gtk.Widget, str] = {}
+        #: Contenu d'onglet -> dialogue « Fermer la console » affiché (#247).
+        self.confirmations_onglets: dict[Gtk.Widget, Adw.Dialog | Adw.MessageDialog] = {}
 
         entete = Adw.HeaderBar()
         self.bouton_menu = Gtk.MenuButton(
@@ -114,7 +131,10 @@ class MainWindow(Adw.ApplicationWindow):
             title=_("Welcome to Gnome Connection Manager"),
             description=_("Hosts and groups will appear in the left panel."),
         )
-        self.onglets.append_page(self.page_accueil, Gtk.Label(label=_("Home")))
+        etiquette_accueil = Gtk.Label(label=_("Home"))
+        self._brancher_defilement(etiquette_accueil)
+        self.onglets.append_page(self.page_accueil, etiquette_accueil)
+        self.onglets.connect("switch-page", self._on_switch_page)
 
         self.separateur = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
         self.separateur.set_start_child(self.panneau)
@@ -146,6 +166,16 @@ class MainWindow(Adw.ApplicationWindow):
         recherche.connect("activate", self._on_search)
         recherche.set_enabled(self.arbre is not None)  # configuration illisible : rien à chercher
         self.add_action(recherche)
+        #: Fichier > importer, exporter, enregistrer la configuration sous (#153).
+        self.echange = Echange(self)
+        for nom, sens in (
+            ("previous-tab", comportement_onglets.PRECEDENT),
+            ("next-tab", comportement_onglets.SUIVANT),
+        ):
+            voisin = Gio.SimpleAction.new(nom, None)
+            voisin.connect("activate", self._on_onglet_voisin, sens)
+            self.add_action(voisin)
+        self.maj_titre()
         self.connect("close-request", self._on_close_request)
         logger.debug("MainWindow.__init__: prête ({})", self.etat)
 
@@ -213,21 +243,176 @@ class MainWindow(Adw.ApplicationWindow):
         entete.append(Gtk.Label(label=titre))
         fermer = Gtk.Button(icon_name="window-close-symbolic", has_frame=False)
         fermer.set_tooltip_text(_("Close tab"))
-        fermer.connect("clicked", lambda _b: self.fermer_onglet(contenu))
+        fermer.connect("clicked", lambda _b: self.demander_fermeture(contenu))
         entete.append(fermer)
+        milieu = Gtk.GestureClick(button=Gdk.BUTTON_MIDDLE)
+        milieu.connect("pressed", self._on_clic_milieu, contenu)
+        entete.add_controller(milieu)
+        self._brancher_defilement(entete)
+        self.titres_onglets[contenu] = titre
         if session is not None:
             self.sessions[contenu] = session
         numero = self.onglets.append_page(contenu, entete)
         self.onglets.set_tab_reorderable(contenu, True)
         self.onglets.set_current_page(numero)
+        self.maj_titre()  # première page ajoutée : switch-page peut précéder le titre
         logger.debug("ajouter_onglet: page {}", numero)
         return numero
+
+    def _options(self) -> AppConfig:
+        """Options de ``[options]`` ; configuration illisible : valeurs par défaut."""
+        logger.trace("_options")
+        resultat = self.config.options if self.config is not None else AppConfig()
+        logger.trace("_options: fait")
+        return resultat
+
+    def demander_fermeture(self, contenu: Gtk.Widget, milieu: bool = False) -> None:
+        """Ferme l'onglet, après confirmation si l'option correspondante est active.
+
+        Args:
+            contenu (Gtk.Widget): Contenu de l'onglet.
+            milieu (bool): Clic du milieu sur l'onglet (option
+                ``confirm-close-tab-middle``) ; sinon bouton de fermeture
+                (``confirm-close-tab``).
+        """
+        logger.debug("demander_fermeture: milieu={}", milieu)
+        options = self._options()
+        confirmer = options.confirm_close_tab_middle if milieu else options.confirm_close_tab
+        if not confirmer:
+            self.fermer_onglet(contenu)
+            logger.debug("demander_fermeture: fermé sans confirmation")
+            return
+        if contenu in self.confirmations_onglets:
+            logger.debug("demander_fermeture: déjà demandée")
+            return
+
+        def rappel(reponse: str) -> None:
+            logger.debug("demander_fermeture.rappel: {}", reponse)
+            if self.confirmations_onglets.get(contenu) is not dialogue:
+                logger.debug("demander_fermeture.rappel: réponse déjà traitée")
+                return
+            del self.confirmations_onglets[contenu]
+            if reponse == "fermer" and self.onglets.page_num(contenu) >= 0:
+                self.fermer_onglet(contenu)
+            logger.debug("demander_fermeture.rappel: fait")
+
+        dialogue = dialogues.creer(
+            self,
+            _("Close console"),
+            self.titres_onglets.get(contenu, ""),
+            [
+                ("annuler", _("Cancel"), None),
+                ("fermer", _("Close"), Adw.ResponseAppearance.DESTRUCTIVE),
+            ],
+            "fermer",
+            "annuler",
+            rappel,
+        )
+        self.confirmations_onglets[contenu] = dialogue
+        logger.debug("demander_fermeture: confirmation affichée")
+
+    def _on_clic_milieu(
+        self, geste: Gtk.GestureClick, _n: int, _x: float, _y: float, contenu: Gtk.Widget
+    ) -> None:
+        """Clic du milieu sur un onglet : le ferme (confirmation selon l'option)."""
+        logger.debug("_on_clic_milieu: entrée")
+        geste.set_state(Gtk.EventSequenceState.CLAIMED)
+        self.demander_fermeture(contenu, milieu=True)
+        logger.debug("_on_clic_milieu: fait")
+
+    def _brancher_defilement(self, etiquette: Gtk.Widget) -> None:
+        """Molette sur l'onglet ``etiquette`` : onglet précédent (haut) ou suivant (bas).
+
+        Comme GTK3 (``on_tab_scroll``), sur les onglets seulement : le contenu
+        des pages garde sa molette. ``DISCRETE`` : un geste du pavé tactile
+        avance d'un onglet, pas de dix.
+        """
+        logger.trace("_brancher_defilement")
+        defilement = Gtk.EventControllerScroll.new(
+            Gtk.EventControllerScrollFlags.VERTICAL | Gtk.EventControllerScrollFlags.DISCRETE
+        )
+        defilement.connect("scroll", self._on_defilement)
+        etiquette.add_controller(defilement)
+        logger.trace("_brancher_defilement: fait")
+
+    def _on_defilement(
+        self, _controleur: Gtk.EventControllerScroll, _dx: float, dy: float
+    ) -> bool:
+        """Défilement vertical sur un onglet ; ``dy`` nul (horizontal) : ignoré."""
+        logger.debug("_on_defilement: dy={}", dy)
+        if dy == 0:
+            logger.debug("_on_defilement: ignoré")
+            return False
+        sens = comportement_onglets.PRECEDENT if dy < 0 else comportement_onglets.SUIVANT
+        self.aller_onglet_voisin(sens)
+        logger.debug("_on_defilement: fait")
+        return True
+
+    def aller_onglet_voisin(self, sens: int) -> None:
+        """Affiche l'onglet suivant (``1``) ou précédent (``-1``), bouclage selon l'option."""
+        logger.debug("aller_onglet_voisin: {}", sens)
+        cible = comportement_onglets.voisin(
+            self.onglets.get_current_page(),
+            self.onglets.get_n_pages(),
+            sens,
+            self._options().cycle_tabs,
+        )
+        if cible >= 0:
+            self.onglets.set_current_page(cible)
+        logger.debug("aller_onglet_voisin: page {}", cible)
+
+    def _on_onglet_voisin(
+        self, _action: Gio.SimpleAction, _param: GLib.Variant | None, sens: int
+    ) -> None:
+        """``win.next-tab`` / ``win.previous-tab``."""
+        logger.debug("_on_onglet_voisin: {}", sens)
+        self.aller_onglet_voisin(sens)
+        logger.debug("_on_onglet_voisin: fait")
+
+    def _on_switch_page(self, _onglets: Gtk.Notebook, page: Gtk.Widget, _numero: int) -> None:
+        """Changement d'onglet : titre de la fenêtre (``update-title``)."""
+        logger.debug("_on_switch_page: entrée")
+        self.maj_titre(page)
+        logger.debug("_on_switch_page: fait")
+
+    def maj_titre(self, page: Gtk.Widget | None = None) -> None:
+        """Titre de la fenêtre selon ``app-title``, ``update-title`` et l'onglet ``page``.
+
+        Args:
+            page (Gtk.Widget | None): Page affichée ; ``None`` : page courante.
+        """
+        logger.debug("maj_titre: entrée")
+        if page is None:
+            numero = self.onglets.get_current_page()
+            page = self.onglets.get_nth_page(numero) if numero >= 0 else None
+        options = self._options()
+        titre = comportement_onglets.titre_fenetre(
+            options.app_title,
+            options.update_title,
+            self.titres_onglets.get(page) if page is not None else None,
+        )
+        self.set_title(titre)
+        logger.debug("maj_titre: {!r}", titre)
+
+    def appliquer_options(self) -> None:
+        """Applique tout de suite les options d'affichage modifiées (Préférences, #247)."""
+        logger.debug("appliquer_options: entrée")
+        options = self._options()
+        if self.arbre is not None:
+            self.arbre.set_rayures(not options.disable_hosts_stripes)
+        self.maj_titre()
+        logger.debug("appliquer_options: fait")
 
     def fermer_onglet(self, contenu: Gtk.Widget) -> None:
         """Ferme la session de l'onglet (une seule fois) puis retire l'onglet."""
         logger.debug("fermer_onglet: entrée")
         session = self.sessions.pop(contenu, None)
         self.chemins_sessions.pop(contenu, None)
+        self.titres_onglets.pop(contenu, None)
+        dialogue = self.confirmations_onglets.pop(contenu, None)
+        if dialogue is not None:  # fenêtre fermée pendant la confirmation
+            # Adw.AlertDialog (1.5+) : force_close() ; Adw.MessageDialog : close().
+            getattr(dialogue, "force_close", dialogue.close)()
         if session is not None:
             try:
                 session.close()
@@ -280,6 +465,35 @@ class MainWindow(Adw.ApplicationWindow):
         logger.debug(
             "restaurer_onglets: {} absent(s), {} sans plugin", len(absents), len(sans_plugin)
         )
+
+    def ouvrir_hotes(self, specs: Sequence[str]) -> None:
+        """Hôtes de la ligne de commande (``gcm4 groupe/nom…``, #154).
+
+        Chaque hôte trouvé est sélectionné dans l'arbre (groupes dépliés) ;
+        il est connecté seulement si un plugin gère son protocole. Hôte
+        inconnu : un seul message pour tous, pas d'erreur.
+
+        Args:
+            specs (Sequence[str]): Chemins ``groupe/sous-groupe/nom`` (``/``
+                en début ou en fin toléré).
+        """
+        logger.debug("ouvrir_hotes: {} hôte(s)", len(specs))
+        if self.config is None or not specs:
+            logger.debug("ouvrir_hotes: rien à faire")
+            return
+        absents: list[str] = []
+        for spec in specs:
+            hote = self.config.store.find(spec.strip("/"))
+            if hote is None:
+                absents.append(spec)
+                continue
+            if self.arbre is not None:
+                self.arbre.reveler(hote.path)
+            if self.registre.get(hote.protocol) is not None:
+                self.activate_action("win.connect-host", GLib.Variant.new_string(hote.path))
+        if absents:
+            self.notifier(_("Host not found: {hosts}").format(hosts=", ".join(absents)))
+        logger.debug("ouvrir_hotes: {} absent(s)", len(absents))
 
     def _on_search(self, _action: Gio.SimpleAction, _param: GLib.Variant | None) -> None:
         """Ctrl+F / Affichage > Rechercher : panneau affiché, curseur dans la recherche (#140)."""

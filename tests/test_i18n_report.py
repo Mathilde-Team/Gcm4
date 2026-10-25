@@ -11,6 +11,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parent.parent
 _spec = importlib.util.spec_from_file_location("i18n_report", ROOT / "scripts" / "i18n_report.py")
 report = importlib.util.module_from_spec(_spec)
@@ -80,6 +82,7 @@ class TestParse(unittest.TestCase):
         self.assertEqual(stats.total, 6)
         self.assertAlmostEqual(stats.percent, 50.0)
 
+    @pytest.mark.requires_gettext
     @unittest.skipUnless(shutil.which("msgfmt"), "gettext non installé")
     def test_memes_chiffres_que_msgfmt(self):
         """Sur un vrai catalogue, les compteurs sont ceux de msgfmt --statistics."""

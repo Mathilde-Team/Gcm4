@@ -38,12 +38,28 @@ class SousMenu:
 
 
 MENU_PRINCIPAL: tuple[SousMenu, ...] = (
-    SousMenu(N_("File"), ((Entree(N_("Quit"), "app.quit"),),)),
+    SousMenu(
+        N_("File"),
+        (
+            # Import/export des hôtes et copie de la configuration (#153).
+            (
+                Entree(N_("Import servers"), "win.import-hosts"),
+                Entree(N_("Export servers"), "win.export-hosts"),
+                Entree(N_("Save configuration as…"), "win.save-config-as"),
+            ),
+            (Entree(N_("Quit"), "app.quit"),),
+        ),
+    ),
     SousMenu(N_("Edit"), ((Entree(N_("Settings"), "app.preferences"),),)),
     SousMenu(
         N_("View"),
         (
             (Entree(N_("Show Panel"), "win.toggle-panel"), Entree(N_("Search"), "win.search")),
+            # Onglets (#247) : bouclage selon [options] cycle-tabs.
+            (
+                Entree(N_("Previous tab"), "win.previous-tab"),
+                Entree(N_("Next tab"), "win.next-tab"),
+            ),
             # Thème (#135) : action à état app.theme, une entrée radio par mode.
             (
                 Entree(N_("System"), "app.theme", "system"),
@@ -60,6 +76,9 @@ RACCOURCIS: dict[str, tuple[str, ...]] = {
     "app.preferences": ("<Control>comma",),
     "win.toggle-panel": ("F9",),
     "win.search": ("<Control>f",),
+    # GTK3 : CTRL+SHIFT+TAB / CTRL+TAB ; Ctrl+Page précédente/suivante comme Gtk.Notebook.
+    "win.previous-tab": ("<Control>Page_Up", "<Shift><Control>Tab"),
+    "win.next-tab": ("<Control>Page_Down", "<Control>Tab"),
 }
 
 

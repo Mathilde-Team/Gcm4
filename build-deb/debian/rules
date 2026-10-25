@@ -1,0 +1,37 @@
+#!/usr/bin/make -f
+# Paquet gcm4 (#156) : la base GTK4 est installée dans /usr/share/gcm4,
+# dossier privé, comme Netcross. Les modules racine que gcm4 réutilise
+# (gcm4_core, logging_config, pyAES) ne vont donc pas dans dist-packages,
+# où leurs noms génériques pourraient entrer en conflit.
+#
+# Le contenu de /usr/share/gcm4 est celui du wheel construit depuis
+# pyproject.toml (hatchling, only-include) : une seule liste de fichiers
+# pour le wheel et le paquet. Le dossier .dist-info du wheel est conservé :
+# importlib.metadata y lit la version affichée par « gcm4 --version ».
+
+# /usr/bin/python3 : celui de la distribution (un python3 de /usr/local
+# n'aurait ni build ni hatchling).
+PKGDIR := debian/gcm4
+APP_ID := io.github.MathildeDec.gcm4
+
+%:
+	dh $@ --with python3
+
+override_dh_auto_configure override_dh_auto_test override_dh_auto_clean:
+
+override_dh_auto_build:
+	/usr/bin/python3 -m build --wheel --no-isolation --outdir wheel .
+
+override_dh_auto_install:
+	install -d $(PKGDIR)/usr/share/gcm4
+	/usr/bin/python3 -m zipfile -e wheel/*.whl $(PKGDIR)/usr/share/gcm4
+	install -D -m 755 wrappers/gcm4 $(PKGDIR)/usr/bin/gcm4
+	install -D -m 644 data/$(APP_ID).desktop $(PKGDIR)/usr/share/applications/$(APP_ID).desktop
+	install -D -m 644 data/$(APP_ID).metainfo.xml $(PKGDIR)/usr/share/metainfo/$(APP_ID).metainfo.xml
+	cd data/icons && find hicolor -name '$(APP_ID).png' -exec install -D -m 644 {} ../../$(PKGDIR)/usr/share/icons/{} \;
+	install -d $(PKGDIR)/usr/share/locale
+	cp -r locale/. $(PKGDIR)/usr/share/locale/
+
+# Octets compilés au moment de l'installation (py3compile), pas dans le paquet.
+override_dh_python3:
+	dh_python3 /usr/share/gcm4

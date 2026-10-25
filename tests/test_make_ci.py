@@ -4,7 +4,10 @@ Chaque commande d'une ligne des jobs Qualité, Types et i18n de
 ``.github/workflows/ci.yml`` doit figurer dans la recette ``ci`` du
 Makefile : ajouter une étape à la CI sans l'ajouter à ``make ci`` fait
 échouer ce test. Exceptions : installation de l'environnement et étapes
-propres au runner (dossier ``$RUNNER_TEMP``, résumé du job).
+propres au runner (dossier ``$RUNNER_TEMP``, résumé du job), et test de
+fumée du paquet (#156) : il installe le .deb avec apt dans le conteneur,
+ce que ``make ci`` ne fait pas sur un poste ; il se rejoue avec
+``make smoke-deb``.
 """
 
 from __future__ import annotations
@@ -16,7 +19,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CI = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
 MAKEFILE = (ROOT / "Makefile").read_text(encoding="utf-8")
-HORS_MAKE_CI = ("uv python install", "uv sync", "$RUNNER_TEMP", "i18n_report.py --markdown")
+HORS_MAKE_CI = (
+    "uv python install",
+    "uv sync",
+    "$RUNNER_TEMP",
+    "i18n_report.py --markdown",
+    "smoke-test-packages.sh",
+)
 
 
 def recette(cible: str) -> list[str]:
@@ -46,10 +55,16 @@ class TestMakeCi(unittest.TestCase):
         self.assertEqual(manquantes, [], "ajouter ces commandes à la cible ci du Makefile")
 
     def test_tests_avec_couverture(self):
-        """La suite tourne avec la couverture, comme le job Qualité."""
-        self.assertIn("uv run python -m pytest tests/ -q", CI)
+        """La suite tourne avec la couverture et gettext exigé, comme le job Qualité (#160)."""
+        self.assertIn("uv run python -m pytest tests/ -q -rs", CI)
+        self.assertIn('GCM_TESTS_EXIGES: "gettext"', CI)
         self.assertTrue(
-            any(c.startswith("uv run python -m pytest tests/ -q --cov") for c in recette("ci"))
+            any(
+                c.startswith(
+                    "GCM_TESTS_EXIGES=gettext uv run python -m pytest tests/ -q -rs --cov"
+                )
+                for c in recette("ci")
+            )
         )
 
     def test_cible_declaree_et_documentee(self):

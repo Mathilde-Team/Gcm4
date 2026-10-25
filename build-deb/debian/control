@@ -1,0 +1,34 @@
+Source: gcm4
+Section: net
+Priority: optional
+Maintainer: MathildeDec <mathilde.deuscher@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               dh-python,
+               python3,
+               python3-build,
+               python3-hatchling
+Standards-Version: 4.7.0
+Homepage: https://github.com/Mathilde-Team/Gcm4
+Vcs-Git: https://github.com/Mathilde-Team/Gcm4.git
+Rules-Requires-Root: no
+
+Package: gcm4
+Architecture: all
+# Base GTK4 sans aucun plugin (#126, #156) : PyGObject, GTK 4 et libadwaita
+# (décision D1 de #118) et loguru. Aucune dépendance de plugin (VTE,
+# gtk-vnc, spice, freerdp) : chaque plugin apporte les siennes dans son
+# propre paquet.
+Depends: ${misc:Depends},
+         ${python3:Depends},
+         python3 (>= 3.12),
+         python3-gi,
+         gir1.2-gtk-4.0,
+         gir1.2-adw-1,
+         python3-loguru
+Description: tabbed connection manager (GTK4 base, no protocol plugin)
+ gcm4 organizes hosts in groups and opens their connections in tabs.
+ .
+ This package contains the GTK4 base only: host tree with groups and
+ search, host dialog, preferences, command line. It ships no connection
+ plugin, so no connection can be opened until a plugin package (SSH,
+ RDP, VNC...) is installed.

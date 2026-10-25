@@ -123,7 +123,10 @@ def test_aller_retour_sans_perte(conf, tmp_path):
             if (section, cle) in {("window", "group-colors"), ("empty_groups", "names")}:
                 continue  # réécrits depuis le modèle, comparés ci-dessous
             assert apres.get(section, cle) == valeur, (section, cle)
-    for h_avant, h_apres in zip(_hotes(avant), _hotes(apres), strict=True):
+    hotes_avant, hotes_apres = _hotes(avant), _hotes(apres)
+    # Longueurs comparées à la main : zip(strict=True) n'existe pas en Python 3.9 (#223).
+    assert len(hotes_apres) == len(hotes_avant)
+    for h_avant, h_apres in zip(hotes_avant, hotes_apres):  # noqa: B905
         assert {k: v for k, v in h_apres.items() if k in h_avant} == h_avant
     assert sorted(apres.get("window", "group-colors").split(",")) == [
         "LAB=#ff8800",

@@ -28,9 +28,9 @@ from loguru import logger
 
 from gcm4.core import window_state
 
-URL_DERNIERE_VERSION = "https://api.github.com/repos/Mathide-Team/Gcm4/releases/latest"
+URL_DERNIERE_VERSION = "https://api.github.com/repos/Mathilde-Team/Gcm4/releases/latest"
 #: Page proposée si la réponse ne donne pas d'URL.
-PAGE_VERSIONS = "https://github.com/Mathide-Team/Gcm4/releases"
+PAGE_VERSIONS = "https://github.com/Mathilde-Team/Gcm4/releases"
 CLE_ACCORD = "check-updates-consent"
 VARIABLE_DESACTIVATION = "GCM_NO_UPDATE_CHECK"
 DELAI = 5.0  # secondes, comme GTK3

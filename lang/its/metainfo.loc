@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+  Copyright (C) 2015-2024 Matthias Klumpp <matthias@tenstral.net>
+
+  Copie du fichier du projet AppStream (paquet appstream 1.1,
+  /usr/share/gettext/its/), fournie avec le dépôt : l'extraction et la
+  fusion des traductions AppStream (scripts/i18n-update.sh) ne dépendent
+  plus du paquet appstream de la machine (#274). Licence FSFAP ; règles
+  inchangées.
+
+  SPDX-License-Identifier: FSFAP
+-->
+<locatingRules>
+  <locatingRule name="MetaInfo" pattern="*.metainfo.xml">
+    <documentRule localName="component" target="metainfo.its"/>
+  </locatingRule>
+  <locatingRule name="MetaInfo" pattern="*.appdata.xml">
+    <documentRule localName="component" target="metainfo.its"/>
+  </locatingRule>
+
+  <locatingRule name="ReleaseData" pattern="*.releases.xml">
+    <documentRule localName="releases" target="metainfo.its"/>
+  </locatingRule>
+</locatingRules>

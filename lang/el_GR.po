@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-19 12:52+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-24 10:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,70 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "Connection Manager"
+msgstr "Διαχείριση συνδέσεων"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+msgid "Gnome Connection Manager"
+msgstr "Gnome Connection Manager"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Organize your hosts and open their connections in tabs"
+msgstr "Οργανώστε τους κεντρικούς υπολογιστές σας και ανοίξτε τις συνδέσεις τους σε καρτέλες"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "connection;remote;host;session;terminal;gcm4;"
+msgstr "σύνδεση;απομακρυσμένος;κεντρικός υπολογιστής;συνεδρία;τερματικό;gcm4;"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "gcm4 (debug mode)"
+msgstr "gcm4 (λειτουργία αποσφαλμάτωσης)"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Connection protocols provided by plugins"
+msgstr "Τα πρωτόκολλα σύνδεσης παρέχονται από επεκτάσεις"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: src/gcm4/ui/host_dialog.py
+msgid "Edit Host"
+msgstr "Επεξεργασία Κεντρικού Υπολογιστή"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Gnome Connection Manager keeps your hosts in groups and opens each connection in a tab of a single window."
+msgstr "Το Gnome Connection Manager κρατά τους κεντρικούς υπολογιστές σας σε ομάδες και ανοίγει κάθε σύνδεση σε μια καρτέλα ενός μόνο παραθύρου."
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Groups and hosts in a searchable tree, with colors and drag and drop"
+msgstr "Ομάδες και κεντρικοί υπολογιστές σε δέντρο με αναζήτηση, χρώματα και μεταφορά και απόθεση"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Groups and hosts in the main window"
+msgstr "Ομάδες και κεντρικοί υπολογιστές στο κύριο παράθυρο"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Host passwords stored encrypted"
+msgstr "Οι κωδικοί πρόσβασης των κεντρικών υπολογιστών αποθηκεύονται κρυπτογραφημένοι"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Last release of the GTK3 application; the GTK4 base is not released yet."
+msgstr "Τελευταία έκδοση της εφαρμογής GTK3· η βάση GTK4 δεν έχει κυκλοφορήσει ακόμη."
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Open tabs restored at the next start"
+msgstr "Οι ανοιχτές καρτέλες επαναφέρονται στην επόμενη εκκίνηση"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
+msgstr "Η βασική εφαρμογή δεν παρέχει από μόνη της κανένα πρωτόκολλο: οι συνδέσεις χρειάζονται την αντίστοιχη επέκταση."
 
 #: gnome_connection_manager.py
 msgid "+ Add"
@@ -36,7 +100,7 @@ msgstr ""
 msgid "<span size=\"smaller\">CTRL+UP/CTRL+DOWN for history</span>"
 msgstr "<span size=\"smaller\">CTRL+ΕΠΑΝΩ/CTRL+ΚΑΤΩ για ιστορικό</span>"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid ""
 "<span size='smaller'>Use ##D=milliseconds to add a delay.\n"
 "Ex: ##D=1000</span>"
@@ -57,11 +121,11 @@ msgstr "Μια νέα έκδοση είναι διαθέσιμη: https://github
 msgid "A simple ssh connection manager for gnome"
 msgstr "Ένας απλός διαχειριστής συνδέσεων ssh για το Gnome"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "ASCII Backspace \t[Ctrl+H 0x08]"
 msgstr "ASCII Backspace \t[Ctrl+H 0x08]"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "ASCII Delete    \t[Ctrl+? 0x7F]"
 msgstr "ASCII Delete    \t[Ctrl+? 0x7F]"
 
@@ -89,7 +153,7 @@ msgstr "Μετά την αποσύνδεση"
 msgid "Always"
 msgstr "Πάντα"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Automatic"
 msgstr "Αυτόματο"
 
@@ -97,7 +161,7 @@ msgstr "Αυτόματο"
 msgid "Background color:"
 msgstr "Χρώμα φόντου:"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Backspace:"
 msgstr "Backspace:"
 
@@ -137,9 +201,10 @@ msgstr "Δεν είναι δυνατό το άνοιγμα του αρχείου
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py src/gcm4/ui/contexte.py
+#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "Ακύρωση"
 
@@ -151,7 +216,7 @@ msgstr "Έλεγχος για ενημερώσεις"
 msgid "Choose Group Color"
 msgstr ""
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Circle around tabs when going to the previous/next tab"
 msgstr "Κυκλική περιήγηση στις καρτέλες κατά τη μετάβαση στην προηγούμενη/επόμενη καρτέλα"
 
@@ -159,11 +224,13 @@ msgstr "Κυκλική περιήγηση στις καρτέλες κατά τ�
 msgid "Clear selection"
 msgstr "Εκκαθάριση επιλογής"
 
-#: gnome_connection_manager.py ssh_config_editor.py ssh_key_manager_dialog.py
+#: gnome_connection_manager.py src/gcm4/ui/echange.py
+#: src/gcm4/ui/main_window.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py widgets.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/main_window.py widgets.py
 msgid "Close console"
 msgstr "Κλείσιμο κονσόλας"
 
@@ -185,11 +252,11 @@ msgstr "Χρώματα"
 msgid "Command"
 msgstr "Εντολή"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Confirm on close console"
 msgstr "Επιβεβαίωση κατά το κλείσιμο της κονσόλας"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Confirm on close console with middle click"
 msgstr "Επιβεβαίωση κατά το κλείσιμο της κονσόλας με μεσαίο κλικ"
 
@@ -243,11 +310,11 @@ msgstr "Bits δεδομένων"
 msgid "Default colors"
 msgstr "Προεπιλεγμένα χρώματα"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Delete Sequence \t[@7]"
 msgstr "Ακολουθία Delete \t[@7]"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Delete:"
 msgstr "Delete:"
 
@@ -255,7 +322,7 @@ msgstr "Delete:"
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Disable alternating stripes in hosts window"
 msgstr "Απενεργοποίηση εναλλασσόμενων λωρίδων στο παράθυρο κεντρικών υπολογιστών"
 
@@ -275,7 +342,7 @@ msgstr "Θέλετε πραγματικά να αφαιρέσετε όλους �
 msgid "Do you really want to remove host"
 msgstr "Θέλετε πραγματικά να αφαιρέσετε τον κεντρικό υπολογιστή"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Dynamic title"
 msgstr "Δυναμικός τίτλος"
 
@@ -283,10 +350,6 @@ msgstr "Δυναμικός τίτλος"
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Edit"
 msgstr "Επεξεργασία"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Edit Host"
-msgstr "Επεξεργασία Κεντρικού Υπολογιστή"
 
 #: gnome_connection_manager.py
 msgid "Enable Logging"
@@ -320,11 +383,9 @@ msgstr ""
 msgid "Export Servers"
 msgstr "Εξαγωγή Διακομιστών"
 
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Export servers"
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Export servers"
-msgstr "_Εξαγωγή διακομιστών"
+msgstr "Εξαγωγή διακομιστών"
 
 #: gnome_connection_manager.py plugins/plugin_export_csv.py
 msgid "Export to CSV"
@@ -376,10 +437,6 @@ msgstr ""
 msgid "General"
 msgstr "Γενικά"
 
-#: gnome_connection_manager.py
-msgid "Gnome Connection Manager"
-msgstr "Gnome Connection Manager"
-
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
@@ -419,11 +476,9 @@ msgstr "Όνομα κεντρικού υπολογιστή"
 msgid "Import Servers"
 msgstr "Εισαγωγή Διακομιστών"
 
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Import servers"
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Import servers"
-msgstr "_Εισαγωγή διακομιστών"
+msgstr "Εισαγωγή διακομιστών"
 
 #: gnome_connection_manager.py
 #, fuzzy
@@ -650,7 +705,7 @@ msgstr "Επιλογή γραμματοσειράς"
 msgid "Select foreground color"
 msgstr "Επιλογή χρώματος προσκηνίου"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Send commands after login"
 msgstr "Αποστολή εντολών μετά τη σύνδεση"
 
@@ -671,10 +726,6 @@ msgstr "Η λίστα διακομιστών θα αντικατασταθεί, 
 #| msgid "_Servers"
 msgid "Servers"
 msgstr "_Διακομιστές"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/preferences.py
-msgid "Settings"
-msgstr "Ρυθμίσεις"
 
 #: gnome_connection_manager.py
 #, python-brace-format
@@ -710,11 +761,11 @@ msgstr "Διακοπή"
 msgid "System"
 msgstr "Συστήματος"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "TTY Erase"
 msgstr "Διαγραφή TTY"
 
@@ -738,7 +789,7 @@ msgstr ""
 msgid "Tip: use #P=password to send a password without keeping it in clear text in the command history"
 msgstr ""
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Title"
 msgstr "Τίτλος"
 
@@ -869,6 +920,11 @@ msgstr ""
 #: key_picker_dialog.py
 msgid "⚙ Generate…"
 msgstr ""
+
+#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#, python-brace-format
+msgid "{program} not found"
+msgstr "Το {program} δεν βρέθηκε"
 
 #: plugins/plugin_export_csv.py
 #, python-brace-format
@@ -1441,7 +1497,7 @@ msgid "IPMI (SOL)"
 msgstr ""
 
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py
+#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "Η συνεδρία έληξε"
 
@@ -1779,7 +1835,7 @@ msgstr ""
 msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
+#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
 msgid "Authentication failed"
 msgstr ""
 
@@ -2659,6 +2715,230 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/sftp/core.py
+msgid "B"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "GiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "KiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "MiB"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Busy, try again when the current operation is finished"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Connecting…"
+msgid "Connecting to {host}…"
+msgstr "Σύνδεση σε εξέλιξη…"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Initialization failed: {error}"
+msgid "Connection failed: {error}"
+msgstr "Αποτυχία αρχικοποίησης: {error}"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Create"
+msgstr "Δημιουργία"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Creating {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Delete:"
+msgid "Delete"
+msgstr "Delete:"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Delete the empty folder {name}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "Delete {name}?"
+msgstr "Όνομα προτύπου"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Deleting {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Download"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloaded to {path}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloading {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Import failed: {error}"
+msgid "Error: {error}"
+msgstr "Αποτυχία εισαγωγής: {error}"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "xfreerdp not found"
+msgid "File not found"
+msgstr "Το xfreerdp δεν βρέθηκε"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Folders not uploaded: {names}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Home folder"
+msgstr "Φάκελος αρχείων καταγραφής"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Host key of {host} has changed (fingerprint {fingerprint}). Connection refused: check the server, then remove the old key from {file}."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Invalid name: {name}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Listing {path}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "New folder"
+msgstr "Φάκελος αρχείων καταγραφής"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "VM name"
+msgid "New folder name:"
+msgstr "Όνομα VM"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Copy Address"
+msgid "No address"
+msgstr "Αντιγραφή διεύθυνσης"
+
+#: plugins/sftp/gtk4.py
+msgid "Nothing to upload (folders are not uploaded)"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Parent folder"
+msgstr "Φάκελος αρχείων καταγραφής"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Private key file:"
+msgstr "Ιδιωτικό κλειδί"
+
+#: plugins/sftp/gtk4.py
+msgid "Refresh"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder"
+msgstr "Απομακρυσμένη Θύρα"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder:"
+msgstr "Απομακρυσμένη Θύρα"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Rename"
+msgstr "Μετονομασία"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Rename {name} to:"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Renaming {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Retry"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "SSH agent and ~/.ssh keys"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid ""
+"The authenticity of host {host} can't be established.\n"
+"Key fingerprint is {fingerprint}. Trust it and add it to {file}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Trust and connect"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Unknown host key"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Upload files"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Uploading {count} file(s)…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "{path}: {count} items"
+msgstr ""
+
 #: src/gcm4/app.py
 msgid "The old configuration is intact: fix the problem (permissions, disk space), then start gcm4 again."
 msgstr "Οι παλιές ρυθμίσεις είναι ανέπαφες: διορθώστε το πρόβλημα (δικαιώματα, χώρος στον δίσκο) και εκκινήστε ξανά το gcm4."
@@ -2705,6 +2985,72 @@ msgstr "Δεν είναι δυνατή η ανάγνωση του αρχείου
 #, python-format
 msgid "Unable to write the configuration file %s: %s"
 msgstr "Δεν είναι δυνατή η εγγραφή του αρχείου ρυθμίσεων %s: %s"
+
+#: src/gcm4/core/echange_cli.py src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Hosts exported: {count} ({file})"
+msgstr "Κεντρικοί υπολογιστές που εξήχθησαν: {count} ({file})"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: the host name is missing"
+msgstr "%s: λείπει το όνομα του κεντρικού υπολογιστή"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: too many cells"
+msgstr "%s: υπερβολικά πολλά κελιά"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: unexpected value for %s"
+msgstr "%s: μη αναμενόμενη τιμή για %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "The file %s is not a valid host export: %s"
+msgstr "Το αρχείο %s δεν είναι έγκυρη εξαγωγή κεντρικών υπολογιστών: %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "Unable to read the file %s: %s"
+msgstr "Αδύνατη η ανάγνωση του αρχείου %s: %s"
+
+#: src/gcm4/core/exchange.py src/gcm4/core/sauvegarde.py
+#, python-format
+msgid "Unable to write the file %s: %s"
+msgstr "Αδύνατη η εγγραφή του αρχείου %s: %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "entry %d"
+msgstr "καταχώριση %d"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "line %d"
+msgstr "γραμμή %d"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "the column %s is missing"
+msgstr "λείπει η στήλη %s"
+
+#: src/gcm4/core/exchange.py
+msgid "unsupported format or version"
+msgstr "μη υποστηριζόμενη μορφή ή έκδοση"
+
+#: src/gcm4/core/menu.py
+msgid "Next tab"
+msgstr "Επόμενη καρτέλα"
+
+#: src/gcm4/core/menu.py
+msgid "Previous tab"
+msgstr "Προηγούμενη καρτέλα"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/echange.py
+msgid "Save configuration as…"
+msgstr "Αποθήκευση ρυθμίσεων ως…"
 
 #: src/gcm4/core/menu.py
 msgid "Search"
@@ -2797,6 +3143,25 @@ msgstr "Το πρωτόκολλο «{protocol}» το χειρίζεται ήδ�
 msgid "{file} does not define PLUGIN."
 msgstr "Το {file} δεν ορίζει PLUGIN."
 
+#: src/gcm4/core/sauvegarde.py
+msgid "Choose a folder other than the configuration folder."
+msgstr "Επιλέξτε φάκελο διαφορετικό από τον φάκελο ρυθμίσεων."
+
+#: src/gcm4/core/sauvegarde.py
+#, python-brace-format
+msgid "Import of {file}: added {added}, replaced {replaced}, renamed {renamed}, ignored {ignored}, new groups {groups}"
+msgstr "Εισαγωγή του {file}: προστέθηκαν {added}, αντικαταστάθηκαν {replaced}, μετονομάστηκαν {renamed}, αγνοήθηκαν {ignored}, νέες ομάδες {groups}"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-format
+msgid "No configuration to save yet: %s"
+msgstr "Δεν υπάρχουν ακόμη ρυθμίσεις για αποθήκευση: %s"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-brace-format
+msgid "{folder} already contains {file}."
+msgstr "Το {folder} περιέχει ήδη το {file}."
+
 #: src/gcm4/core/validation.py
 #, python-brace-format
 msgid "A host named «{name}» already exists in this group."
@@ -2819,10 +3184,65 @@ msgstr "Η θύρα πρέπει να είναι αριθμός από {min} έ�
 msgid "The name must not contain «/»."
 msgstr "Το όνομα δεν πρέπει να περιέχει «/»."
 
+#: src/gcm4/ui/application.py
+#, python-brace-format
+msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
+msgstr "Το gcm4 εκτελείται ήδη με άλλον φάκελο ρυθμίσεων: κλείστε το για να χρησιμοποιήσετε το {requested}."
+
 #: src/gcm4/ui/contexte.py
 #, python-brace-format
 msgid "Password for {target}"
 msgstr "Κωδικός για {target}"
+
+#: src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Configuration saved to {folder}"
+msgstr "Οι ρυθμίσεις αποθηκεύτηκαν στο {folder}"
+
+#: src/gcm4/ui/echange.py
+msgid "Export"
+msgstr "Εξαγωγή"
+
+#: src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Hosts in {file}: {count}, already present: {existing}"
+msgstr "Κεντρικοί υπολογιστές στο {file}: {count}, ήδη υπάρχοντες: {existing}"
+
+#: src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "Αν ο κεντρικός υπολογιστής υπάρχει ήδη:"
+
+#: src/gcm4/ui/echange.py
+msgid "Import"
+msgstr "Εισαγωγή"
+
+#: src/gcm4/ui/echange.py
+msgid "Include passwords (in clear text)"
+msgstr "Συμπερίληψη κωδικών (σε απλό κείμενο)"
+
+#: src/gcm4/ui/echange.py
+msgid "JSON or CSV file, chosen by its extension."
+msgstr "Αρχείο JSON ή CSV, ανάλογα με την επέκταση."
+
+#: src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "Διατήρηση του υπάρχοντος κεντρικού υπολογιστή"
+
+#: src/gcm4/ui/echange.py
+msgid "Passwords will be written in clear text: keep this file safe."
+msgstr "Οι κωδικοί θα γραφτούν σε απλό κείμενο: φυλάξτε το αρχείο με ασφάλεια."
+
+#: src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "Μετονομασία του εισαγόμενου κεντρικού υπολογιστή"
+
+#: src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "Αντικατάσταση του υπάρχοντος κεντρικού υπολογιστή"
+
+#: src/gcm4/ui/echange.py
+msgid "This file contains passwords in clear text."
+msgstr "Αυτό το αρχείο περιέχει κωδικούς σε απλό κείμενο."
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Background color"
@@ -2932,6 +3352,11 @@ msgid "Home"
 msgstr "Αρχική"
 
 #: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Host not found: {hosts}"
+msgstr "Ο κεντρικός υπολογιστής δεν βρέθηκε: {hosts}"
+
+#: src/gcm4/ui/main_window.py
 msgid "Hosts and groups will appear in the left panel."
 msgstr "Οι κεντρικοί υπολογιστές και οι ομάδες θα εμφανιστούν στο αριστερό πλαίσιο."
 
@@ -2977,10 +3402,6 @@ msgid "Changes not saved: {error}"
 msgstr "Οι αλλαγές δεν αποθηκεύτηκαν: {error}"
 
 #: src/gcm4/ui/menu_arbre.py
-msgid "Create"
-msgstr "Δημιουργία"
-
-#: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
 msgstr "Χρώμα ομάδας"
 
@@ -3007,10 +3428,6 @@ msgstr "Αφαίρεση της ομάδας «{name}»;"
 #, python-brace-format
 msgid "Remove host «{name}»?"
 msgstr "Αφαίρεση του κεντρικού υπολογιστή «{name}»;"
-
-#: src/gcm4/ui/menu_arbre.py
-msgid "Rename"
-msgstr "Μετονομασία"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
@@ -3042,8 +3459,16 @@ msgid "Appearance"
 msgstr "Εμφάνιση"
 
 #: src/gcm4/ui/preferences.py
+msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
+msgstr "Κάντε κλικ σε μια συντόμευση για να την αλλάξετε ή πατήστε Backspace στο παράθυρο διαλόγου για να την απενεργοποιήσετε."
+
+#: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "Προεπιλεγμένο επίπεδο καταγραφής"
+
+#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "Απενεργοποιημένη"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3108,6 +3533,36 @@ msgstr "Χρήση γραμματοσειράς συστήματος"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Έκδοση {version}"
+
+#: src/gcm4/ui/raccourcis.py
+#, python-brace-format
+msgid "Already used by “{action}”."
+msgstr "Χρησιμοποιείται ήδη από «{action}»."
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Press a key combination"
+msgstr "Πατήστε έναν συνδυασμό πλήκτρων"
+
+#: src/gcm4/ui/raccourcis.py
+#, python-brace-format
+msgid "Press the new shortcut for “{action}”, or Backspace to disable it."
+msgstr "Πατήστε τη νέα συντόμευση για «{action}» ή Backspace για να την απενεργοποιήσετε."
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Reset to default"
+msgstr "Επαναφορά προεπιλογής"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Set"
+msgstr "Ορισμός"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Set Shortcut"
+msgstr "Ορισμός συντόμευσης"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Use Ctrl, Alt or Super with this key."
+msgstr "Χρησιμοποιήστε Ctrl, Alt ή Super με αυτό το πλήκτρο."
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

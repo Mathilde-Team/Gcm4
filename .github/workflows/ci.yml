@@ -7,6 +7,9 @@ name: CI
     branches: [main, dev]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 # Issue #159 : un nouveau push sur la même branche ou PR annule le run
 # précédent, devenu obsolète.
 concurrency:
@@ -17,6 +20,10 @@ jobs:
   quality:
     name: Qualité (lint, tests)
     runs-on: ${{ fromJSON(vars.RUNS_ON_LINUX || '{"group":"maison","labels":["self-hosted","linux"]}') }}
+    env:
+      # Issue #163 : données de couverture nommées par job, fusionnées avec
+      # celles du job GTK4 par le job « Couverture combinée ».
+      COVERAGE_FILE: .coverage.qualite
 
     steps:
       - name: Checkout du dépôt
@@ -83,20 +90,28 @@ jobs:
       - name: Tests (pytest + couverture)
         # Toute la suite, y compris tests/test_gcm.py (réintégré, issue #112 :
         # stubs gi complétés et tests resynchronisés avec plugins/).
-        # Couverture (issue #128) : périmètre et seuil bloquant (fail_under)
-        # lus dans [tool.coverage.*] de pyproject.toml. L'étape échoue si la
-        # couverture totale passe sous le seuil.
+        # Couverture (issue #128) : périmètre lu dans [tool.coverage.*] de
+        # pyproject.toml. Le seuil global (fail_under) ne s'applique PLUS ici
+        # (--cov-fail-under=0, issue #278) : ce job n'exécute pas src/gcm4/ui/,
+        # son total sous-estime la couverture réelle. Il est appliqué au total
+        # combiné Qualité + GTK4 par le job « Couverture combinée », requis
+        # sur dev. Le seuil du cœur (étape suivante) reste appliqué ici.
         # Issue #160 : -rs liste chaque test sauté et sa raison ; la sortie
-        # est relue par l'étape suivante.
+        # est relue par l'étape suivante. Ce job installe gettext :
+        # GCM_TESTS_EXIGES fait échouer tout test requires_gettext sauté
+        # (tests/conftest.py).
+        env:
+          GCM_TESTS_EXIGES: "gettext"
         run: |
           set -o pipefail
           uv run python -m pytest tests/ -q -rs \
             --cov --cov-report=term-missing:skip-covered --cov-report=xml \
+            --cov-fail-under=0 \
             | tee /tmp/pytest.txt
 
       - name: Seuil séparé du cœur (src/gcm4/core/, issue #164)
         # La base doit naître très couverte : second contrôle bloquant à 95 %
-        # sur le cœur, indépendant du seuil global (fail_under = 18). Même
+        # sur le cœur, indépendant du seuil global (fail_under, total combiné). Même
         # valeur que SEUIL_COEUR de scripts/pr_coverage_comment.py et que
         # docs/quality/seuil-couverture.md. Bloquant sans dérogation : toute
         # PR vers dev contient le cœur (il est dans la base), y compris une
@@ -107,7 +122,8 @@ jobs:
         # Un test sauté est une vérification qui n'a pas eu lieu. Ce job
         # installe gettext : un test sauté faute de msgfmt fait échouer la
         # CI. Le nombre de tests sautés et leurs raisons vont dans le résumé.
-        # Seul saut toléré : src/gcm4 absent (épopée GTK4, #118).
+        # Aucun saut toléré : src/gcm4 existe (#133), son ancienne exception
+        # a disparu.
         if: always()
         run: |
           sautes=$(grep -c '^SKIPPED' /tmp/pytest.txt || true)
@@ -115,11 +131,12 @@ jobs:
             echo "### Tests sautés : ${sautes}"
             grep '^SKIPPED' /tmp/pytest.txt | sed 's/^/- /' || true
           } >> "$GITHUB_STEP_SUMMARY"
-          if grep '^SKIPPED' /tmp/pytest.txt | grep -v 'src/gcm4 pas encore créé'; then
+          if [ "${sautes}" != "0" ]; then
+            grep '^SKIPPED' /tmp/pytest.txt
             echo "::error::tests sautés alors que ce job installe leurs dépendances (voir ci-dessus)"
             exit 1
           fi
-          echo "tests sautés : ${sautes} (tous tolérés)"
+          echo "tests sautés : 0"
 
       - name: Publication du rapport de couverture (artifact)
         if: always()
@@ -129,6 +146,75 @@ jobs:
           path: coverage.xml
           if-no-files-found: warn
 
+      - name: Données de couverture du job (artifact, issue #163)
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-data-qualite
+          path: .coverage.qualite
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+
+  coverage-combined:
+    # Issue #163 : le code src/gcm4/ui/ n'est exécuté que par tests/gtk4
+    # (job GTK4, sous Xvfb). Les données des deux jobs sont fusionnées ici :
+    # total combiné soumis au seuil fail_under de pyproject.toml, détail de
+    # src/gcm4/ui/ et src/gcm4/core/ dans le résumé du job.
+    name: Couverture combinée
+    needs: [quality, gtk4]
+    runs-on: ${{ fromJSON(vars.RUNS_ON_LINUX || '{"group":"maison","labels":["self-hosted","linux"]}') }}
+
+    steps:
+      - name: Checkout du dépôt
+        uses: actions/checkout@v7
+
+      - name: Installation de uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          enable-cache: true
+
+      - name: Installation de Python
+        run: uv python install
+
+      - name: Installation des dépendances (groupe dev)
+        run: uv sync
+
+      - name: Données des jobs Qualité et GTK4
+        # Dans un sous-dossier : coverage.py ≥ 7.16 fusionne (et supprime)
+        # d'office les fichiers .coverage.* voisins du fichier de données.
+        uses: actions/download-artifact@v4
+        with:
+          pattern: coverage-data-*
+          merge-multiple: true
+          path: donnees-couverture
+
+      - name: Fusion (coverage combine)
+        run: |
+          uv run coverage combine --keep \
+            donnees-couverture/.coverage.qualite donnees-couverture/.coverage.gtk4
+
+      - name: Détail par job et par périmètre (résumé)
+        run: |
+          uv run python scripts/couverture_combinee.py \
+            --qualite donnees-couverture/.coverage.qualite \
+            --gtk4 donnees-couverture/.coverage.gtk4 \
+            --combinee .coverage >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Total combiné, seuil bloquant (fail_under)
+        # Même seuil que le job Qualité (pyproject.toml), appliqué ici au
+        # total fusionné ; l'étape échoue s'il passe dessous.
+        run: |
+          uv run coverage xml -o coverage-combinee.xml --fail-under=0
+          uv run coverage report --skip-covered
+
+      - name: Publication du rapport combiné (artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-combinee
+          path: coverage-combinee.xml
+          if-no-files-found: warn
 
   types:
     # Issue #173 : bloquant sur les modules listés dans [tool.mypy] files
@@ -193,8 +279,13 @@ jobs:
 
       - name: Compilation de toutes les locales
         # Dans un dossier temporaire : les .mo suivis par git ne sont pas
-        # réécrits, mais chaque catalogue doit se compiler.
-        run: scripts/i18n-update.sh --compile "$RUNNER_TEMP/locale"
+        # réécrits, mais chaque catalogue doit se compiler. Dossier unique
+        # (mktemp) : sur un runner auto-hébergé, un « $RUNNER_TEMP/locale »
+        # resté d'un job précédent et non accessible faisait échouer ce job
+        # (« mkdir: Permission denied », runner « ubuntu », 20/10/2026).
+        # Dans $RUNNER_TEMP, vidé par le runner à la fin du job : rien ne
+        # s'accumule dans /tmp des machines du groupe maison.
+        run: scripts/i18n-update.sh --compile "$(mktemp -d -p "$RUNNER_TEMP")/locale"
 
       - name: Rapport de traduction (résumé du job)
         if: always()
@@ -213,41 +304,59 @@ jobs:
 
     steps:
       - name: GTK4, introspection, Xvfb
+        # VTE GTK4 et expect : plugin telnet (tests/gtk4/test_plugin_telnet.py,
+        # vrai terminal et vrai script expect, telnet simulé).
         run: |
           DEBIAN_FRONTEND=noninteractive apt-get update -qq
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
             git ca-certificates python3 python3-venv python3-gi \
-            gir1.2-gtk-4.0 gir1.2-adw-1 xvfb xauth
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 expect xvfb xauth dbus-daemon
 
       - name: Checkout du dépôt
         uses: actions/checkout@v7
 
       - name: Dépendances de pluginvnc2 (venv avec python3-gi système)
-        # asyncvnc2 figé sur un commit de Mathide-Team/AsyncVnc4 (public).
+        # asyncvnc2 figé sur un commit de Mathilde-Team/AsyncVnc4 (public).
         run: |
           python3 -m venv --system-site-packages /tmp/venv
           /tmp/venv/bin/pip install -q -r plugins/pluginvnc2/requirements-dev.txt \
-            "asyncvnc2 @ git+https://github.com/Mathide-Team/AsyncVnc4@26be75f0582acffbf2a5cd8ea4175f5e40759db3"
+            "asyncvnc2 @ git+https://github.com/Mathilde-Team/AsyncVnc4@26be75f0582acffbf2a5cd8ea4175f5e40759db3"
 
       - name: gcm4 (paquet src/gcm4, mode éditable)
+        # paramiko : plugin sftp (#75), testé contre un serveur paramiko local.
         run: |
-          /tmp/venv/bin/pip install -q -e . pytest
+          /tmp/venv/bin/pip install -q -e . pytest pytest-cov "paramiko>=3.4.0,<5"
 
       - name: Tests de l'interface gcm4 sous Xvfb (tests/gtk4), aucun test sauté
         # GCM_TESTS_GTK4=1 : tests/gtk4/conftest.py collecte toujours ces
-        # tests ; un GTK4/libadwaita absent devient une erreur, pas un saut.
+        # tests ; un GTK4/libadwaita absent devient une erreur, pas un saut,
+        # et tests/conftest.py fait échouer tout test requires_gtk4 sauté.
+        # Couverture (#163) : mesurée ici sans seuil (--cov-fail-under=0) ;
+        # le seuil s'applique au total fusionné du job « Couverture combinée ».
         env:
           GCM_TESTS_GTK4: "1"
+          COVERAGE_FILE: .coverage.gtk4
         run: |
           set -o pipefail
           xvfb-run -a /tmp/venv/bin/python -m pytest tests/gtk4 -q -rs -p no:cacheprovider \
+            --cov --cov-report= --cov-fail-under=0 \
             | tee /tmp/gcm4-gtk4.txt
           sautes=$(grep -c '^SKIPPED' /tmp/gcm4-gtk4.txt || true)
           echo "### Tests gcm4 GTK4 sautés : ${sautes}" >> "$GITHUB_STEP_SUMMARY"
           if [ "${sautes}" != "0" ]; then
+            grep '^SKIPPED' /tmp/gcm4-gtk4.txt | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY"
             echo "::error::tests gcm4 GTK4 sautés"
             exit 1
           fi
+
+      - name: Données de couverture de tests/gtk4 (artifact, issue #163)
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-data-gtk4
+          path: .coverage.gtk4
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Tests pluginvnc2 sous Xvfb, aucun test sauté
         working-directory: plugins/pluginvnc2
@@ -263,6 +372,330 @@ jobs:
             exit 1
           fi
           echo "tests GTK4 : tous exécutés"
+
+  debian12:
+    # Issue #223 : Debian 12 reste une cible (GTK 4.8, libadwaita 1.2,
+    # Python 3.11, PyGObject 3.42). Ce job vérifie les replis GTK/libadwaita
+    # de src/gcm4/ui contre les vrais paquets Debian 12 : démarrage de gcm4
+    # sous Xvfb, puis tests/gtk4 et tests/test_gcm4_*.py, aucun test sauté.
+    # --ignore-requires-python : pyproject exige encore Python >= 3.12 ; la
+    # décision (abaisser requires-python) est la deuxième case de #223.
+    name: gcm4 sur Debian 12 (GTK 4.8, libadwaita 1.2)
+    runs-on: ${{ fromJSON(vars.RUNS_ON_GTK4 || '"ubuntu-latest"') }}
+    container:
+      image: debian:12
+    # Le sh de Debian 12 (dash 0.5.12) ne connaît pas « set -o pipefail ».
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Paquets Debian 12 (GTK 4.8, libadwaita 1.2, VTE 0.70, python3-gi)
+        # VTE GTK4 et expect : plugin telnet (#290) testé avec un vrai
+        # Vte.Terminal, comme dans le job « Tests GTK4 (Xvfb) ».
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+            git ca-certificates python3 python3-venv python3-gi \
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 expect xvfb xauth
+          dpkg-query -W -f='- ${Package} ${Version}\n' python3 python3-gi \
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 expect | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Checkout du dépôt
+        uses: actions/checkout@v7
+
+      - name: gcm4 (mode éditable, Python 3.11 de Debian 12)
+        run: |
+          python3 -m venv --system-site-packages /tmp/venv
+          /tmp/venv/bin/pip install -q --ignore-requires-python -e . pytest \
+            "paramiko>=3.4.0,<5"
+
+      - name: Démarrage de gcm4 sous Xvfb (8 s, aucune exception)
+        # timeout rend 124 si gcm4 tourne encore : c'est le résultat attendu.
+        run: |
+          code=0
+          timeout 8 xvfb-run -a /tmp/venv/bin/gcm4 > /tmp/demarrage.txt 2>&1 || code=$?
+          cat /tmp/demarrage.txt
+          if [ "$code" != "124" ]; then
+            echo "::error::gcm4 s'est arrêté (code $code) au lieu de rester ouvert"
+            exit 1
+          fi
+          if grep -q 'Traceback' /tmp/demarrage.txt; then
+            echo "::error::exception Python au démarrage de gcm4 sur Debian 12"
+            exit 1
+          fi
+
+      - name: Tests gcm4 sous Xvfb (tests/gtk4, tests/test_gcm4_*.py), aucun test sauté
+        env:
+          GCM_TESTS_GTK4: "1"
+        run: |
+          set -o pipefail
+          xvfb-run -a /tmp/venv/bin/python -m pytest tests/gtk4 tests/test_gcm4_*.py \
+            -q -rs -p no:cacheprovider | tee /tmp/debian12.txt
+          sautes=$(grep -c '^SKIPPED' /tmp/debian12.txt || true)
+          echo "### Tests gcm4 sautés sur Debian 12 : ${sautes}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${sautes}" != "0" ]; then
+            grep '^SKIPPED' /tmp/debian12.txt | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::tests gcm4 sautés sur Debian 12"
+            exit 1
+          fi
+
+  rocky9:
+    # Issue #223 : Rocky Linux 9 reste une cible (GTK 4.12, libadwaita 1.4,
+    # Python 3.9 et PyGObject 3.40 d'AppStream : python3.12 n'y a pas de
+    # PyGObject). Même vérification que le job Debian 12 : démarrage sous
+    # Xvfb, puis tests/gtk4 et tests/test_gcm4_*.py, aucun test sauté.
+    # --ignore-requires-python (gcm4 seulement, --no-deps) : pyproject exige
+    # encore Python >= 3.12, décision attendue sur #223 ; pytest, tomli et
+    # loguru sont installés normalement, dans des versions compatibles 3.9.
+    name: gcm4 sur Rocky Linux 9 (GTK 4.12, libadwaita 1.4, Python 3.9)
+    runs-on: ${{ fromJSON(vars.RUNS_ON_GTK4 || '"ubuntu-latest"') }}
+    permissions:
+      contents: read
+    container:
+      image: rockylinux/rockylinux:9
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Paquets Rocky 9 (GTK 4.12, libadwaita 1.4, python3-gobject)
+        run: |
+          # dbus-daemon : bus privé du test de second lancement
+          # (tests/gtk4/test_deuxieme_lancement.py, fixture bus_prive).
+          dnf -q -y install git python3 python3-gobject gtk4 libadwaita \
+            xorg-x11-server-Xvfb xorg-x11-xauth dbus-daemon
+          rpm -q --qf '- %{NAME} %{VERSION}-%{RELEASE}\n' python3 python3-gobject \
+            gtk4 libadwaita | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Checkout du dépôt
+        uses: actions/checkout@v7
+
+      - name: gcm4 (mode éditable, Python 3.9 de Rocky 9)
+        run: |
+          python3 -m venv --system-site-packages /tmp/venv
+          /tmp/venv/bin/pip install -q pytest tomli "loguru>=0.7.3,<0.8" "paramiko>=3.4.0,<5"
+          /tmp/venv/bin/pip install -q --ignore-requires-python --no-deps -e .
+
+      # Écran 1280x1024x24 donné explicitement : le xvfb-run d'EL9 ouvre un
+      # écran 640x480, où GTK 4.12 réduit la fenêtre de 800x500 relue dans
+      # gcm4.conf (test_etat_restaure). Debian et Ubuntu ont 1280x1024x24 par
+      # défaut.
+      - name: Démarrage de gcm4 sous Xvfb (8 s, aucune exception)
+        run: |
+          code=0
+          timeout 8 xvfb-run -a -s "-screen 0 1280x1024x24" /tmp/venv/bin/gcm4 \
+            > /tmp/demarrage.txt 2>&1 || code=$?
+          cat /tmp/demarrage.txt
+          if [ "$code" != "124" ]; then
+            echo "::error::gcm4 s'est arrêté (code $code) au lieu de rester ouvert"
+            exit 1
+          fi
+          if grep -q 'Traceback' /tmp/demarrage.txt; then
+            echo "::error::exception Python au démarrage de gcm4 sur Rocky 9"
+            exit 1
+          fi
+
+      # EL9 n'a pas VTE GTK4 (vte291 0.64 est GTK3, #223) : le plugin telnet
+      # ne peut pas y fonctionner. Ses tests (tests/gtk4/test_plugin_telnet.py)
+      # sont écartés nommément ; l'étape suivante vérifie à la place qu'il est
+      # signalé en erreur (Préférences > Extensions) sans empêcher le démarrage.
+      - name: Plugin telnet signalé en erreur, faute de VTE GTK4
+        run: |
+          /tmp/venv/bin/python - <<'EOF'
+          from gcm4.core import registre
+          etats = {e.name: e for e in registre.decouvrir(lambda nom: None).etats}
+          erreur = etats["telnet"].erreur or ""
+          print("telnet :", erreur)
+          assert etats["telnet"].plugin is None and "Vte" in erreur, erreur
+          EOF
+
+      - name: Tests gcm4 sous Xvfb (tests/gtk4, tests/test_gcm4_*.py), aucun test sauté
+        env:
+          GCM_TESTS_GTK4: "1"
+        run: |
+          set -o pipefail
+          xvfb-run -a -s "-screen 0 1280x1024x24" /tmp/venv/bin/python -m pytest \
+            tests/gtk4 tests/test_gcm4_*.py -q -rs -p no:cacheprovider \
+            --ignore=tests/gtk4/test_plugin_telnet.py \
+            --ignore=tests/gtk4/test_plugin_local.py | tee /tmp/rocky9.txt
+          # test_plugin_local.py ignoré comme test_plugin_telnet.py : VTE
+          # GTK4 (Vte-3.91) n'existe pas sur Rocky 9 (#223), le module
+          # gcm4.ui.terminal n'y est pas importable ; couvert par le job
+          # GTK4 (ubuntu:26.04, VTE installé).
+          sautes=$(grep -c '^SKIPPED' /tmp/rocky9.txt || true)
+          echo "### Tests gcm4 sautés sur Rocky 9 : ${sautes}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${sautes}" != "0" ]; then
+            grep '^SKIPPED' /tmp/rocky9.txt | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::tests gcm4 sautés sur Rocky 9"
+            exit 1
+          fi
+
+  desktop:
+    # Issue #155 : lanceur (desktop-file-validate), métadonnées AppStream
+    # (appstreamcli validate), sources et traduits (#274), et tailles des
+    # icônes de data/. Conteneur
+    # Ubuntu comme le job GTK4 : les deux validateurs viennent des paquets.
+    name: Intégration au bureau
+    runs-on: ${{ fromJSON(vars.RUNS_ON_GTK4 || '"ubuntu-latest"') }}
+    container:
+      image: ubuntu:26.04
+
+    steps:
+      - name: desktop-file-utils, appstream et gettext
+        # gettext : scripts/check-desktop.sh valide aussi le lanceur et
+        # AppStream traduits (#274).
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+            git ca-certificates desktop-file-utils appstream gettext
+
+      - name: Checkout du dépôt
+        uses: actions/checkout@v7
+
+      - name: Lanceur, métadonnées AppStream et icônes
+        run: scripts/check-desktop.sh
+
+  packages-deb-build:
+    # Issue #156 : paquet .deb de la base GTK4 (build-deb/build.sh), construit
+    # une fois sur Ubuntu 26.04 puis installé par le job « Paquets » dans des
+    # conteneurs propres.
+    name: Paquet .deb (construction)
+    runs-on: ${{ fromJSON(vars.RUNS_ON_GTK4 || '"ubuntu-latest"') }}
+    container:
+      image: ubuntu:26.04
+
+    steps:
+      - name: Outils de construction Debian
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+            git ca-certificates build-essential debhelper dh-python dpkg-dev gettext \
+            python3-build python3-hatchling
+
+      - name: Checkout du dépôt
+        uses: actions/checkout@v7
+
+      - name: Construction (build-deb/build.sh)
+        # Dépôt monté par le runner, propriétaire différent de root : git
+        # refuserait « git ls-files » (dubious ownership).
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          build-deb/build.sh
+
+      - name: Paquet en artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: paquet-deb-gcm4
+          path: build-deb/dist/gcm4_*_all.deb
+          if-no-files-found: error
+
+  packages-deb:
+    # Issue #156 : test de fumée du .deb installé (scripts/smoke-test-packages.sh)
+    # sur chaque distribution visée par D4 de #118 (Python 3.12 ou plus) :
+    # dépendances résolues par apt, --version, imports, bureau, traductions,
+    # démarrage réel sous Xvfb sans plugin.
+    name: Paquets (.deb, ${{ matrix.image }})
+    needs: packages-deb-build
+    runs-on: ${{ fromJSON(vars.RUNS_ON_GTK4 || '"ubuntu-latest"') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ["debian:13", "ubuntu:24.04", "ubuntu:26.04"]
+    container:
+      image: ${{ matrix.image }}
+
+    steps:
+      - name: Système propre, comme un poste de travail
+        # Les images Ubuntu sont « minimisées » : dpkg y ignore les .mo.
+        # Un poste de travail les installe ; sans cela le test des
+        # traductions vérifierait un système qui n'existe pas.
+        run: |
+          sed -i '/^path-exclude=\/usr\/share\/locale\//d' /etc/dpkg/dpkg.cfg.d/* 2>/dev/null || true
+          DEBIAN_FRONTEND=noninteractive apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+            ca-certificates xvfb xauth dbus
+
+      - name: Checkout du dépôt
+        uses: actions/checkout@v7
+
+      - name: Paquet construit
+        uses: actions/download-artifact@v4
+        with:
+          name: paquet-deb-gcm4
+          path: dist
+
+      - name: Test de fumée du paquet installé
+        run: scripts/smoke-test-packages.sh deb dist/gcm4_*_all.deb
+
+  packages-rpm-build:
+    # Issue #157 : paquet .rpm de la base GTK4 (build-rpm/build.sh), construit
+    # sur Fedora (macros %find_lang et %py_byte_compile de la distribution)
+    # puis installé par le job « Paquets (.rpm, …) ».
+    name: Paquet .rpm (construction)
+    runs-on: ${{ fromJSON(vars.RUNS_ON_GTK4 || '"ubuntu-latest"') }}
+    container:
+      image: fedora:44
+
+    steps:
+      - name: Outils de construction RPM
+        run: |
+          dnf install -y -q git rpm-build python3-rpm-macros gettext findutils tar gzip \
+            python3-build python3-hatchling
+
+      - name: Checkout du dépôt
+        uses: actions/checkout@v7
+
+      - name: Construction (build-rpm/build.sh)
+        # Dépôt monté par le runner, propriétaire différent de root : git
+        # refuserait « git ls-files » (dubious ownership).
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          build-rpm/build.sh
+
+      - name: Paquet en artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: paquet-rpm-gcm4
+          path: build-rpm/dist/gcm4-*.noarch.rpm
+          if-no-files-found: error
+
+  packages-rpm:
+    # Issue #157 : contenu vérifié (rpm -qpl, rpm -qpR) puis installation avec
+    # dnf dans un conteneur propre et mêmes vérifications que le .deb.
+    name: Paquets (.rpm, ${{ matrix.image }})
+    needs: packages-rpm-build
+    runs-on: ${{ fromJSON(vars.RUNS_ON_GTK4 || '"ubuntu-latest"') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ["fedora:44"]
+    container:
+      image: ${{ matrix.image }}
+
+    steps:
+      - name: Système propre, comme un poste de travail
+        # Les images Fedora n'installent que l'anglais (%_install_langs) ;
+        # un poste de travail installe toutes les langues. GTK 4 charge
+        # libGLESv2 (libglvnd-gles) et le rendu logiciel de Mesa, présents
+        # sur tout poste Fedora mais pas dans l'image : sans eux, gcm4 avorte
+        # à la première fenêtre (« Couldn't open libGLESv2.so.2 »).
+        run: |
+          rm -f /etc/rpm/macros.image-language-conf
+          dnf install -y -q /usr/bin/xvfb-run /usr/bin/xauth /usr/bin/dbus-run-session \
+            /usr/bin/timeout findutils libglvnd-gles mesa-dri-drivers
+
+      - name: Checkout du dépôt
+        uses: actions/checkout@v7
+
+      - name: Paquet construit
+        uses: actions/download-artifact@v4
+        with:
+          name: paquet-rpm-gcm4
+          path: dist
+
+      - name: Test de fumée du paquet installé
+        run: scripts/smoke-test-packages.sh rpm-dnf dist/gcm4-*.noarch.rpm
 
   documentation:
     # Règle commune à tous les dépôts (modèle Netcross #282, IAO #183) :

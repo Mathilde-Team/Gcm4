@@ -57,11 +57,17 @@ _TRUE = frozenset({"1", "true", "yes", "oui", "on"})
 # chaque ``*_core.py`` qui journalise figure ici et se désactive.
 CORE_MODULES = (
     "gcm4",  # paquet src/gcm4 et ses sous-modules (#133)
+    "folder_context_menu_core",
     "gcm4_core",
+    "gesture_trigger_core",
+    "inline_editor_core",
     "master_password_core",
+    "netmiko_bulk_core",
+    "popup_menu_core",
     "putty_import_core",
     "snmp_bulk_core",
     "snmp_push_core",
+    "tab_context_menu_core",
 )
 
 _FORMAT = (

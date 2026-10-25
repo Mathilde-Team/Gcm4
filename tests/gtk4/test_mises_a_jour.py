@@ -25,7 +25,7 @@ def _ini(dossier):
 #: Fonctions d'origine (``_demarrer`` peut être appelé plusieurs fois par test).
 LANCER, DEMANDER = ui.lancer_verification, ui.demander_accord
 
-NOUVELLE = maj.MiseAJour("v9.0.0", "https://github.com/Mathide-Team/Gcm4/releases/tag/v9.0.0")
+NOUVELLE = maj.MiseAJour("v9.0.0", "https://github.com/Mathilde-Team/Gcm4/releases/tag/v9.0.0")
 
 
 def _repondre(fenetre, reponse, pomper):

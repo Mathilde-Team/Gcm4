@@ -44,7 +44,7 @@ variables** (`backtrace` et `diagnose` de loguru).
 | Sortie | Contenu | Rotation |
 |---|---|---|
 | stderr | tout, au niveau demandé, en couleur dans un terminal | — |
-| `<dossier de configuration>/log/gcm-app.log` | journal permanent de l'application (dossier par défaut `~/.gcm`, ou celui de `--config`) | 10 Mo, conservé 14 jours |
+| `<dossier de configuration>/log/gcm-app.log` | journal permanent de l'application (dossier par défaut `~/.gcm` pour GTK3, `~/.config/gcm4` pour gcm4, ou celui de `--config`) | 10 Mo, conservé 14 jours |
 | `GCM_LOG_FILE=chemin` | copie supplémentaire, par exemple pour joindre à un ticket | 10 Mo, 5 fichiers |
 
 Si un fichier ne peut pas être ouvert (droits, disque plein), un

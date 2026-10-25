@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Métadonnées AppStream de gcm4 (#155), validées par appstreamcli validate
+     (scripts/check-desktop.sh). L'identifiant, le lanceur, le binaire et la
+     version sont vérifiés par tests/test_integration_bureau.py.
+     Textes traduits (#274) : extraits dans lang/messages.pot par
+     scripts/i18n-update.sh. Un paragraphe tient sur une ligne : le msgid
+     ne dépend pas de la normalisation des blancs par xgettext. -->
+<component type="desktop-application">
+  <id>io.github.MathildeDec.gcm4</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <name>Gnome Connection Manager</name>
+  <summary>Organize your hosts and open their connections in tabs</summary>
+
+  <developer id="io.github.mathildedec">
+    <name translate="no">MathildeDec</name>
+  </developer>
+
+  <description>
+    <p>Gnome Connection Manager keeps your hosts in groups and opens each connection in a tab of a single window.</p>
+    <ul>
+      <li>Groups and hosts in a searchable tree, with colors and drag and drop</li>
+      <li>Open tabs restored at the next start</li>
+      <li>Host passwords stored encrypted</li>
+      <li>Connection protocols provided by plugins</li>
+    </ul>
+    <p>The base application provides no protocol by itself: connections need the corresponding plugin.</p>
+  </description>
+
+  <launchable type="desktop-id">io.github.MathildeDec.gcm4.desktop</launchable>
+
+  <provides>
+    <binary>gcm4</binary>
+  </provides>
+
+  <url type="homepage">https://github.com/Mathilde-Team/Gcm4</url>
+  <url type="bugtracker">https://github.com/Mathilde-Team/Gcm4/issues</url>
+  <url type="vcs-browser">https://github.com/Mathilde-Team/Gcm4</url>
+
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Groups and hosts in the main window</caption>
+      <image>https://raw.githubusercontent.com/Mathilde-Team/Gcm4/dev/docs/captures/gtk4-arbre-clair.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Edit Host</caption>
+      <image>https://raw.githubusercontent.com/Mathilde-Team/Gcm4/dev/docs/captures/gtk4-dialogue-hote-clair.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Settings</caption>
+      <image>https://raw.githubusercontent.com/Mathilde-Team/Gcm4/dev/docs/captures/gtk4-preferences-general-clair.png</image>
+    </screenshot>
+  </screenshots>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="4.0.0" date="2026-10-24"/>
+    <release version="1.3.3" date="2026-06-12">
+      <description>
+        <p>Last release of the GTK3 application; the GTK4 base is not released yet.</p>
+      </description>
+    </release>
+  </releases>
+</component>

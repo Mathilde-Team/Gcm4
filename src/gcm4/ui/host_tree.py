@@ -115,8 +115,7 @@ class HostTree(Gtk.Box):
         self.liste = Gtk.ListView(model=self.selection, factory=fabrique)
         self.liste.add_css_class("gcm-arbre")
         self.liste.add_css_class("navigation-sidebar")
-        if rayures:
-            self.liste.add_css_class("gcm-rayures")
+        self.set_rayures(rayures)
         self.liste.update_property([Gtk.AccessibleProperty.LABEL], [_("Hosts")])
         self.defilement = Gtk.ScrolledWindow(
             vexpand=True, hscrollbar_policy=Gtk.PolicyType.NEVER, child=self.liste
@@ -283,6 +282,15 @@ class HostTree(Gtk.Box):
         self.recherche.select_region(0, -1)
         logger.debug("focus_recherche: fait")
 
+    def set_rayures(self, rayures: bool) -> None:
+        """Active ou retire l'alternance de fond des lignes (option immédiate, #247)."""
+        logger.debug("set_rayures: {}", rayures)
+        if rayures:
+            self.liste.add_css_class("gcm-rayures")
+        else:
+            self.liste.remove_css_class("gcm-rayures")
+        logger.debug("set_rayures: fait")
+
     # --- sélection -----------------------------------------------------------
 
     def chemin_selectionne(self) -> str | None:
@@ -304,6 +312,24 @@ class HostTree(Gtk.Box):
                 return True
         logger.debug("selectionner: non visible")
         return False
+
+    def reveler(self, chemin: str) -> bool:
+        """Déplie les groupes parents de ``chemin`` puis le sélectionne (``gcm4 groupe/nom``, #154).
+
+        Les groupes dépliés le restent (``Group.collapsed`` mis à jour comme
+        pour un clic sur la flèche).
+
+        Returns:
+            bool: ``True`` si la ligne est sélectionnée.
+        """
+        logger.debug("reveler: {!r}", chemin)
+        for groupe in ancetres(chemin):
+            ligne = self.ligne(groupe)
+            if ligne is not None and ligne.is_expandable() and not ligne.get_expanded():
+                ligne.set_expanded(True)
+        resultat = self.selectionner(chemin)
+        logger.debug("reveler: {}", resultat)
+        return resultat
 
     # --- glisser-déposer (#141) ---------------------------------------------
 

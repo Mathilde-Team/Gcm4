@@ -20,6 +20,12 @@ l'execution par l'appelant, comme avant ce portage) : seule leur *visibilite*
 comme pour les autres entrees.
 """
 
+from loguru import logger
+
+# Convention bibliothèque (#130) : muet à l'import, réactivé par
+# logging_config.configure_logging() (CORE_MODULES).
+logger.disable(__name__)
+
 #: Cibles possibles du clic droit sur treeServers (ancien
 #: on_tvServers_button_press_event) : "empty" = clic dans le vide (aucun
 #: pthinfo), "folder" = noeud dossier/groupe, "host" = noeud hote.
@@ -86,6 +92,7 @@ def build_folder_context_menu_layout(*, click_target):
         ValueError: Si ``click_target`` n'est pas une valeur de
             :data:`CLICK_TARGETS`.
     """
+    logger.debug("build_folder_context_menu_layout: entrée")
     if click_target not in CLICK_TARGETS:
         raise ValueError(
             f"click_target invalide : {click_target!r} (attendu parmi {CLICK_TARGETS})"
@@ -113,6 +120,7 @@ def build_folder_context_menu_layout(*, click_target):
         sections.append(section2)
 
     sections.append(["expand", "collapse"])
+    logger.debug("build_folder_context_menu_layout: {}", sections)
     return sections
 
 
@@ -136,10 +144,12 @@ def should_show_protocol_items(*, click_target):
         ValueError: Si ``click_target`` n'est pas une valeur de
             :data:`CLICK_TARGETS`.
     """
+    logger.debug("should_show_protocol_items: entrée")
     if click_target not in CLICK_TARGETS:
         raise ValueError(
             f"click_target invalide : {click_target!r} (attendu parmi {CLICK_TARGETS})"
         )
+    logger.debug("should_show_protocol_items: sortie")
     return click_target == "host"
 
 
@@ -156,4 +166,6 @@ def flatten_action_names(sections):
     Returns:
         list[str]: Noms d'action, sections concatenees dans l'ordre.
     """
+    logger.debug("flatten_action_names: entrée")
+    logger.debug("flatten_action_names: sortie")
     return [name for section in sections for name in section]

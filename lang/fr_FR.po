@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-19 12:52+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-24 10:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,70 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "Connection Manager"
+msgstr "Gestionnaire de connexions"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+msgid "Gnome Connection Manager"
+msgstr "Gnome Connection Manager"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Organize your hosts and open their connections in tabs"
+msgstr "Organisez vos hôtes et ouvrez leurs connexions dans des onglets"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "connection;remote;host;session;terminal;gcm4;"
+msgstr "connexion;distant;hôte;session;terminal;gcm4;"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+msgid "gcm4 (debug mode)"
+msgstr "gcm4 (mode debug)"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Connection protocols provided by plugins"
+msgstr "Protocoles de connexion fournis par des extensions"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: src/gcm4/ui/host_dialog.py
+msgid "Edit Host"
+msgstr "Modifier l'hôte"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Gnome Connection Manager keeps your hosts in groups and opens each connection in a tab of a single window."
+msgstr "Gnome Connection Manager range vos hôtes dans des groupes et ouvre chaque connexion dans un onglet d'une fenêtre unique."
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Groups and hosts in a searchable tree, with colors and drag and drop"
+msgstr "Groupes et hôtes dans un arbre avec recherche, couleurs et glisser-déposer"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Groups and hosts in the main window"
+msgstr "Groupes et hôtes dans la fenêtre principale"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Host passwords stored encrypted"
+msgstr "Mots de passe des hôtes enregistrés chiffrés"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Last release of the GTK3 application; the GTK4 base is not released yet."
+msgstr "Dernière version de l'application GTK3 ; la base GTK4 n'est pas encore publiée."
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Open tabs restored at the next start"
+msgstr "Onglets ouverts restaurés au démarrage suivant"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
+msgid "Settings"
+msgstr "Paramètres"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
+msgstr "L'application de base ne fournit aucun protocole par elle-même : les connexions ont besoin de l'extension correspondante."
 
 #: gnome_connection_manager.py
 msgid "+ Add"
@@ -36,7 +100,7 @@ msgstr ""
 msgid "<span size=\"smaller\">CTRL+UP/CTRL+DOWN for history</span>"
 msgstr "<span size=\"smaller\">CTRL+HAUT/CTRL+BAS pour l'historique</span>"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid ""
 "<span size='smaller'>Use ##D=milliseconds to add a delay.\n"
 "Ex: ##D=1000</span>"
@@ -57,11 +121,11 @@ msgstr "Une nouvelle version est disponible : https://github.com/MathildeDec/gno
 msgid "A simple ssh connection manager for gnome"
 msgstr "Un gestionnaire de connexions SSH simple pour Gnome"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "ASCII Backspace \t[Ctrl+H 0x08]"
 msgstr "Retour arrière ASCII \t[Ctrl+H 0x08]"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "ASCII Delete    \t[Ctrl+? 0x7F]"
 msgstr "Suppr ASCII    \t[Ctrl+? 0x7F]"
 
@@ -89,7 +153,7 @@ msgstr "Après la déconnexion"
 msgid "Always"
 msgstr "Toujours"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Automatic"
 msgstr "Automatique"
 
@@ -97,7 +161,7 @@ msgstr "Automatique"
 msgid "Background color:"
 msgstr "Couleur de fond :"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Backspace:"
 msgstr "Retour arrière :"
 
@@ -137,9 +201,10 @@ msgstr "Impossible d'ouvrir le fichier de journal en écriture"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py src/gcm4/ui/contexte.py
+#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -151,7 +216,7 @@ msgstr "Vérifier les mises à jour"
 msgid "Choose Group Color"
 msgstr ""
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Circle around tabs when going to the previous/next tab"
 msgstr "Boucler entre les onglets lors du passage à l'onglet précédent/suivant"
 
@@ -159,11 +224,13 @@ msgstr "Boucler entre les onglets lors du passage à l'onglet précédent/suivan
 msgid "Clear selection"
 msgstr "Effacer la sélection"
 
-#: gnome_connection_manager.py ssh_config_editor.py ssh_key_manager_dialog.py
+#: gnome_connection_manager.py src/gcm4/ui/echange.py
+#: src/gcm4/ui/main_window.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Close"
 msgstr "Fermer"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py widgets.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/main_window.py widgets.py
 msgid "Close console"
 msgstr "Fermer la console"
 
@@ -185,11 +252,11 @@ msgstr "Couleurs"
 msgid "Command"
 msgstr "Commande"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Confirm on close console"
 msgstr "Confirmer à la fermeture de la console"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Confirm on close console with middle click"
 msgstr "Confirmer à la fermeture de la console avec le clic du milieu"
 
@@ -243,11 +310,11 @@ msgstr "Bits de données"
 msgid "Default colors"
 msgstr "Couleurs par défaut"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Delete Sequence \t[@7]"
 msgstr "Séquence Suppr \t[@7]"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Delete:"
 msgstr "Supprimer :"
 
@@ -255,7 +322,7 @@ msgstr "Supprimer :"
 msgid "Description"
 msgstr "Description"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Disable alternating stripes in hosts window"
 msgstr "Désactiver les bandes alternées dans la fenêtre des hôtes"
 
@@ -275,7 +342,7 @@ msgstr "Voulez-vous vraiment supprimer tous les hôtes du groupe"
 msgid "Do you really want to remove host"
 msgstr "Voulez-vous vraiment supprimer l'hôte"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Dynamic title"
 msgstr "Titre dynamique"
 
@@ -283,10 +350,6 @@ msgstr "Titre dynamique"
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Edit"
 msgstr "Modifier"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Edit Host"
-msgstr "Modifier l'hôte"
 
 #: gnome_connection_manager.py
 msgid "Enable Logging"
@@ -320,11 +383,9 @@ msgstr ""
 msgid "Export Servers"
 msgstr "Exporter des serveurs"
 
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Export servers"
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Export servers"
-msgstr "_Exporter des serveurs"
+msgstr "Exporter des serveurs"
 
 #: gnome_connection_manager.py plugins/plugin_export_csv.py
 msgid "Export to CSV"
@@ -376,10 +437,6 @@ msgstr ""
 msgid "General"
 msgstr "Général"
 
-#: gnome_connection_manager.py
-msgid "Gnome Connection Manager"
-msgstr "Gnome Connection Manager"
-
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
@@ -419,11 +476,9 @@ msgstr "Nom d'hôte"
 msgid "Import Servers"
 msgstr "Importer des serveurs"
 
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Import servers"
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Import servers"
-msgstr "_Importer des serveurs"
+msgstr "Importer des serveurs"
 
 #: gnome_connection_manager.py
 #, fuzzy
@@ -650,7 +705,7 @@ msgstr "Sélectionner une police"
 msgid "Select foreground color"
 msgstr "Sélectionner la couleur de premier plan"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "Send commands after login"
 msgstr "Envoyer des commandes après connexion"
 
@@ -671,10 +726,6 @@ msgstr "La liste des serveurs sera écrasée, continuer ?"
 #| msgid "_Servers"
 msgid "Servers"
 msgstr "_Serveurs"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/preferences.py
-msgid "Settings"
-msgstr "Paramètres"
 
 #: gnome_connection_manager.py
 #, python-brace-format
@@ -710,11 +761,11 @@ msgstr "Arrêt"
 msgid "System"
 msgstr "Système"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/terminal.py
 msgid "TTY Erase"
 msgstr "Effacement TTY"
 
@@ -738,7 +789,7 @@ msgstr ""
 msgid "Tip: use #P=password to send a password without keeping it in clear text in the command history"
 msgstr ""
 
-#: gnome_connection_manager.py
+#: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Title"
 msgstr "Titre"
 
@@ -869,6 +920,11 @@ msgstr ""
 #: key_picker_dialog.py
 msgid "⚙ Generate…"
 msgstr ""
+
+#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#, python-brace-format
+msgid "{program} not found"
+msgstr "{program} introuvable"
 
 #: plugins/plugin_export_csv.py
 #, python-brace-format
@@ -1441,7 +1497,7 @@ msgid "IPMI (SOL)"
 msgstr ""
 
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py
+#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "Session terminée"
 
@@ -1779,9 +1835,9 @@ msgstr ""
 msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
+#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
 msgid "Authentication failed"
-msgstr ""
+msgstr "Échec de l'authentification"
 
 #: plugins/plugin_rdp.py
 msgid "Custom…"
@@ -2659,6 +2715,208 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/sftp/core.py
+msgid "B"
+msgstr "o"
+
+#: plugins/sftp/core.py
+msgid "GiB"
+msgstr "Gio"
+
+#: plugins/sftp/core.py
+msgid "KiB"
+msgstr "Kio"
+
+#: plugins/sftp/core.py
+msgid "MiB"
+msgstr "Mio"
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled"
+msgstr "Authentification annulée"
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled."
+msgstr "Authentification annulée."
+
+#: plugins/sftp/gtk4.py
+msgid "Busy, try again when the current operation is finished"
+msgstr "Occupé, réessayez à la fin de l'opération en cours"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Connecting to {host}…"
+msgstr "Connexion à {host}…"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Connection failed: {error}"
+msgstr "Échec de la connexion : {error}"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Create"
+msgstr "Créer"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Creating {name}…"
+msgstr "Création de {name}…"
+
+#: plugins/sftp/gtk4.py
+msgid "Delete"
+msgstr "Supprimer"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Delete the empty folder {name}?"
+msgstr "Supprimer le dossier vide {name} ?"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Delete {name}?"
+msgstr "Supprimer {name} ?"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Deleting {name}…"
+msgstr "Suppression de {name}…"
+
+#: plugins/sftp/gtk4.py
+msgid "Download"
+msgstr "Télécharger"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloaded to {path}"
+msgstr "Téléchargé dans {path}"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloading {name}…"
+msgstr "Téléchargement de {name}…"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Error: {error}"
+msgstr "Erreur : {error}"
+
+#: plugins/sftp/gtk4.py
+msgid "File not found"
+msgstr "Fichier introuvable"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Folders not uploaded: {names}"
+msgstr "Dossiers non envoyés : {names}"
+
+#: plugins/sftp/gtk4.py
+msgid "Home folder"
+msgstr "Dossier d'accueil"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Host key of {host} has changed (fingerprint {fingerprint}). Connection refused: check the server, then remove the old key from {file}."
+msgstr "La clé d'hôte de {host} a changé (empreinte {fingerprint}). Connexion refusée : vérifiez le serveur, puis retirez l'ancienne clé de {file}."
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Invalid name: {name}"
+msgstr "Nom invalide : {name}"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Listing {path}…"
+msgstr "Lecture de {path}…"
+
+#: plugins/sftp/gtk4.py
+msgid "New folder"
+msgstr "Nouveau dossier"
+
+#: plugins/sftp/gtk4.py
+msgid "New folder name:"
+msgstr "Nom du nouveau dossier :"
+
+#: plugins/sftp/gtk4.py
+msgid "No address"
+msgstr "Aucune adresse"
+
+#: plugins/sftp/gtk4.py
+msgid "Nothing to upload (folders are not uploaded)"
+msgstr "Rien à envoyer (les dossiers ne sont pas envoyés)"
+
+#: plugins/sftp/gtk4.py
+msgid "Parent folder"
+msgstr "Dossier parent"
+
+#: plugins/sftp/gtk4.py
+msgid "Private key file:"
+msgstr "Fichier de clé privée :"
+
+#: plugins/sftp/gtk4.py
+msgid "Refresh"
+msgstr "Actualiser"
+
+#: plugins/sftp/gtk4.py
+msgid "Remote folder"
+msgstr "Dossier distant"
+
+#: plugins/sftp/gtk4.py
+msgid "Remote folder:"
+msgstr "Dossier distant :"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Rename"
+msgstr "Renommer"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Rename {name} to:"
+msgstr "Renommer {name} en :"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Renaming {name}…"
+msgstr "Renommage de {name}…"
+
+#: plugins/sftp/gtk4.py
+msgid "Retry"
+msgstr "Réessayer"
+
+#: plugins/sftp/gtk4.py
+msgid "SSH agent and ~/.ssh keys"
+msgstr "Agent SSH et clés de ~/.ssh"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid ""
+"The authenticity of host {host} can't be established.\n"
+"Key fingerprint is {fingerprint}. Trust it and add it to {file}?"
+msgstr ""
+"L'authenticité de l'hôte {host} ne peut pas être établie.\n"
+"L'empreinte de la clé est {fingerprint}. Lui faire confiance et l'ajouter à {file} ?"
+
+#: plugins/sftp/gtk4.py
+msgid "Trust and connect"
+msgstr "Faire confiance et se connecter"
+
+#: plugins/sftp/gtk4.py
+msgid "Unknown host key"
+msgstr "Clé d'hôte inconnue"
+
+#: plugins/sftp/gtk4.py
+msgid "Upload files"
+msgstr "Envoyer des fichiers"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Uploading {count} file(s)…"
+msgstr "Envoi de {count} fichier(s)…"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "{path}: {count} items"
+msgstr "{path} : {count} éléments"
+
 #: src/gcm4/app.py
 msgid "The old configuration is intact: fix the problem (permissions, disk space), then start gcm4 again."
 msgstr "L'ancienne configuration est intacte : corrigez le problème (droits, espace disque), puis relancez gcm4."
@@ -2705,6 +2963,72 @@ msgstr "Impossible de lire le fichier de configuration %s : %s"
 #, python-format
 msgid "Unable to write the configuration file %s: %s"
 msgstr "Impossible d'écrire le fichier de configuration %s : %s"
+
+#: src/gcm4/core/echange_cli.py src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Hosts exported: {count} ({file})"
+msgstr "Hôtes exportés : {count} ({file})"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: the host name is missing"
+msgstr "%s : le nom de l'hôte est absent"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: too many cells"
+msgstr "%s : trop de cellules"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "%s: unexpected value for %s"
+msgstr "%s : valeur inattendue pour %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "The file %s is not a valid host export: %s"
+msgstr "Le fichier %s n'est pas un export d'hôtes valide : %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "Unable to read the file %s: %s"
+msgstr "Impossible de lire le fichier %s : %s"
+
+#: src/gcm4/core/exchange.py src/gcm4/core/sauvegarde.py
+#, python-format
+msgid "Unable to write the file %s: %s"
+msgstr "Impossible d'écrire le fichier %s : %s"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "entry %d"
+msgstr "entrée %d"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "line %d"
+msgstr "ligne %d"
+
+#: src/gcm4/core/exchange.py
+#, python-format
+msgid "the column %s is missing"
+msgstr "la colonne %s est absente"
+
+#: src/gcm4/core/exchange.py
+msgid "unsupported format or version"
+msgstr "format ou version non pris en charge"
+
+#: src/gcm4/core/menu.py
+msgid "Next tab"
+msgstr "Onglet suivant"
+
+#: src/gcm4/core/menu.py
+msgid "Previous tab"
+msgstr "Onglet précédent"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/echange.py
+msgid "Save configuration as…"
+msgstr "Enregistrer la configuration sous…"
 
 #: src/gcm4/core/menu.py
 msgid "Search"
@@ -2797,6 +3121,25 @@ msgstr "Le protocole « {protocol} » est déjà géré par « {other} »."
 msgid "{file} does not define PLUGIN."
 msgstr "{file} ne définit pas PLUGIN."
 
+#: src/gcm4/core/sauvegarde.py
+msgid "Choose a folder other than the configuration folder."
+msgstr "Choisissez un autre dossier que celui de la configuration."
+
+#: src/gcm4/core/sauvegarde.py
+#, python-brace-format
+msgid "Import of {file}: added {added}, replaced {replaced}, renamed {renamed}, ignored {ignored}, new groups {groups}"
+msgstr "Import de {file} : ajoutés {added}, remplacés {replaced}, renommés {renamed}, ignorés {ignored}, nouveaux groupes {groups}"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-format
+msgid "No configuration to save yet: %s"
+msgstr "Aucune configuration à enregistrer pour l'instant : %s"
+
+#: src/gcm4/core/sauvegarde.py
+#, python-brace-format
+msgid "{folder} already contains {file}."
+msgstr "{folder} contient déjà {file}."
+
 #: src/gcm4/core/validation.py
 #, python-brace-format
 msgid "A host named «{name}» already exists in this group."
@@ -2819,10 +3162,65 @@ msgstr "Le port doit être un nombre compris entre {min} et {max}."
 msgid "The name must not contain «/»."
 msgstr "Le nom ne doit pas contenir « / »."
 
+#: src/gcm4/ui/application.py
+#, python-brace-format
+msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
+msgstr "gcm4 est déjà lancé avec un autre dossier de configuration : fermez-le pour utiliser {requested}."
+
 #: src/gcm4/ui/contexte.py
 #, python-brace-format
 msgid "Password for {target}"
 msgstr "Mot de passe pour {target}"
+
+#: src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Configuration saved to {folder}"
+msgstr "Configuration enregistrée dans {folder}"
+
+#: src/gcm4/ui/echange.py
+msgid "Export"
+msgstr "Exporter"
+
+#: src/gcm4/ui/echange.py
+#, python-brace-format
+msgid "Hosts in {file}: {count}, already present: {existing}"
+msgstr "Hôtes dans {file} : {count}, déjà présents : {existing}"
+
+#: src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "Si un hôte existe déjà :"
+
+#: src/gcm4/ui/echange.py
+msgid "Import"
+msgstr "Importer"
+
+#: src/gcm4/ui/echange.py
+msgid "Include passwords (in clear text)"
+msgstr "Inclure les mots de passe (en clair)"
+
+#: src/gcm4/ui/echange.py
+msgid "JSON or CSV file, chosen by its extension."
+msgstr "Fichier JSON ou CSV, choisi d'après son extension."
+
+#: src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "Garder l'hôte existant"
+
+#: src/gcm4/ui/echange.py
+msgid "Passwords will be written in clear text: keep this file safe."
+msgstr "Les mots de passe seront écrits en clair : conservez ce fichier en lieu sûr."
+
+#: src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "Renommer l'hôte importé"
+
+#: src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "Remplacer l'hôte existant"
+
+#: src/gcm4/ui/echange.py
+msgid "This file contains passwords in clear text."
+msgstr "Ce fichier contient des mots de passe en clair."
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Background color"
@@ -2932,6 +3330,11 @@ msgid "Home"
 msgstr "Accueil"
 
 #: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Host not found: {hosts}"
+msgstr "Hôte introuvable : {hosts}"
+
+#: src/gcm4/ui/main_window.py
 msgid "Hosts and groups will appear in the left panel."
 msgstr "Les hôtes et les groupes apparaîtront dans le panneau de gauche."
 
@@ -2977,10 +3380,6 @@ msgid "Changes not saved: {error}"
 msgstr "Modifications non enregistrées : {error}"
 
 #: src/gcm4/ui/menu_arbre.py
-msgid "Create"
-msgstr "Créer"
-
-#: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
 msgstr "Couleur du groupe"
 
@@ -3007,10 +3406,6 @@ msgstr "Supprimer le groupe « {name} » ?"
 #, python-brace-format
 msgid "Remove host «{name}»?"
 msgstr "Supprimer l'hôte « {name} » ?"
-
-#: src/gcm4/ui/menu_arbre.py
-msgid "Rename"
-msgstr "Renommer"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
@@ -3042,8 +3437,16 @@ msgid "Appearance"
 msgstr "Apparence"
 
 #: src/gcm4/ui/preferences.py
+msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
+msgstr "Cliquez sur un raccourci pour le modifier, ou appuyez sur Retour arrière dans la fenêtre de saisie pour le désactiver."
+
+#: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "Niveau de journal par défaut"
+
+#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "Désactivé"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3108,6 +3511,36 @@ msgstr "Utiliser la police du système"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Version {version}"
+
+#: src/gcm4/ui/raccourcis.py
+#, python-brace-format
+msgid "Already used by “{action}”."
+msgstr "Déjà utilisé par « {action} »."
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Press a key combination"
+msgstr "Appuyez sur une combinaison de touches"
+
+#: src/gcm4/ui/raccourcis.py
+#, python-brace-format
+msgid "Press the new shortcut for “{action}”, or Backspace to disable it."
+msgstr "Appuyez sur le nouveau raccourci pour « {action} », ou sur Retour arrière pour le désactiver."
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Reset to default"
+msgstr "Rétablir la valeur par défaut"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Set"
+msgstr "Définir"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Set Shortcut"
+msgstr "Définir le raccourci"
+
+#: src/gcm4/ui/raccourcis.py
+msgid "Use Ctrl, Alt or Super with this key."
+msgstr "Utilisez Ctrl, Alt ou Super avec cette touche."
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

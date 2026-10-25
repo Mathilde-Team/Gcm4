@@ -32,6 +32,12 @@ figurent, comment formater leur libelle) est extraite ici — voir
 :func:`select_command_shortcuts` et :func:`format_command_label`.
 """
 
+from loguru import logger
+
+# Convention bibliothèque (#130) : muet à l'import, réactivé par
+# logging_config.configure_logging() (CORE_MODULES).
+logger.disable(__name__)
+
 # Association nom d'action (Gio.SimpleActionGroup, prefixe "popupmenu.") ->
 # code d'action historique attendu par Wmain.on_popupmenu
 # (gnome_connection_manager.py) — ces codes existaient deja du temps du
@@ -117,6 +123,8 @@ def compute_enabled_actions(*, has_selection, multi_pane, has_split_notebook):
         dict[str, bool]: Sensibilite a appliquer a chacune des quatre
             actions de :data:`VARIABLE_SENSITIVITY_ACTIONS`.
     """
+    logger.debug("compute_enabled_actions: entrée")
+    logger.debug("compute_enabled_actions: sortie")
     return {
         "copy": bool(has_selection),
         "split-h": bool(multi_pane),
@@ -146,6 +154,8 @@ def select_command_shortcuts(shortcuts):
             l'ordre de ``shortcuts``, pour les seules entrees a valeur
             simple.
     """
+    logger.debug("select_command_shortcuts: entrée")
+    logger.debug("select_command_shortcuts: sortie")
     return [(key, value) for key, value in shortcuts.items() if not isinstance(value, list)]
 
 
@@ -177,6 +187,8 @@ def format_command_label(shortcut, command, max_command_length=30):
     Returns:
         str: Libelle ``"[shortcut] commande tronquee"``.
     """
+    logger.debug("format_command_label: entrée")
+    logger.debug("format_command_label: sortie")
     return f"[{shortcut}] {command[:max_command_length]}"
 
 
@@ -197,4 +209,6 @@ def flatten_action_names(sections):
     Returns:
         list[str]: Noms d'action, sections concatenees dans l'ordre.
     """
+    logger.debug("flatten_action_names: entrée")
+    logger.debug("flatten_action_names: sortie")
     return [name for section in sections for name in section]

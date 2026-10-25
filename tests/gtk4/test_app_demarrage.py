@@ -64,6 +64,36 @@ def test_a_propos(application, pomper):
     pomper()
 
 
+def test_identite_de_bureau(application):
+    """Nom de programme = identifiant : la fenêtre se rattache au lanceur (#155).
+
+    Le nom de programme donne la classe de fenêtre (WM_CLASS sous X11,
+    app_id sous Wayland) que le lanceur annonce par StartupWMClass ; sans
+    GLib.set_prgname, c'était « python3 ». La boîte À propos reprend nom et
+    icône du lanceur.
+    """
+    from gi.repository import GLib
+
+    from gcm4.ui.application import APPLICATION_ID, NOM_AFFICHE
+
+    assert GLib.get_prgname() == APPLICATION_ID
+    assert GLib.get_application_name() == NOM_AFFICHE
+    boite = application.boite_a_propos()
+    assert boite.get_application_name() == NOM_AFFICHE
+    assert boite.get_application_icon() == APPLICATION_ID
+
+
+def test_icone_des_fenetres(application):
+    """Les fenêtres portent l'icône du lanceur, trouvée depuis les sources (#155)."""
+    from gi.repository import Gdk
+
+    from gcm4.ui.application import APPLICATION_ID
+
+    assert Gtk.Window.get_default_icon_name() == APPLICATION_ID
+    theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
+    assert theme.has_icon(APPLICATION_ID)
+
+
 def test_quitter_enregistre_l_etat_sans_perdre_le_reste(application, tmp_path, pomper):
     """Ctrl+Q enregistre la géométrie ; les autres sections de gcm4.conf restent."""
     conf = tmp_path / "gcm4.conf"

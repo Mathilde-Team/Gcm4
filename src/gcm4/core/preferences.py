@@ -28,7 +28,7 @@ from dataclasses import dataclass
 
 from loguru import logger
 
-from gcm4.core import menu, theme, window_state
+from gcm4.core import comportement_onglets, menu, theme, window_state
 from gcm4.core.config import SECTION_OPTIONS, update_keys
 from gcm4.core.i18n import N_
 
@@ -78,15 +78,15 @@ INVENTAIRE: tuple[OptionWconfig, ...] = (
         "AUTO_COPY_SELECTION", "options/auto-copy-selection", TERMINAL, "plugin terminal"
     ),
     OptionWconfig(
-        "CONFIRM_ON_CLOSE_TAB", "options/confirm-close-tab", BASE, "onglets, issue de suivi"
+        "CONFIRM_ON_CLOSE_TAB", "options/confirm-close-tab", BASE, "page Général (#247)"
     ),
     OptionWconfig(
         "CONFIRM_ON_CLOSE_TAB_MIDDLE",
         "options/confirm-close-tab-middle",
         BASE,
-        "onglets, issue de suivi",
+        "page Général (#247)",
     ),
-    OptionWconfig("CYCLE_TABS", "options/cycle-tabs", BASE, "onglets, issue de suivi"),
+    OptionWconfig("CYCLE_TABS", "options/cycle-tabs", BASE, "page Général (#247)"),
     OptionWconfig("DISABLE_SHORTCUTS", "options/disable-shortcuts", TERMINAL, "plugin terminal"),
     OptionWconfig(
         "DISABLE_NOTIFICATIONS", "options/disable-notifications", TERMINAL, "plugin terminal"
@@ -101,12 +101,10 @@ INVENTAIRE: tuple[OptionWconfig, ...] = (
         "DISABLE_HOSTS_STRIPES",
         "options/disable-hosts-stripes",
         BASE,
-        "page Apparence, issue de suivi",
+        "page Apparence (#247)",
     ),
-    OptionWconfig(
-        "UPDATE_TITLE", "options/update-title", BASE, "titre de fenêtre, issue de suivi"
-    ),
-    OptionWconfig("APP_TITLE", "options/app-title", BASE, "titre de fenêtre, issue de suivi"),
+    OptionWconfig("UPDATE_TITLE", "options/update-title", BASE, "page Apparence (#247)"),
+    OptionWconfig("APP_TITLE", "options/app-title", BASE, "page Apparence (#247)"),
     # Onglet « Colors »
     OptionWconfig("FONT_COLOR", "options/font-color", TERMINAL, "plugin terminal"),
     OptionWconfig("BACK_COLOR", "options/back-color", TERMINAL, "plugin terminal"),
@@ -118,7 +116,7 @@ INVENTAIRE: tuple[OptionWconfig, ...] = (
         "shortcuts",
         "shortcuts/*",
         BASE,
-        "page Raccourcis (#148, lecture seule ; édition : issue de suivi)",
+        "page Raccourcis (#148) ; fenêtre modifiable (#247) ; terminal : plugin terminal",
     ),
     OptionWconfig("custom commands", "shortcuts/*", TERMINAL, "plugin terminal"),
     # Onglets ajoutés par les plugins et modèles série
@@ -144,6 +142,13 @@ class Preferences:
     show_panel: bool = True
     tree_font: str = ""
     log_level: str = "INFO"
+    confirm_close_tab: bool = True
+    confirm_close_tab_middle: bool = True
+    cycle_tabs: bool = True
+    disable_hosts_stripes: bool = False
+    update_title: bool = False
+    #: Vide = nom de l'application (GTK3 écrit ce nom quand le titre est vide).
+    app_title: str = ""
 
 
 #: Préférence → (section, clé) INI. ``theme`` passe par :func:`theme.save_theme`.
@@ -155,7 +160,26 @@ CLES: dict[str, tuple[str, str]] = {
     "show_panel": (window_state.SECTION, window_state.CLE_PANNEAU_VISIBLE),
     "tree_font": (window_state.SECTION, CLE_POLICE_ARBRE),
     "log_level": (SECTION_OPTIONS, "log-level"),
+    "confirm_close_tab": (SECTION_OPTIONS, "confirm-close-tab"),
+    "confirm_close_tab_middle": (SECTION_OPTIONS, "confirm-close-tab-middle"),
+    "cycle_tabs": (SECTION_OPTIONS, "cycle-tabs"),
+    "disable_hosts_stripes": (SECTION_OPTIONS, "disable-hosts-stripes"),
+    "update_title": (SECTION_OPTIONS, "update-title"),
+    "app_title": (SECTION_OPTIONS, "app-title"),
 }
+
+#: Préférences booléennes lues par :func:`load_preferences`.
+BOOLEENS = (
+    "confirm_exit",
+    "check_updates",
+    "restore_open_tabs",
+    "show_panel",
+    "confirm_close_tab",
+    "confirm_close_tab_middle",
+    "cycle_tabs",
+    "disable_hosts_stripes",
+    "update_title",
+)
 
 #: Niveaux proposés dans Préférences > Journalisation (#130, #148).
 NIVEAUX_JOURNAL = ("TRACE", "DEBUG", "INFO", "WARNING", "ERROR")
@@ -180,7 +204,7 @@ def load_preferences(config_file: str) -> Preferences:
     logger.debug("load_preferences: {}", config_file)
     cp = window_state._lire(config_file)
     prefs = Preferences()
-    for nom in ("confirm_exit", "check_updates", "restore_open_tabs", "show_panel"):
+    for nom in BOOLEENS:
         section, cle = CLES[nom]
         setattr(prefs, nom, _booleen(cp, section, cle, getattr(prefs, nom)))
     prefs.theme = theme.load_theme(config_file)
@@ -192,6 +216,10 @@ def load_preferences(config_file: str) -> Preferences:
         prefs.log_level = niveau
     else:
         logger.warning("load_preferences: log-level {!r} inconnu, INFO", niveau)
+    section, cle = CLES["app_title"]
+    titre = cp.get(section, cle, fallback="").strip()
+    # GTK3 écrit le nom de l'application quand le titre est vide : même sens.
+    prefs.app_title = "" if titre == comportement_onglets.NOM_APPLICATION else titre
     logger.debug("load_preferences: {}", prefs)
     return prefs
 
@@ -241,6 +269,17 @@ def niveau_journal(
     return niveau, "preferences"
 
 
+def libelles_actions() -> dict[str, str]:
+    """Action du menu principal -> libellé (msgid) ; action sans entrée : son nom."""
+    logger.debug("libelles_actions: entrée")
+    libelles = {
+        e.action: e.libelle for sm in menu.MENU_PRINCIPAL for sec in sm.sections for e in sec
+    }
+    resultat = {action: libelles.get(action, action) for action in menu.RACCOURCIS}
+    logger.debug("libelles_actions: {}", len(resultat))
+    return resultat
+
+
 @dataclass(frozen=True)
 class Raccourci:
     """Raccourci clavier de la base, affiché dans Préférences > Raccourcis."""
@@ -251,6 +290,8 @@ class Raccourci:
     libelle: str
     #: :data:`FENETRE` ou :data:`ARBRE`.
     portee: str
+    #: Action modifiable (``win.next-tab``…) ; ``None`` : raccourci de l'arbre, fixe.
+    action: str | None = None
 
 
 FENETRE = "fenetre"
@@ -265,15 +306,19 @@ RACCOURCIS_ARBRE: tuple[tuple[str, str], ...] = (
 )
 
 
-def raccourcis() -> list[Raccourci]:
-    """Raccourcis de la base : ceux du menu principal puis ceux de l'arbre."""
+def raccourcis(effectifs: Mapping[str, tuple[str, ...]] | None = None) -> list[Raccourci]:
+    """Raccourcis de la base : ceux du menu principal puis ceux de l'arbre.
+
+    Args:
+        effectifs (Mapping[str, tuple[str, ...]] | None): Accélérateurs posés
+            (``gcm4.core.raccourcis.effectifs``) ; ``None`` : valeurs par défaut.
+    """
     logger.debug("raccourcis: entrée")
-    libelles = {
-        e.action: e.libelle for sm in menu.MENU_PRINCIPAL for sec in sm.sections for e in sec
-    }
+    libelles = libelles_actions()
+    poses = menu.RACCOURCIS if effectifs is None else effectifs
     resultat = [
-        Raccourci(touches, libelles.get(action, action), FENETRE)
-        for action, touches in menu.RACCOURCIS.items()
+        Raccourci(tuple(poses.get(action, defaut)), libelles[action], FENETRE, action)
+        for action, defaut in menu.RACCOURCIS.items()
     ]
     resultat += [
         Raccourci(tuple(declencheur.split("|")), libelle, ARBRE)

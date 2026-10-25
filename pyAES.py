@@ -17,6 +17,8 @@ import io
 from copy import copy
 from random import randint
 
+from loguru import logger
+
 # The actual Rijndael specification includes variable block size, but
 # AES uses a fixed block size of 16 bytes (128 bits)
 # Additionally, AES allows for a variable key size, though this implementation
@@ -903,6 +905,7 @@ def expandKey(cipherKey):
     list
         A 240-byte expanded key for all 14 AES rounds plus the initial round.
     """
+    logger.debug("expandKey: entrée")
     cipherKeySize = len(cipherKey)
     assert cipherKeySize == 32
 
@@ -944,6 +947,7 @@ def expandKey(cipherKey):
             expandedKey.append((expandedKey[currentSize - cipherKeySize]) ^ (t[i]))
             currentSize += 1
 
+    logger.debug("expandKey: sortie")
     return expandedKey
 
 
@@ -1215,6 +1219,7 @@ def passwordToKey(password):
     list
         A 32-byte list representing the derived AES key.
     """
+    logger.debug("passwordToKey: entrée")
     sha256 = hashlib.sha256()
     # En Python 3, sha256.update() attend des bytes
     if isinstance(password, str):
@@ -1223,6 +1228,7 @@ def passwordToKey(password):
     key = []
     for c in sha256.digest():
         key.append(c)
+    logger.debug("passwordToKey: sortie")
     return key
 
 
@@ -1246,6 +1252,7 @@ def aesMain(state, expandedKey, numRounds=14):
     None
         Modifies the state array in-place to contain ciphertext.
     """
+    logger.debug("aesMain: entrée")
     roundKey = createRoundKey(expandedKey, 0)
     addRoundKey(state, roundKey)
     for i in range(1, numRounds):
@@ -1256,6 +1263,7 @@ def aesMain(state, expandedKey, numRounds=14):
     subBytes(state)
     shiftRows(state)
     addRoundKey(state, roundKey)
+    logger.debug("aesMain: fin")
 
 
 def aesMainInv(state, expandedKey, numRounds=14):
@@ -1280,6 +1288,7 @@ def aesMainInv(state, expandedKey, numRounds=14):
         Modifies the state array in-place to contain plaintext.
     """
     # create roundKey for "last" round since we're going in reverse
+    logger.debug("aesMainInv: entrée")
     roundKey = createRoundKey(expandedKey, numRounds)
     # addRoundKey is the same function for inverse since it uses XOR
     addRoundKey(state, roundKey)
@@ -1291,6 +1300,7 @@ def aesMainInv(state, expandedKey, numRounds=14):
     # last round - leave out the mixColumns transformation
     roundKey = createRoundKey(expandedKey, 0)
     addRoundKey(state, roundKey)
+    logger.debug("aesMainInv: fin")
 
 
 def aesEncrypt(plaintext, key):
@@ -1308,9 +1318,11 @@ def aesEncrypt(plaintext, key):
     list
         A 16-byte ciphertext block.
     """
+    logger.debug("aesEncrypt: entrée")
     block = copy(plaintext)
     expandedKey = expandKey(key)
     aesMain(block, expandedKey)
+    logger.debug("aesEncrypt: sortie")
     return block
 
 
@@ -1329,9 +1341,11 @@ def aesDecrypt(ciphertext, key):
     list
         A 16-byte plaintext block.
     """
+    logger.debug("aesDecrypt: entrée")
     block = copy(ciphertext)
     expandedKey = expandKey(key)
     aesMainInv(block, expandedKey)
+    logger.debug("aesDecrypt: sortie")
     return block
 
 
@@ -1350,9 +1364,11 @@ def getBlock(fp):
     bytes
         A 16-byte block (may be padded with null bytes).
     """
+    logger.debug("getBlock: entrée")
     raw = fp.read(16)
     # reached end of file
     if len(raw) == 0:
+        logger.debug("getBlock: sortie")
         return b""
 
     # En Python 3, itérer sur bytes donne directement des int
@@ -1365,6 +1381,7 @@ def getBlock(fp):
         while len(block) < 16:
             block.append(padChar)
 
+    logger.debug("getBlock: sortie")
     return block
 
 
@@ -1387,6 +1404,7 @@ def encrypt(text, password):
     str
         The base64-encoded ciphertext as an ASCII string.
     """
+    logger.debug("encrypt: entrée")
     ciphertext = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     # Initialization Vector
@@ -1443,6 +1461,7 @@ def encrypt(text, password):
     s = base64.b64encode(outfile.getvalue())
     outfile.close()
     # Retourne une str (comme en Python 2)
+    logger.debug("encrypt: sortie")
     return s.decode("ascii")
 
 
@@ -1465,6 +1484,7 @@ def decrypt(text, password):
     str
         The decrypted plaintext as a UTF-8 string.
     """
+    logger.debug("decrypt: entrée")
     plaintext = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     # convert password to AES 256-bit key
@@ -1517,4 +1537,5 @@ def decrypt(text, password):
     s = outfile.getvalue()
     outfile.close()
     # Retourne une str (comme en Python 2)
+    logger.debug("decrypt: sortie")
     return s.decode("utf-8", errors="replace")

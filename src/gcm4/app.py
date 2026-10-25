@@ -15,13 +15,16 @@ from loguru import logger
 
 import gcm4_core
 import logging_config
-from gcm4.core import chemins, cli, i18n, preferences
+from gcm4.core import chemins, cli, echange_cli, i18n, preferences
 from gcm4.core.i18n import _
 
 # Paquets système de PyGObject, GTK4 et libadwaita (D1 de #118).
+# Fedora : le typelib cairo-1.0, exigé par celui de GTK 4, est dans
+# gobject-introspection, que ni gtk4 ni python3-gobject n'installent
+# (constaté sur Fedora 44, #157).
 PAQUETS_GTK = {
     "debian": "python3-gi gir1.2-gtk-4.0 gir1.2-adw-1",
-    "fedora": "python3-gobject gtk4 libadwaita",
+    "fedora": "python3-gobject gobject-introspection gtk4 libadwaita",
     "arch": "python-gobject gtk4 libadwaita",
 }
 CODE_GTK_ABSENT = 3
@@ -34,7 +37,8 @@ def main(argv: list[str] | None = None) -> int:
     # Journalisation configurée avant tout : niveau de GCM_LOG_LEVEL /
     # GCM_DEBUG, sans quoi loguru écrirait du DEBUG sur stderr par défaut.
     logging_config.configure_logging()
-    args = cli.parse_args(sys.argv[1:] if argv is None else argv)
+    argv = sys.argv[1:] if argv is None else argv
+    args = cli.parse_args(argv)
     i18n.install()
     # Avant le journal permanent (config_dir/log) : il créerait le dossier et
     # bloquerait la copie de ~/.gcm (#99).
@@ -61,6 +65,11 @@ def main(argv: list[str] | None = None) -> int:
         preference = preferences.load_preferences(chemins.fichier_conf(args.config_dir))
         niveau, _source = preferences.niveau_journal(False, preference.log_level, os.environ)
         logging_config.configure_logging(niveau or None, config_dir=args.config_dir, force=True)
+    # Import/export sans fenêtre (#154) : avant GTK, scriptable sans display.
+    code_echange = echange_cli.executer(args)
+    if code_echange is not None:
+        logger.debug("main: sortie {} (import/export)", code_echange)
+        return code_echange
     try:
         from gcm4.ui import application
     except (ImportError, ValueError) as exc:
@@ -75,6 +84,6 @@ def main(argv: list[str] | None = None) -> int:
         )
         logger.debug("main: sortie {} (GTK absent)", CODE_GTK_ABSENT)
         return CODE_GTK_ABSENT
-    code = application.run(args)
+    code = application.run(args, argv)
     logger.debug("main: sortie {}", code)
     return code

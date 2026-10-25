@@ -216,3 +216,59 @@ def test_section_options_creee_en_session_conservee(tmp_path):
     p.save_preference(str(conf), "log_level", "TRACE")
     save_config(str(conf), cfg)
     assert p.load_preferences(str(conf)).log_level == "TRACE"
+
+
+# --- #247 : onglets, rayures, titre -------------------------------------------------
+
+
+def test_options_de_base_247_lues_et_ecrites(tmp_path):
+    """Clés GTK3 de #247 relues ; écriture d'une seule clé, relue à l'identique."""
+    conf = tmp_path / "gcm4.conf"
+    conf.write_text(
+        "[options]\nconfirm-close-tab = False\nconfirm-close-tab-middle = False\n"
+        "cycle-tabs = False\ndisable-hosts-stripes = True\nupdate-title = True\n"
+        "app-title =  Production \n",
+        encoding="utf-8",
+    )
+    prefs = p.load_preferences(str(conf))
+    assert (prefs.confirm_close_tab, prefs.confirm_close_tab_middle, prefs.cycle_tabs) == (
+        False,
+        False,
+        False,
+    )
+    assert (prefs.disable_hosts_stripes, prefs.update_title, prefs.app_title) == (
+        True,
+        True,
+        "Production",
+    )
+    p.save_preference(str(conf), "cycle_tabs", True)
+    p.save_preference(str(conf), "app_title", "  Recette ")
+    relu = p.load_preferences(str(conf))
+    assert (relu.cycle_tabs, relu.app_title, relu.confirm_close_tab) == (True, "Recette", False)
+    with pytest.raises(ValueError):
+        p.save_preference(str(conf), "update_title", "oui")
+
+
+def test_titre_par_defaut_ecrit_par_gtk3(tmp_path):
+    """GTK3 écrit le nom de l'application pour un titre vide : relu comme vide."""
+    conf = tmp_path / "gcm4.conf"
+    conf.write_text("[options]\napp-title = Gnome Connection Manager\n", encoding="utf-8")
+    assert p.load_preferences(str(conf)).app_title == ""
+    assert p.Preferences().confirm_close_tab and p.Preferences().cycle_tabs  # défauts GTK3
+    assert not p.Preferences().disable_hosts_stripes and not p.Preferences().update_title
+
+
+def test_options_247_classees_page_preferences():
+    """Les six options et l'édition des raccourcis (#247) ne renvoient plus à une « issue de suivi »."""
+    options = {
+        "CONFIRM_ON_CLOSE_TAB",
+        "CONFIRM_ON_CLOSE_TAB_MIDDLE",
+        "CYCLE_TABS",
+        "DISABLE_HOSTS_STRIPES",
+        "UPDATE_TITLE",
+        "APP_TITLE",
+        "shortcuts",
+    }
+    assert {o.nom for o in p.INVENTAIRE if "#247" in o.destination} == options
+    assert all("issue de suivi" not in o.destination for o in p.INVENTAIRE if o.nom in options)
+    assert {"confirm_close_tab", "app_title"} <= set(p.CLES)

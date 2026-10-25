@@ -31,6 +31,7 @@ ajouter un protocole n'implique pas de modifier le cœur de l'application.
 | **Série** | picocom / minicom / screen | Port série RS-232/RS-485 avec **11 templates constructeurs** |
 | **Telnet** | telnet / expect | Sessions Telnet classiques |
 | **Local** | shell | Terminal local |
+| **SFTP** (gcm4) | paramiko | Navigateur de fichiers distant : navigation, téléchargement, envoi, glisser-déposer (`docs/guide/sftp.md`) |
 | **IPMI SOL** | ipmitool | Console BMC Serial-over-LAN (iLO/iDRAC/IMM…) |
 | **Web** | vue HTML5 intégrée | Visualiseur console BMC (iLO/iDRAC/IMM) ou n'importe quelle URL |
 
@@ -270,7 +271,7 @@ sudo gem install fpm
 | Commande | Description |
 |----------|-------------|
 | `make` | Génère `.deb` + `.rpm` Fedora |
-| `make deb` | `.deb` Debian / Ubuntu |
+| `make deb` | `.deb` Debian / Ubuntu de gcm4 (`build-deb/dist/`) |
 | `make rpm` | `.rpm` Fedora / RHEL / CentOS |
 | `make opensuse` | `.rpm` **openSUSE / SLES** (dépendances zypper : `typelib-1_0-Vte-2.91`) |
 | `make translate` | Compile les `.po` de `lang/LINGUAS` → `.mo` |
@@ -287,7 +288,7 @@ sudo gem install fpm
 git clone https://github.com/MathildeDec/gnome-connection-manager
 cd gnome-connection-manager
 make            # deb + rpm Fedora
-make deb        # deb seulement
+make deb        # deb de gcm4 seulement
 make opensuse   # rpm openSUSE
 make validate   # valider .po + .glade avant commit
 ```
@@ -330,6 +331,12 @@ make run-gtk4            # = uv run gcm4 ; make run-gtk4 ARGS="--debug"
   paquets à installer ; `make run-gtk4` refuse un `.venv` créé sans
   `--system-site-packages`.
 - Tests de l'interface : `GCM_TESTS_GTK4=1 xvfb-run -a uv run pytest tests/gtk4`.
+- Tests sautés (#160) : un test qui a besoin de gettext porte le marqueur
+  `requires_gettext`, ceux de `tests/gtk4` reçoivent `requires_gtk4`. Avec
+  `GCM_TESTS_EXIGES=gettext` (job Qualité, `make ci`) ou `GCM_TESTS_GTK4=1`
+  (job GTK4), un test marqué qui est sauté échoue ; sans ces variables, il
+  reste sauté et `pytest -rs` en donne la raison. `pytest -m requires_gettext`
+  ne lance que ces tests.
 
 ### Qualité du code
 

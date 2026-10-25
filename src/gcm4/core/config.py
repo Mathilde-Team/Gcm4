@@ -34,6 +34,7 @@ import os
 import re
 import shutil
 import tempfile
+from collections.abc import Mapping
 from dataclasses import dataclass, field, fields
 from typing import Protocol
 
@@ -46,6 +47,9 @@ from gcm4.core.replies import ecrire_replies, lire_replies
 SECTION_OPTIONS = "options"
 SECTION_WINDOW = "window"
 SECTION_GROUPES_VIDES = "empty_groups"
+#: Raccourcis clavier (#247) : écrits en cours de session par ``update_keys``,
+#: le fichier fait foi pour toute la section (voir ``_reprendre_cles_hors_modele``).
+SECTION_SHORTCUTS = "shortcuts"
 _SECTION_HOTE = re.compile(r"^host (\d+)$")
 
 #: Champs communs d'une section ``host N`` : (attribut de Host, clé INI).
@@ -452,11 +456,12 @@ def _ecrire_atomique(path: str, cp: configparser.RawConfigParser) -> None:
     logger.debug("_ecrire_atomique: fait")
 
 
-def update_keys(path: str, section: str, valeurs: dict[str, str]) -> None:
+def update_keys(path: str, section: str, valeurs: Mapping[str, str | None]) -> None:
     """Change quelques clés d'une section sans toucher au reste du fichier.
 
     Pour l'état de fenêtre et le thème, enregistrés hors de ``save_config`` :
     mêmes garanties (lecture stricte, écriture atomique 0600, ``.bak``).
+    Une valeur ``None`` retire la clé (absente : rien à faire).
 
     Raises:
         ConfigError: fichier illisible ou corrompu (il n'est alors **pas**
@@ -467,7 +472,10 @@ def update_keys(path: str, section: str, valeurs: dict[str, str]) -> None:
     if not cp.has_section(section):
         cp.add_section(section)
     for cle, valeur in valeurs.items():
-        cp.set(section, cle, valeur)
+        if valeur is None:
+            cp.remove_option(section, cle)
+        else:
+            cp.set(section, cle, valeur)
     _ecrire_atomique(path, cp)
     logger.debug("update_keys: fait")
 
@@ -503,7 +511,7 @@ def _cles_du_modele() -> dict[str, frozenset[str]]:
 
 
 def _reprendre_cles_hors_modele(path: str, cfg: Config) -> None:
-    """Recopie dans ``cfg.brut`` les clés hors modèle de ``[window]`` et ``[options]``.
+    """Recopie dans ``cfg.brut`` les clés hors modèle de ``[window]`` et ``[options]``, et ``[shortcuts]``.
 
     Sans cela, un enregistrement du modèle en cours de session (glisser-déposer,
     #141) remettrait le thème ou la géométrie lus au démarrage, ou effacerait
@@ -527,4 +535,13 @@ def _reprendre_cles_hors_modele(path: str, cfg: Config) -> None:
             if cle not in du_modele:
                 cfg.brut.set(section, cle, valeur)
                 reprises += 1
+    # Section entièrement écrite hors modèle : le fichier fait foi, y compris
+    # pour une clé retirée depuis le chargement (raccourci réinitialisé, #247).
+    if cfg.brut.has_section(SECTION_SHORTCUTS):
+        cfg.brut.remove_section(SECTION_SHORTCUTS)
+    if disque.has_section(SECTION_SHORTCUTS):
+        cfg.brut.add_section(SECTION_SHORTCUTS)
+        for cle, valeur in disque.items(SECTION_SHORTCUTS):
+            cfg.brut.set(SECTION_SHORTCUTS, cle, valeur)
+            reprises += 1
     logger.debug("_reprendre_cles_hors_modele: {} clé(s)", reprises)

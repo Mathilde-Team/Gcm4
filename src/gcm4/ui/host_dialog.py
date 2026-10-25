@@ -21,6 +21,7 @@ Compatibilité : uniquement des widgets de libadwaita ≥ 1.2 ;
 from __future__ import annotations
 
 from collections.abc import Callable, Sequence
+from typing import Optional
 
 from gi.repository import Adw, Gdk, Gtk
 from loguru import logger
@@ -50,7 +51,8 @@ FERMETURE_AUTO = ("", "0", "1", "2")
 COULEURS_PAR_DEFAUT = ("#ffffff", "#000000")
 
 #: ``valider(nouveau, original)`` enregistre ; vrai si c'est fait (le dialogue se ferme).
-Valider = Callable[[Host, Host | None], bool]
+#: ``Optional`` : alias évalué à l'exécution, Python 3.9 compris (Rocky 9, #223).
+Valider = Callable[[Host, Optional[Host]], bool]  # noqa: UP045 (Python 3.9)
 
 
 def _bouton_couleur() -> Gtk.Widget:

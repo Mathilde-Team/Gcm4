@@ -9,12 +9,17 @@ from __future__ import annotations
 
 import ast
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 import pytest
-import tomllib
+
+if sys.version_info >= (3, 11):
+    import tomllib
+else:  # Python 3.9 de Rocky 9 (#223) : même API, paquet tomli
+    import tomli as tomllib
 
 import gcm4
 from gcm4 import app
@@ -102,6 +107,13 @@ def test_config_relative_rendue_absolue(tmp_path, monkeypatch):
     assert cli.parse_args(["-c", "conf"]).config_dir == str(tmp_path / "conf")
 
 
+def test_config_relative_au_dossier_donne(tmp_path):
+    """``cwd`` : ``-c`` relatif résolu dans le dossier d'un deuxième lancement (#275)."""
+    args = cli.parse_args(["-c", "conf"], home="/x", cwd=str(tmp_path))
+    assert args.config_dir == str(tmp_path / "conf")
+    assert cli.parse_args(["-c", "/abs"], cwd=str(tmp_path)).config_dir == "/abs"
+
+
 def test_hotes_et_debug():
     """Les arguments ``groupe/nom`` sont conservés, ``--debug`` reconnu."""
     args = cli.parse_args(["--debug", "lab/web", "prod/db"], home="/x")
@@ -175,10 +187,62 @@ def test_aucun_gi_hors_de_ui():
 
 
 def test_require_version_uniquement_dans_ui_init():
-    """``gi.require_version`` n'apparaît que dans ``src/gcm4/ui/__init__.py``."""
+    """``gi.require_version`` n'apparaît que dans ``src/gcm4/ui/__init__.py``.
+
+    Seule exception : ``ui/terminal.py`` fixe VTE 3.91, et rien d'autre. VTE
+    ne peut pas être exigé dans ``ui/__init__.py`` : la base doit démarrer
+    là où VTE GTK4 manque (Rocky 9 et 10, #223) ; seuls les plugins terminal
+    importent ``ui/terminal.py`` (#295).
+    """
     fichiers = sorted(
         str(p.relative_to(ROOT))
         for p in SRC.rglob("*.py")
         if "require_version" in p.read_text(encoding="utf-8")
     )
-    assert fichiers == ["src/gcm4/ui/__init__.py"]
+    assert fichiers == ["src/gcm4/ui/__init__.py", "src/gcm4/ui/terminal.py"]
+    texte = (SRC / "ui" / "terminal.py").read_text(encoding="utf-8")
+    assert re.findall(r"require_version\((.*?)\)", texte) == ['"Vte", "3.91"']
+
+
+def _importe_ui_terminal(texte: str, dans_ui: bool) -> bool:
+    """Vrai si ``texte`` importe ``gcm4.ui.terminal`` (absolu, ``from gcm4.ui import terminal`` ou, dans ``ui/``, relatif)."""
+    for n in ast.walk(ast.parse(texte)):
+        if isinstance(n, ast.Import) and any(a.name == "gcm4.ui.terminal" for a in n.names):
+            return True
+        if isinstance(n, ast.ImportFrom):
+            noms = {a.name for a in n.names}
+            if n.level == 0 and n.module == "gcm4.ui.terminal":
+                return True
+            if n.level == 0 and n.module == "gcm4.ui" and "terminal" in noms:
+                return True
+            if dans_ui and n.level == 1 and (n.module == "terminal" or "terminal" in noms):
+                return True
+    return False
+
+
+def test_terminal_vte_reserve_aux_plugins():
+    """Aucun module de la base n'importe ``gcm4.ui.terminal`` (VTE GTK4 facultatif, #295)."""
+    fautes = [
+        str(p.relative_to(ROOT))
+        for p in sorted(SRC.rglob("*.py"))
+        if _importe_ui_terminal(p.read_text(encoding="utf-8"), "ui" in p.relative_to(SRC).parts)
+    ]
+    assert fautes == []
+
+
+@pytest.mark.parametrize(
+    ("texte", "dans_ui", "attendu"),
+    [
+        ("import gcm4.ui.terminal\n", False, True),
+        ("from gcm4.ui import terminal\n", False, True),
+        ("from gcm4.ui.terminal import SessionTerminal\n", False, True),
+        ("from . import terminal\n", True, True),
+        ("from .terminal import zone_options\n", True, True),
+        ("from . import terminal\n", False, False),
+        ("from gcm4.core import terminal\n", False, False),
+        ("from . import dialogues\n", True, False),
+    ],
+)
+def test_detecteur_import_ui_terminal(texte, dans_ui, attendu):
+    """Le détecteur reconnaît les formes d'import de ``gcm4.ui.terminal``, et seulement elles."""
+    assert _importe_ui_terminal(texte, dans_ui) is attendu

@@ -19,6 +19,8 @@ import unittest
 import warnings
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parent.parent
 LANG_DIR = ROOT / "lang"
 DOMAIN = "gcm-lang"
@@ -120,6 +122,7 @@ class TestCatalogues(unittest.TestCase):
         self.assertEqual(po, sorted(linguas()))
         self.assertEqual(len(set(linguas())), len(linguas()), "doublon dans LINGUAS")
 
+    @pytest.mark.requires_gettext
     @unittest.skipUnless(shutil.which("msgfmt"), "gettext non installé")
     def test_catalogues_compilables(self):
         """Msgfmt --check accepte chaque catalogue."""
@@ -171,8 +174,9 @@ class TestCatalogues(unittest.TestCase):
 
     def test_traduction_chargee(self):
         """Une langue de LINGUAS avec une traduction utilisable la charge."""
-        if "fr_FR" not in linguas():
-            self.skipTest("fr_FR absent de LINGUAS")
+        # fr_FR est la langue de référence du projet (traduite à 100 %) :
+        # son absence de LINGUAS est une régression, pas un motif de saut.
+        self.assertIn("fr_FR", linguas())
         source = "Server list will be overwritten, continue?"
         traduit = self._traduire("fr_FR", source)
         self.assertNotEqual(traduit, source)

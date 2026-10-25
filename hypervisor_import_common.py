@@ -20,11 +20,14 @@ import os
 import re
 import subprocess
 
+from loguru import logger
+
 try:
     import paramiko
 
     PARAMIKO_OK = True
-except ImportError:
+except ImportError as exc:
+    logger.debug("<module>: {} : {}", type(exc).__name__, exc)
     PARAMIKO_OK = False
 
 
@@ -36,21 +39,28 @@ def dep_install_hint(pkg_debian, pkg_fedora, pkg_arch=None):
     autonome ne partageant pas de dépendance croisée avec le cœur —
     cf. la note similaire dans ``plugin_ssh.py``).
     """
+    logger.debug("dep_install_hint: entrée")
     try:
         with open("/etc/os-release") as _f:
             _rel = _f.read().lower()
-    except OSError:
+    except OSError as exc:
+        logger.debug("dep_install_hint: {} : {}", type(exc).__name__, exc)
         _rel = ""
     if any(
         x in _rel for x in ("ubuntu", "debian", "mint", "pop", "kali", "raspbian", "linuxmint")
     ):
+        logger.debug("dep_install_hint: sortie")
         return f"sudo apt install {pkg_debian}"
     if any(x in _rel for x in ("fedora", "rhel", "centos", "rocky", "alma", "oracle")):
+        logger.debug("dep_install_hint: sortie")
         return f"sudo dnf install {pkg_fedora}"
     if any(x in _rel for x in ("arch", "manjaro", "endeavouros", "garuda")):
+        logger.debug("dep_install_hint: sortie")
         return f"sudo pacman -S {pkg_arch or pkg_fedora}"
     if any(x in _rel for x in ("opensuse", "suse")):
+        logger.debug("dep_install_hint: sortie")
         return f"sudo zypper install {pkg_debian}"
+    logger.debug("dep_install_hint: sortie")
     return f"Debian/Ubuntu : sudo apt install {pkg_debian}\n  Fedora/RHEL   : sudo dnf install {pkg_fedora}"
 
 
@@ -67,9 +77,12 @@ def vm_name_split(vm_name):
     Returns:
         tuple[str, str]: (groupe, nom_court).
     """
+    logger.debug("vm_name_split: entrée")
     m = re.match(r"^([^_\-\s]+)[_\-\s](.*)", vm_name)
     if m:
+        logger.debug("vm_name_split: sortie")
         return m.group(1).upper(), m.group(2)
+    logger.debug("vm_name_split: sortie")
     return "LIBVIRT", vm_name
 
 
@@ -79,8 +92,10 @@ def collect_ssh_keys():
     Returns:
         list[str]: Chemins absolus vers les fichiers de clé privée.
     """
+    logger.debug("collect_ssh_keys: entrée")
     ssh_dir = os.path.expanduser("~/.ssh")
     if not os.path.isdir(ssh_dir):
+        logger.debug("collect_ssh_keys: sortie")
         return []
     order = {"ed25519": 0, "rsa": 1}
     keys = []
@@ -99,7 +114,8 @@ def collect_ssh_keys():
             head = open(full, "rb").read(80).decode(errors="replace")
             if "PRIVATE KEY" not in head:
                 continue
-        except OSError:
+        except OSError as exc:
+            logger.debug("collect_ssh_keys: {} : {}", type(exc).__name__, exc)
             continue
         kt = "other"
         if "ed25519" in fname.lower() or "ED25519" in head:
@@ -108,6 +124,7 @@ def collect_ssh_keys():
             kt = "rsa"
         keys.append((order.get(kt, 2), full))
     keys.sort(key=lambda x: x[0])
+    logger.debug("collect_ssh_keys: sortie")
     return [k for _, k in keys]
 
 
@@ -123,12 +140,14 @@ def paramiko_connect(hostname, port, username, log_fn=None):
     Returns:
         paramiko.SSHClient or None: Client connecté ou None si echec.
     """
+    logger.debug("paramiko_connect: entrée")
     if not PARAMIKO_OK:
         if log_fn:
             log_fn(
                 "ERREUR : paramiko non installé → "
                 + dep_install_hint("python3-paramiko", "python3-paramiko", "python-paramiko")
             )
+        logger.debug("paramiko_connect: -> None")
         return None
     keys = collect_ssh_keys()
     client = paramiko.SSHClient()
@@ -147,7 +166,8 @@ def paramiko_connect(hostname, port, username, log_fn=None):
             try:
                 pkey = cls.from_private_key_file(key_path)
                 break
-            except Exception:
+            except Exception as exc:
+                logger.debug("paramiko_connect: {} : {}", type(exc).__name__, exc)
                 continue
         if pkey is None:
             continue
@@ -163,10 +183,13 @@ def paramiko_connect(hostname, port, username, log_fn=None):
             )
             if log_fn:
                 log_fn(f"  SSH OK → {username}@{hostname}:{port} [{os.path.basename(key_path)}]")
+            logger.debug("paramiko_connect: sortie")
             return client
-        except paramiko.AuthenticationException:
+        except paramiko.AuthenticationException as exc:
+            logger.debug("paramiko_connect: {} : {}", type(exc).__name__, exc)
             continue
         except Exception as e:
+            logger.debug("paramiko_connect: {} : {}", type(e).__name__, e)
             if log_fn:
                 log_fn(f"  Erreur clé {os.path.basename(key_path)} : {e}")
     try:
@@ -180,10 +203,13 @@ def paramiko_connect(hostname, port, username, log_fn=None):
         )
         if log_fn:
             log_fn(f"  SSH OK → {username}@{hostname}:{port} [agent]")
+        logger.debug("paramiko_connect: sortie")
         return client
     except Exception as e:
+        logger.debug("paramiko_connect: {} : {}", type(e).__name__, e)
         if log_fn:
             log_fn(f"  ERREUR SSH (toutes clés échouées) : {e}")
+        logger.debug("paramiko_connect: -> None")
         return None
 
 
@@ -193,6 +219,7 @@ def libvirt_get_uris_from_dconf():
     Returns:
         list[str]: Liste d'URIs libvirt.
     """
+    logger.debug("libvirt_get_uris_from_dconf: entrée")
     try:
         r = subprocess.run(
             ["dconf", "read", "/org/virt-manager/virt-manager/connections/uris"],
@@ -202,9 +229,13 @@ def libvirt_get_uris_from_dconf():
         )
         raw = r.stdout.strip()
         if not raw or raw == "@as []":
+            logger.debug("libvirt_get_uris_from_dconf: sortie")
             return []
+        logger.debug("libvirt_get_uris_from_dconf: sortie")
         return re.findall(r"'([^']+)'", raw)
-    except Exception:
+    except Exception as exc:
+        logger.debug("libvirt_get_uris_from_dconf: {} : {}", type(exc).__name__, exc)
+        logger.debug("libvirt_get_uris_from_dconf: sortie")
         return []
 
 
@@ -219,7 +250,9 @@ def libvirt_ssh_run(client, cmd, timeout=30):
     Returns:
         str: Sortie standard de la commande.
     """
+    logger.debug("libvirt_ssh_run: entrée")
     _, stdout, _ = client.exec_command(cmd, timeout=timeout)
+    logger.debug("libvirt_ssh_run: sortie")
     return stdout.read().decode(errors="replace").strip()
 
 
@@ -229,6 +262,7 @@ def libvirt_nmap_scan(client, run_fn, log_fn):
     Returns:
         dict: mac_lower → ip
     """
+    logger.debug("libvirt_nmap_scan: entrée")
     result = {}
     # Obtenir les sous-réseaux
     out = run_fn(client, "ip -o -f inet addr show")
@@ -252,11 +286,13 @@ def libvirt_nmap_scan(client, run_fn, log_fn):
             seen.add(cidr)
             subnets.append(cidr)
     if not subnets:
+        logger.debug("libvirt_nmap_scan: sortie")
         return result
     # Vérifier que nmap est dispo
     nmap_bin = run_fn(client, "which nmap 2>/dev/null")
     if not nmap_bin:
         log_fn("  nmap non disponible sur l'hyperviseur — scan réseau ignoré")
+        logger.debug("libvirt_nmap_scan: sortie")
         return result
     nmap_ver = run_fn(client, "nmap --version 2>/dev/null | head -1")
     ver_m = re.search(r"Nmap version (\d+)", nmap_ver)
@@ -278,6 +314,7 @@ def libvirt_nmap_scan(client, run_fn, log_fn):
                 result[mac_m.group(1).lower()] = ip_m.group(1)
                 count += 1
         log_fn(f"    → {count} hôte(s) avec MAC sur {cidr}")
+    logger.debug("libvirt_nmap_scan: sortie")
     return result
 
 
@@ -296,7 +333,9 @@ def check_port_open(client, run_fn, ip, port, timeout=5):
     Returns:
         bool: True si le port est ouvert.
     """
+    logger.debug("check_port_open: entrée")
     if not ip:
+        logger.debug("check_port_open: -> False")
         return False
     out = run_fn(
         client,
@@ -304,8 +343,10 @@ def check_port_open(client, run_fn, ip, port, timeout=5):
         timeout=timeout + 3,
     )
     if "OPEN" in out:
+        logger.debug("check_port_open: -> True")
         return True
     if "CLOSED" in out:
+        logger.debug("check_port_open: -> False")
         return False
     # Fallback nmap
     out = run_fn(
@@ -313,4 +354,5 @@ def check_port_open(client, run_fn, ip, port, timeout=5):
         f"nmap -p {port} -sT --host-timeout {timeout}s {ip} -oG - 2>/dev/null",
         timeout=timeout + 5,
     )
+    logger.debug("check_port_open: sortie")
     return f"{port}/open" in out.lower()

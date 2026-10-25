@@ -72,7 +72,11 @@ def dechiffrer_aes_strict(stocke: str, secret: str) -> str:
     clair = bytearray()
     for debut in range(0, len(corps), _BLOC):
         flux = pyAES.aesEncrypt(flux, cle_aes)
-        clair += bytes(o ^ f for o, f in zip(corps[debut : debut + _BLOC], flux, strict=True))
+        bloc = corps[debut : debut + _BLOC]
+        # Contrôle de zip(strict=True), absent de Python 3.9 (Rocky 9, #223).
+        if len(bloc) != len(flux):
+            raise ValueError(f"bloc de {len(bloc)} octets, flux de {len(flux)}")
+        clair += bytes(o ^ f for o, f in zip(bloc, flux))  # noqa: B905 (contrôlé ci-dessus)
     bourrage = clair[-1]
     if not 1 <= bourrage <= _BLOC or clair[-bourrage:] != bytes([bourrage]) * bourrage:
         raise ChiffrementError(

@@ -9,12 +9,15 @@ l'affichage diffère. Toujours asynchrones : aucune boucle imbriquée.
 from __future__ import annotations
 
 from collections.abc import Callable, Sequence
+from typing import Optional
 
 from gi.repository import Adw, Gtk
 from loguru import logger
 
-#: (identifiant, libellé traduit, apparence ou None)
-Reponse = tuple[str, str, Adw.ResponseAppearance | None]
+#: (identifiant, libellé traduit, apparence ou None). ``Optional`` et non
+#: ``X | None`` : un alias est évalué à l'exécution, et Python 3.9 (Rocky 9,
+#: #223) ne connaît pas l'opérateur ``|`` entre types.
+Reponse = tuple[str, str, Optional[Adw.ResponseAppearance]]  # noqa: UP045 (Python 3.9)
 
 
 def creer(

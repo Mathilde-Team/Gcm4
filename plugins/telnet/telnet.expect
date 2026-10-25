@@ -1,0 +1,60 @@
+# Connexion telnet avec saisie automatique de l'utilisateur et du mot de passe.
+#
+# Lancé par plugins/telnet/gtk4.py dans le terminal VTE :
+#   expect -f telnet.expect <telnet> -l <utilisateur> [paramètres] <hôte> <port>
+# Le mot de passe arrive sur le descripteur 3 (tube fermé par gcm4 aussitôt
+# écrit) : il ne figure ni dans la ligne de commande, ni dans
+# l'environnement, ni à l'écran.
+#
+# Reprend la branche telnet de ssh.expect (GTK3) : « login: » ou
+# « sername: » reçoit l'utilisateur, « assword: » le mot de passe, puis la
+# main passe à l'utilisateur ; sans invite de mot de passe après 20 s,
+# la main passe aussi. Différence voulue : la sortie du serveur reste
+# visible pendant la connexion (log_user 1).
+
+log_user 1
+
+set canal [open /dev/fd/3 r]
+gets $canal pass
+close $canal
+
+set user ""
+set i 0
+foreach arg $argv {
+    incr i
+    if {$arg == "-l"} {
+        set user [lindex $argv $i]
+    }
+}
+
+# Taille de fenêtre transmise à telnet, au plus une fois toutes les 200 ms
+# (correctif #87 de ssh.expect : certains équipements réseau se figent sous
+# un flot de changements de taille).
+set winch_pending 0
+proc do_winch {} {
+    global winch_pending spawn_out
+    set winch_pending 0
+    set rows [stty rows]
+    set cols [stty columns]
+    stty rows $rows columns $cols < $spawn_out(slave,name)
+}
+trap {
+    global winch_pending
+    if {!$winch_pending} {
+        set winch_pending 1
+        after 200 do_winch
+    }
+} WINCH
+
+set timeout 20
+spawn -noecho {*}$argv
+
+expect {
+    -re "login:|sername:" { send -- "$user\r"; exp_continue }
+    "assword:" { send -- "$pass\r"; exec kill -WINCH [pid]; interact }
+    timeout { exec kill -WINCH [pid]; interact }
+    eof { }
+}
+
+set ret [wait]
+exit [lindex $ret 3]

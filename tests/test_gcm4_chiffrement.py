@@ -204,3 +204,16 @@ def test_aucun_secret_dans_le_journal(dossier):
     chiffres = [h.password for h in load_config(str(conf)).store.hosts if h.password]
     for secret in [*filter(None, CLAIRS.values()), cle, *chiffres]:
         assert secret not in journal
+
+
+def test_flux_aes_de_mauvaise_longueur_refuse(monkeypatch):
+    """Bloc et flux AES de longueurs différentes : ``ValueError``, pas de XOR tronqué.
+
+    Remplace le contrôle de ``zip(strict=True)``, absent de Python 3.9 (#223).
+    """
+    import pyAES
+
+    stocke = gcm4_core.encrypt("cle-de-test", "mot de passe")
+    monkeypatch.setattr(pyAES, "aesEncrypt", lambda flux, cle: list(range(15)))
+    with pytest.raises(ValueError, match="bloc de 16 octets, flux de 15"):
+        dechiffrer_aes_strict(stocke, "cle-de-test")

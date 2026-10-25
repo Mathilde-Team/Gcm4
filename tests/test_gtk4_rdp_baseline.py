@@ -31,8 +31,8 @@ le cas du code actuel :
   XEmbed précisément, et que sa disparition n'est donc pas un accident
   isolé mais la trace du passage à l'architecture à plugins (`plugin_rdp.py`,
   « quatrième plugin implémenté » selon sa propre docstring). Le sort des
-  tests orphelins (`tests/test_gcm.py`) reste néanmoins à confirmer avec
-  l'auteure, sans changement apporté ici.
+  tests orphelins (`tests/test_gcm.py`) a été tranché depuis : supprimés
+  (décision de l'autrice du 2026-10-12, #87).
 - Conséquence : le point de rupture réel n'est plus « quel mécanisme
   remplace `Gtk.Socket`/XEmbed » (question désormais sans objet), mais
   « `gtk-frdp` (bibliothèque C vendorisée dans `gtk-frdp/`, consommée via

@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-80 modules · 151 classes · 264 fonctions publiques de module.
+96 modules · 172 classes · 321 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -32,15 +32,17 @@ flowchart TD
     g0 -->|1| g2
     g2 -->|58| g1
     g2 -->|4| g0
+    g2 -->|15| g4
+    g2 -->|3| g5
     g3 -->|2| g0
     g3 -->|2| g4
     g3 -->|1| g5
     g4 -->|1| g1
     g4 -->|5| g0
     g4 -->|1| g3
-    g5 -->|2| g0
+    g5 -->|3| g0
     g5 -->|2| g3
-    g5 -->|37| g4
+    g5 -->|53| g4
 ```
 
 ## Cœur (sans GTK)
@@ -787,6 +789,8 @@ classDiagram
 
 | Module | Fichier | Rôle |
 |---|---|---|
+| `plugins.local.core` | `plugins/local/core.py` | Logique du plugin local, sans GTK : shell à lancer et délai des commandes. |
+| `plugins.local.gtk4` | `plugins/local/gtk4.py` | Plugin local de gcm4 (contrat v1, ``docs/plugins.md``) : shell local dans un terminal VTE GTK4. |
 | `plugins.plugin_base` | `plugins/plugin_base.py` | Contrats plugin pour GCM. |
 | `plugins.plugin_export_csv` | `plugins/plugin_export_csv.py` | Outil « Export to CSV » (BatchPlugin) pour GCM. |
 | `plugins.plugin_export_json` | `plugins/plugin_export_json.py` | Outil « Export to JSON » (BatchPlugin) pour GCM. |
@@ -809,11 +813,30 @@ classDiagram
 | `plugins.plugin_vnc` | `plugins/plugin_vnc.py` | Plugin de connexion VNC (GtkVnc.Display natif, ou fallback subprocess). |
 | `plugins.plugin_web` | `plugins/plugin_web.py` | Plugin de connexion Web (console BMC HTML5 : iLO/iDRAC/IMM, ou toute URL). |
 | `plugins.pluginvnc2.vnc_tab` | `plugins/pluginvnc2/vnc_tab.py` | vnc_tab.py — Onglet VNC complet pour gnome-connection-manager (fork GTK4) |
+| `plugins.sftp.core` | `plugins/sftp/core.py` | Logique du plugin SFTP (#75), sans GTK : connexion, navigation, transferts. |
+| `plugins.sftp.gtk4` | `plugins/sftp/gtk4.py` | Plugin SFTP de gcm4 (contrat v1, ``docs/plugins.md``) : navigateur de fichiers distant (#75). |
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
 | `plugins.ssh.core` | `plugins/ssh/core.py` | Logique métier SSH de gcm4, zéro dépendance GTK — parsing de ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf. |
+| `plugins.telnet.core` | `plugins/telnet/core.py` | Logique du plugin telnet, sans GTK : commande et délai des commandes après connexion. |
+| `plugins.telnet.gtk4` | `plugins/telnet/gtk4.py` | Plugin telnet de gcm4 (contrat v1, ``docs/plugins.md``) : terminal VTE GTK4. |
 
 ```mermaid
 classDiagram
+    class mod_plugins_local_core {
+        <<module>>
+        +shell(environ) str
+        +lancement(chemin) Lancement
+        +etapes(commandes) list~tuple~int, str~~
+    }
+    class LocalSession {
+        <<SessionTerminal>>
+    }
+    class plugins_local_gtk4_LocalPlugin {
+        +default_port(protocol) int None
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) LocalSession
+    }
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_local_gtk4_LocalPlugin
     class plugins_plugin_base_ConnectionPlugin {
         <<ABC>>
         +str protocol_id
@@ -980,13 +1003,13 @@ classDiagram
         <<Gtk.Box>>
         +connect_local() None
     }
-    class LocalPlugin {
+    class plugins_plugin_local_LocalPlugin {
         +build_tab(host, get_password) Gtk.Widget
         +build_edit_page() Gtk.Widget
         +load_host_fields(host) None
         +save_host_fields(host) None
     }
-    plugins_plugin_base_ConnectionPlugin <|-- LocalPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_local_LocalPlugin
     class mod_plugins_plugin_netmiko_push {
         <<module>>
         +open_netmiko_tab(wmain) NetmikoTab
@@ -1098,13 +1121,13 @@ classDiagram
         <<Gtk.Box>>
         +connect_telnet() None
     }
-    class TelnetPlugin {
+    class plugins_plugin_telnet_TelnetPlugin {
         +build_tab(host, get_password) Gtk.Widget
         +build_edit_page() Gtk.Widget
         +load_host_fields(host) None
         +save_host_fields(host) None
     }
-    plugins_plugin_base_ConnectionPlugin <|-- TelnetPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_telnet_TelnetPlugin
     class mod_plugins_plugin_vnc {
         <<module>>
         +get_plugin() VncPlugin
@@ -1189,6 +1212,82 @@ classDiagram
         <<Gtk.Box>>
         +close()
     }
+    class mod_plugins_sftp_core {
+        <<module>>
+        +empreinte(cle) str
+        +nom_known_hosts(hote, port) str
+        +known_hosts_defaut() Path
+        +ajouter_cle_connue(fichier, nom, cle) None
+        +parent(chemin) str
+        +joindre(dossier, nom) str
+        +nom_valide(nom) bool
+        +taille_lisible(octets) str
+        +destination_libre(dossier, nom) Path
+    }
+    class plugins_sftp_core_Entree {
+        <<dataclass>>
+        +str nom
+        +str chemin
+        +int taille
+        +int modifie
+        +bool dossier
+        +bool lien
+        +int mode
+        +droits() str
+    }
+    class ErreurSftp {
+        <<Exception>>
+    }
+    class AuthentificationRefusee
+    ErreurSftp <|-- AuthentificationRefusee
+    class CleHoteInconnue
+    ErreurSftp <|-- CleHoteInconnue
+    class CleHoteChangee
+    ErreurSftp <|-- CleHoteChangee
+    class _Refuser {
+        <<paramiko.MissingHostKeyPolicy>>
+        +missing_host_key(client, hostname, key) None
+    }
+    class ConnexionSftp {
+        +nom() str
+        +ouverte() bool
+        +ouvrir(mot_de_passe, fichier_cle, delai) str
+        +normaliser(chemin) str
+        +lister(dossier) list~Entree~
+        +telecharger(distant, local, progression) Path
+        +envoyer(local, dossier, progression) str
+        +creer_dossier(dossier, nom) str
+        +renommer(entree, nom) str
+        +supprimer(entree) None
+        +fermer() None
+    }
+    class SessionSftp {
+        +selection() core.Entree None
+        +selectionner(nom) bool
+        +aller(chemin) None
+        +monter() None
+        +actualiser() None
+        +activer(entree) None
+        +telecharger_selection() None
+        +telecharger(entree) None
+        +choisir_envois() None
+        +envoyer(chemins) None
+        +demander_dossier() None
+        +creer_dossier(nom) None
+        +demander_renommage() None
+        +renommer(entree, nom) None
+        +demander_suppression() None
+        +supprimer(entree) None
+        +close() None
+    }
+    class SftpPlugin {
+        +default_port(protocol) int None
+        +default_options(protocol) dict~str, str~
+        +validate_options(protocol, options) list~FieldError~
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) SessionSftp
+    }
+    plugins_plugin_base_ConnectionPlugin <|-- SftpPlugin
     class mod_plugins_ssh_core {
         <<module>>
         +is_shared_target(path) bool
@@ -1236,6 +1335,20 @@ classDiagram
         +write(backup) None
         +validate() list~str~
     }
+    class mod_plugins_telnet_core {
+        <<module>>
+        +lancement(adresse, port, utilisateur, mot_de_passe, parametres, telnet, expect, script) Lancement
+        +etapes(commandes) list~tuple~int, str~~
+    }
+    class TelnetSession {
+        <<SessionTerminal>>
+    }
+    class plugins_telnet_gtk4_TelnetPlugin {
+        +default_port(protocol) int None
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) TelnetSession
+    }
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_telnet_gtk4_TelnetPlugin
 ```
 
 ## gcm4
@@ -1262,8 +1375,11 @@ classDiagram
 | `gcm4.core.chemins` | `src/gcm4/core/chemins.py` | Emplacement de la configuration de gcm4 et migration depuis ``~/.gcm`` (#99). |
 | `gcm4.core.chiffrement` | `src/gcm4/core/chiffrement.py` | Mots de passe chiffrés de gcm4.conf, compatibles avec l'application GTK3 (#138). |
 | `gcm4.core.cli` | `src/gcm4/core/cli.py` | Ligne de commande de gcm4, analysée avant toute initialisation GTK (#133). |
+| `gcm4.core.comportement_onglets` | `src/gcm4/core/comportement_onglets.py` | Onglets et titre de la fenêtre : options de base reprises de Wconfig (#247), sans GTK. |
 | `gcm4.core.config` | `src/gcm4/core/config.py` | Lecture et écriture de ``~/.config/gcm4/gcm4.conf`` sans GTK (#137). |
 | `gcm4.core.deplacements` | `src/gcm4/core/deplacements.py` | Glisser-déposer dans l'arbre, validé sans GTK (#141). |
+| `gcm4.core.echange_cli` | `src/gcm4/core/echange_cli.py` | Import et export des hôtes en ligne de commande, sans fenêtre (#154). |
+| `gcm4.core.exchange` | `src/gcm4/core/exchange.py` | Import et export des hôtes en CSV et JSON, sans GTK (#152). |
 | `gcm4.core.host_tree` | `src/gcm4/core/host_tree.py` | Arbre des groupes et des hôtes, sans GTK (#139). |
 | `gcm4.core.i18n` | `src/gcm4/core/i18n.py` | Traductions de gcm4 : domaine gettext ``gcm-lang`` de l'application GTK3. |
 | `gcm4.core.menu` | `src/gcm4/core/menu.py` | Menu principal et raccourcis de gcm4, décrits sans GTK (#134). |
@@ -1273,8 +1389,11 @@ classDiagram
 | `gcm4.core.onglets` | `src/gcm4/core/onglets.py` | Onglets ouverts, enregistrés à la fermeture et restaurés au démarrage (#246). |
 | `gcm4.core.plugins` | `src/gcm4/core/plugins.py` | Contrat v1 entre la base gcm4 et ses plugins de connexion (#149), sans GTK. |
 | `gcm4.core.preferences` | `src/gcm4/core/preferences.py` | Préférences générales de la base GTK4, sans GTK (lot 5a, #147). |
+| `gcm4.core.raccourcis` | `src/gcm4/core/raccourcis.py` | Raccourcis de la fenêtre principale modifiables : section ``[shortcuts]`` (#247), sans GTK. |
 | `gcm4.core.registre` | `src/gcm4/core/registre.py` | Découverte des plugins et isolation de leurs erreurs (#150), sans GTK. |
 | `gcm4.core.replies` | `src/gcm4/core/replies.py` | Groupes repliés de ``[window] collapsed-folders``, au format GTK3 (#139). |
+| `gcm4.core.sauvegarde` | `src/gcm4/core/sauvegarde.py` | Aperçu d'import, bilan et copie de la configuration, sans GTK (#153). |
+| `gcm4.core.terminal` | `src/gcm4/core/terminal.py` | Logique commune aux plugins terminal (telnet, local…), sans GTK (#295). |
 | `gcm4.core.theme` | `src/gcm4/core/theme.py` | Thème de la base GTK4, sans GTK (#135). |
 | `gcm4.core.validation` | `src/gcm4/core/validation.py` | Validation d'un hôte avant enregistrement, sans GTK (#144). |
 | `gcm4.core.window_state` | `src/gcm4/core/window_state.py` | Géométrie de la fenêtre principale, dans ``gcm4.conf`` (#134). |
@@ -1311,7 +1430,13 @@ classDiagram
     class mod_gcm4_core_cli {
         <<module>>
         +build_parser() argparse.ArgumentParser
-        +parse_args(argv, home, environ) argparse.Namespace
+        +parse_args(argv, home, environ, cwd) argparse.Namespace
+    }
+    class mod_gcm4_core_comportement_onglets {
+        <<module>>
+        +voisin(courant, total, sens, boucler) int
+        +titre_application(app_title) str
+        +titre_fenetre(app_title, dynamique, onglet) str
     }
     class mod_gcm4_core_config {
         <<module>>
@@ -1374,6 +1499,39 @@ classDiagram
         +chemin() str
         +nouveau_chemin() str
     }
+    class mod_gcm4_core_echange_cli {
+        <<module>>
+        +ajouter_arguments(parser) None
+        +demande(args) tuple~str, str, str~ None
+        +executer(args, sortie, erreur) int None
+    }
+    class mod_gcm4_core_exchange {
+        <<module>>
+        +hote_vers_dict(host, mots_de_passe) dict~str, Any~
+        +ecrire_json(hosts, mots_de_passe) str
+        +ecrire_csv(hosts, mots_de_passe) str
+        +dict_vers_hote(ligne, ou, vides_absents) Host
+        +lire_json(texte) list~Host~
+        +lire_csv(texte) list~Host~
+        +importer(store, hosts, conflit) Rapport
+        +lire_fichier(chemin) list~Host~
+        +importer_fichier(store, chemin, conflit) Rapport
+        +exporter_fichier(chemin, hosts, mots_de_passe) int
+    }
+    class ExchangeError {
+        <<Exception>>
+    }
+    class Conflit {
+        <<str, enum.Enum>>
+    }
+    class Rapport {
+        <<dataclass>>
+        +list~str~ ajoutes
+        +list~str~ remplaces
+        +list~tuple~str, str~~ renommes
+        +list~str~ ignores
+        +list~str~ groupes_crees
+    }
     class mod_gcm4_core_host_tree {
         <<module>>
         +cle_de_tri(texte) str
@@ -1403,7 +1561,7 @@ classDiagram
         <<module>>
         +actions_du_menu() list~str~
     }
-    class Entree {
+    class gcm4_core_menu_Entree {
         <<dataclass>>
         +str libelle
         +str action
@@ -1545,7 +1703,8 @@ classDiagram
         +load_preferences(config_file) Preferences
         +save_preference(config_file, nom, valeur) None
         +niveau_journal(debug_cli, preference, environ) tuple~str, str~
-        +raccourcis() list~Raccourci~
+        +libelles_actions() dict~str, str~
+        +raccourcis(effectifs) list~Raccourci~
     }
     class OptionWconfig {
         <<dataclass>>
@@ -1563,12 +1722,38 @@ classDiagram
         +bool show_panel
         +str tree_font
         +str log_level
+        +bool confirm_close_tab
+        +bool confirm_close_tab_middle
+        +bool cycle_tabs
+        +bool disable_hosts_stripes
+        +bool update_title
+        +str app_title
     }
     class Raccourci {
         <<dataclass>>
         +tuple~str, ...~ touches
         +str libelle
         +str portee
+        +str None action
+    }
+    class mod_gcm4_core_raccourcis {
+        <<module>>
+        +depuis_accelerateur(accelerateur) Combinaison
+        +depuis_gtk3(texte, resoudre) Combinaison
+        +personnalise(section, action) bool
+        +effectifs(section, resoudre) dict~str, tuple~str, ...~~
+        +valeur_a_ecrire(combinaison) str
+        +conflit(combinaison, action, actuels, autres) str None
+        +lire(config_file) dict~str, str~
+        +enregistrer(config_file, action, combinaison) None
+        +reinitialiser(config_file, action) None
+    }
+    class Combinaison {
+        <<dataclass>>
+        +tuple~str, ...~ modificateurs
+        +str touche
+        +gtk3() str
+        +accelerateur() str
     }
     class mod_gcm4_core_registre {
         <<module>>
@@ -1604,6 +1789,27 @@ classDiagram
         +gtk3_tree_paths(groupes) dict~str, str~
         +lire_replies(valeur, groupes) set~str~
         +ecrire_replies(replies, groupes) str
+    }
+    class mod_gcm4_core_sauvegarde {
+        <<module>>
+        +apercu(store, hosts, conflit) Rapport
+        +bilan(fichier, rapport) str
+        +avec_mots_de_passe(hosts) bool
+        +enregistrer_sous(config_dir, dossier) list~Path~
+    }
+    class mod_gcm4_core_terminal {
+        <<module>>
+        +environnement(options) list~str~
+        +liaison(options, cle) int
+        +lire_commandes(brut) str
+        +ecrire_commandes(texte) str
+        +est_delai(ligne) bool
+        +etapes(commandes, debut_ms) list~tuple~int, str~~
+    }
+    class Lancement {
+        <<dataclass>>
+        +list~str~ argv
+        +str mot_de_passe
     }
     class mod_gcm4_core_theme {
         <<module>>
@@ -1646,21 +1852,27 @@ classDiagram
 | `gcm4.ui.contexte` | `src/gcm4/ui/contexte.py` | Contexte injecté dans chaque plugin (contrat v1, ``docs/plugins.md``, #151). |
 | `gcm4.ui.couleurs` | `src/gcm4/ui/couleurs.py` | Conversions de couleurs partagées par l'interface GTK4. |
 | `gcm4.ui.dialogues` | `src/gcm4/ui/dialogues.py` | Dialogues de confirmation et de saisie, compatibles libadwaita 1.2 à 1.9. |
+| `gcm4.ui.echange` | `src/gcm4/ui/echange.py` | Import/export des hôtes et copie de la configuration depuis le menu Fichier (#153). |
+| `gcm4.ui.fichiers` | `src/gcm4/ui/fichiers.py` | Choix d'un fichier ou d'un dossier, asynchrone, GTK 4.0 à 4.22 (#153). |
 | `gcm4.ui.host_dialog` | `src/gcm4/ui/host_dialog.py` | Dialogue d'hôte : champs communs, création, modification, duplication (#145). |
 | `gcm4.ui.host_tree` | `src/gcm4/ui/host_tree.py` | Arbre des groupes et des hôtes du panneau gauche (#139). |
 | `gcm4.ui.main_window` | `src/gcm4/ui/main_window.py` | Fenêtre principale de gcm4 (#134). |
 | `gcm4.ui.menu_arbre` | `src/gcm4/ui/menu_arbre.py` | Menu contextuel, actions, raccourcis et activation de l'arbre (#142). |
 | `gcm4.ui.mises_a_jour` | `src/gcm4/ui/mises_a_jour.py` | Vérification des mises à jour au démarrage, côté interface (#245). |
 | `gcm4.ui.preferences` | `src/gcm4/ui/preferences.py` | Préférences de la base GTK4 : pages Général et Apparence (lot 5a, #147). |
+| `gcm4.ui.raccourcis` | `src/gcm4/ui/raccourcis.py` | Raccourcis modifiables (#247) : noms de touches GDK, saisie d'une combinaison. |
+| `gcm4.ui.terminal` | `src/gcm4/ui/terminal.py` | Terminal VTE GTK4 commun aux plugins terminal (telnet, local…), #295. |
 
 ```mermaid
 classDiagram
     class mod_gcm4_ui_application {
         <<module>>
-        +run(args) int
+        +run(args, argv) int
     }
     class Gcm4Application {
         <<Adw.Application>>
+        +raccourcis_effectifs() dict~str, tuple~str, ...~~
+        +appliquer_raccourcis() None
         +appliquer_theme(mode) None
         +appliquer_police_arbre(description) None
         +set_group_colors(couleurs) None
@@ -1680,6 +1892,18 @@ classDiagram
         <<module>>
         +creer(parent, titre, corps, reponses, defaut, fermeture, rappel, extra) Adw.Dialog Adw.MessageDialog
     }
+    class Echange {
+        +config_dir() str
+        +exporter_vers(chemin, mots_de_passe) bool
+        +ouvrir_apercu(chemin) bool
+        +conflit_choisi() Conflit
+        +appliquer_import(chemin, hotes, conflit) bool
+        +enregistrer_sous(dossier) bool
+    }
+    class mod_gcm4_ui_fichiers {
+        <<module>>
+        +choisir(parent, mode, titre, rappel, nom) Gtk.FileDialog Gtk.FileChooserNative
+    }
     class HostDialog {
         <<Adw.Window>>
         +lire() Host
@@ -1695,8 +1919,10 @@ classDiagram
         +recharger() None
         +chercher(texte) None
         +focus_recherche() None
+        +set_rayures(rayures) None
         +chemin_selectionne() str None
         +selectionner(chemin) bool
+        +reveler(chemin) bool
         +deposer(source, cible) bool
         +appliquer_couleurs() None
         +lignes_visibles() list~tuple~int, str~~
@@ -1711,9 +1937,14 @@ classDiagram
         +enregistrer_config() None
         +notifier(message) None
         +ajouter_onglet(titre, contenu, session) int
+        +demander_fermeture(contenu, milieu) None
+        +aller_onglet_voisin(sens) None
+        +maj_titre(page) None
+        +appliquer_options() None
         +fermer_onglet(contenu) None
         +onglets_ouverts() list~str~
         +restaurer_onglets() None
+        +ouvrir_hotes(specs) None
         +etat_courant() window_state.WindowState
     }
     class MenuArbre {
@@ -1740,4 +1971,23 @@ classDiagram
     }
     class PreferencesWindow
     PreferencesWindow <|-- PreferencesWindow
+    class mod_gcm4_ui_raccourcis {
+        <<module>>
+        +nom_touche(keyval) str None
+        +resoudre(nom) str None
+        +depuis_evenement(keyval, etat) tuple~str, Combinaison None~
+        +libelle(combinaison) str
+    }
+    class SaisieRaccourci {
+        +proposer(keyval, etat) bool
+        +repondre(reponse) None
+    }
+    class mod_gcm4_ui_terminal {
+        <<module>>
+        +rgba(texte) Gdk.RGBA None
+        +zone_options(options, changed) Gtk.Widget
+    }
+    class SessionTerminal {
+        +close() None
+    }
 ```

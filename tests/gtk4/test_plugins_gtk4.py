@@ -68,7 +68,19 @@ def test_plugin_demo_ouvre_ferme_rouvre(app_demo, pomper):
     entete = fenetre.onglets.get_tab_label(contenu)
     titre, bouton = entete.get_first_child(), entete.get_last_child()
     assert titre.get_label() == "web" and isinstance(bouton, Gtk.Button)
+    bouton.emit("clicked")  # « Confirmer la fermeture d'une console » : actif par défaut (#247)
+    pomper()
+    dialogue = fenetre.confirmations_onglets[contenu]
+    assert fenetre.onglets.get_n_pages() == 2 and plugin.fermetures == 0
+    dialogue.emit("response", "annuler")
+    dialogue.close()
+    pomper()
+    assert fenetre.onglets.get_n_pages() == 2 and fenetre.confirmations_onglets == {}
     bouton.emit("clicked")
+    pomper()
+    dialogue = fenetre.confirmations_onglets[contenu]
+    dialogue.emit("response", "fermer")
+    dialogue.close()
     pomper()
     assert fenetre.onglets.get_n_pages() == 1 and (plugin.ouvertures, plugin.fermetures) == (1, 1)
     fenetre.fermer_onglet(contenu)  # déjà fermé : rien de plus

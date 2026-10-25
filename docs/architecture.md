@@ -232,7 +232,12 @@ hu, id, ro, th, vi, zh).
   connu avec uv et ont été retirés plutôt que reformulés à l'aveugle ; à
   re-signaler si un cas reproductible apparaît chez l'auteure. Détail :
   `docs/sessions/session-36.md`.
-- ⚠️ **À confirmer avec l'auteure avant correction** (même traitement que
+- ✅ **Tranché (#87)** : l'autrice a décidé le 2026-10-12 de supprimer les
+  tests orphelins. Les tests `_rdp_socket_available` sont retirés de
+  `tests/test_gcm.py` et les tests `_vm_name_split` visent désormais
+  `hypervisor_import_common.vm_name_split()` (commit 3e485e9, #116) ; plus
+  aucune classe de `tests/test_gcm.py` n'appelle de fonction absente.
+  Historique du constat initial : (même traitement que
   `ssh_config_editor.py` en §2.5, pas de correction à l'aveugle) : plusieurs
   classes de `tests/test_gcm.py` (`TestVmNameSplit...`/`TestRdpSocketAvailable...`
   et leurs variantes « supplémentaires ») appellent `gcm._vm_name_split(...)`
@@ -459,7 +464,40 @@ comparaison numérique des versions (GTK3 comparait des chaînes). Requête
 dans un fil d'exécution, résultat par `GLib.idle_add` ; hors ligne : une
 ligne de journal, rien à l'écran.
 
-Lot 5b (#148) : pages Raccourcis (lecture seule, depuis
+Options de base des onglets et de la fenêtre (#247,
+`gcm4.core.comportement_onglets`) : `[options] confirm-close-tab` et
+`confirm-close-tab-middle` (défaut vrai, comme GTK3) demandent « Close
+console » avant de fermer un onglet par son bouton ou par un clic du milieu
+sur l'onglet ; la fermeture de la fenêtre garde sa propre confirmation.
+`cycle-tabs` fait boucler `win.next-tab` / `win.previous-tab` (menu
+Affichage, Ctrl+Tab / Ctrl+Maj+Tab comme GTK3, et Ctrl+Page suivante /
+précédente) et la molette sur les onglets (vers le haut : précédent ; pas sur
+le contenu des pages). `disable-hosts-stripes` retire l'alternance de fond
+de l'arbre ; `update-title` ajoute le titre de l'onglet courant au titre de
+la fenêtre (« titre - onglet ») ; `app-title` remplace le nom de
+l'application (vide, ou égal au nom que GTK3 y écrit par défaut : nom de
+l'application). Ces options sont appliquées tout de suite.
+
+Raccourcis modifiables (#247, `gcm4.core.raccourcis`, `gcm4.ui.raccourcis`) :
+les six raccourcis de la fenêtre (`gcm4.core.menu.RACCOURCIS`) se changent
+dans la page Raccourcis. Un clic sur la ligne ouvre « Set Shortcut » : la
+combinaison pressée est lue en phase de capture (accélérateurs de
+l'application suspendus pendant la saisie, Ctrl+Q n'y quitte pas) ; Échap
+annule, Entrée valide, Retour arrière désactive. Une combinaison déjà prise
+par une autre action ou par l'arbre des hôtes est refusée, ainsi qu'une
+touche ordinaire sans Ctrl, Alt ni Super (F1–F35 et touches multimédia
+acceptées seules). Stockage : `[shortcuts]`, format de GTK3
+(`CTRL+SHIFT+TAB`, nom GDK 3 en majuscules) ; `console_previous` et
+`console_next` sont partagées avec GTK3, et leur valeur par défaut GTK3 vaut
+« par défaut » (les deux raccourcis de gcm4) ; les autres actions ont des
+clés `gcm4_…` que GTK3 ignore. Valeur vide : désactivé ; clé absente
+(« Reset to default ») : défauts ; valeur illisible : défauts et
+avertissement. Les autres clés de la section (terminal, commandes
+personnalisées) ne sont ni lues ni modifiées, et `save_config` reprend la
+section du fichier telle quelle. Les raccourcis de l'arbre restent fixes
+(posés par l'arbre, pas par l'application).
+
+Lot 5b (#148) : pages Raccourcis (lecture seule à l'origine, depuis
 `gcm4.core.preferences.raccourcis()`, même source que les raccourcis posés
 par l'application et l'arbre), Journalisation et Extensions. Nouvelle clé
 `[options] log-level` (`TRACE`…`ERROR`, défaut `INFO`) ; priorité : `--debug`,
@@ -480,27 +518,50 @@ effacée par un enregistrement du modèle.
 | `LOG_LOCAL` | `options/log-local` | protocole | plugin local |
 | `PASTE_ON_RIGHT_CLICK` | `options/paste-right-click` | terminal | plugin terminal |
 | `AUTO_COPY_SELECTION` | `options/auto-copy-selection` | terminal | plugin terminal |
-| `CONFIRM_ON_CLOSE_TAB` | `options/confirm-close-tab` | base | onglets, issue de suivi |
-| `CONFIRM_ON_CLOSE_TAB_MIDDLE` | `options/confirm-close-tab-middle` | base | onglets, issue de suivi |
-| `CYCLE_TABS` | `options/cycle-tabs` | base | onglets, issue de suivi |
+| `CONFIRM_ON_CLOSE_TAB` | `options/confirm-close-tab` | base | page Général (#247) |
+| `CONFIRM_ON_CLOSE_TAB_MIDDLE` | `options/confirm-close-tab-middle` | base | page Général (#247) |
+| `CYCLE_TABS` | `options/cycle-tabs` | base | page Général (#247) |
 | `DISABLE_SHORTCUTS` | `options/disable-shortcuts` | terminal | plugin terminal |
 | `DISABLE_NOTIFICATIONS` | `options/disable-notifications` | terminal | plugin terminal |
 | `RESTORE_OPEN_TABS` | `options/restore-open-tabs` | base | page Général (#147), #246 |
 | `AUTO_CLOSE_TAB` | `options/auto-close-tab` | terminal | plugin terminal |
 | `CONFIRM_ON_EXIT` | `options/confirm-exit` | base | page Général (#147) |
 | `CHECK_UPDATES` | `options/check-updates` | base | page Général (#147), #245 |
-| `DISABLE_HOSTS_STRIPES` | `options/disable-hosts-stripes` | base | page Apparence, issue de suivi |
-| `UPDATE_TITLE` | `options/update-title` | base | titre de fenêtre, issue de suivi |
-| `APP_TITLE` | `options/app-title` | base | titre de fenêtre, issue de suivi |
+| `DISABLE_HOSTS_STRIPES` | `options/disable-hosts-stripes` | base | page Apparence (#247) |
+| `UPDATE_TITLE` | `options/update-title` | base | page Apparence (#247) |
+| `APP_TITLE` | `options/app-title` | base | page Apparence (#247) |
 | `FONT_COLOR` | `options/font-color` | terminal | plugin terminal |
 | `BACK_COLOR` | `options/back-color` | terminal | plugin terminal |
 | `FONT` | `options/font` | terminal | plugin terminal (police VTE) |
 | `THEME_MODE` | `window/theme-mode` | base | page Apparence (#147) |
 | `DARK_MODE` | `window/dark-mode` | base | écrite avec theme-mode (#135) |
-| `shortcuts` | `shortcuts/*` | base | page Raccourcis (#148, lecture seule ; édition : issue de suivi) |
+| `shortcuts` | `shortcuts/*` | base | page Raccourcis (#148) ; fenêtre modifiable (#247) ; terminal : plugin terminal |
 | `custom commands` | `shortcuts/*` | terminal | plugin terminal |
 | `build_preferences_tab` | — | protocole | plugin.build_preferences_page (#148) |
 | `SerialTemplatesTab` | — | protocole | plugin série |
+
+### 2.12 Instance unique et deuxième lancement (gcm4, #275)
+
+`Gcm4Application` est à instance unique (`DRAPEAUX` :
+`HANDLES_COMMAND_LINE | SEND_ENVIRONMENT`). `gcm4.ui.application.run`
+transmet les arguments bruts à `Gio.Application.run` : si gcm4 tourne déjà,
+le deuxième processus envoie sa ligne de commande, son dossier courant et
+son environnement à l'instance en cours, qui l'analyse avec
+`gcm4.core.cli.parse_args(..., home, environ, cwd)` (`-c` relatif et
+`$XDG_CONFIG_HOME` pris dans le contexte du deuxième lancement) :
+
+| Deuxième lancement | Effet dans l'instance en cours | Code de sortie |
+|---|---|---|
+| `gcm4 --debug` (action « debug mode » du lanceur) | niveau DEBUG à chaud (`logging_config.enable_debug`), `args.debug` vrai pour Préférences > Journalisation | 0 |
+| `gcm4 groupe/nom…` | fenêtre présentée, hôtes sélectionnés (`MainWindow.ouvrir_hotes`, #154) | 0 |
+| autre dossier de configuration (`-c` ou `$XDG_CONFIG_HOME`) | rien ; message sur la sortie d'erreur du deuxième lancement | 5 (`CODE_AUTRE_CONFIG`) |
+| ligne refusée par l'analyseur (appel D-Bus forgé seulement) | rien | 2 (`CODE_REFUS`) |
+
+Le message du refus est écrit par le deuxième processus :
+`Gio.ApplicationCommandLine.printerr` n'est pas accessible par
+introspection et `printerr_literal` demande GLib 2.80. Tests :
+`tests/gtk4/test_deuxieme_lancement.py` (ligne simulée, puis vrais
+processus sur un `dbus-daemon` privé).
 
 ## 3. Arborescence détaillée (fichiers, classes, dépendances)
 

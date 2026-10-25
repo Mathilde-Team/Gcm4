@@ -55,7 +55,7 @@
 
 | Issue | Titre | Dépend de | Difficulté |
 |-------|-------|-----------|------------|
-| #75 | SFTP — navigateur de fichiers | — | Haute |
+| #75 | SFTP — navigateur de fichiers (plugin gcm4 `plugins/sftp/`, PR en relecture) | — | Haute |
 | #76 | Terminal web xterm.js | #71 | Moyenne |
 | #77 | Wayland natif | #71 | Moyenne |
 | #79 | Refactor MVC | Migration GTK4 | Faible |

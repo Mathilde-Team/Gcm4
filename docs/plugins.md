@@ -75,7 +75,11 @@ par `name` :
    ```
 
 2. **mode source** : dossier `plugins/<nom>/` du dépôt gcm4, avec un
-   `gtk4.py` qui expose la classe dans une variable `PLUGIN`.
+   `gtk4.py` qui expose la classe dans une variable `PLUGIN`. Le dossier est
+   importé comme un paquet (`gcm4_plugin_<nom>`, son `__init__.py` est
+   exécuté s'il existe) : `gtk4.py` peut importer ses voisins, par exemple
+   la logique sans GTK de `core.py` avec `from . import core`. Si l'import
+   échoue, rien du dossier ne reste chargé.
 
 Deux plugins de même `name` : le premier trouvé est gardé, l'autre est
 signalé en erreur.
@@ -164,6 +168,31 @@ est en lecture seule.
 |---|---|
 | `build_preferences_page()` | page du plugin dans les préférences, après la page Extensions : un `Adw.PreferencesPage` est ajouté tel quel (titre par défaut : `name`), tout autre widget est placé dans une page au nom du plugin ; `None` : aucune. Une exception est journalisée et affichée dans la ligne du plugin (page Extensions), sans fermer les préférences |
 | `context_menu_items(host)` | liste de `MenuItem(label, activate)` ajoutée au menu contextuel d'un hôte du plugin |
+
+## Plugins terminal : modules communs
+
+Les plugins qui ouvrent un terminal (telnet, local, puis serial, ipmisol et
+ssh) partagent deux modules de la base (#295), pour ne pas recopier la même
+session dans chacun :
+
+| Module | GTK | Contenu |
+|---|---|---|
+| `gcm4.core.terminal` | non | clés d'options `commands`, `backspace-key`, `delete-key`, `term` (mêmes clés INI que GTK3) ; `Lancement(argv, mot_de_passe)` ; `environnement`, `liaison`, `lire_commandes`, `ecrire_commandes`, `etapes(commandes, debut_ms)` |
+| `gcm4.ui.terminal` | VTE 3.91 | `SessionTerminal(host, protocole, lancement, log, debut_commandes_ms)` : `Vte.Terminal` dans un défilement, lancement asynchrone, mot de passe éventuel sur le descripteur 3, commandes programmées, « Session ended » en fin de programme, `close()` qui annule les envois et envoie SIGHUP ; `zone_options(options, changed)` : zone d'options de l'hôte ; `PALETTE`, `rgba` |
+
+Exemple, le plugin local (`plugins/local/gtk4.py`) :
+
+```python
+class LocalSession(SessionTerminal):
+    def __init__(self, host, lancement, log):
+        super().__init__(host, "local", lancement, log, 700)
+```
+
+`gcm4.ui.terminal` exige VTE GTK4 (`gi.require_version("Vte", "3.91")`).
+Seuls les plugins l'importent, jamais la base (vérifié par
+`tests/test_gcm4_paquet.py`) : là où VTE GTK4 manque (Rocky Linux 9 et 10,
+#223), gcm4 démarre et le plugin est signalé en erreur dans Préférences >
+Extensions.
 
 ## Règles
 
