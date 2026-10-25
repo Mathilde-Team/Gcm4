@@ -136,6 +136,9 @@
   réelles — voir `docs/gcm4-rename.md` §4, `docs/sessions/session-30.md`
 
 ### Changed
+- `make deb` construit le paquet gcm4 (`build-deb/build.sh`) et le workflow Release
+  le joint aux releases ; plus de `.deb` de l'application GTK3, `make deb-gcm4`
+  reste un alias (#156)
 - **Renommage du projet décidé : GCM → gcm4** (2026-08-29), pour marquer la
   génération GTK4 — pas encore effectif dans le code (module principal,
   domaine i18n, `.desktop`, packaging, chemin `~/.gcm/gcm.conf`) ; voir

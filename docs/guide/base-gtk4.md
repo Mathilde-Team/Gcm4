@@ -36,8 +36,9 @@ Distributions testées par la CI (job « Paquets ») : **Debian 13**,
 **Ubuntu 24.04**, **Ubuntu 26.04** et **Fedora 44**. Il faut Python 3.12 ou
 plus récent : Ubuntu 22.04, Debian 12 et EL 9 ne conviennent pas.
 
-Les paquets ne sont pas encore joints aux releases : ils se construisent
-depuis le dépôt (voir [Publication](../release.md)) ou se téléchargent
+Le paquet `.deb` est joint aux releases à partir de la prochaine (#156) ; le
+`.rpm` pas encore. Les deux se construisent aussi depuis le dépôt (voir
+[Publication](../release.md)) ou se téléchargent
 comme artefacts `paquet-deb-gcm4` / `paquet-rpm-gcm4` d'une exécution de la
 CI.
 
