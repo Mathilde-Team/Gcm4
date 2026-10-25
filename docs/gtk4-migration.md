@@ -1457,7 +1457,8 @@ après Web, IPMI SOL et Serial »). Le sort des tests orphelins de
 `tests/test_gcm.py` (suppression vs réintroduction des fonctions) reste
 néanmoins à confirmer avec l'auteure, exactement comme documenté en
 session-36 — cet audit ne le tranche pas, il en précise seulement
-l'origine.
+l'origine. **Tranché depuis (#87, 2026-10-12)** : tests supprimés ;
+les tests `_vm_name_split` visent `hypervisor_import_common.vm_name_split()`.
 
 **Conséquence pour la question posée par §3.4** : elle n'est plus « quel
 mécanisme remplace `Gtk.Socket`/XEmbed » (ce chemin n'existe déjà plus
@@ -1540,7 +1541,7 @@ complément de, sans dupliquer, `tests/test_gtk4_context_menus_baseline.py`).
 | Point | État après cet audit |
 |---|---|
 | Repli `Gtk.Socket`/XEmbed pour RDP | Confirmé disparu du code réellement chargé — non-sujet pour le portage GTK4 |
-| `_rdp_socket_available`/`RdpEmbeddedTab` (orphelins, session-36) | Origine désormais expliquée (vestiges du repli XEmbed) ; sort des tests toujours à confirmer avec l'auteure |
+| `_rdp_socket_available`/`RdpEmbeddedTab` (orphelins, session-36) | Origine désormais expliquée (vestiges du repli XEmbed) ; tests supprimés, décision de l'autrice du 2026-10-12 (#87) |
 | `GtkFrdp.Display` — dépendance X11 propre | Écartée — widget `GtkDrawingArea` standard, rendu Cairo |
 | `GtkFrdp.Display` — build GTK4 | Non disponible tel que vendorisé (`gtk+-3.0` épinglé) ; statut amont non confirmé (recherche 2026-09-18) |
 | `GdkWindow` dans `frdp-session.c` | Rupture d'API réelle mais mineure/connue (→ `GdkSurface`) |
