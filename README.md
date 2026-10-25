@@ -271,7 +271,7 @@ sudo gem install fpm
 | Commande | Description |
 |----------|-------------|
 | `make` | Génère `.deb` + `.rpm` Fedora |
-| `make deb` | `.deb` Debian / Ubuntu |
+| `make deb` | `.deb` Debian / Ubuntu de gcm4 (`build-deb/dist/`) |
 | `make rpm` | `.rpm` Fedora / RHEL / CentOS |
 | `make opensuse` | `.rpm` **openSUSE / SLES** (dépendances zypper : `typelib-1_0-Vte-2.91`) |
 | `make translate` | Compile les `.po` de `lang/LINGUAS` → `.mo` |
@@ -288,7 +288,7 @@ sudo gem install fpm
 git clone https://github.com/MathildeDec/gnome-connection-manager
 cd gnome-connection-manager
 make            # deb + rpm Fedora
-make deb        # deb seulement
+make deb        # deb de gcm4 seulement
 make opensuse   # rpm openSUSE
 make validate   # valider .po + .glade avant commit
 ```

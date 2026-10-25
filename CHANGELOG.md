@@ -1,13 +1,14 @@
 # Changelog — Gnome Connection Manager
 
-## [Non publié] — travaux post-1.3.3 (2026-06-13 → 2026-09-19, fork MathildeDec)
+## [Non publié]
 
-> Numérotation de version pas encore tranchée : le projet doit être renommé
-> **GCM → gcm4** (décision actée le 2026-08-29, pas encore effective dans le
-> code) et la reprise en 1.x ou le redémarrage en 4.0.0 reste à décider avec
-> l'auteure — voir `features.md` §3.0. Cette section regroupe donc tout le
-> travail livré depuis 1.3.3 sans lui assigner de numéro. Détail complet,
-> session par session, dans `claude.md` (journal) et `features.md` (§4.1).
+## [4.0.0] — 2026-10-24
+
+> Première version de **gcm4** (réécriture GTK4/libadwaita). La numérotation
+> redémarre à 4.0.0, alignée sur le nom gcm4, plutôt que de poursuivre en
+> 1.x (décision du 2026-10-22, #299). Cette section regroupe tout le travail
+> livré depuis 1.3.3. Détail complet, session par session, dans `CLAUDE.md`
+> (journal) et `features.md` (§4.1).
 
 ### Added
 - **Push SNMP : dépôt du fichier rendu** (#74) : `snmp_bulk_core.py` dépose la configuration rendue sur le serveur de dépôt avant le `SNMP SET` (`FileTransferConfig`, `upload_config_file` : SFTP avec clé d'hôte vérifiée dans `known_hosts`, FTP, TFTP RFC 1350) et transmet le protocole de récupération au driver (`FETCH_PROTOCOLS` : H3C ftp/tftp, Cisco tftp/ftp/sftp, Huawei ftp/tftp/sftp) au lieu du TFTP codé en dur. Paramètre `transfer` optionnel de `push_to_device`/`run_bulk_push`, comportement inchangé sans lui. Testé contre de vrais serveurs SFTP, FTP et TFTP locaux
@@ -111,6 +112,7 @@
 - `snmp_push_core.py` (#74) : double implémentation orpheline du push SNMP, jamais importée ; ses transports sont repris dans `snmp_bulk_core.py`
 
 ### Fixed
+- **Nom de l'organisation** (#310) : l'ancien nom mal orthographié (sans « l », compte GitHub inexistant) remplacé par `Mathilde-Team` dans la CI (installation d'`asyncvnc2`), la condition du job `i18n.yml` (qui ne tournait jamais), `check_branch_protection.py`, `i18n-update.sh` et l'en-tête des catalogues, `mkdocs.yml` et le test d'intégration. `tests/test_nom_organisation.py` refuse l'ancien nom dans les fichiers suivis
 - gcm4 sur Debian 12 (GTK 4.8, libadwaita 1.2, #223) : le repli
   `Gtk.CssProvider.load_from_data` passait deux arguments et une chaîne
   (exception à chaque démarrage, CSS de l'arbre non chargé) ; il reçoit
@@ -139,6 +141,9 @@
   réelles — voir `docs/gcm4-rename.md` §4, `docs/sessions/session-30.md`
 
 ### Changed
+- `make deb` construit le paquet gcm4 (`build-deb/build.sh`) et le workflow Release
+  le joint aux releases ; plus de `.deb` de l'application GTK3, `make deb-gcm4`
+  reste un alias (#156)
 - **Renommage du projet décidé : GCM → gcm4** (2026-08-29), pour marquer la
   génération GTK4 — pas encore effectif dans le code (module principal,
   domaine i18n, `.desktop`, packaging, chemin `~/.gcm/gcm.conf`) ; voir

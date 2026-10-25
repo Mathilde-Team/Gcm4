@@ -243,7 +243,12 @@ hu, id, ro, th, vi, zh).
   connu avec uv et ont été retirés plutôt que reformulés à l'aveugle ; à
   re-signaler si un cas reproductible apparaît chez l'auteure. Détail :
   `docs/sessions/session-36.md`.
-- ⚠️ **À confirmer avec l'auteure avant correction** (même traitement que
+- ✅ **Tranché (#87)** : l'autrice a décidé le 2026-10-12 de supprimer les
+  tests orphelins. Les tests `_rdp_socket_available` sont retirés de
+  `tests/test_gcm.py` et les tests `_vm_name_split` visent désormais
+  `hypervisor_import_common.vm_name_split()` (commit 3e485e9, #116) ; plus
+  aucune classe de `tests/test_gcm.py` n'appelle de fonction absente.
+  Historique du constat initial : (même traitement que
   `ssh_config_editor.py` en §2.5, pas de correction à l'aveugle) : plusieurs
   classes de `tests/test_gcm.py` (`TestVmNameSplit...`/`TestRdpSocketAvailable...`
   et leurs variantes « supplémentaires ») appellent `gcm._vm_name_split(...)`

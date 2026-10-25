@@ -1,6 +1,6 @@
 [project]
 name = "gnome-connection-manager"
-version = "1.3.3"
+version = "4.0.0"
 description = "Simple tabbed SSH/Telnet/RDP/VNC/SPICE/Serial connection manager for GTK3"
 license = "GPL-3.0-or-later"
 readme = "README.md"
