@@ -4,8 +4,7 @@ Couvre les fonctions critiques sans dépendance GTK/VTE :
 - Chiffrement/déchiffrement (xor, AES)
 - Classe Host : construction, clone, sérialisation INI
 - HostUtils : load/save INI
-- _vm_name_split : segmentation nom VM libvirt
-- _rdp_socket_available : détection X11
+- vm_name_split (hypervisor_import_common) : segmentation nom VM libvirt
 - VncTab._build_cmd / SpiceTab._build_cmd : construction des commandes
 - RdpTab._build_cmd : construction commande xfreerdp
 """
@@ -1014,13 +1013,7 @@ class TestVmNameSplit(unittest.TestCase):
         self.assertEqual(n, "")
 
 
-# ── Tests _rdp_socket_available ──────────────────────────────────────────────
-
-
 # ── Tests RdpTab._build_cmd ──────────────────────────────────────────────────
-
-
-# ── Tests RdpEmbeddedTab._build_cmd ─────────────────────────────────────────
 
 
 # ── Tests VncTab._build_cmd ──────────────────────────────────────────────────
@@ -1661,9 +1654,6 @@ class TestVmNameSplitExtended(unittest.TestCase):
         grp, name = hic.vm_name_split("a_server")
         self.assertEqual(grp, "A")
         self.assertEqual(name, "server")
-
-
-# ── Tests _rdp_socket_available (supplémentaires) ────────────────────────────
 
 
 # ── Tests RdpTab (supplémentaires) ───────────────────────────────────────────
@@ -2768,9 +2758,6 @@ class TestSerialTabBuildCmdAll(unittest.TestCase):
 # ── RdpTab — cas limites ──────────────────────────────────────────────────────
 
 
-# ── RdpEmbeddedTab — supplémentaire ──────────────────────────────────────────
-
-
 # ── VncTab — cas limites ──────────────────────────────────────────────────────
 
 
@@ -2952,9 +2939,6 @@ class TestSpiceTabEdgeCases(unittest.TestCase):
         """Une adresse IPv4 figure dans la commande SPICE."""
         h = _make_host(host="192.168.100.50", port="5930", protocol="spice")
         self.assertIn("192.168.100.50", " ".join(self._t(h)._build_cmd()))
-
-
-# ── _rdp_socket_available — supplémentaire ───────────────────────────────────
 
 
 # ── encrypt_old/decrypt_old — exhaustif ──────────────────────────────────────

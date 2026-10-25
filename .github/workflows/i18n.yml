@@ -50,7 +50,7 @@ jobs:
   mise-a-jour:
     name: PR de mise à jour des catalogues
     # Pas de boucle : le merge de la PR i18n elle-même ne change plus rien.
-    if: github.repository == 'Mathide-Team/Gcm4'
+    if: github.repository == 'Mathilde-Team/Gcm4'
     runs-on: ${{ fromJSON(vars.RUNS_ON_LINUX || '{"group":"maison","labels":["self-hosted","linux"]}') }}
     permissions:
       contents: write
