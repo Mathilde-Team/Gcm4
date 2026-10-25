@@ -1,13 +1,14 @@
 # Changelog — Gnome Connection Manager
 
-## [Non publié] — travaux post-1.3.3 (2026-06-13 → 2026-09-19, fork MathildeDec)
+## [Non publié]
 
-> Numérotation de version pas encore tranchée : le projet doit être renommé
-> **GCM → gcm4** (décision actée le 2026-08-29, pas encore effective dans le
-> code) et la reprise en 1.x ou le redémarrage en 4.0.0 reste à décider avec
-> l'auteure — voir `features.md` §3.0. Cette section regroupe donc tout le
-> travail livré depuis 1.3.3 sans lui assigner de numéro. Détail complet,
-> session par session, dans `claude.md` (journal) et `features.md` (§4.1).
+## [4.0.0] — 2026-10-24
+
+> Première version de **gcm4** (réécriture GTK4/libadwaita). La numérotation
+> redémarre à 4.0.0, alignée sur le nom gcm4, plutôt que de poursuivre en
+> 1.x (décision du 2026-10-22, #299). Cette section regroupe tout le travail
+> livré depuis 1.3.3. Détail complet, session par session, dans `CLAUDE.md`
+> (journal) et `features.md` (§4.1).
 
 ### Added
 - **Plugin SFTP GTK4** (#75) : `plugins/sftp/` au contrat v1, navigateur de fichiers distant (paramiko). Navigation, téléchargement sans écraser (`download-dir` ou dossier XDG), envoi par bouton ou glisser-déposer, nouveau dossier, renommage, suppression confirmée. Clé d'hôte vérifiée dans `~/.ssh/known_hosts` (clé inconnue : empreinte SHA256 à accepter dans l'onglet ; clé changée : refus), mot de passe, fichier de clé ou agent SSH, mot de passe demandé en cas de refus. Réseau dans un fil de travail, jamais dans la boucle GTK. Testé contre un vrai serveur SSH/SFTP paramiko (`tests/serveur_sftp.py`) ; guide `docs/guide/sftp.md`
@@ -136,6 +137,9 @@
   réelles — voir `docs/gcm4-rename.md` §4, `docs/sessions/session-30.md`
 
 ### Changed
+- `make deb` construit le paquet gcm4 (`build-deb/build.sh`) et le workflow Release
+  le joint aux releases ; plus de `.deb` de l'application GTK3, `make deb-gcm4`
+  reste un alias (#156)
 - **Renommage du projet décidé : GCM → gcm4** (2026-08-29), pour marquer la
   génération GTK4 — pas encore effectif dans le code (module principal,
   domaine i18n, `.desktop`, packaging, chemin `~/.gcm/gcm.conf`) ; voir
