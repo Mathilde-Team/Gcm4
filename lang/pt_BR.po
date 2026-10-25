@@ -4810,110 +4810,8 @@ msgstr "Dividir V"
 msgid "Unsplit all consoles"
 msgstr "Desfazer divisão de todos os consoles"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "Log do xfreerdp:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "página 2"
-
-#~ msgid "page 1"
-#~ msgstr "página 1"
-
-#~ msgid "local"
-#~ msgstr "local"
-
-#~ msgid "label"
-#~ msgstr "rótulo"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Editar"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Dividir console verticalmente"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Dividir console horizontalmente"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Mostrar barra de ferramentas"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Enviar comandos para vários hosts ao mesmo tempo"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Segundos entre pacotes keep-alive"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Salvar buffer do console ativo em arquivo"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (não disponível aqui: o Proxmox requer ticket de API/proxy)"
-
-#~ msgid "Open local console"
-#~ msgstr "Abrir console local"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Porta local já atribuída"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Importar lista de servidores de arquivo"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Argumentos extras a serem passados para a linha de comando"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Exportar lista de servidores para arquivo"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Editar propriedades dos hosts"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Destinos Proxmox detectados (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Destino Proxmox detectado"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Criar redirecionamento de porta dinâmico"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Conectar ao host selecionado ou a todos os hosts no grupo selecionado"
+#~ msgid "Colors and Keys"
+#~ msgstr "Cores e teclas"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -4926,5 +4824,107 @@ msgstr "Desfazer divisão de todos os consoles"
 #~ "1: mín\n"
 #~ "9: máx"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Cores e teclas"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Conectar ao host selecionado ou a todos os hosts no grupo selecionado"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Criar redirecionamento de porta dinâmico"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Destino Proxmox detectado"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Destinos Proxmox detectados (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Editar propriedades dos hosts"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Exportar lista de servidores para arquivo"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Argumentos extras a serem passados para a linha de comando"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Importar lista de servidores de arquivo"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Porta local já atribuída"
+
+#~ msgid "Open local console"
+#~ msgstr "Abrir console local"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (não disponível aqui: o Proxmox requer ticket de API/proxy)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Salvar buffer do console ativo em arquivo"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Segundos entre pacotes keep-alive"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Enviar comandos para vários hosts ao mesmo tempo"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Mostrar barra de ferramentas"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Dividir console horizontalmente"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Dividir console verticalmente"
+
+#~ msgid "_Edit"
+#~ msgstr "_Editar"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "rótulo"
+
+#~ msgid "local"
+#~ msgstr "local"
+
+#~ msgid "page 1"
+#~ msgstr "página 1"
+
+#~ msgid "page 2"
+#~ msgstr "página 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "Log do xfreerdp:"
