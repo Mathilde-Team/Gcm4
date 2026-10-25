@@ -69,7 +69,7 @@
 
 | Issue | Titre | Difficulté |
 |-------|-------|------------|
-| #100 | Multi-sélection hôtes | Faible |
+| #100 | Multi-sélection hôtes : port et groupe en lot (PR en relecture) | Faible |
 | #83 | Icône system tray | Faible |
 | #84 | Cluster liste déroulante | Faible |
 | #85 | Charset dynamique | Faible |

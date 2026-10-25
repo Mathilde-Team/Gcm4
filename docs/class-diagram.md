@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-95 modules · 165 classes · 317 fonctions publiques de module.
+96 modules · 167 classes · 321 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -1318,6 +1318,7 @@ classDiagram
 | `gcm4.core.config` | `src/gcm4/core/config.py` | Lecture et écriture de ``~/.config/gcm4/gcm4.conf`` sans GTK (#137). |
 | `gcm4.core.deplacements` | `src/gcm4/core/deplacements.py` | Glisser-déposer dans l'arbre, validé sans GTK (#141). |
 | `gcm4.core.echange_cli` | `src/gcm4/core/echange_cli.py` | Import et export des hôtes en ligne de commande, sans fenêtre (#154). |
+| `gcm4.core.edition_lot` | `src/gcm4/core/edition_lot.py` | Édition de plusieurs hôtes en une fois, sans GTK (#100). |
 | `gcm4.core.exchange` | `src/gcm4/core/exchange.py` | Import et export des hôtes en CSV et JSON, sans GTK (#152). |
 | `gcm4.core.host_tree` | `src/gcm4/core/host_tree.py` | Arbre des groupes et des hôtes, sans GTK (#139). |
 | `gcm4.core.i18n` | `src/gcm4/core/i18n.py` | Traductions de gcm4 : domaine gettext ``gcm-lang`` de l'application GTK3. |
@@ -1444,6 +1445,22 @@ classDiagram
         +demande(args) tuple~str, str, str~ None
         +executer(args, sortie, erreur) int None
     }
+    class mod_gcm4_core_edition_lot {
+        <<module>>
+        +hotes_de(store, chemins) list~Host~
+        +conflits(store, hotes, edition) list~str~
+        +appliquer(store, hotes, edition) int
+    }
+    class LotInvalide {
+        <<ValueError>>
+    }
+    class EditionLot {
+        <<dataclass>>
+        +bool changer_port
+        +int None port
+        +str None groupe
+        +vide() bool
+    }
     class mod_gcm4_core_exchange {
         <<module>>
         +hote_vers_dict(host, mots_de_passe) dict~str, Any~
@@ -1516,6 +1533,7 @@ classDiagram
         +disposition_gtk3(click_target) list~list~str~~
         +cible(noeud) str
         +sections(noeud, connexion_possible) list~list~str~~
+        +sections_lot(nombre_hotes) list~list~str~~
         +groupe_de_travail(noeud) str
         +decompte(store, chemin) Decompte
         +chemin_de_groupe(store, parent, nom, actuel) str None
@@ -1859,8 +1877,11 @@ classDiagram
         +chercher(texte) None
         +focus_recherche() None
         +set_rayures(rayures) None
+        +positions_selectionnees() list~int~
+        +noeuds_selectionnes() list~Noeud~
         +chemin_selectionne() str None
         +selectionner(chemin) bool
+        +selectionner_plusieurs(chemins) int
         +reveler(chemin) bool
         +deposer(source, cible) bool
         +appliquer_couleurs() None
@@ -1887,11 +1908,12 @@ classDiagram
         +etat_courant() window_state.WindowState
     }
     class MenuArbre {
-        +ouvrir(noeud, x, y) None
+        +ouvrir(noeud, x, y, lot) None
         +executer(nom) None
         +modifier(operation) bool
         +ouvrir_dialogue_hote(mode, hote, groupe) HostDialog
         +appliquer_couleur(chemin, couleur) bool
+        +ouvrir_edition_lot(hotes) None
     }
     class mod_gcm4_ui_mises_a_jour {
         <<module>>

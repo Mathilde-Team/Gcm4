@@ -13,8 +13,8 @@ aucun, et les plugins GTK4 (SSH, RDP, VNC, série...) ne sont pas encore
 publiés. Avec la base seule :
 
 - l'arbre des groupes et des hôtes, la recherche, le glisser-déposer, les
-  couleurs de groupe et le dialogue d'hôte (création, modification,
-  duplication) fonctionnent ;
+  couleurs de groupe, le dialogue d'hôte (création, modification,
+  duplication) et l'édition de plusieurs hôtes à la fois fonctionnent ;
 - le choix du protocole dans le dialogue d'hôte indique « Aucune extension
   n'est installée. » ; les options d'un protocole sans plugin sont
   conservées telles quelles ;
@@ -117,6 +117,29 @@ gcm4 [--version] [--debug] [-c DOSSIER] [GROUPE/NOM ...]
 
 `-c DOSSIER` utilise un autre dossier de configuration (sans migration
 depuis `~/.gcm/`).
+
+## Modifier plusieurs hôtes
+
+L'arbre accepte une sélection de plusieurs lignes (#100) : **Ctrl+clic**
+ajoute ou retire une ligne, **Maj+clic** sélectionne une plage. Clic droit
+sur une ligne de la sélection (ou touche Menu) : **Modifier les hôtes
+sélectionnés…** ouvre un dialogue à deux cases :
+
+- **Changer le port** : le port saisi s'applique à tous les hôtes ; vide,
+  chaque hôte reprend le port par défaut de son protocole ;
+- **Déplacer vers le groupe** : tous les hôtes vont dans le groupe choisi
+  (`/` pour la racine).
+
+Une case non cochée laisse le champ de chaque hôte tel quel. Les groupes
+sélectionnés sont ignorés (il faut au moins deux hôtes). Si un nom existe
+déjà dans le groupe de destination, ou si deux hôtes sélectionnés portent
+le même nom, le dialogue l'indique et **Appliquer** reste inactif : rien
+n'est modifié. Après l'application, les hôtes restent sélectionnés.
+
+Avec plusieurs lignes sélectionnées, les actions sur une seule ligne
+(Suppr, F2, menu d'un hôte) ne s'appliquent pas : un clic droit hors de la
+sélection revient à une sélection simple. Le glisser-déposer déplace
+toujours une seule ligne.
 
 ## Configuration et journaux
 

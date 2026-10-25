@@ -64,6 +64,13 @@ def test_connect_seulement_si_un_plugin_gere_le_protocole(store):
     assert all(a in menu_arbre.LIBELLES for s in menu_arbre.disposition_gtk3("host") for a in s)
 
 
+def test_sections_lot():
+    """Plusieurs hôtes sélectionnés : édition en lot ; moins de deux : affichage seul (#100)."""
+    assert menu_arbre.sections_lot(3) == [["edit-selection"], ["expand", "collapse"]]
+    assert menu_arbre.sections_lot(1) == [["expand", "collapse"]]
+    assert all(a in menu_arbre.LIBELLES for s in menu_arbre.sections_lot(2) for a in s)
+
+
 def test_groupe_de_travail(store):
     """Groupe cliqué, groupe de l'hôte, racine."""
     assert menu_arbre.groupe_de_travail(_noeud(store, "LAB/bases")) == "LAB/bases"
