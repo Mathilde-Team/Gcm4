@@ -90,3 +90,41 @@ def test_coeur_sans_gtk():
         for a in n.names
     }
     assert not {m for m in modules if m and (m == "gi" or m.startswith(("gi.", "gcm4.ui")))}
+
+
+@pytest.mark.parametrize(
+    ("brut", "attendu"),
+    [
+        ("", "UTF-8"),
+        ("  ", "UTF-8"),
+        ("utf-8", "UTF-8"),
+        ("ISO-8859-15", "ISO-8859-15"),
+        (" windows-1252 ", "WINDOWS-1252"),
+        ("shift_jis", "SHIFT_JIS"),
+        ("BIDON", "UTF-8"),
+        ("latin1", "UTF-8"),
+    ],
+)
+def test_encodage(brut, attendu):
+    """Nom de la liste, casse ignorée ; vide ou inconnu : UTF-8 (#85)."""
+    assert terminal.encodage({terminal.OPT_ENCODAGE: brut}) == attendu
+    assert terminal.encodage({}) == terminal.ENCODAGE_DEFAUT == "UTF-8"
+
+
+def test_encodages_connus_de_python():
+    """Chaque encodage proposé est connu de Python, sans doublon, UTF-8 en premier."""
+    import codecs
+
+    assert terminal.ENCODAGES[0] == terminal.ENCODAGE_DEFAUT
+    assert len(set(terminal.ENCODAGES)) == len(terminal.ENCODAGES)
+    for nom in terminal.ENCODAGES:
+        assert nom == nom.upper()
+        codecs.lookup(nom)
+
+
+def test_encoder():
+    """Message encodé dans l'encodage de l'onglet ; caractère absent remplacé par ``?``."""
+    assert terminal.encoder("Session terminée", "UTF-8") == "Session terminée".encode()
+    assert terminal.encoder("Session terminée", "ISO-8859-1") == b"Session termin\xe9e"
+    assert terminal.encoder("€ ok", "ISO-8859-1") == b"? ok"
+    assert terminal.encoder("€", "ISO-8859-15") == b"\xa4"

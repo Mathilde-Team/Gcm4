@@ -251,6 +251,13 @@ class VncConnectionInfo:
     #: (molette vers le bas = défilement vers le bas), déjà le
     #: comportement historique de ce fichier.
     invert_scroll: bool = False
+    #: Transport WebSocket (Gcm4 #104, tâche 3) : la connexion RFB passe
+    #: dans un tunnel WebSocket (websockify, proxy noVNC, Proxmox…) au lieu
+    #: d'une socket TCP brute. Requête HTTP en clair sur ``host:port``.
+    websocket: bool = False
+    #: Chemin de la requête d'ouverture WebSocket (ex. ``/websockify``).
+    #: Ignoré si ``websocket`` est faux.
+    ws_path: str = "/"
     #: VeNCrypt (Gcm4 #104, tâche 2) : fichier PEM d'une autorité de
     #: certification privée pour vérifier le certificat X509* du serveur.
     #: None = magasin système (comportement d'asyncvnc2 par défaut). Le nom
@@ -536,6 +543,35 @@ class VncDisplay(Gtk.Picture):
             self._schedule_auto_reconnect()
 
     @staticmethod
+    def _resolve_transport_kwargs(websocket: bool, ws_path: str) -> dict:
+        """Arguments de transport à passer à ``asyncvnc2.connect()``.
+
+        Sans WebSocket : dictionnaire vide, pour rester compatible avec un
+        asyncvnc2 qui ne connaît pas encore ``websocket=``. Avec : chemin
+        normalisé (vide → ``/``, ``/`` ajouté en tête si absent).
+
+        Raises:
+            ValueError: le chemin contient un espace ou un caractère de
+                contrôle ; il finit tel quel dans la ligne de requête HTTP,
+                on refuse donc tout ce qui pourrait y injecter un en-tête.
+        """
+        logger.debug(
+            "VncDisplay._resolve_transport_kwargs | entrée websocket={w} ws_path={p!r}", w=websocket, p=ws_path
+        )
+        if not websocket:
+            logger.debug("VncDisplay._resolve_transport_kwargs | sortie TCP brut")
+            return {}
+        chemin = (ws_path or "").strip() or "/"
+        if any(c.isspace() or ord(c) < 0x20 or ord(c) == 0x7F for c in chemin):
+            logger.debug("VncDisplay._resolve_transport_kwargs | sortie chemin refusé")
+            raise ValueError(f"chemin WebSocket invalide : {ws_path!r}")
+        if not chemin.startswith("/"):
+            chemin = "/" + chemin
+        resultat = {"websocket": True, "ws_path": chemin}
+        logger.debug("VncDisplay._resolve_transport_kwargs | sortie {r}", r=resultat)
+        return resultat
+
+    @staticmethod
     def _resolve_tls_kwargs(ca_file: Optional[str]) -> dict:
         """Arguments VeNCrypt à passer à ``asyncvnc2.connect()``.
 
@@ -599,6 +635,14 @@ class VncDisplay(Gtk.Picture):
             "compression_level": self.info.compression_level,
             "allow_indexed_colour": self.info.allow_indexed_colour,
         }
+        try:
+            connect_kwargs.update(self._resolve_transport_kwargs(self.info.websocket, self.info.ws_path))
+        except ValueError as exc:
+            logger.error("VncDisplay._connect_and_run | {exc} | host={host}", exc=exc, host=self.info.host)
+            self._set_status(VncStatus.ERROR, f"Chemin WebSocket invalide : {self.info.ws_path!r}")
+            logger.debug("VncDisplay._connect_and_run | sortie chemin WebSocket invalide")
+            return
+
         try:
             connect_kwargs.update(self._resolve_tls_kwargs(self.info.tls_ca_file))
         except ValueError as exc:
@@ -878,6 +922,56 @@ class VncDisplay(Gtk.Picture):
             self._push_frame(self._apply_active_screen_crop(pixels))
 
     # ---- Actions spéciales ----
+
+    #: Commandes d'alimentation xvp (#104) : nom → méthode ``send_xvp_<nom>``
+    #: d'asyncvnc2.Client.
+    POWER_ACTIONS = ("shutdown", "reboot", "reset")
+
+    def xvp_supported(self) -> bool:
+        """Vrai si la connexion est établie et que le serveur a annoncé xvp
+        (message XVP_INIT, reçu de façon asynchrone après la connexion :
+        à relire au moment d'afficher le menu, pas une fois pour toutes)."""
+        logger.debug("VncDisplay.xvp_supported | entrée host={host}", host=self.info.host)
+        resultat = bool(self.client is not None and getattr(self.client, "xvp_supported", False))
+        logger.debug("VncDisplay.xvp_supported | sortie {r}", r=resultat)
+        return resultat
+
+    def send_power_action(self, action: str) -> bool:
+        """Envoie la commande xvp ``action`` (``shutdown``, ``reboot`` ou
+        ``reset``) au serveur, avec ``confirm=True`` : l'appelant DOIT avoir
+        obtenu la confirmation de l'utilisateur avant (cf. le dialogue de
+        VncTab._show_power_confirmation_dialog). Renvoie False si rien n'est
+        parti (pas de connexion).
+
+        Raises:
+            ValueError: ``action`` inconnue.
+        """
+        logger.debug("VncDisplay.send_power_action | entrée action={a} host={host}", a=action, host=self.info.host)
+        if action not in self.POWER_ACTIONS:
+            logger.debug("VncDisplay.send_power_action | sortie action inconnue")
+            raise ValueError(action)
+        if not self.client:
+            logger.debug("VncDisplay.send_power_action | sortie sans connexion")
+            return False
+        asyncio.ensure_future(self._send_power_action(action))
+        logger.debug("VncDisplay.send_power_action | sortie envoyée")
+        return True
+
+    async def _send_power_action(self, action: str):
+        logger.debug("VncDisplay._send_power_action | entrée action={a}", a=action)
+        try:
+            await getattr(self.client, f"send_xvp_{action}")(confirm=True)
+        except Exception as exc:
+            # Même famille de garde que _send_cad (coroutine fire-and-forget,
+            # connexion morte possible) ; journalisé, pas silencieux : une
+            # commande d'alimentation perdue doit se retrouver dans le journal.
+            logger.warning(
+                "VncDisplay._send_power_action | échec action={a} host={host} : {exc}",
+                a=action,
+                host=self.info.host,
+                exc=exc,
+            )
+        logger.debug("VncDisplay._send_power_action | sortie")
 
     def send_ctrl_alt_del(self):
         if self.client:
@@ -1400,6 +1494,10 @@ class VncTab(Gtk.Box):
         self._screens = []
         self._updating_screen_dropdown = False
         self._is_fullscreen = False
+        # Case « Garder la fenêtre ouverte après l'envoi » du dialogue
+        # d'envoi de texte (#93) : mémorisée pour la durée de vie de
+        # l'onglet, décochée par défaut (comportement historique).
+        self._keep_send_text_dialog_open = False
 
         self.toolbar = self._build_toolbar()
         self.append(self.toolbar)
@@ -1470,7 +1568,7 @@ class VncTab(Gtk.Box):
         # icône symbolique standard vérifiée.
         self.btn_send_text = Gtk.Button(label="Envoyer du texte…")
         self.btn_send_text.set_tooltip_text(
-            "Envoyer du texte au serveur distant comme une suite de frappes clavier, sans passer par le presse-papiers"
+            "Envoyer du texte au serveur distant comme une suite de frappes clavier, sans passer par le presse-papiers (Alt+F12)"
         )
         # Même cycle de sensibilité que btn_screenshot/btn_copy_screenshot
         # ci-dessous : désactivé tant qu'aucune connexion n'est établie
@@ -1497,6 +1595,38 @@ class VncTab(Gtk.Box):
         btn_scale.set_tooltip_text("Basculer ajusté / taille réelle")
         btn_scale.connect("clicked", lambda *_: self.display.toggle_scaling())
         bar.append(btn_scale)
+
+        # Menu « Alimentation » (xvp, #104) : le serveur annonce xvp après la
+        # connexion, de façon asynchrone ; l'état des entrées est donc relu à
+        # chaque ouverture du menu (_refresh_power_popover) plutôt que figé
+        # au changement de statut.
+        self.btn_power = Gtk.MenuButton(label="Alimentation")
+        self.btn_power.set_tooltip_text(
+            "Arrêter, redémarrer ou réinitialiser la machine distante (extension xvp du serveur)"
+        )
+        self.power_popover = Gtk.Popover()
+        power_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        power_box.set_margin_top(6)
+        power_box.set_margin_bottom(6)
+        power_box.set_margin_start(6)
+        power_box.set_margin_end(6)
+        self.power_info_label = Gtk.Label()
+        self.power_info_label.set_wrap(True)
+        self.power_info_label.set_max_width_chars(36)
+        self.power_info_label.set_xalign(0)
+        self.power_info_label.add_css_class("dim-label")
+        power_box.append(self.power_info_label)
+        self.power_buttons = {}
+        for action in VncDisplay.POWER_ACTIONS:
+            bouton = Gtk.Button(label=self._resolve_power_action_texts(action, self.info.host)["menu"])
+            bouton.add_css_class("flat")
+            bouton.connect("clicked", self._on_power_action_clicked, action)
+            power_box.append(bouton)
+            self.power_buttons[action] = bouton
+        self.power_popover.set_child(power_box)
+        self.power_popover.connect("show", lambda *_a: self._refresh_power_popover())
+        self.btn_power.set_popover(self.power_popover)
+        bar.append(self.btn_power)
 
         btn_reconnect = Gtk.Button(icon_name="view-refresh-symbolic")
         btn_reconnect.set_tooltip_text("Reconnecter")
@@ -1745,6 +1875,32 @@ class VncTab(Gtk.Box):
         """
         return clipboard_text or None
 
+    @staticmethod
+    def _resolve_send_text_action(text: str, keep_open: bool) -> Optional[str]:
+        """
+        Décide ce que fait le dialogue "Envoyer du texte" quand
+        l'utilisateur valide (Entrée ou bouton "Envoyer", #93) :
+
+        - ``None`` : champ vide, rien à envoyer, le dialogue reste tel quel ;
+        - ``"keep"`` : envoyer, puis vider le champ et garder le dialogue
+          ouvert pour un envoi répété (case cochée) ;
+        - ``"close"`` : envoyer, puis fermer le dialogue (case décochée,
+          comportement historique).
+        """
+        logger.debug(
+            "VncTab._resolve_send_text_action | entrée longueur={n} keep_open={k}",
+            n=len(text),
+            k=keep_open,
+        )
+        if not text:
+            action = None
+        elif keep_open:
+            action = "keep"
+        else:
+            action = "close"
+        logger.debug("VncTab._resolve_send_text_action | sortie action={a}", a=action)
+        return action
+
     def _on_send_text_clicked(self, *_args):
         """Ouvre une petite fenêtre pour taper du texte à envoyer au
         serveur distant sous forme de frappes clavier (une par caractère),
@@ -1827,6 +1983,23 @@ class VncTab(Gtk.Box):
 
         entry.connect("icon-press", _on_paste_icon_pressed)
 
+        # Envoi répété (#93) : case cochée, le dialogue reste ouvert après
+        # l'envoi et le champ est vidé pour le texte suivant. L'état est
+        # mémorisé sur l'onglet pour la prochaine ouverture du dialogue.
+        keep_open_check = Gtk.CheckButton(label="Garder la fenêtre ouverte après l'envoi")
+        keep_open_check.set_active(self._keep_send_text_dialog_open)
+
+        def _on_keep_open_toggled(check):
+            logger.debug("VncTab._on_keep_open_toggled | entrée actif={a}", a=check.get_active())
+            self._keep_send_text_dialog_open = check.get_active()
+            logger.debug(
+                "VncTab._on_keep_open_toggled | sortie garder ouvert={k}",
+                k=self._keep_send_text_dialog_open,
+            )
+
+        keep_open_check.connect("toggled", _on_keep_open_toggled)
+        box.append(keep_open_check)
+
         button_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         button_row.set_halign(Gtk.Align.END)
         box.append(button_row)
@@ -1847,10 +2020,15 @@ class VncTab(Gtk.Box):
             # séparément -- juste éviter de fermer le dialogue sur une
             # validation vide (Entrée dans un champ non rempli).
             text = entry.get_text()
-            if not text:
+            action = self._resolve_send_text_action(text, self._keep_send_text_dialog_open)
+            if action is None:
                 return
             self.display.send_text(text)
-            dialog.close()
+            if action == "keep":
+                entry.set_text("")
+                entry.grab_focus()
+            else:
+                dialog.close()
 
         entry.connect("activate", _do_send)
         send_button.connect("clicked", _do_send)
@@ -1875,17 +2053,19 @@ class VncTab(Gtk.Box):
     # utilisée par un système invité). <Control>F12 pour la copie
     # presse-papiers (session 19) -- même famille que <Shift>F12,
     # modificateur différent pour rester distinct et facile à retenir
-    # (Maj = fichier, Ctrl = presse-papiers).
+    # (Maj = fichier, Ctrl = presse-papiers). <Alt>F12 pour le dialogue
+    # d'envoi de texte (Gcm4 #92), même famille : Alt = texte.
     _GLOBAL_SHORTCUTS = (
         ("<Shift>F12", "_shortcut_action_screenshot"),
         ("<Control>F12", "_shortcut_action_copy_screenshot"),
+        ("<Alt>F12", "_shortcut_action_send_text"),
         ("F11", "_shortcut_action_toggle_fullscreen"),
         ("<Control><Alt>End", "_shortcut_action_send_ctrl_alt_del"),
     )
 
     def _setup_global_shortcuts(self):
-        """Raccourcis clavier locaux à l'onglet (capture d'écran, plein
-        écran, Ctrl+Alt+Suppr), utilisables sans passer par la souris/la
+        """Raccourcis clavier locaux à l'onglet (capture d'écran, copie,
+        envoi de texte, plein écran, Ctrl+Alt+Suppr), utilisables sans passer par la souris/la
         barre d'outils.
 
         Phase CAPTURE, posée sur VncTab -- ancêtre de VncDisplay dans
@@ -1915,6 +2095,22 @@ class VncTab(Gtk.Box):
 
     def _shortcut_action_copy_screenshot(self) -> bool:
         self._on_copy_screenshot_clicked()
+        return True
+
+    def _shortcut_action_send_text(self) -> bool:
+        """Ouvre le dialogue d'envoi de texte (Gcm4 #92), comme le bouton.
+
+        Même garde que le bouton : tant qu'aucune connexion n'est établie
+        (``btn_send_text`` désactivé, cf. _on_status_changed/_on_connected),
+        rien ne s'ouvre et False laisse l'événement poursuivre son chemin
+        au lieu de l'avaler sans effet visible.
+        """
+        logger.debug("VncTab._shortcut_action_send_text | entrée")
+        if not self.btn_send_text.get_sensitive():
+            logger.debug("VncTab._shortcut_action_send_text | sortie False (pas connecté)")
+            return False
+        self._on_send_text_clicked()
+        logger.debug("VncTab._shortcut_action_send_text | sortie True")
         return True
 
     def _shortcut_action_toggle_fullscreen(self) -> bool:
@@ -1953,6 +2149,130 @@ class VncTab(Gtk.Box):
         box.append(self.forget_key_button)
 
         return box
+
+    @staticmethod
+    def _resolve_power_menu_state(connected: bool, xvp_supported: bool):
+        """État du menu « Alimentation » (#104) : (entrées actives, message).
+
+        Pure, testable sans GTK : non connecté ou serveur sans xvp → entrées
+        inactives et explication ; sinon entrées actives, aucun message.
+        """
+        logger.debug("VncTab._resolve_power_menu_state | entrée connected={c} xvp={x}", c=connected, x=xvp_supported)
+        if not connected:
+            resultat = (False, "Disponible une fois la connexion établie.")
+        elif not xvp_supported:
+            resultat = (
+                False,
+                "Ce serveur n'annonce pas l'extension xvp : arrêt, redémarrage et réinitialisation sont indisponibles.",
+            )
+        else:
+            resultat = (True, None)
+        logger.debug("VncTab._resolve_power_menu_state | sortie {r}", r=resultat)
+        return resultat
+
+    @staticmethod
+    def _resolve_power_action_texts(action: str, host: str) -> dict:
+        """Libellés de la commande xvp ``action`` : entrée de menu, titre et
+        texte du dialogue de confirmation, bouton de confirmation.
+
+        Raises:
+            KeyError: ``action`` inconnue.
+        """
+        logger.debug("VncTab._resolve_power_action_texts | entrée action={a}", a=action)
+        textes = {
+            "shutdown": {
+                "menu": "Arrêter…",
+                "title": "Arrêter la machine distante ?",
+                "body": f"Le serveur VNC demandera un arrêt propre du système de « {host} ».",
+                "confirm": "Arrêter",
+            },
+            "reboot": {
+                "menu": "Redémarrer…",
+                "title": "Redémarrer la machine distante ?",
+                "body": f"Le serveur VNC demandera un redémarrage propre du système de « {host} ».",
+                "confirm": "Redémarrer",
+            },
+            "reset": {
+                "menu": "Réinitialiser…",
+                "title": "Réinitialiser la machine distante ?",
+                "body": (
+                    f"Le serveur VNC réinitialisera brutalement « {host} », comme un "
+                    "bouton reset : les données non enregistrées seront perdues."
+                ),
+                "confirm": "Réinitialiser",
+            },
+        }
+        resultat = textes[action]
+        logger.debug("VncTab._resolve_power_action_texts | sortie {t}", t=resultat["title"])
+        return resultat
+
+    def _refresh_power_popover(self):
+        """Relit l'état xvp à l'ouverture du menu « Alimentation »."""
+        logger.debug("VncTab._refresh_power_popover | entrée")
+        actif, message = self._resolve_power_menu_state(
+            self.display.status == VncStatus.CONNECTED, self.display.xvp_supported()
+        )
+        for bouton in self.power_buttons.values():
+            bouton.set_sensitive(actif)
+        self.power_info_label.set_label(message or "")
+        self.power_info_label.set_visible(message is not None)
+        logger.debug("VncTab._refresh_power_popover | sortie actif={a}", a=actif)
+
+    def _on_power_action_clicked(self, _button, action: str):
+        """Entrée du menu « Alimentation » : ferme le menu, demande confirmation."""
+        logger.debug("VncTab._on_power_action_clicked | entrée action={a}", a=action)
+        self.power_popover.popdown()
+        self._show_power_confirmation_dialog(action)
+        logger.debug("VncTab._on_power_action_clicked | sortie")
+
+    def _show_power_confirmation_dialog(self, action: str):
+        """Dialogue de confirmation d'une commande xvp ; Annuler a le focus."""
+        logger.debug("VncTab._show_power_confirmation_dialog | entrée action={a}", a=action)
+        textes = self._resolve_power_action_texts(action, self.info.host)
+        root = self.get_root()
+        dialog = Gtk.Window()
+        if isinstance(root, Gtk.Window):
+            dialog.set_transient_for(root)
+        dialog.set_modal(True)
+        dialog.set_title(textes["title"])
+        dialog.set_default_size(420, -1)
+        dialog.set_resizable(False)
+
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        box.set_margin_top(16)
+        box.set_margin_bottom(16)
+        box.set_margin_start(16)
+        box.set_margin_end(16)
+        dialog.set_child(box)
+
+        label = Gtk.Label(label=textes["body"])
+        label.set_wrap(True)
+        label.set_xalign(0)
+        box.append(label)
+
+        button_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        button_row.set_halign(Gtk.Align.END)
+        box.append(button_row)
+
+        cancel_button = Gtk.Button(label="Annuler")
+        cancel_button.connect("clicked", lambda *_a: dialog.close())
+        button_row.append(cancel_button)
+
+        confirm_button = Gtk.Button(label=textes["confirm"])
+        confirm_button.add_css_class("destructive-action")
+        button_row.append(confirm_button)
+
+        def _do_confirm(*_a):
+            logger.debug("VncTab._show_power_confirmation_dialog._do_confirm | entrée action={a}", a=action)
+            dialog.close()
+            envoye = self.display.send_power_action(action)
+            logger.debug("VncTab._show_power_confirmation_dialog._do_confirm | sortie envoyée={e}", e=envoye)
+
+        confirm_button.connect("clicked", _do_confirm)
+        self.power_dialog = dialog
+        dialog.present()
+        cancel_button.grab_focus()
+        logger.debug("VncTab._show_power_confirmation_dialog | sortie")
 
     def _on_forget_key_clicked(self, *_args):
         """Ouvre une confirmation par retype du nom d'hôte avant d'exécuter
@@ -2285,6 +2605,39 @@ def build_vnc_tab_label(tab: VncTab) -> Gtk.Box:
 # isolément ; à retirer une fois intégré à gnome-connection-manager)
 # ---------------------------------------------------------------------------
 
+
+def parse_demo_args(args):
+    """Arguments de la démo autonome → ``VncConnectionInfo`` (None si HOST
+    manque). ``--websocket`` active le transport WebSocket (chemin ``/``),
+    ``--websocket=/websockify`` précise le chemin (Gcm4 #104, tâche 3)."""
+    logger.debug("parse_demo_args | entrée {n} argument(s)", n=len(args))
+    websocket = False
+    ws_path = "/"
+    positionnels = []
+    for arg in args:
+        if arg == "--websocket":
+            websocket = True
+        elif arg.startswith("--websocket="):
+            websocket = True
+            ws_path = arg.split("=", 1)[1]
+        else:
+            positionnels.append(arg)
+    if not positionnels:
+        logger.debug("parse_demo_args | sortie HOST manquant")
+        return None
+    info = VncConnectionInfo(
+        name=positionnels[0],
+        host=positionnels[0],
+        port=int(positionnels[1]) if len(positionnels) > 1 else 5900,
+        username=positionnels[2] if len(positionnels) > 2 else None,
+        password=positionnels[3] if len(positionnels) > 3 else None,
+        websocket=websocket,
+        ws_path=ws_path,
+    )
+    logger.debug("parse_demo_args | sortie host={h} websocket={w}", h=info.host, w=info.websocket)
+    return info
+
+
 if __name__ == "__main__":
     import sys
     from gi.events import GLibEventLoopPolicy
@@ -2319,17 +2672,10 @@ if __name__ == "__main__":
             win = DemoWindow(self, self.info)
             win.present()
 
-    if len(sys.argv) < 2:
-        logger.error("Usage: vnc_tab.py HOST [PORT] [USERNAME] [PASSWORD]")
+    demo_info = parse_demo_args(sys.argv[1:])
+    if demo_info is None:
+        logger.error("Usage: vnc_tab.py [--websocket[=CHEMIN]] HOST [PORT] [USERNAME] [PASSWORD]")
         sys.exit(1)
-
-    demo_info = VncConnectionInfo(
-        name=sys.argv[1],
-        host=sys.argv[1],
-        port=int(sys.argv[2]) if len(sys.argv) > 2 else 5900,
-        username=sys.argv[3] if len(sys.argv) > 3 else None,
-        password=sys.argv[4] if len(sys.argv) > 4 else None,
-    )
 
     asyncio.set_event_loop_policy(GLibEventLoopPolicy())
     DemoApp(demo_info).run(None)

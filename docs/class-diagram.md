@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-96 modules · 172 classes · 321 fonctions publiques de module.
+97 modules · 174 classes · 337 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -38,11 +38,11 @@ flowchart TD
     g3 -->|2| g4
     g3 -->|1| g5
     g4 -->|1| g1
-    g4 -->|5| g0
+    g4 -->|6| g0
     g4 -->|1| g3
     g5 -->|3| g0
     g5 -->|2| g3
-    g5 -->|53| g4
+    g5 -->|55| g4
 ```
 
 ## Cœur (sans GTK)
@@ -59,7 +59,6 @@ flowchart TD
 | `popup_menu_core` | `popup_menu_core.py` | Logique metier pure du menu contextuel du terminal (zero import Gtk/Gio/Vte). |
 | `putty_import_core` | `putty_import_core.py` | Cœur métier (sans GTK) de l'import de sessions PuTTY pour GCM. |
 | `snmp_bulk_core` | `snmp_bulk_core.py` | Cœur métier (sans GTK) du déploiement SNMP pour GCM. |
-| `snmp_push_core` | `snmp_push_core.py` | Cœur métier (sans GTK) du déploiement de configuration en masse par SNMP. |
 | `tab_context_menu_core` | `tab_context_menu_core.py` | Logique metier pure du menu contextuel des onglets (zero import Gtk/Gio/Vte). |
 
 ```mermaid
@@ -91,6 +90,10 @@ classDiagram
         +compute_zoom_size(current_size, delta, minimum, maximum) float
         +resolve_cluster_command(text) str
         +mask_cluster_command(text) str
+        +load_cluster_favorites(cp) list~str~
+        +save_cluster_favorites(cp, favorites) None
+        +add_cluster_favorite(favorites, text) list~str~
+        +remove_cluster_favorite(favorites, text) list~str~
         +resolve_auto_close_tab(host_override, global_default) int
         +workspace_hosts(groups) list
         +serialize_open_tabs(open_hosts) list
@@ -136,12 +139,25 @@ classDiagram
         +protect_key_file_content(raw_key, master_password) str
         +unlock_key_file_content(protected_content, master_password) str
         +rewrap_key_file_content(protected_content, old_master_password, new_master_password) str
+        +generate_recovery_code() str
+        +normalize_recovery_code(code) str
+        +has_recovery_code(protected_content) bool
+        +protect_key_file_content_with_recovery(raw_key, master_password) tuple~str, str~
+        +unlock_with_recovery_code(protected_content, recovery_code) str
+        +regenerate_recovery_code(protected_content, master_password) tuple~str, str~
+        +recover_with_code(protected_content, recovery_code, new_master_password) tuple~str, str~
         +remove_master_password_protection(protected_content, master_password) str
     }
     class InvalidMasterPasswordError {
         <<Exception>>
     }
     class CorruptedProtectedContentError {
+        <<Exception>>
+    }
+    class InvalidRecoveryCodeError {
+        <<Exception>>
+    }
+    class RecoveryCodeUnavailableError {
         <<Exception>>
     }
     class mod_netmiko_bulk_core {
@@ -226,8 +242,9 @@ classDiagram
         +load_inventory(csv_path) list~InventoryRow~
         +find_missing_variables(template, available) set~str~
         +render_template(template, variables) str
-        +push_to_device(row, profile, rendered_config, log_dir, server_ip) PushResult
-        +run_bulk_push(rows, profiles, template_text, log_dir, max_workers, on_row_start, on_row_done, cancel_event, server_ip) list~PushResult~
+        +upload_config_file(cfg, filename, content) str
+        +push_to_device(row, profile, rendered_config, log_dir, server_ip, transfer) PushResult
+        +run_bulk_push(rows, profiles, template_text, log_dir, max_workers, on_row_start, on_row_done, cancel_event, server_ip, transfer) list~PushResult~
         +summarize_results(results) dict~str, int~
     }
     class SnmpAuth {
@@ -253,7 +270,7 @@ classDiagram
         +float poll_interval
         +float poll_timeout
     }
-    class snmp_bulk_core_SnmpProfileStore {
+    class SnmpProfileStore {
         +load() None
         +save() None
         +get(name) SnmpProfile None
@@ -276,30 +293,8 @@ classDiagram
         +str log_path
         +float duration_s
     }
-    class SnmpDriver {
-        +str vendor_id
-        +str display_name
-        +push(host, server_ip, filename, username, password) tuple~bool, str~
-    }
-    class H3cComwareDriver {
-        +push(host, server_ip, filename, username, password) tuple~bool, str~
-    }
-    SnmpDriver <|-- H3cComwareDriver
-    class snmp_bulk_core_CiscoConfigCopyDriver {
-        +push(host, server_ip, filename, username, password) tuple~bool, str~
-    }
-    SnmpDriver <|-- snmp_bulk_core_CiscoConfigCopyDriver
-    class HuaweiVrpDriver {
-        +push(host, server_ip, filename, username, password) tuple~bool, str~
-    }
-    SnmpDriver <|-- HuaweiVrpDriver
-    class mod_snmp_push_core {
-        <<module>>
-        +upload_config_file(cfg, filename, content) None
-        +iter_driver_choices() list~tuple~str, str~~
-        +push_config_via_snmp(row, profile, rendered_config, transfer, poll_timeout_s, poll_interval_s) SnmpPushResult
-        +run_bulk_snmp_push_async(rows, profiles, template_text, transfer, log_dir, max_workers, on_row_start, on_row_done, cancel_event) list~SnmpPushResult~
-        +run_bulk_snmp_push(rows, profiles, template_text, transfer, log_dir, max_workers, on_row_start, on_row_done, cancel_event) list~SnmpPushResult~
+    class TransferError {
+        <<RuntimeError>>
     }
     class FileTransferConfig {
         <<dataclass>>
@@ -309,72 +304,33 @@ classDiagram
         +str username
         +str password
         +str remote_dir
-        +default_port() int
+        +str fetch_protocol
+        +str fetch_path
+        +str known_hosts
+        +effective_port() int
+        +effective_fetch_protocol() str
+        +remote_path(filename) str
+        +device_filename(filename) str
     }
-    class SnmpCredentials {
-        <<dataclass>>
-        +str version
-        +str community
-        +str username
-        +str auth_protocol
-        +str auth_key
-        +str priv_protocol
-        +str priv_key
-        +build_session_kwargs(hostname, port, timeout, retries) dict
-    }
-    class _PollOutcome {
-        <<dataclass>>
-        +bool done
-        +bool ok
-        +str detail
-    }
-    class SnmpPushDriver {
-        <<ABC>>
+    class SnmpDriver {
         +str vendor_id
         +str display_name
-        +tuple~str, ...~ supported_fetch_protocols
-        +build_push_operations(index, filename, server_host, protocol, username, password) list~tuple~str, str, str~~
-        +poll_status(session, row_index) _PollOutcome
+        +dict~str, int~ FETCH_PROTOCOLS
+        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
+        +protocol_value(protocol) int None
     }
-    class Hh3cComwareDriver {
-        +build_push_operations(index, filename, server_host, protocol, username, password)
-        +poll_status(session, row_index) _PollOutcome
+    class H3cComwareDriver {
+        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
     }
-    SnmpPushDriver <|-- Hh3cComwareDriver
-    class snmp_push_core_CiscoConfigCopyDriver {
-        +build_push_operations(index, filename, server_host, protocol, username, password)
-        +poll_status(session, row_index) _PollOutcome
+    SnmpDriver <|-- H3cComwareDriver
+    class CiscoConfigCopyDriver {
+        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
     }
-    SnmpPushDriver <|-- snmp_push_core_CiscoConfigCopyDriver
-    class SnmpDeviceProfile {
-        <<dataclass>>
-        +str name
-        +str vendor_id
-        +SnmpCredentials snmp
-        +int port
-        +float timeout
-        +driver() SnmpPushDriver
+    SnmpDriver <|-- CiscoConfigCopyDriver
+    class HuaweiVrpDriver {
+        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
     }
-    class snmp_push_core_SnmpProfileStore {
-        +reload() None
-        +get(name) SnmpDeviceProfile None
-        +names() list~str~
-        +all() list~SnmpDeviceProfile~
-        +set(profile) None
-        +delete(name) None
-        +save() None
-    }
-    class SnmpPushResult {
-        <<dataclass>>
-        +InventoryRow row
-        +str status
-        +str output
-        +str error
-        +list~str~ config_errors
-        +str log_path
-        +float duration_s
-        +ok() bool
-    }
+    SnmpDriver <|-- HuaweiVrpDriver
     class mod_tab_context_menu_core {
         <<module>>
         +build_tab_context_menu_layout(is_active, multi_pane)
@@ -569,6 +525,9 @@ classDiagram
     class Wcluster {
         <<Gtk.Dialog>>
         +new()
+        +on_cmbFavorites_changed(widget, *args)
+        +on_btnAddFavorite_clicked(widget, *args)
+        +on_btnRemoveFavorite_clicked(widget, *args)
         +on_active_toggled(widget, path)
         +change_color(term, activate)
         +on_wCluster_destroy(widget, *args)
@@ -724,7 +683,9 @@ classDiagram
         +new()
         +run()
     }
-    class conf
+    class conf {
+        +list CLUSTER_FAVORITES
+    }
     class mod_widgets {
         <<module>>
         +build_remote_desktop_context_menu(btn_connect, btn_disconnect, send_special_keys_fn, extra_items)
@@ -1167,6 +1128,7 @@ classDiagram
     class mod_plugins_pluginvnc2_vnc_tab {
         <<module>>
         +build_vnc_tab_label(tab) Gtk.Box
+        +parse_demo_args(args)
     }
     class HostKeyStore {
         +get(host, port) Optional~rsa.RSAPublicKey~
@@ -1188,6 +1150,8 @@ classDiagram
         +bool pin_host_key
         +bool sync_clipboard
         +bool invert_scroll
+        +bool websocket
+        +str ws_path
         +Optional~str~ tls_ca_file
     }
     class VncStatus {
@@ -1202,6 +1166,8 @@ classDiagram
         +save_screenshot(path) bool
         +copy_screenshot_to_clipboard() bool
         +set_active_screen(screen_id)
+        +xvp_supported() bool
+        +send_power_action(action) bool
         +send_ctrl_alt_del()
         +send_text(text)
         +toggle_scaling()
@@ -1380,6 +1346,7 @@ classDiagram
 | `gcm4.core.config` | `src/gcm4/core/config.py` | Lecture et écriture de ``~/.config/gcm4/gcm4.conf`` sans GTK (#137). |
 | `gcm4.core.deplacements` | `src/gcm4/core/deplacements.py` | Glisser-déposer dans l'arbre, validé sans GTK (#141). |
 | `gcm4.core.echange_cli` | `src/gcm4/core/echange_cli.py` | Import et export des hôtes en ligne de commande, sans fenêtre (#154). |
+| `gcm4.core.edition_lot` | `src/gcm4/core/edition_lot.py` | Édition de plusieurs hôtes en une fois, sans GTK (#100). |
 | `gcm4.core.exchange` | `src/gcm4/core/exchange.py` | Import et export des hôtes en CSV et JSON, sans GTK (#152). |
 | `gcm4.core.host_tree` | `src/gcm4/core/host_tree.py` | Arbre des groupes et des hôtes, sans GTK (#139). |
 | `gcm4.core.i18n` | `src/gcm4/core/i18n.py` | Traductions de gcm4 : domaine gettext ``gcm-lang`` de l'application GTK3. |
@@ -1423,10 +1390,25 @@ classDiagram
     }
     class ChiffrementError
     ConfigError <|-- ChiffrementError
+    class CleVerrouillee
+    ChiffrementError <|-- CleVerrouillee
+    class MotDePasseMaitreIncorrect
+    ChiffrementError <|-- MotDePasseMaitreIncorrect
+    class CodeRecouvrementIncorrect
+    ChiffrementError <|-- CodeRecouvrementIncorrect
     class ChiffrementGcm {
         +preparer(brut) None
         +dechiffrer(stocke) str
         +chiffrer(clair) str
+        +est_protegee() bool
+        +est_verrouillee() bool
+        +a_code_recouvrement() bool
+        +deverrouiller(mot_de_passe) None
+        +recuperer(code, nouveau_mot_de_passe) str
+        +activer_protection(mot_de_passe) str
+        +changer_mot_de_passe(ancien, nouveau) None
+        +regenerer_code(mot_de_passe) str
+        +desactiver_protection(mot_de_passe) None
     }
     class mod_gcm4_core_cli {
         <<module>>
@@ -1506,6 +1488,22 @@ classDiagram
         +demande(args) tuple~str, str, str~ None
         +executer(args, sortie, erreur) int None
     }
+    class mod_gcm4_core_edition_lot {
+        <<module>>
+        +hotes_de(store, chemins) list~Host~
+        +conflits(store, hotes, edition) list~str~
+        +appliquer(store, hotes, edition) int
+    }
+    class LotInvalide {
+        <<ValueError>>
+    }
+    class EditionLot {
+        <<dataclass>>
+        +bool changer_port
+        +int None port
+        +str None groupe
+        +vide() bool
+    }
     class mod_gcm4_core_exchange {
         <<module>>
         +hote_vers_dict(host, mots_de_passe) dict~str, Any~
@@ -1578,6 +1576,7 @@ classDiagram
         +disposition_gtk3(click_target) list~list~str~~
         +cible(noeud) str
         +sections(noeud, connexion_possible) list~list~str~~
+        +sections_lot(nombre_hotes) list~list~str~~
         +groupe_de_travail(noeud) str
         +decompte(store, chemin) Decompte
         +chemin_de_groupe(store, parent, nom, actuel) str None
@@ -1802,6 +1801,8 @@ classDiagram
         <<module>>
         +environnement(options) list~str~
         +liaison(options, cle) int
+        +encodage(options) str
+        +encoder(texte, nom) bytes
         +lire_commandes(brut) str
         +ecrire_commandes(texte) str
         +est_delai(ligne) bool
@@ -1860,6 +1861,7 @@ classDiagram
 | `gcm4.ui.main_window` | `src/gcm4/ui/main_window.py` | Fenêtre principale de gcm4 (#134). |
 | `gcm4.ui.menu_arbre` | `src/gcm4/ui/menu_arbre.py` | Menu contextuel, actions, raccourcis et activation de l'arbre (#142). |
 | `gcm4.ui.mises_a_jour` | `src/gcm4/ui/mises_a_jour.py` | Vérification des mises à jour au démarrage, côté interface (#245). |
+| `gcm4.ui.mot_de_passe_maitre` | `src/gcm4/ui/mot_de_passe_maitre.py` | Mot de passe maître de ``.gcm4.key`` : déverrouillage, recouvrement, réglages (#98). |
 | `gcm4.ui.preferences` | `src/gcm4/ui/preferences.py` | Préférences de la base GTK4 : pages Général et Apparence (lot 5a, #147). |
 | `gcm4.ui.raccourcis` | `src/gcm4/ui/raccourcis.py` | Raccourcis modifiables (#247) : noms de touches GDK, saisie d'une combinaison. |
 | `gcm4.ui.terminal` | `src/gcm4/ui/terminal.py` | Terminal VTE GTK4 commun aux plugins terminal (telnet, local…), #295. |
@@ -1921,8 +1923,11 @@ classDiagram
         +chercher(texte) None
         +focus_recherche() None
         +set_rayures(rayures) None
+        +positions_selectionnees() list~int~
+        +noeuds_selectionnes() list~Noeud~
         +chemin_selectionne() str None
         +selectionner(chemin) bool
+        +selectionner_plusieurs(chemins) int
         +reveler(chemin) bool
         +deposer(source, cible) bool
         +appliquer_couleurs() None
@@ -1949,11 +1954,12 @@ classDiagram
         +etat_courant() window_state.WindowState
     }
     class MenuArbre {
-        +ouvrir(noeud, x, y) None
+        +ouvrir(noeud, x, y, lot) None
         +executer(nom) None
         +modifier(operation) bool
         +ouvrir_dialogue_hote(mode, hote, groupe) HostDialog
         +appliquer_couleur(chemin, couleur) bool
+        +ouvrir_edition_lot(hotes) None
     }
     class mod_gcm4_ui_mises_a_jour {
         <<module>>
@@ -1963,6 +1969,18 @@ classDiagram
         +lancer_verification(fenetre, verification) threading.Thread
         +afficher(fenetre, resultat) bool
         +ouvrir_page(fenetre, url) None
+    }
+    class mod_gcm4_ui_mot_de_passe_maitre {
+        <<module>>
+        +verifier_nouveau(nouveau, confirmation) str None
+        +afficher_code(parent, code, rappel) Adw.Dialog Adw.MessageDialog
+    }
+    class PageVerrou {
+        <<Gtk.Box>>
+    }
+    class GroupeMotDePasseMaitre {
+        <<Adw.PreferencesGroup>>
+        +rafraichir() None
     }
     class mod_gcm4_ui_preferences {
         <<module>>
