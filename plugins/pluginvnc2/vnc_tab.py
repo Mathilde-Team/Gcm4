@@ -64,6 +64,7 @@ from gi.repository import Gtk, Gdk, GLib, GObject, Pango
 import base64
 import json
 import os
+import ssl
 import tempfile
 from datetime import datetime
 from pathlib import Path
@@ -257,6 +258,11 @@ class VncConnectionInfo:
     #: Chemin de la requête d'ouverture WebSocket (ex. ``/websockify``).
     #: Ignoré si ``websocket`` est faux.
     ws_path: str = "/"
+    #: VeNCrypt (Gcm4 #104, tâche 2) : fichier PEM d'une autorité de
+    #: certification privée pour vérifier le certificat X509* du serveur.
+    #: None = magasin système (comportement d'asyncvnc2 par défaut). Le nom
+    #: d'hôte vérifié est toujours ``host``, renseigné par asyncvnc2.
+    tls_ca_file: Optional[str] = None
 
 
 class VncStatus(enum.Enum):
@@ -565,6 +571,48 @@ class VncDisplay(Gtk.Picture):
         logger.debug("VncDisplay._resolve_transport_kwargs | sortie {r}", r=resultat)
         return resultat
 
+    @staticmethod
+    def _resolve_tls_kwargs(ca_file: Optional[str]) -> dict:
+        """Arguments VeNCrypt à passer à ``asyncvnc2.connect()``.
+
+        Sans CA privée : dictionnaire vide (asyncvnc2 utilise le magasin
+        système). Avec : ``ssl_context`` vérifiant certificat ET nom d'hôte
+        (``ssl.create_default_context``), qui ne fait confiance qu'à cette
+        CA.
+
+        Raises:
+            ValueError: fichier absent, illisible ou qui n'est pas un PEM
+                de certificat valide.
+        """
+        logger.debug("VncDisplay._resolve_tls_kwargs | entrée ca_file={f!r}", f=ca_file)
+        if not ca_file or not ca_file.strip():
+            logger.debug("VncDisplay._resolve_tls_kwargs | sortie magasin système")
+            return {}
+        chemin = os.path.expanduser(ca_file.strip())
+        try:
+            contexte = ssl.create_default_context(cafile=chemin)
+        except (OSError, ssl.SSLError) as exc:
+            logger.debug("VncDisplay._resolve_tls_kwargs | sortie CA illisible : {exc}", exc=exc)
+            raise ValueError(f"autorité de certification illisible ({chemin}) : {exc}") from exc
+        logger.debug("VncDisplay._resolve_tls_kwargs | sortie CA privée {c}", c=chemin)
+        return {"ssl_context": contexte}
+
+    @staticmethod
+    def _describe_connection_error(exc: BaseException) -> str:
+        """Message d'état d'un échec de connexion ; les erreurs TLS de
+        VeNCrypt sont nommées comme telles plutôt que noyées dans
+        « Échec de connexion »."""
+        logger.debug("VncDisplay._describe_connection_error | entrée {t}", t=type(exc).__name__)
+        if isinstance(exc, ssl.SSLCertVerificationError):
+            detail = exc.verify_message or str(exc)
+            message = f"Certificat du serveur refusé (VeNCrypt) : {detail}"
+        elif isinstance(exc, ssl.SSLError):
+            message = f"Échec de la négociation TLS (VeNCrypt) : {exc}"
+        else:
+            message = f"Échec de connexion : {exc}"
+        logger.debug("VncDisplay._describe_connection_error | sortie {m}", m=message)
+        return message
+
     async def _connect_and_run(self):
         logger.debug(
             "VncDisplay._connect_and_run | enter | host={host} port={port} shared={shared}",
@@ -593,6 +641,14 @@ class VncDisplay(Gtk.Picture):
             logger.error("VncDisplay._connect_and_run | {exc} | host={host}", exc=exc, host=self.info.host)
             self._set_status(VncStatus.ERROR, f"Chemin WebSocket invalide : {self.info.ws_path!r}")
             logger.debug("VncDisplay._connect_and_run | sortie chemin WebSocket invalide")
+            return
+
+        try:
+            connect_kwargs.update(self._resolve_tls_kwargs(self.info.tls_ca_file))
+        except ValueError as exc:
+            logger.error("VncDisplay._connect_and_run | {exc} | host={host}", exc=exc, host=self.info.host)
+            self._set_status(VncStatus.ERROR, f"VeNCrypt : {exc}")
+            logger.debug("VncDisplay._connect_and_run | sortie CA privée illisible")
             return
 
         try:
@@ -636,7 +692,7 @@ class VncDisplay(Gtk.Picture):
                 port=self.info.port,
                 exception=True,
             )
-            self._set_status(VncStatus.ERROR, f"Échec de connexion : {exc}")
+            self._set_status(VncStatus.ERROR, self._describe_connection_error(exc))
             return
 
         # Après un succès, mémoriser/rafraîchir la clé hôte si l'auth Apple
