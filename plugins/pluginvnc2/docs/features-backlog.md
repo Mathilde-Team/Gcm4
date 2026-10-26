@@ -132,6 +132,16 @@ qui reste réellement à faire.
 
 ## Connexion
 
+- Transport WebSocket (Gcm4 #104, tâche 3) : `VncConnectionInfo.websocket`
+  et `ws_path` (ex. `/websockify` pour websockify ou un proxy noVNC),
+  transmis à `asyncvnc2.connect(websocket=True, ws_path=…)`. Chemin
+  normalisé (vide → `/`, `/` ajouté en tête) et refusé s'il contient un
+  espace ou un caractère de contrôle (il finit dans la ligne de requête
+  HTTP) ; sans WebSocket, aucun argument de plus n'est passé à `connect()`.
+  Démo autonome : `python vnc_tab.py --websocket=/websockify HOTE PORT`.
+  Pas encore de champ de formulaire : le plugin n'a pas de formulaire de
+  connexion à lui, il viendra avec l'intégration côté gcm4. Tests :
+  `tests/test_websocket_transport.py`.
 - Pinning de clé hôte (auth Apple ARD uniquement) façon `known_hosts` SSH
   — stocké dans `~/.gcm/vnc_host_keys.json`, écriture atomique, avec un
   message d'erreur explicite et un bouton de récupération en cas de clé
