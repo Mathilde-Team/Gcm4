@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:09+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,6 +109,10 @@ msgstr ""
 "Напр.: ##D=1000</span>"
 
 #: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: gnome_connection_manager.py
 #, python-brace-format
 msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
 msgstr ""
@@ -144,6 +148,14 @@ msgstr "Активировать"
 #: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Add Host"
 msgstr "Добавить хост"
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "After disconnecting"
@@ -204,7 +216,8 @@ msgstr "Не удалось открыть файл журнала для зап
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -214,6 +227,14 @@ msgstr "Проверять обновления"
 
 #: gnome_connection_manager.py
 msgid "Choose Group Color"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
 msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/preferences.py
@@ -410,6 +431,10 @@ msgid "Exports"
 msgstr "Экспорт серверов"
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: gnome_connection_manager.py
 msgid "Fields group, name and host are required"
 msgstr "Поля «группа», «имя» и «хост» обязательны"
 
@@ -440,6 +465,7 @@ msgstr "Общие"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Группа"
 
@@ -637,7 +663,8 @@ msgstr "Вставить"
 msgid "Paste on right click"
 msgstr "Вставлять по правому клику"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "Порт"
 
@@ -656,6 +683,14 @@ msgstr "Домашняя страница проекта"
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
 msgid "Quit"
 msgstr "Выход"
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
 msgid "Rename Group"
@@ -805,6 +840,10 @@ msgstr "Прозрачность"
 #: ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "Тип"
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
 
 #: gnome_connection_manager.py
 msgid "Use default fixed width font"
@@ -2952,10 +2991,46 @@ msgstr "gcm4: не удалось скопировать конфигураци�
 msgid "A stored password is corrupted."
 msgstr "Сохранённый пароль повреждён."
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "Неверный мастер-пароль."
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "Неверный код восстановления."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "Ключ шифрования %s повреждён."
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "Ключ шифрования %s отсутствует: сохранённые пароли невозможно расшифровать."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "Ключ шифрования %s защищён мастер-паролем."
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "Ключ шифрования уже защищён мастер-паролем."
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "Ключ шифрования не защищён мастер-паролем."
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "Мастер-пароль не может быть пустым."
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "У этого ключа шифрования нет кода восстановления."
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -2970,6 +3045,11 @@ msgstr "Не удалось расшифровать сохранённые па
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "Не удалось прочитать ключ шифрования %s: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "Не удалось записать ключ шифрования %s: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -3071,6 +3151,10 @@ msgstr "Копировать адрес"
 #: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
 msgid "Duplicate Host"
 msgstr "Дублировать хост"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "Изменить выбранные узлы…"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
@@ -3398,8 +3482,30 @@ msgstr "Адрес скопирован"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "Уже есть в целевой группе: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "Применить"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "Изменить порт"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "Изменения не сохранены: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "Порт протокола по умолчанию"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "Изменить узлы ({count})"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3411,8 +3517,17 @@ msgstr "Имя группы"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "Обновлено узлов: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "Она содержит узлов: {hosts} и подгрупп: {groups}; они тоже будут удалены."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "Переместить в группу"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3432,6 +3547,10 @@ msgstr "Удалить узел «{name}»?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "Это действие нельзя отменить."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "Поля без отметки не изменяются."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
@@ -3454,6 +3573,172 @@ msgstr "Нет"
 msgid "Version {version} is available"
 msgstr "Доступна версия {version}"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "Изменить мастер-пароль"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "Изменить…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "Подтвердить"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "Подтвердите новый мастер-пароль"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "Текущий мастер-пароль"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "Отключить мастер-пароль"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "Отключено"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "Отключить…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "Включить мастер-пароль"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "Включено, с кодом восстановления"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "Включено, без кода восстановления"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "Включить…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "Введите мастер-пароль, чтобы разблокировать сохранённые пароли."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "Введите код восстановления, затем выберите новый мастер-пароль."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "Забыли пароль"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "Я записал его"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "Мастер-пароль"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "Мастер-пароль изменён."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "Мастер-пароль отключён."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "Мастер-пароль включён."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "Новый мастер-пароль"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "Новый код восстановления"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "Новый код восстановления создан."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "Новый код восстановления…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "Необязательно. Защищает ключ, которым шифруются сохранённые пароли: он будет запрашиваться при запуске. Код восстановления показывается один раз при включении."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "Пароли заблокированы"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "Код восстановления"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "Состояние"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "Текущий код восстановления перестанет работать."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "Ключ, которым шифруются сохранённые пароли, снова будет храниться без защиты, как без мастер-пароля."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "Мастер-пароль будет запрашиваться при каждом запуске для разблокировки сохранённых паролей. Затем один раз будет показан код восстановления."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "Код восстановления остаётся действительным."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "Пароли не совпадают."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "Недоступно: конфигурация не загружена."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "Разблокировать"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "Запишите или распечатайте этот код и храните его в надёжном месте: он больше не будет показан. Если вы забудете мастер-пароль, он разблокирует сохранённые пароли, после чего вы выберете новый мастер-пароль."
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Внешний вид"
@@ -3465,10 +3750,6 @@ msgstr "Нажмите на сочетание клавиш, чтобы изме
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "Уровень журнала по умолчанию"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "Отключено"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3511,6 +3792,10 @@ msgstr "Параметры не сохранены: {error}"
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "Страница параметров недоступна: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "Безопасность"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3563,6 +3848,19 @@ msgstr "Задать сочетание клавиш"
 #: src/gcm4/ui/raccourcis.py
 msgid "Use Ctrl, Alt or Super with this key."
 msgstr "Используйте с этой клавишей Ctrl, Alt или Super."
+
+#: src/gcm4/ui/terminal.py
+msgid "Character encoding of the remote system; UTF-8 if unsure."
+msgstr "Кодировка символов удалённой системы; если не уверены — UTF-8."
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "Encoding {name} is not available, UTF-8 is used."
+msgstr "Кодировка {name} недоступна, используется UTF-8."
+
+#: src/gcm4/ui/terminal.py
+msgid "Encoding:"
+msgstr "Кодировка:"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

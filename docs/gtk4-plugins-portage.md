@@ -93,7 +93,7 @@ toutes les lignes suivantes.
 | import_proxmox | 1029 | idem | idem | contrat « outil » |
 | import_virtualbox | 1039 | idem, `VBoxManage` | idem | contrat « outil » |
 | netmiko_push | 932 | `BatchPlugin`, `Gtk.TreeView`, `netmiko_bulk_core.py` | type « outil » ; le cœur existe déjà sans GTK | contrat « outil » |
-| snmp_push | 1146 | idem, `snmp_push_core.py` | type « outil » | **#74** : sort de `snmp_push_core.py` (double implémentation SNMP) à décider avant le portage |
+| snmp_push | 1146 | idem, `snmp_bulk_core.py` | type « outil » ; le cœur existe sans GTK, dépôt SFTP/FTP/TFTP compris (#74) | contrat « outil » ; formulaire de dépôt (protocole, identifiants, dossier) à ajouter |
 
 ## Ordre proposé
 

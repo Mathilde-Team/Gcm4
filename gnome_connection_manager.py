@@ -3644,6 +3644,7 @@ class Wmain(GCMBase, Gtk.Window):
             "options", "restore-open-tabs", conf.RESTORE_OPEN_TABS, bool
         )
         conf.OPEN_TABS = _gopt("window", "open-tabs", conf.OPEN_TABS)
+        conf.CLUSTER_FAVORITES = gcm4_core.load_cluster_favorites(cp)
         conf.GROUP_COLORS = _gopt("window", "group-colors", conf.GROUP_COLORS)
         self.group_colors = gcm4_core.parse_group_colors(conf.GROUP_COLORS)
         conf.SHOW_PANEL = _gopt("window", "show-panel", conf.SHOW_PANEL, bool)
@@ -4177,6 +4178,7 @@ class Wmain(GCMBase, Gtk.Window):
 
         # Sauvegarder les templates série personnalisés
         _serial_templates_save(cp)
+        gcm4_core.save_cluster_favorites(cp, conf.CLUSTER_FAVORITES)
 
         f = open(CONFIG_FILE + ".tmp", "w")
         cp.write(f)
@@ -7681,6 +7683,30 @@ class Wcluster(GCMBase, Gtk.Dialog):
         label53.show()
         main_box.pack_start(label53, False, False, 0)
 
+        # Commandes favorites (#84) : liste déroulante distincte de
+        # l'historique, persistée dans [cluster_favorites] de gcm.conf.
+        favorites_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        favorites_row.set_margin_top(6)
+        lbl_favorites = Gtk.Label(label=_("Favorites:"))
+        favorites_row.pack_start(lbl_favorites, False, False, 0)
+        self.cmbFavorites = Gtk.ComboBoxText()
+        self.cmbFavorites.set_hexpand(True)
+        self.cmbFavorites.set_tooltip_text(
+            _("Choose a favorite command to put it in the text area above")
+        )
+        self.cmbFavorites.connect("changed", self.on_cmbFavorites_changed)
+        favorites_row.pack_start(self.cmbFavorites, True, True, 0)
+        btnAddFavorite = Gtk.Button(label=_("Add to favorites"))
+        btnAddFavorite.set_tooltip_text(_("Add the text area content to the favorite commands"))
+        btnAddFavorite.connect("clicked", self.on_btnAddFavorite_clicked)
+        favorites_row.pack_start(btnAddFavorite, False, False, 0)
+        btnRemoveFavorite = Gtk.Button(label=_("Remove from favorites"))
+        btnRemoveFavorite.set_tooltip_text(_("Remove the chosen command from the favorites"))
+        btnRemoveFavorite.connect("clicked", self.on_btnRemoveFavorite_clicked)
+        favorites_row.pack_start(btnRemoveFavorite, False, False, 0)
+        favorites_row.show_all()
+        main_box.pack_start(favorites_row, False, False, 0)
+
         self.connect("destroy", self.on_wCluster_destroy)
 
         self.new()
@@ -7707,8 +7733,88 @@ class Wcluster(GCMBase, Gtk.Dialog):
         self.treeHosts.append_column(col)
         self.treeHosts.append_column(Gtk.TreeViewColumn(_("Host"), Gtk.CellRendererText(), text=1))
         self.txtCommands1.history = []
+        self._refresh_favorites()
 
     # -- Wcluster.new }
+
+    def _refresh_favorites(self):
+        """Recharge la liste déroulante depuis ``conf.CLUSTER_FAVORITES`` (#84)."""
+        app_logger.debug(
+            f"Wcluster._refresh_favorites() called | count={len(conf.CLUSTER_FAVORITES)}"
+        )
+        self._filling_favorites = True
+        self.cmbFavorites.remove_all()
+        for command in conf.CLUSTER_FAVORITES:
+            self.cmbFavorites.append_text(command)
+        self._filling_favorites = False
+        app_logger.debug("Wcluster._refresh_favorites() returning")
+
+    def _save_favorites(self, favorites):
+        """Mémorise et persiste les favoris, puis rafraîchit la liste (#84).
+
+        Args:
+            favorites (list[str]): Nouvelle liste de favoris.
+        """
+        app_logger.debug(f"Wcluster._save_favorites() called | count={len(favorites)}")
+        conf.CLUSTER_FAVORITES = favorites
+        wMain.writeConfig()
+        self._refresh_favorites()
+        app_logger.debug("Wcluster._save_favorites() returning")
+
+    def on_cmbFavorites_changed(self, widget, *args):
+        """Place le favori choisi dans la zone de commandes, sans l'envoyer.
+
+        Args:
+            widget (Gtk.ComboBoxText): Liste déroulante des favoris.
+            *args: Arguments supplémentaires.
+        """
+        app_logger.debug("Wcluster.on_cmbFavorites_changed() called")
+        command = widget.get_active_text()
+        if command and not self._filling_favorites:
+            self.txtCommands1.get_buffer().set_text(command)
+            self.txtCommands1.grab_focus()
+        app_logger.debug("Wcluster.on_cmbFavorites_changed() returning")
+
+    def on_btnAddFavorite_clicked(self, widget, *args):
+        """Ajoute le contenu de la zone de commandes aux favoris (#84).
+
+        Args:
+            widget (Gtk.Button): Bouton cliqué.
+            *args: Arguments supplémentaires.
+        """
+        app_logger.debug("Wcluster.on_btnAddFavorite_clicked() called")
+        buf = self.txtCommands1.get_buffer()
+        text = buf.get_text(buf.get_start_iter(), buf.get_end_iter(), False)
+        try:
+            favorites = gcm4_core.add_cluster_favorite(conf.CLUSTER_FAVORITES, text)
+        except ValueError as exc:
+            app_logger.warning(f"Wcluster.on_btnAddFavorite_clicked() refused | reason={exc}")
+            if str(exc) == "password token":
+                msgbox(
+                    _("A favorite is stored in clear text: remove the #P= password first"), self
+                )
+            else:
+                msgbox(_("Type a command in the text area first"), self)
+            app_logger.debug("Wcluster.on_btnAddFavorite_clicked() returning | refused")
+            return
+        self._save_favorites(favorites)
+        app_logger.debug("Wcluster.on_btnAddFavorite_clicked() returning")
+
+    def on_btnRemoveFavorite_clicked(self, widget, *args):
+        """Retire des favoris la commande choisie dans la liste (#84).
+
+        Args:
+            widget (Gtk.Button): Bouton cliqué.
+            *args: Arguments supplémentaires.
+        """
+        app_logger.debug("Wcluster.on_btnRemoveFavorite_clicked() called")
+        command = self.cmbFavorites.get_active_text()
+        if not command:
+            msgbox(_("Choose the favorite to remove in the list first"), self)
+            app_logger.debug("Wcluster.on_btnRemoveFavorite_clicked() returning | nothing chosen")
+            return
+        self._save_favorites(gcm4_core.remove_cluster_favorite(conf.CLUSTER_FAVORITES, command))
+        app_logger.debug("Wcluster.on_btnRemoveFavorite_clicked() returning")
 
     # -- Wcluster custom methods {
     #   Write your own methods here

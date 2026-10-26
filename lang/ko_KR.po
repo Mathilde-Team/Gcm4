@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:09+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,6 +109,10 @@ msgstr ""
 "예: ##D=1000</span>"
 
 #: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: gnome_connection_manager.py
 #, python-brace-format
 msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
 msgstr ""
@@ -144,6 +148,14 @@ msgstr "활성화"
 #: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Add Host"
 msgstr "호스트 추가"
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "After disconnecting"
@@ -204,7 +216,8 @@ msgstr "쓰기용으로 로그 파일을 열 수 없습니다"
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "취소"
 
@@ -214,6 +227,14 @@ msgstr "업데이트 확인"
 
 #: gnome_connection_manager.py
 msgid "Choose Group Color"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
 msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/preferences.py
@@ -410,6 +431,10 @@ msgid "Exports"
 msgstr "서버 내보내기"
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: gnome_connection_manager.py
 msgid "Fields group, name and host are required"
 msgstr "그룹, 이름, 호스트 필드는 필수입니다"
 
@@ -440,6 +465,7 @@ msgstr "일반"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "그룹"
 
@@ -637,7 +663,8 @@ msgstr "붙여넣기"
 msgid "Paste on right click"
 msgstr "마우스 오른쪽 클릭으로 붙여넣기"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "포트"
 
@@ -656,6 +683,14 @@ msgstr "프로젝트 홈페이지"
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
 msgid "Quit"
 msgstr "종료"
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
 msgid "Rename Group"
@@ -805,6 +840,10 @@ msgstr "투명도"
 #: ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "유형"
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
 
 #: gnome_connection_manager.py
 msgid "Use default fixed width font"
@@ -2952,10 +2991,46 @@ msgstr "gcm4: 설정 {old}을(를) {new}(으)로 복사할 수 없습니다 ({er
 msgid "A stored password is corrupted."
 msgstr "저장된 암호가 손상되었습니다."
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "마스터 비밀번호가 올바르지 않습니다."
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "복구 코드가 올바르지 않습니다."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "암호화 키 %s이(가) 손상되었습니다."
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "암호화 키 %s이(가) 없습니다: 저장된 암호를 복호화할 수 없습니다."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "암호화 키 %s은(는) 마스터 비밀번호로 보호됩니다."
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "암호화 키가 이미 마스터 비밀번호로 보호되어 있습니다."
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "암호화 키가 마스터 비밀번호로 보호되어 있지 않습니다."
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "마스터 비밀번호는 비워 둘 수 없습니다."
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "이 암호화 키에는 복구 코드가 없습니다."
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -2970,6 +3045,11 @@ msgstr "저장된 암호를 복호화할 수 없습니다: .gcm4.key가 잘못�
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "암호화 키 %s을(를) 읽을 수 없습니다: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "암호화 키 %s을(를) 쓸 수 없습니다: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -3071,6 +3151,10 @@ msgstr "주소 복사"
 #: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
 msgid "Duplicate Host"
 msgstr "호스트 복제"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "선택한 호스트 편집…"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
@@ -3398,8 +3482,30 @@ msgstr "주소를 복사했습니다"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "대상 그룹에 이미 있음: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "적용"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "포트 변경"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "변경 사항을 저장하지 못했습니다: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "프로토콜 기본 포트"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "호스트 {count}개 편집"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3411,8 +3517,17 @@ msgstr "그룹 이름"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "업데이트된 호스트: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "호스트 {hosts}개와 하위 그룹 {groups}개가 들어 있으며 함께 삭제됩니다."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "그룹으로 이동"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3432,6 +3547,10 @@ msgstr "'{name}' 호스트를 삭제할까요?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "이 작업은 되돌릴 수 없습니다."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "선택하지 않은 항목은 바뀌지 않습니다."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
@@ -3454,6 +3573,172 @@ msgstr "아니요"
 msgid "Version {version} is available"
 msgstr "버전 {version}을(를) 사용할 수 있습니다"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "마스터 비밀번호 변경"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "변경…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "확인"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "새 마스터 비밀번호 확인"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "현재 마스터 비밀번호"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "마스터 비밀번호 비활성화"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "사용 안 함"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "비활성화…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "마스터 비밀번호 활성화"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "활성화됨, 복구 코드 있음"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "활성화됨, 복구 코드 없음"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "활성화…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "저장된 비밀번호의 잠금을 해제하려면 마스터 비밀번호를 입력하세요."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "복구 코드를 입력한 다음 새 마스터 비밀번호를 선택하세요."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "비밀번호 분실"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "비밀번호를 잊으셨나요?"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "적어 두었습니다"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "마스터 비밀번호"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "마스터 비밀번호가 변경되었습니다."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "마스터 비밀번호가 비활성화되었습니다."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "마스터 비밀번호가 활성화되었습니다."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "새 마스터 비밀번호"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "새 복구 코드"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "새 복구 코드가 생성되었습니다."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "새 복구 코드…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "선택 사항. 저장된 비밀번호를 암호화하는 키를 보호합니다. 시작할 때 입력을 요청합니다. 활성화할 때 복구 코드가 한 번 표시됩니다."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "비밀번호 잠김"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "복구 코드"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "상태"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "현재 복구 코드는 더 이상 작동하지 않습니다."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "저장된 비밀번호를 암호화하는 키가 마스터 비밀번호가 없을 때처럼 다시 보호 없이 저장됩니다."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "저장된 비밀번호의 잠금을 해제하기 위해 시작할 때마다 마스터 비밀번호를 요청합니다. 그런 다음 복구 코드가 한 번 표시됩니다."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "복구 코드는 계속 유효합니다."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "두 비밀번호가 일치하지 않습니다."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "사용할 수 없음: 설정이 로드되지 않았습니다."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "잠금 해제"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "이 코드를 적어 두거나 인쇄하여 안전한 곳에 보관하세요. 다시 표시되지 않습니다. 마스터 비밀번호를 잊으면 이 코드로 저장된 비밀번호의 잠금을 해제한 다음 새 마스터 비밀번호를 선택합니다."
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "모양"
@@ -3465,10 +3750,6 @@ msgstr "바로 가기를 클릭하여 변경하거나, 대화 상자에서 Backs
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "기본 로그 수준"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "사용 안 함"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3511,6 +3792,10 @@ msgstr "환경설정을 저장하지 못했습니다: {error}"
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "환경설정 페이지를 사용할 수 없습니다: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "보안"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3563,6 +3848,19 @@ msgstr "바로 가기 설정"
 #: src/gcm4/ui/raccourcis.py
 msgid "Use Ctrl, Alt or Super with this key."
 msgstr "이 키에는 Ctrl, Alt 또는 Super를 함께 사용하십시오."
+
+#: src/gcm4/ui/terminal.py
+msgid "Character encoding of the remote system; UTF-8 if unsure."
+msgstr "원격 시스템의 문자 인코딩입니다. 잘 모르면 UTF-8을 선택하세요."
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "Encoding {name} is not available, UTF-8 is used."
+msgstr "인코딩 {name}을(를) 사용할 수 없어 UTF-8을 사용합니다."
+
+#: src/gcm4/ui/terminal.py
+msgid "Encoding:"
+msgstr "인코딩:"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

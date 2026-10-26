@@ -69,6 +69,10 @@ Le total du job Qualité seul baisse (29,9 % → 26,6 %) parce que `src/gcm4/ui/
 
 Mesure de `dev` (a592a8f, run CI 39840291314) : total combiné **41,7 %**, job Qualité seul **28,2 %**. `fail_under` passe de 18 à **41** : la mesure combinée arrondie à l'entier inférieur (0,7 pt de marge). Il ne pouvait pas monter tant qu'il s'appliquait aussi au job Qualité seul (28,2 %) : d'où #278. Cible de l'équipe : 95 % (Mathilde-Team/.github#9). Le seuil est relevé à chaque PR de tests, jamais baissé.
 
+### Palier 2 (issue #293, 24/10/2026)
+
+Mesure de `dev` (438340f, run CI 40101560678) : total combiné **43,9 %**. Tests ajoutés sans GTK ni réseau : `tests/test_plugin_base_registres.py` (contrats et `autoload()` des deux registres de `plugins/plugin_base.py`, 24,9 % → 100 %) et `tests/test_hypervisor_import_common.py` (clés SSH, `paramiko_connect` avec une doublure de paramiko, scan nmap, dconf ; 45,6 % → 100 %). Gain : 348 lignes ou branches sur 25 011, soit environ +1,4 pt (≈ 45,3 %). `fail_under` passe de 41 à **45** (entier inférieur de la nouvelle mesure combinée).
+
 ## Où le voir
 
 - **job Couverture combinée** (`ci.yml`) : total fusionné Qualité + GTK4 et tableau par périmètre dans le résumé du job ;

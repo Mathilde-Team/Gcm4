@@ -118,8 +118,7 @@ def test_hotes_selectionnes_dans_l_instance(instance, monkeypatch, pomper):
     assert app._on_command_line(app, ligne) == 0
     pomper()
     fenetre = _principale(app)
-    choisie = fenetre.arbre.selection.get_selected_item()
-    assert choisie.get_item().noeud.chemin == "LAB/bases/db"
+    assert fenetre.arbre.chemin_selectionne() == "LAB/bases/db"
     assert messages == ["Host not found: absent/x"]
 
 

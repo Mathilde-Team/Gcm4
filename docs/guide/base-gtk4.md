@@ -13,8 +13,8 @@ aucun, et les plugins GTK4 (SSH, RDP, VNC, série...) ne sont pas encore
 publiés. Avec la base seule :
 
 - l'arbre des groupes et des hôtes, la recherche, le glisser-déposer, les
-  couleurs de groupe et le dialogue d'hôte (création, modification,
-  duplication) fonctionnent ;
+  couleurs de groupe, le dialogue d'hôte (création, modification,
+  duplication) et l'édition de plusieurs hôtes à la fois fonctionnent ;
 - le choix du protocole dans le dialogue d'hôte indique « Aucune extension
   n'est installée. » ; les options d'un protocole sans plugin sont
   conservées telles quelles ;
@@ -36,8 +36,9 @@ Distributions testées par la CI (job « Paquets ») : **Debian 13**,
 **Ubuntu 24.04**, **Ubuntu 26.04** et **Fedora 44**. Il faut Python 3.12 ou
 plus récent : Ubuntu 22.04, Debian 12 et EL 9 ne conviennent pas.
 
-Les paquets ne sont pas encore joints aux releases : ils se construisent
-depuis le dépôt (voir [Publication](../release.md)) ou se téléchargent
+Le paquet `.deb` est joint aux releases à partir de la prochaine (#156) ; le
+`.rpm` pas encore. Les deux se construisent aussi depuis le dépôt (voir
+[Publication](../release.md)) ou se téléchargent
 comme artefacts `paquet-deb-gcm4` / `paquet-rpm-gcm4` d'une exécution de la
 CI.
 
@@ -45,7 +46,7 @@ CI.
 
     ```sh
     make deb-gcm4
-    sudo apt install ./build-deb/dist/gcm4_1.3.3_all.deb
+    sudo apt install ./build-deb/dist/gcm4_4.0.0_all.deb
     ```
 
     apt installe les dépendances : `python3-gi`, `gir1.2-gtk-4.0`,
@@ -55,7 +56,7 @@ CI.
 
     ```sh
     make rpm-gcm4
-    sudo dnf install ./build-rpm/dist/gcm4-1.3.3-1.noarch.rpm
+    sudo dnf install ./build-rpm/dist/gcm4-4.0.0-1.noarch.rpm
     ```
 
     dnf installe les dépendances : `python3-gobject`,
@@ -116,6 +117,29 @@ gcm4 [--version] [--debug] [-c DOSSIER] [GROUPE/NOM ...]
 
 `-c DOSSIER` utilise un autre dossier de configuration (sans migration
 depuis `~/.gcm/`).
+
+## Modifier plusieurs hôtes
+
+L'arbre accepte une sélection de plusieurs lignes (#100) : **Ctrl+clic**
+ajoute ou retire une ligne, **Maj+clic** sélectionne une plage. Clic droit
+sur une ligne de la sélection (ou touche Menu) : **Modifier les hôtes
+sélectionnés…** ouvre un dialogue à deux cases :
+
+- **Changer le port** : le port saisi s'applique à tous les hôtes ; vide,
+  chaque hôte reprend le port par défaut de son protocole ;
+- **Déplacer vers le groupe** : tous les hôtes vont dans le groupe choisi
+  (`/` pour la racine).
+
+Une case non cochée laisse le champ de chaque hôte tel quel. Les groupes
+sélectionnés sont ignorés (il faut au moins deux hôtes). Si un nom existe
+déjà dans le groupe de destination, ou si deux hôtes sélectionnés portent
+le même nom, le dialogue l'indique et **Appliquer** reste inactif : rien
+n'est modifié. Après l'application, les hôtes restent sélectionnés.
+
+Avec plusieurs lignes sélectionnées, les actions sur une seule ligne
+(Suppr, F2, menu d'un hôte) ne s'appliquent pas : un clic droit hors de la
+sélection revient à une sélection simple. Le glisser-déposer déplace
+toujours une seule ligne.
 
 ## Configuration et journaux
 
