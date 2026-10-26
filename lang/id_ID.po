@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:44+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,6 +109,10 @@ msgstr ""
 "Cth: ##D=1000</span>"
 
 #: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: gnome_connection_manager.py
 #, python-brace-format
 msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
 msgstr ""
@@ -144,6 +148,14 @@ msgstr "Aktifkan"
 #: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Add Host"
 msgstr "Tambah host"
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "After disconnecting"
@@ -215,6 +227,14 @@ msgstr "Periksa pembaruan"
 
 #: gnome_connection_manager.py
 msgid "Choose Group Color"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
 msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/preferences.py
@@ -411,6 +431,10 @@ msgid "Exports"
 msgstr "Ekspor Server"
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: gnome_connection_manager.py
 msgid "Fields group, name and host are required"
 msgstr "Kolom grup, nama, dan host wajib diisi"
 
@@ -441,6 +465,7 @@ msgstr "Umum"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Grup"
 
@@ -638,7 +663,8 @@ msgstr "Tempel"
 msgid "Paste on right click"
 msgstr "Tempel saat klik kanan"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "Port"
 
@@ -657,6 +683,14 @@ msgstr "Halaman utama proyek"
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
 msgid "Quit"
 msgstr "Keluar"
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
 msgid "Rename Group"
@@ -806,6 +840,10 @@ msgstr "Transparansi"
 #: ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "Jenis"
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
 
 #: gnome_connection_manager.py
 msgid "Use default fixed width font"
@@ -2953,8 +2991,8 @@ msgstr "gcm4: tidak dapat menyalin konfigurasi {old} ke {new} ({error})."
 msgid "A stored password is corrupted."
 msgstr "Sebuah kata sandi tersimpan rusak."
 
-#: src/gcm4/core/chiffrement.py
 #
+#: src/gcm4/core/chiffrement.py
 msgid "Incorrect master password."
 msgstr "Kata sandi utama salah."
 
@@ -2981,8 +3019,8 @@ msgstr "Kunci enkripsi %s dilindungi oleh kata sandi utama."
 msgid "The encryption key is already protected by a master password."
 msgstr "Kunci enkripsi sudah dilindungi oleh kata sandi utama."
 
-#: src/gcm4/core/chiffrement.py
 #
+#: src/gcm4/core/chiffrement.py
 msgid "The encryption key is not protected by a master password."
 msgstr "Kunci enkripsi tidak dilindungi oleh kata sandi utama."
 
@@ -3113,6 +3151,10 @@ msgstr "Salin alamat"
 #: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
 msgid "Duplicate Host"
 msgstr "Duplikat host"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "Sunting Host Terpilih…"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
@@ -3440,8 +3482,30 @@ msgstr "Alamat disalin"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "Sudah dipakai di grup tujuan: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "Terapkan"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "Ubah port"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "Perubahan tidak disimpan: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "Port bawaan protokol"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "Sunting {count} Host"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3453,8 +3517,17 @@ msgstr "Nama grup"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "Host diperbarui: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "Grup ini berisi {hosts} host dan {groups} subgrup, yang juga akan dihapus."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "Pindahkan ke grup"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3474,6 +3547,10 @@ msgstr "Hapus host '{name}'?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "Tindakan ini tidak dapat dibatalkan."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "Kolom yang tidak dicentang tidak diubah."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
@@ -3496,8 +3573,8 @@ msgstr "Tidak"
 msgid "Version {version} is available"
 msgstr "Versi {version} tersedia"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Change the master password"
 msgstr "Ubah kata sandi utama"
 
@@ -3505,23 +3582,23 @@ msgstr "Ubah kata sandi utama"
 msgid "Change…"
 msgstr "Ubah…"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm"
 msgstr "Konfirmasi"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm the new master password"
 msgstr "Konfirmasi kata sandi utama baru"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Current master password"
 msgstr "Kata sandi utama saat ini"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable the master password"
 msgstr "Nonaktifkan kata sandi utama"
 
@@ -3530,13 +3607,13 @@ msgstr "Nonaktifkan kata sandi utama"
 msgid "Disabled"
 msgstr "Nonaktif"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable…"
 msgstr "Nonaktifkan…"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Enable the master password"
 msgstr "Aktifkan kata sandi utama"
 
@@ -3560,13 +3637,13 @@ msgstr "Masukkan kata sandi utama untuk membuka kata sandi yang tersimpan."
 msgid "Enter the recovery code, then choose a new master password."
 msgstr "Masukkan kode pemulihan, lalu pilih kata sandi utama baru."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password"
 msgstr "Lupa kata sandi"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password?"
 msgstr "Lupa kata sandi?"
 
@@ -3574,28 +3651,28 @@ msgstr "Lupa kata sandi?"
 msgid "I have written it down"
 msgstr "Saya sudah mencatatnya"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password"
 msgstr "Kata sandi utama"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password changed."
 msgstr "Kata sandi utama diubah."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password disabled."
 msgstr "Kata sandi utama dinonaktifkan."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password enabled."
 msgstr "Kata sandi utama diaktifkan."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "New master password"
 msgstr "Kata sandi utama baru"
 
@@ -3615,8 +3692,8 @@ msgstr "Kode pemulihan baru…"
 msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
 msgstr "Opsional. Melindungi kunci yang mengenkripsi kata sandi tersimpan: akan diminta saat memulai. Kode pemulihan ditampilkan sekali saat diaktifkan."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Passwords locked"
 msgstr "Kata sandi terkunci"
 
@@ -3624,8 +3701,8 @@ msgstr "Kata sandi terkunci"
 msgid "Recovery code"
 msgstr "Kode pemulihan"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Status"
 msgstr "Status"
 
@@ -3649,8 +3726,8 @@ msgstr "Kode pemulihan tetap berlaku."
 msgid "The two passwords do not match."
 msgstr "Kedua kata sandi tidak cocok."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Unavailable: the configuration is not loaded."
 msgstr "Tidak tersedia: konfigurasi belum dimuat."
 

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:44+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,6 +109,10 @@ msgstr ""
 "VD: ##D=1000</span>"
 
 #: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: gnome_connection_manager.py
 #, python-brace-format
 msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
 msgstr ""
@@ -144,6 +148,14 @@ msgstr "Kích hoạt"
 #: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Add Host"
 msgstr "Thêm host"
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "After disconnecting"
@@ -215,6 +227,14 @@ msgstr "Kiểm tra cập nhật"
 
 #: gnome_connection_manager.py
 msgid "Choose Group Color"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
 msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/preferences.py
@@ -411,6 +431,10 @@ msgid "Exports"
 msgstr "Xuất Server"
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: gnome_connection_manager.py
 msgid "Fields group, name and host are required"
 msgstr "Các trường nhóm, tên và host là bắt buộc"
 
@@ -441,6 +465,7 @@ msgstr "Chung"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Nhóm"
 
@@ -638,7 +663,8 @@ msgstr "Dán"
 msgid "Paste on right click"
 msgstr "Dán khi nhấp chuột phải"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "Cổng"
 
@@ -657,6 +683,14 @@ msgstr "Trang chủ của dự án"
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
 msgid "Quit"
 msgstr "Thoát"
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
 msgid "Rename Group"
@@ -806,6 +840,10 @@ msgstr "Độ trong suốt"
 #: ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "Loại"
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
 
 #: gnome_connection_manager.py
 msgid "Use default fixed width font"
@@ -2953,8 +2991,8 @@ msgstr "gcm4: không thể sao chép cấu hình {old} sang {new} ({error})."
 msgid "A stored password is corrupted."
 msgstr "Một mật khẩu đã lưu bị hỏng."
 
-#: src/gcm4/core/chiffrement.py
 #
+#: src/gcm4/core/chiffrement.py
 msgid "Incorrect master password."
 msgstr "Mật khẩu chính không đúng."
 
@@ -2981,8 +3019,8 @@ msgstr "Khóa mã hóa %s được bảo vệ bằng mật khẩu chính."
 msgid "The encryption key is already protected by a master password."
 msgstr "Khóa mã hóa đã được bảo vệ bằng mật khẩu chính."
 
-#: src/gcm4/core/chiffrement.py
 #
+#: src/gcm4/core/chiffrement.py
 msgid "The encryption key is not protected by a master password."
 msgstr "Khóa mã hóa không được bảo vệ bằng mật khẩu chính."
 
@@ -3113,6 +3151,10 @@ msgstr "Sao chép địa chỉ"
 #: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
 msgid "Duplicate Host"
 msgstr "Sao chép host"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "Sửa các máy chủ đã chọn…"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
@@ -3440,8 +3482,30 @@ msgstr "Đã sao chép địa chỉ"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "Đã có trong nhóm đích: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "Áp dụng"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "Đổi cổng"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "Chưa lưu thay đổi: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "Cổng mặc định của giao thức"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "Sửa {count} máy chủ"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3453,8 +3517,17 @@ msgstr "Tên nhóm"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "Máy chủ đã cập nhật: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "Nhóm chứa {hosts} máy chủ và {groups} nhóm con, chúng cũng sẽ bị xóa."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "Chuyển sang nhóm"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3474,6 +3547,10 @@ msgstr "Xóa máy chủ '{name}'?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "Không thể hoàn tác thao tác này."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "Các trường không được đánh dấu sẽ giữ nguyên."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
@@ -3496,8 +3573,8 @@ msgstr "Không"
 msgid "Version {version} is available"
 msgstr "Đã có phiên bản {version}"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Change the master password"
 msgstr "Đổi mật khẩu chính"
 
@@ -3505,23 +3582,23 @@ msgstr "Đổi mật khẩu chính"
 msgid "Change…"
 msgstr "Đổi…"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm"
 msgstr "Xác nhận"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm the new master password"
 msgstr "Xác nhận mật khẩu chính mới"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Current master password"
 msgstr "Mật khẩu chính hiện tại"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable the master password"
 msgstr "Tắt mật khẩu chính"
 
@@ -3530,13 +3607,13 @@ msgstr "Tắt mật khẩu chính"
 msgid "Disabled"
 msgstr "Đã tắt"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable…"
 msgstr "Tắt…"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Enable the master password"
 msgstr "Bật mật khẩu chính"
 
@@ -3560,13 +3637,13 @@ msgstr "Nhập mật khẩu chính để mở khóa các mật khẩu đã lưu.
 msgid "Enter the recovery code, then choose a new master password."
 msgstr "Nhập mã khôi phục, sau đó chọn mật khẩu chính mới."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password"
 msgstr "Quên mật khẩu"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password?"
 msgstr "Quên mật khẩu?"
 
@@ -3574,28 +3651,28 @@ msgstr "Quên mật khẩu?"
 msgid "I have written it down"
 msgstr "Tôi đã ghi lại"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password"
 msgstr "Mật khẩu chính"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password changed."
 msgstr "Đã đổi mật khẩu chính."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password disabled."
 msgstr "Đã tắt mật khẩu chính."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password enabled."
 msgstr "Đã bật mật khẩu chính."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "New master password"
 msgstr "Mật khẩu chính mới"
 
@@ -3615,8 +3692,8 @@ msgstr "Mã khôi phục mới…"
 msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
 msgstr "Tùy chọn. Bảo vệ khóa mã hóa các mật khẩu đã lưu: sẽ được hỏi khi khởi động. Mã khôi phục được hiển thị một lần khi bật."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Passwords locked"
 msgstr "Mật khẩu đã bị khóa"
 
@@ -3624,8 +3701,8 @@ msgstr "Mật khẩu đã bị khóa"
 msgid "Recovery code"
 msgstr "Mã khôi phục"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Status"
 msgstr "Trạng thái"
 
@@ -3649,8 +3726,8 @@ msgstr "Mã khôi phục vẫn còn hiệu lực."
 msgid "The two passwords do not match."
 msgstr "Hai mật khẩu không khớp."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Unavailable: the configuration is not loaded."
 msgstr "Không khả dụng: cấu hình chưa được tải."
 

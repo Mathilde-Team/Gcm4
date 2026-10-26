@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:44+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,6 +109,10 @@ msgstr ""
 "Örn: ##D=1000</span>"
 
 #: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: gnome_connection_manager.py
 #, python-brace-format
 msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
 msgstr ""
@@ -144,6 +148,14 @@ msgstr "Etkinleştir"
 #: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Add Host"
 msgstr "Sunucu Ekle"
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "After disconnecting"
@@ -215,6 +227,14 @@ msgstr "Güncellemeleri kontrol et"
 
 #: gnome_connection_manager.py
 msgid "Choose Group Color"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
 msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/preferences.py
@@ -411,6 +431,10 @@ msgid "Exports"
 msgstr "Sunucuları Dışa Aktar"
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: gnome_connection_manager.py
 msgid "Fields group, name and host are required"
 msgstr "Grup, ad ve sunucu alanları zorunludur"
 
@@ -441,6 +465,7 @@ msgstr "Genel"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Grup"
 
@@ -638,7 +663,8 @@ msgstr "Yapıştır"
 msgid "Paste on right click"
 msgstr "Sağ tıklamada yapıştır"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "Port"
 
@@ -657,6 +683,14 @@ msgstr "Projenin Ana Sayfası"
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
 msgid "Quit"
 msgstr "Çıkış"
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
 msgid "Rename Group"
@@ -806,6 +840,10 @@ msgstr "Şeffaflık"
 #: ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "Tür"
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
 
 #: gnome_connection_manager.py
 msgid "Use default fixed width font"
@@ -2953,8 +2991,8 @@ msgstr "gcm4: {old} yapılandırması {new} konumuna kopyalanamadı ({error})."
 msgid "A stored password is corrupted."
 msgstr "Kayıtlı bir parola bozuk."
 
-#: src/gcm4/core/chiffrement.py
 #
+#: src/gcm4/core/chiffrement.py
 msgid "Incorrect master password."
 msgstr "Ana parola yanlış."
 
@@ -2981,8 +3019,8 @@ msgstr "%s şifreleme anahtarı bir ana parolayla korunuyor."
 msgid "The encryption key is already protected by a master password."
 msgstr "Şifreleme anahtarı zaten bir ana parolayla korunuyor."
 
-#: src/gcm4/core/chiffrement.py
 #
+#: src/gcm4/core/chiffrement.py
 msgid "The encryption key is not protected by a master password."
 msgstr "Şifreleme anahtarı bir ana parolayla korunmuyor."
 
@@ -3113,6 +3151,10 @@ msgstr "Adresi kopyala"
 #: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
 msgid "Duplicate Host"
 msgstr "Sunucuyu Çoğalt"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "Seçili Sunucuları Düzenle…"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
@@ -3440,8 +3482,30 @@ msgstr "Adres kopyalandı"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "Hedef grupta zaten var: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "Uygula"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "Bağlantı noktasını değiştir"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "Değişiklikler kaydedilmedi: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "Protokolün varsayılan bağlantı noktası"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "{count} Sunucuyu Düzenle"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3453,8 +3517,17 @@ msgstr "Grup adı"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "Güncellenen sunucular: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "{hosts} sunucu ve {groups} alt grup içeriyor; bunlar da silinecek."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "Gruba taşı"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3474,6 +3547,10 @@ msgstr "'{name}' sunucusu silinsin mi?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "Bu işlem geri alınamaz."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "İşaretlenmemiş alanlar değişmez."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
@@ -3496,8 +3573,8 @@ msgstr "Hayır"
 msgid "Version {version} is available"
 msgstr "{version} sürümü kullanılabilir"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Change the master password"
 msgstr "Ana parolayı değiştir"
 
@@ -3505,23 +3582,23 @@ msgstr "Ana parolayı değiştir"
 msgid "Change…"
 msgstr "Değiştir…"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm"
 msgstr "Onayla"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm the new master password"
 msgstr "Yeni ana parolayı onayla"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Current master password"
 msgstr "Geçerli ana parola"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable the master password"
 msgstr "Ana parolayı devre dışı bırak"
 
@@ -3530,13 +3607,13 @@ msgstr "Ana parolayı devre dışı bırak"
 msgid "Disabled"
 msgstr "Devre dışı"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable…"
 msgstr "Devre dışı bırak…"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Enable the master password"
 msgstr "Ana parolayı etkinleştir"
 
@@ -3560,13 +3637,13 @@ msgstr "Kayıtlı parolaların kilidini açmak için ana parolayı girin."
 msgid "Enter the recovery code, then choose a new master password."
 msgstr "Kurtarma kodunu girin, ardından yeni bir ana parola seçin."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password"
 msgstr "Parolamı unuttum"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password?"
 msgstr "Parolanızı mı unuttunuz?"
 
@@ -3574,28 +3651,28 @@ msgstr "Parolanızı mı unuttunuz?"
 msgid "I have written it down"
 msgstr "Not aldım"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password"
 msgstr "Ana parola"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password changed."
 msgstr "Ana parola değiştirildi."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password disabled."
 msgstr "Ana parola devre dışı bırakıldı."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password enabled."
 msgstr "Ana parola etkinleştirildi."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "New master password"
 msgstr "Yeni ana parola"
 
@@ -3615,8 +3692,8 @@ msgstr "Yeni kurtarma kodu…"
 msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
 msgstr "İsteğe bağlı. Kayıtlı parolaları şifreleyen anahtarı korur: başlangıçta sorulur. Etkinleştirildiğinde bir kurtarma kodu bir kez gösterilir."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Passwords locked"
 msgstr "Parolalar kilitli"
 
@@ -3624,8 +3701,8 @@ msgstr "Parolalar kilitli"
 msgid "Recovery code"
 msgstr "Kurtarma kodu"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Status"
 msgstr "Durum"
 
@@ -3649,8 +3726,8 @@ msgstr "Kurtarma kodu geçerliliğini korur."
 msgid "The two passwords do not match."
 msgstr "İki parola eşleşmiyor."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Unavailable: the configuration is not loaded."
 msgstr "Kullanılamıyor: yapılandırma yüklenmedi."
 

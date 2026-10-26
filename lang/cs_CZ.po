@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:44+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,6 +109,10 @@ msgstr ""
 "Např.: ##D=1000</span>"
 
 #: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: gnome_connection_manager.py
 #, python-brace-format
 msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
 msgstr ""
@@ -144,6 +148,14 @@ msgstr "Aktivovat"
 #: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Add Host"
 msgstr "Přidat hostitele"
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "After disconnecting"
@@ -215,6 +227,14 @@ msgstr "Zkontrolovat aktualizace"
 
 #: gnome_connection_manager.py
 msgid "Choose Group Color"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
 msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/preferences.py
@@ -411,6 +431,10 @@ msgid "Exports"
 msgstr "Exportovat servery"
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: gnome_connection_manager.py
 msgid "Fields group, name and host are required"
 msgstr "Pole skupina, název a hostitel jsou povinná"
 
@@ -441,6 +465,7 @@ msgstr "Obecné"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Skupina"
 
@@ -638,7 +663,8 @@ msgstr "Vložit"
 msgid "Paste on right click"
 msgstr "Vložit pravým kliknutím"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "Port"
 
@@ -657,6 +683,14 @@ msgstr "Domovská stránka projektu"
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
 msgid "Quit"
 msgstr "Konec"
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
 msgid "Rename Group"
@@ -806,6 +840,10 @@ msgstr "Průhlednost"
 #: ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "Typ"
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
 
 #: gnome_connection_manager.py
 msgid "Use default fixed width font"
@@ -2953,8 +2991,8 @@ msgstr "gcm4: konfiguraci {old} nelze zkopírovat do {new} ({error})."
 msgid "A stored password is corrupted."
 msgstr "Uložené heslo je poškozené."
 
-#: src/gcm4/core/chiffrement.py
 #
+#: src/gcm4/core/chiffrement.py
 msgid "Incorrect master password."
 msgstr "Nesprávné hlavní heslo."
 
@@ -2981,8 +3019,8 @@ msgstr "Šifrovací klíč %s je chráněn hlavním heslem."
 msgid "The encryption key is already protected by a master password."
 msgstr "Šifrovací klíč je již chráněn hlavním heslem."
 
-#: src/gcm4/core/chiffrement.py
 #
+#: src/gcm4/core/chiffrement.py
 msgid "The encryption key is not protected by a master password."
 msgstr "Šifrovací klíč není chráněn hlavním heslem."
 
@@ -3113,6 +3151,10 @@ msgstr "Kopírovat adresu"
 #: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
 msgid "Duplicate Host"
 msgstr "Duplikovat hostitele"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "Upravit vybrané hostitele…"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
@@ -3440,8 +3482,30 @@ msgstr "Adresa zkopírována"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "V cílové skupině již existuje: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "Použít"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "Změnit port"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "Změny nebyly uloženy: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "Výchozí port protokolu"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "Upravit hostitele ({count})"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3453,8 +3517,17 @@ msgstr "Název skupiny"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "Aktualizovaní hostitelé: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "Obsahuje hostitele ({hosts}) a podskupiny ({groups}), které budou také odstraněny."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "Přesunout do skupiny"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3474,6 +3547,10 @@ msgstr "Odstranit hostitele „{name}“?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "Tuto akci nelze vrátit."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "Nezaškrtnutá pole zůstanou beze změny."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
@@ -3496,8 +3573,8 @@ msgstr "Ne"
 msgid "Version {version} is available"
 msgstr "Je k dispozici verze {version}"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Change the master password"
 msgstr "Změnit hlavní heslo"
 
@@ -3505,23 +3582,23 @@ msgstr "Změnit hlavní heslo"
 msgid "Change…"
 msgstr "Změnit…"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm"
 msgstr "Potvrdit"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm the new master password"
 msgstr "Potvrdit nové hlavní heslo"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Current master password"
 msgstr "Současné hlavní heslo"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable the master password"
 msgstr "Vypnout hlavní heslo"
 
@@ -3530,13 +3607,13 @@ msgstr "Vypnout hlavní heslo"
 msgid "Disabled"
 msgstr "Vypnuto"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable…"
 msgstr "Vypnout…"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Enable the master password"
 msgstr "Zapnout hlavní heslo"
 
@@ -3560,13 +3637,13 @@ msgstr "Zadejte hlavní heslo pro odemčení uložených hesel."
 msgid "Enter the recovery code, then choose a new master password."
 msgstr "Zadejte obnovovací kód a poté zvolte nové hlavní heslo."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password"
 msgstr "Zapomenuté heslo"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password?"
 msgstr "Zapomněli jste heslo?"
 
@@ -3574,28 +3651,28 @@ msgstr "Zapomněli jste heslo?"
 msgid "I have written it down"
 msgstr "Zapsal jsem si ho"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password"
 msgstr "Hlavní heslo"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password changed."
 msgstr "Hlavní heslo změněno."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password disabled."
 msgstr "Hlavní heslo vypnuto."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password enabled."
 msgstr "Hlavní heslo zapnuto."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "New master password"
 msgstr "Nové hlavní heslo"
 
@@ -3615,8 +3692,8 @@ msgstr "Nový obnovovací kód…"
 msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
 msgstr "Volitelné. Chrání klíč, který šifruje uložená hesla: bude vyžadováno při spuštění. Při zapnutí se jednou zobrazí obnovovací kód."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Passwords locked"
 msgstr "Hesla zamčena"
 
@@ -3624,8 +3701,8 @@ msgstr "Hesla zamčena"
 msgid "Recovery code"
 msgstr "Obnovovací kód"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Status"
 msgstr "Stav"
 
@@ -3649,8 +3726,8 @@ msgstr "Obnovovací kód zůstává platný."
 msgid "The two passwords do not match."
 msgstr "Hesla se neshodují."
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Unavailable: the configuration is not loaded."
 msgstr "Nedostupné: konfigurace není načtena."
 

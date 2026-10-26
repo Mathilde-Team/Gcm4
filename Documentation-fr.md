@@ -666,6 +666,19 @@ Le mode cluster permet d'envoyer des commandes simultanément à plusieurs hôte
 - La saisie cluster n'affecte que les onglets marqués "cluster"
 - Utile pour des déploiements rapides ou des vérifications d'état simultanées
 
+### Commandes favorites
+
+Le dialogue **Cluster** propose, sous la zone de saisie, une liste déroulante
+**Favoris** distincte de l'historique (CTRL+haut/CTRL+bas) :
+
+- choisir un favori le place dans la zone de saisie, sans l'envoyer ;
+- **Ajouter aux favoris** enregistre le texte saisi ;
+- **Retirer des favoris** supprime le favori choisi dans la liste.
+
+Favoris par défaut : `df`, `apt update`, `updatedb`. Ils sont enregistrés en
+clair dans la section `[cluster_favorites]` de `gcm.conf` : une commande
+contenant un mot de passe `#P=` est donc refusée.
+
 ---
 
 ## 15. Tunnels SSH

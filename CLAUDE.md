@@ -11,8 +11,8 @@ VNC, SPICE, série, telnet, local, IPMI SOL, Web/BMC) pour GNOME/GTK3, en
 onglets dans une fenêtre unique, avec import d'infrastructure virtualisée
 (libvirt, Proxmox, VirtualBox, oVirt) et outils de déploiement de
 configuration en masse (Netmiko, SNMP). Fork de kuthulux/gnome-connection-manager,
-maintenu par MathildeDec. Version courante : **1.3.3** (numérotation
-post-renommage non tranchée).
+maintenu par MathildeDec. Version courante : **4.0.0** (redémarrage de la
+numérotation aligné sur le nom gcm4, décision du 2026-10-22, #299).
 
 Renommage en cours vers **gcm4** avec le passage à GTK4 : fait dans les
 livrables et la documentation, **pas fait dans le code** (module
@@ -454,8 +454,9 @@ recherche sur l'écosystème GTK4 : tout est dans `docs/gtk4-migration.md`.
    depuis la session-08 (référence à un `.glade` supprimé) — corrigé et
    vérifié. Nouveau verrou `tests/test_gcm4_rename_inventory.py`. Détail :
    `docs/gcm4-rename.md`, `docs/sessions/session-30.md`.
-3. Reste de l'urgence haute (SFTP, master password, arbitrage
-   `snmp_push_core.py`) :
+3. Reste de l'urgence haute (SFTP, master password ; arbitrage
+   `snmp_push_core.py` tranché par l'auteure dans #74 et fait : transports
+   portés dans `snmp_bulk_core.py`, module supprimé) :
    **à confirmer avec l'auteure avant d'implémenter**, ne pas trancher seul —
    détail de chaque point dans `docs/features-backlog.md`.
    **Confirmation du nombre de tests réel et des tests orphelins — retiré de

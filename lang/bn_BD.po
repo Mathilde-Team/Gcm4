@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:44+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,6 +109,10 @@ msgstr ""
 "উদাহরণ: ##D=1000</span>"
 
 #: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: gnome_connection_manager.py
 #, python-brace-format
 msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
 msgstr ""
@@ -144,6 +148,14 @@ msgstr "সক্রিয় করুন"
 #: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Add Host"
 msgstr "হোস্ট যুক্ত করুন"
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "After disconnecting"
@@ -215,6 +227,14 @@ msgstr "আপডেট পরীক্ষা করুন"
 
 #: gnome_connection_manager.py
 msgid "Choose Group Color"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
 msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/preferences.py
@@ -411,6 +431,10 @@ msgid "Exports"
 msgstr "সার্ভার এক্সপোর্ট করুন"
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: gnome_connection_manager.py
 msgid "Fields group, name and host are required"
 msgstr "গ্রুপ, নাম এবং হোস্ট ফিল্ড আবশ্যক"
 
@@ -441,6 +465,7 @@ msgstr "সাধারণ"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "গ্রুপ"
 
@@ -638,7 +663,8 @@ msgstr "পেস্ট করুন"
 msgid "Paste on right click"
 msgstr "রাইট-ক্লিকে পেস্ট করুন"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "পোর্ট"
 
@@ -657,6 +683,14 @@ msgstr "প্রজেক্টের হোমপেজ"
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
 msgid "Quit"
 msgstr "প্রস্থান"
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
 msgid "Rename Group"
@@ -806,6 +840,10 @@ msgstr "স্বচ্ছতা"
 #: ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "প্রকার"
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
 
 #: gnome_connection_manager.py
 msgid "Use default fixed width font"
@@ -2953,8 +2991,8 @@ msgstr "gcm4: কনফিগারেশন {old} থেকে {new}-এ কপ
 msgid "A stored password is corrupted."
 msgstr "একটি সংরক্ষিত পাসওয়ার্ড নষ্ট হয়ে গেছে।"
 
-#: src/gcm4/core/chiffrement.py
 #
+#: src/gcm4/core/chiffrement.py
 msgid "Incorrect master password."
 msgstr "মাস্টার পাসওয়ার্ড ভুল।"
 
@@ -2981,8 +3019,8 @@ msgstr "এনক্রিপশন কী %s একটি মাস্টার
 msgid "The encryption key is already protected by a master password."
 msgstr "এনক্রিপশন কী ইতিমধ্যে একটি মাস্টার পাসওয়ার্ড দিয়ে সুরক্ষিত।"
 
-#: src/gcm4/core/chiffrement.py
 #
+#: src/gcm4/core/chiffrement.py
 msgid "The encryption key is not protected by a master password."
 msgstr "এনক্রিপশন কী কোনো মাস্টার পাসওয়ার্ড দিয়ে সুরক্ষিত নয়।"
 
@@ -3113,6 +3151,10 @@ msgstr "ঠিকানা কপি করুন"
 #: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
 msgid "Duplicate Host"
 msgstr "হোস্ট ডুপ্লিকেট করুন"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "নির্বাচিত হোস্ট সম্পাদনা…"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
@@ -3440,8 +3482,30 @@ msgstr "ঠিকানা কপি হয়েছে"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "লক্ষ্য গ্রুপে ইতিমধ্যে আছে: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "প্রয়োগ"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "পোর্ট পরিবর্তন"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "পরিবর্তন সংরক্ষিত হয়নি: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "প্রোটোকলের ডিফল্ট পোর্ট"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "{count}টি হোস্ট সম্পাদনা"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3453,8 +3517,17 @@ msgstr "গ্রুপের নাম"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "হালনাগাদ হোস্ট: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "এতে {hosts}টি হোস্ট ও {groups}টি উপগ্রুপ আছে, সেগুলোও মুছে যাবে।"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "গ্রুপে সরান"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3474,6 +3547,10 @@ msgstr "'{name}' হোস্ট মুছবেন?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "এই কাজটি ফিরিয়ে নেওয়া যাবে না।"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "টিক না দেওয়া ঘরগুলো অপরিবর্তিত থাকবে।"
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
@@ -3496,8 +3573,8 @@ msgstr "না"
 msgid "Version {version} is available"
 msgstr "সংস্করণ {version} উপলব্ধ"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Change the master password"
 msgstr "মাস্টার পাসওয়ার্ড পরিবর্তন করুন"
 
@@ -3505,23 +3582,23 @@ msgstr "মাস্টার পাসওয়ার্ড পরিবর্�
 msgid "Change…"
 msgstr "পরিবর্তন…"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm"
 msgstr "নিশ্চিত করুন"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm the new master password"
 msgstr "নতুন মাস্টার পাসওয়ার্ড নিশ্চিত করুন"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Current master password"
 msgstr "বর্তমান মাস্টার পাসওয়ার্ড"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable the master password"
 msgstr "মাস্টার পাসওয়ার্ড বন্ধ করুন"
 
@@ -3530,13 +3607,13 @@ msgstr "মাস্টার পাসওয়ার্ড বন্ধ কর
 msgid "Disabled"
 msgstr "বন্ধ"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable…"
 msgstr "বন্ধ করুন…"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Enable the master password"
 msgstr "মাস্টার পাসওয়ার্ড চালু করুন"
 
@@ -3560,13 +3637,13 @@ msgstr "সংরক্ষিত পাসওয়ার্ড আনলক ক
 msgid "Enter the recovery code, then choose a new master password."
 msgstr "পুনরুদ্ধার কোড লিখুন, তারপর একটি নতুন মাস্টার পাসওয়ার্ড বেছে নিন।"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password"
 msgstr "পাসওয়ার্ড ভুলে গেছি"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password?"
 msgstr "পাসওয়ার্ড ভুলে গেছেন?"
 
@@ -3574,28 +3651,28 @@ msgstr "পাসওয়ার্ড ভুলে গেছেন?"
 msgid "I have written it down"
 msgstr "আমি লিখে রেখেছি"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password"
 msgstr "মাস্টার পাসওয়ার্ড"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password changed."
 msgstr "মাস্টার পাসওয়ার্ড পরিবর্তিত হয়েছে।"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password disabled."
 msgstr "মাস্টার পাসওয়ার্ড বন্ধ করা হয়েছে।"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password enabled."
 msgstr "মাস্টার পাসওয়ার্ড চালু করা হয়েছে।"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "New master password"
 msgstr "নতুন মাস্টার পাসওয়ার্ড"
 
@@ -3615,8 +3692,8 @@ msgstr "নতুন পুনরুদ্ধার কোড…"
 msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
 msgstr "ঐচ্ছিক। সংরক্ষিত পাসওয়ার্ড এনক্রিপ্ট করা কীটি সুরক্ষিত রাখে: শুরুতে এটি চাওয়া হবে। চালু করার সময় একটি পুনরুদ্ধার কোড একবার দেখানো হয়।"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Passwords locked"
 msgstr "পাসওয়ার্ড লক করা"
 
@@ -3624,8 +3701,8 @@ msgstr "পাসওয়ার্ড লক করা"
 msgid "Recovery code"
 msgstr "পুনরুদ্ধার কোড"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Status"
 msgstr "অবস্থা"
 
@@ -3649,8 +3726,8 @@ msgstr "পুনরুদ্ধার কোড বৈধ থাকবে।"
 msgid "The two passwords do not match."
 msgstr "দুটি পাসওয়ার্ড মেলেনি।"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py
 #
+#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Unavailable: the configuration is not loaded."
 msgstr "উপলব্ধ নয়: কনফিগারেশন লোড হয়নি।"
 
