@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-96 modules · 167 classes · 325 fonctions publiques de module.
+97 modules · 174 classes · 334 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -38,11 +38,11 @@ flowchart TD
     g3 -->|2| g4
     g3 -->|1| g5
     g4 -->|1| g1
-    g4 -->|5| g0
+    g4 -->|6| g0
     g4 -->|1| g3
     g5 -->|3| g0
     g5 -->|2| g3
-    g5 -->|53| g4
+    g5 -->|55| g4
 ```
 
 ## Cœur (sans GTK)
@@ -139,12 +139,25 @@ classDiagram
         +protect_key_file_content(raw_key, master_password) str
         +unlock_key_file_content(protected_content, master_password) str
         +rewrap_key_file_content(protected_content, old_master_password, new_master_password) str
+        +generate_recovery_code() str
+        +normalize_recovery_code(code) str
+        +has_recovery_code(protected_content) bool
+        +protect_key_file_content_with_recovery(raw_key, master_password) tuple~str, str~
+        +unlock_with_recovery_code(protected_content, recovery_code) str
+        +regenerate_recovery_code(protected_content, master_password) tuple~str, str~
+        +recover_with_code(protected_content, recovery_code, new_master_password) tuple~str, str~
         +remove_master_password_protection(protected_content, master_password) str
     }
     class InvalidMasterPasswordError {
         <<Exception>>
     }
     class CorruptedProtectedContentError {
+        <<Exception>>
+    }
+    class InvalidRecoveryCodeError {
+        <<Exception>>
+    }
+    class RecoveryCodeUnavailableError {
         <<Exception>>
     }
     class mod_netmiko_bulk_core {
@@ -1371,10 +1384,25 @@ classDiagram
     }
     class ChiffrementError
     ConfigError <|-- ChiffrementError
+    class CleVerrouillee
+    ChiffrementError <|-- CleVerrouillee
+    class MotDePasseMaitreIncorrect
+    ChiffrementError <|-- MotDePasseMaitreIncorrect
+    class CodeRecouvrementIncorrect
+    ChiffrementError <|-- CodeRecouvrementIncorrect
     class ChiffrementGcm {
         +preparer(brut) None
         +dechiffrer(stocke) str
         +chiffrer(clair) str
+        +est_protegee() bool
+        +est_verrouillee() bool
+        +a_code_recouvrement() bool
+        +deverrouiller(mot_de_passe) None
+        +recuperer(code, nouveau_mot_de_passe) str
+        +activer_protection(mot_de_passe) str
+        +changer_mot_de_passe(ancien, nouveau) None
+        +regenerer_code(mot_de_passe) str
+        +desactiver_protection(mot_de_passe) None
     }
     class mod_gcm4_core_cli {
         <<module>>
@@ -1825,6 +1853,7 @@ classDiagram
 | `gcm4.ui.main_window` | `src/gcm4/ui/main_window.py` | Fenêtre principale de gcm4 (#134). |
 | `gcm4.ui.menu_arbre` | `src/gcm4/ui/menu_arbre.py` | Menu contextuel, actions, raccourcis et activation de l'arbre (#142). |
 | `gcm4.ui.mises_a_jour` | `src/gcm4/ui/mises_a_jour.py` | Vérification des mises à jour au démarrage, côté interface (#245). |
+| `gcm4.ui.mot_de_passe_maitre` | `src/gcm4/ui/mot_de_passe_maitre.py` | Mot de passe maître de ``.gcm4.key`` : déverrouillage, recouvrement, réglages (#98). |
 | `gcm4.ui.preferences` | `src/gcm4/ui/preferences.py` | Préférences de la base GTK4 : pages Général et Apparence (lot 5a, #147). |
 | `gcm4.ui.raccourcis` | `src/gcm4/ui/raccourcis.py` | Raccourcis modifiables (#247) : noms de touches GDK, saisie d'une combinaison. |
 | `gcm4.ui.terminal` | `src/gcm4/ui/terminal.py` | Terminal VTE GTK4 commun aux plugins terminal (telnet, local…), #295. |
@@ -1932,6 +1961,18 @@ classDiagram
         +lancer_verification(fenetre, verification) threading.Thread
         +afficher(fenetre, resultat) bool
         +ouvrir_page(fenetre, url) None
+    }
+    class mod_gcm4_ui_mot_de_passe_maitre {
+        <<module>>
+        +verifier_nouveau(nouveau, confirmation) str None
+        +afficher_code(parent, code, rappel) Adw.Dialog Adw.MessageDialog
+    }
+    class PageVerrou {
+        <<Gtk.Box>>
+    }
+    class GroupeMotDePasseMaitre {
+        <<Adw.PreferencesGroup>>
+        +rafraichir() None
     }
     class mod_gcm4_ui_preferences {
         <<module>>

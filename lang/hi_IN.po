@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:19+0000\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,8 @@ msgstr "लॉग फ़ाइल को लिखने के लिए नह
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "रद्द करें"
 
@@ -2990,10 +2991,46 @@ msgstr "gcm4: कॉन्फ़िगरेशन {old} को {new} में 
 msgid "A stored password is corrupted."
 msgstr "एक सहेजा गया पासवर्ड दूषित है।"
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "मास्टर पासवर्ड गलत है।"
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "रिकवरी कोड गलत है।"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "एन्क्रिप्शन कुंजी %s दूषित है।"
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "एन्क्रिप्शन कुंजी %s मौजूद नहीं है: सहेजे गए पासवर्ड डिक्रिप्ट नहीं किए जा सकते।"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "एन्क्रिप्शन कुंजी %s मास्टर पासवर्ड से सुरक्षित है।"
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "एन्क्रिप्शन कुंजी पहले से मास्टर पासवर्ड से सुरक्षित है।"
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "एन्क्रिप्शन कुंजी मास्टर पासवर्ड से सुरक्षित नहीं है।"
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "मास्टर पासवर्ड खाली नहीं हो सकता।"
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "इस एन्क्रिप्शन कुंजी का कोई रिकवरी कोड नहीं है।"
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -3008,6 +3045,11 @@ msgstr "सहेजे गए पासवर्ड डिक्रिप्ट
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "एन्क्रिप्शन कुंजी %s पढ़ी नहीं जा सकी: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "एन्क्रिप्शन कुंजी %s लिखी नहीं जा सकी: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -3531,6 +3573,172 @@ msgstr "नहीं"
 msgid "Version {version} is available"
 msgstr "संस्करण {version} उपलब्ध है"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "मास्टर पासवर्ड बदलें"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "बदलें…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "पुष्टि करें"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "नए मास्टर पासवर्ड की पुष्टि करें"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "वर्तमान मास्टर पासवर्ड"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "मास्टर पासवर्ड बंद करें"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "बंद"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "बंद करें…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "मास्टर पासवर्ड चालू करें"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "चालू, रिकवरी कोड के साथ"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "चालू, रिकवरी कोड के बिना"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "चालू करें…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "सहेजे गए पासवर्ड अनलॉक करने के लिए मास्टर पासवर्ड दर्ज करें।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "रिकवरी कोड दर्ज करें, फिर नया मास्टर पासवर्ड चुनें।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "पासवर्ड भूल गए"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "पासवर्ड भूल गए?"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "मैंने इसे लिख लिया है"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "मास्टर पासवर्ड"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "मास्टर पासवर्ड बदला गया।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "मास्टर पासवर्ड बंद किया गया।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "मास्टर पासवर्ड चालू किया गया।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "नया मास्टर पासवर्ड"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "नया रिकवरी कोड"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "नया रिकवरी कोड बनाया गया।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "नया रिकवरी कोड…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "वैकल्पिक। सहेजे गए पासवर्ड को एन्क्रिप्ट करने वाली कुंजी की सुरक्षा करता है: यह शुरू होने पर पूछा जाएगा। चालू करने पर एक रिकवरी कोड एक बार दिखाया जाता है।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "पासवर्ड लॉक हैं"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "रिकवरी कोड"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "स्थिति"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "वर्तमान रिकवरी कोड अब काम नहीं करेगा।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "सहेजे गए पासवर्ड को एन्क्रिप्ट करने वाली कुंजी फिर से बिना सुरक्षा के संग्रहीत होगी, जैसे मास्टर पासवर्ड के बिना।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "सहेजे गए पासवर्ड अनलॉक करने के लिए हर बार शुरू होने पर मास्टर पासवर्ड पूछा जाएगा। फिर एक रिकवरी कोड एक बार दिखाया जाएगा।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "रिकवरी कोड मान्य रहता है।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "दोनों पासवर्ड मेल नहीं खाते।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "उपलब्ध नहीं: कॉन्फ़िगरेशन लोड नहीं हुआ है।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "अनलॉक करें"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "इस कोड को लिख लें या प्रिंट करें और सुरक्षित स्थान पर रखें: यह फिर से नहीं दिखाया जाएगा। यदि आप मास्टर पासवर्ड भूल जाते हैं, तो यह सहेजे गए पासवर्ड अनलॉक करता है, फिर आप नया मास्टर पासवर्ड चुनते हैं।"
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "दिखावट"
@@ -3542,10 +3750,6 @@ msgstr "किसी शॉर्टकट को बदलने के लि�
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "डिफ़ॉल्ट लॉग स्तर"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "अक्षम"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3588,6 +3792,10 @@ msgstr "प्राथमिकताएँ सहेजी नहीं गई
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "प्राथमिकता पृष्ठ उपलब्ध नहीं: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "सुरक्षा"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"

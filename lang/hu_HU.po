@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:19+0000\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,8 @@ msgstr "A naplófájl írásra nem nyitható meg"
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "Mégse"
 
@@ -2990,10 +2991,46 @@ msgstr "gcm4: a(z) {old} beállítások nem másolhatók ide: {new} ({error})."
 msgid "A stored password is corrupted."
 msgstr "Egy tárolt jelszó sérült."
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "Hibás mesterjelszó."
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "Hibás helyreállítási kód."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "A(z) %s titkosítási kulcs sérült."
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "Hiányzik a(z) %s titkosítási kulcs: a tárolt jelszavak nem fejthetők vissza."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "A(z) %s titkosítási kulcsot mesterjelszó védi."
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "A titkosítási kulcsot már mesterjelszó védi."
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "A titkosítási kulcsot nem védi mesterjelszó."
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "A mesterjelszó nem lehet üres."
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "Ennek a titkosítási kulcsnak nincs helyreállítási kódja."
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -3008,6 +3045,11 @@ msgstr "A tárolt jelszavak nem fejthetők vissza: a .gcm4.key hibás vagy lecse
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "Nem olvasható a(z) %s titkosítási kulcs: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "A(z) %s titkosítási kulcs nem írható: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -3531,6 +3573,172 @@ msgstr "Nem"
 msgid "Version {version} is available"
 msgstr "Elérhető a(z) {version} verzió"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "Mesterjelszó módosítása"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "Módosítás…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "Megerősítés"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "Az új mesterjelszó megerősítése"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "Jelenlegi mesterjelszó"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "Mesterjelszó kikapcsolása"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "Kikapcsolva"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "Kikapcsolás…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "Mesterjelszó bekapcsolása"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "Bekapcsolva, helyreállítási kóddal"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "Bekapcsolva, helyreállítási kód nélkül"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "Bekapcsolás…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "Adja meg a mesterjelszót a mentett jelszavak feloldásához."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "Adja meg a helyreállítási kódot, majd válasszon új mesterjelszót."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "Elfelejtett jelszó"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "Elfelejtette a jelszót?"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "Felírtam"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "Mesterjelszó"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "Mesterjelszó módosítva."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "Mesterjelszó kikapcsolva."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "Mesterjelszó bekapcsolva."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "Új mesterjelszó"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "Új helyreállítási kód"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "Új helyreállítási kód létrehozva."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "Új helyreállítási kód…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "Nem kötelező. Védi a mentett jelszavakat titkosító kulcsot: indításkor kérni fogja. Bekapcsoláskor egyszer megjelenik egy helyreállítási kód."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "Jelszavak zárolva"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "Helyreállítási kód"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "Állapot"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "A jelenlegi helyreállítási kód többé nem működik."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "A mentett jelszavakat titkosító kulcs ismét védelem nélkül lesz tárolva, mint mesterjelszó nélkül."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "A mesterjelszót minden indításkor kérni fogja a mentett jelszavak feloldásához. Ezután egyszer megjelenik egy helyreállítási kód."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "A helyreállítási kód érvényes marad."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "A két jelszó nem egyezik."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "Nem érhető el: a beállítások nincsenek betöltve."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "Feloldás"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "Írja fel vagy nyomtassa ki ezt a kódot, és tartsa biztonságos helyen: többé nem jelenik meg. Ha elfelejti a mesterjelszót, feloldja a mentett jelszavakat, majd új mesterjelszót választ."
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Megjelenés"
@@ -3542,10 +3750,6 @@ msgstr "Kattintson egy gyorsbillentyűre a módosításához, vagy nyomja meg a 
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "Alapértelmezett naplózási szint"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "Letiltva"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3588,6 +3792,10 @@ msgstr "A beállítások nem lettek mentve: {error}"
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "A beállítási oldal nem érhető el: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "Biztonság"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:19+0000\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,8 @@ msgstr "تعذر فتح ملف السجل للكتابة"
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "إلغاء"
 
@@ -2990,10 +2991,46 @@ msgstr "gcm4: تعذّر نسخ الإعدادات {old} إلى {new} ({error}).
 msgid "A stored password is corrupted."
 msgstr "إحدى كلمات المرور المحفوظة تالفة."
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "كلمة المرور الرئيسية غير صحيحة."
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "رمز الاسترداد غير صحيح."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "مفتاح التشفير %s تالف."
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "مفتاح التشفير %s مفقود: لا يمكن فك تشفير كلمات المرور المحفوظة."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "مفتاح التشفير %s محمي بكلمة مرور رئيسية."
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "مفتاح التشفير محمي بالفعل بكلمة مرور رئيسية."
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "مفتاح التشفير غير محمي بكلمة مرور رئيسية."
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "يجب ألا تكون كلمة المرور الرئيسية فارغة."
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "لا يملك مفتاح التشفير هذا رمز استرداد."
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -3008,6 +3045,11 @@ msgstr "تعذّر فك تشفير كلمات المرور المحفوظة: ا�
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "تعذّرت قراءة مفتاح التشفير %s: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "تعذّرت كتابة مفتاح التشفير %s: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -3531,6 +3573,172 @@ msgstr "لا"
 msgid "Version {version} is available"
 msgstr "الإصدار {version} متاح"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "تغيير كلمة المرور الرئيسية"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "تغيير…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "تأكيد"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "تأكيد كلمة المرور الرئيسية الجديدة"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "كلمة المرور الرئيسية الحالية"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "تعطيل كلمة المرور الرئيسية"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "معطّلة"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "تعطيل…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "تفعيل كلمة المرور الرئيسية"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "مفعّلة، مع رمز استرداد"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "مفعّلة، بدون رمز استرداد"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "تفعيل…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "أدخل كلمة المرور الرئيسية لفتح كلمات المرور المحفوظة."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "أدخل رمز الاسترداد، ثم اختر كلمة مرور رئيسية جديدة."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "نسيت كلمة المرور"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "هل نسيت كلمة المرور؟"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "لقد دوّنته"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "كلمة المرور الرئيسية"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "تم تغيير كلمة المرور الرئيسية."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "تم تعطيل كلمة المرور الرئيسية."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "تم تفعيل كلمة المرور الرئيسية."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "كلمة مرور رئيسية جديدة"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "رمز استرداد جديد"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "تم إنشاء رمز استرداد جديد."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "رمز استرداد جديد…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "اختياري. يحمي المفتاح الذي يشفّر كلمات المرور المحفوظة: ستُطلب عند بدء التشغيل. يُعرض رمز استرداد مرة واحدة عند التفعيل."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "كلمات المرور مقفلة"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "رمز الاسترداد"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "الحالة"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "لن يعمل رمز الاسترداد الحالي بعد الآن."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "سيُخزَّن المفتاح الذي يشفّر كلمات المرور المحفوظة مجددًا دون حماية، كما بدون كلمة مرور رئيسية."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "ستُطلب كلمة المرور الرئيسية عند كل بدء تشغيل لفتح كلمات المرور المحفوظة. ثم يُعرض رمز استرداد مرة واحدة."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "يبقى رمز الاسترداد صالحًا."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "كلمتا المرور غير متطابقتين."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "غير متاح: لم يتم تحميل الإعدادات."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "فتح القفل"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "دوّن هذا الرمز أو اطبعه واحفظه في مكان آمن: لن يُعرض مرة أخرى. إذا نسيت كلمة المرور الرئيسية، فإنه يفتح كلمات المرور المحفوظة، ثم تختار كلمة مرور رئيسية جديدة."
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "المظهر"
@@ -3542,10 +3750,6 @@ msgstr "انقر على اختصار لتغييره، أو اضغط على مف�
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "مستوى السجل الافتراضي"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "معطّل"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3588,6 +3792,10 @@ msgstr "لم يتم حفظ التفضيلات: {error}"
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "صفحة التفضيلات غير متاحة: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "الأمان"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"

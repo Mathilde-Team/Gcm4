@@ -444,7 +444,8 @@ def load_encryption_key(key_file: str) -> None:
         None
 
     Raises:
-        RuntimeError: Si ``key_file`` existe mais ne peut pas être lu.
+        RuntimeError: Si ``key_file`` existe mais ne peut pas être lu, ou
+            s'il est protégé par un mot de passe maître (#98).
     """
     app_logger.debug(f"load_encryption_key() called | key_file={key_file!r}")
     global _enc_passwd
@@ -458,6 +459,15 @@ def load_encryption_key(key_file: str) -> None:
         _enc_passwd = ""
         app_logger.debug(f"load_encryption_key() raising | key_file={key_file!r} erreur={exc}")
         raise RuntimeError(f"Error trying to open key_file: {key_file}") from exc
+    # Garde-fou #98 : une clé protégée par mot de passe maître (préfixe
+    # GCM4MPW1:/GCM4MPW2: de master_password_core, réservée à gcm4) ne doit
+    # jamais servir telle quelle de clé de chiffrement.
+    if _enc_passwd.startswith("GCM4MPW"):
+        _enc_passwd = ""
+        app_logger.debug(f"load_encryption_key() raising | key_file={key_file!r} clé protégée")
+        raise RuntimeError(
+            f"Key file is protected by a master password, open it with gcm4: {key_file}"
+        )
     app_logger.debug("load_encryption_key() returning | clé chargée")
 
 

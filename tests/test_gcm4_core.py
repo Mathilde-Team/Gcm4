@@ -262,6 +262,21 @@ class TestEncryptionKeyLifecycle(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             gcm4_core.load_encryption_key(self._keyfile)
 
+    def test_load_protected_key_raises_and_keeps_key_empty(self):
+        """#98 : une clé protégée par mot de passe maître n'est jamais utilisée telle quelle."""
+        import master_password_core
+
+        for content in (
+            master_password_core.protect_key_file_content("cafe", "pw"),
+            master_password_core.protect_key_file_content_with_recovery("cafe", "pw")[0],
+        ):
+            with open(self._keyfile, "w") as f:
+                f.write(content)
+            gcm4_core._enc_passwd = "previous"
+            with self.assertRaisesRegex(RuntimeError, "master password"):
+                gcm4_core.load_encryption_key(self._keyfile)
+            self.assertEqual(gcm4_core._enc_passwd, "")
+
     def test_initialise_unwritable_dir_raises_runtime_error(self):
         """Dossier parent inexistant -> RuntimeError, pas de crash silencieux."""
         bogus_path = os.path.join(self._tmpdir, "no-such-subdir", "key")

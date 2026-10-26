@@ -476,9 +476,10 @@ recherche sur l'écosystème GTK4 : tout est dans `docs/gtk4-migration.md`.
    Master password : la logique de chiffrement (`master_password_core.py`,
    session-27, 2026-09-10) est faite et testée isolément (PBKDF2 + enveloppe
    `pyAES`, rétrocompatible avec un `KEY_FILE` legacy non protégé) ; le
-   câblage réel (prompt GTK au démarrage, politique en cas de mot de passe
-   oublié) reste bloqué sur une décision produit à confirmer avec l'auteure,
-   pas codé à l'aveugle.
+   câblage réel est fait dans gcm4 (#98, décisions de l'auteure du
+   12/10/2026 : protection facultative, code de recouvrement affiché une
+   fois) : page de verrouillage au démarrage, Paramètres > Sécurité.
+   Détail : `docs/guide/mot-de-passe-maitre.md`.
    `Documentation-fr.md` (dernier point de doc utilisateur en retard) a été
    mis à jour (session-24, 2026-09-09) : architecture plugins, IPMI SOL/Web,
    VirtualBox/oVirt, Netmiko/SNMP push, 29 langues — n'attendait aucune

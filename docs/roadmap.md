@@ -21,6 +21,8 @@
 | #99 | Renommage GCM → gcm4 (6 noms à confirmer) | Débloque versioning + packaging |
 | #98 | Master password (comportement oubli + protection) | Débloque câblage GTK |
 | #74 | Sort de snmp_push_core.py : transports portés dans snmp_bulk_core.py, module supprimé (PR en relecture) | Nettoyage architecture |
+| #98 | Master password (comportement oubli + protection) — tranché le 12/10/2026 (facultatif, code de recouvrement), câblé dans gcm4 (PR en relecture) | Débloque câblage GTK |
+| #74 | Sort de snmp_push_core.py (supprimer ou fusionner) | Nettoyage architecture |
 
 ### Phase 1 — Migration GTK4 + Qualité 🔄
 

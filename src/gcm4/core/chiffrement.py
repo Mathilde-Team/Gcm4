@@ -20,7 +20,15 @@ mots de passe. Ici, le bourrage PKCS#7 et l'UTF-8 sont vérifiés, et toute
 incohérence lève :class:`ChiffrementError` (une :class:`ConfigError`) :
 rien n'est chargé, donc rien ne peut être écrasé.
 
-Aucun mot de passe, clair ou chiffré, ni la clé ne sont journalisés (#117).
+Mot de passe maître (#98, optionnel) : ``.gcm4.key`` peut contenir la clé
+enveloppée par ``master_password_core`` (mot de passe maître et code de
+recouvrement). Elle est alors **verrouillée** tant que :meth:`ChiffrementGcm.deverrouiller`
+(ou :meth:`~ChiffrementGcm.recuperer`) n'a pas réussi : aucune lecture ni
+écriture d'un mot de passe d'hôte n'est possible, et la clé n'est jamais
+recréée par-dessus. Sans mot de passe maître, rien ne change.
+
+Aucun mot de passe, clair ou chiffré, ni la clé, ni le mot de passe maître,
+ni le code de recouvrement ne sont journalisés (#117).
 """
 
 from __future__ import annotations
@@ -35,6 +43,7 @@ import secrets
 from loguru import logger
 
 import gcm4_core
+import master_password_core as mpc
 import pyAES
 from gcm4.core import chemins
 from gcm4.core.config import SECTION_OPTIONS, ConfigError
@@ -49,6 +58,18 @@ _SECTION_HOTE = re.compile(r"^host \d+$")
 
 class ChiffrementError(ConfigError):
     """Clé absente ou illisible, ou mot de passe indéchiffrable (message traduit)."""
+
+
+class CleVerrouillee(ChiffrementError):
+    """``.gcm4.key`` est protégée par un mot de passe maître non encore saisi (#98)."""
+
+
+class MotDePasseMaitreIncorrect(ChiffrementError):
+    """Mot de passe maître incorrect (#98)."""
+
+
+class CodeRecouvrementIncorrect(ChiffrementError):
+    """Code de recouvrement incorrect (#98)."""
 
 
 def dechiffrer_aes_strict(stocke: str, secret: str) -> str:
@@ -143,10 +164,17 @@ class ChiffrementGcm:
         Raises:
             ChiffrementError: ``.gcm4.key`` absente alors que des mots de passe
                 AES sont enregistrés, ou illisible.
+            CleVerrouillee: ``.gcm4.key`` protégée et pas encore déverrouillée.
         """
         logger.debug("ChiffrementGcm.preparer")
         self.ancien_format = not brut.has_option(SECTION_OPTIONS, "version")
-        self._cle = self._lire_cle()
+        contenu = self._lire_cle()
+        if contenu is not None and mpc.is_protected(contenu):
+            if self._cle is None:
+                logger.debug("ChiffrementGcm.preparer: clé verrouillée")
+                raise CleVerrouillee(self._message_verrouillee())
+        else:
+            self._cle = contenu
         chiffres = any(
             brut.get(s, "pass", fallback="") for s in brut.sections() if _SECTION_HOTE.match(s)
         )
@@ -177,6 +205,9 @@ class ChiffrementGcm:
             logger.debug("ChiffrementGcm._assurer_cle: déjà chargée")
             return
         existante = self._lire_cle()
+        if existante is not None and mpc.is_protected(existante):
+            logger.debug("ChiffrementGcm._assurer_cle: clé verrouillée")
+            raise CleVerrouillee(self._message_verrouillee())
         if existante is not None:
             self._cle = existante
             logger.debug("ChiffrementGcm._assurer_cle: existante")
@@ -204,3 +235,224 @@ class ChiffrementGcm:
         resultat: str = pyAES.encrypt(clair, self._secret)
         logger.trace("ChiffrementGcm.chiffrer: fait (masqué)")
         return resultat
+
+    # --- mot de passe maître (#98) ----------------------------------------------
+
+    def _message_verrouillee(self) -> str:
+        """Message traduit : clé verrouillée."""
+        logger.trace("ChiffrementGcm._message_verrouillee")
+        message: str = _("The encryption key %s is protected by a master password.") % (
+            self.fichier_cle
+        )
+        logger.trace("ChiffrementGcm._message_verrouillee: fait")
+        return message
+
+    def est_protegee(self) -> bool:
+        """``.gcm4.key`` existe et est protégée par un mot de passe maître."""
+        logger.debug("ChiffrementGcm.est_protegee")
+        contenu = self._lire_cle()
+        resultat = contenu is not None and mpc.is_protected(contenu)
+        logger.debug("ChiffrementGcm.est_protegee: {}", resultat)
+        return resultat
+
+    def est_verrouillee(self) -> bool:
+        """Protégée et pas encore déverrouillée dans cette session."""
+        logger.debug("ChiffrementGcm.est_verrouillee")
+        resultat = self._cle is None and self.est_protegee()
+        logger.debug("ChiffrementGcm.est_verrouillee: {}", resultat)
+        return resultat
+
+    def a_code_recouvrement(self) -> bool:
+        """La clé protégée porte un code de recouvrement (format v2)."""
+        logger.debug("ChiffrementGcm.a_code_recouvrement")
+        contenu = self._lire_cle()
+        resultat = contenu is not None and mpc.has_recovery_code(contenu)
+        logger.debug("ChiffrementGcm.a_code_recouvrement: {}", resultat)
+        return resultat
+
+    def _contenu_protege(self) -> str:
+        """Contenu protégé de ``.gcm4.key``.
+
+        Raises:
+            ChiffrementError: clé absente, illisible ou non protégée.
+        """
+        logger.debug("ChiffrementGcm._contenu_protege")
+        contenu = self._lire_cle()
+        if contenu is None or not mpc.is_protected(contenu):
+            logger.debug("ChiffrementGcm._contenu_protege: non protégée")
+            raise ChiffrementError(_("The encryption key is not protected by a master password."))
+        logger.debug("ChiffrementGcm._contenu_protege: lu (masqué)")
+        return contenu
+
+    def _ecrire_cle(self, contenu: str) -> None:
+        """Remplace ``.gcm4.key`` de façon atomique (fichier ``0600`` puis ``os.replace``).
+
+        Raises:
+            ChiffrementError: écriture impossible ; l'ancienne clé est intacte.
+        """
+        logger.debug("ChiffrementGcm._ecrire_cle: {}", self.fichier_cle)
+        temporaire = f"{self.fichier_cle}.tmp"
+        try:
+            os.makedirs(os.path.dirname(self.fichier_cle) or ".", exist_ok=True)
+            if os.path.exists(temporaire):
+                os.unlink(temporaire)
+            descripteur = os.open(temporaire, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+            with os.fdopen(descripteur, "w", encoding="utf-8") as fichier:
+                fichier.write(contenu)
+                fichier.flush()
+                os.fsync(fichier.fileno())
+            os.replace(temporaire, self.fichier_cle)
+        except OSError as exc:
+            logger.warning("ChiffrementGcm._ecrire_cle: écriture impossible : {}", exc)
+            raise ChiffrementError(
+                _("Unable to write the encryption key %s: %s") % (self.fichier_cle, exc)
+            ) from exc
+        logger.debug("ChiffrementGcm._ecrire_cle: fait (masqué)")
+
+    def _traduire(self, exc: Exception) -> ChiffrementError:
+        """Exception de ``master_password_core`` → :class:`ChiffrementError` traduite."""
+        logger.debug("ChiffrementGcm._traduire: {}", type(exc).__name__)
+        erreur: ChiffrementError
+        if isinstance(exc, mpc.InvalidMasterPasswordError):
+            erreur = MotDePasseMaitreIncorrect(_("Incorrect master password."))
+        elif isinstance(exc, mpc.InvalidRecoveryCodeError):
+            erreur = CodeRecouvrementIncorrect(_("Incorrect recovery code."))
+        elif isinstance(exc, mpc.RecoveryCodeUnavailableError):
+            erreur = ChiffrementError(_("This encryption key has no recovery code."))
+        elif isinstance(exc, mpc.CorruptedProtectedContentError):
+            erreur = ChiffrementError(_("The encryption key %s is corrupted.") % self.fichier_cle)
+        else:
+            erreur = ChiffrementError(_("The master password must not be empty."))
+        logger.debug("ChiffrementGcm._traduire: fait")
+        return erreur
+
+    def deverrouiller(self, mot_de_passe: str) -> None:
+        """Déverrouille la clé pour cette session (rien n'est écrit).
+
+        Raises:
+            MotDePasseMaitreIncorrect: mot de passe incorrect.
+            ChiffrementError: clé absente, non protégée ou corrompue.
+        """
+        logger.debug("ChiffrementGcm.deverrouiller (mot de passe masqué)")
+        contenu = self._contenu_protege()
+        try:
+            self._cle = mpc.unlock_key_file_content(contenu, mot_de_passe)
+        except (mpc.InvalidMasterPasswordError, mpc.CorruptedProtectedContentError) as exc:
+            logger.warning("ChiffrementGcm.deverrouiller: refusé ({})", type(exc).__name__)
+            raise self._traduire(exc) from exc
+        logger.debug("ChiffrementGcm.deverrouiller: fait")
+
+    def recuperer(self, code: str, nouveau_mot_de_passe: str) -> str:
+        """Mot de passe oublié : déverrouille par le code et impose un nouveau mot de passe.
+
+        Returns:
+            str: Nouveau code de recouvrement, à afficher une seule fois.
+
+        Raises:
+            CodeRecouvrementIncorrect: code incorrect.
+            ChiffrementError: clé sans code, corrompue, ou mot de passe vide.
+        """
+        logger.debug("ChiffrementGcm.recuperer (code et mot de passe masqués)")
+        contenu = self._contenu_protege()
+        try:
+            nouveau, nouveau_code = mpc.recover_with_code(contenu, code, nouveau_mot_de_passe)
+            cle = mpc.unlock_key_file_content(nouveau, nouveau_mot_de_passe)
+        except (
+            mpc.InvalidRecoveryCodeError,
+            mpc.RecoveryCodeUnavailableError,
+            mpc.CorruptedProtectedContentError,
+            ValueError,
+        ) as exc:
+            logger.warning("ChiffrementGcm.recuperer: refusé ({})", type(exc).__name__)
+            raise self._traduire(exc) from exc
+        self._ecrire_cle(nouveau)
+        self._cle = cle
+        logger.debug("ChiffrementGcm.recuperer: fait (nouveau code masqué)")
+        return nouveau_code
+
+    def activer_protection(self, mot_de_passe: str) -> str:
+        """Protège ``.gcm4.key`` (créée si besoin) par un mot de passe maître.
+
+        Returns:
+            str: Code de recouvrement, à afficher une seule fois.
+
+        Raises:
+            ChiffrementError: déjà protégée, mot de passe vide, écriture impossible.
+        """
+        logger.debug("ChiffrementGcm.activer_protection (mot de passe masqué)")
+        if self.est_protegee():
+            logger.debug("ChiffrementGcm.activer_protection: déjà protégée")
+            raise ChiffrementError(
+                _("The encryption key is already protected by a master password.")
+            )
+        self._assurer_cle()
+        try:
+            contenu, code = mpc.protect_key_file_content_with_recovery(
+                self._cle or "", mot_de_passe
+            )
+        except ValueError as exc:
+            logger.warning("ChiffrementGcm.activer_protection: mot de passe vide")
+            raise self._traduire(exc) from exc
+        self._ecrire_cle(contenu)
+        logger.debug("ChiffrementGcm.activer_protection: fait (code masqué)")
+        return code
+
+    def changer_mot_de_passe(self, ancien: str, nouveau: str) -> None:
+        """Change le mot de passe maître ; le code de recouvrement reste valide.
+
+        Raises:
+            MotDePasseMaitreIncorrect: ancien mot de passe incorrect.
+            ChiffrementError: non protégée, nouveau mot de passe vide, écriture.
+        """
+        logger.debug("ChiffrementGcm.changer_mot_de_passe (mots de passe masqués)")
+        contenu = self._contenu_protege()
+        try:
+            nouveau_contenu = mpc.rewrap_key_file_content(contenu, ancien, nouveau)
+        except (
+            mpc.InvalidMasterPasswordError,
+            mpc.CorruptedProtectedContentError,
+            ValueError,
+        ) as exc:
+            logger.warning("ChiffrementGcm.changer_mot_de_passe: refusé ({})", type(exc).__name__)
+            raise self._traduire(exc) from exc
+        self._ecrire_cle(nouveau_contenu)
+        logger.debug("ChiffrementGcm.changer_mot_de_passe: fait")
+
+    def regenerer_code(self, mot_de_passe: str) -> str:
+        """Remplace le code de recouvrement (l'ancien cesse d'être valide).
+
+        Returns:
+            str: Nouveau code, à afficher une seule fois.
+
+        Raises:
+            MotDePasseMaitreIncorrect: mot de passe incorrect.
+            ChiffrementError: non protégée, corrompue, écriture impossible.
+        """
+        logger.debug("ChiffrementGcm.regenerer_code (mot de passe masqué)")
+        contenu = self._contenu_protege()
+        try:
+            nouveau_contenu, code = mpc.regenerate_recovery_code(contenu, mot_de_passe)
+        except (mpc.InvalidMasterPasswordError, mpc.CorruptedProtectedContentError) as exc:
+            logger.warning("ChiffrementGcm.regenerer_code: refusé ({})", type(exc).__name__)
+            raise self._traduire(exc) from exc
+        self._ecrire_cle(nouveau_contenu)
+        logger.debug("ChiffrementGcm.regenerer_code: fait (code masqué)")
+        return code
+
+    def desactiver_protection(self, mot_de_passe: str) -> None:
+        """Retire le mot de passe maître : ``.gcm4.key`` redevient la clé en clair.
+
+        Raises:
+            MotDePasseMaitreIncorrect: mot de passe incorrect.
+            ChiffrementError: non protégée, corrompue, écriture impossible.
+        """
+        logger.debug("ChiffrementGcm.desactiver_protection (mot de passe masqué)")
+        contenu = self._contenu_protege()
+        try:
+            cle = mpc.remove_master_password_protection(contenu, mot_de_passe)
+        except (mpc.InvalidMasterPasswordError, mpc.CorruptedProtectedContentError) as exc:
+            logger.warning("ChiffrementGcm.desactiver_protection: refusé ({})", type(exc).__name__)
+            raise self._traduire(exc) from exc
+        self._ecrire_cle(cle)
+        self._cle = cle
+        logger.debug("ChiffrementGcm.desactiver_protection: fait")

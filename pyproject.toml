@@ -67,7 +67,7 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-only-include = ["src/gcm4", "gcm4_core.py", "logging_config.py", "pyAES.py"]
+only-include = ["src/gcm4", "gcm4_core.py", "logging_config.py", "master_password_core.py", "pyAES.py"]
 sources = ["src"]
 # Mode éditable (`uv sync`) : src/ et la racine sur sys.path, sans copie
 # des modules racine (une copie figée masquerait les modifications).

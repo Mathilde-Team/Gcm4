@@ -721,9 +721,11 @@ GCM détecte automatiquement la version lors du chargement et migre vers AES
 
 ### Clé de chiffrement
 
-La clé est dérivée du **mot de passe maître** saisi au démarrage (si configuré),
-ou d'une clé interne fixe. Pour une sécurité maximale, utilisez un mot de passe
-maître via **Édition → Préférences → Sécurité**.
+La clé est stockée dans un fichier local (`0600`). Dans gcm4 (GTK4), elle peut
+être protégée par un **mot de passe maître** demandé au démarrage, avec un code
+de recouvrement en cas d'oubli : **Paramètres → Sécurité**, voir
+`docs/guide/mot-de-passe-maitre.md`. L'application GTK3 n'a pas de mot de
+passe maître.
 
 ### Fichier de configuration
 
