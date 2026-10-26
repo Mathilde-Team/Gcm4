@@ -94,12 +94,15 @@ def _ovirt_api_get(engine_url, username, password, verify_ssl, path, log_fn=None
         with urlopen(req, timeout=timeout, context=ctx) as resp:
             return json.loads(resp.read().decode(errors="replace"))
     except HTTPError as e:
+        logger.warning("import ovirt | erreur HTTP {} sur {} : {}", e.code, path, e.reason)
         if log_fn:
             log_fn(f"  ERREUR HTTP {e.code} sur {path} : {e.reason}")
     except URLError as e:
+        logger.warning("import ovirt | connexion à {} impossible : {}", engine_url, e.reason)
         if log_fn:
             log_fn(f"  ERREUR de connexion à {engine_url} : {e.reason}")
     except Exception as e:
+        logger.warning("import ovirt | erreur inattendue sur {} : {}", path, e)
         if log_fn:
             log_fn(f"  ERREUR inattendue sur {path} : {e}")
     return None
@@ -122,7 +125,8 @@ def _probe_tcp_direct(host, port, timeout=4):
     try:
         with socket.create_connection((host, port), timeout=timeout):
             return True
-    except OSError:
+    except OSError as exc:
+        logger.debug("import ovirt | {}:{} injoignable : {}", host, port, exc)
         return False
 
 

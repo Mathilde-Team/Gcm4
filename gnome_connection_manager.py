@@ -85,7 +85,8 @@ try:
     from key_picker_dialog import KeyPickerDialog
 
     _KEY_PICKER_OK = True
-except ImportError:
+except ImportError as exc:
+    _loguru_logger.debug("module key_picker_dialog absent : {}", exc)
     _KEY_PICKER_OK = False
 
 try:
@@ -133,13 +134,15 @@ try:
     from gi.repository import GObject as _GObj
 
     _HAS_OUTPUT_WRITTEN = bool(_GObj.signal_lookup("output-written", Vte.Terminal))
-except Exception:
+except Exception as exc:
+    _loguru_logger.debug("signal output-written introuvable, repli sur la version VTE : {}", exc)
     _HAS_OUTPUT_WRITTEN = (Vte.MAJOR_VERSION, Vte.MINOR_VERSION) >= (0, 60)
 
 # Ver si expect esta instalado
 try:
     e = os.system("expect >/dev/null 2>&1 -v")
-except BaseException:
+except BaseException as exc:
+    _loguru_logger.debug("sonde expect impossible : {}", exc)
     e = -1
 if e != 0:
     error = Gtk.MessageDialog(
@@ -182,12 +185,14 @@ DEFAULT_TERM_TYPE = "xterm-256color"
 SSH_COMMAND = BASE_PATH + "/ssh.expect"
 try:
     USERHOME_DIR = os.getenv("HOME")
-except BaseException:
+except BaseException as exc:
+    _loguru_logger.debug("variable HOME illisible : {}", exc)
     USERHOME_DIR = ""
 if USERHOME_DIR is None or USERHOME_DIR == "":
     try:
         USERHOME_DIR = os.path.expanduser("~")
-    except BaseException:
+    except BaseException as exc:
+        _loguru_logger.debug("répertoire personnel introuvable : {}", exc)
         USERHOME_DIR = ""
 
 assert (USERHOME_DIR is not None) and (USERHOME_DIR != ""), (
@@ -647,8 +652,8 @@ def set_widget_font(widget, font_desc):
         provider = Gtk.CssProvider()
         provider.load_from_data(css)
         widget.get_style_context().add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-    except Exception:
-        pass
+    except Exception as exc:
+        _loguru_logger.debug("style CSS non appliqué : {}", exc)
 
 
 def color_to_hex(rgba, diff=0):
@@ -712,6 +717,7 @@ def load_encryption_key():
     try:
         gcm4_core.load_encryption_key(KEY_FILE)
     except RuntimeError as exc:
+        _loguru_logger.error("clé de chiffrement non chargée : {}", exc)
         msgbox(str(exc))
 
 
@@ -723,6 +729,7 @@ def initialise_encyption_key():
     try:
         gcm4_core.initialise_encyption_key(KEY_FILE)
     except RuntimeError as exc:
+        _loguru_logger.error("clé de chiffrement non régénérée : {}", exc)
         msgbox(str(exc))
 
 
@@ -776,13 +783,14 @@ def vte_feed(terminal, data):
             if fd >= 0:
                 os.write(fd, data_bytes)
                 return
-    except Exception:
-        pass
+    except Exception as exc:
+        _loguru_logger.debug("écriture directe au pty impossible, repli feed_child : {}", exc)
     # fallback feed_child pour VTE anciens
     if TERMINAL_V048 or (Vte.MAJOR_VERSION, Vte.MINOR_VERSION) >= (0, 42):
         try:
             terminal.feed_child(data_bytes)
-        except TypeError:
+        except TypeError as exc:
+            _loguru_logger.debug("feed_child moderne indisponible, repli VTE ancien : {}", exc)
             terminal.feed_child(data, len(data))
     else:
         terminal.feed_child(data, len(data))
@@ -1314,8 +1322,8 @@ class Wmain(GCMBase, Gtk.Window):
             )
             if _gs.returncode == 0:
                 _desktop_theme = _gs.stdout.strip().strip("'\"")
-        except Exception:
-            pass
+        except Exception as exc:
+            _loguru_logger.debug("thème du bureau non détecté via gsettings : {}", exc)
         if not _desktop_theme:
             # Fallback : lire ~/.config/gtk-3.0/settings.ini
             try:
@@ -1327,13 +1335,13 @@ class Wmain(GCMBase, Gtk.Window):
                     _c = _cp.ConfigParser()
                     _c.read(str(_ini))
                     _desktop_theme = _c.get("Settings", "gtk-theme-name", fallback=None)
-            except Exception:
-                pass
+            except Exception as exc:
+                _loguru_logger.debug("thème non lu dans settings.ini : {}", exc)
         if _desktop_theme:
             try:
                 settings.set_property("gtk-theme-name", _desktop_theme)
-            except Exception:
-                pass
+            except Exception as exc:
+                _loguru_logger.debug("thème {} non appliqué : {}", _desktop_theme, exc)
         # Suivre aussi le mode sombre si le bureau l'a activé
         try:
             _dark = _sp.run(
@@ -1344,15 +1352,15 @@ class Wmain(GCMBase, Gtk.Window):
             )
             if _dark.returncode == 0 and "dark" in _dark.stdout.lower():
                 settings.set_property("gtk-application-prefer-dark-theme", True)
-        except Exception:
-            pass
+        except Exception as exc:
+            _loguru_logger.debug("mode sombre du bureau non détecté : {}", exc)
         # gtk-menu-images / gtk-button-images sont dépréciés depuis GTK 3.10
         # On force via CSS à la place
         try:
             settings.set_property("gtk-menu-images", True)
             settings.set_property("gtk-button-images", True)
-        except Exception:
-            pass  # ignoré sur GTK >= 3.10 sans ces propriétés
+        except Exception as exc:
+            _loguru_logger.debug("propriétés gtk-menu-images dépréciées ignorées : {}", exc)
         settings.props.gtk_menu_bar_accel = None
 
         self.enable_window_transparency(self.window)
@@ -1404,8 +1412,8 @@ class Wmain(GCMBase, Gtk.Window):
         provider = Gtk.CssProvider()
         try:
             provider.load_from_path(BASE_PATH + "/style.css")
-        except Exception:
-            pass  # style.css absent — UI continues without custom theme
+        except Exception as exc:
+            _loguru_logger.debug("style.css absent, thème par défaut conservé : {}", exc)
         Gtk.StyleContext.add_provider_for_screen(
             screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
@@ -2640,7 +2648,8 @@ class Wmain(GCMBase, Gtk.Window):
         if isinstance(default, int):
             try:
                 return int(raw)
-            except (TypeError, ValueError):
+            except (TypeError, ValueError) as exc:
+                _loguru_logger.debug("préférence {!r} non entière, valeur par défaut : {}", raw, exc)
                 return default
         return raw
 
@@ -2717,6 +2726,7 @@ class Wmain(GCMBase, Gtk.Window):
                 for h in hosts:
                     writer.writerow(self._host_to_dict(h))
         except Exception as e:
+            _loguru_logger.error("export CSV impossible : {}", e)
             msgbox(_("CSV export error: {e}").format(e=e))
             return
         msgbox(
@@ -2742,6 +2752,7 @@ class Wmain(GCMBase, Gtk.Window):
             with open(filename, "w", encoding="utf-8") as f:
                 _json.dump(data, f, indent=2, ensure_ascii=False)
         except Exception as e:
+            _loguru_logger.error("export JSON impossible : {}", e)
             msgbox(_("JSON export error: {e}").format(e=e))
             return
         msgbox(
@@ -2885,8 +2896,8 @@ class Wmain(GCMBase, Gtk.Window):
                 )
                 terminal.log.write(text)
                 terminal.log.flush()
-            except Exception:
-                pass
+            except Exception as exc:
+                _loguru_logger.debug("écriture du journal de session impossible : {}", exc)
 
     def on_contents_changed(self, terminal):
         """Callback VTE < 0.60 : capture les changements de contenu pour le logging.
@@ -2968,8 +2979,8 @@ class Wmain(GCMBase, Gtk.Window):
             if hasattr(terminal, "log") and terminal.log and not terminal.log.closed:
                 terminal.log.flush()
                 terminal.log.close()
-        except Exception:
-            pass
+        except Exception as exc:
+            _loguru_logger.debug("fermeture du journal de session impossible : {}", exc)
 
     def _on_terminal_child_exited(self, terminal, status, tab):
         """Gère la fin du processus enfant d'un terminal.
@@ -3245,8 +3256,8 @@ class Wmain(GCMBase, Gtk.Window):
             tag = terminal.match_add_regex(new_reg_m, 0)
             terminal.match_set_cursor_name(tag, "pointer")
             return tag
-        except Exception:
-            pass
+        except Exception as exc:
+            _loguru_logger.debug("expression régulière d'URL non enregistrée : {}", exc)
 
     def open_management_tab(self, key, title, factory):
         """Ouvre un ecran de gestion (Parametres, editeur d'hote, ...) comme
@@ -3578,7 +3589,8 @@ class Wmain(GCMBase, Gtk.Window):
         """
         try:
             scuts[cp.get("shortcuts", command)] = name
-        except BaseException:
+        except BaseException as exc:
+            _loguru_logger.debug("raccourci {} illisible, valeur par défaut : {}", command, exc)
             scuts[default] = name
 
     def loadConfig(self):
@@ -3597,7 +3609,8 @@ class Wmain(GCMBase, Gtk.Window):
                 if typ == int:
                     return cp.getint(section, key)
                 return cp.get(section, key)
-            except Exception:
+            except Exception as exc:
+                _loguru_logger.debug("option {!r} hors du fichier de configuration : {}", str(key), exc)
                 return default
 
         conf.WORD_SEPARATORS = _gopt("options", "word-separators", conf.WORD_SEPARATORS)
@@ -3704,7 +3717,8 @@ class Wmain(GCMBase, Gtk.Window):
         for x in range(1, 10):
             try:
                 scuts[cp.get("shortcuts", "console_%d" % (x))] = eval("_CONSOLE_%d" % (x))
-            except BaseException:
+            except BaseException as exc:
+                _loguru_logger.debug("raccourci console_{} illisible : {}", x, exc)
                 scuts["ALT+%d" % (x)] = eval("_CONSOLE_%d" % (x))
         try:
             i = 1
@@ -3713,8 +3727,8 @@ class Wmain(GCMBase, Gtk.Window):
                     "shortcuts", "command%d" % (i)
                 ).replace("\\n", "\n")
                 i = i + 1
-        except BaseException:
-            pass
+        except BaseException as exc:
+            _loguru_logger.debug("fin de lecture des raccourcis personnalisés : {}", exc)
         global shortcuts
         shortcuts = scuts
 
@@ -3755,8 +3769,8 @@ class Wmain(GCMBase, Gtk.Window):
                 g = g.strip()
                 if g and g not in groups:
                     groups[g] = []
-        except Exception:
-            pass
+        except Exception as exc:
+            _loguru_logger.debug("noms de groupes vides non parsés : {}", exc)
 
     def is_node_collapsed(self, model, path, iter, nodes):
         """Indique si un noeud de l'arbre est reduit.
@@ -3798,7 +3812,8 @@ class Wmain(GCMBase, Gtk.Window):
         src_path_str = selection.get_data().decode()
         try:
             src_it = self.treeModel.get_iter_from_string(src_path_str)
-        except (ValueError, RuntimeError):
+        except (ValueError, RuntimeError) as exc:
+            _loguru_logger.debug("chemin source {!r} invalide, glisser annulé : {}", src_path_str, exc)
             Gdk.drag_status(context, 0, time)
             return
 
@@ -3823,7 +3838,8 @@ class Wmain(GCMBase, Gtk.Window):
         dest_path_gtk, drop_pos = drop_info
         try:
             dest_it = self.treeModel.get_iter(dest_path_gtk)
-        except Exception:
+        except Exception as exc:
+            _loguru_logger.debug("chemin destination invalide, glisser annulé : {}", exc)
             Gdk.drag_status(context, 0, time)
             return
 
@@ -3849,14 +3865,16 @@ class Wmain(GCMBase, Gtk.Window):
                 lst = groups.get(src_grp, [])
                 try:
                     idx_src = next(i for i, h in enumerate(lst) if h is src_host)
-                except StopIteration:
+                except StopIteration as exc:
+                    _loguru_logger.debug("hôte source introuvable, glisser annulé : {}", exc)
                     Gdk.drag_status(context, 0, time)
                     return
                 lst.pop(idx_src)
                 if dest_host is not None:
                     try:
                         idx_dst = next(i for i, h in enumerate(lst) if h is dest_host)
-                    except StopIteration:
+                    except StopIteration as exc:
+                        _loguru_logger.debug("hôte destination introuvable, insertion en fin : {}", exc)
                         idx_dst = len(lst)
                     if drop_pos in (
                         Gtk.TreeViewDropPosition.AFTER,
@@ -4477,7 +4495,8 @@ class Wmain(GCMBase, Gtk.Window):
                 f = open(filename, "w")
                 f.write(buff.strip())
                 f.close()
-            except BaseException:
+            except BaseException as exc:
+                _loguru_logger.error("écriture du tampon vers {} impossible : {}", filename, exc)
                 dlg.destroy()
                 msgbox("%s: %s" % (_("Can't open file for writting"), filename))
                 return
@@ -4612,7 +4631,8 @@ class Wmain(GCMBase, Gtk.Window):
                         grupos[host.group] = []
 
                     grupos[host.group].append(host)
-            except BaseException:
+            except BaseException as exc:
+                _loguru_logger.warning("fichier d'hôtes invalide : {}", exc)
                 msgbox(_("Invalid file"))
                 return
             # sobreescribir lista de hosts
@@ -4657,7 +4677,8 @@ class Wmain(GCMBase, Gtk.Window):
                 cp.write(f)
                 f.close()
                 os.rename(filename + ".tmp", filename)
-            except BaseException:
+            except BaseException as exc:
+                _loguru_logger.warning("export des hôtes impossible : {}", exc)
                 msgbox(_("Invalid file"))
 
     # -- Wmain.on_exportar_servidores1_activate }
@@ -4910,8 +4931,8 @@ class Wmain(GCMBase, Gtk.Window):
                 ):
                     try:
                         del groups[group]
-                    except BaseException:
-                        pass
+                    except BaseException as exc:
+                        _loguru_logger.debug("groupe {} déjà absent : {}", group, exc)
                     for h in dict(groups):
                         if h.startswith(group + "/"):
                             del groups[h]
@@ -6479,7 +6500,8 @@ class Whost(GCMBase, Gtk.Dialog):
                                 index = groups[self.oldGroup].index(h)
                                 groups[self.oldGroup][index] = host
                                 break
-        except BaseException:
+        except BaseException as exc:
+            _loguru_logger.error("sauvegarde de l'hôte impossible : {}", exc)
             msgbox("%s [%s]" % (_("Error saving host. Description"), sys.exc_info()[1]))
 
         wMain.updateTree()
@@ -7336,7 +7358,8 @@ class Wconfig(GCMBase, Gtk.Dialog):
                     timeout=3,
                 )
                 conf.DARK_MODE = _dark.returncode == 0 and "dark" in _dark.stdout.lower()
-            except Exception:
+            except Exception as exc:
+                _loguru_logger.debug("mode sombre non détecté : {}", exc)
                 conf.DARK_MODE = False
             settings.set_property("gtk-application-prefer-dark-theme", conf.DARK_MODE)
         wMain.writeConfig()
@@ -8081,8 +8104,8 @@ class CheckUpdates(Thread):
                         ),
                         self.parent.get_widget("wMain"),
                     )
-        except Exception:
-            pass
+        except Exception as exc:
+            _loguru_logger.debug("vérification de nouvelle version impossible : {}", exc)
 
 
 # -- main {

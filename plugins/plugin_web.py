@@ -40,7 +40,8 @@ for _webkit_version in ("4.1", "4.0"):
 
         _WEBKIT2_OK = True
         break
-    except (ValueError, ImportError):
+    except (ValueError, ImportError) as exc:
+        logger.debug("plugin web | WebKit2 {} indisponible : {}", _webkit_version, exc)
         continue
 
 
