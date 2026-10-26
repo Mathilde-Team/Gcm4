@@ -1812,6 +1812,7 @@ classDiagram
         <<dataclass>>
         +list~str~ argv
         +str mot_de_passe
+        +tuple~str, ...~ env
     }
     class mod_gcm4_core_theme {
         <<module>>

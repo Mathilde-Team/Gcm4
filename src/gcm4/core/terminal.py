@@ -78,13 +78,17 @@ class Lancement:
         argv: programme et arguments (``argv[0]`` est le chemin du programme).
         mot_de_passe: à écrire sur le descripteur 3 du programme ; vide : aucun
             descripteur supplémentaire.
+        env: variables supplémentaires ``KEY=VALUE`` ajoutées à l'environnement
+            du processus (ex. ``IPMI_PASSWORD`` pour ipmitool, #179) ; les
+            valeurs ne figurent jamais dans ``repr`` (#145).
     """
 
     argv: list[str]
     mot_de_passe: str = ""
+    env: tuple[str, ...] = ()
 
     def __repr__(self) -> str:
-        """Représentation sans le mot de passe (journal)."""
+        """Représentation sans le mot de passe ni les valeurs d'``env`` (journal)."""
         return (
             f"Lancement(argv={self.argv!r}, mot_de_passe={'***' if self.mot_de_passe else ''!r})"
         )
