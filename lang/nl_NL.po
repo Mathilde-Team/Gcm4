@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:19+0000\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,8 @@ msgstr "Kan logbestand niet openen om te schrijven"
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -2990,10 +2991,46 @@ msgstr "gcm4: kan de configuratie {old} niet naar {new} kopiëren ({error})."
 msgid "A stored password is corrupted."
 msgstr "Een opgeslagen wachtwoord is beschadigd."
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "Onjuist hoofdwachtwoord."
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "Onjuiste herstelcode."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "De versleutelingssleutel %s is beschadigd."
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "De versleutelingssleutel %s ontbreekt: de opgeslagen wachtwoorden kunnen niet worden ontsleuteld."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "De versleutelingssleutel %s is beveiligd met een hoofdwachtwoord."
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "De versleutelingssleutel is al beveiligd met een hoofdwachtwoord."
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "De versleutelingssleutel is niet beveiligd met een hoofdwachtwoord."
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "Het hoofdwachtwoord mag niet leeg zijn."
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "Deze versleutelingssleutel heeft geen herstelcode."
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -3008,6 +3045,11 @@ msgstr "Kan de opgeslagen wachtwoorden niet ontsleutelen: .gcm4.key is onjuist o
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "Kan de versleutelingssleutel %s niet lezen: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "Kan de versleutelingssleutel %s niet schrijven: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -3531,6 +3573,172 @@ msgstr "Nee"
 msgid "Version {version} is available"
 msgstr "Versie {version} is beschikbaar"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "Hoofdwachtwoord wijzigen"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "Wijzigen…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "Bevestigen"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "Nieuw hoofdwachtwoord bevestigen"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "Huidig hoofdwachtwoord"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "Hoofdwachtwoord uitschakelen"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "Uitgeschakeld"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "Uitschakelen…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "Hoofdwachtwoord inschakelen"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "Ingeschakeld, met herstelcode"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "Ingeschakeld, zonder herstelcode"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "Inschakelen…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "Voer het hoofdwachtwoord in om de opgeslagen wachtwoorden te ontgrendelen."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "Voer de herstelcode in en kies daarna een nieuw hoofdwachtwoord."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "Wachtwoord vergeten"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "Wachtwoord vergeten?"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "Ik heb hem genoteerd"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "Hoofdwachtwoord"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "Hoofdwachtwoord gewijzigd."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "Hoofdwachtwoord uitgeschakeld."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "Hoofdwachtwoord ingeschakeld."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "Nieuw hoofdwachtwoord"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "Nieuwe herstelcode"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "Nieuwe herstelcode aangemaakt."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "Nieuwe herstelcode…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "Optioneel. Beveiligt de sleutel die de opgeslagen wachtwoorden versleutelt: het wordt bij het opstarten gevraagd. Bij het inschakelen wordt eenmalig een herstelcode getoond."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "Wachtwoorden vergrendeld"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "Herstelcode"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "Status"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "De huidige herstelcode werkt niet meer."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "De sleutel die de opgeslagen wachtwoorden versleutelt, wordt weer onbeveiligd opgeslagen, zoals zonder hoofdwachtwoord."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "Het hoofdwachtwoord wordt bij elke start gevraagd om de opgeslagen wachtwoorden te ontgrendelen. Daarna wordt eenmalig een herstelcode getoond."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "De herstelcode blijft geldig."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "De twee wachtwoorden komen niet overeen."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "Niet beschikbaar: de configuratie is niet geladen."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "Ontgrendelen"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "Noteer of print deze code en bewaar hem op een veilige plek: hij wordt niet meer getoond. Als u het hoofdwachtwoord vergeet, ontgrendelt hij de opgeslagen wachtwoorden en kiest u daarna een nieuw hoofdwachtwoord."
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Uiterlijk"
@@ -3542,10 +3750,6 @@ msgstr "Klik op een sneltoets om deze te wijzigen, of druk in het dialoogvenster
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "Standaard logniveau"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "Uitgeschakeld"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3588,6 +3792,10 @@ msgstr "Voorkeuren niet opgeslagen: {error}"
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "Voorkeurenpagina niet beschikbaar: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "Beveiliging"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"

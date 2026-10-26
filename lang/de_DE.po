@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:19+0000\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,8 @@ msgstr "Protokolldatei kann nicht zum Schreiben geöffnet werden"
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -2990,10 +2991,46 @@ msgstr "gcm4: Die Konfiguration {old} konnte nicht nach {new} kopiert werden ({e
 msgid "A stored password is corrupted."
 msgstr "Ein gespeichertes Passwort ist beschädigt."
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "Falsches Master-Passwort."
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "Falscher Wiederherstellungscode."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "Der Verschlüsselungsschlüssel %s ist beschädigt."
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "Der Verschlüsselungsschlüssel %s fehlt: Die gespeicherten Passwörter können nicht entschlüsselt werden."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "Der Verschlüsselungsschlüssel %s ist durch ein Master-Passwort geschützt."
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "Der Verschlüsselungsschlüssel ist bereits durch ein Master-Passwort geschützt."
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "Der Verschlüsselungsschlüssel ist nicht durch ein Master-Passwort geschützt."
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "Das Master-Passwort darf nicht leer sein."
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "Dieser Verschlüsselungsschlüssel hat keinen Wiederherstellungscode."
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -3008,6 +3045,11 @@ msgstr "Die gespeicherten Passwörter können nicht entschlüsselt werden: .gcm4
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "Der Verschlüsselungsschlüssel %s kann nicht gelesen werden: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "Der Verschlüsselungsschlüssel %s kann nicht geschrieben werden: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -3531,6 +3573,172 @@ msgstr "Nein"
 msgid "Version {version} is available"
 msgstr "Version {version} ist verfügbar"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "Master-Passwort ändern"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "Ändern…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "Neues Master-Passwort bestätigen"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "Aktuelles Master-Passwort"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "Master-Passwort deaktivieren"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "Deaktiviert"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "Deaktivieren…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "Master-Passwort aktivieren"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "Aktiviert, mit Wiederherstellungscode"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "Aktiviert, ohne Wiederherstellungscode"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "Aktivieren…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "Geben Sie das Master-Passwort ein, um die gespeicherten Passwörter zu entsperren."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "Geben Sie den Wiederherstellungscode ein und wählen Sie dann ein neues Master-Passwort."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "Passwort vergessen"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "Passwort vergessen?"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "Ich habe ihn notiert"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "Master-Passwort"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "Master-Passwort geändert."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "Master-Passwort deaktiviert."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "Master-Passwort aktiviert."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "Neues Master-Passwort"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "Neuer Wiederherstellungscode"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "Neuer Wiederherstellungscode erstellt."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "Neuer Wiederherstellungscode…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "Optional. Schützt den Schlüssel, der die gespeicherten Passwörter verschlüsselt: Es wird beim Start abgefragt. Beim Aktivieren wird einmalig ein Wiederherstellungscode angezeigt."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "Passwörter gesperrt"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "Wiederherstellungscode"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "Status"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "Der aktuelle Wiederherstellungscode funktioniert nicht mehr."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "Der Schlüssel, der die gespeicherten Passwörter verschlüsselt, wird wieder ungeschützt gespeichert, wie ohne Master-Passwort."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "Das Master-Passwort wird bei jedem Start abgefragt, um die gespeicherten Passwörter zu entsperren. Danach wird einmalig ein Wiederherstellungscode angezeigt."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "Der Wiederherstellungscode bleibt gültig."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "Die beiden Passwörter stimmen nicht überein."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "Nicht verfügbar: Die Konfiguration ist nicht geladen."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "Entsperren"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "Notieren oder drucken Sie diesen Code und bewahren Sie ihn sicher auf: Er wird nicht erneut angezeigt. Wenn Sie das Master-Passwort vergessen, entsperrt er die gespeicherten Passwörter, danach wählen Sie ein neues Master-Passwort."
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Erscheinungsbild"
@@ -3542,10 +3750,6 @@ msgstr "Klicken Sie auf eine Tastenkombination, um sie zu ändern, oder drücken
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "Standard-Protokollstufe"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "Deaktiviert"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3588,6 +3792,10 @@ msgstr "Einstellungen nicht gespeichert: {error}"
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "Einstellungsseite nicht verfügbar: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "Sicherheit"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"

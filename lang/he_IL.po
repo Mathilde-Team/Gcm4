@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:19+0000\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,8 @@ msgstr "לא ניתן לפתוח קובץ יומן לכתיבה"
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -2990,10 +2991,46 @@ msgstr "gcm4: לא ניתן להעתיק את התצורה {old} אל {new} ({er
 msgid "A stored password is corrupted."
 msgstr "סיסמה שמורה פגומה."
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "סיסמה ראשית שגויה."
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "קוד שחזור שגוי."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "מפתח ההצפנה %s פגום."
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "מפתח ההצפנה %s חסר: לא ניתן לפענח את הסיסמאות השמורות."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "מפתח ההצפנה %s מוגן בסיסמה ראשית."
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "מפתח ההצפנה כבר מוגן בסיסמה ראשית."
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "מפתח ההצפנה אינו מוגן בסיסמה ראשית."
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "הסיסמה הראשית לא יכולה להיות ריקה."
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "למפתח הצפנה זה אין קוד שחזור."
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -3008,6 +3045,11 @@ msgstr "לא ניתן לפענח את הסיסמאות השמורות: הקוב�
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "לא ניתן לקרוא את מפתח ההצפנה %s: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "לא ניתן לכתוב את מפתח ההצפנה %s: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -3531,6 +3573,172 @@ msgstr "לא"
 msgid "Version {version} is available"
 msgstr "גרסה {version} זמינה"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "שינוי הסיסמה הראשית"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "שינוי…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "אישור"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "אישור הסיסמה הראשית החדשה"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "הסיסמה הראשית הנוכחית"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "השבתת הסיסמה הראשית"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "מושבת"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "השבתה…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "הפעלת הסיסמה הראשית"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "מופעל, עם קוד שחזור"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "מופעל, ללא קוד שחזור"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "הפעלה…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "יש להזין את הסיסמה הראשית כדי לפתוח את הסיסמאות השמורות."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "יש להזין את קוד השחזור ואז לבחור סיסמה ראשית חדשה."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "שכחתי סיסמה"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "שכחת את הסיסמה?"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "רשמתי אותו"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "סיסמה ראשית"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "הסיסמה הראשית שונתה."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "הסיסמה הראשית הושבתה."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "הסיסמה הראשית הופעלה."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "סיסמה ראשית חדשה"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "קוד שחזור חדש"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "נוצר קוד שחזור חדש."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "קוד שחזור חדש…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "אופציונלי. מגן על המפתח שמצפין את הסיסמאות השמורות: היא תתבקש בעת ההפעלה. קוד שחזור מוצג פעם אחת בעת ההפעלה."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "הסיסמאות נעולות"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "קוד שחזור"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "מצב"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "קוד השחזור הנוכחי יפסיק לעבוד."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "המפתח שמצפין את הסיסמאות השמורות יישמר שוב ללא הגנה, כמו ללא סיסמה ראשית."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "הסיסמה הראשית תתבקש בכל הפעלה כדי לפתוח את הסיסמאות השמורות. לאחר מכן יוצג קוד שחזור פעם אחת."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "קוד השחזור נשאר בתוקף."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "שתי הסיסמאות אינן תואמות."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "לא זמין: התצורה לא נטענה."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "פתיחה"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "יש לרשום או להדפיס קוד זה ולשמור אותו במקום בטוח: הוא לא יוצג שוב. אם תשכחו את הסיסמה הראשית, הוא פותח את הסיסמאות השמורות ואז בוחרים סיסמה ראשית חדשה."
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "מראה"
@@ -3542,10 +3750,6 @@ msgstr "לחצו על קיצור דרך כדי לשנות אותו, או הקי�
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "רמת יומן ברירת מחדל"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "מושבת"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3588,6 +3792,10 @@ msgstr "ההעדפות לא נשמרו: {error}"
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "עמוד ההעדפות אינו זמין: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "אבטחה"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"

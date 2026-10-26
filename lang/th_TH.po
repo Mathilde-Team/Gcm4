@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:19+0000\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,8 @@ msgstr "ไม่สามารถเปิดไฟล์บันทึกเ
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "ยกเลิก"
 
@@ -2990,10 +2991,46 @@ msgstr "gcm4: ไม่สามารถคัดลอกการตั้ง
 msgid "A stored password is corrupted."
 msgstr "รหัสผ่านที่บันทึกไว้รายการหนึ่งเสียหาย"
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "รหัสผ่านหลักไม่ถูกต้อง"
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "รหัสกู้คืนไม่ถูกต้อง"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "คีย์เข้ารหัส %s เสียหาย"
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "ไม่พบกุญแจเข้ารหัส %s: ไม่สามารถถอดรหัสรหัสผ่านที่บันทึกไว้ได้"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "คีย์เข้ารหัส %s ได้รับการป้องกันด้วยรหัสผ่านหลัก"
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "คีย์เข้ารหัสได้รับการป้องกันด้วยรหัสผ่านหลักอยู่แล้ว"
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "คีย์เข้ารหัสไม่ได้รับการป้องกันด้วยรหัสผ่านหลัก"
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "รหัสผ่านหลักต้องไม่ว่าง"
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "คีย์เข้ารหัสนี้ไม่มีรหัสกู้คืน"
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -3008,6 +3045,11 @@ msgstr "ไม่สามารถถอดรหัสรหัสผ่าน
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "ไม่สามารถอ่านกุญแจเข้ารหัส %s: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "ไม่สามารถเขียนคีย์เข้ารหัส %s: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -3531,6 +3573,172 @@ msgstr "ไม่"
 msgid "Version {version} is available"
 msgstr "มีรุ่น {version} แล้ว"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "เปลี่ยนรหัสผ่านหลัก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "เปลี่ยน…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "ยืนยัน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "ยืนยันรหัสผ่านหลักใหม่"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "รหัสผ่านหลักปัจจุบัน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "ปิดใช้รหัสผ่านหลัก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "ปิดใช้"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "ปิดใช้…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "เปิดใช้รหัสผ่านหลัก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "เปิดใช้ มีรหัสกู้คืน"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "เปิดใช้ ไม่มีรหัสกู้คืน"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "เปิดใช้…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "ป้อนรหัสผ่านหลักเพื่อปลดล็อกรหัสผ่านที่บันทึกไว้"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "ป้อนรหัสกู้คืน แล้วเลือกรหัสผ่านหลักใหม่"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "ลืมรหัสผ่าน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "ลืมรหัสผ่านใช่ไหม"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "ฉันจดไว้แล้ว"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "รหัสผ่านหลัก"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "เปลี่ยนรหัสผ่านหลักแล้ว"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "ปิดใช้รหัสผ่านหลักแล้ว"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "เปิดใช้รหัสผ่านหลักแล้ว"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "รหัสผ่านหลักใหม่"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "รหัสกู้คืนใหม่"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "สร้างรหัสกู้คืนใหม่แล้ว"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "รหัสกู้คืนใหม่…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "ไม่บังคับ ป้องกันคีย์ที่เข้ารหัสรหัสผ่านที่บันทึกไว้: จะถูกถามเมื่อเริ่มโปรแกรม รหัสกู้คืนจะแสดงหนึ่งครั้งเมื่อเปิดใช้"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "รหัสผ่านถูกล็อก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "รหัสกู้คืน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "สถานะ"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "รหัสกู้คืนปัจจุบันจะใช้ไม่ได้อีกต่อไป"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "คีย์ที่เข้ารหัสรหัสผ่านที่บันทึกไว้จะถูกจัดเก็บโดยไม่มีการป้องกันอีกครั้ง เหมือนไม่มีรหัสผ่านหลัก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "รหัสผ่านหลักจะถูกถามทุกครั้งที่เริ่มโปรแกรมเพื่อปลดล็อกรหัสผ่านที่บันทึกไว้ จากนั้นรหัสกู้คืนจะแสดงหนึ่งครั้ง"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "รหัสกู้คืนยังคงใช้ได้"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "รหัสผ่านทั้งสองไม่ตรงกัน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "ไม่พร้อมใช้งาน: ยังไม่ได้โหลดการตั้งค่า"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "ปลดล็อก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "จดหรือพิมพ์รหัสนี้และเก็บไว้ในที่ปลอดภัย: จะไม่แสดงอีก หากคุณลืมรหัสผ่านหลัก รหัสนี้จะปลดล็อกรหัสผ่านที่บันทึกไว้ จากนั้นคุณเลือกรหัสผ่านหลักใหม่"
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "รูปลักษณ์"
@@ -3542,10 +3750,6 @@ msgstr "คลิกทางลัดเพื่อเปลี่ยน ห�
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "ระดับล็อกเริ่มต้น"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "ปิดใช้งาน"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3588,6 +3792,10 @@ msgstr "ไม่ได้บันทึกการตั้งค่า: {err
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "หน้าการตั้งค่าไม่พร้อมใช้งาน: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "ความปลอดภัย"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"

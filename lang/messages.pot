@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:19+0000\n"
+"POT-Creation-Date: 2026-10-26 00:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -249,7 +249,8 @@ msgstr ""
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr ""
 
@@ -2793,6 +2794,45 @@ msgstr ""
 msgid "Unable to create the encryption key %s: %s"
 msgstr ""
 
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr ""
+
 #: src/gcm4/core/config.py
 #, python-format
 msgid "Unable to read the configuration file %s: %s"
@@ -3166,10 +3206,6 @@ msgid "Move not saved: {error}"
 msgstr ""
 
 #: src/gcm4/ui/main_window.py
-msgid "Configuration not loaded"
-msgstr ""
-
-#: src/gcm4/ui/main_window.py
 msgid "Welcome to Gnome Connection Manager"
 msgstr ""
 
@@ -3179,6 +3215,10 @@ msgstr ""
 
 #: src/gcm4/ui/main_window.py
 msgid "Home"
+msgstr ""
+
+#: src/gcm4/ui/main_window.py
+msgid "Configuration not loaded"
 msgstr ""
 
 #: src/gcm4/ui/main_window.py
@@ -3315,6 +3355,155 @@ msgstr ""
 msgid "Version {version} is available"
 msgstr ""
 
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr ""
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr ""
@@ -3339,10 +3528,6 @@ msgstr ""
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
 msgstr ""
 
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr ""
-
 #: src/gcm4/ui/preferences.py
 #, python-brace-format
 msgid "Preferences not saved: {error}"
@@ -3362,6 +3547,10 @@ msgstr ""
 
 #: src/gcm4/ui/preferences.py
 msgid "Log folder"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
 msgstr ""
 
 #: src/gcm4/ui/preferences.py
