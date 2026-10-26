@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:24+0000\n"
+"POT-Creation-Date: 2026-10-26 00:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3605,7 +3605,7 @@ msgstr "停用主密码"
 #: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
 #: src/gcm4/ui/raccourcis.py
 msgid "Disabled"
-msgstr "已停用"
+msgstr "已禁用"
 
 #
 #: src/gcm4/ui/mot_de_passe_maitre.py
@@ -3848,6 +3848,19 @@ msgstr "设置快捷键"
 #: src/gcm4/ui/raccourcis.py
 msgid "Use Ctrl, Alt or Super with this key."
 msgstr "请将此键与 Ctrl、Alt 或 Super 组合使用。"
+
+#: src/gcm4/ui/terminal.py
+msgid "Character encoding of the remote system; UTF-8 if unsure."
+msgstr "远程系统的字符编码；不确定时请选 UTF-8。"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "Encoding {name} is not available, UTF-8 is used."
+msgstr "编码 {name} 不可用，将使用 UTF-8。"
+
+#: src/gcm4/ui/terminal.py
+msgid "Encoding:"
+msgstr "编码："
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
