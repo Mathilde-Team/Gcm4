@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:27+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -464,6 +464,7 @@ msgstr "Allmänt"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Grupp"
 
@@ -661,7 +662,8 @@ msgstr "Klistra in"
 msgid "Paste on right click"
 msgstr "Klistra in med högerklick"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "Port"
 
@@ -3108,6 +3110,10 @@ msgstr "Kopiera adress"
 msgid "Duplicate Host"
 msgstr "Duplicera värd"
 
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "Redigera markerade värdar…"
+
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
 msgstr "Expandera alla"
@@ -3434,8 +3440,30 @@ msgstr "Adressen kopierades"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "Finns redan i målgruppen: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "Verkställ"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "Ändra port"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "Ändringarna sparades inte: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "Protokollets standardport"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "Redigera {count} värdar"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3447,8 +3475,17 @@ msgstr "Gruppnamn"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "Uppdaterade värdar: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "Den innehåller {hosts} värd(ar) och {groups} undergrupp(er), som också tas bort."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "Flytta till grupp"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3468,6 +3505,10 @@ msgstr "Ta bort värden ”{name}”?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "Detta kan inte ångras."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "Fält utan bock lämnas oförändrade."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"

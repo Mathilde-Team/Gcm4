@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:27+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -454,6 +454,7 @@ msgstr "General"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Group"
 
@@ -643,7 +644,8 @@ msgstr ""
 msgid "Paste on right click"
 msgstr ""
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "Port"
 
@@ -2959,6 +2961,10 @@ msgstr "Copy Address"
 msgid "Duplicate Host"
 msgstr "Duplicate Host"
 
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "Edit Selected Hosts…"
+
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
 msgstr "Expand all"
@@ -3285,8 +3291,30 @@ msgstr "Address copied"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "Already taken in the target group: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "Apply"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "Change port"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "Changes not saved: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "Default port of the protocol"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "Edit {count} Hosts"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3298,8 +3326,17 @@ msgstr "Group name"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "Hosts updated: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "Move to group"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3319,6 +3356,10 @@ msgstr "Remove host «{name}»?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "This cannot be undone."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "Unchecked fields are left unchanged."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:27+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -464,6 +464,7 @@ msgstr "সাধারণ"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "গ্রুপ"
 
@@ -661,7 +662,8 @@ msgstr "পেস্ট করুন"
 msgid "Paste on right click"
 msgstr "রাইট-ক্লিকে পেস্ট করুন"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "পোর্ট"
 
@@ -3108,6 +3110,10 @@ msgstr "ঠিকানা কপি করুন"
 msgid "Duplicate Host"
 msgstr "হোস্ট ডুপ্লিকেট করুন"
 
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "নির্বাচিত হোস্ট সম্পাদনা…"
+
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
 msgstr "সব বিস্তৃত করুন"
@@ -3434,8 +3440,30 @@ msgstr "ঠিকানা কপি হয়েছে"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "লক্ষ্য গ্রুপে ইতিমধ্যে আছে: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "প্রয়োগ"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "পোর্ট পরিবর্তন"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "পরিবর্তন সংরক্ষিত হয়নি: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "প্রোটোকলের ডিফল্ট পোর্ট"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "{count}টি হোস্ট সম্পাদনা"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3447,8 +3475,17 @@ msgstr "গ্রুপের নাম"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "হালনাগাদ হোস্ট: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "এতে {hosts}টি হোস্ট ও {groups}টি উপগ্রুপ আছে, সেগুলোও মুছে যাবে।"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "গ্রুপে সরান"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3468,6 +3505,10 @@ msgstr "'{name}' হোস্ট মুছবেন?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "এই কাজটি ফিরিয়ে নেওয়া যাবে না।"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "টিক না দেওয়া ঘরগুলো অপরিবর্তিত থাকবে।"
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"

@@ -139,7 +139,7 @@ class TestMetainfo(unittest.TestCase):
         urls = {u.get("type"): u.text for u in self.racine.iter("url")}
         self.assertEqual(urls["homepage"], site)
         self.assertEqual(urls["bugtracker"], f"{site}/issues")
-        self.assertNotIn("Mathide-Team", METAINFO.read_text(encoding="utf-8"))
+        self.assertNotIn("Mathide" + "-Team", METAINFO.read_text(encoding="utf-8"))
 
 
 class TestIcones(unittest.TestCase):

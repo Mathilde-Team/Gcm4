@@ -48,7 +48,8 @@ suivantes) ; reste la traduction du lanceur et des métadonnées (#274).
 
 Issue #156, sur le modèle de Netcross.
 
-- `make deb-gcm4` (`build-deb/build.sh`, dpkg-buildpackage) produit
+- `make deb` (`build-deb/build.sh`, dpkg-buildpackage ; `make deb-gcm4`, ancien
+  nom, reste un alias) produit
   `build-deb/dist/gcm4_<version>_all.deb`. Prérequis : `build-essential debhelper dh-python
   dpkg-dev gettext git python3-build python3-hatchling`.
 - Version : celle de `pyproject.toml`, seule source ; `gcm4 --version` la lit
@@ -109,7 +110,10 @@ Issue #157, même contenu que le .deb.
 
 ## Paquets de l'application GTK3
 
-- `make deb`, `make rpm`, `make opensuse` (fpm) emballent l'arborescence
+- Plus de `.deb` de l'application GTK3 (décision du 2026-10-22, #156) :
+  `make deb` construit le paquet gcm4 ci-dessus, et le workflow Release le
+  joint aux releases à la place de l'ancien.
+- `make rpm`, `make opensuse` (fpm) emballent l'arborescence
   produite par `make install` : tous les modules `.py` de la racine,
   `plugins/` hors tests, les traductions compilées, l'icône et le
   `.desktop`.

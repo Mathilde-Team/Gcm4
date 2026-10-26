@@ -5,7 +5,7 @@
 # celle de Gcm4 n'existait pas au 10/10/2026 (« Branch not protected »). Ce
 # workflow rend l'écart visible ; l'appliquer reste une action manuelle d'un
 # administrateur :
-#   gh api -X PUT repos/Mathide-Team/Gcm4/branches/dev/protection \
+#   gh api -X PUT repos/Mathilde-Team/Gcm4/branches/dev/protection \
 #     --input .github/branch-protection/dev.json
 #
 # Pas de déclencheur pull_request : l'état de la protection ne dépend pas du
