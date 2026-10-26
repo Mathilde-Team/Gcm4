@@ -14,6 +14,8 @@ import json
 import sys
 import xml.etree.ElementTree as ET
 
+from loguru import logger
+
 errors = []
 
 for path in sys.argv[1:]:
@@ -21,8 +23,10 @@ for path in sys.argv[1:]:
         try:
             ET.parse(path)
         except ET.ParseError as exc:
+            logger.debug("XML invalide {} : {}", path, exc)
             errors.append(f"[XML] {path}: {exc}")
         except OSError as exc:
+            logger.debug("XML illisible {} : {}", path, exc)
             errors.append(f"[XML] {path}: impossible de lire le fichier — {exc}")
 
     elif path.endswith(".json"):
@@ -30,8 +34,10 @@ for path in sys.argv[1:]:
             with open(path, encoding="utf-8") as fh:
                 json.load(fh)
         except json.JSONDecodeError as exc:
+            logger.debug("JSON invalide {} : {}", path, exc)
             errors.append(f"[JSON] {path}: {exc}")
         except OSError as exc:
+            logger.debug("JSON illisible {} : {}", path, exc)
             errors.append(f"[JSON] {path}: impossible de lire le fichier — {exc}")
 
 if errors:

@@ -666,6 +666,19 @@ Le mode cluster permet d'envoyer des commandes simultanément à plusieurs hôte
 - La saisie cluster n'affecte que les onglets marqués "cluster"
 - Utile pour des déploiements rapides ou des vérifications d'état simultanées
 
+### Commandes favorites
+
+Le dialogue **Cluster** propose, sous la zone de saisie, une liste déroulante
+**Favoris** distincte de l'historique (CTRL+haut/CTRL+bas) :
+
+- choisir un favori le place dans la zone de saisie, sans l'envoyer ;
+- **Ajouter aux favoris** enregistre le texte saisi ;
+- **Retirer des favoris** supprime le favori choisi dans la liste.
+
+Favoris par défaut : `df`, `apt update`, `updatedb`. Ils sont enregistrés en
+clair dans la section `[cluster_favorites]` de `gcm.conf` : une commande
+contenant un mot de passe `#P=` est donc refusée.
+
 ---
 
 ## 15. Tunnels SSH
@@ -708,9 +721,11 @@ GCM détecte automatiquement la version lors du chargement et migre vers AES
 
 ### Clé de chiffrement
 
-La clé est dérivée du **mot de passe maître** saisi au démarrage (si configuré),
-ou d'une clé interne fixe. Pour une sécurité maximale, utilisez un mot de passe
-maître via **Édition → Préférences → Sécurité**.
+La clé est stockée dans un fichier local (`0600`). Dans gcm4 (GTK4), elle peut
+être protégée par un **mot de passe maître** demandé au démarrage, avec un code
+de recouvrement en cas d'oubli : **Paramètres → Sécurité**, voir
+`docs/guide/mot-de-passe-maitre.md`. L'application GTK3 n'a pas de mot de
+passe maître.
 
 ### Fichier de configuration
 

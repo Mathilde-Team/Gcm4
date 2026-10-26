@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 09:55+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,6 +109,10 @@ msgstr ""
 "Ex : ##D=1000</span>"
 
 #: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr "Un favori est enregistré en clair : retirez d'abord le mot de passe #P="
+
+#: gnome_connection_manager.py
 #, python-brace-format
 msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
 msgstr ""
@@ -144,6 +148,14 @@ msgstr "Activer"
 #: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Add Host"
 msgstr "Ajouter un hôte"
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr "Ajouter le contenu de la zone de texte aux commandes favorites"
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr "Ajouter aux favoris"
 
 #: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "After disconnecting"
@@ -204,7 +216,8 @@ msgstr "Impossible d'ouvrir le fichier de journal en écriture"
 #: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
 #: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
 #: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -215,6 +228,14 @@ msgstr "Vérifier les mises à jour"
 #: gnome_connection_manager.py
 msgid "Choose Group Color"
 msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr "Choisir une commande favorite pour la placer dans la zone de texte ci-dessus"
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
+msgstr "Choisissez d'abord dans la liste le favori à retirer"
 
 #: gnome_connection_manager.py src/gcm4/ui/preferences.py
 msgid "Circle around tabs when going to the previous/next tab"
@@ -410,6 +431,10 @@ msgid "Exports"
 msgstr "Exporter des serveurs"
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr "Favoris :"
+
+#: gnome_connection_manager.py
 msgid "Fields group, name and host are required"
 msgstr "Les champs groupe, nom et hôte sont obligatoires"
 
@@ -440,6 +465,7 @@ msgstr "Général"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Groupe"
 
@@ -637,7 +663,8 @@ msgstr "Coller"
 msgid "Paste on right click"
 msgstr "Coller au clic droit"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "Port"
 
@@ -656,6 +683,14 @@ msgstr "Page d'accueil du projet"
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
 msgid "Quit"
 msgstr "Quitter"
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr "Retirer des favoris"
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr "Retirer la commande choisie des favoris"
 
 #: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
 msgid "Rename Group"
@@ -805,6 +840,10 @@ msgstr "Transparence"
 #: ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "Type"
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr "Saisissez d'abord une commande dans la zone de texte"
 
 #: gnome_connection_manager.py
 msgid "Use default fixed width font"
@@ -2930,10 +2969,46 @@ msgstr "gcm4 : impossible de copier la configuration {old} vers {new} ({error}).
 msgid "A stored password is corrupted."
 msgstr "Un mot de passe enregistré est corrompu."
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "Mot de passe maître incorrect."
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "Code de recouvrement incorrect."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "La clé de chiffrement %s est corrompue."
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "La clé de chiffrement %s est absente : les mots de passe enregistrés ne peuvent pas être déchiffrés."
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "La clé de chiffrement %s est protégée par un mot de passe maître."
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "La clé de chiffrement est déjà protégée par un mot de passe maître."
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "La clé de chiffrement n'est pas protégée par un mot de passe maître."
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "Le mot de passe maître ne doit pas être vide."
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "Cette clé de chiffrement n'a pas de code de recouvrement."
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -2948,6 +3023,11 @@ msgstr "Impossible de déchiffrer les mots de passe enregistrés : .gcm4.key inc
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "Impossible de lire la clé de chiffrement %s : %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "Impossible d'écrire la clé de chiffrement %s : %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -3049,6 +3129,10 @@ msgstr "Copier l'adresse"
 #: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
 msgid "Duplicate Host"
 msgstr "Dupliquer l'hôte"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "Modifier les hôtes sélectionnés…"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
@@ -3376,8 +3460,30 @@ msgstr "Adresse copiée"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "Déjà pris dans le groupe de destination : {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "Appliquer"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "Changer le port"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "Modifications non enregistrées : {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "Port par défaut du protocole"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "Modifier {count} hôtes"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3389,8 +3495,17 @@ msgstr "Nom du groupe"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "Hôtes modifiés : {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "Il contient {hosts} hôte(s) et {groups} sous-groupe(s), qui seront aussi supprimés."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "Déplacer vers le groupe"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3410,6 +3525,10 @@ msgstr "Supprimer l'hôte « {name} » ?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "Cette action est irréversible."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "Les champs non cochés restent inchangés."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
@@ -3432,6 +3551,172 @@ msgstr "Non"
 msgid "Version {version} is available"
 msgstr "La version {version} est disponible"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "Changer le mot de passe maître"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "Changer…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "Confirmer"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "Confirmer le nouveau mot de passe maître"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "Mot de passe maître actuel"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "Désactiver le mot de passe maître"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "Désactivé"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "Désactiver…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "Activer le mot de passe maître"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "Activé, avec un code de recouvrement"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "Activé, sans code de recouvrement"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "Activer…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "Saisissez le mot de passe maître pour déverrouiller les mots de passe enregistrés."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "Saisissez le code de recouvrement, puis choisissez un nouveau mot de passe maître."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "Mot de passe oublié"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "Mot de passe oublié ?"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "Je l'ai noté"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "Mot de passe maître"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "Mot de passe maître changé."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "Mot de passe maître désactivé."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "Mot de passe maître activé."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "Nouveau mot de passe maître"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "Nouveau code de recouvrement"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "Nouveau code de recouvrement créé."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "Nouveau code de recouvrement…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "Facultatif. Protège la clé qui chiffre les mots de passe enregistrés : il sera demandé au démarrage. Un code de recouvrement est affiché une seule fois à l'activation."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "Mots de passe verrouillés"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "Code de recouvrement"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "État"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "Le code de recouvrement actuel ne fonctionnera plus."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "La clé qui chiffre les mots de passe enregistrés sera de nouveau stockée sans protection, comme sans mot de passe maître."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "Le mot de passe maître sera demandé à chaque démarrage pour déverrouiller les mots de passe enregistrés. Un code de recouvrement sera ensuite affiché une seule fois."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "Le code de recouvrement reste valable."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "Les deux mots de passe ne correspondent pas."
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "Indisponible : la configuration n'est pas chargée."
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "Déverrouiller"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "Notez ou imprimez ce code et gardez-le en lieu sûr : il ne sera plus affiché. Si vous oubliez le mot de passe maître, il déverrouille les mots de passe enregistrés, puis vous choisissez un nouveau mot de passe maître."
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Apparence"
@@ -3443,10 +3728,6 @@ msgstr "Cliquez sur un raccourci pour le modifier, ou appuyez sur Retour arrièr
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "Niveau de journal par défaut"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "Désactivé"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3489,6 +3770,10 @@ msgstr "Préférences non enregistrées : {error}"
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "Page de préférences indisponible : {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "Sécurité"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
