@@ -518,11 +518,13 @@ jobs:
           xvfb-run -a -s "-screen 0 1280x1024x24" /tmp/venv/bin/python -m pytest \
             tests/gtk4 tests/test_gcm4_*.py -q -rs -p no:cacheprovider \
             --ignore=tests/gtk4/test_plugin_telnet.py \
-            --ignore=tests/gtk4/test_plugin_local.py | tee /tmp/rocky9.txt
-          # test_plugin_local.py ignoré comme test_plugin_telnet.py : VTE
-          # GTK4 (Vte-3.91) n'existe pas sur Rocky 9 (#223), le module
-          # gcm4.ui.terminal n'y est pas importable ; couvert par le job
-          # GTK4 (ubuntu:26.04, VTE installé).
+            --ignore=tests/gtk4/test_plugin_local.py \
+            --ignore=tests/gtk4/test_plugin_serial.py | tee /tmp/rocky9.txt
+          # test_plugin_local.py et test_plugin_serial.py ignorés comme
+          # test_plugin_telnet.py : VTE GTK4 (Vte-3.91) n'existe pas sur
+          # Rocky 9 (#223), le module gcm4.ui.terminal n'y est pas
+          # importable ; couvert par le job GTK4 (ubuntu:26.04, VTE
+          # installé).
           sautes=$(grep -c '^SKIPPED' /tmp/rocky9.txt || true)
           echo "### Tests gcm4 sautés sur Rocky 9 : ${sautes}" >> "$GITHUB_STEP_SUMMARY"
           if [ "${sautes}" != "0" ]; then

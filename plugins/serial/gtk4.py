@@ -94,6 +94,7 @@ def _combo(
         logger.debug("_combo.choisi: fait")
 
     combo.connect("notify::selected", choisi)
+    logger.debug("_combo: fait")
     return combo, liste
 
 

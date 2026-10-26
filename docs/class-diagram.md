@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-97 modules · 174 classes · 337 fonctions publiques de module.
+100 modules · 176 classes · 341 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -32,8 +32,8 @@ flowchart TD
     g0 -->|1| g2
     g2 -->|58| g1
     g2 -->|4| g0
-    g2 -->|15| g4
-    g2 -->|3| g5
+    g2 -->|19| g4
+    g2 -->|4| g5
     g3 -->|2| g0
     g3 -->|2| g4
     g3 -->|1| g5
@@ -774,6 +774,9 @@ classDiagram
 | `plugins.plugin_vnc` | `plugins/plugin_vnc.py` | Plugin de connexion VNC (GtkVnc.Display natif, ou fallback subprocess). |
 | `plugins.plugin_web` | `plugins/plugin_web.py` | Plugin de connexion Web (console BMC HTML5 : iLO/iDRAC/IMM, ou toute URL). |
 | `plugins.pluginvnc2.vnc_tab` | `plugins/pluginvnc2/vnc_tab.py` | vnc_tab.py — Onglet VNC complet pour gnome-connection-manager (fork GTK4) |
+| `plugins.serial` | `plugins/serial/__init__.py` | Plugin serial : port série local (picocom, minicom, screen) dans un terminal. |
+| `plugins.serial.core` | `plugins/serial/core.py` | Partie métier du plugin serial (sans GTK) — portage #179. |
+| `plugins.serial.gtk4` | `plugins/serial/gtk4.py` | Plugin serial de gcm4 (contrat v1, ``docs/plugins.md``) : port série dans un terminal VTE GTK4. |
 | `plugins.sftp.core` | `plugins/sftp/core.py` | Logique du plugin SFTP (#75), sans GTK : connexion, navigation, transferts. |
 | `plugins.sftp.gtk4` | `plugins/sftp/gtk4.py` | Plugin SFTP de gcm4 (contrat v1, ``docs/plugins.md``) : navigateur de fichiers distant (#75). |
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
@@ -1008,14 +1011,14 @@ classDiagram
         <<Gtk.Box>>
         +connect_serial()
     }
-    class SerialPlugin {
+    class plugins_plugin_serial_SerialPlugin {
         +build_tab(host, get_password) Gtk.Widget
         +build_edit_page() Gtk.Widget
         +load_host_fields(host) None
         +save_host_fields(host) None
         +host_fields() list~tuple~str, object~~
     }
-    plugins_plugin_base_ConnectionPlugin <|-- SerialPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_serial_SerialPlugin
     class mod_plugins_plugin_snmp_push {
         <<module>>
         +open_snmp_push_tab(wmain) SnmpPushTab
@@ -1179,6 +1182,22 @@ classDiagram
         <<Gtk.Box>>
         +close()
     }
+    class mod_plugins_serial_core {
+        <<module>>
+        +outil(environ, prefere) str None
+        +parametres(options, port_hote) dict~str, str~
+        +parametres_template(nom) tuple~str, str, str, str, str~ None
+        +commande(chemin, appareil, parametres, extra) list~str~
+    }
+    class SerialSession {
+        <<SessionTerminal>>
+    }
+    class plugins_serial_gtk4_SerialPlugin {
+        +default_port(protocol) int None
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) SerialSession
+    }
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_serial_gtk4_SerialPlugin
     class mod_plugins_sftp_core {
         <<module>>
         +empreinte(cle) str
