@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:24+0000\n"
+"POT-Creation-Date: 2026-10-26 00:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3848,6 +3848,19 @@ msgstr "Kısayolu Ayarla"
 #: src/gcm4/ui/raccourcis.py
 msgid "Use Ctrl, Alt or Super with this key."
 msgstr "Bu tuşla birlikte Ctrl, Alt veya Super kullanın."
+
+#: src/gcm4/ui/terminal.py
+msgid "Character encoding of the remote system; UTF-8 if unsure."
+msgstr "Uzak sistemin karakter kodlaması; emin değilseniz UTF-8."
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "Encoding {name} is not available, UTF-8 is used."
+msgstr "{name} kodlaması kullanılamıyor, UTF-8 kullanılıyor."
+
+#: src/gcm4/ui/terminal.py
+msgid "Encoding:"
+msgstr "Kodlama:"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:24+0000\n"
+"POT-Creation-Date: 2026-10-26 00:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3605,7 +3605,7 @@ msgstr "Απενεργοποίηση κύριου κωδικού"
 #: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
 #: src/gcm4/ui/raccourcis.py
 msgid "Disabled"
-msgstr "Απενεργοποιημένο"
+msgstr "Απενεργοποιημένη"
 
 #
 #: src/gcm4/ui/mot_de_passe_maitre.py
@@ -3848,6 +3848,19 @@ msgstr "Ορισμός συντόμευσης"
 #: src/gcm4/ui/raccourcis.py
 msgid "Use Ctrl, Alt or Super with this key."
 msgstr "Χρησιμοποιήστε Ctrl, Alt ή Super με αυτό το πλήκτρο."
+
+#: src/gcm4/ui/terminal.py
+msgid "Character encoding of the remote system; UTF-8 if unsure."
+msgstr "Κωδικοποίηση χαρακτήρων του απομακρυσμένου συστήματος· UTF-8 αν δεν είστε βέβαιοι."
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "Encoding {name} is not available, UTF-8 is used."
+msgstr "Η κωδικοποίηση {name} δεν είναι διαθέσιμη, χρησιμοποιείται UTF-8."
+
+#: src/gcm4/ui/terminal.py
+msgid "Encoding:"
+msgstr "Κωδικοποίηση:"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
