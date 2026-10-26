@@ -60,7 +60,7 @@
 | #77 | Wayland natif | #71 | Moyenne |
 | #79 | Refactor MVC | Migration GTK4 | Faible |
 | #92 | PluginVNC2 — Raccourci clavier | — | Faible |
-| #93 | PluginVNC2 — Dialogue texte ouvert | — | Faible |
+| #93 | PluginVNC2 — Dialogue texte ouvert : case « Garder la fenêtre ouverte après l'envoi » (PR en relecture) | — | Faible |
 | #94 | PluginVNC2 — Décompte reconnexion | — | Faible |
 | #95 | PluginVNC2 — Presse-papiers image | Bloqué (fork) | Faible |
 | #101 | PluginVNC2 — QEMU Extended Key | Bloqué (env) | Faible |
@@ -69,7 +69,7 @@
 
 | Issue | Titre | Difficulté |
 |-------|-------|------------|
-| #100 | Multi-sélection hôtes | Faible |
+| #100 | Multi-sélection hôtes : port et groupe en lot (PR en relecture) | Faible |
 | #83 | Icône system tray | Faible |
 | #84 | Cluster liste déroulante | Faible |
 | #85 | Charset dynamique | Faible |

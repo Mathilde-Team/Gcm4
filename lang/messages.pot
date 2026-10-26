@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 10:23+0000\n"
+"POT-Creation-Date: 2026-10-25 23:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -389,6 +389,7 @@ msgstr ""
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr ""
 
@@ -411,7 +412,8 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr ""
 
@@ -2872,6 +2874,10 @@ msgstr ""
 msgid "Collapse all"
 msgstr ""
 
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr ""
+
 #: src/gcm4/core/plugins.py
 msgid "It is not a connection plugin."
 msgstr ""
@@ -3215,6 +3221,41 @@ msgstr ""
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
 msgid "Remove host «{name}»?"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
 msgstr ""
 
 #: src/gcm4/ui/mises_a_jour.py

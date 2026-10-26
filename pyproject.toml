@@ -131,6 +131,7 @@ files = [
     "src/gcm4/core/comportement_onglets.py",
     "src/gcm4/core/deplacements.py",
     "src/gcm4/core/echange_cli.py",
+    "src/gcm4/core/edition_lot.py",
     "src/gcm4/core/exchange.py",
     "src/gcm4/core/sauvegarde.py",
     "src/gcm4/core/cli.py",

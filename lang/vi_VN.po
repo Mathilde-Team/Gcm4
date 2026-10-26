@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-24 10:23+0000\n"
+"POT-Creation-Date: 2026-10-25 23:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -440,6 +440,7 @@ msgstr "Chung"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Nhóm"
 
@@ -637,7 +638,8 @@ msgstr "Dán"
 msgid "Paste on right click"
 msgstr "Dán khi nhấp chuột phải"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "Cổng"
 
@@ -3072,6 +3074,10 @@ msgstr "Sao chép địa chỉ"
 msgid "Duplicate Host"
 msgstr "Sao chép host"
 
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "Sửa các máy chủ đã chọn…"
+
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
 msgstr "Mở rộng tất cả"
@@ -3398,8 +3404,30 @@ msgstr "Đã sao chép địa chỉ"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "Đã có trong nhóm đích: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "Áp dụng"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "Đổi cổng"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "Chưa lưu thay đổi: {error}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr "Cổng mặc định của giao thức"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "Sửa {count} máy chủ"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3411,8 +3439,17 @@ msgstr "Tên nhóm"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "Máy chủ đã cập nhật: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "Nhóm chứa {hosts} máy chủ và {groups} nhóm con, chúng cũng sẽ bị xóa."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "Chuyển sang nhóm"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3432,6 +3469,10 @@ msgstr "Xóa máy chủ '{name}'?"
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "Không thể hoàn tác thao tác này."
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "Các trường không được đánh dấu sẽ giữ nguyên."
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
