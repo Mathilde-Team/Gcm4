@@ -604,7 +604,9 @@ class SpiceTab(Gtk.Box):
             try:
                 conn.close()
             except Exception as exc:
-                logger.debug("plugin spice | fermeture de la connexion libvirt impossible : {}", exc)
+                logger.debug(
+                    "plugin spice | fermeture de la connexion libvirt impossible : {}", exc
+                )
 
         # Parse XML : <graphics type='spice' port=… tlsPort=… passwd=…>
         try:

@@ -317,7 +317,9 @@ class NetmikoTab:
         try:
             chooser.set_current_folder(self.default_dir)
         except Exception as exc:
-            logger.debug("netmiko push | dossier par défaut {!r} non appliqué : {}", self.default_dir, exc)
+            logger.debug(
+                "netmiko push | dossier par défaut {!r} non appliqué : {}", self.default_dir, exc
+            )
         chooser.set_hexpand(True)
         grid.attach(chooser, 1, row_idx, 1, 1)
         return chooser
@@ -366,7 +368,9 @@ class NetmikoTab:
         try:
             self._chooser_profiles_file.set_current_folder(self.default_dir)
         except Exception as exc:
-            logger.debug("netmiko push | dossier par défaut {!r} non appliqué : {}", self.default_dir, exc)
+            logger.debug(
+                "netmiko push | dossier par défaut {!r} non appliqué : {}", self.default_dir, exc
+            )
         self._chooser_profiles_file.connect("file-set", self._on_profiles_file_chosen)
         chooser_row.pack_start(self._chooser_profiles_file, True, True, 0)
         left.pack_start(chooser_row, False, False, 0)
