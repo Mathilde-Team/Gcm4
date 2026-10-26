@@ -81,6 +81,16 @@ qui reste réellement à faire.
   même titre que `sync_clipboard`/`shared`/etc., pas un bouton de barre
   d'outils.
 - Ctrl+Alt+Suppr dédié dans la barre d'outils.
+- Menu « Alimentation » dans la barre d'outils (Gcm4 #104, tâche 5) :
+  arrêter, redémarrer ou réinitialiser la machine distante via
+  l'extension xvp d'asyncvnc2 (`send_xvp_shutdown/reboot/reset`, toujours
+  avec `confirm=True`). Chaque commande passe par un dialogue de
+  confirmation (Annuler a le focus, bouton destructif). Le serveur
+  annonce xvp après la connexion : l'état des entrées est relu à chaque
+  ouverture du menu (`VncTab._resolve_power_menu_state`) ; sans
+  connexion ou sans xvp, entrées inactives et explication dans le menu.
+  Un échec d'envoi est journalisé (`logger.warning`), jamais remonté
+  d'une tâche asyncio orpheline. Tests : `tests/test_xvp_power.py`.
 - Envoyer du texte au serveur distant comme une suite de frappes clavier
   (bouton dédié dans la barre d'outils, ouvrant une petite fenêtre de
   saisie), en CONTOURNANT le presse-papiers — utile quand la
