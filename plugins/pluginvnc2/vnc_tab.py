@@ -1419,7 +1419,7 @@ class VncTab(Gtk.Box):
         # icône symbolique standard vérifiée.
         self.btn_send_text = Gtk.Button(label="Envoyer du texte…")
         self.btn_send_text.set_tooltip_text(
-            "Envoyer du texte au serveur distant comme une suite de frappes clavier, sans passer par le presse-papiers"
+            "Envoyer du texte au serveur distant comme une suite de frappes clavier, sans passer par le presse-papiers (Alt+F12)"
         )
         # Même cycle de sensibilité que btn_screenshot/btn_copy_screenshot
         # ci-dessous : désactivé tant qu'aucune connexion n'est établie
@@ -1872,17 +1872,19 @@ class VncTab(Gtk.Box):
     # utilisée par un système invité). <Control>F12 pour la copie
     # presse-papiers (session 19) -- même famille que <Shift>F12,
     # modificateur différent pour rester distinct et facile à retenir
-    # (Maj = fichier, Ctrl = presse-papiers).
+    # (Maj = fichier, Ctrl = presse-papiers). <Alt>F12 pour le dialogue
+    # d'envoi de texte (Gcm4 #92), même famille : Alt = texte.
     _GLOBAL_SHORTCUTS = (
         ("<Shift>F12", "_shortcut_action_screenshot"),
         ("<Control>F12", "_shortcut_action_copy_screenshot"),
+        ("<Alt>F12", "_shortcut_action_send_text"),
         ("F11", "_shortcut_action_toggle_fullscreen"),
         ("<Control><Alt>End", "_shortcut_action_send_ctrl_alt_del"),
     )
 
     def _setup_global_shortcuts(self):
-        """Raccourcis clavier locaux à l'onglet (capture d'écran, plein
-        écran, Ctrl+Alt+Suppr), utilisables sans passer par la souris/la
+        """Raccourcis clavier locaux à l'onglet (capture d'écran, copie,
+        envoi de texte, plein écran, Ctrl+Alt+Suppr), utilisables sans passer par la souris/la
         barre d'outils.
 
         Phase CAPTURE, posée sur VncTab -- ancêtre de VncDisplay dans
@@ -1912,6 +1914,22 @@ class VncTab(Gtk.Box):
 
     def _shortcut_action_copy_screenshot(self) -> bool:
         self._on_copy_screenshot_clicked()
+        return True
+
+    def _shortcut_action_send_text(self) -> bool:
+        """Ouvre le dialogue d'envoi de texte (Gcm4 #92), comme le bouton.
+
+        Même garde que le bouton : tant qu'aucune connexion n'est établie
+        (``btn_send_text`` désactivé, cf. _on_status_changed/_on_connected),
+        rien ne s'ouvre et False laisse l'événement poursuivre son chemin
+        au lieu de l'avaler sans effet visible.
+        """
+        logger.debug("VncTab._shortcut_action_send_text | entrée")
+        if not self.btn_send_text.get_sensitive():
+            logger.debug("VncTab._shortcut_action_send_text | sortie False (pas connecté)")
+            return False
+        self._on_send_text_clicked()
+        logger.debug("VncTab._shortcut_action_send_text | sortie True")
         return True
 
     def _shortcut_action_toggle_fullscreen(self) -> bool:
