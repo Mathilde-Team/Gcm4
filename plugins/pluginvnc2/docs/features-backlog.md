@@ -142,6 +142,17 @@ qui reste réellement à faire.
   Pas encore de champ de formulaire : le plugin n'a pas de formulaire de
   connexion à lui, il viendra avec l'intégration côté gcm4. Tests :
   `tests/test_websocket_transport.py`.
+- VeNCrypt (Gcm4 #104, tâche 2) : négocié par asyncvnc2 sans réglage
+  (magasin système de CA, nom d'hôte vérifié = `host`).
+  `VncConnectionInfo.tls_ca_file` désigne une autorité de certification
+  privée (PEM, `~` accepté) : `ssl_context` qui ne fait confiance qu'à
+  elle et vérifie le nom d'hôte. Fichier absent ou invalide : l'onglet
+  passe en erreur avant toute connexion. Certificat refusé ou poignée de
+  main TLS ratée : message d'état qui nomme VeNCrypt et la raison
+  (`VncDisplay._describe_connection_error`). Pas encore de champ de
+  formulaire (même raison que le WebSocket : pas de formulaire de
+  connexion dans le plugin). Tests : `tests/test_vencrypt_ca.py`, avec de
+  vrais certificats et une vraie poignée de main TLS en boucle locale.
 - Pinning de clé hôte (auth Apple ARD uniquement) façon `known_hosts` SSH
   — stocké dans `~/.gcm/vnc_host_keys.json`, écriture atomique, avec un
   message d'erreur explicite et un bouton de récupération en cas de clé
@@ -219,10 +230,11 @@ Event). État à connaître avant d'enrichir ce plugin :
   aujourd'hui (aucune trace de `qemu` dans ce fichier) ; si un futur travail
   câble cette extension côté GTK4, tester contre un vrai Proxmox/QEMU en
   priorité plutôt que de faire confiance au format tel quel.
-- VeNCrypt/TLS anonyme n'existe pas encore côté `asyncvnc2` — le
-  pinning de clé hôte (`HostKeyStore`) de ce plugin ne couvre que l'auth
-  Apple ARD, pas un futur TLS. Pas d'action requise ici tant que VeNCrypt
-  n'est pas patché côté fork.
+- VeNCrypt existe désormais côté `asyncvnc2` (sous-types TLS* et X509*,
+  cf. § « Connexion » pour le réglage `tls_ca_file`, Gcm4 #104). Le
+  pinning de clé hôte (`HostKeyStore`) de ce plugin ne couvre toujours que
+  l'auth Apple ARD : les sous-types TLS* anonymes ne vérifient aucune
+  identité de serveur, et rien ici ne les épingle.
 - `VncDisplay.send_text()` (session 20) suppose que `keyboard.press()` se
   comporte comme `keyboard.hold()` pour un nom de touche non reconnu
   (lève une exception, logiquement un `KeyError` vu leur mécanisme de
