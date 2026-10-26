@@ -2,6 +2,8 @@
 
 ## [Non publié]
 
+- **gcm4 : plugin ipmisol (#179)** : portage du plugin GTK3 au contrat v1 (`plugins/ipmisol/`, `core.py` sans GTK + `gtk4.py`) — `ipmitool sol activate` dans le terminal commun des plugins, mot de passe transmis par la variable d'environnement `IPMI_PASSWORD` (nouveau champ `Lancement.env`, jamais en argument ni dans `repr`, #145), `sol deactivate` envoyé à la fermeture de l'onglet pour déverrouiller le BMC. Port UDP 623 par défaut, protocole `ipmi` des configurations existantes, zone d'options commune des plugins terminal
+
 ## [4.0.0] — 2026-10-24
 
 > Première version de **gcm4** (réécriture GTK4/libadwaita). La numérotation

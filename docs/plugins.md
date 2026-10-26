@@ -171,13 +171,13 @@ est en lecture seule.
 
 ## Plugins terminal : modules communs
 
-Les plugins qui ouvrent un terminal (telnet, local, puis serial, ipmisol et
+Les plugins qui ouvrent un terminal (telnet, local, ipmisol, puis serial et
 ssh) partagent deux modules de la base (#295), pour ne pas recopier la même
 session dans chacun :
 
 | Module | GTK | Contenu |
 |---|---|---|
-| `gcm4.core.terminal` | non | clés d'options `commands`, `backspace-key`, `delete-key`, `term` (mêmes clés INI que GTK3) et `encoding` (#85, `ENCODAGES`, `encodage`, `encoder`) ; `Lancement(argv, mot_de_passe)` ; `environnement`, `liaison`, `lire_commandes`, `ecrire_commandes`, `etapes(commandes, debut_ms)` |
+| `gcm4.core.terminal` | non | clés d'options `commands`, `backspace-key`, `delete-key`, `term` (mêmes clés INI que GTK3) et `encoding` (#85, `ENCODAGES`, `encodage`, `encoder`) ; `Lancement(argv, mot_de_passe, env)` — `env` ajoute des variables d'environnement au processus (ex. `IPMI_PASSWORD` pour ipmisol, #179 ; valeurs jamais dans `repr`, #145) ; `environnement`, `liaison`, `lire_commandes`, `ecrire_commandes`, `etapes(commandes, debut_ms)` |
 | `gcm4.ui.terminal` | VTE 3.91 | `SessionTerminal(host, protocole, lancement, log, debut_commandes_ms)` : `Vte.Terminal` dans un défilement, lancement asynchrone, mot de passe éventuel sur le descripteur 3, commandes programmées, « Session ended » en fin de programme, `close()` qui annule les envois et envoie SIGHUP ; `zone_options(options, changed)` : zone d'options de l'hôte ; `PALETTE`, `rgba` |
 
 Exemple, le plugin local (`plugins/local/gtk4.py`) :
