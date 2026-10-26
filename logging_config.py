@@ -66,7 +66,6 @@ CORE_MODULES = (
     "popup_menu_core",
     "putty_import_core",
     "snmp_bulk_core",
-    "snmp_push_core",
     "tab_context_menu_core",
 )
 

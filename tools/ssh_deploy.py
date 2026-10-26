@@ -24,7 +24,8 @@ from loguru import logger as log
 
 try:
     import paramiko
-except ImportError:
+except ImportError as exc:
+    log.error("paramiko introuvable : {}", exc)
     print("Dépendance manquante : pip install paramiko")
     sys.exit(1)
 

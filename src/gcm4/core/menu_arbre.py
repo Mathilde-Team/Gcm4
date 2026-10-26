@@ -37,6 +37,7 @@ LIBELLES: dict[str, str] = {
     "duplicate": N_("Duplicate Host"),
     "expand": N_("Expand all"),
     "collapse": N_("Collapse all"),
+    "edit-selection": N_("Edit Selected Hosts…"),
 }
 
 #: Entrées en attente d'un lot ultérieur (voir le module) ; aucune depuis #145.
@@ -94,6 +95,20 @@ def sections(noeud: Noeud | None, connexion_possible: bool = False) -> list[list
         if gardees:
             resultat.append(gardees)
     logger.debug("sections: {}", resultat)
+    return resultat
+
+
+def sections_lot(nombre_hotes: int) -> list[list[str]]:
+    """Sections du menu d'une sélection de plusieurs lignes (#100).
+
+    Avec au moins deux hôtes sélectionnés : édition en lot ; sinon (groupes
+    seuls, ou un seul hôte parmi des groupes) seules restent les actions
+    d'affichage.
+    """
+    logger.debug("sections_lot: {} hôte(s)", nombre_hotes)
+    resultat = [["edit-selection"]] if nombre_hotes >= 2 else []
+    resultat.append(["expand", "collapse"])
+    logger.debug("sections_lot: {}", resultat)
     return resultat
 
 
