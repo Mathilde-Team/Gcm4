@@ -1062,18 +1062,76 @@ class VncDisplay(Gtk.Picture):
     def _on_local_clipboard_changed(self, clipboard):
         clipboard.read_text_async(None, self._on_local_clipboard_read)
 
+    @staticmethod
+    def _resolve_clipboard_send_mode(extended_supported: bool, text: str) -> str:
+        """Comment envoyer ``text`` au serveur (Gcm4 #104, tâche 1).
+
+        - ``"extended"`` : le serveur a confirmé Extended Clipboard →
+          ``send_clipboard_update()`` (Notify puis Provide, UTF-8) ;
+        - ``"legacy"`` : sinon, ClientCutText historique si ``text`` tient en
+          Latin-1 ;
+        - ``"unsupported"`` : ni l'un ni l'autre (caractère hors Latin-1 et
+          serveur sans Extended Clipboard) → rien n'est envoyé.
+        """
+        logger.debug(
+            "VncDisplay._resolve_clipboard_send_mode | entrée extended={e} longueur={n}",
+            e=extended_supported,
+            n=len(text),
+        )
+        if extended_supported:
+            mode = "extended"
+        else:
+            try:
+                text.encode("latin-1")
+                mode = "legacy"
+            except UnicodeEncodeError:
+                mode = "unsupported"
+        logger.debug("VncDisplay._resolve_clipboard_send_mode | sortie {m}", m=mode)
+        return mode
+
+    async def _send_clipboard_extended(self, text: str):
+        """Envoi Extended Clipboard, fire-and-forget : un échec (connexion
+        morte, support retiré) est journalisé, pas remonté d'une tâche
+        asyncio orpheline (même garde que _send_cad)."""
+        logger.debug("VncDisplay._send_clipboard_extended | entrée longueur={n}", n=len(text))
+        try:
+            await self.client.send_clipboard_update(text)
+        except Exception as exc:
+            logger.warning(
+                "VncDisplay._send_clipboard_extended | échec host={host} : {exc}",
+                host=self.info.host,
+                exc=exc,
+            )
+        logger.debug("VncDisplay._send_clipboard_extended | sortie")
+
     def _on_local_clipboard_read(self, clipboard, result):
+        logger.debug("VncDisplay._on_local_clipboard_read | entrée")
         try:
             text = clipboard.read_text_finish(result)
         except GLib.Error:
             logger.trace("VncDisplay._on_local_clipboard_read | contenu non textuel ou illisible, ignoré")
+            logger.debug("VncDisplay._on_local_clipboard_read | sortie contenu non textuel")
             return
         if not text or text == self._last_clipboard_text or not self.client:
+            logger.debug("VncDisplay._on_local_clipboard_read | sortie rien à envoyer")
             return
         self._last_clipboard_text = text
+        mode = self._resolve_clipboard_send_mode(bool(getattr(self.client, "clipboard_ext_supported", False)), text)
+        if mode == "extended":
+            asyncio.ensure_future(self._send_clipboard_extended(text))
+            logger.debug("VncDisplay._on_local_clipboard_read | sortie Extended Clipboard")
+            return
+        if mode == "unsupported":
+            logger.warning(
+                "VncDisplay._on_local_clipboard_read | texte hors Latin-1 et serveur sans "
+                "Extended Clipboard : presse-papiers non transmis | host={host}",
+                host=self.info.host,
+            )
+            logger.debug("VncDisplay._on_local_clipboard_read | sortie non transmis")
+            return
         try:
             self.client.clipboard.write(text)
-        except Exception:
+        except Exception as exc:
             # Même famille de garde que _on_motion/_on_button_pressed/
             # _on_button_released/_on_scroll/_on_key_pressed (self.client
             # jamais remis à None après une erreur de lecture, cf.
@@ -1088,7 +1146,12 @@ class VncDisplay(Gtk.Picture):
             # famille, trouvé en auditant tous les accès à self.client (cf.
             # docs/sessions/session-14.md et
             # tests/test_clipboard_dead_connection.py).
-            pass
+            logger.debug(
+                "VncDisplay._on_local_clipboard_read | écriture impossible, connexion morte ? {t}: {exc}",
+                t=type(exc).__name__,
+                exc=exc,
+            )
+        logger.debug("VncDisplay._on_local_clipboard_read | sortie ClientCutText")
 
     def _set_system_clipboard(self, text: str):
         display = self.get_display()

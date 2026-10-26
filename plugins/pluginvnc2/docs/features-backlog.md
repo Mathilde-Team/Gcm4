@@ -118,6 +118,14 @@ qui reste réellement à faire.
 - Presse-papiers bidirectionnel (texte), désactivable par profil. Écriture
   vers le serveur protégée contre une exception sur socket déjà mort (même
   famille de garde que les chemins d'entrée haute fréquence ci-dessus).
+  Extended Clipboard (Gcm4 #104, tâche 1) : si le serveur l'a confirmé
+  (`client.clipboard_ext_supported`), le texte local part en UTF-8 par
+  `send_clipboard_update()` (Notify puis Provide, l'ordre que TigerVNC et
+  QEMU exigent) ; sinon ClientCutText historique (Latin-1). Un texte hors
+  Latin-1 vers un serveur sans Extended Clipboard n'est pas transmis et
+  c'est journalisé (avant : exception avalée sans trace). Décision pure
+  `VncDisplay._resolve_clipboard_send_mode`, tests
+  `tests/test_extended_clipboard.py`.
 - Bip serveur (bell) relayé via `Gdk.Display.beep()`.
 - Raccourcis clavier globaux, utilisables sans passer par la souris/la
   barre d'outils : `<Shift>F12` (capture d'écran), `<Control>F12` (copie
