@@ -123,6 +123,8 @@ def app_fixture(tmp_path, monkeypatch, pomper):
 
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
+
+
 @pytest.fixture
 def app_demo(tmp_path, monkeypatch, pomper):
     """Comme ``app_fixture``, avec le seul plugin démo (tests/fixtures/plugin_demo)."""
