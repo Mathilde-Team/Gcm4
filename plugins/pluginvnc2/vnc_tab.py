@@ -302,6 +302,9 @@ class VncDisplay(Gtk.Picture):
         # (status: valeur de VncStatus, message lisible)
         "vnc-status-changed": (GObject.SignalFlags.RUN_FIRST, None, (str, str)),
         "vnc-title-changed": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        # message d'erreur complété du nombre de secondes restant avant la
+        # prochaine reconnexion automatique, émis chaque seconde (#94)
+        "vnc-reconnect-countdown": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         # objet asyncvnc2.Cursor, ou None si le serveur a demandé de le cacher
         "vnc-cursor-changed": (GObject.SignalFlags.RUN_FIRST, None, (object,)),
         # (largeur, hauteur) du framebuffer distant après un resize serveur
@@ -352,6 +355,12 @@ class VncDisplay(Gtk.Picture):
         self._had_connected_before = False
         self._reconnect_attempt = 0
         self._reconnect_timeout_id = None
+        # Décompte affiché seconde par seconde jusqu'à la tentative (#94) :
+        # minuteur distinct (GLib.timeout_add, 1000 ms) du minuteur de
+        # reconnexion lui-même, annulé en même temps que lui.
+        self._countdown_timeout_id = None
+        self._countdown_remaining = 0
+        self._countdown_base_message = ""
 
         self._setup_input_controllers()
 
@@ -489,13 +498,58 @@ class VncDisplay(Gtk.Picture):
             attempt=self._reconnect_attempt,
         )
         self._reconnect_timeout_id = GLib.timeout_add_seconds(delay_seconds, self._on_auto_reconnect_timeout)
+        self._start_reconnect_countdown(delay_seconds)
+
+    @staticmethod
+    def _resolve_countdown_tick(remaining: int):
+        """Une seconde de décompte (#94) : (secondes restantes, continuer ?).
+
+        Le décompte s'arrête à 1 s affichée : la tentative elle-même
+        (minuteur de reconnexion) remplace ensuite le message par
+        « Connexion à … ». Jamais négatif, même si un tick arrive en retard.
+        """
+        logger.debug("VncDisplay._resolve_countdown_tick | entrée remaining={r}", r=remaining)
+        restant = max(remaining - 1, 0)
+        resultat = (restant, restant > 0)
+        logger.debug("VncDisplay._resolve_countdown_tick | sortie {r}", r=resultat)
+        return resultat
+
+    def _start_reconnect_countdown(self, delay_seconds: int):
+        logger.debug("VncDisplay._start_reconnect_countdown | entrée delay={d}", d=delay_seconds)
+        self._cancel_reconnect_countdown()
+        self._countdown_remaining = delay_seconds
+        self._countdown_timeout_id = GLib.timeout_add(1000, self._on_reconnect_countdown_tick)
+        logger.debug("VncDisplay._start_reconnect_countdown | sortie")
+
+    def _on_reconnect_countdown_tick(self):
+        logger.debug("VncDisplay._on_reconnect_countdown_tick | entrée remaining={r}", r=self._countdown_remaining)
+        self._countdown_remaining, continuer = self._resolve_countdown_tick(self._countdown_remaining)
+        if not continuer:
+            self._countdown_timeout_id = None
+            logger.debug("VncDisplay._on_reconnect_countdown_tick | sortie fin du décompte")
+            return False
+        self.emit(
+            "vnc-reconnect-countdown",
+            self._append_reconnect_delay_to_message(self._countdown_base_message, self._countdown_remaining),
+        )
+        logger.debug("VncDisplay._on_reconnect_countdown_tick | sortie")
+        return True
+
+    def _cancel_reconnect_countdown(self):
+        logger.debug("VncDisplay._cancel_reconnect_countdown | entrée id={i}", i=self._countdown_timeout_id)
+        if self._countdown_timeout_id is not None:
+            GLib.source_remove(self._countdown_timeout_id)
+            self._countdown_timeout_id = None
+        logger.debug("VncDisplay._cancel_reconnect_countdown | sortie")
 
     def _on_auto_reconnect_timeout(self):
         self._reconnect_timeout_id = None
+        self._cancel_reconnect_countdown()
         self.reconnect()
         return False  # source à usage unique -- un nouveau minuteur est replanifié si ça échoue encore
 
     def _cancel_pending_auto_reconnect(self):
+        self._cancel_reconnect_countdown()
         if self._reconnect_timeout_id is not None:
             GLib.source_remove(self._reconnect_timeout_id)
             self._reconnect_timeout_id = None
@@ -522,6 +576,7 @@ class VncDisplay(Gtk.Picture):
             self._reconnect_attempt = 0
         will_auto_reconnect = self._should_schedule_auto_reconnect(status.value, self._had_connected_before)
         if will_auto_reconnect:
+            self._countdown_base_message = message
             # Complète le message AVANT l'émission ci-dessous, pas après --
             # sinon l'interface afficherait un instant le message brut sans
             # l'info de délai (cf. _append_reconnect_delay_to_message
@@ -1574,6 +1629,7 @@ class VncTab(Gtk.Box):
         self.scroller.set_hexpand(True)
         self.display = VncDisplay(info)
         self.display.connect("vnc-status-changed", self._on_status_changed)
+        self.display.connect("vnc-reconnect-countdown", self._on_reconnect_countdown)
         self.display.connect("vnc-title-changed", self._on_title_changed)
         self.display.connect("vnc-cursor-changed", self._on_cursor_changed)
         self.display.connect("vnc-size-changed", self._on_size_changed)
@@ -2495,6 +2551,14 @@ class VncTab(Gtk.Box):
             self.btn_screenshot.set_sensitive(False)
             self.btn_copy_screenshot.set_sensitive(False)
             self.btn_send_text.set_sensitive(False)
+
+    def _on_reconnect_countdown(self, _display, message):
+        """Met à jour le message d'erreur affiché, seconde par seconde (#94),
+        sans repasser par tout _on_status_changed (statut inchangé)."""
+        logger.debug("VncTab._on_reconnect_countdown | entrée {m}", m=message)
+        self.status_label.set_label(f"{self.info.name} — {message}")
+        self.placeholder_label.set_label(message)
+        logger.debug("VncTab._on_reconnect_countdown | sortie")
 
     def _on_title_changed(self, display, title):
         self.emit("tab-title-changed", title)
