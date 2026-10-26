@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-96 modules · 167 classes · 321 fonctions publiques de module.
+96 modules · 167 classes · 325 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -90,6 +90,10 @@ classDiagram
         +compute_zoom_size(current_size, delta, minimum, maximum) float
         +resolve_cluster_command(text) str
         +mask_cluster_command(text) str
+        +load_cluster_favorites(cp) list~str~
+        +save_cluster_favorites(cp, favorites) None
+        +add_cluster_favorite(favorites, text) list~str~
+        +remove_cluster_favorite(favorites, text) list~str~
         +resolve_auto_close_tab(host_override, global_default) int
         +workspace_hosts(groups) list
         +serialize_open_tabs(open_hosts) list
@@ -508,6 +512,9 @@ classDiagram
     class Wcluster {
         <<Gtk.Dialog>>
         +new()
+        +on_cmbFavorites_changed(widget, *args)
+        +on_btnAddFavorite_clicked(widget, *args)
+        +on_btnRemoveFavorite_clicked(widget, *args)
         +on_active_toggled(widget, path)
         +change_color(term, activate)
         +on_wCluster_destroy(widget, *args)
@@ -663,7 +670,9 @@ classDiagram
         +new()
         +run()
     }
-    class conf
+    class conf {
+        +list CLUSTER_FAVORITES
+    }
     class mod_widgets {
         <<module>>
         +build_remote_desktop_context_menu(btn_connect, btn_disconnect, send_special_keys_fn, extra_items)

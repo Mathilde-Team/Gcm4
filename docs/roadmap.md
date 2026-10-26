@@ -71,7 +71,7 @@
 |-------|-------|------------|
 | #100 | Multi-sélection hôtes : port et groupe en lot (PR en relecture) | Faible |
 | #83 | Icône system tray | Faible |
-| #84 | Cluster liste déroulante | Faible |
+| #84 | Cluster liste déroulante : commandes favorites éditables (PR en relecture) | Faible |
 | #85 | Charset dynamique | Faible |
 | #86 | Aide contextuelle | Faible |
 | #87 | Tests orphelins | Faible |
