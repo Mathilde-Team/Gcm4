@@ -1,15 +1,19 @@
 # Changelog — Gnome Connection Manager
 
-## [Non publié] — travaux post-1.3.3 (2026-06-13 → 2026-09-19, fork MathildeDec)
+## [Non publié]
 
-> Numérotation de version pas encore tranchée : le projet doit être renommé
-> **GCM → gcm4** (décision actée le 2026-08-29, pas encore effective dans le
-> code) et la reprise en 1.x ou le redémarrage en 4.0.0 reste à décider avec
-> l'auteure — voir `features.md` §3.0. Cette section regroupe donc tout le
-> travail livré depuis 1.3.3 sans lui assigner de numéro. Détail complet,
-> session par session, dans `claude.md` (journal) et `features.md` (§4.1).
+## [4.0.0] — 2026-10-24
+
+> Première version de **gcm4** (réécriture GTK4/libadwaita). La numérotation
+> redémarre à 4.0.0, alignée sur le nom gcm4, plutôt que de poursuivre en
+> 1.x (décision du 2026-10-22, #299). Cette section regroupe tout le travail
+> livré depuis 1.3.3. Détail complet, session par session, dans `CLAUDE.md`
+> (journal) et `features.md` (§4.1).
 
 ### Added
+- **Push SNMP : dépôt du fichier rendu** (#74) : `snmp_bulk_core.py` dépose la configuration rendue sur le serveur de dépôt avant le `SNMP SET` (`FileTransferConfig`, `upload_config_file` : SFTP avec clé d'hôte vérifiée dans `known_hosts`, FTP, TFTP RFC 1350) et transmet le protocole de récupération au driver (`FETCH_PROTOCOLS` : H3C ftp/tftp, Cisco tftp/ftp/sftp, Huawei ftp/tftp/sftp) au lieu du TFTP codé en dur. Paramètre `transfer` optionnel de `push_to_device`/`run_bulk_push`, comportement inchangé sans lui. Testé contre de vrais serveurs SFTP, FTP et TFTP locaux
+- **pluginvnc2 : envoi de texte répété** (#93) : case « Garder la fenêtre ouverte après l'envoi » dans le dialogue « Envoyer du texte », décochée par défaut et mémorisée pour la durée de vie de l'onglet ; cochée, le champ est vidé après chaque envoi et le dialogue reste ouvert
+- **Sélection multiple et édition en lot** (#100) : l'arbre GTK4 passe en `Gtk.MultiSelection` (Ctrl+clic, Maj+clic) ; « Modifier les hôtes sélectionnés… » (clic droit dans la sélection ou touche Menu) change le port et/ou le groupe de plusieurs hôtes, case non cochée = champ inchangé. Conflits de noms dans le groupe cible refusés avant toute écriture. Logique sans GTK dans `gcm4.core.edition_lot`, guide « Modifier plusieurs hôtes » dans `docs/guide/base-gtk4.md`
 - **Plugin SFTP GTK4** (#75) : `plugins/sftp/` au contrat v1, navigateur de fichiers distant (paramiko). Navigation, téléchargement sans écraser (`download-dir` ou dossier XDG), envoi par bouton ou glisser-déposer, nouveau dossier, renommage, suppression confirmée. Clé d'hôte vérifiée dans `~/.ssh/known_hosts` (clé inconnue : empreinte SHA256 à accepter dans l'onglet ; clé changée : refus), mot de passe, fichier de clé ou agent SSH, mot de passe demandé en cas de refus. Réseau dans un fil de travail, jamais dans la boucle GTK. Testé contre un vrai serveur SSH/SFTP paramiko (`tests/serveur_sftp.py`) ; guide `docs/guide/sftp.md`
 - **Journalisation SOCLE §8, lot 1** (#294) : logger loguru dans les 11 modules qui n'en avaient pas (`MODULES_SANS_LOGGER` vide). Les 6 nouveaux `*_core.py` se mettent en sourdine à l'import et sont ajoutés à `CORE_MODULES` (#130). 23 `except` hérités journalisent désormais le type et le message de l'exception (191 → 168) ; l'`except:` nu de `models.HostUtils.get_val` devient `except BaseException as exc:`, sémantique inchangée. Traces d'entrée et de sortie ajoutées dans ces modules : référence de l'audit 1042 → 970. Les valeurs ne sont journalisées que pour les modules sans données sensibles. Dans `pyAES.py`, seules les fonctions par opération ou par bloc sont tracées, pas les primitives de ronde.
 - **gcm4, base GTK4** (#126, réécriture, paquet `src/gcm4`) : commande `gcm4`
@@ -106,7 +110,11 @@
   `tools/check_circular_imports.py` : règles et outillage qualité pour tout
   agent (humain ou IA) travaillant sur le dépôt
 
+### Removed
+- `snmp_push_core.py` (#74) : double implémentation orpheline du push SNMP, jamais importée ; ses transports sont repris dans `snmp_bulk_core.py`
+
 ### Fixed
+- **Nom de l'organisation** (#310) : l'ancien nom mal orthographié (sans « l », compte GitHub inexistant) remplacé par `Mathilde-Team` dans la CI (installation d'`asyncvnc2`), la condition du job `i18n.yml` (qui ne tournait jamais), `check_branch_protection.py`, `i18n-update.sh` et l'en-tête des catalogues, `mkdocs.yml` et le test d'intégration. `tests/test_nom_organisation.py` refuse l'ancien nom dans les fichiers suivis
 - gcm4 sur Debian 12 (GTK 4.8, libadwaita 1.2, #223) : le repli
   `Gtk.CssProvider.load_from_data` passait deux arguments et une chaîne
   (exception à chaque démarrage, CSS de l'arbre non chargé) ; il reçoit
@@ -135,6 +143,9 @@
   réelles — voir `docs/gcm4-rename.md` §4, `docs/sessions/session-30.md`
 
 ### Changed
+- `make deb` construit le paquet gcm4 (`build-deb/build.sh`) et le workflow Release
+  le joint aux releases ; plus de `.deb` de l'application GTK3, `make deb-gcm4`
+  reste un alias (#156)
 - **Journalisation des `except` hérités, lot 1** (#294) : les 22 `except` sans trace de `plugins/ssh/core.py` et de `tools/` (`libvirt_inventory.py`, `ssh_deploy.py`, `validate_xml_json.py`) nomment désormais la cause (debug pour un repli normal, warning quand une donnée est ignorée, error avant de relancer). Les replis eux-mêmes ne changent pas ; ces fichiers sortent de `EXCEPT_SANS_JOURNAL`. Tests `tests/test_except_journalises_294.py`
 - **Renommage du projet décidé : GCM → gcm4** (2026-08-29), pour marquer la
   génération GTK4 — pas encore effectif dans le code (module principal,

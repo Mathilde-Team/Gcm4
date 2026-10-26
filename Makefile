@@ -1,5 +1,5 @@
 PKG_NAME    = gnome-connection-manager
-PKG_VERSION = 1.3.3
+PKG_VERSION = 4.0.0
 PKG_MAINTAINER = "MathildeDec <mathilde.deuscher@gmail.com>"
 PKG_DESCRIPTION = "Multi-protocol tabbed connection manager (SSH/RDP/VNC/SPICE/Serial)"
 PKG_VENDOR  = MathildeDec
@@ -7,7 +7,6 @@ PKG_URL     = https://github.com/MathildeDec/gnome-connection-manager
 PKG_ARCH    = all
 PKG_ARCH_RPM = noarch
 PKG_LICENSE = GPLv3
-PKG_DEB     = $(PKG_NAME)_$(PKG_VERSION)_$(PKG_ARCH).deb
 PKG_RPM     = $(PKG_NAME)-$(PKG_VERSION).$(PKG_ARCH_RPM).rpm
 PKG_OPENSUSE = $(PKG_NAME)-opensuse-$(PKG_VERSION).$(PKG_ARCH_RPM).rpm
 
@@ -36,8 +35,7 @@ all:  test lint deb rpm opensuse translate validate
 help:
 	@echo "Cibles disponibles :"
 	@echo "  make          → deb + rpm (défaut)"
-	@echo "  make deb      → paquet .deb (Debian/Ubuntu)"
-	@echo "  make deb-gcm4 → paquet .deb de la base GTK4 (build-deb/dist/gcm4_*.deb)"
+	@echo "  make deb      → paquet .deb de gcm4 (build-deb/dist/gcm4_*.deb)"
 	@echo "  make smoke-deb → installe ce paquet (sudo apt) et le vérifie"
 	@echo "  make rpm-gcm4 → paquet .rpm de la base GTK4 (build-rpm/dist/gcm4-*.rpm)"
 	@echo "  make smoke-rpm → vérifie le contenu de ce paquet (rpm -qpl, sans l'installer)"
@@ -106,34 +104,16 @@ install: translate
 	done
 	chmod 755 $(DESTDIR)/usr/share/$(PKG_NAME)/gnome_connection_manager.py
 
-# ── Paquet .deb (Debian / Ubuntu) ────────────────────────────────────────────
-deb:
-	rm -rf $(TMPINSTALLDIR) $(PKG_DEB)
-	chmod -R g-w *
-	$(MAKE) install DESTDIR=$(TMPINSTALLDIR)
-	fpm -t deb -p $(PKG_DEB) $(FPM_COMMON) \
-		-a $(PKG_ARCH) \
-		-d python3 \
-		-d python3-gi \
-		-d gir1.2-vte-2.91 \
-		-d gir1.2-gtk-3.0 \
-		-d gir1.2-gtk-vnc-2.0 \
-		-d gir1.2-spiceclientgtk-3.0 \
-		-d "freerdp2-x11 | freerdp3-x11" \
-		-d expect \
-		-d python3-paramiko \
-		-d python3-loguru \
-		--after-install postinst \
-		--deb-priority optional \
-		usr
-	@echo "\033[92mOK: $(PKG_DEB)\033[0m"
-
-# ── Paquet .deb de la base GTK4 (#156) ───────────────────────────────────────
-# build-deb/build.sh (dpkg-buildpackage) : paquet gcm4, sans aucun plugin.
+# ── Paquet .deb de gcm4 (#156) ───────────────────────────────────────────────
+# build-deb/build.sh (dpkg-buildpackage) : paquet gcm4 de la base GTK4, sans
+# aucun plugin, version lue dans pyproject.toml. Plus de .deb de l'application
+# GTK3 (décision du 2026-10-22, #156). deb-gcm4 : ancien nom, conservé.
 # smoke-deb l'installe avec apt (sudo) puis le vérifie, comme le job
 # « Paquets » de la CI : à lancer dans un conteneur ou une machine de test.
-deb-gcm4:
+deb:
 	build-deb/build.sh
+
+deb-gcm4: deb
 
 smoke-deb:
 	scripts/smoke-test-packages.sh deb $(wildcard build-deb/dist/gcm4_*_all.deb)
@@ -267,7 +247,8 @@ validate:
 # ── Nettoyage ─────────────────────────────────────────────────────────────────
 clean:
 	rm -rf $(TMPINSTALLDIR)
-	rm -f $(PKG_DEB) $(PKG_RPM)
+	rm -rf build-deb/_build build-deb/dist
+	rm -f $(PKG_RPM)
 	find . -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 	find . -name "*.pyc" -delete 2>/dev/null || true
 
