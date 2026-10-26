@@ -262,6 +262,21 @@ class TestEncryptionKeyLifecycle(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             gcm4_core.load_encryption_key(self._keyfile)
 
+    def test_load_protected_key_raises_and_keeps_key_empty(self):
+        """#98 : une clé protégée par mot de passe maître n'est jamais utilisée telle quelle."""
+        import master_password_core
+
+        for content in (
+            master_password_core.protect_key_file_content("cafe", "pw"),
+            master_password_core.protect_key_file_content_with_recovery("cafe", "pw")[0],
+        ):
+            with open(self._keyfile, "w") as f:
+                f.write(content)
+            gcm4_core._enc_passwd = "previous"
+            with self.assertRaisesRegex(RuntimeError, "master password"):
+                gcm4_core.load_encryption_key(self._keyfile)
+            self.assertEqual(gcm4_core._enc_passwd, "")
+
     def test_initialise_unwritable_dir_raises_runtime_error(self):
         """Dossier parent inexistant -> RuntimeError, pas de crash silencieux."""
         bogus_path = os.path.join(self._tmpdir, "no-such-subdir", "key")
@@ -837,3 +852,88 @@ class TestResolveThemeMode(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestClusterFavorites(unittest.TestCase):
+    """Commandes favorites du dialogue Cluster (#84)."""
+
+    def _cp(self, text=None):
+        """ConfigParser lu depuis ``text`` (vide si None)."""
+        import configparser
+
+        cp = configparser.RawConfigParser()
+        if text is not None:
+            cp.read_string(text)
+        return cp
+
+    def test_defaults_when_section_missing(self):
+        """Section absente : df, apt update, updatedb (décision de l'auteure)."""
+        self.assertEqual(
+            gcm4_core.load_cluster_favorites(self._cp()), ["df", "apt update", "updatedb"]
+        )
+        self.assertEqual(gcm4_core.CLUSTER_FAVORITES_DEFAULT, ("df", "apt update", "updatedb"))
+
+    def test_empty_section_stays_empty(self):
+        """Section présente mais vide : l'utilisateur a tout retiré."""
+        self.assertEqual(gcm4_core.load_cluster_favorites(self._cp("[cluster_favorites]\n")), [])
+
+    def test_load_orders_by_index_and_filters(self):
+        """Tri numérique, clés invalides, valeurs vides et doublons ignorés."""
+        cp = self._cp(
+            "[cluster_favorites]\n"
+            "command10 = uptime\n"
+            "command2 = ls -l\n"
+            "command1 = df -h\n"
+            "other = ignored\n"
+            "commandx = ignored\n"
+            "command3 =\n"
+            "command4 = ls -l\n"
+            "command5 = echo a\\nb\n"
+        )
+        self.assertEqual(
+            gcm4_core.load_cluster_favorites(cp), ["df -h", "ls -l", "echo a\nb", "uptime"]
+        )
+
+    def test_save_then_load_round_trip(self):
+        """Écriture puis relecture, retours à la ligne compris, section remplacée."""
+        cp = self._cp("[cluster_favorites]\ncommand1 = old\ncommand2 = older\n")
+        gcm4_core.save_cluster_favorites(cp, ["df", "printf 'a\nb'"])
+        self.assertEqual(cp.get("cluster_favorites", "command2"), "printf 'a\\nb'")
+        self.assertFalse(cp.has_option("cluster_favorites", "command3"))
+        self.assertEqual(gcm4_core.load_cluster_favorites(cp), ["df", "printf 'a\nb'"])
+
+    def test_save_empty_list_keeps_section(self):
+        """Une liste vide écrit une section vide (pas de retour aux défauts)."""
+        cp = self._cp()
+        gcm4_core.save_cluster_favorites(cp, [])
+        self.assertTrue(cp.has_section("cluster_favorites"))
+        self.assertEqual(gcm4_core.load_cluster_favorites(cp), [])
+
+    def test_add_appends_stripped_command_without_mutating(self):
+        """Ajout en fin de liste, blancs de fin retirés, entrée non modifiée."""
+        favorites = ["df"]
+        self.assertEqual(
+            gcm4_core.add_cluster_favorite(favorites, "free -m \n"), ["df", "free -m"]
+        )
+        self.assertEqual(favorites, ["df"])
+
+    def test_add_existing_command_is_noop(self):
+        """Une commande déjà présente n'est pas dupliquée."""
+        self.assertEqual(gcm4_core.add_cluster_favorite(["df"], "df"), ["df"])
+
+    def test_add_rejects_empty_command(self):
+        """Commande vide ou faite de blancs refusée."""
+        with self.assertRaisesRegex(ValueError, "empty command"):
+            gcm4_core.add_cluster_favorite([], " \n ")
+
+    def test_add_rejects_password_token(self):
+        """Un marqueur #P= fuirait en clair dans gcm.conf : refusé."""
+        with self.assertRaisesRegex(ValueError, "password token"):
+            gcm4_core.add_cluster_favorite([], "mysql -p#P=secret")
+
+    def test_remove(self):
+        """Retrait d'une commande ; absente, liste inchangée ; entrée non modifiée."""
+        favorites = ["df", "apt update"]
+        self.assertEqual(gcm4_core.remove_cluster_favorite(favorites, "df"), ["apt update"])
+        self.assertEqual(gcm4_core.remove_cluster_favorite(favorites, "nope"), favorites)
+        self.assertEqual(favorites, ["df", "apt update"])

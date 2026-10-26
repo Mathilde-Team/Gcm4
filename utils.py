@@ -359,6 +359,10 @@ class conf:
     # bien les onglets de la derniere session plutot qu'une liste vide.
     RESTORE_OPEN_TABS = False
     OPEN_TABS = ""
+    # Commandes favorites du dialogue Cluster (#84) : section INI dediee
+    # [cluster_favorites], lue par gcm4_core.load_cluster_favorites() (qui
+    # fournit les favoris par defaut df / apt update / updatedb).
+    CLUSTER_FAVORITES: list = []
     # Couleurs de groupe (dossier) — backlog features.md §4.2, "Couleurs par
     # groupe" (comme PuTTY). Chaine "groupe=couleur,groupe2=couleur2"
     # (section [window], cle group-colors) : pas de section INI dediee car

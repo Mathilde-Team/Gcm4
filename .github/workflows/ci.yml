@@ -294,7 +294,7 @@ jobs:
   gtk4:
     # Issue #159 (job « Tests GTK4 (Xvfb) ») et #160 (aucun test GTK
     # sauté). Aujourd'hui : la suite de plugins/pluginvnc2 (seul code déjà
-    # GTK4, 163 tests) contre un vrai GTK4 sous Xvfb ; src/gcm4/ui la
+    # GTK4, 207 tests) contre un vrai GTK4 sous Xvfb ; src/gcm4/ui la
     # rejoindra (épopée #118). Conteneur Ubuntu comme le job gtk4 de
     # Netcross : python3-gi et GTK4 viennent des paquets, sans compilation.
     name: Tests GTK4 (Xvfb)
@@ -316,11 +316,11 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Dépendances de pluginvnc2 (venv avec python3-gi système)
-        # asyncvnc2 figé sur un commit de Mathide-Team/AsyncVnc4 (public).
+        # asyncvnc2 figé sur un commit de Mathilde-Team/AsyncVnc4 (public).
         run: |
           python3 -m venv --system-site-packages /tmp/venv
           /tmp/venv/bin/pip install -q -r plugins/pluginvnc2/requirements-dev.txt \
-            "asyncvnc2 @ git+https://github.com/Mathide-Team/AsyncVnc4@26be75f0582acffbf2a5cd8ea4175f5e40759db3"
+            "asyncvnc2 @ git+https://github.com/Mathilde-Team/AsyncVnc4@26be75f0582acffbf2a5cd8ea4175f5e40759db3"
 
       - name: gcm4 (paquet src/gcm4, mode éditable)
         # paramiko : plugin sftp (#75), testé contre un serveur paramiko local.
