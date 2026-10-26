@@ -2649,7 +2649,7 @@ class Wmain(GCMBase, Gtk.Window):
             try:
                 return int(raw)
             except (TypeError, ValueError) as exc:
-                _loguru_logger.debug("préférence {!r} non entière, valeur par défaut : {}", raw, exc)
+                _loguru_logger.debug("préférence {!r} non entière, défaut : {}", raw, exc)
                 return default
         return raw
 
@@ -3610,7 +3610,7 @@ class Wmain(GCMBase, Gtk.Window):
                     return cp.getint(section, key)
                 return cp.get(section, key)
             except Exception as exc:
-                _loguru_logger.debug("option {!r} hors du fichier de configuration : {}", str(key), exc)
+                _loguru_logger.debug("option {!r} hors du fichier de config : {}", str(key), exc)
                 return default
 
         conf.WORD_SEPARATORS = _gopt("options", "word-separators", conf.WORD_SEPARATORS)
@@ -3813,7 +3813,7 @@ class Wmain(GCMBase, Gtk.Window):
         try:
             src_it = self.treeModel.get_iter_from_string(src_path_str)
         except (ValueError, RuntimeError) as exc:
-            _loguru_logger.debug("chemin source {!r} invalide, glisser annulé : {}", src_path_str, exc)
+            _loguru_logger.debug("chemin source {!r} invalide, annulé : {}", src_path_str, exc)
             Gdk.drag_status(context, 0, time)
             return
 
@@ -3874,7 +3874,7 @@ class Wmain(GCMBase, Gtk.Window):
                     try:
                         idx_dst = next(i for i, h in enumerate(lst) if h is dest_host)
                     except StopIteration as exc:
-                        _loguru_logger.debug("hôte destination introuvable, insertion en fin : {}", exc)
+                        _loguru_logger.debug("destination introuvable, ajout en fin : {}", exc)
                         idx_dst = len(lst)
                     if drop_pos in (
                         Gtk.TreeViewDropPosition.AFTER,
