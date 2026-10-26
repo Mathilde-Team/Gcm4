@@ -5,7 +5,8 @@
       { "context": "Qualité (lint, tests)", "app_id": 15368 },
       { "context": "Types (mypy)", "app_id": 15368 },
       { "context": "i18n (catalogues à jour)", "app_id": 15368 },
-      { "context": "Tests GTK4 (Xvfb)", "app_id": 15368 }
+      { "context": "Tests GTK4 (Xvfb)", "app_id": 15368 },
+      { "context": "Couverture combinée", "app_id": 15368 }
     ]
   },
   "enforce_admins": true,
