@@ -842,6 +842,132 @@ def mask_cluster_command(text: str) -> str:
     return result
 
 
+# ─────────────────────────────────────────────────────────────────────────
+# Mode cluster — commandes favorites (#84)
+# ─────────────────────────────────────────────────────────────────────────
+
+# Décision de l'auteure (#84, 2026-10-12) : la « liste déroulante » du
+# dialogue Cluster est une liste de commandes favorites éditable, distincte
+# de l'historique CTRL+haut/CTRL+bas, préremplie avec ces trois commandes.
+CLUSTER_FAVORITES_DEFAULT: tuple[str, ...] = ("df", "apt update", "updatedb")
+
+# Section INI dédiée (clés ``command1``..``commandN`` dans l'ordre). Section
+# absente : favoris par défaut ; section présente mais vide : l'utilisateur
+# a tout retiré, la liste reste vide.
+CLUSTER_FAVORITES_SECTION = "cluster_favorites"
+
+
+def _cluster_favorite_key_index(option: str) -> int:
+    """Rang numérique d'une option ``commandN`` (``-1`` si elle est invalide).
+
+    Args:
+        option (str): Nom d'option lu dans la section ``[cluster_favorites]``.
+
+    Returns:
+        int: ``N`` pour ``commandN``, ``-1`` pour toute autre option.
+    """
+    app_logger.debug(f"_cluster_favorite_key_index() called | option={option!r}")
+    suffix = option[len("command") :] if option.startswith("command") else ""
+    result = int(suffix) if suffix.isdigit() else -1
+    app_logger.debug(f"_cluster_favorite_key_index() returning | result={result}")
+    return result
+
+
+def load_cluster_favorites(cp: Any) -> list[str]:
+    """Lit les commandes favorites du cluster depuis un ConfigParser.
+
+    Les retours à la ligne sont stockés échappés (barre oblique inverse
+    suivie de ``n``), comme les raccourcis de la section ``[shortcuts]``.
+    Les clés non reconnues et les valeurs vides sont ignorées, les doublons supprimés (ordre conservé).
+
+    Args:
+        cp (configparser.RawConfigParser): Configuration déjà lue.
+
+    Returns:
+        list[str]: Favoris dans l'ordre d'affichage.
+    """
+    app_logger.debug("load_cluster_favorites() called")
+    if not cp.has_section(CLUSTER_FAVORITES_SECTION):
+        result = list(CLUSTER_FAVORITES_DEFAULT)
+        app_logger.debug(f"load_cluster_favorites() returning | defaults count={len(result)}")
+        return result
+    rows = []
+    for option, value in cp.items(CLUSTER_FAVORITES_SECTION):
+        index = _cluster_favorite_key_index(option)
+        if index >= 0:
+            rows.append((index, value.replace("\\n", "\n")))
+    result = []
+    for _index, value in sorted(rows):
+        if value.strip() and value not in result:
+            result.append(value)
+    app_logger.debug(f"load_cluster_favorites() returning | count={len(result)}")
+    return result
+
+
+def save_cluster_favorites(cp: Any, favorites: list[str]) -> None:
+    """Écrit (en remplaçant) la section ``[cluster_favorites]``.
+
+    Args:
+        cp (configparser.RawConfigParser): Configuration à mettre à jour.
+        favorites (list[str]): Favoris dans l'ordre d'affichage.
+    """
+    app_logger.debug(f"save_cluster_favorites() called | count={len(favorites)}")
+    if cp.has_section(CLUSTER_FAVORITES_SECTION):
+        cp.remove_section(CLUSTER_FAVORITES_SECTION)
+    cp.add_section(CLUSTER_FAVORITES_SECTION)
+    for position, command in enumerate(favorites, start=1):
+        cp.set(CLUSTER_FAVORITES_SECTION, f"command{position}", command.replace("\n", "\\n"))
+    app_logger.debug("save_cluster_favorites() returning")
+
+
+def add_cluster_favorite(favorites: list[str], text: str) -> list[str]:
+    """Retourne la liste des favoris complétée par ``text``.
+
+    Le texte est débarrassé des blancs de fin (le retour chariot est ajouté à
+    l'envoi). Une commande contenant un marqueur ``#P=`` est refusée : un
+    favori est écrit en clair dans ``gcm.conf``, le mot de passe y fuirait.
+
+    Args:
+        favorites (list[str]): Favoris actuels (non modifiés).
+        text (str): Commande à ajouter.
+
+    Returns:
+        list[str]: Nouvelle liste (inchangée si la commande y figure déjà).
+
+    Raises:
+        ValueError: Commande vide ou contenant un marqueur ``#P=``.
+    """
+    app_logger.debug(f"add_cluster_favorite() called | count={len(favorites)} length={len(text)}")
+    command = text.rstrip()
+    if not command.strip():
+        app_logger.debug("add_cluster_favorite() raising | empty command")
+        raise ValueError("empty command")
+    if _CLUSTER_PASSWORD_TOKEN_RE.search(command):
+        app_logger.debug("add_cluster_favorite() raising | password token")
+        raise ValueError("password token")
+    result = list(favorites)
+    if command not in result:
+        result.append(command)
+    app_logger.debug(f"add_cluster_favorite() returning | count={len(result)}")
+    return result
+
+
+def remove_cluster_favorite(favorites: list[str], text: str) -> list[str]:
+    """Retourne la liste des favoris privée de ``text`` (absent : inchangée).
+
+    Args:
+        favorites (list[str]): Favoris actuels (non modifiés).
+        text (str): Commande à retirer.
+
+    Returns:
+        list[str]: Nouvelle liste.
+    """
+    app_logger.debug(f"remove_cluster_favorite() called | count={len(favorites)}")
+    result = [command for command in favorites if command != text]
+    app_logger.debug(f"remove_cluster_favorite() returning | count={len(result)}")
+    return result
+
+
 def resolve_auto_close_tab(host_override: str, global_default: int) -> int:
     """Résout le mode de fermeture automatique effectif pour un onglet.
 
