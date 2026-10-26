@@ -322,9 +322,10 @@ skip_covered = false
 # COMBINÉ Qualité + GTK4 (job « Couverture combinée », requis sur dev,
 # issue #278) ; le job Qualité seul passe --cov-fail-under=0. Palier 1 de
 # #293 : mesure combinée de dev au 22/10/2026 (41,7 %) arrondie à l'entier
-# inférieur. Relever ce chiffre quand la base monte, ne jamais le baisser
+# inférieur. Palier 2 de #293 (24/10/2026) : 43,9 % sur dev + tests de
+# plugin_base et hypervisor_import_common (≈ 45,3 %), soit 45. Relever ce chiffre quand la base monte, ne jamais le baisser
 # pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
-fail_under = 41
+fail_under = 45
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
