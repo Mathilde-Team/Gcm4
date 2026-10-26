@@ -250,6 +250,13 @@ class VncConnectionInfo:
     #: (molette vers le bas = défilement vers le bas), déjà le
     #: comportement historique de ce fichier.
     invert_scroll: bool = False
+    #: Transport WebSocket (Gcm4 #104, tâche 3) : la connexion RFB passe
+    #: dans un tunnel WebSocket (websockify, proxy noVNC, Proxmox…) au lieu
+    #: d'une socket TCP brute. Requête HTTP en clair sur ``host:port``.
+    websocket: bool = False
+    #: Chemin de la requête d'ouverture WebSocket (ex. ``/websockify``).
+    #: Ignoré si ``websocket`` est faux.
+    ws_path: str = "/"
 
 
 class VncStatus(enum.Enum):
@@ -529,6 +536,35 @@ class VncDisplay(Gtk.Picture):
         if will_auto_reconnect:
             self._schedule_auto_reconnect()
 
+    @staticmethod
+    def _resolve_transport_kwargs(websocket: bool, ws_path: str) -> dict:
+        """Arguments de transport à passer à ``asyncvnc2.connect()``.
+
+        Sans WebSocket : dictionnaire vide, pour rester compatible avec un
+        asyncvnc2 qui ne connaît pas encore ``websocket=``. Avec : chemin
+        normalisé (vide → ``/``, ``/`` ajouté en tête si absent).
+
+        Raises:
+            ValueError: le chemin contient un espace ou un caractère de
+                contrôle ; il finit tel quel dans la ligne de requête HTTP,
+                on refuse donc tout ce qui pourrait y injecter un en-tête.
+        """
+        logger.debug(
+            "VncDisplay._resolve_transport_kwargs | entrée websocket={w} ws_path={p!r}", w=websocket, p=ws_path
+        )
+        if not websocket:
+            logger.debug("VncDisplay._resolve_transport_kwargs | sortie TCP brut")
+            return {}
+        chemin = (ws_path or "").strip() or "/"
+        if any(c.isspace() or ord(c) < 0x20 or ord(c) == 0x7F for c in chemin):
+            logger.debug("VncDisplay._resolve_transport_kwargs | sortie chemin refusé")
+            raise ValueError(f"chemin WebSocket invalide : {ws_path!r}")
+        if not chemin.startswith("/"):
+            chemin = "/" + chemin
+        resultat = {"websocket": True, "ws_path": chemin}
+        logger.debug("VncDisplay._resolve_transport_kwargs | sortie {r}", r=resultat)
+        return resultat
+
     async def _connect_and_run(self):
         logger.debug(
             "VncDisplay._connect_and_run | enter | host={host} port={port} shared={shared}",
@@ -551,6 +587,13 @@ class VncDisplay(Gtk.Picture):
             "compression_level": self.info.compression_level,
             "allow_indexed_colour": self.info.allow_indexed_colour,
         }
+        try:
+            connect_kwargs.update(self._resolve_transport_kwargs(self.info.websocket, self.info.ws_path))
+        except ValueError as exc:
+            logger.error("VncDisplay._connect_and_run | {exc} | host={host}", exc=exc, host=self.info.host)
+            self._set_status(VncStatus.ERROR, f"Chemin WebSocket invalide : {self.info.ws_path!r}")
+            logger.debug("VncDisplay._connect_and_run | sortie chemin WebSocket invalide")
+            return
 
         try:
             try:
@@ -2506,6 +2549,39 @@ def build_vnc_tab_label(tab: VncTab) -> Gtk.Box:
 # isolément ; à retirer une fois intégré à gnome-connection-manager)
 # ---------------------------------------------------------------------------
 
+
+def parse_demo_args(args):
+    """Arguments de la démo autonome → ``VncConnectionInfo`` (None si HOST
+    manque). ``--websocket`` active le transport WebSocket (chemin ``/``),
+    ``--websocket=/websockify`` précise le chemin (Gcm4 #104, tâche 3)."""
+    logger.debug("parse_demo_args | entrée {n} argument(s)", n=len(args))
+    websocket = False
+    ws_path = "/"
+    positionnels = []
+    for arg in args:
+        if arg == "--websocket":
+            websocket = True
+        elif arg.startswith("--websocket="):
+            websocket = True
+            ws_path = arg.split("=", 1)[1]
+        else:
+            positionnels.append(arg)
+    if not positionnels:
+        logger.debug("parse_demo_args | sortie HOST manquant")
+        return None
+    info = VncConnectionInfo(
+        name=positionnels[0],
+        host=positionnels[0],
+        port=int(positionnels[1]) if len(positionnels) > 1 else 5900,
+        username=positionnels[2] if len(positionnels) > 2 else None,
+        password=positionnels[3] if len(positionnels) > 3 else None,
+        websocket=websocket,
+        ws_path=ws_path,
+    )
+    logger.debug("parse_demo_args | sortie host={h} websocket={w}", h=info.host, w=info.websocket)
+    return info
+
+
 if __name__ == "__main__":
     import sys
     from gi.events import GLibEventLoopPolicy
@@ -2540,17 +2616,10 @@ if __name__ == "__main__":
             win = DemoWindow(self, self.info)
             win.present()
 
-    if len(sys.argv) < 2:
-        logger.error("Usage: vnc_tab.py HOST [PORT] [USERNAME] [PASSWORD]")
+    demo_info = parse_demo_args(sys.argv[1:])
+    if demo_info is None:
+        logger.error("Usage: vnc_tab.py [--websocket[=CHEMIN]] HOST [PORT] [USERNAME] [PASSWORD]")
         sys.exit(1)
-
-    demo_info = VncConnectionInfo(
-        name=sys.argv[1],
-        host=sys.argv[1],
-        port=int(sys.argv[2]) if len(sys.argv) > 2 else 5900,
-        username=sys.argv[3] if len(sys.argv) > 3 else None,
-        password=sys.argv[4] if len(sys.argv) > 4 else None,
-    )
 
     asyncio.set_event_loop_policy(GLibEventLoopPolicy())
     DemoApp(demo_info).run(None)
