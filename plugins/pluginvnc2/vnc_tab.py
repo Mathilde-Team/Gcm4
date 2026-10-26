@@ -824,6 +824,56 @@ class VncDisplay(Gtk.Picture):
 
     # ---- Actions spéciales ----
 
+    #: Commandes d'alimentation xvp (#104) : nom → méthode ``send_xvp_<nom>``
+    #: d'asyncvnc2.Client.
+    POWER_ACTIONS = ("shutdown", "reboot", "reset")
+
+    def xvp_supported(self) -> bool:
+        """Vrai si la connexion est établie et que le serveur a annoncé xvp
+        (message XVP_INIT, reçu de façon asynchrone après la connexion :
+        à relire au moment d'afficher le menu, pas une fois pour toutes)."""
+        logger.debug("VncDisplay.xvp_supported | entrée host={host}", host=self.info.host)
+        resultat = bool(self.client is not None and getattr(self.client, "xvp_supported", False))
+        logger.debug("VncDisplay.xvp_supported | sortie {r}", r=resultat)
+        return resultat
+
+    def send_power_action(self, action: str) -> bool:
+        """Envoie la commande xvp ``action`` (``shutdown``, ``reboot`` ou
+        ``reset``) au serveur, avec ``confirm=True`` : l'appelant DOIT avoir
+        obtenu la confirmation de l'utilisateur avant (cf. le dialogue de
+        VncTab._show_power_confirmation_dialog). Renvoie False si rien n'est
+        parti (pas de connexion).
+
+        Raises:
+            ValueError: ``action`` inconnue.
+        """
+        logger.debug("VncDisplay.send_power_action | entrée action={a} host={host}", a=action, host=self.info.host)
+        if action not in self.POWER_ACTIONS:
+            logger.debug("VncDisplay.send_power_action | sortie action inconnue")
+            raise ValueError(action)
+        if not self.client:
+            logger.debug("VncDisplay.send_power_action | sortie sans connexion")
+            return False
+        asyncio.ensure_future(self._send_power_action(action))
+        logger.debug("VncDisplay.send_power_action | sortie envoyée")
+        return True
+
+    async def _send_power_action(self, action: str):
+        logger.debug("VncDisplay._send_power_action | entrée action={a}", a=action)
+        try:
+            await getattr(self.client, f"send_xvp_{action}")(confirm=True)
+        except Exception as exc:
+            # Même famille de garde que _send_cad (coroutine fire-and-forget,
+            # connexion morte possible) ; journalisé, pas silencieux : une
+            # commande d'alimentation perdue doit se retrouver dans le journal.
+            logger.warning(
+                "VncDisplay._send_power_action | échec action={a} host={host} : {exc}",
+                a=action,
+                host=self.info.host,
+                exc=exc,
+            )
+        logger.debug("VncDisplay._send_power_action | sortie")
+
     def send_ctrl_alt_del(self):
         if self.client:
             asyncio.ensure_future(self._send_cad())
@@ -1447,6 +1497,38 @@ class VncTab(Gtk.Box):
         btn_scale.connect("clicked", lambda *_: self.display.toggle_scaling())
         bar.append(btn_scale)
 
+        # Menu « Alimentation » (xvp, #104) : le serveur annonce xvp après la
+        # connexion, de façon asynchrone ; l'état des entrées est donc relu à
+        # chaque ouverture du menu (_refresh_power_popover) plutôt que figé
+        # au changement de statut.
+        self.btn_power = Gtk.MenuButton(label="Alimentation")
+        self.btn_power.set_tooltip_text(
+            "Arrêter, redémarrer ou réinitialiser la machine distante (extension xvp du serveur)"
+        )
+        self.power_popover = Gtk.Popover()
+        power_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        power_box.set_margin_top(6)
+        power_box.set_margin_bottom(6)
+        power_box.set_margin_start(6)
+        power_box.set_margin_end(6)
+        self.power_info_label = Gtk.Label()
+        self.power_info_label.set_wrap(True)
+        self.power_info_label.set_max_width_chars(36)
+        self.power_info_label.set_xalign(0)
+        self.power_info_label.add_css_class("dim-label")
+        power_box.append(self.power_info_label)
+        self.power_buttons = {}
+        for action in VncDisplay.POWER_ACTIONS:
+            bouton = Gtk.Button(label=self._resolve_power_action_texts(action, self.info.host)["menu"])
+            bouton.add_css_class("flat")
+            bouton.connect("clicked", self._on_power_action_clicked, action)
+            power_box.append(bouton)
+            self.power_buttons[action] = bouton
+        self.power_popover.set_child(power_box)
+        self.power_popover.connect("show", lambda *_a: self._refresh_power_popover())
+        self.btn_power.set_popover(self.power_popover)
+        bar.append(self.btn_power)
+
         btn_reconnect = Gtk.Button(icon_name="view-refresh-symbolic")
         btn_reconnect.set_tooltip_text("Reconnecter")
         btn_reconnect.connect("clicked", lambda *_: self.display.reconnect())
@@ -1968,6 +2050,130 @@ class VncTab(Gtk.Box):
         box.append(self.forget_key_button)
 
         return box
+
+    @staticmethod
+    def _resolve_power_menu_state(connected: bool, xvp_supported: bool):
+        """État du menu « Alimentation » (#104) : (entrées actives, message).
+
+        Pure, testable sans GTK : non connecté ou serveur sans xvp → entrées
+        inactives et explication ; sinon entrées actives, aucun message.
+        """
+        logger.debug("VncTab._resolve_power_menu_state | entrée connected={c} xvp={x}", c=connected, x=xvp_supported)
+        if not connected:
+            resultat = (False, "Disponible une fois la connexion établie.")
+        elif not xvp_supported:
+            resultat = (
+                False,
+                "Ce serveur n'annonce pas l'extension xvp : arrêt, redémarrage et réinitialisation sont indisponibles.",
+            )
+        else:
+            resultat = (True, None)
+        logger.debug("VncTab._resolve_power_menu_state | sortie {r}", r=resultat)
+        return resultat
+
+    @staticmethod
+    def _resolve_power_action_texts(action: str, host: str) -> dict:
+        """Libellés de la commande xvp ``action`` : entrée de menu, titre et
+        texte du dialogue de confirmation, bouton de confirmation.
+
+        Raises:
+            KeyError: ``action`` inconnue.
+        """
+        logger.debug("VncTab._resolve_power_action_texts | entrée action={a}", a=action)
+        textes = {
+            "shutdown": {
+                "menu": "Arrêter…",
+                "title": "Arrêter la machine distante ?",
+                "body": f"Le serveur VNC demandera un arrêt propre du système de « {host} ».",
+                "confirm": "Arrêter",
+            },
+            "reboot": {
+                "menu": "Redémarrer…",
+                "title": "Redémarrer la machine distante ?",
+                "body": f"Le serveur VNC demandera un redémarrage propre du système de « {host} ».",
+                "confirm": "Redémarrer",
+            },
+            "reset": {
+                "menu": "Réinitialiser…",
+                "title": "Réinitialiser la machine distante ?",
+                "body": (
+                    f"Le serveur VNC réinitialisera brutalement « {host} », comme un "
+                    "bouton reset : les données non enregistrées seront perdues."
+                ),
+                "confirm": "Réinitialiser",
+            },
+        }
+        resultat = textes[action]
+        logger.debug("VncTab._resolve_power_action_texts | sortie {t}", t=resultat["title"])
+        return resultat
+
+    def _refresh_power_popover(self):
+        """Relit l'état xvp à l'ouverture du menu « Alimentation »."""
+        logger.debug("VncTab._refresh_power_popover | entrée")
+        actif, message = self._resolve_power_menu_state(
+            self.display.status == VncStatus.CONNECTED, self.display.xvp_supported()
+        )
+        for bouton in self.power_buttons.values():
+            bouton.set_sensitive(actif)
+        self.power_info_label.set_label(message or "")
+        self.power_info_label.set_visible(message is not None)
+        logger.debug("VncTab._refresh_power_popover | sortie actif={a}", a=actif)
+
+    def _on_power_action_clicked(self, _button, action: str):
+        """Entrée du menu « Alimentation » : ferme le menu, demande confirmation."""
+        logger.debug("VncTab._on_power_action_clicked | entrée action={a}", a=action)
+        self.power_popover.popdown()
+        self._show_power_confirmation_dialog(action)
+        logger.debug("VncTab._on_power_action_clicked | sortie")
+
+    def _show_power_confirmation_dialog(self, action: str):
+        """Dialogue de confirmation d'une commande xvp ; Annuler a le focus."""
+        logger.debug("VncTab._show_power_confirmation_dialog | entrée action={a}", a=action)
+        textes = self._resolve_power_action_texts(action, self.info.host)
+        root = self.get_root()
+        dialog = Gtk.Window()
+        if isinstance(root, Gtk.Window):
+            dialog.set_transient_for(root)
+        dialog.set_modal(True)
+        dialog.set_title(textes["title"])
+        dialog.set_default_size(420, -1)
+        dialog.set_resizable(False)
+
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        box.set_margin_top(16)
+        box.set_margin_bottom(16)
+        box.set_margin_start(16)
+        box.set_margin_end(16)
+        dialog.set_child(box)
+
+        label = Gtk.Label(label=textes["body"])
+        label.set_wrap(True)
+        label.set_xalign(0)
+        box.append(label)
+
+        button_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        button_row.set_halign(Gtk.Align.END)
+        box.append(button_row)
+
+        cancel_button = Gtk.Button(label="Annuler")
+        cancel_button.connect("clicked", lambda *_a: dialog.close())
+        button_row.append(cancel_button)
+
+        confirm_button = Gtk.Button(label=textes["confirm"])
+        confirm_button.add_css_class("destructive-action")
+        button_row.append(confirm_button)
+
+        def _do_confirm(*_a):
+            logger.debug("VncTab._show_power_confirmation_dialog._do_confirm | entrée action={a}", a=action)
+            dialog.close()
+            envoye = self.display.send_power_action(action)
+            logger.debug("VncTab._show_power_confirmation_dialog._do_confirm | sortie envoyée={e}", e=envoye)
+
+        confirm_button.connect("clicked", _do_confirm)
+        self.power_dialog = dialog
+        dialog.present()
+        cancel_button.grab_focus()
+        logger.debug("VncTab._show_power_confirmation_dialog | sortie")
 
     def _on_forget_key_clicked(self, *_args):
         """Ouvre une confirmation par retype du nom d'hôte avant d'exécuter

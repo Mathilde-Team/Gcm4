@@ -294,7 +294,7 @@ jobs:
   gtk4:
     # Issue #159 (job « Tests GTK4 (Xvfb) ») et #160 (aucun test GTK
     # sauté). Aujourd'hui : la suite de plugins/pluginvnc2 (seul code déjà
-    # GTK4, 155 tests) contre un vrai GTK4 sous Xvfb ; src/gcm4/ui la
+    # GTK4, 172 tests) contre un vrai GTK4 sous Xvfb ; src/gcm4/ui la
     # rejoindra (épopée #118). Conteneur Ubuntu comme le job gtk4 de
     # Netcross : python3-gi et GTK4 viennent des paquets, sans compilation.
     name: Tests GTK4 (Xvfb)

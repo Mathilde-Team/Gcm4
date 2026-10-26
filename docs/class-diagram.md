@@ -1162,6 +1162,8 @@ classDiagram
         +save_screenshot(path) bool
         +copy_screenshot_to_clipboard() bool
         +set_active_screen(screen_id)
+        +xvp_supported() bool
+        +send_power_action(action) bool
         +send_ctrl_alt_del()
         +send_text(text)
         +toggle_scaling()
