@@ -57,6 +57,7 @@ from gcm4.core.config import ConfigError
 from gcm4.core.i18n import N_, _
 from gcm4.ui import mises_a_jour
 from gcm4.ui import raccourcis as raccourcis_ui
+from gcm4.ui.mot_de_passe_maitre import GroupeMotDePasseMaitre
 
 #: Modes du thème, dans l'ordre de la liste déroulante.
 MODES = ("system", "light", "dark")
@@ -190,7 +191,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
         super().__init__(
             title=_("Settings"), modal=True, transient_for=fenetre, application=application
         )
-        self.set_search_enabled(False)  # sept réglages : la recherche n'apporte rien
+        self.set_search_enabled(False)  # peu de réglages : la recherche n'apporte rien
         self.application = application
         self.fenetre = fenetre
         self.config_file: str = application.config_file
@@ -206,6 +207,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.add(self._page_apparence())
         self.add(self._page_raccourcis())
         self.add(self._page_journalisation())
+        self.add(self._page_securite())
         self.add(self._page_extensions())
         for page in self.pages_plugins:
             self.add(page)
@@ -486,6 +488,19 @@ class PreferencesWindow(Adw.PreferencesWindow):
         groupe.add(ligne)
         page.add(groupe)
         logger.debug("_page_journalisation: source={}", self.source_journal)
+        return page
+
+    def _page_securite(self) -> Adw.PreferencesPage:
+        """Page Sécurité : mot de passe maître facultatif (#98)."""
+        logger.debug("_page_securite: entrée")
+        page = Adw.PreferencesPage(title=_("Security"), icon_name="dialog-password-symbolic")
+        chargee = getattr(self.fenetre, "config", None) is not None
+        self.mot_de_passe_maitre = GroupeMotDePasseMaitre(
+            getattr(self.fenetre, "chiffrement", None) if chargee else None,
+            getattr(self.fenetre, "notifier", None),
+        )
+        page.add(self.mot_de_passe_maitre)
+        logger.debug("_page_securite: fait (configuration chargée={})", chargee)
         return page
 
     def _page_extensions(self) -> Adw.PreferencesPage:

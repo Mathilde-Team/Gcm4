@@ -35,7 +35,8 @@ from loguru import logger as log
 
 try:
     import paramiko
-except ImportError:
+except ImportError as exc:
+    log.error("paramiko introuvable : {}", exc)
     print("Dépendance manquante : pip install paramiko")
     sys.exit(1)
 
@@ -276,13 +277,13 @@ def get_vms(client: paramiko.SSHClient) -> list[VM]:
                 try:
                     vm.vcpus = int(line.split(":")[1].strip())
                 except ValueError:
-                    pass
+                    log.warning("{} : nombre de vCPU illisible dans {!r}", name, line)
             elif line.startswith("Used memory:") or line.startswith("Max memory:"):
                 try:
                     mem_kb = int(re.search(r"(\d+)", line.split(":")[1]).group(1))
                     vm.memory_mb = mem_kb // 1024
                 except (ValueError, AttributeError):
-                    pass
+                    log.warning("{} : mémoire illisible dans {!r}", name, line)
         vms.append(vm)
     log.info(f"  {len(vms)} VM(s) trouvée(s)")
     return vms

@@ -1,7 +1,8 @@
 # Construction et publication des paquets .deb et .rpm (issue #162).
 #
-# Sur tag v* (ex. v1.3.4) : construit les paquets avec les cibles du Makefile
-# (make deb, make rpm, make opensuse, via fpm), vérifie leur contenu, les
+# Sur tag v* (ex. v4.0.0) : construit les paquets avec les cibles du Makefile
+# (make deb : paquet gcm4, build-deb/build.sh, #156 ; make rpm et
+# make opensuse : fpm), vérifie leur contenu, les
 # publie en artefact et les attache à la release GitHub du tag.
 # workflow_dispatch : même construction sans tag (artefacts seulement), pour
 # tester un build ; version optionnelle, sinon PKG_VERSION du Makefile.
@@ -42,7 +43,8 @@ jobs:
       - name: Outils de construction (gettext, rpm, fpm)
         run: |
           sudo -n apt-get update -qq
-          sudo -n apt-get install -y -qq gettext rpm ruby ruby-dev build-essential
+          sudo -n apt-get install -y -qq gettext rpm ruby ruby-dev build-essential \
+            debhelper dh-python dpkg-dev python3-build python3-hatchling
           sudo gem install --no-document fpm
 
       - name: Version
@@ -64,8 +66,13 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Version construite : $VERSION"
 
-      - name: Paquet .deb
-        run: make deb PKG_VERSION=${{ steps.version.outputs.version }}
+      - name: Paquet .deb (gcm4)
+        # Paquet gcm4 de la base GTK4 (build-deb/build.sh, #156) : plus de .deb
+        # de l'application GTK3. Sa version est celle de pyproject.toml, seule
+        # source (build-deb/build.sh), pas celle du tag.
+        run: |
+          make deb
+          cp build-deb/dist/gcm4_*_all.deb .
 
       - name: Paquet .rpm (Fedora, RHEL)
         run: make rpm PKG_VERSION=${{ steps.version.outputs.version }}
@@ -82,8 +89,13 @@ jobs:
           mkdir -p "$RUNNER_TEMP/rpmdb"
           dpkg -c ./*.deb > "$RUNNER_TEMP/deb.txt"
           for r in ./*.rpm; do rpm -qpl --dbpath "$RUNNER_TEMP/rpmdb" "$r" > "$RUNNER_TEMP/$(basename "$r").txt"; done
+          # .deb : paquet gcm4 (le test de fumée complet est le job « Paquets »
+          # de ci.yml, scripts/smoke-test-packages.sh).
+          for f in /usr/bin/gcm4 /usr/share/gcm4/gcm4/__init__.py /usr/share/gcm4/gcm4_core.py; do
+            grep -q "\.$f\$" "$RUNNER_TEMP/deb.txt" || { echo "::error::$f absent du .deb"; exit 1; }
+          done
           for f in gcm4_core.py logging_config.py models.py utils.py widgets.py plugins/plugin_base.py plugins/ssh/core.py; do
-            for liste in "$RUNNER_TEMP"/deb.txt "$RUNNER_TEMP"/*.rpm.txt; do
+            for liste in "$RUNNER_TEMP"/*.rpm.txt; do
               grep -q "/usr/share/gnome-connection-manager/$f\$" "$liste" || { echo "::error::$f absent de $(basename "$liste" .txt)"; exit 1; }
             done
           done

@@ -100,7 +100,11 @@ qui reste réellement à faire.
   sans envoyer directement, pour que l'utilisateur puisse relire/corriger
   avant de cliquer « Envoyer ». Un presse-papiers vide ou illisible (ex.
   une image copiée) laisse le champ inchangé
-  (`VncTab._resolve_pasted_clipboard_text()`).
+  (`VncTab._resolve_pasted_clipboard_text()`). Une case « Garder la
+  fenêtre ouverte après l'envoi » (#93, décochée par défaut, mémorisée pour
+  la durée de vie de l'onglet) permet un envoi répété : après l'envoi, le
+  champ est vidé et le dialogue reste ouvert ; décochée, le dialogue se
+  ferme comme avant (`VncTab._resolve_send_text_action()`).
 - Presse-papiers bidirectionnel (texte), désactivable par profil. Écriture
   vers le serveur protégée contre une exception sur socket déjà mort (même
   famille de garde que les chemins d'entrée haute fréquence ci-dessus).
@@ -279,8 +283,8 @@ pour ouvrir le dialogue de saisie (aucun besoin exprimé, contrairement au
 raccourci de la session 19 qui reprenait une piste déjà différée en
 session 18) ; garder le dialogue ouvert après l'envoi pour permettre un
 envoi répété (fermeture systématique retenue à la place, plus simple,
-cohérente avec le dialogue de confirmation d'oubli de clé) — cf.
-`docs/sessions/session-20.md`.
+cohérente avec le dialogue de confirmation d'oubli de clé ; repris depuis
+par #93, case à cocher) — cf. `docs/sessions/session-20.md`.
 
 Session 21 (2026-09-13) a ajouté le bouton « Déconnecter » (§ « Connexion »
 ci-dessus), encore à partir d'un besoin utilisateur réel (fermer la
@@ -337,6 +341,13 @@ en place.
 
 Prochaine étape suggérée pour une future session : toujours pas de
 nouveau point de la famille « accès à `self.client` » à chercher (audit
+exhaustif, cf. ci-dessus). Trois pistes différées à ce jour (raccourci
+clavier pour ouvrir le dialogue d'envoi de texte, depuis la session 20 ;
+dialogue restant ouvert pour un envoi répété, depuis la session 20 et
+livré par #93 ;
+décompte en temps réel pour la reconnexion automatique plutôt qu'un
+message statique, depuis la session 23), à reprendre seulement si un
+besoin réel se confirme — pas par défaut. Sinon, continuer à repartir
 exhaustif, cf. ci-dessus). Le raccourci clavier du dialogue d'envoi de
 texte, différé depuis la session 20, est fait (`<Alt>F12`, Gcm4 #92).
 Deux pistes différées restent, à réaliser (issues rouvertes par l'autrice

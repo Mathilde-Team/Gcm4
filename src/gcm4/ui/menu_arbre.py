@@ -27,7 +27,7 @@ from typing import TYPE_CHECKING
 from gi.repository import Adw, Gdk, Gio, GLib, Gtk
 from loguru import logger
 
-from gcm4.core import menu_arbre
+from gcm4.core import edition_lot, menu_arbre, validation
 from gcm4.core import preferences as prefs_core
 from gcm4.core.config import ConfigError
 from gcm4.core.host_tree import Noeud
@@ -55,6 +55,7 @@ ACTIONS = (
     "delete",
     "expand",
     "collapse",
+    "edit-selection",
 )
 
 
@@ -83,6 +84,9 @@ class MenuArbre:
         logger.debug("MenuArbre.__init__: entrée")
         self.arbre = arbre
         self.cible: Noeud | None = None  # ligne visée par le dernier menu
+        self.lot: list[Noeud] = []  # sélection multiple visée par le dernier menu (#100)
+        # Cases et champs du dernier dialogue d'édition en lot (tests).
+        self.edition_lot_widgets: tuple[Gtk.Widget, ...] = ()
         self.dialogue: Adw.Dialog | Adw.MessageDialog | None = None  # dernier dialogue (tests)
         self.dialogue_hote: HostDialog | None = None
         self.groupe = Gio.SimpleActionGroup()
@@ -131,17 +135,28 @@ class MenuArbre:
 
     # --- ouverture du menu ---------------------------------------------------
 
-    def ouvrir(self, noeud: Noeud | None, x: float, y: float) -> None:
-        """Affiche le menu de ``noeud`` (``None`` : zone vide) au point ``x, y`` de l'arbre."""
-        logger.debug("ouvrir: {!r}", noeud.chemin if noeud else None)
+    def ouvrir(
+        self, noeud: Noeud | None, x: float, y: float, lot: list[Noeud] | None = None
+    ) -> None:
+        """Affiche le menu de ``noeud`` (``None`` : zone vide) au point ``x, y`` de l'arbre.
+
+        ``lot`` : sélection de plusieurs lignes contenant ``noeud`` ; le menu
+        est alors celui de la sélection (#100).
+        """
+        logger.debug("ouvrir: {!r} lot={}", noeud.chemin if noeud else None, len(lot or []))
         self.cible = noeud
+        self.lot = list(lot or [])
         modele = Gio.Menu()
-        possible = (
-            noeud is not None
-            and noeud.host is not None
-            and noeud.host.protocol in self._registre()
-        )
-        for section in menu_arbre.sections(noeud, connexion_possible=possible):
+        if self.lot:
+            sections = menu_arbre.sections_lot(sum(not n.est_groupe for n in self.lot))
+        else:
+            possible = (
+                noeud is not None
+                and noeud.host is not None
+                and noeud.host.protocol in self._registre()
+            )
+            sections = menu_arbre.sections(noeud, connexion_possible=possible)
+        for section in sections:
             partie = Gio.Menu()
             for action in section:
                 partie.append(_(menu_arbre.LIBELLES[action]), f"{PREFIXE}.{action}")
@@ -154,35 +169,49 @@ class MenuArbre:
         logger.debug("ouvrir: {} section(s)", modele.get_n_items())
 
     def _on_clic_droit(self, geste: Gtk.GestureClick, _n: int, x: float, y: float) -> None:
-        """Clic droit : la ligne sous le pointeur est sélectionnée, puis le menu s'ouvre."""
+        """Clic droit : la ligne sous le pointeur est sélectionnée, puis le menu s'ouvre.
+
+        Sur une ligne d'une sélection multiple, la sélection est gardée et le
+        menu est celui de la sélection (#100).
+        """
         logger.debug("_on_clic_droit: entrée")
         widget = self.arbre.liste.pick(x, y, Gtk.PickFlags.DEFAULT)
         while widget is not None and not isinstance(widget, Gtk.TreeExpander):
             widget = widget.get_parent() if widget is not self.arbre.liste else None
         ligne = widget.get_list_row() if widget is not None else None
         noeud = ligne.get_item().noeud if ligne is not None else None
-        if noeud is not None:
+        selection = self.arbre.noeuds_selectionnes()
+        lot = None
+        if (
+            noeud is not None
+            and len(selection) > 1
+            and any(n.chemin == noeud.chemin for n in selection)
+        ):
+            lot = selection
+        elif noeud is not None:
             self.arbre.selectionner(noeud.chemin)
         px, py = _dans_l_arbre(self.arbre.liste, self.arbre, x, y)
         geste.set_state(Gtk.EventSequenceState.CLAIMED)
-        self.ouvrir(noeud, px, py)
+        self.ouvrir(noeud, px, py, lot)
         logger.debug("_on_clic_droit: fait")
 
     def _noeud_selectionne(self) -> Noeud | None:
-        """Nœud de la ligne sélectionnée, ou ``None``."""
+        """Nœud de la seule ligne sélectionnée ; ``None`` si aucune ou plusieurs."""
         logger.trace("_noeud_selectionne")
-        ligne = self.arbre.selection.get_selected_item()
-        resultat = ligne.get_item().noeud if ligne is not None else None
+        noeuds = self.arbre.noeuds_selectionnes()
+        resultat = noeuds[0] if len(noeuds) == 1 else None
         logger.trace("_noeud_selectionne: {!r}", resultat.chemin if resultat else None)
         return resultat
 
     def _menu_clavier(self) -> None:
-        """Touche Menu / Maj+F10 : menu de la ligne sélectionnée, ancré sur elle."""
+        """Touche Menu / Maj+F10 : menu de la sélection, ancré sur sa première ligne."""
         logger.debug("_menu_clavier: entrée")
-        noeud = self._noeud_selectionne()
+        noeuds = self.arbre.noeuds_selectionnes()
+        positions = self.arbre.positions_selectionnees()
+        modele = self.arbre.modele
         x, y = 12.0, 12.0
         enfant = self.arbre.liste.get_first_child()
-        ligne = self.arbre.selection.get_selected_item()
+        ligne = modele.get_item(positions[0]) if positions and modele is not None else None
         while enfant is not None and ligne is not None:
             fleche = enfant.get_first_child()
             if isinstance(fleche, Gtk.TreeExpander) and fleche.get_list_row() is ligne:
@@ -191,7 +220,10 @@ class MenuArbre:
                     x, y = bornes.get_x() + 24, bornes.get_y() + bornes.get_height()
                 break
             enfant = enfant.get_next_sibling()
-        self.ouvrir(noeud, x, y)
+        if len(noeuds) > 1:
+            self.ouvrir(noeuds[0], x, y, noeuds)
+        else:
+            self.ouvrir(noeuds[0] if noeuds else None, x, y)
         logger.debug("_menu_clavier: fait")
 
     def _clavier(self, *actions: str) -> None:
@@ -573,3 +605,110 @@ class MenuArbre:
             rappel,
         )
         logger.debug("_delete: confirmation demandée")
+
+    # --- édition en lot (#100) -----------------------------------------------
+
+    def _edit_selection(self) -> None:
+        """« Modifier les hôtes sélectionnés… » : dialogue d'édition en lot."""
+        logger.debug("_edit_selection: entrée")
+        hotes = edition_lot.hotes_de(self.arbre.store, [n.chemin for n in self.lot])
+        if len(hotes) < 2:
+            logger.debug("_edit_selection: moins de deux hôtes")
+            return
+        self.ouvrir_edition_lot(hotes)
+        logger.debug("_edit_selection: fait")
+
+    def ouvrir_edition_lot(self, hotes: list[Host]) -> None:
+        """Dialogue : port et groupe communs à ``hotes`` ; case décochée, champ inchangé."""
+        logger.debug("ouvrir_edition_lot: {}", [h.path for h in hotes])
+        store = self.arbre.store
+        boite = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        case_port = Gtk.CheckButton(label=_("Change port"))
+        port = Gtk.Entry(
+            sensitive=False,
+            activates_default=True,
+            input_purpose=Gtk.InputPurpose.DIGITS,
+            placeholder_text=_("Default port of the protocol"),
+        )
+        port.update_property([Gtk.AccessibleProperty.LABEL], [_("Port")])
+        case_groupe = Gtk.CheckButton(label=_("Move to group"))
+        groupes = ["", *sorted(store.groups)]
+        choix = Gtk.DropDown.new_from_strings([g or SEPARATEUR for g in groupes])
+        choix.set_sensitive(False)
+        choix.update_property([Gtk.AccessibleProperty.LABEL], [_("Group")])
+        erreur = Gtk.Label(wrap=True, xalign=0, visible=False)
+        erreur.add_css_class("error")
+        for enfant in (case_port, port, case_groupe, choix, erreur):
+            boite.append(enfant)
+        self.edition_lot_widgets = (case_port, port, case_groupe, choix, erreur)
+
+        def lire() -> tuple[edition_lot.EditionLot, str]:
+            """Lot saisi et message d'erreur (vide si le lot peut être appliqué)."""
+            logger.trace("ouvrir_edition_lot.lire: entrée")
+            message = ""
+            valeur = None
+            if case_port.get_active():
+                faute = validation.erreur_de_port(port.get_text())
+                if faute is not None:
+                    message = faute.message
+                else:
+                    valeur = validation.lire_port(port.get_text())
+            groupe = groupes[choix.get_selected()] if case_groupe.get_active() else None
+            edition = edition_lot.EditionLot(case_port.get_active(), valeur, groupe)
+            doublons = [] if message else edition_lot.conflits(store, hotes, edition)
+            if doublons:
+                message = _("Already taken in the target group: {hosts}").format(
+                    hosts=", ".join(doublons)
+                )
+            logger.trace("ouvrir_edition_lot.lire: {} {!r}", edition, message)
+            return edition, message
+
+        def verifier(*_args: object) -> None:
+            logger.trace("ouvrir_edition_lot.verifier: entrée")
+            port.set_sensitive(case_port.get_active())
+            choix.set_sensitive(case_groupe.get_active())
+            edition, message = lire()
+            erreur.set_label(message)
+            erreur.set_visible(bool(message))
+            self.dialogue.set_response_enabled("appliquer", not message and not edition.vide)
+            logger.trace("ouvrir_edition_lot.verifier: fait")
+
+        def rappel(reponse: str) -> None:
+            logger.debug("ouvrir_edition_lot.rappel: {}", reponse)
+            edition, message = lire()
+            if reponse != "appliquer" or message or edition.vide:
+                logger.debug("ouvrir_edition_lot.rappel: rien à appliquer")
+                return
+            compte = [0]
+
+            def operation() -> None:
+                logger.debug("ouvrir_edition_lot.operation: entrée")
+                compte[0] = edition_lot.appliquer(store, hotes, edition)
+                for hote in hotes:
+                    self._deplier_ancetres(hote.path)
+                logger.debug("ouvrir_edition_lot.operation: fait")
+
+            if self.modifier(operation):
+                self.arbre.selectionner_plusieurs([h.path for h in hotes])
+                self.arbre._notifier(_("Hosts updated: {count}").format(count=compte[0]))
+            logger.debug("ouvrir_edition_lot.rappel: fait")
+
+        self.dialogue = dialogues.creer(
+            self.arbre,
+            _("Edit {count} Hosts").format(count=len(hotes)),
+            _("Unchecked fields are left unchanged."),
+            [
+                ("annuler", _("Cancel"), None),
+                ("appliquer", _("Apply"), Adw.ResponseAppearance.SUGGESTED),
+            ],
+            "appliquer",
+            "annuler",
+            rappel,
+            extra=boite,
+        )
+        case_port.connect("toggled", verifier)
+        case_groupe.connect("toggled", verifier)
+        port.connect("changed", verifier)
+        choix.connect("notify::selected", verifier)
+        verifier()
+        logger.debug("ouvrir_edition_lot: affiché")

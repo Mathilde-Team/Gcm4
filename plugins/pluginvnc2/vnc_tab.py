@@ -1345,6 +1345,10 @@ class VncTab(Gtk.Box):
         self._screens = []
         self._updating_screen_dropdown = False
         self._is_fullscreen = False
+        # Case « Garder la fenêtre ouverte après l'envoi » du dialogue
+        # d'envoi de texte (#93) : mémorisée pour la durée de vie de
+        # l'onglet, décochée par défaut (comportement historique).
+        self._keep_send_text_dialog_open = False
 
         self.toolbar = self._build_toolbar()
         self.append(self.toolbar)
@@ -1690,6 +1694,32 @@ class VncTab(Gtk.Box):
         """
         return clipboard_text or None
 
+    @staticmethod
+    def _resolve_send_text_action(text: str, keep_open: bool) -> Optional[str]:
+        """
+        Décide ce que fait le dialogue "Envoyer du texte" quand
+        l'utilisateur valide (Entrée ou bouton "Envoyer", #93) :
+
+        - ``None`` : champ vide, rien à envoyer, le dialogue reste tel quel ;
+        - ``"keep"`` : envoyer, puis vider le champ et garder le dialogue
+          ouvert pour un envoi répété (case cochée) ;
+        - ``"close"`` : envoyer, puis fermer le dialogue (case décochée,
+          comportement historique).
+        """
+        logger.debug(
+            "VncTab._resolve_send_text_action | entrée longueur={n} keep_open={k}",
+            n=len(text),
+            k=keep_open,
+        )
+        if not text:
+            action = None
+        elif keep_open:
+            action = "keep"
+        else:
+            action = "close"
+        logger.debug("VncTab._resolve_send_text_action | sortie action={a}", a=action)
+        return action
+
     def _on_send_text_clicked(self, *_args):
         """Ouvre une petite fenêtre pour taper du texte à envoyer au
         serveur distant sous forme de frappes clavier (une par caractère),
@@ -1772,6 +1802,23 @@ class VncTab(Gtk.Box):
 
         entry.connect("icon-press", _on_paste_icon_pressed)
 
+        # Envoi répété (#93) : case cochée, le dialogue reste ouvert après
+        # l'envoi et le champ est vidé pour le texte suivant. L'état est
+        # mémorisé sur l'onglet pour la prochaine ouverture du dialogue.
+        keep_open_check = Gtk.CheckButton(label="Garder la fenêtre ouverte après l'envoi")
+        keep_open_check.set_active(self._keep_send_text_dialog_open)
+
+        def _on_keep_open_toggled(check):
+            logger.debug("VncTab._on_keep_open_toggled | entrée actif={a}", a=check.get_active())
+            self._keep_send_text_dialog_open = check.get_active()
+            logger.debug(
+                "VncTab._on_keep_open_toggled | sortie garder ouvert={k}",
+                k=self._keep_send_text_dialog_open,
+            )
+
+        keep_open_check.connect("toggled", _on_keep_open_toggled)
+        box.append(keep_open_check)
+
         button_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         button_row.set_halign(Gtk.Align.END)
         box.append(button_row)
@@ -1792,10 +1839,15 @@ class VncTab(Gtk.Box):
             # séparément -- juste éviter de fermer le dialogue sur une
             # validation vide (Entrée dans un champ non rempli).
             text = entry.get_text()
-            if not text:
+            action = self._resolve_send_text_action(text, self._keep_send_text_dialog_open)
+            if action is None:
                 return
             self.display.send_text(text)
-            dialog.close()
+            if action == "keep":
+                entry.set_text("")
+                entry.grab_focus()
+            else:
+                dialog.close()
 
         entry.connect("activate", _do_send)
         send_button.connect("clicked", _do_send)
