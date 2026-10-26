@@ -123,6 +123,21 @@ def app_fixture(tmp_path, monkeypatch, pomper):
 
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
+RACINE_DEPOT = Path(__file__).resolve().parents[2]
+
+
+@pytest.fixture
+def app_local(tmp_path, monkeypatch, pomper):
+    """Comme ``app_fixture``, avec les plugins en mode source du dépôt (local inclus, #297)."""
+    from gcm4.core import registre
+
+    app, dossier = _ouvrir(
+        tmp_path, monkeypatch, pomper, registre.candidats_dossier(RACINE_DEPOT / "plugins")
+    )
+    yield app, dossier
+    for fenetre in list(app.get_windows()):
+        fenetre.destroy()
+    pomper()
 
 
 @pytest.fixture

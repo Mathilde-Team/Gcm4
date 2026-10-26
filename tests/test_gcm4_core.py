@@ -56,6 +56,22 @@ class FakePluginRegistry:
         return list(self._plugins.values())
 
 
+class FakePluginSansAdresse:
+    """Plugin dont ``requires_address(protocol)`` (méthode, contrat v1 #297) rend False."""
+
+    def requires_address(self, protocol):
+        """Protocole sans hôte distant."""
+        return False
+
+
+class FakePluginAttributAdresse:
+    """Plugin avec ``requires_address`` en attribut booléen (plugins GTK3, #297)."""
+
+    def __init__(self, valeur):
+        """Valeur de l'attribut ``requires_address``."""
+        self.requires_address = valeur
+
+
 class FakePluginContratV1:
     """Plugin du contrat v1 (#124) : ``default_port(protocol)`` est une méthode."""
 
@@ -393,6 +409,35 @@ class TestMigrateLegacyConfigDir(unittest.TestCase):
         self.assertFalse(os.path.exists(self._new_dir))
         with open(os.path.join(self._old_dir, "gcm.conf")) as f:
             self.assertEqual(f.read(), "data")
+
+
+class TestProtoRequiresAddress(unittest.TestCase):
+    """proto_requires_address — adresse exigée selon le plugin du protocole (#297)."""
+
+    def test_plugin_absent_requiert_l_adresse(self):
+        """Plugin absent : l'adresse reste requise (vrai)."""
+        registry = FakePluginRegistry({})
+        self.assertTrue(gcm4_core.proto_requires_address("inexistant", registry))
+
+    def test_plugin_sans_declaration_requiert_l_adresse(self):
+        """Plugin sans déclaration : défaut du contrat, l'adresse est requise."""
+        registry = FakePluginRegistry({"ssh": FakePlugin(22)})
+        self.assertTrue(gcm4_core.proto_requires_address("ssh", registry))
+
+    def test_methode_contrat_v1_appelee(self):
+        """Contrat v1 : ``requires_address(protocol)`` méthode est appelée et rend False."""
+        registry = FakePluginRegistry({"local": FakePluginSansAdresse()})
+        self.assertFalse(gcm4_core.proto_requires_address("local", registry))
+
+    def test_attribut_booleen_faux(self):
+        """Attribut booléen False (plugin GTK3) : l'adresse n'est pas requise."""
+        registry = FakePluginRegistry({"serie": FakePluginAttributAdresse(False)})
+        self.assertFalse(gcm4_core.proto_requires_address("serie", registry))
+
+    def test_attribut_booleen_vrai(self):
+        """Attribut booléen True : l'adresse est requise."""
+        registry = FakePluginRegistry({"rdp": FakePluginAttributAdresse(True)})
+        self.assertTrue(gcm4_core.proto_requires_address("rdp", registry))
 
 
 class TestProtoDefaultPort(unittest.TestCase):

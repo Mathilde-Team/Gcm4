@@ -66,6 +66,12 @@ class LocalPlugin(ConnectionPlugin):
         logger.debug("LocalPlugin.default_port: aucun")
         return None
 
+    def requires_address(self, protocol: str) -> bool:
+        """Pas d'adresse : le shell local ne contacte aucun hôte (#297)."""
+        logger.debug("LocalPlugin.requires_address: {!r}", protocol)
+        logger.debug("LocalPlugin.requires_address: False")
+        return False
+
     def build_host_options_widget(
         self, host: Host, options: dict[str, str], changed: Callable[[], None]
     ) -> Gtk.Widget:
