@@ -65,7 +65,7 @@
 | #93 | PluginVNC2 — Dialogue texte ouvert : case « Garder la fenêtre ouverte après l'envoi » (PR en relecture) | — | Faible |
 | #92 | PluginVNC2 — Raccourci clavier : `Alt+F12` ouvre l'envoi de texte (PR en relecture) | — | Faible |
 | #93 | PluginVNC2 — Dialogue texte ouvert | — | Faible |
-| #94 | PluginVNC2 — Décompte reconnexion | — | Faible |
+| #94 | PluginVNC2 — Décompte reconnexion (PR en relecture) | — | Faible |
 | #95 | PluginVNC2 — Presse-papiers image | Bloqué (fork) | Faible |
 | #101 | PluginVNC2 — QEMU Extended Key | Bloqué (env) | Faible |
 

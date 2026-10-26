@@ -189,7 +189,12 @@ qui reste réellement à faire.
   tentative automatique dans Ns », `VncDisplay._append_reconnect_delay_to_message()`,
   câblée dans `_set_status()`) — jusque-là cette info n'existait que
   dans les logs, l'utilisateur ne voyait qu'un message d'erreur brut sans
-  savoir qu'autre chose était prévu.
+  savoir qu'autre chose était prévu. Depuis Gcm4 #94, ce délai est un
+  décompte seconde par seconde : minuteur d'une seconde (`GLib.timeout_add`,
+  distinct du minuteur de reconnexion) qui émet `vnc-reconnect-countdown`
+  ; l'onglet ne met à jour que ses deux libellés. Annulé avec la
+  reconnexion (stop, close, « Reconnecter ») et à la tentative.
+  Tests : `tests/test_reconnect_countdown.py`.
 - Bouton « Déconnecter » dédié dans la barre d'outils (icône
   `process-stop-symbolic`), à côté de « Reconnecter » : ferme la
   connexion SANS fermer l'onglet, via `VncDisplay.stop()` (déjà
