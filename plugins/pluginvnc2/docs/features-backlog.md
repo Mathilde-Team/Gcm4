@@ -111,7 +111,9 @@ qui reste réellement à faire.
 - Bip serveur (bell) relayé via `Gdk.Display.beep()`.
 - Raccourcis clavier globaux, utilisables sans passer par la souris/la
   barre d'outils : `<Shift>F12` (capture d'écran), `<Control>F12` (copie
-  de la capture dans le presse-papiers), `F11` (plein écran),
+  de la capture dans le presse-papiers), `<Alt>F12` (dialogue d'envoi de
+  texte, Gcm4 #92 ; sans effet tant que la connexion n'est pas établie),
+  `F11` (plein écran),
   `<Control><Alt>End` (Ctrl+Alt+Suppr — convention répandue chez les
   clients VNC, la vraie combinaison étant interceptée par le système
   d'hôte local avant d'atteindre l'application). Posés en phase CAPTURE
@@ -346,6 +348,12 @@ livré par #93 ;
 décompte en temps réel pour la reconnexion automatique plutôt qu'un
 message statique, depuis la session 23), à reprendre seulement si un
 besoin réel se confirme — pas par défaut. Sinon, continuer à repartir
+exhaustif, cf. ci-dessus). Le raccourci clavier du dialogue d'envoi de
+texte, différé depuis la session 20, est fait (`<Alt>F12`, Gcm4 #92).
+Deux pistes différées restent, à réaliser (issues rouvertes par l'autrice
+le 12/10/2026) : dialogue restant ouvert pour un envoi répété (session 20,
+Gcm4 #93) ; décompte en temps réel pour la reconnexion automatique plutôt
+qu'un message statique (session 23, Gcm4 #94). Sinon, continuer à repartir
 d'un besoin utilisateur réel ou d'une extension protocolaire côté
 `asyncvnc2_patched` (cf. § « Dépendance » ci-dessus) plutôt que d'inventer
 une fonctionnalité hors périmètre.
