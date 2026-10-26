@@ -5,7 +5,7 @@ La regle de protection de ``dev`` est versionnee dans
 ``.github/branch-protection/dev.json`` : c'est la charge utile exacte de
 l'API GitHub, appliquee par un administrateur du depot avec ::
 
-    gh api -X PUT repos/Mathide-Team/Gcm4/branches/dev/protection \
+    gh api -X PUT repos/Mathilde-Team/Gcm4/branches/dev/protection \
         --input .github/branch-protection/dev.json
 
 Ce script compare la protection reelle de la branche a ce fichier et
@@ -290,7 +290,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--branche", default="dev")
     parser.add_argument("--regle", type=Path, default=REGLE_PAR_DEFAUT)
     parser.add_argument(
-        "--depot", default=os.environ.get("GITHUB_REPOSITORY", "Mathide-Team/Gcm4")
+        "--depot", default=os.environ.get("GITHUB_REPOSITORY", "Mathilde-Team/Gcm4")
     )
     parser.add_argument(
         "--hors-ligne",

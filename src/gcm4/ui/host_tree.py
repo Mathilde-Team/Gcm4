@@ -111,7 +111,9 @@ class HostTree(Gtk.Box):
         fabrique.connect("setup", self._on_setup)
         fabrique.connect("bind", self._on_bind)
         fabrique.connect("unbind", self._on_unbind)
-        self.selection = Gtk.SingleSelection(autoselect=False, can_unselect=True)
+        # Sélection multiple (#100) : Ctrl+clic et Maj+clic, pour l'édition
+        # en lot ; les actions à cible unique demandent une seule ligne.
+        self.selection = Gtk.MultiSelection()
         self.liste = Gtk.ListView(model=self.selection, factory=fabrique)
         self.liste.add_css_class("gcm-arbre")
         self.liste.add_css_class("navigation-sidebar")
@@ -293,25 +295,57 @@ class HostTree(Gtk.Box):
 
     # --- sélection -----------------------------------------------------------
 
+    def positions_selectionnees(self) -> list[int]:
+        """Positions des lignes sélectionnées, dans l'ordre de l'arbre."""
+        logger.debug("positions_selectionnees: entrée")
+        ensemble = self.selection.get_selection()
+        resultat = [ensemble.get_nth(i) for i in range(ensemble.get_size())]
+        logger.debug("positions_selectionnees: {}", resultat)
+        return resultat
+
+    def noeuds_selectionnes(self) -> list[Noeud]:
+        """Nœuds des lignes sélectionnées (groupes et hôtes), dans l'ordre de l'arbre."""
+        logger.debug("noeuds_selectionnes: entrée")
+        assert self.modele is not None
+        resultat = [
+            self.modele.get_item(i).get_item().noeud for i in self.positions_selectionnees()
+        ]
+        logger.debug("noeuds_selectionnes: {}", [n.chemin for n in resultat])
+        return resultat
+
     def chemin_selectionne(self) -> str | None:
-        """Chemin de la ligne sélectionnée, ou ``None``."""
+        """Chemin de la ligne sélectionnée ; ``None`` si aucune ou plusieurs (#100)."""
         logger.debug("chemin_selectionne: entrée")
-        ligne = self.selection.get_selected_item()
-        resultat = ligne.get_item().noeud.chemin if ligne is not None else None
+        noeuds = self.noeuds_selectionnes()
+        resultat = noeuds[0].chemin if len(noeuds) == 1 else None
         logger.debug("chemin_selectionne: {!r}", resultat)
         return resultat
 
     def selectionner(self, chemin: str | None) -> bool:
-        """Sélectionne la ligne visible ``chemin`` ; ``False`` si elle n'est pas visible."""
+        """Sélectionne la seule ligne visible ``chemin`` ; ``False`` si elle n'est pas visible."""
         logger.debug("selectionner: {!r}", chemin)
         assert self.modele is not None
         for i in range(self.modele.get_n_items()):
             if chemin is not None and self.modele.get_item(i).get_item().noeud.chemin == chemin:
-                self.selection.set_selected(i)
+                self.selection.select_item(i, True)
                 logger.debug("selectionner: ligne {}", i)
                 return True
         logger.debug("selectionner: non visible")
         return False
+
+    def selectionner_plusieurs(self, chemins: list[str]) -> int:
+        """Sélectionne les lignes visibles de ``chemins`` (et elles seules) ; renvoie leur nombre."""
+        logger.debug("selectionner_plusieurs: {}", chemins)
+        assert self.modele is not None
+        voulus = set(chemins)
+        self.selection.unselect_all()
+        nombre = 0
+        for i in range(self.modele.get_n_items()):
+            if self.modele.get_item(i).get_item().noeud.chemin in voulus:
+                self.selection.select_item(i, False)
+                nombre += 1
+        logger.debug("selectionner_plusieurs: {} ligne(s)", nombre)
+        return nombre
 
     def reveler(self, chemin: str) -> bool:
         """Déplie les groupes parents de ``chemin`` puis le sélectionne (``gcm4 groupe/nom``, #154).

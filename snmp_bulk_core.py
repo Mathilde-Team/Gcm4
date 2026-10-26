@@ -16,7 +16,11 @@ Dépendances::
 from __future__ import annotations
 
 import configparser
+import ftplib
+import io
 import re
+import socket
+import struct
 import threading
 import time
 from collections.abc import Callable
@@ -38,7 +42,8 @@ try:
         EasySNMPNoSuchObjectError,
         EasySNMPTimeoutError,
     )
-except ImportError:
+except ImportError as exc:
+    logger.debug("easysnmp.exceptions incomplet ({}), import de repli", exc)
     from easysnmp import Session
     from easysnmp.exceptions import (
         EasySNMPError,
@@ -61,6 +66,10 @@ __all__ = [
     "push_to_device",
     "run_bulk_push",
     "summarize_results",
+    "FileTransferConfig",
+    "TransferError",
+    "TRANSFER_PROTOCOLS",
+    "upload_config_file",
     "STATUS_OK",
     "STATUS_REJECTED",
     "STATUS_FAILED",
@@ -365,6 +374,328 @@ class PushResult:
 
 
 # ────────────────────────────────────────────────────────────────────────
+# Dépôt du fichier rendu sur le serveur de dépôt (SFTP / FTP / TFTP)
+# ────────────────────────────────────────────────────────────────────────
+#
+# Repris de l'ancien ``snmp_push_core.py`` (issue #74) : l'équipement va
+# chercher son fichier de configuration sur un serveur de dépôt ; gcm4 doit
+# donc d'abord l'y déposer. Le protocole de DÉPÔT (gcm4 -> serveur) peut
+# différer du protocole de RÉCUPÉRATION (équipement -> serveur) : un dépôt
+# SFTP sur un serveur qui sert ensuite le même dossier en TFTP est courant.
+
+TRANSFER_PROTOCOLS = ("sftp", "ftp", "tftp")
+_DEFAULT_PORTS = {"sftp": 22, "ftp": 21, "tftp": 69}
+_TRANSFER_TIMEOUT_S = 15.0
+
+
+class TransferError(RuntimeError):
+    """Échec du dépôt du fichier sur le serveur de dépôt."""
+
+
+@dataclass
+class FileTransferConfig:
+    """Serveur de dépôt du fichier de configuration rendu.
+
+    Attributes:
+        protocol: Protocole de dépôt par gcm4 : ``"sftp"``, ``"ftp"`` ou ``"tftp"``.
+        host: Adresse du serveur, joignable depuis ce poste ET depuis les
+            équipements (c'est elle qui est écrite dans le ``SNMP SET``).
+        port: Port du service de dépôt ; 0 : port par défaut du protocole.
+        username: Utilisateur SFTP/FTP (aussi transmis à l'équipement en FTP).
+        password: Mot de passe SFTP/FTP (idem).
+        remote_dir: Dossier distant existant où déposer le fichier.
+        fetch_protocol: Protocole de récupération par l'équipement
+            (``"tftp"`` ou ``"ftp"``) ; vide : celui du dépôt, ou TFTP si le
+            dépôt se fait en SFTP.
+        fetch_path: Chemin du fichier tel que l'équipement le demande ;
+            vide : le nom du fichier seul (racine du service de récupération).
+        known_hosts: Fichier ``known_hosts`` supplémentaire pour la clé
+            d'hôte SFTP (en plus de ``~/.ssh/known_hosts``).
+    """
+
+    protocol: str
+    host: str
+    port: int = 0
+    username: str = ""
+    password: str = field(default="", repr=False)
+    remote_dir: str = "/"
+    fetch_protocol: str = ""
+    fetch_path: str = ""
+    known_hosts: str = ""
+
+    def effective_port(self) -> int:
+        """Port de dépôt : ``port`` s'il est renseigné, sinon celui du protocole.
+
+        Returns:
+            Le port à utiliser, 0 si le protocole est inconnu.
+        """
+        logger.debug(f"FileTransferConfig.effective_port | protocol={self.protocol}")
+        port = self.port or _DEFAULT_PORTS.get(self.protocol, 0)
+        logger.debug(f"FileTransferConfig.effective_port | port={port}")
+        return port
+
+    def effective_fetch_protocol(self) -> str:
+        """Protocole que l'équipement utilisera pour récupérer le fichier.
+
+        Returns:
+            ``fetch_protocol`` s'il est renseigné, sinon le protocole de dépôt,
+            ou ``"tftp"`` pour un dépôt SFTP.
+        """
+        logger.debug(f"FileTransferConfig.effective_fetch_protocol | protocol={self.protocol}")
+        fetch = self.fetch_protocol or ("tftp" if self.protocol == "sftp" else self.protocol)
+        logger.debug(f"FileTransferConfig.effective_fetch_protocol | fetch={fetch}")
+        return fetch
+
+    def remote_path(self, filename: str) -> str:
+        """Chemin distant de dépôt de *filename* (``remote_dir`` + nom).
+
+        Args:
+            filename: Nom du fichier déposé.
+
+        Returns:
+            ``remote_dir/filename``, ou *filename* seul si ``remote_dir`` est
+            vide ou ``/`` (racine du service, cas usuel en TFTP).
+        """
+        logger.debug(f"FileTransferConfig.remote_path | filename={filename}")
+        base = self.remote_dir.rstrip("/")
+        path = f"{base}/{filename}" if base else filename
+        logger.debug(f"FileTransferConfig.remote_path | path={path}")
+        return path
+
+    def device_filename(self, filename: str) -> str:
+        """Nom de fichier écrit dans le ``SNMP SET`` pour l'équipement.
+
+        Args:
+            filename: Nom du fichier déposé.
+
+        Returns:
+            ``fetch_path/filename`` si ``fetch_path`` est renseigné, sinon
+            *filename*.
+        """
+        logger.debug(f"FileTransferConfig.device_filename | filename={filename}")
+        base = self.fetch_path.rstrip("/")
+        name = f"{base}/{filename}" if base else filename
+        logger.debug(f"FileTransferConfig.device_filename | name={name}")
+        return name
+
+
+def _upload_sftp(cfg: FileTransferConfig, remote_path: str, content: bytes) -> None:
+    """Dépose *content* en SFTP (paramiko).
+
+    La clé d'hôte du serveur doit être connue (``~/.ssh/known_hosts`` ou
+    ``cfg.known_hosts``) : une clé inconnue ou changée est refusée, comme
+    ``ssh`` avec ``StrictHostKeyChecking=yes`` (l'ancien module l'acceptait
+    sans vérification).
+
+    Args:
+        cfg: Serveur de dépôt.
+        remote_path: Chemin distant du fichier à créer.
+        content: Contenu à écrire.
+
+    Raises:
+        TransferError: Bibliothèque absente, clé d'hôte refusée, erreur SSH ou SFTP.
+    """
+    logger.debug(f"_upload_sftp | host={cfg.host} remote_path={remote_path}")
+    try:
+        import paramiko  # dépendance optionnelle, importée au premier dépôt SFTP
+    except ImportError as exc:
+        logger.warning(f"_upload_sftp | paramiko absent : {exc}")
+        raise TransferError("Dépôt SFTP impossible : paramiko n'est pas installé.") from exc
+
+    client = paramiko.SSHClient()
+    try:
+        client.load_system_host_keys()
+        if cfg.known_hosts:
+            client.load_host_keys(str(Path(cfg.known_hosts).expanduser()))
+        client.set_missing_host_key_policy(paramiko.RejectPolicy())
+        client.connect(
+            cfg.host,
+            port=cfg.effective_port(),
+            username=cfg.username or None,
+            password=cfg.password or None,
+            timeout=_TRANSFER_TIMEOUT_S,
+            allow_agent=not cfg.password,
+            look_for_keys=not cfg.password,
+        )
+        sftp = client.open_sftp()
+        try:
+            with sftp.open(remote_path, "wb") as fh:
+                fh.write(content)
+        finally:
+            sftp.close()
+    except paramiko.BadHostKeyException as exc:
+        logger.warning(f"_upload_sftp | clé d'hôte changée : {cfg.host}")
+        raise TransferError(
+            f"Clé d'hôte SFTP de {cfg.host} différente de celle de known_hosts : dépôt refusé."
+        ) from exc
+    except paramiko.SSHException as exc:
+        logger.warning(f"_upload_sftp | erreur SSH : {exc}")
+        if "not found in known_hosts" in str(exc):
+            raise TransferError(
+                f"Clé d'hôte SFTP de {cfg.host} inconnue : se connecter une fois avec ssh "
+                "ou l'ajouter à known_hosts (ssh-keyscan)."
+            ) from exc
+        raise TransferError(f"Erreur SSH vers {cfg.host} : {exc}") from exc
+    except OSError as exc:
+        logger.warning(f"_upload_sftp | erreur réseau ou SFTP : {exc}")
+        raise TransferError(f"Dépôt SFTP vers {cfg.host} impossible : {exc}") from exc
+    finally:
+        client.close()
+    logger.debug(f"_upload_sftp | {len(content)} octet(s) déposé(s)")
+
+
+def _upload_ftp(cfg: FileTransferConfig, remote_path: str, content: bytes) -> None:
+    """Dépose *content* en FTP (ftplib, mode binaire).
+
+    Args:
+        cfg: Serveur de dépôt.
+        remote_path: Chemin distant du fichier à créer.
+        content: Contenu à écrire.
+
+    Raises:
+        TransferError: Connexion, authentification ou écriture refusée.
+    """
+    logger.debug(f"_upload_ftp | host={cfg.host} remote_path={remote_path}")
+    try:
+        with ftplib.FTP() as ftp:
+            ftp.connect(cfg.host, cfg.effective_port(), timeout=_TRANSFER_TIMEOUT_S)
+            ftp.login(cfg.username or "anonymous", cfg.password)
+            ftp.storbinary(f"STOR {remote_path}", io.BytesIO(content))
+    except (ftplib.Error, OSError, EOFError) as exc:
+        logger.warning(f"_upload_ftp | échec : {exc}")
+        raise TransferError(f"Dépôt FTP vers {cfg.host} impossible : {exc}") from exc
+    logger.debug(f"_upload_ftp | {len(content)} octet(s) déposé(s)")
+
+
+# Client TFTP minimal (RFC 1350) : WRQ puis blocs DATA/ACK de 512 octets,
+# mode octet, sans options (RFC 2347). La stdlib n'a pas de client TFTP.
+_TFTP_WRQ = 2
+_TFTP_DATA = 3
+_TFTP_ACK = 4
+_TFTP_ERROR = 5
+_TFTP_BLOCK_SIZE = 512
+_TFTP_TIMEOUT_S = 5.0
+_TFTP_MAX_RETRIES = 4
+
+
+def _tftp_exchange(
+    sock: socket.socket, packet: bytes, block: int, addr: tuple[str, int]
+) -> tuple[str, int]:
+    """Envoie *packet* jusqu'à recevoir l'ACK du bloc *block*.
+
+    Args:
+        sock: Socket UDP du transfert.
+        packet: Paquet à (ré)émettre.
+        block: Numéro de bloc attendu dans l'ACK.
+        addr: Destinataire ``(hôte, port)``.
+
+    Returns:
+        L'adresse qui a répondu (le serveur répond depuis un port éphémère
+        après le WRQ, cf. RFC 1350 §4).
+
+    Raises:
+        TransferError: Paquet ERROR du serveur, réponse inattendue ou
+            absence d'ACK après ``_TFTP_MAX_RETRIES`` émissions.
+    """
+    logger.debug(f"_tftp_exchange | block={block} addr={addr}")
+    for _attempt in range(_TFTP_MAX_RETRIES):
+        sock.sendto(packet, addr)
+        try:
+            data, peer = sock.recvfrom(516)
+        except TimeoutError:
+            logger.debug(f"_tftp_exchange | pas de réponse pour le bloc {block}, nouvel essai")
+            continue
+        opcode = struct.unpack("!H", data[:2])[0] if len(data) >= 4 else 0
+        if opcode == _TFTP_ERROR:
+            message = data[4:].rstrip(b"\x00").decode("ascii", "replace")
+            logger.warning(f"_tftp_exchange | erreur du serveur : {message}")
+            raise TransferError(f"Erreur TFTP du serveur : {message}")
+        if opcode == _TFTP_ACK:
+            if struct.unpack("!H", data[2:4])[0] == block:
+                logger.debug(f"_tftp_exchange | ACK {block} de {peer}")
+                return peer
+            continue  # ACK en double ou en retard : on attend le bon
+        raise TransferError(f"Réponse TFTP inattendue (opcode {opcode}).")
+    raise TransferError(f"Pas d'ACK TFTP pour le bloc {block} après {_TFTP_MAX_RETRIES} essais.")
+
+
+def _upload_tftp(cfg: FileTransferConfig, remote_path: str, content: bytes) -> None:
+    """Dépose *content* en TFTP (client RFC 1350 intégré).
+
+    Args:
+        cfg: Serveur de dépôt (ni utilisateur ni mot de passe en TFTP).
+        remote_path: Nom distant demandé dans le WRQ.
+        content: Contenu à écrire.
+
+    Raises:
+        TransferError: Nom non ASCII, erreur du serveur ou délai dépassé.
+    """
+    logger.debug(f"_upload_tftp | host={cfg.host} remote_path={remote_path}")
+    try:
+        name = remote_path.encode("ascii")
+    except UnicodeEncodeError as exc:
+        logger.warning(f"_upload_tftp | nom non ASCII : {remote_path!r}")
+        raise TransferError(f"Nom de fichier TFTP non ASCII : {remote_path!r}") from exc
+    try:
+        infos = socket.getaddrinfo(cfg.host, cfg.effective_port(), type=socket.SOCK_DGRAM)
+    except OSError as exc:
+        logger.warning(f"_upload_tftp | adresse invalide : {exc}")
+        raise TransferError(f"Serveur TFTP {cfg.host} introuvable : {exc}") from exc
+    family, _type, _proto, _name, addr = infos[0]
+    with socket.socket(family, socket.SOCK_DGRAM) as sock:
+        sock.settimeout(_TFTP_TIMEOUT_S)
+        wrq = struct.pack("!H", _TFTP_WRQ) + name + b"\x00octet\x00"
+        peer = _tftp_exchange(sock, wrq, 0, (str(addr[0]), int(addr[1])))
+        block = 1
+        offset = 0
+        while True:
+            chunk = content[offset : offset + _TFTP_BLOCK_SIZE]
+            packet = struct.pack("!HH", _TFTP_DATA, block & 0xFFFF) + chunk
+            _tftp_exchange(sock, packet, block & 0xFFFF, peer)
+            offset += len(chunk)
+            if len(chunk) < _TFTP_BLOCK_SIZE:
+                break  # dernier bloc (vide si la taille est un multiple de 512)
+            block += 1
+    logger.debug(f"_upload_tftp | {len(content)} octet(s) en {block} bloc(s)")
+
+
+_UPLOADERS: dict[str, Callable[[FileTransferConfig, str, bytes], None]] = {
+    "sftp": _upload_sftp,
+    "ftp": _upload_ftp,
+    "tftp": _upload_tftp,
+}
+
+
+def upload_config_file(cfg: FileTransferConfig, filename: str, content: str) -> str:
+    """Dépose *content* (UTF-8) sous *filename* sur le serveur de dépôt.
+
+    Bloquant : à appeler depuis un fil de travail (``run_bulk_push`` le fait).
+
+    Args:
+        cfg: Serveur de dépôt.
+        filename: Nom du fichier à créer dans ``cfg.remote_dir``.
+        content: Configuration rendue.
+
+    Returns:
+        Le chemin distant écrit.
+
+    Raises:
+        TransferError: Protocole inconnu ou échec du dépôt.
+    """
+    logger.debug(
+        f"upload_config_file | protocol={cfg.protocol} host={cfg.host} filename={filename}"
+    )
+    uploader = _UPLOADERS.get(cfg.protocol)
+    if uploader is None:
+        logger.warning(f"upload_config_file | protocole inconnu : {cfg.protocol!r}")
+        raise TransferError(f"Protocole de dépôt inconnu : {cfg.protocol!r}")
+    remote_path = cfg.remote_path(filename)
+    uploader(cfg, remote_path, content.encode("utf-8"))
+    logger.debug(f"upload_config_file | déposé : {remote_path}")
+    return remote_path
+
+
+# ────────────────────────────────────────────────────────────────────────
 # Drivers SNMP (par constructeur)
 # ────────────────────────────────────────────────────────────────────────
 
@@ -374,6 +705,8 @@ class SnmpDriver:
 
     vendor_id: str = ""
     display_name: str = ""
+    # Protocole de récupération du fichier par l'équipement -> valeur MIB.
+    FETCH_PROTOCOLS: dict[str, int] = {}
 
     def __init__(
         self,
@@ -426,6 +759,7 @@ class SnmpDriver:
             self._session(host).set_multiple(oid_values)
             return True, "OK"
         except (EasySNMPTimeoutError, EasySNMPError) as exc:
+            logger.warning("SNMP SET vers {} échoué : {}", host, exc)
             return False, str(exc)
 
     def _get(self, host: str, oid: str) -> tuple[bool, str]:
@@ -448,10 +782,17 @@ class SnmpDriver:
             EasySNMPNoSuchInstanceError,
             EasySNMPError,
         ) as exc:
+            logger.debug("SNMP GET {} sur {} échoué : {}", oid, host, exc)
             return False, str(exc)
 
     def push(
-        self, host: str, server_ip: str, filename: str, username: str = "", password: str = ""
+        self,
+        host: str,
+        server_ip: str,
+        filename: str,
+        username: str = "",
+        password: str = "",
+        protocol: str = "tftp",
     ) -> tuple[bool, str]:
         """À implémenter : effectue le push de config.
 
@@ -461,6 +802,7 @@ class SnmpDriver:
             filename: Nom du fichier de configuration à récupérer.
             username: Identifiant optionnel pour le serveur de dépôt.
             password: Mot de passe optionnel pour le serveur de dépôt.
+            protocol: Protocole de récupération par l'équipement (``FETCH_PROTOCOLS``).
 
         Raises:
             NotImplementedError: Toujours, cette méthode doit être surchargée.
@@ -468,12 +810,46 @@ class SnmpDriver:
         logger.debug(f"SnmpDriver.push | host={host} vendor={self.vendor_id}")
         raise NotImplementedError
 
+    def protocol_value(self, protocol: str) -> int | None:
+        """Valeur MIB du protocole de récupération *protocol*.
+
+        Args:
+            protocol: ``"tftp"`` ou ``"ftp"``.
+
+        Returns:
+            La valeur entière à écrire dans le ``SET``, ``None`` si ce
+            constructeur ne sait pas récupérer un fichier par ce protocole.
+        """
+        logger.debug(f"SnmpDriver.protocol_value | vendor={self.vendor_id} protocol={protocol}")
+        value = self.FETCH_PROTOCOLS.get(protocol)
+        logger.debug(f"SnmpDriver.protocol_value | value={value}")
+        return value
+
+    def _unsupported_protocol(self, protocol: str) -> tuple[bool, str]:
+        """Résultat d'échec pour un protocole de récupération non géré.
+
+        Args:
+            protocol: Protocole demandé.
+
+        Returns:
+            Tuple ``(False, detail)``.
+        """
+        logger.debug(f"SnmpDriver._unsupported_protocol | protocol={protocol}")
+        supported = ", ".join(sorted(self.FETCH_PROTOCOLS))
+        detail = (
+            f"{self.display_name} ne récupère pas de fichier en {protocol} "
+            f"(protocoles gérés : {supported})"
+        )
+        logger.debug(f"SnmpDriver._unsupported_protocol | {detail}")
+        return False, detail
+
 
 class H3cComwareDriver(SnmpDriver):
     """Driver H3C / HPE Comware (HH3C-CONFIG-MAN-MIB)."""
 
     vendor_id = "h3c_comware"
     display_name = "H3C / HPE Comware"
+    FETCH_PROTOCOLS = {"ftp": 1, "tftp": 2}  # hh3cCfgOperateProtocol
 
     BASE = "1.3.6.1.4.1.25506.2.4.1.2.4.1"
     RESULT_BASE = "1.3.6.1.4.1.25506.2.4.1.2.5.1"
@@ -483,7 +859,13 @@ class H3cComwareDriver(SnmpDriver):
     _STATE_SUCCESS = 2
 
     def push(
-        self, host: str, server_ip: str, filename: str, username: str = "", password: str = ""
+        self,
+        host: str,
+        server_ip: str,
+        filename: str,
+        username: str = "",
+        password: str = "",
+        protocol: str = "tftp",
     ) -> tuple[bool, str]:
         """Push config sur H3C/Comware.
 
@@ -493,6 +875,7 @@ class H3cComwareDriver(SnmpDriver):
             filename: Nom du fichier de configuration à récupérer.
             username: Identifiant optionnel pour le serveur de dépôt.
             password: Mot de passe optionnel pour le serveur de dépôt.
+            protocol: Protocole de récupération par l'équipement (``FETCH_PROTOCOLS``).
 
         Returns:
             Tuple ``(ok, detail)``.
@@ -500,12 +883,15 @@ class H3cComwareDriver(SnmpDriver):
         logger.debug(
             f"H3cComwareDriver.push | host={host} server_ip={server_ip} filename={filename}"
         )
+        proto = self.protocol_value(protocol)
+        if proto is None:
+            return self._unsupported_protocol(protocol)
         t0 = time.time()
         idx = int(t0) % 2147483647 or 1
 
         oid_values = [
             (f"{self.BASE}.2.{idx}", "4", "i"),
-            (f"{self.BASE}.3.{idx}", "2", "i"),
+            (f"{self.BASE}.3.{idx}", str(proto), "i"),
             (f"{self.BASE}.4.{idx}", filename, "s"),
             (f"{self.BASE}.5.{idx}", server_ip, "a"),
         ]
@@ -539,6 +925,7 @@ class H3cComwareDriver(SnmpDriver):
             try:
                 rows = session.walk(f"{self.RESULT_BASE}.2")
             except (EasySNMPTimeoutError, EasySNMPError) as exc:
+                logger.warning("walk OperateResultTable sur {} échoué : {}", host, exc)
                 return False, f"walk OperateResultTable échoué: {exc}"
 
             match_row = None
@@ -547,7 +934,10 @@ class H3cComwareDriver(SnmpDriver):
                     if int(row.value) == op_idx:
                         match_row = row.oid_index
                         break
-                except (ValueError, TypeError):
+                except (ValueError, TypeError) as exc:
+                    logger.debug(
+                        "ligne OperateResultTable ignorée (OptIndex {!r}) : {}", row.value, exc
+                    )
                     continue
 
             if match_row is not None:
@@ -567,10 +957,13 @@ class H3cComwareDriver(SnmpDriver):
                             EasySNMPError,
                             EasySNMPNoSuchObjectError,
                             EasySNMPNoSuchInstanceError,
-                        ):
-                            pass
+                        ) as exc:
+                            logger.debug(
+                                "raison d'échec illisible pour la ligne {} : {}", match_row, exc
+                            )
                         return False, detail
                 except (EasySNMPError, ValueError) as exc:
+                    logger.warning("lecture de State sur {} échouée : {}", host, exc)
                     return False, f"erreur lecture State: {exc}"
 
             time.sleep(self.poll_interval)
@@ -583,6 +976,8 @@ class CiscoConfigCopyDriver(SnmpDriver):
 
     vendor_id = "cisco_ios"
     display_name = "Cisco IOS / IOS-XE"
+    # ccCopyProtocol (rcp(3)/scp(4) non proposés).
+    FETCH_PROTOCOLS = {"tftp": 1, "ftp": 2, "sftp": 5}
 
     BASE = "1.3.6.1.4.1.9.9.96.1.1.1.1"
     STATE_OID = f"{BASE}.10"
@@ -593,7 +988,13 @@ class CiscoConfigCopyDriver(SnmpDriver):
     _STATE_FAILED = 4
 
     def push(
-        self, host: str, server_ip: str, filename: str, username: str = "", password: str = ""
+        self,
+        host: str,
+        server_ip: str,
+        filename: str,
+        username: str = "",
+        password: str = "",
+        protocol: str = "tftp",
     ) -> tuple[bool, str]:
         """Push config sur Cisco IOS/IOS-XE.
 
@@ -603,6 +1004,7 @@ class CiscoConfigCopyDriver(SnmpDriver):
             filename: Nom du fichier de configuration à récupérer.
             username: Identifiant optionnel pour le serveur de dépôt.
             password: Mot de passe optionnel pour le serveur de dépôt.
+            protocol: Protocole de récupération par l'équipement (``FETCH_PROTOCOLS``).
 
         Returns:
             Tuple ``(ok, detail)``.
@@ -610,11 +1012,14 @@ class CiscoConfigCopyDriver(SnmpDriver):
         logger.debug(
             f"CiscoConfigCopyDriver.push | host={host} server_ip={server_ip} filename={filename}"
         )
+        proto = self.protocol_value(protocol)
+        if proto is None:
+            return self._unsupported_protocol(protocol)
         t0 = time.time()
         idx = int(t0) % 2147483647 or 1
 
         oid_values = [
-            (f"{self.BASE}.2.{idx}", "1", "i"),
+            (f"{self.BASE}.2.{idx}", str(proto), "i"),
             (f"{self.BASE}.3.{idx}", "1", "i"),
             (f"{self.BASE}.4.{idx}", "4", "i"),
             (f"{self.BASE}.5.{idx}", server_ip, "a"),
@@ -639,7 +1044,8 @@ class CiscoConfigCopyDriver(SnmpDriver):
 
             try:
                 state = int(state_str)
-            except ValueError:
+            except ValueError as exc:
+                logger.warning("state invalide {!r} : {}", state_str, exc)
                 return False, f"state invalide: {state_str}"
 
             if state == self._STATE_SUCCESSFUL:
@@ -675,6 +1081,8 @@ class HuaweiVrpDriver(SnmpDriver):
 
     vendor_id = "huawei_vrp"
     display_name = "Huawei VRP"
+    # hwCfgOperateProtocol ; en sftp(3), authentification par mot de passe seulement.
+    FETCH_PROTOCOLS = {"ftp": 1, "tftp": 2, "sftp": 3}
 
     # hwConfig(1.3.6.1.4.1.2011.6.10).hwConfigManObjects(1)
     BASE = "1.3.6.1.4.1.2011.6.10.1.2.4.1"  # hwCfgOperateEntry (requête)
@@ -685,7 +1093,13 @@ class HuaweiVrpDriver(SnmpDriver):
     _STATE_SUCCESS = 2
 
     def push(
-        self, host: str, server_ip: str, filename: str, username: str = "", password: str = ""
+        self,
+        host: str,
+        server_ip: str,
+        filename: str,
+        username: str = "",
+        password: str = "",
+        protocol: str = "tftp",
     ) -> tuple[bool, str]:
         """Push config sur Huawei VRP.
 
@@ -695,6 +1109,7 @@ class HuaweiVrpDriver(SnmpDriver):
             filename: Nom du fichier de configuration à récupérer.
             username: Identifiant optionnel pour le serveur de dépôt.
             password: Mot de passe optionnel pour le serveur de dépôt.
+            protocol: Protocole de récupération par l'équipement (``FETCH_PROTOCOLS``).
 
         Returns:
             Tuple ``(ok, detail)``.
@@ -702,12 +1117,15 @@ class HuaweiVrpDriver(SnmpDriver):
         logger.debug(
             f"HuaweiVrpDriver.push | host={host} server_ip={server_ip} filename={filename}"
         )
+        proto = self.protocol_value(protocol)
+        if proto is None:
+            return self._unsupported_protocol(protocol)
         t0 = time.time()
         idx = int(t0) % 2147483647 or 1
 
         oid_values = [
             (f"{self.BASE}.2.{idx}", "4", "i"),  # hwCfgOperateType = net2Running
-            (f"{self.BASE}.3.{idx}", "2", "i"),  # hwCfgOperateProtocol = tftp
+            (f"{self.BASE}.3.{idx}", str(proto), "i"),  # hwCfgOperateProtocol
             (f"{self.BASE}.4.{idx}", filename, "s"),  # hwCfgOperateFileName
             # hwCfgOperateServerAddress — PAS .11 (hwCfgOperateSourceAddress,
             # adresse source optionnelle du client, pas le serveur cible)
@@ -745,6 +1163,7 @@ class HuaweiVrpDriver(SnmpDriver):
             try:
                 rows = session.walk(f"{self.RESULT_BASE}.2")  # colonne OptIndex
             except (EasySNMPTimeoutError, EasySNMPError) as exc:
+                logger.warning("walk OperateResultTable sur {} échoué : {}", host, exc)
                 return False, f"walk OperateResultTable échoué: {exc}"
 
             match_row = None
@@ -753,7 +1172,10 @@ class HuaweiVrpDriver(SnmpDriver):
                     if int(row.value) == op_idx:
                         match_row = row.oid_index
                         break
-                except (ValueError, TypeError):
+                except (ValueError, TypeError) as exc:
+                    logger.debug(
+                        "ligne OperateResultTable ignorée (OptIndex {!r}) : {}", row.value, exc
+                    )
                     continue
 
             if match_row is not None:
@@ -773,10 +1195,13 @@ class HuaweiVrpDriver(SnmpDriver):
                             EasySNMPError,
                             EasySNMPNoSuchObjectError,
                             EasySNMPNoSuchInstanceError,
-                        ):
-                            pass
+                        ) as exc:
+                            logger.debug(
+                                "raison d'échec illisible pour la ligne {} : {}", match_row, exc
+                            )
                         return False, detail
                 except (EasySNMPError, ValueError) as exc:
+                    logger.warning("lecture de State sur {} échouée : {}", host, exc)
                     return False, f"erreur lecture State: {exc}"
 
             time.sleep(self.poll_interval)
@@ -803,15 +1228,23 @@ def push_to_device(
     rendered_config: str,
     log_dir: Path,
     server_ip: str = "192.168.1.1",
+    transfer: FileTransferConfig | None = None,
 ) -> PushResult:
     """Push la config vers un équipement.
+
+    Avec *transfer*, *rendered_config* est d'abord déposé sur le serveur de
+    dépôt (``upload_config_file``), puis l'équipement est invité à le
+    récupérer depuis ``transfer.host`` par ``transfer.effective_fetch_protocol()``.
+    Sans *transfer*, comportement historique : rien n'est déposé, l'équipement
+    récupère ``config_<ip>.txt`` en TFTP sur *server_ip*.
 
     Args:
         row: Ligne d'inventaire de l'équipement cible.
         profile: Profil SNMP (constructeur + identifiants) à utiliser.
         rendered_config: Configuration déjà rendue (variables substituées).
         log_dir: Dossier où écrire le journal de cet envoi.
-        server_ip: IP du serveur de dépôt (TFTP/FTP/SFTP).
+        server_ip: IP du serveur de dépôt (TFTP/FTP/SFTP), sans *transfer*.
+        transfer: Serveur de dépôt où déposer le fichier rendu.
 
     Returns:
         Le ``PushResult`` de l'envoi.
@@ -838,11 +1271,34 @@ def push_to_device(
             poll_timeout=profile.poll_timeout,
         )
 
-        filename = f"config_{row.ip}.txt"
-        ok, detail = driver.push(row.ip, server_ip, filename)
+        if transfer is None:
+            filename = f"config_{row.ip}.txt"
+            ok, detail = driver.push(row.ip, server_ip, filename)
+        else:
+            fetch = transfer.effective_fetch_protocol()
+            if driver.protocol_value(fetch) is None:
+                ok, detail = driver._unsupported_protocol(fetch)
+            else:
+                safe_ip = re.sub(r"[^A-Za-z0-9_.-]", "_", row.ip)
+                filename = f"gcm_push_{safe_ip}_{row.line_no}.cfg"
+                upload_config_file(transfer, filename, rendered_config)
+                credentials = (
+                    ("", "") if fetch == "tftp" else (transfer.username, transfer.password)
+                )
+                ok, detail = driver.push(
+                    row.ip,
+                    transfer.host,
+                    transfer.device_filename(filename),
+                    *credentials,
+                    protocol=fetch,
+                )
 
         status = STATUS_OK if ok else STATUS_FAILED
 
+    except TransferError as exc:
+        status = STATUS_FAILED
+        detail = f"Dépôt du fichier impossible : {exc}"
+        logger.warning(f"push_to_device | {row.ip} : {detail}")
     except Exception as exc:
         status = STATUS_FAILED
         detail = str(exc)
@@ -851,8 +1307,8 @@ def push_to_device(
     log_path = log_dir / f"{row.line_no}_{row.ip}.log"
     try:
         log_path.write_text(f"{status}: {detail}\n", encoding="utf-8")
-    except OSError:
-        pass
+    except OSError as exc:
+        logger.warning("journal de poussée {} non écrit : {}", log_path, exc)
 
     return PushResult(
         row=row,
@@ -873,6 +1329,7 @@ def run_bulk_push(
     on_row_done: Callable[[PushResult], None] | None = None,
     cancel_event: threading.Event | None = None,
     server_ip: str = "192.168.1.1",
+    transfer: FileTransferConfig | None = None,
 ) -> list[PushResult]:
     """Pousse la config sur tous les équipements en parallèle.
 
@@ -885,7 +1342,9 @@ def run_bulk_push(
         on_row_start: Callback appelé avant l'envoi d'une ligne.
         on_row_done: Callback appelé après l'envoi d'une ligne.
         cancel_event: Événement permettant d'annuler l'exécution en cours.
-        server_ip: IP du serveur de dépôt (TFTP/FTP/SFTP).
+        server_ip: IP du serveur de dépôt (TFTP/FTP/SFTP), sans *transfer*.
+        transfer: Serveur de dépôt où déposer chaque fichier rendu (voir
+            ``push_to_device``).
 
     Returns:
         Liste des ``PushResult`` de tous les envois effectués.
@@ -920,7 +1379,9 @@ def run_bulk_push(
                 on_row_start(row)
 
             rendered = render_template(template_text, row.variables)
-            future = executor.submit(push_to_device, row, profile, rendered, log_path, server_ip)
+            future = executor.submit(
+                push_to_device, row, profile, rendered, log_path, server_ip, transfer
+            )
             futures[future] = row
 
         for future in as_completed(futures):

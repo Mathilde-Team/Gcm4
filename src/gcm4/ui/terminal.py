@@ -117,6 +117,8 @@ class SessionTerminal:
         self.terminal.set_delete_binding(
             Vte.EraseBinding(terminal.liaison(options, terminal.OPT_SUPPRESSION))
         )
+        #: Encodage effectif de l'onglet (#85), aussi celui des messages de gcm4.
+        self.encodage = self._appliquer_encodage(terminal.encodage(options))
         avant, fond = rgba(host.font_color), rgba(host.back_color)
         if avant is not None and fond is not None:
             self.terminal.set_colors(avant, fond, [rgba(c) for c in PALETTE])
@@ -128,6 +130,34 @@ class SessionTerminal:
         for rang, (delai, texte) in enumerate(terminal.etapes(commandes, debut_commandes_ms)):
             self._minuteries[rang] = GLib.timeout_add(delai, self._envoyer, rang, texte)
         logger.debug("SessionTerminal.__init__: {} envoi(s) programmé(s)", len(self._minuteries))
+
+    def _appliquer_encodage(self, nom: str) -> str:
+        """Règle l'encodage de VTE ; refusé (VTE sans ICU) : UTF-8, signalé dans l'onglet.
+
+        Returns:
+            L'encodage effectif.
+        """
+        logger.debug("SessionTerminal._appliquer_encodage: {}", nom)
+        if nom == terminal.ENCODAGE_DEFAUT:
+            logger.debug("SessionTerminal._appliquer_encodage: défaut")
+            return nom
+        try:
+            # Déprécié depuis VTE 0.54 mais seul moyen de lire un flux non UTF-8.
+            self.terminal.set_encoding(nom)
+        except GLib.Error as exc:
+            self.log.warning("{}: encodage {} refusé : {}", self.protocole, nom, exc.message)
+            message = _("Encoding {name} is not available, UTF-8 is used.").format(name=nom)
+            self.terminal.feed(f"{message}\r\n".encode())
+            logger.debug("SessionTerminal._appliquer_encodage: refusé")
+            return terminal.ENCODAGE_DEFAUT
+        logger.debug("SessionTerminal._appliquer_encodage: fait")
+        return nom
+
+    def _afficher(self, texte: str) -> None:
+        """Écrit un message de gcm4 dans le terminal, dans l'encodage de l'onglet."""
+        logger.debug("SessionTerminal._afficher: {} caractère(s)", len(texte))
+        self.terminal.feed(terminal.encoder(texte, self.encodage))
+        logger.debug("SessionTerminal._afficher: fait")
 
     def _lancer(self, lancement: terminal.Lancement, envv: list[str]) -> None:
         """Lance la commande ; le mot de passe éventuel part dans un tube vers le descripteur 3."""
@@ -163,7 +193,7 @@ class SessionTerminal:
         logger.debug("SessionTerminal._lance: pid={}", pid)
         if erreur is not None:
             self.log.warning("{}: lancement impossible : {}", self.protocole, erreur.message)
-            self.terminal.feed(f"{erreur.message}\r\n".encode())
+            self._afficher(f"{erreur.message}\r\n")
         else:
             self.pid = pid
             if self.fermee:
@@ -186,7 +216,7 @@ class SessionTerminal:
         self.code_de_sortie = statut
         self.pid = 0
         self._oublier_minuteries()
-        self.terminal.feed(("\r\n" + _("Session ended") + "\r\n").encode())
+        self._afficher("\r\n" + _("Session ended") + "\r\n")
         logger.debug("SessionTerminal._fin: fait")
 
     def _oublier_minuteries(self) -> None:
@@ -217,7 +247,7 @@ class SessionTerminal:
 
 
 def zone_options(options: dict[str, str], changed: Callable[[], None]) -> Gtk.Widget:
-    """Commandes après ouverture, touches d'effacement et ``TERM`` (page « Avancé » de GTK3).
+    """Commandes après ouverture, touches d'effacement, ``TERM`` et encodage (page « Avancé » de GTK3).
 
     Args:
         options: copie des options du protocole, modifiée à chaque saisie.
@@ -225,7 +255,7 @@ def zone_options(options: dict[str, str], changed: Callable[[], None]) -> Gtk.Wi
 
     Returns:
         Une boîte verticale : case et texte des commandes, aide ``##D=``,
-        grille des liaisons et de ``TERM``.
+        grille des liaisons, de ``TERM`` et de l'encodage (#85).
     """
     logger.debug("zone_options: entrée")
     boite = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
@@ -294,6 +324,26 @@ def zone_options(options: dict[str, str], changed: Callable[[], None]) -> Gtk.Wi
     term.connect("changed", saisie)
     grille.attach(Gtk.Label(label=_("TERM"), xalign=0), 0, 2, 1, 1)
     grille.attach(term, 1, 2, 1, 1)
+
+    encodages = Gtk.DropDown(
+        model=Gtk.StringList.new(list(terminal.ENCODAGES)),
+        hexpand=True,
+        enable_search=True,
+        tooltip_text=_("Character encoding of the remote system; UTF-8 if unsure."),
+    )
+    encodages.set_selected(terminal.ENCODAGES.index(terminal.encodage(options)))
+
+    def encodage_choisi(widget, _param) -> None:
+        """Encodage choisi ; UTF-8 (défaut) n'est pas écrit dans la configuration."""
+        logger.debug("zone_options.encodage_choisi: entrée")
+        nom = terminal.ENCODAGES[widget.get_selected()]
+        options[terminal.OPT_ENCODAGE] = "" if nom == terminal.ENCODAGE_DEFAUT else nom
+        changed()
+        logger.debug("zone_options.encodage_choisi: {}", nom)
+
+    encodages.connect("notify::selected", encodage_choisi)
+    grille.attach(Gtk.Label(label=_("Encoding:"), xalign=0), 0, 3, 1, 1)
+    grille.attach(encodages, 1, 3, 1, 1)
     boite.append(grille)
     logger.debug("zone_options: fait")
     return boite

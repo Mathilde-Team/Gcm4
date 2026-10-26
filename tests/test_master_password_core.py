@@ -123,3 +123,155 @@ class TestRewrapAndRemove(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestRecoveryCode(unittest.TestCase):
+    """Format v2 : double enveloppe mot de passe / code de recouvrement (#98)."""
+
+    RAW = "cafef00ddeadbeef1234567890abcdef"
+
+    def test_generated_code_shape_and_randomness(self):
+        """24 caractères de l'alphabet sans ambiguïté, groupés par 4, tous différents."""
+        codes = {core.generate_recovery_code() for _ in range(20)}
+        self.assertEqual(len(codes), 20)
+        for code in codes:
+            groups = code.split("-")
+            self.assertEqual([len(g) for g in groups], [4] * 6)
+            self.assertTrue(set("".join(groups)) <= set(core.RECOVERY_CODE_ALPHABET))
+
+    def test_normalize_recovery_code(self):
+        """Casse, tirets et blancs indifférents."""
+        self.assertEqual(core.normalize_recovery_code(" abcd-EFGH \n2345 "), "ABCDEFGH2345")
+
+    def test_both_envelopes_unlock_same_key(self):
+        """Le mot de passe et le code déverrouillent la même clé."""
+        content, code = core.protect_key_file_content_with_recovery(self.RAW, "s3cret")
+        self.assertTrue(content.startswith(core.MASTER_PASSWORD_MAGIC_V2))
+        self.assertTrue(core.is_protected(content))
+        self.assertTrue(core.has_recovery_code(content))
+        self.assertEqual(core.unlock_key_file_content(content, "s3cret"), self.RAW)
+        self.assertEqual(core.unlock_with_recovery_code(content, code), self.RAW)
+        self.assertEqual(
+            core.unlock_with_recovery_code(content, code.lower().replace("-", " ")), self.RAW
+        )
+
+    def test_code_is_not_stored(self):
+        """Ni le code ni sa forme normalisée n'apparaissent dans le contenu."""
+        content, code = core.protect_key_file_content_with_recovery(self.RAW, "s3cret")
+        self.assertNotIn(code, content)
+        self.assertNotIn(core.normalize_recovery_code(code), content)
+        self.assertNotIn(self.RAW, content)
+
+    def test_wrong_code_and_wrong_password(self):
+        """Code faux : InvalidRecoveryCodeError ; mot de passe faux : InvalidMasterPasswordError."""
+        content, code = core.protect_key_file_content_with_recovery(self.RAW, "s3cret")
+        with self.assertRaises(core.InvalidRecoveryCodeError):
+            core.unlock_with_recovery_code(content, "AAAA-AAAA-AAAA-AAAA-AAAA-AAAA")
+        with self.assertRaises(core.InvalidMasterPasswordError):
+            core.unlock_key_file_content(content, "nope")
+        # le mot de passe ne sert pas de code, ni l'inverse
+        with self.assertRaises(core.InvalidRecoveryCodeError):
+            core.unlock_with_recovery_code(content, "s3cret")
+        with self.assertRaises(core.InvalidMasterPasswordError):
+            core.unlock_key_file_content(content, code)
+
+    def test_empty_password_rejected(self):
+        """Mot de passe maître vide refusé, en protection comme en recouvrement."""
+        with self.assertRaises(ValueError):
+            core.protect_key_file_content_with_recovery(self.RAW, "")
+        content, code = core.protect_key_file_content_with_recovery(self.RAW, "s3cret")
+        with self.assertRaises(ValueError):
+            core.recover_with_code(content, code, "")
+
+    def test_change_password_keeps_recovery_code(self):
+        """Changer le mot de passe garde le v2 et le même code valide."""
+        content, code = core.protect_key_file_content_with_recovery(self.RAW, "old")
+        changed = core.rewrap_key_file_content(content, "old", "new")
+        self.assertTrue(core.has_recovery_code(changed))
+        self.assertEqual(core.unlock_key_file_content(changed, "new"), self.RAW)
+        with self.assertRaises(core.InvalidMasterPasswordError):
+            core.unlock_key_file_content(changed, "old")
+        self.assertEqual(core.unlock_with_recovery_code(changed, code), self.RAW)
+
+    def test_change_password_v1_stays_v1(self):
+        """Un contenu v1 reste v1 après changement de mot de passe."""
+        changed = core.rewrap_key_file_content(
+            core.protect_key_file_content(self.RAW, "old"), "old", "new"
+        )
+        self.assertFalse(core.has_recovery_code(changed))
+        self.assertEqual(core.unlock_key_file_content(changed, "new"), self.RAW)
+
+    def test_regenerate_code_invalidates_old_one(self):
+        """Régénération : nouveau code valide, ancien refusé, mot de passe inchangé."""
+        content, old_code = core.protect_key_file_content_with_recovery(self.RAW, "s3cret")
+        regenerated, new_code = core.regenerate_recovery_code(content, "s3cret")
+        self.assertNotEqual(old_code, new_code)
+        self.assertEqual(core.unlock_with_recovery_code(regenerated, new_code), self.RAW)
+        self.assertEqual(core.unlock_key_file_content(regenerated, "s3cret"), self.RAW)
+        with self.assertRaises(core.InvalidRecoveryCodeError):
+            core.unlock_with_recovery_code(regenerated, old_code)
+        with self.assertRaises(core.InvalidMasterPasswordError):
+            core.regenerate_recovery_code(content, "nope")
+
+    def test_regenerate_upgrades_v1(self):
+        """Régénérer le code d'un contenu v1 le fait passer en v2."""
+        upgraded, code = core.regenerate_recovery_code(
+            core.protect_key_file_content(self.RAW, "pw"), "pw"
+        )
+        self.assertTrue(core.has_recovery_code(upgraded))
+        self.assertEqual(core.unlock_with_recovery_code(upgraded, code), self.RAW)
+
+    def test_recover_with_code_imposes_new_password_and_code(self):
+        """Mot de passe oublié : nouveau mot de passe, nouveau code, l'ancien code consommé."""
+        content, code = core.protect_key_file_content_with_recovery(self.RAW, "forgotten")
+        recovered, new_code = core.recover_with_code(content, code, "fresh")
+        self.assertEqual(core.unlock_key_file_content(recovered, "fresh"), self.RAW)
+        self.assertEqual(core.unlock_with_recovery_code(recovered, new_code), self.RAW)
+        with self.assertRaises(core.InvalidMasterPasswordError):
+            core.unlock_key_file_content(recovered, "forgotten")
+        with self.assertRaises(core.InvalidRecoveryCodeError):
+            core.unlock_with_recovery_code(recovered, code)
+        with self.assertRaises(core.InvalidRecoveryCodeError):
+            core.recover_with_code(content, "BAD", "fresh")
+
+    def test_v1_has_no_recovery_code(self):
+        """Un contenu v1 n'a pas de code : RecoveryCodeUnavailableError."""
+        content = core.protect_key_file_content(self.RAW, "pw")
+        self.assertFalse(core.has_recovery_code(content))
+        with self.assertRaises(core.RecoveryCodeUnavailableError):
+            core.unlock_with_recovery_code(content, "ABCD")
+
+    def test_remove_protection_v2(self):
+        """Retirer la protection d'un v2 rend la clé en clair."""
+        content, _code = core.protect_key_file_content_with_recovery(self.RAW, "pw")
+        self.assertEqual(core.remove_master_password_protection(content, "pw"), self.RAW)
+
+    def test_corrupted_v2(self):
+        """v2 tronqué ou au sel invalide : CorruptedProtectedContentError."""
+        with self.assertRaises(core.CorruptedProtectedContentError):
+            core.unlock_key_file_content(f"{core.MASTER_PASSWORD_MAGIC_V2}a:b:c", "pw")
+        with self.assertRaises(core.CorruptedProtectedContentError):
+            core.unlock_with_recovery_code(f"{core.MASTER_PASSWORD_MAGIC_V2}AAAA:v:c:!!:v:c", "pw")
+
+    def test_secrets_never_logged(self):
+        """Ni le mot de passe, ni le code, ni la clé n'apparaissent dans les journaux."""
+        from loguru import logger
+
+        lines = []
+        sink = logger.add(lines.append, level="DEBUG", format="{message}")
+        try:
+            content, code = core.protect_key_file_content_with_recovery(self.RAW, "Pa55-word")
+            core.unlock_with_recovery_code(content, code)
+            core.recover_with_code(content, code, "N3w-word")
+        finally:
+            logger.remove(sink)
+        journal = "".join(lines)
+        self.assertTrue(journal)
+        for secret in (
+            self.RAW,
+            "Pa55-word",
+            "N3w-word",
+            code,
+            core.normalize_recovery_code(code),
+        ):
+            self.assertNotIn(secret, journal)

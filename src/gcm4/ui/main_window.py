@@ -38,6 +38,7 @@ from gcm4.core.replies import ecrire_replies
 from gcm4.ui import dialogues
 from gcm4.ui.echange import Echange
 from gcm4.ui.host_tree import HostTree
+from gcm4.ui.mot_de_passe_maitre import PageVerrou
 
 LARGEUR_DEFAUT = 1000
 HAUTEUR_DEFAUT = 650
@@ -101,30 +102,20 @@ class MainWindow(Adw.ApplicationWindow):
         self.panneau.set_size_request(120, -1)
         self.config = None
         self.arbre: HostTree | None = None
+        self.chiffrement = ChiffrementGcm(config_dir)
+        #: Page de saisie du mot de passe maître (#98), sinon ``None``.
+        self.verrou: PageVerrou | None = None
         try:
-            self.chiffrement = ChiffrementGcm(config_dir)
-            self.config = load_config(self.config_file, self.chiffrement)
-        except ConfigError as exc:
-            # Rien n'est chargé : aucune écriture ne pourra écraser le fichier.
-            logger.warning("MainWindow.__init__: configuration non chargée ({})", exc)
-            self.erreur_config = Adw.StatusPage(
-                icon_name="dialog-warning-symbolic",
-                title=_("Configuration not loaded"),
-                description=str(exc),
-            )
-            self.erreur_config.set_vexpand(True)
-            self.panneau.append(self.erreur_config)
+            verrouillee = self.chiffrement.est_verrouillee()
+        except ConfigError as exc:  # .gcm4.key illisible : message d'erreur ci-dessous
+            logger.warning("MainWindow.__init__: clé illisible ({})", exc)
+            verrouillee = False
+        if verrouillee:
+            # Rien n'est chargé tant que le mot de passe maître n'est pas saisi.
+            self.verrou = PageVerrou(self.chiffrement, self._on_deverrouille)
+            self.panneau.append(self.verrou)
         else:
-            self.arbre = HostTree(
-                self.config.store,
-                rayures=not self.config.options.disable_hosts_stripes,
-                enregistrer=self.enregistrer_config,
-                notifier=self.notifier,
-            )
-            self.panneau.append(self.arbre)
-            couleurs = [g.color for g in self.config.store.groups.values() if g.color]
-            if hasattr(application, "set_group_colors"):
-                application.set_group_colors(couleurs)
+            self._charger_configuration()
         self.onglets = Gtk.Notebook(scrollable=True)
         self.page_accueil = Adw.StatusPage(
             icon_name="network-server-symbolic",
@@ -178,6 +169,49 @@ class MainWindow(Adw.ApplicationWindow):
         self.maj_titre()
         self.connect("close-request", self._on_close_request)
         logger.debug("MainWindow.__init__: prête ({})", self.etat)
+
+    def _charger_configuration(self) -> None:
+        """Lit ``gcm4.conf`` et affiche l'arbre, ou le message d'erreur dans le panneau."""
+        logger.debug("_charger_configuration: entrée")
+        try:
+            self.config = load_config(self.config_file, self.chiffrement)
+        except ConfigError as exc:
+            # Rien n'est chargé : aucune écriture ne pourra écraser le fichier.
+            logger.warning("MainWindow: configuration non chargée ({})", exc)
+            self.erreur_config = Adw.StatusPage(
+                icon_name="dialog-warning-symbolic",
+                title=_("Configuration not loaded"),
+                description=str(exc),
+            )
+            self.erreur_config.set_vexpand(True)
+            self.panneau.append(self.erreur_config)
+            logger.debug("_charger_configuration: erreur affichée")
+            return
+        self.arbre = HostTree(
+            self.config.store,
+            rayures=not self.config.options.disable_hosts_stripes,
+            enregistrer=self.enregistrer_config,
+            notifier=self.notifier,
+        )
+        self.panneau.append(self.arbre)
+        couleurs = [g.color for g in self.config.store.groups.values() if g.color]
+        application = self.get_application()
+        if hasattr(application, "set_group_colors"):
+            application.set_group_colors(couleurs)
+        logger.debug("_charger_configuration: {} hôte(s)", len(self.config.store.hosts))
+
+    def _on_deverrouille(self) -> None:
+        """Mot de passe maître accepté (#98) : la configuration est chargée."""
+        logger.debug("_on_deverrouille: entrée")
+        if self.verrou is not None:
+            self.panneau.remove(self.verrou)
+            self.verrou = None
+        self._charger_configuration()
+        action = self.lookup_action("search")
+        if action is not None:
+            action.set_enabled(self.arbre is not None)
+        self.maj_titre()
+        logger.debug("_on_deverrouille: fait")
 
     def enregistrer_config(self) -> None:
         """Écrit toute la configuration (après une modification de l'arbre).

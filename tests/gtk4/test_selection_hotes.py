@@ -13,8 +13,7 @@ def _fenetre(app):
 
 
 def _selection(fenetre):
-    ligne = fenetre.arbre.selection.get_selected_item()
-    return ligne.get_item().noeud.chemin if ligne is not None else None
+    return fenetre.arbre.chemin_selectionne()
 
 
 def test_demarrage_selectionne_l_hote_et_signale_les_absents(tmp_path, monkeypatch, pomper):
