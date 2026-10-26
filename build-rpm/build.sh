@@ -37,7 +37,7 @@ rm -rf "$BUILD_DIR" "$DIST_DIR"
 mkdir -p "$SRC_DIR" "$STAGE_DIR" "$DIST_DIR" "$TOPDIR"/{SOURCES,SPECS,BUILD,RPMS,SRPMS,BUILDROOT}
 
 # Wheel : mêmes sources que le .deb (fichiers suivis par git seulement).
-(cd "$REPO_ROOT" && git ls-files -z -- src/gcm4 gcm4_core.py logging_config.py pyAES.py \
+(cd "$REPO_ROOT" && git ls-files -z -- src/gcm4 gcm4_core.py logging_config.py master_password_core.py pyAES.py \
     pyproject.toml README.md LICENSE \
     | xargs -0 cp --parents -t "$SRC_DIR")
 "$PYTHON" -m build --wheel --no-isolation --outdir "$STAGE_DIR" "$SRC_DIR"

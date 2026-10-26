@@ -41,6 +41,7 @@ pour tester de la logique pure (`HostKeyStore`, `VncConnectionInfo`). Voir
 
 ## État courant
 
+- 158 tests, tous verts via le stub `tests/gtk_stub/` (voir Commandes de
 - 172 tests, tous verts via le stub `tests/gtk_stub/` (voir Commandes de
   qualité). Sans GTK4 installé, `pytest tests/` sans le `PYTHONPATH`
   du stub les collecte mais les SKIP tous — pas un échec caché.

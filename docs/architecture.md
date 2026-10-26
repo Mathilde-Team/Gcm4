@@ -19,7 +19,7 @@
 | `widgets.py` / `utils.py` | Widgets GTK custom, `run_dialog_sync()` (palliatif `Gtk.Dialog.run()`, absent en GTK4) | `PyGObject` |
 | `ssh_config_editor.py`, `ssh_key_manager_dialog.py`, `key_picker_dialog.py` | Gestion SSH avancée — UI GTK3, portage de SSH-Studio (GTK4/Adw → GTK3) | `paramiko` (clés) |
 | `plugins/ssh/core.py` | Logique métier SSH sans GTK (parsing `~/.ssh/config`, migration/import gcm.conf) — fusion `ssh_config_parser.py`+`ssh_migrate_gcm.py` (session-26, plugin pilote de la migration GTK4) | — |
-| `netmiko_bulk_core.py`, `snmp_bulk_core.py`, `snmp_push_core.py` | Cœurs métier sans GTK des outils de déploiement en masse | `netmiko`, `ezsnmp`/`easysnmp` |
+| `netmiko_bulk_core.py`, `snmp_bulk_core.py` | Cœurs métier sans GTK des outils de déploiement en masse (`snmp_push_core.py` supprimé, #74) | `netmiko`, `ezsnmp`/`easysnmp`, `paramiko` (dépôt SFTP) |
 | `hypervisor_import_common.py` | Helpers partagés libvirt/Proxmox (jamais préfixé `plugin_`) | `paramiko`, `nmap` (sonde) |
 | `master_password_core.py` | Protection par mot de passe maître du fichier de clé locale (`KEY_FILE`) — logique de chiffrement/déchiffrement seule, zéro GTK (session-27) | `pyAES` |
 | `tools/` | Scripts CLI autonomes : `libvirt_inventory.py` (v4), `ssh_deploy.py`, `validate_po.py`, `validate_xml_json.py` | `virsh`, `paramiko` |
@@ -58,14 +58,25 @@ Chaque protocole est découvert automatiquement par `PluginRegistry.autoload()`.
 | Import CSV / JSON | `plugin_import_csv.py` / `plugin_import_json.py` | ✅ |
 | Export CSV / JSON | `plugin_export_csv.py` / `plugin_export_json.py` | ✅ Sans mot de passe |
 | Push config masse — Netmiko | `plugin_netmiko_push.py` + `netmiko_bulk_core.py` | ✅ Session CLI SSH/équipement, profils, inventaire CSV, gabarits `#colonne#` — non documenté |
-| Push config masse — SNMP | `plugin_snmp_push.py` + `snmp_bulk_core.py` | ✅ Dépôt TFTP/FTP + `SNMP SET` déclencheur (H3C/Cisco/**Huawei ajouté le 2026-08-30**), `ThreadPoolExecutor` — non documenté. ⚠️ Voir §2.2-bis : la description précédente de cette ligne (SFTP/FTP/TFTP, asyncio) correspondait en fait à `snmp_push_core.py`, qui n'est importé nulle part |
+| Push config masse — SNMP | `plugin_snmp_push.py` + `snmp_bulk_core.py` | ✅ `SNMP SET` déclencheur (H3C/Cisco/**Huawei ajouté le 2026-08-30**), `ThreadPoolExecutor`. **#74 (2026-10-24)** : dépôt du fichier rendu par SFTP/FTP/TFTP (`FileTransferConfig`, `upload_config_file`) et protocole de récupération TFTP/FTP/SFTP transmis au driver, repris de `snmp_push_core.py`, supprimé ; le formulaire du plugin GTK3 ne propose pas encore ces réglages (§2.2-bis) |
 | Import PuTTY (`~/.putty/sessions/`) | `plugin_import_putty.py` + `putty_import_core.py` | ✅ **2026-09-01.** Scanne un dossier de sessions PuTTY Unix (`Clé=Valeur` par fichier, noms de fichier décodés du schéma `%XX`) ; SSH/Telnet uniquement (Rlogin/Raw sans équivalent GCM, Serial hors périmètre — champs PuTTY trop différents du plugin série, voir docstring de `putty_import_core.py`), sessions ignorées listées dans le message de résumé |
 
 > Le plugin Netmiko n'est **pas cassé** : le log « `plugin_netmiko_push` ignore : pas
 > de `get_plugin()` » est normal (module `BatchPlugin`, chargé séparément par
 > `BatchPluginRegistry`, voir `Wmain._warn_if_batch_plugin_failed()`).
 
-#### 2.2-bis Constat (2026-08-30), à confirmer avec l'auteure avant de trancher
+#### 2.2-bis Constat (2026-08-30) — tranché (#74, 2026-10-12)
+> **Décision de l'auteure (#74, 2026-10-12)** : compléter `snmp_bulk_core.py`
+> avec les transports SFTP/FTP/TFTP, puis supprimer `snmp_push_core.py`.
+> **Fait le 2026-10-24** : `FileTransferConfig`, `upload_config_file()`
+> (SFTP paramiko avec clé d'hôte vérifiée dans `known_hosts`, FTP `ftplib`,
+> client TFTP RFC 1350), paramètre `transfer` de `push_to_device()`/
+> `run_bulk_push()` et `FETCH_PROTOCOLS` par driver ; `snmp_push_core.py`
+> supprimé. Sans `transfer`, comportement inchangé (rien déposé, TFTP sur
+> `server_ip`) : le formulaire de `plugin_snmp_push.py` (GTK3) n'expose pas
+> encore protocole et identifiants, à faire au portage GTK4 du plugin.
+> L'historique ci-dessous est conservé tel quel.
+
 En vérifiant le câblage du push SNMP (voir §4.1, ajout du driver Huawei),
 recherche textuelle complète : **`plugin_snmp_push.py` importe exclusivement
 depuis `snmp_bulk_core.py`** (`from snmp_bulk_core import SNMP_VENDORS,
@@ -232,7 +243,12 @@ hu, id, ro, th, vi, zh).
   connu avec uv et ont été retirés plutôt que reformulés à l'aveugle ; à
   re-signaler si un cas reproductible apparaît chez l'auteure. Détail :
   `docs/sessions/session-36.md`.
-- ⚠️ **À confirmer avec l'auteure avant correction** (même traitement que
+- ✅ **Tranché (#87)** : l'autrice a décidé le 2026-10-12 de supprimer les
+  tests orphelins. Les tests `_rdp_socket_available` sont retirés de
+  `tests/test_gcm.py` et les tests `_vm_name_split` visent désormais
+  `hypervisor_import_common.vm_name_split()` (commit 3e485e9, #116) ; plus
+  aucune classe de `tests/test_gcm.py` n'appelle de fonction absente.
+  Historique du constat initial : (même traitement que
   `ssh_config_editor.py` en §2.5, pas de correction à l'aveugle) : plusieurs
   classes de `tests/test_gcm.py` (`TestVmNameSplit...`/`TestRdpSocketAvailable...`
   et leurs variantes « supplémentaires ») appellent `gcm._vm_name_split(...)`
@@ -670,8 +686,11 @@ plugins/ssh/core.py
     package) mais n'expose pas encore get_plugin() — plugins/ssh/gtk4.py
     (widgets réels) reste à écrire, session séparée.
 
-netmiko_bulk_core.py / snmp_bulk_core.py / snmp_push_core.py
+netmiko_bulk_core.py / snmp_bulk_core.py
     cœurs métier sans GTK des outils de déploiement en masse.
+    #74 (2026-10-24) : snmp_bulk_core.py dépose aussi le fichier rendu
+    (SFTP/FTP/TFTP, FileTransferConfig) ; snmp_push_core.py, décrit
+    ci-dessous, est supprimé.
     plugin_netmiko_push.py -> netmiko_bulk_core.py.
     plugin_snmp_push.py -> snmp_bulk_core.py (drivers H3C/Cisco/Huawei, ce
     dernier ajouté le 2026-08-30, voir décisions en tête de ce fichier ;
@@ -798,8 +817,8 @@ de build compilé après ménage) :
    `snmp_push_core.py` (plus complète — SFTP+FTP/TFTP, asyncio — mais
    **non importée nulle part**). La documentation précédente de ce dépôt
    décrivait par erreur la fonctionnalité du second comme si elle appartenait
-   au premier. À trancher avec l'auteure, comme `ssh_config_editor.py` :
-   détail dans `features.md` §2.2-bis.
+   au premier. **Tranché (#74)** : transports portés dans
+   `snmp_bulk_core.py`, `snmp_push_core.py` supprimé — §2.2-bis.
 8. Le tableau du §2.1 ci-dessus décrivait RDP avec un repli `Gtk.Socket`/
    XEmbed encore actif à côté de `GtkFrdp.Display` — inexact : ce repli
    (ancienne classe `RdpEmbeddedTab`, sous-processus `xfreerdp` avec

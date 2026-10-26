@@ -25,7 +25,6 @@ MODULES_TYPES_MINIMUM = {
     "popup_menu_core.py",
     "putty_import_core.py",
     "snmp_bulk_core.py",
-    "snmp_push_core.py",
     "tab_context_menu_core.py",
     "plugins/plugin_base.py",
     "plugins/ssh/core.py",
