@@ -2,6 +2,8 @@
 
 ## [Non publié]
 
+- **gcm4 : plugin serial (#179)** : portage du plugin GTK3 au contrat v1 (`plugins/serial/`, `core.py` sans GTK + `gtk4.py`) — picocom, minicom ou screen (détection picocom > minicom > screen, choix de l'hôte prioritaire) dans le terminal commun des plugins. Paramètres série (débit, bits de données, parité, bits de stop, contrôle de flux, template constructeur, outil) dans la zone d'options du protocole, le champ Port de l'hôte restant lu comme débit pour les configurations GTK3 ; commandes selon les conventions de chaque outil, options libres par `shlex`. L'onglet GTK3 avec ses boutons Connecter/Déconnecter n'est pas repris : la session démarre à l'ouverture, se déconnecter = fermer l'onglet
+
 ## [4.0.0] — 2026-10-24
 
 > Première version de **gcm4** (réécriture GTK4/libadwaita). La numérotation
