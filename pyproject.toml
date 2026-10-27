@@ -323,9 +323,11 @@ skip_covered = false
 # issue #278) ; le job Qualité seul passe --cov-fail-under=0. Palier 1 de
 # #293 : mesure combinée de dev au 22/10/2026 (41,7 %) arrondie à l'entier
 # inférieur. Palier 2 de #293 (24/10/2026) : 43,9 % sur dev + tests de
-# plugin_base et hypervisor_import_common (≈ 45,3 %), soit 45. Relever ce chiffre quand la base monte, ne jamais le baisser
+# plugin_base et hypervisor_import_common (≈ 45,3 %), soit 45. Palier 3 de
+# #293 (26/10/2026) : 50,9 % sur dev + tests de netmiko_bulk_core, soit 50.
+# Relever ce chiffre quand la base monte, ne jamais le baisser
 # pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
-fail_under = 45
+fail_under = 50
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
