@@ -5108,110 +5108,8 @@ msgstr "Rozdělit V"
 msgid "Unsplit all consoles"
 msgstr "Zrušit rozdělení všech konzolí"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "Protokol xfreerdp:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "stránka 2"
-
-#~ msgid "page 1"
-#~ msgstr "stránka 1"
-
-#~ msgid "local"
-#~ msgstr "místní"
-
-#~ msgid "label"
-#~ msgstr "popisek"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Upravit"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Rozdělit konzoli vertikálně"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Rozdělit konzoli horizontálně"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Zobrazit nástrojovou lištu"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Odeslat příkazy více hostitelům najednou"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Sekundy mezi pakety keep-alive"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Uložit buffer aktivní konzole do souboru"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (zde není k dispozici: Proxmox vyžaduje API ticket/proxy)"
-
-#~ msgid "Open local console"
-#~ msgstr "Otevřít místní konzoli"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Místní port je již přiřazen"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Importovat seznam serverů ze souboru"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Další argumenty pro příkazový řádek"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Exportovat seznam serverů do souboru"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Upravit vlastnosti hostitelů"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Detekované cíle Proxmox (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Detekovaný cíl Proxmox"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Vytvořit dynamické předávání portů"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Připojit k vybranému hostiteli nebo všem hostitelům ve vybrané skupině"
+#~ msgid "Colors and Keys"
+#~ msgstr "Barvy a klávesy"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5224,5 +5122,107 @@ msgstr "Zrušit rozdělení všech konzolí"
 #~ "1: min\n"
 #~ "9: max"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Barvy a klávesy"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Připojit k vybranému hostiteli nebo všem hostitelům ve vybrané skupině"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Vytvořit dynamické předávání portů"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Detekovaný cíl Proxmox"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Detekované cíle Proxmox (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Upravit vlastnosti hostitelů"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Exportovat seznam serverů do souboru"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Další argumenty pro příkazový řádek"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Importovat seznam serverů ze souboru"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Místní port je již přiřazen"
+
+#~ msgid "Open local console"
+#~ msgstr "Otevřít místní konzoli"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (zde není k dispozici: Proxmox vyžaduje API ticket/proxy)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Uložit buffer aktivní konzole do souboru"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Sekundy mezi pakety keep-alive"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Odeslat příkazy více hostitelům najednou"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Zobrazit nástrojovou lištu"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Rozdělit konzoli horizontálně"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Rozdělit konzoli vertikálně"
+
+#~ msgid "_Edit"
+#~ msgstr "_Upravit"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "popisek"
+
+#~ msgid "local"
+#~ msgstr "místní"
+
+#~ msgid "page 1"
+#~ msgstr "stránka 1"
+
+#~ msgid "page 2"
+#~ msgstr "stránka 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "Protokol xfreerdp:"
