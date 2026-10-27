@@ -2,6 +2,8 @@
 
 ## [Non publié]
 
+- **gcm4 : protocoles sans adresse (#297)** : méthode facultative `requires_address` du contrat de plugin v1 (défaut : adresse exigée) ; le plugin local la déclare : champ Adresse masqué dans le dialogue hôte et enregistrement sans adresse accepté pour les hôtes `local`, comme le faisait GTK3 (`show_host = not is_local`)
+
 ## [4.0.0] — 2026-10-24
 
 > Première version de **gcm4** (réécriture GTK4/libadwaita). La numérotation
