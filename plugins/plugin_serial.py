@@ -505,8 +505,8 @@ class SerialTab(Gtk.Box):
                 import signal as _signal
 
                 os.kill(pid, _signal.SIGTERM)
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.debug("plugin serial | arrêt du processus série impossible : {}", exc)
         self._lbl_status.set_text(_("Disconnect"))
         self._btn_connect.set_sensitive(True)
         self._btn_disconnect.set_sensitive(False)
