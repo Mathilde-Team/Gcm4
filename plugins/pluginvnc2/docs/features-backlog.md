@@ -81,6 +81,16 @@ qui reste réellement à faire.
   même titre que `sync_clipboard`/`shared`/etc., pas un bouton de barre
   d'outils.
 - Ctrl+Alt+Suppr dédié dans la barre d'outils.
+- Menu « Alimentation » dans la barre d'outils (Gcm4 #104, tâche 5) :
+  arrêter, redémarrer ou réinitialiser la machine distante via
+  l'extension xvp d'asyncvnc2 (`send_xvp_shutdown/reboot/reset`, toujours
+  avec `confirm=True`). Chaque commande passe par un dialogue de
+  confirmation (Annuler a le focus, bouton destructif). Le serveur
+  annonce xvp après la connexion : l'état des entrées est relu à chaque
+  ouverture du menu (`VncTab._resolve_power_menu_state`) ; sans
+  connexion ou sans xvp, entrées inactives et explication dans le menu.
+  Un échec d'envoi est journalisé (`logger.warning`), jamais remonté
+  d'une tâche asyncio orpheline. Tests : `tests/test_xvp_power.py`.
 - Envoyer du texte au serveur distant comme une suite de frappes clavier
   (bouton dédié dans la barre d'outils, ouvrant une petite fenêtre de
   saisie), en CONTOURNANT le presse-papiers — utile quand la
@@ -100,14 +110,28 @@ qui reste réellement à faire.
   sans envoyer directement, pour que l'utilisateur puisse relire/corriger
   avant de cliquer « Envoyer ». Un presse-papiers vide ou illisible (ex.
   une image copiée) laisse le champ inchangé
-  (`VncTab._resolve_pasted_clipboard_text()`).
+  (`VncTab._resolve_pasted_clipboard_text()`). Une case « Garder la
+  fenêtre ouverte après l'envoi » (#93, décochée par défaut, mémorisée pour
+  la durée de vie de l'onglet) permet un envoi répété : après l'envoi, le
+  champ est vidé et le dialogue reste ouvert ; décochée, le dialogue se
+  ferme comme avant (`VncTab._resolve_send_text_action()`).
 - Presse-papiers bidirectionnel (texte), désactivable par profil. Écriture
   vers le serveur protégée contre une exception sur socket déjà mort (même
   famille de garde que les chemins d'entrée haute fréquence ci-dessus).
+  Extended Clipboard (Gcm4 #104, tâche 1) : si le serveur l'a confirmé
+  (`client.clipboard_ext_supported`), le texte local part en UTF-8 par
+  `send_clipboard_update()` (Notify puis Provide, l'ordre que TigerVNC et
+  QEMU exigent) ; sinon ClientCutText historique (Latin-1). Un texte hors
+  Latin-1 vers un serveur sans Extended Clipboard n'est pas transmis et
+  c'est journalisé (avant : exception avalée sans trace). Décision pure
+  `VncDisplay._resolve_clipboard_send_mode`, tests
+  `tests/test_extended_clipboard.py`.
 - Bip serveur (bell) relayé via `Gdk.Display.beep()`.
 - Raccourcis clavier globaux, utilisables sans passer par la souris/la
   barre d'outils : `<Shift>F12` (capture d'écran), `<Control>F12` (copie
-  de la capture dans le presse-papiers), `F11` (plein écran),
+  de la capture dans le presse-papiers), `<Alt>F12` (dialogue d'envoi de
+  texte, Gcm4 #92 ; sans effet tant que la connexion n'est pas établie),
+  `F11` (plein écran),
   `<Control><Alt>End` (Ctrl+Alt+Suppr — convention répandue chez les
   clients VNC, la vraie combinaison étant interceptée par le système
   d'hôte local avant d'atteindre l'application). Posés en phase CAPTURE
@@ -116,6 +140,27 @@ qui reste réellement à faire.
 
 ## Connexion
 
+- Transport WebSocket (Gcm4 #104, tâche 3) : `VncConnectionInfo.websocket`
+  et `ws_path` (ex. `/websockify` pour websockify ou un proxy noVNC),
+  transmis à `asyncvnc2.connect(websocket=True, ws_path=…)`. Chemin
+  normalisé (vide → `/`, `/` ajouté en tête) et refusé s'il contient un
+  espace ou un caractère de contrôle (il finit dans la ligne de requête
+  HTTP) ; sans WebSocket, aucun argument de plus n'est passé à `connect()`.
+  Démo autonome : `python vnc_tab.py --websocket=/websockify HOTE PORT`.
+  Pas encore de champ de formulaire : le plugin n'a pas de formulaire de
+  connexion à lui, il viendra avec l'intégration côté gcm4. Tests :
+  `tests/test_websocket_transport.py`.
+- VeNCrypt (Gcm4 #104, tâche 2) : négocié par asyncvnc2 sans réglage
+  (magasin système de CA, nom d'hôte vérifié = `host`).
+  `VncConnectionInfo.tls_ca_file` désigne une autorité de certification
+  privée (PEM, `~` accepté) : `ssl_context` qui ne fait confiance qu'à
+  elle et vérifie le nom d'hôte. Fichier absent ou invalide : l'onglet
+  passe en erreur avant toute connexion. Certificat refusé ou poignée de
+  main TLS ratée : message d'état qui nomme VeNCrypt et la raison
+  (`VncDisplay._describe_connection_error`). Pas encore de champ de
+  formulaire (même raison que le WebSocket : pas de formulaire de
+  connexion dans le plugin). Tests : `tests/test_vencrypt_ca.py`, avec de
+  vrais certificats et une vraie poignée de main TLS en boucle locale.
 - Reconnexion inversée (Gcm4 #104, tâche 4) : `VncConnectionInfo.reverse`
   fait écouter l'onglet sur `host:port` (`asyncvnc2.listen`, port
   conventionnel 5500) au lieu de composer vers lui ; état « En attente
@@ -154,7 +199,12 @@ qui reste réellement à faire.
   tentative automatique dans Ns », `VncDisplay._append_reconnect_delay_to_message()`,
   câblée dans `_set_status()`) — jusque-là cette info n'existait que
   dans les logs, l'utilisateur ne voyait qu'un message d'erreur brut sans
-  savoir qu'autre chose était prévu.
+  savoir qu'autre chose était prévu. Depuis Gcm4 #94, ce délai est un
+  décompte seconde par seconde : minuteur d'une seconde (`GLib.timeout_add`,
+  distinct du minuteur de reconnexion) qui émet `vnc-reconnect-countdown`
+  ; l'onglet ne met à jour que ses deux libellés. Annulé avec la
+  reconnexion (stop, close, « Reconnecter ») et à la tentative.
+  Tests : `tests/test_reconnect_countdown.py`.
 - Bouton « Déconnecter » dédié dans la barre d'outils (icône
   `process-stop-symbolic`), à côté de « Reconnecter » : ferme la
   connexion SANS fermer l'onglet, via `VncDisplay.stop()` (déjà
@@ -203,10 +253,11 @@ Event). État à connaître avant d'enrichir ce plugin :
   aujourd'hui (aucune trace de `qemu` dans ce fichier) ; si un futur travail
   câble cette extension côté GTK4, tester contre un vrai Proxmox/QEMU en
   priorité plutôt que de faire confiance au format tel quel.
-- VeNCrypt/TLS anonyme n'existe pas encore côté `asyncvnc2` — le
-  pinning de clé hôte (`HostKeyStore`) de ce plugin ne couvre que l'auth
-  Apple ARD, pas un futur TLS. Pas d'action requise ici tant que VeNCrypt
-  n'est pas patché côté fork.
+- VeNCrypt existe désormais côté `asyncvnc2` (sous-types TLS* et X509*,
+  cf. § « Connexion » pour le réglage `tls_ca_file`, Gcm4 #104). Le
+  pinning de clé hôte (`HostKeyStore`) de ce plugin ne couvre toujours que
+  l'auth Apple ARD : les sous-types TLS* anonymes ne vérifient aucune
+  identité de serveur, et rien ici ne les épingle.
 - `VncDisplay.send_text()` (session 20) suppose que `keyboard.press()` se
   comporte comme `keyboard.hold()` pour un nom de touche non reconnu
   (lève une exception, logiquement un `KeyError` vu leur mécanisme de
@@ -287,8 +338,8 @@ pour ouvrir le dialogue de saisie (aucun besoin exprimé, contrairement au
 raccourci de la session 19 qui reprenait une piste déjà différée en
 session 18) ; garder le dialogue ouvert après l'envoi pour permettre un
 envoi répété (fermeture systématique retenue à la place, plus simple,
-cohérente avec le dialogue de confirmation d'oubli de clé) — cf.
-`docs/sessions/session-20.md`.
+cohérente avec le dialogue de confirmation d'oubli de clé ; repris depuis
+par #93, case à cocher) — cf. `docs/sessions/session-20.md`.
 
 Session 21 (2026-09-13) a ajouté le bouton « Déconnecter » (§ « Connexion »
 ci-dessus), encore à partir d'un besoin utilisateur réel (fermer la
@@ -347,10 +398,17 @@ Prochaine étape suggérée pour une future session : toujours pas de
 nouveau point de la famille « accès à `self.client` » à chercher (audit
 exhaustif, cf. ci-dessus). Trois pistes différées à ce jour (raccourci
 clavier pour ouvrir le dialogue d'envoi de texte, depuis la session 20 ;
-dialogue restant ouvert pour un envoi répété, depuis la session 20 ;
+dialogue restant ouvert pour un envoi répété, depuis la session 20 et
+livré par #93 ;
 décompte en temps réel pour la reconnexion automatique plutôt qu'un
 message statique, depuis la session 23), à reprendre seulement si un
 besoin réel se confirme — pas par défaut. Sinon, continuer à repartir
+exhaustif, cf. ci-dessus). Le raccourci clavier du dialogue d'envoi de
+texte, différé depuis la session 20, est fait (`<Alt>F12`, Gcm4 #92).
+Deux pistes différées restent, à réaliser (issues rouvertes par l'autrice
+le 12/10/2026) : dialogue restant ouvert pour un envoi répété (session 20,
+Gcm4 #93) ; décompte en temps réel pour la reconnexion automatique plutôt
+qu'un message statique (session 23, Gcm4 #94). Sinon, continuer à repartir
 d'un besoin utilisateur réel ou d'une extension protocolaire côté
 `asyncvnc2_patched` (cf. § « Dépendance » ci-dessus) plutôt que d'inventer
 une fonctionnalité hors périmètre.

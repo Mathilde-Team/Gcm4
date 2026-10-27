@@ -121,9 +121,17 @@ Champs communs (`Host`, `CHAMPS_HOTE`) :
 
 Toutes les autres clés (`private_key`, `tunnel`, `type`, `commands`,
 `keepalive`, `x11`, `agent`, `compression`, `compression-level`, `log`,
-`backspace-key`, `delete-key`, `term`, champs déclarés par les plugins…)
-vont dans `host.protocol_options[host.protocol]`, texte inchangé, et sont
-réécrites telles quelles même sans le plugin du protocole.
+`backspace-key`, `delete-key`, `term`, `encoding`, champs déclarés par les
+plugins…) vont dans `host.protocol_options[host.protocol]`, texte inchangé,
+et sont réécrites telles quelles même sans le plugin du protocole.
+
+`encoding` (#85, gcm4 seulement) : encodage des caractères d'un onglet
+terminal (telnet, local), choisi dans la liste « Encodage » du dialogue
+d'hôte : `ISO-8859-1`, `ISO-8859-15`, `WINDOWS-1252`, `KOI8-R`, `CP437`,
+`SHIFT_JIS`, `GB18030`… Absent ou vide : UTF-8. Une valeur hors de la liste
+est ignorée (UTF-8, avertissement au journal) ; un encodage que VTE refuse
+(VTE compilé sans ICU) est signalé dans l'onglet, qui reste en UTF-8.
+L'application GTK3 ignore cette clé.
 
 ## `[shortcuts]` et sections inconnues
 

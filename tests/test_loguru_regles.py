@@ -59,14 +59,8 @@ EXCEPT_SANS_JOURNAL = {
     "plugins/plugin_vnc.py": 7,
     "plugins/plugin_web.py": 1,
     "plugins/pluginvnc2/vnc_tab.py": 14,
-    "plugins/ssh/core.py": 14,
-    "snmp_bulk_core.py": 13,
-    "snmp_push_core.py": 15,
     "ssh_config_editor.py": 4,
     "ssh_key_manager_dialog.py": 17,
-    "tools/libvirt_inventory.py": 3,
-    "tools/ssh_deploy.py": 1,
-    "tools/validate_xml_json.py": 4,
     "widgets.py": 3,
 }
 

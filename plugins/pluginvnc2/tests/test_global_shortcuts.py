@@ -1,5 +1,5 @@
 """Tests pour les raccourcis clavier globaux de VncTab (capture d'écran,
-copie presse-papiers, plein écran, Ctrl+Alt+Suppr) -- Gtk.ShortcutController
+copie presse-papiers, envoi de texte, plein écran, Ctrl+Alt+Suppr) -- Gtk.ShortcutController
 en phase CAPTURE, cf. docstring de VncTab._setup_global_shortcuts dans
 vnc_tab.py pour la raison exacte (VncDisplay._on_key_pressed() retourne
 toujours True et avalerait ces raccourcis sans la phase CAPTURE sur un
@@ -36,7 +36,7 @@ def _bare_tab():
 
 @requires_gtk4
 def test_global_shortcuts_table_is_not_empty():
-    assert len(VncTab._GLOBAL_SHORTCUTS) == 4
+    assert len(VncTab._GLOBAL_SHORTCUTS) == 5
 
 
 @requires_gtk4
@@ -64,7 +64,14 @@ def test_global_shortcuts_cover_screenshot_fullscreen_and_ctrl_alt_del():
         "_shortcut_action_copy_screenshot",
         "_shortcut_action_toggle_fullscreen",
         "_shortcut_action_send_ctrl_alt_del",
+        "_shortcut_action_send_text",
     }
+
+
+@requires_gtk4
+def test_send_text_shortcut_is_alt_f12():
+    # Gcm4 #92 : même famille F12 que la capture (Maj) et la copie (Ctrl).
+    assert ("<Alt>F12", "_shortcut_action_send_text") in VncTab._GLOBAL_SHORTCUTS
 
 
 # ---- Méthodes d'action (délégation pure) ----
@@ -123,3 +130,40 @@ def test_shortcut_action_send_ctrl_alt_del_delegates_to_display_and_returns_true
 
     assert tab.display.cad_sent == 1
     assert result is True
+
+
+class _FakeButton:
+    def __init__(self, sensitive):
+        self.sensitive = sensitive
+
+    def get_sensitive(self):
+        return self.sensitive
+
+
+@requires_gtk4
+def test_shortcut_action_send_text_opens_dialog_when_connected_and_returns_true():
+    tab = _bare_tab()
+    tab.btn_send_text = _FakeButton(True)
+    calls = []
+    tab._on_send_text_clicked = lambda: calls.append("send_text")
+
+    result = tab._shortcut_action_send_text()
+
+    assert calls == ["send_text"]
+    assert result is True
+
+
+@requires_gtk4
+def test_shortcut_action_send_text_does_nothing_when_not_connected_and_returns_false():
+    # Même garde que le bouton (désactivé sans connexion) : pas de
+    # dialogue pour un envoi qui ne partirait nulle part, et False pour ne
+    # pas avaler l'événement sans effet visible.
+    tab = _bare_tab()
+    tab.btn_send_text = _FakeButton(False)
+    calls = []
+    tab._on_send_text_clicked = lambda: calls.append("send_text")
+
+    result = tab._shortcut_action_send_text()
+
+    assert calls == []
+    assert result is False
