@@ -146,6 +146,11 @@ def _enfants(widget):
         enfant = enfant.get_next_sibling()
 
 
+def test_requires_address_faux(plugin):
+    """#297 : le protocole local ne requiert pas d'adresse."""
+    assert plugin.requires_address("local") is False
+
+
 def test_decouvert_depuis_les_sources(plugin):
     """Mode source : ``plugins/local`` est chargé (gtk4.py importe core.py et gcm4.ui.terminal)."""
     assert (plugin.name, plugin.protocols, plugin.version) == ("local", ("local",), "1.0")
