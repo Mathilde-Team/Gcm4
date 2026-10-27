@@ -68,6 +68,7 @@ def test_plugin_minimal_et_valeurs_par_defaut():
     assert incompatibilite(Demo) is None
     assert p.context is ctx and p.api_version == API_VERSION == 1
     assert p.default_port("demo") is None and p.default_options("demo") == {}
+    assert p.requires_address("demo") is True  # défaut du contrat v1 (#297)
     assert p.validate_options("demo", {"x": "1"}) == []
     assert p.build_preferences_page() is None and p.context_menu_items(Host("h")) == []
     session = p.open(Host("h"))
@@ -91,6 +92,9 @@ def test_surcharges_facultatives():
         def default_port(self, protocol):
             return 4242
 
+        def requires_address(self, protocol):
+            return False
+
         def default_options(self, protocol):
             return {"mode": "rapide"}
 
@@ -102,6 +106,7 @@ def test_surcharges_facultatives():
 
     p = Complet(_Contexte())
     assert p.default_port("demo") == 4242 and p.default_options("demo") == {"mode": "rapide"}
+    assert p.requires_address("demo") is False  # surcharge facultative (#297)
     assert p.validate_options("demo", {"mode": "?"})[0].champ == "mode"
     assert p.context_menu_items(Host("h"))[0].label == "Ping"
 
