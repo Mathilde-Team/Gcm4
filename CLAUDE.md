@@ -1,5 +1,14 @@
 # CLAUDE.md — Gnome Connection Manager (GCM → gcm4)
 
+
+## Mission
+
+Avant toute intervention autonome sur ce dépôt : lire et appliquer la
+mission d'équipe :
+https://github.com/Mathilde-Team/.github/blob/dev/MISSION.md
+(le socle qualité, SOCLE.md, prime sur la mission en cas de conflit ; si
+le fichier est absent sur `dev`, le chercher sur `main`).
+
 > Mémo de démarrage : ce qu'il faut avoir lu avant d'intervenir sur ce
 > dépôt. Le reste de la documentation vit dans `docs/` — à rouvrir au
 > besoin, pas à reparcourir à chaque session (carte en bas de ce fichier).
