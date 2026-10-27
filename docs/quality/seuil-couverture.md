@@ -73,6 +73,10 @@ Mesure de `dev` (a592a8f, run CI 39840291314) : total combiné **41,7 %**, job Q
 
 Mesure de `dev` (438340f, run CI 40101560678) : total combiné **43,9 %**. Tests ajoutés sans GTK ni réseau : `tests/test_plugin_base_registres.py` (contrats et `autoload()` des deux registres de `plugins/plugin_base.py`, 24,9 % → 100 %) et `tests/test_hypervisor_import_common.py` (clés SSH, `paramiko_connect` avec une doublure de paramiko, scan nmap, dconf ; 45,6 % → 100 %). Gain : 348 lignes ou branches sur 25 011, soit environ +1,4 pt (≈ 45,3 %). `fail_under` passe de 41 à **45** (entier inférieur de la nouvelle mesure combinée).
 
+### Palier 3 (issue #293, 26/10/2026)
+
+Mesure de `dev` + PR de tests (093ea00, run CI 40293284698) : total combiné **50,9 %**. Tests ajoutés sans GTK ni réseau : `tests/test_netmiko_bulk_core.py` (67 tests) couvre `src/gcm4/netmiko_bulk_core.py` — 324 instructions jusqu'alors importées par aucun test (0 %) — à **99,5 %** : profils (`DeviceProfile`, `ProfileStore`), inventaire CSV (`load_inventory` : délimiteurs, colonnes manquantes), gabarits (`render_template`), `scan_output_for_errors`, `push_to_device` (netmiko remplacé par une doublure), `run_bulk_push` (concurrence, callbacks, répertoire de logs) et `summarize_results`. Seule la ligne 492 (`ValueError` défensive inatteignable après les validations amont) reste non couverte. Suite complète : 1706 tests. `fail_under` passe de 45 à **50** (entier inférieur de la nouvelle mesure combinée, 0,9 pt de marge).
+
 ## Où le voir
 
 - **job Couverture combinée** (`ci.yml`) : total fusionné Qualité + GTK4 et tableau par périmètre dans le résumé du job ;
