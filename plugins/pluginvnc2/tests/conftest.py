@@ -45,6 +45,23 @@ requires_gtk4 = pytest.mark.skipif(
 )
 
 
+def _real_gtk() -> bool:
+    """Faux sous le stub ``tests/gtk_stub/gi`` (boucle GLib et signaux
+    GObject non fonctionnels) : seuls les tests qui font tourner une vraie
+    boucle GLib en dépendent. La CI (Xvfb) a le vrai GTK4, ils y tournent."""
+    try:
+        import gi
+    except ImportError:
+        return False
+    return "gtk_stub" not in (getattr(gi, "__file__", "") or "")
+
+
+requires_real_gtk = pytest.mark.skipif(
+    not _real_gtk(),
+    reason="stub gi (tests/gtk_stub) : test qui fait tourner une vraie boucle GLib",
+)
+
+
 def make_test_display(
     remote_w,
     remote_h,

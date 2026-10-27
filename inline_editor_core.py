@@ -53,6 +53,12 @@ comportement inconditionnel plutôt que de le laisser implicite dans
 `widgets.py`.
 """
 
+from loguru import logger
+
+# Convention bibliothèque (#130) : muet à l'import, réactivé par
+# logging_config.configure_logging() (CORE_MODULES).
+logger.disable(__name__)
+
 #: Issues possibles de la classification d'un appui de touche dans
 #: l'éditeur inline, voir :func:`classify_editor_key_press`.
 EDITOR_KEY_PRESS_OUTCOMES = ("commit", "cancel", "ignore")
@@ -99,12 +105,17 @@ def classify_editor_key_press(
     Returns:
         str: Une des valeurs de :data:`EDITOR_KEY_PRESS_OUTCOMES`.
     """
+    logger.debug("classify_editor_key_press: entrée")
     if state & (shift_mask | control_mask):
+        logger.debug("classify_editor_key_press: sortie")
         return "ignore"
     if keyval in (return_keyval, kp_enter_keyval):
+        logger.debug("classify_editor_key_press: sortie")
         return "commit"
     if keyval == escape_keyval:
+        logger.debug("classify_editor_key_press: sortie")
         return "cancel"
+    logger.debug("classify_editor_key_press: sortie")
     return "ignore"
 
 
@@ -146,4 +157,6 @@ def classify_editor_button_press(*, n_press):
         str: Toujours ``"claim"`` (seule valeur de
         :data:`EDITOR_BUTTON_PRESS_OUTCOMES`).
     """
+    logger.debug("classify_editor_button_press: entrée")
+    logger.debug("classify_editor_button_press: sortie")
     return "claim"

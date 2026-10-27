@@ -195,6 +195,7 @@ def scan_putty_sessions(directory: Path) -> tuple[list[dict[str, str]], list[str
         try:
             raw = parse_putty_session_file(entry)
         except OSError as exc:
+            app_logger.debug("scan_putty_sessions: {} : {}", type(exc).__name__, exc)
             skipped.append(f"{session_name}: lecture impossible ({exc})")
             continue
         row, reason = putty_session_to_row(session_name, raw)

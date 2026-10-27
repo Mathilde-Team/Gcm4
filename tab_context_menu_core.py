@@ -17,6 +17,12 @@ de noms d'action. ``widgets.TabContextMenu.rebuild()`` consomme ce resultat
 pour construire le ``Gio.Menu`` reel et y attacher les libelles traduits.
 """
 
+from loguru import logger
+
+# Convention bibliothèque (#130) : muet à l'import, réactivé par
+# logging_config.configure_logging() (CORE_MODULES).
+logger.disable(__name__)
+
 # Association nom d'action (Gio.SimpleActionGroup, prefixe "tabmenu.") ->
 # code d'action historique attendu par Wmain.on_popupmenu
 # (gnome_connection_manager.py) — ces codes existaient deja du temps du
@@ -65,6 +71,7 @@ def build_tab_context_menu_layout(*, is_active, multi_pane):
             de noms d'action (parmi ceux de ``TAB_CONTEXT_MENU_ACTIONS`` et
             ``"log"``), dans l'ordre d'affichage attendu.
     """
+    logger.debug("build_tab_context_menu_layout: entrée")
     section1 = ["rename", "reset", "clear"]
     if not is_active:
         section1.append("reopen")
@@ -76,6 +83,7 @@ def build_tab_context_menu_layout(*, is_active, multi_pane):
         sections.append(["split-h", "split-v"])
 
     sections.append(["unsplit"])
+    logger.debug("build_tab_context_menu_layout: {}", sections)
     return sections
 
 
@@ -93,4 +101,6 @@ def flatten_action_names(sections):
     Returns:
         list[str]: Noms d'action, sections concatenees dans l'ordre.
     """
+    logger.debug("flatten_action_names: entrée")
+    logger.debug("flatten_action_names: sortie")
     return [name for section in sections for name in section]

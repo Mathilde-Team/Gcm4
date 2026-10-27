@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-22 19:13+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,6 +109,10 @@ msgstr ""
 "उदा: ##D=1000</span>"
 
 #: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: gnome_connection_manager.py
 #, python-brace-format
 msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
 msgstr ""
@@ -144,6 +148,14 @@ msgstr "सक्रिय करें"
 #: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Add Host"
 msgstr "होस्ट जोड़ें"
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "After disconnecting"
@@ -201,9 +213,10 @@ msgstr "लॉग फ़ाइल को लिखने के लिए नह
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py src/gcm4/ui/contexte.py
-#: src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
+#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
 #: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "रद्द करें"
@@ -214,6 +227,14 @@ msgstr "अपडेट जांचें"
 
 #: gnome_connection_manager.py
 msgid "Choose Group Color"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
 msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/preferences.py
@@ -410,6 +431,10 @@ msgid "Exports"
 msgstr "सर्वर निर्यात करें"
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: gnome_connection_manager.py
 msgid "Fields group, name and host are required"
 msgstr "समूह, नाम और होस्ट फ़ील्ड आवश्यक हैं"
 
@@ -440,6 +465,7 @@ msgstr "सामान्य"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "समूह"
 
@@ -637,7 +663,8 @@ msgstr "पेस्ट करें"
 msgid "Paste on right click"
 msgstr "राइट-क्लिक पर पेस्ट करें"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "पोर्ट"
 
@@ -656,6 +683,14 @@ msgstr "प्रोजेक्ट का होमपेज"
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
 msgid "Quit"
 msgstr "छोड़ें"
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
 msgid "Rename Group"
@@ -805,6 +840,10 @@ msgstr "पारदर्शिता"
 #: ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "प्रकार"
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
 
 #: gnome_connection_manager.py
 msgid "Use default fixed width font"
@@ -1835,7 +1874,7 @@ msgstr ""
 msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
+#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
 msgid "Authentication failed"
 msgstr ""
 
@@ -2715,6 +2754,230 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/sftp/core.py
+msgid "B"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "GiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "KiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "MiB"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Busy, try again when the current operation is finished"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Connecting…"
+msgid "Connecting to {host}…"
+msgstr "कनेक्ट हो रहा है…"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Initialization failed: {error}"
+msgid "Connection failed: {error}"
+msgstr "प्रारंभ विफल: {error}"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Create"
+msgstr "बनाएँ"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Creating {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Delete:"
+msgid "Delete"
+msgstr "डिलीट:"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Delete the empty folder {name}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "Delete {name}?"
+msgstr "टेम्पलेट नाम"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Deleting {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Download"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloaded to {path}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloading {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Import failed: {error}"
+msgid "Error: {error}"
+msgstr "आयात विफल: {error}"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "xfreerdp not found"
+msgid "File not found"
+msgstr "xfreerdp नहीं मिला"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Folders not uploaded: {names}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Home folder"
+msgstr "लॉग फ़ोल्डर"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Host key of {host} has changed (fingerprint {fingerprint}). Connection refused: check the server, then remove the old key from {file}."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Invalid name: {name}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Listing {path}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "New folder"
+msgstr "लॉग फ़ोल्डर"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "VM name"
+msgid "New folder name:"
+msgstr "VM नाम"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Copy Address"
+msgid "No address"
+msgstr "पता कॉपी करें"
+
+#: plugins/sftp/gtk4.py
+msgid "Nothing to upload (folders are not uploaded)"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Parent folder"
+msgstr "लॉग फ़ोल्डर"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Private key file:"
+msgstr "प्राइवेट की"
+
+#: plugins/sftp/gtk4.py
+msgid "Refresh"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder"
+msgstr "रिमोट पोर्ट"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder:"
+msgstr "रिमोट पोर्ट"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Rename"
+msgstr "नाम बदलें"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Rename {name} to:"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Renaming {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Retry"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "SSH agent and ~/.ssh keys"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid ""
+"The authenticity of host {host} can't be established.\n"
+"Key fingerprint is {fingerprint}. Trust it and add it to {file}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Trust and connect"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Unknown host key"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Upload files"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Uploading {count} file(s)…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "{path}: {count} items"
+msgstr ""
+
 #: src/gcm4/app.py
 msgid "The old configuration is intact: fix the problem (permissions, disk space), then start gcm4 again."
 msgstr "पुराना कॉन्फ़िगरेशन सुरक्षित है: समस्या (अनुमतियाँ, डिस्क स्थान) ठीक करें, फिर gcm4 दोबारा शुरू करें।"
@@ -2728,10 +2991,46 @@ msgstr "gcm4: कॉन्फ़िगरेशन {old} को {new} में 
 msgid "A stored password is corrupted."
 msgstr "एक सहेजा गया पासवर्ड दूषित है।"
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "मास्टर पासवर्ड गलत है।"
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "रिकवरी कोड गलत है।"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "एन्क्रिप्शन कुंजी %s दूषित है।"
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "एन्क्रिप्शन कुंजी %s मौजूद नहीं है: सहेजे गए पासवर्ड डिक्रिप्ट नहीं किए जा सकते।"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "एन्क्रिप्शन कुंजी %s मास्टर पासवर्ड से सुरक्षित है।"
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "एन्क्रिप्शन कुंजी पहले से मास्टर पासवर्ड से सुरक्षित है।"
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "एन्क्रिप्शन कुंजी मास्टर पासवर्ड से सुरक्षित नहीं है।"
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "मास्टर पासवर्ड खाली नहीं हो सकता।"
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "इस एन्क्रिप्शन कुंजी का कोई रिकवरी कोड नहीं है।"
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -2746,6 +3045,11 @@ msgstr "सहेजे गए पासवर्ड डिक्रिप्ट
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "एन्क्रिप्शन कुंजी %s पढ़ी नहीं जा सकी: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "एन्क्रिप्शन कुंजी %s लिखी नहीं जा सकी: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -2847,6 +3151,10 @@ msgstr "पता कॉपी करें"
 #: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
 msgid "Duplicate Host"
 msgstr "होस्ट डुप्लिकेट करें"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "चयनित होस्ट संपादित करें…"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
@@ -3174,12 +3482,30 @@ msgstr "पता कॉपी किया गया"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "लक्ष्य समूह में पहले से मौजूद: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "लागू करें"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "पोर्ट बदलें"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "बदलाव सहेजे नहीं गए: {error}"
 
 #: src/gcm4/ui/menu_arbre.py
-msgid "Create"
-msgstr "बनाएँ"
+msgid "Default port of the protocol"
+msgstr "प्रोटोकॉल का डिफ़ॉल्ट पोर्ट"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "{count} होस्ट संपादित करें"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3191,8 +3517,17 @@ msgstr "समूह का नाम"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "अद्यतन होस्ट: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "इसमें {hosts} होस्ट और {groups} उपसमूह हैं, जो भी हटा दिए जाएँगे।"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "समूह में ले जाएँ"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3210,12 +3545,12 @@ msgid "Remove host «{name}»?"
 msgstr "होस्ट '{name}' हटाएँ?"
 
 #: src/gcm4/ui/menu_arbre.py
-msgid "Rename"
-msgstr "नाम बदलें"
-
-#: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "यह क्रिया पूर्ववत नहीं की जा सकती।"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "बिना चिह्नित फ़ील्ड अपरिवर्तित रहते हैं।"
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
@@ -3238,6 +3573,172 @@ msgstr "नहीं"
 msgid "Version {version} is available"
 msgstr "संस्करण {version} उपलब्ध है"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "मास्टर पासवर्ड बदलें"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "बदलें…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "पुष्टि करें"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "नए मास्टर पासवर्ड की पुष्टि करें"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "वर्तमान मास्टर पासवर्ड"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "मास्टर पासवर्ड बंद करें"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "अक्षम"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "बंद करें…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "मास्टर पासवर्ड चालू करें"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "चालू, रिकवरी कोड के साथ"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "चालू, रिकवरी कोड के बिना"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "चालू करें…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "सहेजे गए पासवर्ड अनलॉक करने के लिए मास्टर पासवर्ड दर्ज करें।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "रिकवरी कोड दर्ज करें, फिर नया मास्टर पासवर्ड चुनें।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "पासवर्ड भूल गए"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "पासवर्ड भूल गए?"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "मैंने इसे लिख लिया है"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "मास्टर पासवर्ड"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "मास्टर पासवर्ड बदला गया।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "मास्टर पासवर्ड बंद किया गया।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "मास्टर पासवर्ड चालू किया गया।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "नया मास्टर पासवर्ड"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "नया रिकवरी कोड"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "नया रिकवरी कोड बनाया गया।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "नया रिकवरी कोड…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "वैकल्पिक। सहेजे गए पासवर्ड को एन्क्रिप्ट करने वाली कुंजी की सुरक्षा करता है: यह शुरू होने पर पूछा जाएगा। चालू करने पर एक रिकवरी कोड एक बार दिखाया जाता है।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "पासवर्ड लॉक हैं"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "रिकवरी कोड"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "स्थिति"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "वर्तमान रिकवरी कोड अब काम नहीं करेगा।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "सहेजे गए पासवर्ड को एन्क्रिप्ट करने वाली कुंजी फिर से बिना सुरक्षा के संग्रहीत होगी, जैसे मास्टर पासवर्ड के बिना।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "सहेजे गए पासवर्ड अनलॉक करने के लिए हर बार शुरू होने पर मास्टर पासवर्ड पूछा जाएगा। फिर एक रिकवरी कोड एक बार दिखाया जाएगा।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "रिकवरी कोड मान्य रहता है।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "दोनों पासवर्ड मेल नहीं खाते।"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "उपलब्ध नहीं: कॉन्फ़िगरेशन लोड नहीं हुआ है।"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "अनलॉक करें"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "इस कोड को लिख लें या प्रिंट करें और सुरक्षित स्थान पर रखें: यह फिर से नहीं दिखाया जाएगा। यदि आप मास्टर पासवर्ड भूल जाते हैं, तो यह सहेजे गए पासवर्ड अनलॉक करता है, फिर आप नया मास्टर पासवर्ड चुनते हैं।"
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "दिखावट"
@@ -3249,10 +3750,6 @@ msgstr "किसी शॉर्टकट को बदलने के लि�
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "डिफ़ॉल्ट लॉग स्तर"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "अक्षम"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3295,6 +3792,10 @@ msgstr "प्राथमिकताएँ सहेजी नहीं गई
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "प्राथमिकता पृष्ठ उपलब्ध नहीं: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "सुरक्षा"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3347,6 +3848,19 @@ msgstr "शॉर्टकट सेट करें"
 #: src/gcm4/ui/raccourcis.py
 msgid "Use Ctrl, Alt or Super with this key."
 msgstr "इस कुंजी के साथ Ctrl, Alt या Super का उपयोग करें।"
+
+#: src/gcm4/ui/terminal.py
+msgid "Character encoding of the remote system; UTF-8 if unsure."
+msgstr "दूरस्थ सिस्टम की कैरेक्टर एन्कोडिंग; संदेह हो तो UTF-8।"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "Encoding {name} is not available, UTF-8 is used."
+msgstr "एन्कोडिंग {name} उपलब्ध नहीं है, UTF-8 का उपयोग किया जा रहा है।"
+
+#: src/gcm4/ui/terminal.py
+msgid "Encoding:"
+msgstr "एन्कोडिंग:"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

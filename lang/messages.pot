@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-22 19:13+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -246,9 +246,10 @@ msgstr ""
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py src/gcm4/ui/contexte.py
-#: src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
+#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
 #: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr ""
@@ -389,6 +390,7 @@ msgstr ""
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr ""
 
@@ -411,7 +413,8 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr ""
 
@@ -789,7 +792,43 @@ msgid "<span size=\"smaller\">CTRL+UP/CTRL+DOWN for history</span>"
 msgstr ""
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
 msgid "Activate"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
 msgstr ""
 
 #: gnome_connection_manager.py
@@ -1705,7 +1744,7 @@ msgstr ""
 msgid "Error: {msg}"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
+#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
 msgid "Authentication failed"
 msgstr ""
 
@@ -2523,6 +2562,206 @@ msgstr ""
 msgid "URL is required."
 msgstr ""
 
+#: plugins/sftp/core.py
+msgid "B"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "GiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "KiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "MiB"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Parent folder"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Refresh"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Remote folder"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "New folder"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Upload files"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Download"
+msgstr ""
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Rename"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Delete"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Error: {error}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Connecting to {host}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Unknown host key"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid ""
+"The authenticity of host {host} can't be established.\n"
+"Key fingerprint is {fingerprint}. Trust it and add it to {file}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Trust and connect"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Host key of {host} has changed (fingerprint {fingerprint}). Connection refused: check the server, then remove the old key from {file}."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Connection failed: {error}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Retry"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Listing {path}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "{path}: {count} items"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloading {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloaded to {path}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Busy, try again when the current operation is finished"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Nothing to upload (folders are not uploaded)"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Folders not uploaded: {names}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Uploading {count} file(s)…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Invalid name: {name}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Create"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "New folder name:"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Creating {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Rename {name} to:"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Renaming {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Delete the empty folder {name}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Delete {name}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Deleting {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "File not found"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Home folder"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Remote folder:"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Private key file:"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "SSH agent and ~/.ssh keys"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "No address"
+msgstr ""
+
 #: src/gcm4/app.py
 #, python-brace-format
 msgid "gcm4: unable to copy the configuration {old} to {new} ({error})."
@@ -2553,6 +2792,45 @@ msgstr ""
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "Unable to create the encryption key %s: %s"
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr ""
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
 msgstr ""
 
 #: src/gcm4/core/config.py
@@ -2670,6 +2948,10 @@ msgstr ""
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Collapse all"
+msgstr ""
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
 msgstr ""
 
 #: src/gcm4/core/plugins.py
@@ -2924,10 +3206,6 @@ msgid "Move not saved: {error}"
 msgstr ""
 
 #: src/gcm4/ui/main_window.py
-msgid "Configuration not loaded"
-msgstr ""
-
-#: src/gcm4/ui/main_window.py
 msgid "Welcome to Gnome Connection Manager"
 msgstr ""
 
@@ -2937,6 +3215,10 @@ msgstr ""
 
 #: src/gcm4/ui/main_window.py
 msgid "Home"
+msgstr ""
+
+#: src/gcm4/ui/main_window.py
+msgid "Configuration not loaded"
 msgstr ""
 
 #: src/gcm4/ui/main_window.py
@@ -2999,14 +3281,6 @@ msgid "Parent group: {parent}"
 msgstr ""
 
 #: src/gcm4/ui/menu_arbre.py
-msgid "Create"
-msgstr ""
-
-#: src/gcm4/ui/menu_arbre.py
-msgid "Rename"
-msgstr ""
-
-#: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
 msgid "Remove group «{name}»?"
 msgstr ""
@@ -3023,6 +3297,41 @@ msgstr ""
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
 msgid "Remove host «{name}»?"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Default port of the protocol"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr ""
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
 msgstr ""
 
 #: src/gcm4/ui/mises_a_jour.py
@@ -3044,6 +3353,155 @@ msgstr ""
 #: src/gcm4/ui/mises_a_jour.py
 #, python-brace-format
 msgid "Version {version} is available"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr ""
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
 msgstr ""
 
 #: src/gcm4/ui/preferences.py
@@ -3070,10 +3528,6 @@ msgstr ""
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
 msgstr ""
 
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr ""
-
 #: src/gcm4/ui/preferences.py
 #, python-brace-format
 msgid "Preferences not saved: {error}"
@@ -3093,6 +3547,10 @@ msgstr ""
 
 #: src/gcm4/ui/preferences.py
 msgid "Log folder"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
 msgstr ""
 
 #: src/gcm4/ui/preferences.py
@@ -3154,6 +3612,19 @@ msgstr ""
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
 msgid "Already used by “{action}”."
+msgstr ""
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "Encoding {name} is not available, UTF-8 is used."
+msgstr ""
+
+#: src/gcm4/ui/terminal.py
+msgid "Character encoding of the remote system; UTF-8 if unsure."
+msgstr ""
+
+#: src/gcm4/ui/terminal.py
+msgid "Encoding:"
 msgstr ""
 
 #: ssh_config_editor.py

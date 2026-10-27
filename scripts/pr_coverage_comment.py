@@ -94,16 +94,24 @@ def _delta(pr: float, base: float) -> str:
     return f"{pr - base:+.1f} pt"
 
 
-def _ligne_seuil(pourcentage_pr: float, seuil: float | None) -> str:
-    """Phrase de rappel du seuil bloquant."""
+# Ce commentaire mesure la suite hors GTK4 (job Qualité) : src/gcm4/ui/ n'y
+# est pas exécuté. Le seuil global s'applique au total combiné (issue #278) ;
+# comparer ce total partiel au seuil annoncerait un faux échec.
+PERIMETRE = (
+    "Périmètre de ce commentaire : suite hors GTK4 (job Qualité). "
+    "`src/gcm4/ui/`, exécuté seulement par `tests/gtk4` sous Xvfb, y compte à 0 %."
+)
+
+
+def _ligne_seuil(seuil: float | None) -> str:
+    """Phrase de rappel du seuil bloquant (appliqué au total combiné, pas à ce total)."""
     if seuil is None:
         return "Aucun seuil bloquant configuré (`fail_under` absent de pyproject.toml)."
-    if pourcentage_pr < seuil:
-        return (
-            f"**Sous le seuil bloquant** de {_pct(seuil)} (`fail_under`) : "
-            "le job Qualité de la CI échouera."
-        )
-    return f"Seuil bloquant : {_pct(seuil)} (`fail_under`), marge {pourcentage_pr - seuil:.1f} pt."
+    return (
+        f"Seuil bloquant : {_pct(seuil)} (`fail_under`) sur le **total combiné** "
+        "Qualité + GTK4, contrôlé par le job « Couverture combinée » (détail par "
+        "périmètre dans le résumé de ce job, issue #278)."
+    )
 
 
 def couverture_coeur(rapport: dict, prefixe: str = COEUR) -> float | None:
@@ -182,7 +190,8 @@ def construire_commentaire(
         )
     lignes += [
         "",
-        _ligne_seuil(pr["percent_covered"], seuil),
+        PERIMETRE,
+        _ligne_seuil(seuil),
     ]
     if c_pr is not None:
         if c_pr < SEUIL_COEUR:

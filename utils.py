@@ -5,6 +5,7 @@
 import weakref as _weakref
 
 from gi.repository import GLib, Gtk
+from loguru import logger
 
 
 def run_dialog_sync(dialog: Gtk.Dialog) -> Gtk.ResponseType:
@@ -37,23 +38,28 @@ def run_dialog_sync(dialog: Gtk.Dialog) -> Gtk.ResponseType:
         le gestionnaire de fenêtres, ou un handler interne du dialogue qui
         appelle lui-même `self.destroy()` — cf. `KeyPickerDialog`).
     """
+    logger.debug("run_dialog_sync: entrée")
     loop = GLib.MainLoop()
     result = {"response": Gtk.ResponseType.NONE}
     state = {"destroyed": False}
 
     def _on_response(_dlg, response_id):
+        logger.debug("run_dialog_sync._on_response: entrée")
         result["response"] = response_id
         if loop.is_running():
             loop.quit()
+        logger.debug("run_dialog_sync._on_response: fin")
 
     def _on_destroy(_dlg):
         # Filet de sécurité : si le dialogue est détruit sans passer par
         # notre handler "response" (fermeture fenêtre, ou un handler interne
         # du dialogue qui a lui-même appelé destroy()), on ne bloque jamais
         # indéfiniment.
+        logger.debug("run_dialog_sync._on_destroy: entrée")
         state["destroyed"] = True
         if loop.is_running():
             loop.quit()
+        logger.debug("run_dialog_sync._on_destroy: fin")
 
     response_handler = dialog.connect("response", _on_response)
     destroy_handler = dialog.connect("destroy", _on_destroy)
@@ -68,6 +74,7 @@ def run_dialog_sync(dialog: Gtk.Dialog) -> Gtk.ResponseType:
     if not state["destroyed"]:
         dialog.disconnect(response_handler)
         dialog.disconnect(destroy_handler)
+    logger.debug("run_dialog_sync: sortie")
     return result["response"]
 
 
@@ -93,6 +100,7 @@ def show_open_dialog(parent, title, action, last_path_holder=None):
     Returns:
         str or None: Chemin du fichier sélectionné, ou None si annulé.
     """
+    logger.debug("show_open_dialog: entrée")
     import os
 
     holder = last_path_holder if last_path_holder is not None else parent
@@ -115,6 +123,7 @@ def show_open_dialog(parent, title, action, last_path_holder=None):
     else:
         filename = None
     dlg.destroy()
+    logger.debug("show_open_dialog: sortie")
     return filename
 
 
@@ -132,6 +141,7 @@ def msgbox(text, parent=None, icon_path=None):
         icon_path (str, optional): Chemin d'une icône à afficher sur la
             fenêtre de dialogue. Ignoré si absent ou introuvable.
     """
+    logger.debug("msgbox: entrée")
     msg_box = Gtk.MessageDialog(
         parent=parent,
         modal=True,
@@ -142,13 +152,15 @@ def msgbox(text, parent=None, icon_path=None):
     if icon_path:
         try:
             msg_box.set_icon_from_file(icon_path)
-        except GLib.Error:
+        except GLib.Error as exc:
+            logger.debug("msgbox: {} : {}", type(exc).__name__, exc)
             pass
     ok_btn = msg_box.get_widget_for_response(Gtk.ResponseType.OK)
     if ok_btn is not None:
         ok_btn.get_style_context().add_class("suggested-action")
     run_dialog_sync(msg_box)
     msg_box.destroy()
+    logger.debug("msgbox: fin")
 
 
 # ``_()`` est injecté globalement par bindtextdomain() au démarrage de
@@ -156,9 +168,12 @@ def msgbox(text, parent=None, icon_path=None):
 # important-safe si ce module est chargé isolément (tests, outillage).
 try:
     _  # type: ignore[name-defined]  # noqa: B018 -- sonde volontaire de NameError, pas une expression morte
-except NameError:
+except NameError as exc:
+    logger.debug("<module>: {} : {}", type(exc).__name__, exc)
 
     def _(s: str) -> str:  # noqa: D401
+        logger.debug("_: entrée")
+        logger.debug("_: sortie")
         return s
 
 
@@ -190,10 +205,12 @@ class GCMBase:
             show: Non utilise (idem).
             **kwargs: Attributs supplementaires a definir sur l'instance.
         """
+        logger.debug("GCMBase.__init__: entrée")
         for key, value in kwargs.items():
             try:
                 setattr(self, key, _weakref.proxy(value))
-            except TypeError:
+            except TypeError as exc:
+                logger.debug("GCMBase.__init__: {} : {}", type(exc).__name__, exc)
                 setattr(self, key, value)
 
         # Ecran ouvert comme onglet epingle (cf. Wmain.open_management_tab) au
@@ -203,6 +220,7 @@ class GCMBase:
         self.is_tab = False
         self.tab_key = None
         self.builder = None
+        logger.debug("GCMBase.__init__: fin")
 
     def request_close(self):
         """Ferme cet ecran.
@@ -212,12 +230,14 @@ class GCMBase:
         l'onglet du notebook). Sinon, conserve le comportement historique :
         detruit la fenetre autonome.
         """
+        logger.debug("GCMBase.request_close: entrée")
         if self.is_tab:
             from gnome_connection_manager import wMain
 
             wMain.close_management_tab(self.tab_key)
         elif self.main_widget is not None:
             self.main_widget.destroy()
+        logger.debug("GCMBase.request_close: fin")
 
     def on_tab_will_close(self):
         """Point d'extension appele juste avant que ``Wmain.close_management_tab``
@@ -239,10 +259,13 @@ class GCMBase:
 
     def run(self):
         """Demarre la boucle evenementielle GTK principale."""
+        logger.debug("GCMBase.run: entrée")
         try:
             Gtk.main()
-        except KeyboardInterrupt:
+        except KeyboardInterrupt as exc:
+            logger.debug("GCMBase.run: {} : {}", type(exc).__name__, exc)
             pass
+        logger.debug("GCMBase.run: fin")
 
 
 def embed_dialog_content(gcm_instance):
@@ -278,6 +301,7 @@ def embed_dialog_content(gcm_instance):
         Gtk.Widget: Le widget de contenu detache, pret a etre insere dans un
         nouveau parent.
     """
+    logger.debug("embed_dialog_content: entrée")
     dialog = gcm_instance.main_widget
     if isinstance(dialog, Gtk.Dialog):
         content = dialog.get_content_area()
@@ -293,6 +317,7 @@ def embed_dialog_content(gcm_instance):
     if dialog is not gcm_instance:
         dialog.destroy()
     gcm_instance.main_widget = content
+    logger.debug("embed_dialog_content: sortie")
     return content
 
 
@@ -334,6 +359,10 @@ class conf:
     # bien les onglets de la derniere session plutot qu'une liste vide.
     RESTORE_OPEN_TABS = False
     OPEN_TABS = ""
+    # Commandes favorites du dialogue Cluster (#84) : section INI dediee
+    # [cluster_favorites], lue par gcm4_core.load_cluster_favorites() (qui
+    # fournit les favoris par defaut df / apt update / updatedb).
+    CLUSTER_FAVORITES: list = []
     # Couleurs de groupe (dossier) — backlog features.md §4.2, "Couleurs par
     # groupe" (comme PuTTY). Chaine "groupe=couleur,groupe2=couleur2"
     # (section [window], cle group-colors) : pas de section INI dediee car

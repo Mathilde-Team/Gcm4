@@ -90,9 +90,12 @@ jobs:
       - name: Tests (pytest + couverture)
         # Toute la suite, y compris tests/test_gcm.py (réintégré, issue #112 :
         # stubs gi complétés et tests resynchronisés avec plugins/).
-        # Couverture (issue #128) : périmètre et seuil bloquant (fail_under)
-        # lus dans [tool.coverage.*] de pyproject.toml. L'étape échoue si la
-        # couverture totale passe sous le seuil.
+        # Couverture (issue #128) : périmètre lu dans [tool.coverage.*] de
+        # pyproject.toml. Le seuil global (fail_under) ne s'applique PLUS ici
+        # (--cov-fail-under=0, issue #278) : ce job n'exécute pas src/gcm4/ui/,
+        # son total sous-estime la couverture réelle. Il est appliqué au total
+        # combiné Qualité + GTK4 par le job « Couverture combinée », requis
+        # sur dev. Le seuil du cœur (étape suivante) reste appliqué ici.
         # Issue #160 : -rs liste chaque test sauté et sa raison ; la sortie
         # est relue par l'étape suivante. Ce job installe gettext :
         # GCM_TESTS_EXIGES fait échouer tout test requires_gettext sauté
@@ -103,11 +106,12 @@ jobs:
           set -o pipefail
           uv run python -m pytest tests/ -q -rs \
             --cov --cov-report=term-missing:skip-covered --cov-report=xml \
+            --cov-fail-under=0 \
             | tee /tmp/pytest.txt
 
       - name: Seuil séparé du cœur (src/gcm4/core/, issue #164)
         # La base doit naître très couverte : second contrôle bloquant à 95 %
-        # sur le cœur, indépendant du seuil global (fail_under = 18). Même
+        # sur le cœur, indépendant du seuil global (fail_under, total combiné). Même
         # valeur que SEUIL_COEUR de scripts/pr_coverage_comment.py et que
         # docs/quality/seuil-couverture.md. Bloquant sans dérogation : toute
         # PR vers dev contient le cœur (il est dans la base), y compris une
@@ -290,7 +294,7 @@ jobs:
   gtk4:
     # Issue #159 (job « Tests GTK4 (Xvfb) ») et #160 (aucun test GTK
     # sauté). Aujourd'hui : la suite de plugins/pluginvnc2 (seul code déjà
-    # GTK4, 155 tests) contre un vrai GTK4 sous Xvfb ; src/gcm4/ui la
+    # GTK4, 207 tests) contre un vrai GTK4 sous Xvfb ; src/gcm4/ui la
     # rejoindra (épopée #118). Conteneur Ubuntu comme le job gtk4 de
     # Netcross : python3-gi et GTK4 viennent des paquets, sans compilation.
     name: Tests GTK4 (Xvfb)
@@ -312,15 +316,16 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Dépendances de pluginvnc2 (venv avec python3-gi système)
-        # asyncvnc2 figé sur un commit de Mathide-Team/AsyncVnc4 (public).
+        # asyncvnc2 figé sur un commit de Mathilde-Team/AsyncVnc4 (public).
         run: |
           python3 -m venv --system-site-packages /tmp/venv
           /tmp/venv/bin/pip install -q -r plugins/pluginvnc2/requirements-dev.txt \
-            "asyncvnc2 @ git+https://github.com/Mathide-Team/AsyncVnc4@26be75f0582acffbf2a5cd8ea4175f5e40759db3"
+            "asyncvnc2 @ git+https://github.com/Mathilde-Team/AsyncVnc4@26be75f0582acffbf2a5cd8ea4175f5e40759db3"
 
       - name: gcm4 (paquet src/gcm4, mode éditable)
+        # paramiko : plugin sftp (#75), testé contre un serveur paramiko local.
         run: |
-          /tmp/venv/bin/pip install -q -e . pytest pytest-cov
+          /tmp/venv/bin/pip install -q -e . pytest pytest-cov "paramiko>=3.4.0,<5"
 
       - name: Tests de l'interface gcm4 sous Xvfb (tests/gtk4), aucun test sauté
         # GCM_TESTS_GTK4=1 : tests/gtk4/conftest.py collecte toujours ces
@@ -402,7 +407,8 @@ jobs:
       - name: gcm4 (mode éditable, Python 3.11 de Debian 12)
         run: |
           python3 -m venv --system-site-packages /tmp/venv
-          /tmp/venv/bin/pip install -q --ignore-requires-python -e . pytest
+          /tmp/venv/bin/pip install -q --ignore-requires-python -e . pytest \
+            "paramiko>=3.4.0,<5"
 
       - name: Démarrage de gcm4 sous Xvfb (8 s, aucune exception)
         # timeout rend 124 si gcm4 tourne encore : c'est le résultat attendu.
@@ -468,7 +474,7 @@ jobs:
       - name: gcm4 (mode éditable, Python 3.9 de Rocky 9)
         run: |
           python3 -m venv --system-site-packages /tmp/venv
-          /tmp/venv/bin/pip install -q pytest tomli "loguru>=0.7.3,<0.8"
+          /tmp/venv/bin/pip install -q pytest tomli "loguru>=0.7.3,<0.8" "paramiko>=3.4.0,<5"
           /tmp/venv/bin/pip install -q --ignore-requires-python --no-deps -e .
 
       # Écran 1280x1024x24 donné explicitement : le xvfb-run d'EL9 ouvre un

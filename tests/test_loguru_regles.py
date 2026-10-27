@@ -45,11 +45,7 @@ SECRET_NAMES = re.compile(
 
 # Fichier -> nombre d'``except`` sans appel de journal (état de l'issue #171).
 EXCEPT_SANS_JOURNAL = {
-    "gcm4_core.py": 1,
     "gnome_connection_manager.py": 38,
-    "hypervisor_import_common.py": 8,
-    "models.py": 2,
-    "netmiko_bulk_core.py": 6,
     "plugins/plugin_base.py": 2,
     "plugins/plugin_import_libvirt.py": 1,
     "plugins/plugin_import_ovirt.py": 4,
@@ -63,34 +59,13 @@ EXCEPT_SANS_JOURNAL = {
     "plugins/plugin_vnc.py": 7,
     "plugins/plugin_web.py": 1,
     "plugins/pluginvnc2/vnc_tab.py": 14,
-    "plugins/ssh/core.py": 14,
-    "putty_import_core.py": 1,
-    "snmp_bulk_core.py": 13,
-    "snmp_push_core.py": 15,
     "ssh_config_editor.py": 4,
     "ssh_key_manager_dialog.py": 17,
-    "tools/check_circular_imports.py": 1,
-    "tools/libvirt_inventory.py": 3,
-    "tools/ssh_deploy.py": 1,
-    "tools/validate_xml_json.py": 4,
-    "utils.py": 4,
     "widgets.py": 3,
 }
 
 # Modules qui définissent des fonctions sans logger de module.
-MODULES_SANS_LOGGER = {
-    "folder_context_menu_core.py",
-    "gesture_trigger_core.py",
-    "hypervisor_import_common.py",
-    "inline_editor_core.py",
-    "models.py",
-    "netmiko_bulk_core.py",
-    "popup_menu_core.py",
-    "pyAES.py",
-    "tab_context_menu_core.py",
-    "tools/check_circular_imports.py",
-    "utils.py",
-}
+MODULES_SANS_LOGGER: set[str] = set()
 
 
 def python_files() -> list[str]:

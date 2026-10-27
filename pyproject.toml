@@ -1,6 +1,6 @@
 [project]
 name = "gnome-connection-manager"
-version = "1.3.3"
+version = "4.0.0"
 description = "Simple tabbed SSH/Telnet/RDP/VNC/SPICE/Serial connection manager for GTK3"
 license = "GPL-3.0-or-later"
 readme = "README.md"
@@ -34,8 +34,9 @@ Changelog = "https://github.com/MathildeDec/gnome-connection-manager/blob/main/C
 # capture les erreurs d'import et désactive juste le plugin concerné
 # (message "n outil(s)/plugin(s) n'ont pas pu se charger" au démarrage) :
 #   - netmiko    : push de config en masse (netmiko_bulk_core.py, plugin_netmiko_push.py)
-#   - paramiko   : SPICE via libvirt, push SNMP/inventaire (plugin_spice.py,
-#                  snmp_push_core.py, hypervisor_import_common.py, tools/*.py)
+#   - paramiko   : SPICE via libvirt, dépôt SFTP du push SNMP/inventaire
+#                  (plugin_spice.py, snmp_bulk_core.py, hypervisor_import_common.py,
+#                  tools/*.py), plugin sftp de gcm4 (plugins/sftp/, #75)
 #   - libvirt    : import de VM SPICE via libvirt-python (plugin_spice.py)
 #   - vnc        : plugin_vnc.py (import top-level de Cryptodome pour
 #                  l'authentification VNC/DES) — nécessite en plus le
@@ -66,7 +67,7 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-only-include = ["src/gcm4", "gcm4_core.py", "logging_config.py", "pyAES.py"]
+only-include = ["src/gcm4", "gcm4_core.py", "logging_config.py", "master_password_core.py", "pyAES.py"]
 sources = ["src"]
 # Mode éditable (`uv sync`) : src/ et la racine sur sys.path, sans copie
 # des modules racine (une copie figée masquerait les modifications).
@@ -80,6 +81,8 @@ dev = [
     "pytest-cov>=5.0.0",
     "mypy>=1.11",
     "pyyaml>=6.0",
+    # Serveurs SFTP locaux des tests (#74, #75).
+    "paramiko>=3.4.0",
 ]
 
 # ─── import-linter (issue #174) ─────────────────────────────────────────────
@@ -128,6 +131,7 @@ files = [
     "src/gcm4/core/comportement_onglets.py",
     "src/gcm4/core/deplacements.py",
     "src/gcm4/core/echange_cli.py",
+    "src/gcm4/core/edition_lot.py",
     "src/gcm4/core/exchange.py",
     "src/gcm4/core/sauvegarde.py",
     "src/gcm4/core/cli.py",
@@ -157,10 +161,10 @@ files = [
     "popup_menu_core.py",
     "putty_import_core.py",
     "snmp_bulk_core.py",
-    "snmp_push_core.py",
     "tab_context_menu_core.py",
     "plugins/plugin_base.py",
     "plugins/ssh/core.py",
+    "plugins/sftp/core.py",
     "plugins/telnet/core.py",
 ]
 ignore_missing_imports = true
@@ -314,10 +318,16 @@ omit = [
 precision = 1
 show_missing = true
 skip_covered = false
-# Seuil bloquant : voir docs/quality/seuil-couverture.md. Ne s'applique
-# qu'aux exécutions avec --cov (la CI). Relever ce chiffre quand la base
-# monte, ne jamais le baisser pour faire passer une PR.
-fail_under = 18
+# Seuil bloquant : voir docs/quality/seuil-couverture.md. Appliqué au total
+# COMBINÉ Qualité + GTK4 (job « Couverture combinée », requis sur dev,
+# issue #278) ; le job Qualité seul passe --cov-fail-under=0. Palier 1 de
+# #293 : mesure combinée de dev au 22/10/2026 (41,7 %) arrondie à l'entier
+# inférieur. Palier 2 de #293 (24/10/2026) : 43,9 % sur dev + tests de
+# plugin_base et hypervisor_import_common (≈ 45,3 %), soit 45. Palier 3 de
+# #293 (26/10/2026) : 50,9 % sur dev + tests de netmiko_bulk_core, soit 50.
+# Relever ce chiffre quand la base monte, ne jamais le baisser
+# pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
+fail_under = 50
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",

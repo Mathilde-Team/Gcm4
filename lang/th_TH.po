@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: https://github.com/Mathide-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-22 19:13+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
+"POT-Creation-Date: 2026-10-26 00:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,6 +109,10 @@ msgstr ""
 "ตัวอย่าง: ##D=1000</span>"
 
 #: gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: gnome_connection_manager.py
 #, python-brace-format
 msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
 msgstr ""
@@ -144,6 +148,14 @@ msgstr "เปิดใช้งาน"
 #: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Add Host"
 msgstr "เพิ่มโฮสต์"
+
+#: gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "After disconnecting"
@@ -201,9 +213,10 @@ msgstr "ไม่สามารถเปิดไฟล์บันทึกเ
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py src/gcm4/ui/contexte.py
-#: src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
+#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
 #: src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "ยกเลิก"
@@ -214,6 +227,14 @@ msgstr "ตรวจสอบการอัปเดต"
 
 #: gnome_connection_manager.py
 msgid "Choose Group Color"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
 msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/preferences.py
@@ -410,6 +431,10 @@ msgid "Exports"
 msgstr "ส่งออกเซิร์ฟเวอร์"
 
 #: gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: gnome_connection_manager.py
 msgid "Fields group, name and host are required"
 msgstr "ฟิลด์กลุ่ม ชื่อ และโฮสต์เป็นข้อมูลที่ต้องระบุ"
 
@@ -440,6 +465,7 @@ msgstr "ทั่วไป"
 #: gnome_connection_manager.py plugins/plugin_import_libvirt.py
 #: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "กลุ่ม"
 
@@ -637,7 +663,8 @@ msgstr "วาง"
 msgid "Paste on right click"
 msgstr "วางเมื่อคลิกขวา"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "พอร์ต"
 
@@ -656,6 +683,14 @@ msgstr "โฮมเพจของโปรเจกต์"
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
 msgid "Quit"
 msgstr "ออก"
+
+#: gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
 msgid "Rename Group"
@@ -805,6 +840,10 @@ msgstr "ความโปร่งใส"
 #: ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "ประเภท"
+
+#: gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
 
 #: gnome_connection_manager.py
 msgid "Use default fixed width font"
@@ -1835,7 +1874,7 @@ msgstr ""
 msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
+#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
 msgid "Authentication failed"
 msgstr ""
 
@@ -2715,6 +2754,230 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/sftp/core.py
+msgid "B"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "GiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "KiB"
+msgstr ""
+
+#: plugins/sftp/core.py
+msgid "MiB"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication cancelled."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Busy, try again when the current operation is finished"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Connecting…"
+msgid "Connecting to {host}…"
+msgstr "กำลังเชื่อมต่อ…"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Initialization failed: {error}"
+msgid "Connection failed: {error}"
+msgstr "เริ่มต้นไม่สำเร็จ: {error}"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Create"
+msgstr "สร้าง"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Creating {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Delete:"
+msgid "Delete"
+msgstr "Delete:"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Delete the empty folder {name}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "Delete {name}?"
+msgstr "ชื่อเทมเพลต"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Deleting {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Download"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloaded to {path}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Downloading {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Import failed: {error}"
+msgid "Error: {error}"
+msgstr "นำเข้าไม่สำเร็จ: {error}"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "xfreerdp not found"
+msgid "File not found"
+msgstr "ไม่พบ xfreerdp"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Folders not uploaded: {names}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Home folder"
+msgstr "โฟลเดอร์ล็อก"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Host key of {host} has changed (fingerprint {fingerprint}). Connection refused: check the server, then remove the old key from {file}."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Invalid name: {name}"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Listing {path}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "New folder"
+msgstr "โฟลเดอร์ล็อก"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "VM name"
+msgid "New folder name:"
+msgstr "ชื่อ VM"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Copy Address"
+msgid "No address"
+msgstr "คัดลอกที่อยู่"
+
+#: plugins/sftp/gtk4.py
+msgid "Nothing to upload (folders are not uploaded)"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Log folder"
+msgid "Parent folder"
+msgstr "โฟลเดอร์ล็อก"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Private key file:"
+msgstr "คีย์ส่วนตัว"
+
+#: plugins/sftp/gtk4.py
+msgid "Refresh"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder"
+msgstr "พอร์ตระยะไกล"
+
+#: plugins/sftp/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote folder:"
+msgstr "พอร์ตระยะไกล"
+
+#: plugins/sftp/gtk4.py src/gcm4/ui/menu_arbre.py
+msgid "Rename"
+msgstr "เปลี่ยนชื่อ"
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Rename {name} to:"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Renaming {name}…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Retry"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "SSH agent and ~/.ssh keys"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid ""
+"The authenticity of host {host} can't be established.\n"
+"Key fingerprint is {fingerprint}. Trust it and add it to {file}?"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Trust and connect"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Unknown host key"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Upload files"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Uploading {count} file(s)…"
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "{path}: {count} items"
+msgstr ""
+
 #: src/gcm4/app.py
 msgid "The old configuration is intact: fix the problem (permissions, disk space), then start gcm4 again."
 msgstr "การตั้งค่าเดิมยังอยู่ครบ: แก้ไขปัญหา (สิทธิ์การเข้าถึง พื้นที่ดิสก์) แล้วเปิด gcm4 อีกครั้ง"
@@ -2728,10 +2991,46 @@ msgstr "gcm4: ไม่สามารถคัดลอกการตั้ง
 msgid "A stored password is corrupted."
 msgstr "รหัสผ่านที่บันทึกไว้รายการหนึ่งเสียหาย"
 
+#
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect master password."
+msgstr "รหัสผ่านหลักไม่ถูกต้อง"
+
+#: src/gcm4/core/chiffrement.py
+msgid "Incorrect recovery code."
+msgstr "รหัสกู้คืนไม่ถูกต้อง"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is corrupted."
+msgstr "คีย์เข้ารหัส %s เสียหาย"
+
 #: src/gcm4/core/chiffrement.py
 #, python-format
 msgid "The encryption key %s is missing: the stored passwords cannot be decrypted."
 msgstr "ไม่พบกุญแจเข้ารหัส %s: ไม่สามารถถอดรหัสรหัสผ่านที่บันทึกไว้ได้"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "The encryption key %s is protected by a master password."
+msgstr "คีย์เข้ารหัส %s ได้รับการป้องกันด้วยรหัสผ่านหลัก"
+
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is already protected by a master password."
+msgstr "คีย์เข้ารหัสได้รับการป้องกันด้วยรหัสผ่านหลักอยู่แล้ว"
+
+#
+#: src/gcm4/core/chiffrement.py
+msgid "The encryption key is not protected by a master password."
+msgstr "คีย์เข้ารหัสไม่ได้รับการป้องกันด้วยรหัสผ่านหลัก"
+
+#: src/gcm4/core/chiffrement.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password must not be empty."
+msgstr "รหัสผ่านหลักต้องไม่ว่าง"
+
+#: src/gcm4/core/chiffrement.py
+msgid "This encryption key has no recovery code."
+msgstr "คีย์เข้ารหัสนี้ไม่มีรหัสกู้คืน"
 
 #: src/gcm4/core/chiffrement.py
 #, python-format
@@ -2746,6 +3045,11 @@ msgstr "ไม่สามารถถอดรหัสรหัสผ่าน
 #, python-format
 msgid "Unable to read the encryption key %s: %s"
 msgstr "ไม่สามารถอ่านกุญแจเข้ารหัส %s: %s"
+
+#: src/gcm4/core/chiffrement.py
+#, python-format
+msgid "Unable to write the encryption key %s: %s"
+msgstr "ไม่สามารถเขียนคีย์เข้ารหัส %s: %s"
 
 #: src/gcm4/core/config.py
 #, python-format
@@ -2847,6 +3151,10 @@ msgstr "คัดลอกที่อยู่"
 #: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
 msgid "Duplicate Host"
 msgstr "ทำซ้ำโฮสต์"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Edit Selected Hosts…"
+msgstr "แก้ไขโฮสต์ที่เลือก…"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Expand all"
@@ -3174,12 +3482,30 @@ msgstr "คัดลอกที่อยู่แล้ว"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Already taken in the target group: {hosts}"
+msgstr "มีอยู่แล้วในกลุ่มปลายทาง: {hosts}"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Apply"
+msgstr "นำไปใช้"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Change port"
+msgstr "เปลี่ยนพอร์ต"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "Changes not saved: {error}"
 msgstr "ไม่ได้บันทึกการเปลี่ยนแปลง: {error}"
 
 #: src/gcm4/ui/menu_arbre.py
-msgid "Create"
-msgstr "สร้าง"
+msgid "Default port of the protocol"
+msgstr "พอร์ตเริ่มต้นของโปรโตคอล"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
+msgid "Edit {count} Hosts"
+msgstr "แก้ไขโฮสต์ {count} รายการ"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "Group color"
@@ -3191,8 +3517,17 @@ msgstr "ชื่อกลุ่ม"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
+msgid "Hosts updated: {count}"
+msgstr "โฮสต์ที่อัปเดต: {count}"
+
+#: src/gcm4/ui/menu_arbre.py
+#, python-brace-format
 msgid "It contains {hosts} host(s) and {groups} subgroup(s), which will be removed too."
 msgstr "กลุ่มนี้มีโฮสต์ {hosts} รายการและกลุ่มย่อย {groups} กลุ่ม ซึ่งจะถูกลบด้วย"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Move to group"
+msgstr "ย้ายไปยังกลุ่ม"
 
 #: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
@@ -3210,12 +3545,12 @@ msgid "Remove host «{name}»?"
 msgstr "ลบโฮสต์ '{name}' หรือไม่"
 
 #: src/gcm4/ui/menu_arbre.py
-msgid "Rename"
-msgstr "เปลี่ยนชื่อ"
-
-#: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
 msgstr "ไม่สามารถยกเลิกการกระทำนี้ได้"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Unchecked fields are left unchanged."
+msgstr "ช่องที่ไม่ได้เลือกจะไม่เปลี่ยนแปลง"
 
 #: src/gcm4/ui/mises_a_jour.py
 msgid "Allow"
@@ -3238,6 +3573,172 @@ msgstr "ไม่"
 msgid "Version {version} is available"
 msgstr "มีรุ่น {version} แล้ว"
 
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change the master password"
+msgstr "เปลี่ยนรหัสผ่านหลัก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Change…"
+msgstr "เปลี่ยน…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "ยืนยัน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm the new master password"
+msgstr "ยืนยันรหัสผ่านหลักใหม่"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Current master password"
+msgstr "รหัสผ่านหลักปัจจุบัน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable the master password"
+msgstr "ปิดใช้รหัสผ่านหลัก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Disabled"
+msgstr "ปิดใช้งาน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Disable…"
+msgstr "ปิดใช้…"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable the master password"
+msgstr "เปิดใช้รหัสผ่านหลัก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, with a recovery code"
+msgstr "เปิดใช้ มีรหัสกู้คืน"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enabled, without a recovery code"
+msgstr "เปิดใช้ ไม่มีรหัสกู้คืน"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enable…"
+msgstr "เปิดใช้…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the master password to unlock the stored passwords."
+msgstr "ป้อนรหัสผ่านหลักเพื่อปลดล็อกรหัสผ่านที่บันทึกไว้"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Enter the recovery code, then choose a new master password."
+msgstr "ป้อนรหัสกู้คืน แล้วเลือกรหัสผ่านหลักใหม่"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password"
+msgstr "ลืมรหัสผ่าน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Forgot password?"
+msgstr "ลืมรหัสผ่านใช่ไหม"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "I have written it down"
+msgstr "ฉันจดไว้แล้ว"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password"
+msgstr "รหัสผ่านหลัก"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password changed."
+msgstr "เปลี่ยนรหัสผ่านหลักแล้ว"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password disabled."
+msgstr "ปิดใช้รหัสผ่านหลักแล้ว"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Master password enabled."
+msgstr "เปิดใช้รหัสผ่านหลักแล้ว"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New master password"
+msgstr "รหัสผ่านหลักใหม่"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code"
+msgstr "รหัสกู้คืนใหม่"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code created."
+msgstr "สร้างรหัสกู้คืนใหม่แล้ว"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "New recovery code…"
+msgstr "รหัสกู้คืนใหม่…"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
+msgstr "ไม่บังคับ ป้องกันคีย์ที่เข้ารหัสรหัสผ่านที่บันทึกไว้: จะถูกถามเมื่อเริ่มโปรแกรม รหัสกู้คืนจะแสดงหนึ่งครั้งเมื่อเปิดใช้"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Passwords locked"
+msgstr "รหัสผ่านถูกล็อก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Recovery code"
+msgstr "รหัสกู้คืน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Status"
+msgstr "สถานะ"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The current recovery code will no longer work."
+msgstr "รหัสกู้คืนปัจจุบันจะใช้ไม่ได้อีกต่อไป"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The key that encrypts the stored passwords will be stored unprotected again, as without a master password."
+msgstr "คีย์ที่เข้ารหัสรหัสผ่านที่บันทึกไว้จะถูกจัดเก็บโดยไม่มีการป้องกันอีกครั้ง เหมือนไม่มีรหัสผ่านหลัก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The master password will be asked at each startup to unlock the stored passwords. A recovery code will then be shown once."
+msgstr "รหัสผ่านหลักจะถูกถามทุกครั้งที่เริ่มโปรแกรมเพื่อปลดล็อกรหัสผ่านที่บันทึกไว้ จากนั้นรหัสกู้คืนจะแสดงหนึ่งครั้ง"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The recovery code stays valid."
+msgstr "รหัสกู้คืนยังคงใช้ได้"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "The two passwords do not match."
+msgstr "รหัสผ่านทั้งสองไม่ตรงกัน"
+
+#
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unavailable: the configuration is not loaded."
+msgstr "ไม่พร้อมใช้งาน: ยังไม่ได้โหลดการตั้งค่า"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Unlock"
+msgstr "ปลดล็อก"
+
+#: src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Write down or print this code and keep it in a safe place: it will not be shown again. If you forget the master password, it unlocks the stored passwords, then you choose a new master password."
+msgstr "จดหรือพิมพ์รหัสนี้และเก็บไว้ในที่ปลอดภัย: จะไม่แสดงอีก หากคุณลืมรหัสผ่านหลัก รหัสนี้จะปลดล็อกรหัสผ่านที่บันทึกไว้ จากนั้นคุณเลือกรหัสผ่านหลักใหม่"
+
 #: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "รูปลักษณ์"
@@ -3249,10 +3750,6 @@ msgstr "คลิกทางลัดเพื่อเปลี่ยน ห�
 #: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "ระดับล็อกเริ่มต้น"
-
-#: src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
-msgid "Disabled"
-msgstr "ปิดใช้งาน"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -3295,6 +3792,10 @@ msgstr "ไม่ได้บันทึกการตั้งค่า: {err
 #, python-brace-format
 msgid "Preferences page unavailable: {error}"
 msgstr "หน้าการตั้งค่าไม่พร้อมใช้งาน: {error}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Security"
+msgstr "ความปลอดภัย"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3347,6 +3848,19 @@ msgstr "ตั้งค่าทางลัด"
 #: src/gcm4/ui/raccourcis.py
 msgid "Use Ctrl, Alt or Super with this key."
 msgstr "ใช้ Ctrl, Alt หรือ Super ร่วมกับปุ่มนี้"
+
+#: src/gcm4/ui/terminal.py
+msgid "Character encoding of the remote system; UTF-8 if unsure."
+msgstr "การเข้ารหัสอักขระของระบบระยะไกล หากไม่แน่ใจให้ใช้ UTF-8"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "Encoding {name} is not available, UTF-8 is used."
+msgstr "ไม่มีการเข้ารหัส {name} จึงใช้ UTF-8"
+
+#: src/gcm4/ui/terminal.py
+msgid "Encoding:"
+msgstr "การเข้ารหัส:"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

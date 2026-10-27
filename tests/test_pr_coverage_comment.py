@@ -61,13 +61,22 @@ def test_commentaire_totaux_et_delta():
     assert "| Couverture | 19.7 % | 21.0 % | +1.3 pt |" in corps
     assert "| Instructions couvertes | 55/100 | 60/100 | +5 |" in corps
     assert "| Branches couvertes | 5/10 | 6/10 | +1 |" in corps
-    assert "marge 3.0 pt" in corps
+    assert "Seuil bloquant : 18.0 % (`fail_under`) sur le **total combiné**" in corps
 
 
-def test_commentaire_sous_le_seuil():
-    """Une PR sous le seuil est signalée en gras."""
-    corps = pcc.construire_commentaire(_rapport(17.0), _rapport(19.7), 18.0)
-    assert "**Sous le seuil bloquant** de 18.0 %" in corps
+def test_commentaire_total_partiel_jamais_compare_au_seuil():
+    """Issue #278 : ce total exclut src/gcm4/ui/ ; sous le seuil, aucun faux échec annoncé."""
+    corps = pcc.construire_commentaire(_rapport(28.0), _rapport(28.2), 41.0)
+    assert "Sous le seuil bloquant**" not in corps
+    assert "job Qualité de la CI échouera" not in corps
+    assert "« Couverture combinée »" in corps
+
+
+def test_commentaire_explique_le_perimetre():
+    """Le commentaire ne montre plus src/gcm4/ui/ à 0 % sans explication."""
+    corps = pcc.construire_commentaire(_rapport(28.0), _rapport(28.2), 41.0)
+    assert pcc.PERIMETRE in corps
+    assert "`src/gcm4/ui/`" in corps and "0 %" in corps
 
 
 def test_commentaire_sans_seuil():

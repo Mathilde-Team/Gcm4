@@ -339,6 +339,7 @@ class SSHConfig:
             self.hosts.remove(host)
             return True
         except ValueError:
+            logger.debug("SSHConfig.remove_host | hôte absent de la configuration, rien à retirer")
             return False
 
 
@@ -400,8 +401,10 @@ class SSHConfigParser:
                     current = f.read()
                 if current == content:
                     return
-            except OSError:
-                pass
+            except OSError as exc:
+                logger.debug(
+                    "relecture de {} impossible ({}), réécriture complète", self.config_path, exc
+                )
 
         effective_backup = backup and self.auto_backup_enabled and self.config_path.exists()
         if effective_backup and not self._have_backed_up_this_session:
@@ -439,6 +442,7 @@ class SSHConfigParser:
                     if p < 1 or p > 65535:
                         errors.append(f"Invalid port for host {host.patterns[0]}: {port}")
                 except ValueError:
+                    logger.debug("port non entier pour l'hôte {} : {!r}", host.patterns[0], port)
                     errors.append(f"Port is not an integer for host {host.patterns[0]}: {port}")
 
         for host in self.config.hosts:
@@ -523,7 +527,8 @@ class SSHConfigParser:
                 matches = glob.glob(expanded, recursive=False)
                 if not matches and "**" in expanded:
                     matches = glob.glob(expanded, recursive=True)
-            except OSError:
+            except OSError as exc:
+                logger.warning("Include {} ignoré, motif illisible : {}", expanded, exc)
                 matches = []
 
             for path_str in matches:
@@ -531,7 +536,8 @@ class SSHConfigParser:
                 try:
                     with p.open("r", encoding="utf-8") as f:
                         resolved[p] = f.readlines()
-                except OSError:
+                except OSError as exc:
+                    logger.warning("Include {} ignoré, fichier illisible : {}", p, exc)
                     continue
 
         self.config.includes_resolved = resolved
@@ -576,7 +582,13 @@ class SSHConfigParser:
 
         try:
             target_dir.mkdir(parents=True, exist_ok=True)
-        except OSError:
+        except OSError as exc:
+            logger.warning(
+                "répertoire de sauvegarde {} indisponible ({}), repli sur {}",
+                target_dir,
+                exc,
+                self.config_path.parent,
+            )
             target_dir = self.config_path.parent
         backup = (target_dir / self.config_path.name).with_suffix(f".{ts}.bak")
         try:
@@ -629,15 +641,16 @@ class SSHConfigParser:
             else:
                 os.chmod(tmp_path, 0o600)
             os.replace(tmp_path, self.config_path)
-        except Exception:
+        except Exception as exc:
+            logger.error("écriture atomique de {} échouée : {}", self.config_path, exc)
             try:
                 tmp.close()
-            except Exception:
-                pass
+            except Exception as close_exc:
+                logger.debug("fermeture du fichier temporaire {} : {}", tmp_path, close_exc)
             try:
                 tmp_path.unlink(missing_ok=True)
-            except Exception:
-                pass
+            except Exception as unlink_exc:
+                logger.warning("fichier temporaire {} non supprimé : {}", tmp_path, unlink_exc)
             raise
 
 
@@ -710,7 +723,8 @@ def _cp_get(cp: configparser.RawConfigParser, section: str, key: str, default: s
     """Read a string value with a safe fallback."""
     try:
         return cp.get(section, key)
-    except (configparser.NoSectionError, configparser.NoOptionError):
+    except (configparser.NoSectionError, configparser.NoOptionError) as exc:
+        logger.debug("_cp_get | section {} : {}, valeur par défaut", section, type(exc).__name__)
         return default
 
 
@@ -723,7 +737,10 @@ def _cp_getbool(
     """Read a boolean value with a safe fallback."""
     try:
         return cp.getboolean(section, key)
-    except (configparser.NoSectionError, configparser.NoOptionError, ValueError):
+    except (configparser.NoSectionError, configparser.NoOptionError, ValueError) as exc:
+        logger.debug(
+            "_cp_getbool | section {} : {}, valeur par défaut", section, type(exc).__name__
+        )
         return default
 
 
@@ -736,7 +753,10 @@ def _cp_getint(
     """Read an integer value with a safe fallback."""
     try:
         return int(cp.get(section, key))
-    except (configparser.NoSectionError, configparser.NoOptionError, ValueError):
+    except (configparser.NoSectionError, configparser.NoOptionError, ValueError) as exc:
+        logger.debug(
+            "_cp_getint | section {} : {}, valeur par défaut", section, type(exc).__name__
+        )
         return default
 
 
@@ -757,6 +777,9 @@ def is_shared_target(path: Path) -> bool:
     try:
         path.relative_to(SHARED_SSH_CONFIG_PATH.parent)
     except ValueError:
+        logger.debug(
+            "{} hors de {} : écriture sans élévation", path, SHARED_SSH_CONFIG_PATH.parent
+        )
         return False
     return True
 
@@ -1014,6 +1037,7 @@ def _parse_tunnel_to_proxyjump(raw: str) -> str:
             try:
                 jump_port = int(port_str)
             except ValueError:
+                logger.debug("port de rebond non entier {!r}, port SSH par défaut", port_str)
                 jump_port = DEFAULT_SSH_PORT
 
         if not jump_host:

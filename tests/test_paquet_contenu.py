@@ -123,15 +123,21 @@ class TestContenuDuPaquet(unittest.TestCase):
 
 
 class TestDependancesDesPaquets(unittest.TestCase):
-    """Dépendances déclarées à fpm."""
+    """Dépendances déclarées à fpm (rpm) et dans debian/control (deb)."""
 
     def test_loguru_declaree_partout(self):
         """logging_config importe loguru au démarrage : dépendance de chaque paquet."""
         makefile = (ROOT / "Makefile").read_text(encoding="utf-8")
-        for cible in ("deb", "rpm", "opensuse"):
+        for cible in ("rpm", "opensuse"):
             bloc = re.search(rf"^{cible}:\n(.*?)(?=^\S)", makefile, re.S | re.M)
             self.assertIsNotNone(bloc, cible)
             self.assertIn("-d python3-loguru", bloc.group(1), cible)
+        # make deb construit le paquet gcm4 avec build-deb/build.sh (#156) :
+        # la dépendance est déclarée dans debian/control, plus à fpm.
+        control = (ROOT / "build-deb" / "debian" / "control").read_text(encoding="utf-8")
+        depends = re.search(r"^Depends:(.*?)(?=^\S)", control, re.S | re.M)
+        self.assertIsNotNone(depends, "Depends absent de debian/control")
+        self.assertRegex(depends.group(1), r"\bpython3-loguru\b")
 
 
 if __name__ == "__main__":

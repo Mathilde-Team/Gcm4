@@ -35,6 +35,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Protocol
 
+from loguru import logger
+
+# Convention bibliothèque (#130) : muet à l'import, réactivé par
+# logging_config.configure_logging() (CORE_MODULES).
+logger.disable(__name__)
+
 __all__ = [
     "VENDOR_DEVICE_TYPES",
     "iter_all_device_types",
@@ -203,10 +209,12 @@ def iter_all_device_types() -> list[tuple[str, str, str]]:
     """Aplati ``VENDOR_DEVICE_TYPES`` en tuples ``(constructeur, device_type,
     libellé)``, pratique pour peupler une simple liste de recherche.
     """
+    logger.debug("iter_all_device_types: entrée")
     out = []
     for vendor, entries in VENDOR_DEVICE_TYPES.items():
         for device_type, label in entries:
             out.append((vendor, device_type, label))
+    logger.debug("iter_all_device_types: sortie")
     return out
 
 
@@ -243,6 +251,7 @@ class DeviceProfile:
             ``password``/``port``/``timeout``, plus ``secret`` si défini
             sur le profil.
         """
+        logger.debug("DeviceProfile.to_netmiko_kwargs: entrée")
         kwargs = {
             "device_type": self.device_type,
             "host": host,
@@ -253,6 +262,7 @@ class DeviceProfile:
         }
         if self.secret:
             kwargs["secret"] = self.secret
+        logger.debug("DeviceProfile.to_netmiko_kwargs: sortie")
         return kwargs
 
 
@@ -278,10 +288,12 @@ class ProfileStore:
                 le magasin démarre vide (fichier créé au premier
                 :meth:`save`).
         """
+        logger.debug("ProfileStore.__init__: entrée")
         self.path = Path(path)
         self._profiles: dict[str, DeviceProfile] = {}
         if self.path.exists():
             self.reload()
+        logger.debug("ProfileStore.__init__: fin")
 
     def reload(self) -> None:
         """Recharge tous les profils depuis ``self.path``, en mémoire.
@@ -290,6 +302,7 @@ class ProfileStore:
         profils modifiés via :meth:`set` mais non sauvegardés
         (:meth:`save`) sont donc perdus.
         """
+        logger.debug("ProfileStore.reload: entrée")
         cp = configparser.ConfigParser()
         cp.read(self.path, encoding="utf-8")
         profiles: dict[str, DeviceProfile] = {}
@@ -307,6 +320,7 @@ class ProfileStore:
                 save_command=s.get("save_command", fallback=""),
             )
         self._profiles = profiles
+        logger.debug("ProfileStore.reload: fin")
 
     def get(self, name: str) -> DeviceProfile | None:
         """Retourne le profil nommé *name*, ou ``None`` s'il n'existe pas.
@@ -318,6 +332,8 @@ class ProfileStore:
         Returns:
             DeviceProfile | None: Le profil correspondant, ou ``None``.
         """
+        logger.debug("ProfileStore.get: entrée")
+        logger.debug("ProfileStore.get: sortie")
         return self._profiles.get(name)
 
     def names(self) -> list[str]:
@@ -326,6 +342,8 @@ class ProfileStore:
         Returns:
             list[str]: Noms de profils en ordre alphabétique.
         """
+        logger.debug("ProfileStore.names: entrée")
+        logger.debug("ProfileStore.names: sortie")
         return sorted(self._profiles.keys())
 
     def all(self) -> list[DeviceProfile]:
@@ -334,11 +352,15 @@ class ProfileStore:
         Returns:
             list[DeviceProfile]: Profils dans l'ordre de :meth:`names`.
         """
+        logger.debug("ProfileStore.all: entrée")
+        logger.debug("ProfileStore.all: sortie")
         return [self._profiles[n] for n in self.names()]
 
     def set(self, profile: DeviceProfile) -> None:
         """Ajoute ou remplace un profil (par ``profile.name``), en mémoire."""
+        logger.debug("ProfileStore.set: entrée")
         self._profiles[profile.name] = profile
+        logger.debug("ProfileStore.set: fin")
 
     def delete(self, name: str) -> None:
         """Supprime un profil par son nom, en mémoire.
@@ -347,12 +369,15 @@ class ProfileStore:
             name (str): Nom du profil à supprimer. Aucune erreur n'est
                 levée si ce profil n'existe pas déjà (``pop(..., None)``).
         """
+        logger.debug("ProfileStore.delete: entrée")
         self._profiles.pop(name, None)
+        logger.debug("ProfileStore.delete: fin")
 
     def save(self) -> None:
         """Écrit l'ensemble des profils courants dans ``self.path``
         (permissions restreintes, comme le ``.cloginrc`` de rancid).
         """
+        logger.debug("ProfileStore.save: entrée")
         cp = configparser.ConfigParser()
         for name in self.names():
             p = self._profiles[name]
@@ -370,14 +395,18 @@ class ProfileStore:
             cp.write(fh)
         try:
             self.path.chmod(0o600)
-        except OSError:
+        except OSError as exc:
+            logger.debug("ProfileStore.save: {} : {}", type(exc).__name__, exc)
             pass
+        logger.debug("ProfileStore.save: fin")
 
     @staticmethod
     def write_template(path: str | Path) -> None:
         """Écrit un fichier ``profiles.ini`` d'exemple si *path* n'existe pas."""
+        logger.debug("ProfileStore.write_template: entrée")
         path = Path(path)
         if path.exists():
+            logger.debug("ProfileStore.write_template: sortie")
             return
         store = ProfileStore.__new__(ProfileStore)
         store.path = path
@@ -401,6 +430,7 @@ class ProfileStore:
             ),
         }
         store.save()
+        logger.debug("ProfileStore.write_template: fin")
 
 
 # ──────────────────────────────────────────────────────────────────────────
@@ -425,16 +455,21 @@ class InventoryRow:
             ``ip``/``host`` (défauts à ``self.ip`` s'ils ne sont pas déjà
             fournis par une colonne CSV du même nom).
         """
+        logger.debug("InventoryRow.render_context: entrée")
         ctx = dict(self.variables)
         ctx.setdefault("ip", self.ip)
         ctx.setdefault("host", self.ip)
+        logger.debug("InventoryRow.render_context: sortie")
         return ctx
 
 
 def _sniff_delimiter(sample: str) -> str:
+    logger.debug("_sniff_delimiter: entrée")
     for candidate in (";", ",", "\t"):
         if candidate in sample.splitlines()[0]:
+            logger.debug("_sniff_delimiter: sortie")
             return candidate
+    logger.debug("_sniff_delimiter: sortie")
     return ";"
 
 
@@ -446,6 +481,7 @@ def load_inventory(path: str | Path) -> list[InventoryRow]:
     - ``type`` ou ``profile`` (obligatoire) : nom du profil à utiliser.
     - toute autre colonne devient une variable ``#nom_colonne#``.
     """
+    logger.debug("load_inventory: entrée")
     path = Path(path)
     text = path.read_text(encoding="utf-8-sig")
     if not text.strip():
@@ -475,6 +511,7 @@ def load_inventory(path: str | Path) -> list[InventoryRow]:
             if k not in (ip_col, profile_col) and k is not None
         }
         rows.append(InventoryRow(ip=ip, profile_name=profile_name, variables=variables, line_no=i))
+    logger.debug("load_inventory: sortie")
     return rows
 
 
@@ -497,7 +534,9 @@ def find_missing_variables(template_text: str, context: dict[str, str]) -> list[
         absentes de *context*, triés alphabétiquement (liste vide si tout
         est résolvable).
     """
+    logger.debug("find_missing_variables: entrée")
     needed = set(_VAR_RE.findall(template_text))
+    logger.debug("find_missing_variables: sortie")
     return sorted(v for v in needed if v not in context)
 
 
@@ -515,10 +554,15 @@ def render_template(template_text: str, context: dict[str, str]) -> str:
         str: Texte du gabarit avec les placeholders résolus substitués.
     """
 
+    logger.debug("render_template: entrée")
+
     def _sub(m: re.Match) -> str:
+        logger.debug("render_template._sub: entrée")
         key = m.group(1)
+        logger.debug("render_template._sub: sortie")
         return context.get(key, m.group(0))
 
+    logger.debug("render_template: sortie")
     return _VAR_RE.sub(_sub, template_text)
 
 
@@ -552,12 +596,14 @@ def scan_output_for_errors(output_text: str) -> list[str]:
     """Retourne les lignes de *output_text* qui ressemblent à un rejet de
     commande par l'équipement (indépendamment du constructeur).
     """
+    logger.debug("scan_output_for_errors: entrée")
     hits = []
     for line in output_text.splitlines():
         for pat in _ERROR_PATTERNS:
             if pat.search(line):
                 hits.append(line.strip())
                 break
+    logger.debug("scan_output_for_errors: sortie")
     return hits
 
 
@@ -593,12 +639,16 @@ class PushResult:
         """Compat : True seulement si aucune erreur, ni de connexion ni de
         configuration.
         """
+        logger.debug("PushResult.ok: entrée")
+        logger.debug("PushResult.ok: sortie")
         return self.status == STATUS_OK
 
 
 class PushResultLike(Protocol):
-    """Forme commune de ``PushResult`` et ``snmp_push_core.SnmpPushResult``
-    (journal, manifeste et synthèse sont partagés par les deux transports).
+    """Forme attendue par le journal, le manifeste et la synthèse.
+
+    ``PushResult`` la respecte ; le ``SnmpPushResult`` de l'ancien
+    ``snmp_push_core.py`` (supprimé, #74) aussi.
     """
 
     row: InventoryRow
@@ -611,6 +661,7 @@ class PushResultLike(Protocol):
 
 
 def _write_log(log_dir: Path, row: InventoryRow, result: PushResultLike) -> str:
+    logger.debug("_write_log: entrée")
     log_dir.mkdir(parents=True, exist_ok=True)
     safe_ip = re.sub(r"[^A-Za-z0-9_.-]", "_", row.ip)
     log_file = log_dir / f"{row.line_no:04d}_{safe_ip}.log"
@@ -626,6 +677,7 @@ def _write_log(log_dir: Path, row: InventoryRow, result: PushResultLike) -> str:
     lines.append("# ── Sortie brute de l'équipement ──")
     lines.append(result.output or "(aucune sortie)")
     log_file.write_text("\n".join(lines), encoding="utf-8")
+    logger.debug("_write_log: sortie")
     return str(log_file)
 
 
@@ -641,14 +693,18 @@ def push_to_device(
     fonction peut donc être appelée isolément (ex. tests, aperçu réel) sans
     effet de bord fichier.
     """
+    logger.debug("push_to_device: entrée")
     try:
         from netmiko import ConnectHandler
         from netmiko.exceptions import NetmikoAuthenticationException, NetmikoTimeoutException
     except ImportError as exc:  # pragma: no cover - dépendance externe
+        logger.debug("push_to_device: {} : {}", type(exc).__name__, exc)
+        logger.debug("push_to_device: sortie")
         return PushResult(row=row, status=STATUS_FAILED, error=f"netmiko non installé : {exc}")
 
     lines = [line for line in rendered_config.splitlines() if line.strip() != ""]
     if not lines:
+        logger.debug("push_to_device: sortie")
         return PushResult(
             row=row, status=STATUS_FAILED, error="Gabarit rendu vide, rien à envoyer."
         )
@@ -667,6 +723,7 @@ def push_to_device(
                 output += "\n" + conn.save_config()
         errors = scan_output_for_errors(output)
         status = STATUS_REJECTED if errors else STATUS_OK
+        logger.debug("push_to_device: sortie")
         return PushResult(
             row=row,
             status=status,
@@ -675,6 +732,8 @@ def push_to_device(
             duration_s=time.monotonic() - started,
         )
     except NetmikoAuthenticationException as exc:
+        logger.debug("push_to_device: {} : {}", type(exc).__name__, exc)
+        logger.debug("push_to_device: sortie")
         return PushResult(
             row=row,
             status=STATUS_FAILED,
@@ -682,6 +741,8 @@ def push_to_device(
             duration_s=time.monotonic() - started,
         )
     except NetmikoTimeoutException as exc:
+        logger.debug("push_to_device: {} : {}", type(exc).__name__, exc)
+        logger.debug("push_to_device: sortie")
         return PushResult(
             row=row,
             status=STATUS_FAILED,
@@ -689,6 +750,8 @@ def push_to_device(
             duration_s=time.monotonic() - started,
         )
     except Exception as exc:  # noqa: BLE001 - on veut consigner toute erreur par hôte
+        logger.debug("push_to_device: {} : {}", type(exc).__name__, exc)
+        logger.debug("push_to_device: sortie")
         return PushResult(
             row=row, status=STATUS_FAILED, error=str(exc), duration_s=time.monotonic() - started
         )
@@ -696,7 +759,8 @@ def push_to_device(
         if conn is not None:
             try:
                 conn.disconnect()
-            except Exception:
+            except Exception as exc:
+                logger.debug("push_to_device: {} : {}", type(exc).__name__, exc)
                 pass
 
 
@@ -720,13 +784,16 @@ def run_bulk_push(
     ouvriers — si utilisés pour mettre à jour une UI GTK, l'appelant doit
     les faire rebondir sur le thread principal (ex. ``GLib.idle_add``).
     """
+    logger.debug("run_bulk_push: entrée")
     log_dir = Path(log_dir)
     results: list[PushResult] = []
 
     def _work(row: InventoryRow) -> PushResult:
+        logger.debug("run_bulk_push._work: entrée")
         if cancel_event is not None and cancel_event.is_set():
             result = PushResult(row=row, status=STATUS_SKIPPED, error="Annulé avant envoi.")
             result.log_path = _write_log(log_dir, row, result)
+            logger.debug("run_bulk_push._work: sortie")
             return result
 
         profile = profiles.get(row.profile_name)
@@ -735,6 +802,7 @@ def run_bulk_push(
                 row=row, status=STATUS_FAILED, error=f"Profil inconnu : '{row.profile_name}'"
             )
             result.log_path = _write_log(log_dir, row, result)
+            logger.debug("run_bulk_push._work: sortie")
             return result
 
         context = row.render_context()
@@ -746,6 +814,7 @@ def run_bulk_push(
                 error=f"Variables manquantes dans le CSV : {', '.join(missing)}",
             )
             result.log_path = _write_log(log_dir, row, result)
+            logger.debug("run_bulk_push._work: sortie")
             return result
 
         if on_row_start:
@@ -753,6 +822,7 @@ def run_bulk_push(
         rendered = render_template(template_text, context)
         result = push_to_device(row, profile, rendered, save=save)
         result.log_path = _write_log(log_dir, row, result)
+        logger.debug("run_bulk_push._work: sortie")
         return result
 
     with ThreadPoolExecutor(max_workers=max(1, max_workers)) as pool:
@@ -764,10 +834,12 @@ def run_bulk_push(
                 on_row_done(result)
 
     _write_manifest(log_dir, results)
+    logger.debug("run_bulk_push: sortie")
     return results
 
 
 def _write_manifest(log_dir: Path, results: Sequence[PushResultLike]) -> None:
+    logger.debug("_write_manifest: entrée")
     manifest = {
         "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "summary": summarize_results(results),
@@ -789,10 +861,12 @@ def _write_manifest(log_dir: Path, results: Sequence[PushResultLike]) -> None:
     (log_dir / "manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
     )
+    logger.debug("_write_manifest: fin")
 
 
 def summarize_results(results: Sequence[PushResultLike]) -> dict:
     """Statistiques d'une exécution, pour affichage dans la phase Résultats."""
+    logger.debug("summarize_results: entrée")
     total = len(results)
     by_status = {STATUS_OK: 0, STATUS_REJECTED: 0, STATUS_FAILED: 0, STATUS_SKIPPED: 0}
     for r in results:
@@ -802,6 +876,7 @@ def summarize_results(results: Sequence[PushResultLike]) -> dict:
         if r.status == STATUS_FAILED and r.error:
             key = r.error.split(":")[0].strip()
             error_kinds[key] = error_kinds.get(key, 0) + 1
+    logger.debug("summarize_results: sortie")
     return {
         "total": total,
         "ok": by_status[STATUS_OK],

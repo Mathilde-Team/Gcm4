@@ -40,24 +40,33 @@ import ast
 import os
 import sys
 
+from loguru import logger
+
 
 class _TopLevelImportCollector(ast.NodeVisitor):
     """Collecte les imports exécutés au chargement du module (voir docstring de module)."""
 
     def __init__(self) -> None:
         """Initialise l'ensemble des modules importés au chargement."""
+        logger.debug("_TopLevelImportCollector.__init__: entrée")
         self.imported_modules: set[str] = set()
+        logger.debug("_TopLevelImportCollector.__init__: fin")
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> None:  # noqa: N802 (nom impose par ast.NodeVisitor)
         """Ne descend pas dans le corps : imports différés, hors périmètre."""
+        logger.debug("_TopLevelImportCollector.visit_FunctionDef: entrée")
+        logger.debug("_TopLevelImportCollector.visit_FunctionDef: sortie")
         return
 
     def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: N802
         """Ne descend pas dans le corps : imports différés, hors périmètre."""
+        logger.debug("_TopLevelImportCollector.visit_AsyncFunctionDef: entrée")
+        logger.debug("_TopLevelImportCollector.visit_AsyncFunctionDef: sortie")
         return
 
     def visit_If(self, node: ast.If) -> None:
         """Ignore le bloc ``if TYPE_CHECKING:``, sinon descend normalement."""
+        logger.debug("_TopLevelImportCollector.visit_If: entrée")
         test = node.test
         is_type_checking = (isinstance(test, ast.Name) and test.id == "TYPE_CHECKING") or (
             isinstance(test, ast.Attribute) and test.attr == "TYPE_CHECKING"
@@ -65,18 +74,24 @@ class _TopLevelImportCollector(ast.NodeVisitor):
         if is_type_checking:
             for stmt in node.orelse:
                 self.visit(stmt)
+            logger.debug("_TopLevelImportCollector.visit_If: sortie")
             return
         self.generic_visit(node)
+        logger.debug("_TopLevelImportCollector.visit_If: fin")
 
     def visit_Import(self, node: ast.Import) -> None:
         """Enregistre chaque module de ``import x[, y...]``."""
+        logger.debug("_TopLevelImportCollector.visit_Import: entrée")
         for alias in node.names:
             self.imported_modules.add(alias.name.split(".")[0])
+        logger.debug("_TopLevelImportCollector.visit_Import: fin")
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
         """Enregistre le module de ``from x import y`` (ignore les imports relatifs purs)."""
+        logger.debug("_TopLevelImportCollector.visit_ImportFrom: entrée")
         if node.module and node.level == 0:
             self.imported_modules.add(node.module.split(".")[0])
+        logger.debug("_TopLevelImportCollector.visit_ImportFrom: fin")
 
 
 def discover_local_modules(root: str) -> dict[str, str]:
@@ -90,6 +105,7 @@ def discover_local_modules(root: str) -> dict[str, str]:
         racine du dépôt et le dossier ``plugins/`` (les deux sont ajoutés à
         ``sys.path`` par l'application, voir ``gnome_connection_manager.py``).
     """
+    logger.debug("discover_local_modules: entrée")
     modules: dict[str, str] = {}
     search_dirs = [root, os.path.join(root, "plugins")]
     for directory in search_dirs:
@@ -102,6 +118,7 @@ def discover_local_modules(root: str) -> dict[str, str]:
                 # En cas de doublon de nom entre racine et plugins/, le
                 # fichier racine gagne (résolu en premier par sys.path[0]).
                 modules.setdefault(name, path)
+    logger.debug("discover_local_modules: {}", modules)
     return modules
 
 
@@ -115,18 +132,21 @@ def build_import_graph(modules: dict[str, str]) -> dict[str, set[str]]:
         dict[str, set[str]]: Nom de module -> ensemble des modules locaux
         qu'il importe au chargement.
     """
+    logger.debug("build_import_graph: entrée")
     graph: dict[str, set[str]] = {}
     for name, path in modules.items():
         try:
             with open(path, encoding="utf-8") as f:
                 tree = ast.parse(f.read(), filename=path)
         except (OSError, SyntaxError) as exc:
+            logger.debug("build_import_graph: {} : {}", type(exc).__name__, exc)
             print(f"⚠️  {path} ignoré (illisible ou syntaxe invalide) : {exc}", file=sys.stderr)
             graph[name] = set()
             continue
         collector = _TopLevelImportCollector()
         collector.visit(tree)
         graph[name] = {m for m in collector.imported_modules if m in modules and m != name}
+    logger.debug("build_import_graph: {}", graph)
     return graph
 
 
@@ -141,6 +161,7 @@ def find_cycles(graph: dict[str, set[str]]) -> list[list[str]]:
         ordonnée des modules du cycle (le premier élément est répété en
         dernier pour lisibilité : ``["a", "b", "c", "a"]``).
     """
+    logger.debug("find_cycles: entrée")
     WHITE, GRAY, BLACK = 0, 1, 2
     color = dict.fromkeys(graph, WHITE)
     cycles: list[list[str]] = []
@@ -148,6 +169,7 @@ def find_cycles(graph: dict[str, set[str]]) -> list[list[str]]:
 
     def dfs(node: str) -> None:
         """Parcours en profondeur avec détection de cycle par couleurs."""
+        logger.debug("find_cycles.dfs: entrée")
         color[node] = GRAY
         path.append(node)
         for neighbor in sorted(graph.get(node, ())):
@@ -158,10 +180,12 @@ def find_cycles(graph: dict[str, set[str]]) -> list[list[str]]:
                 dfs(neighbor)
         path.pop()
         color[node] = BLACK
+        logger.debug("find_cycles.dfs: fin")
 
     for name in sorted(graph):
         if color[name] == WHITE:
             dfs(name)
+    logger.debug("find_cycles: {}", cycles)
     return cycles
 
 
@@ -171,6 +195,7 @@ def main() -> int:
     Returns:
         int: 0 si aucun cycle trouvé, 1 sinon (pour le hook pre-commit).
     """
+    logger.debug("main: entrée")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--root", default=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -183,6 +208,7 @@ def main() -> int:
 
     if not cycles:
         print(f"✅ Aucun import circulaire à charge de module ({len(modules)} modules analysés).")
+        logger.debug("main: -> 0")
         return 0
 
     print(f"❌ {len(cycles)} import(s) circulaire(s) trouvé(s) :\n")
@@ -194,6 +220,7 @@ def main() -> int:
         "tête de fichier), ou en le limitant à `if TYPE_CHECKING:` s'il ne "
         "sert qu'à l'annotation de type."
     )
+    logger.debug("main: -> 1")
     return 1
 
 

@@ -5,6 +5,7 @@ qui dupliquaient cette logique :
 
 - options d'hôte, mêmes clés INI que GTK3 : :data:`OPT_COMMANDES`,
   :data:`OPT_RETOUR_ARRIERE`, :data:`OPT_SUPPRESSION`, :data:`OPT_TERM` ;
+  :data:`OPT_ENCODAGE` (#85) est propre à gcm4 ;
 - ``commands`` : lignes envoyées après l'ouverture, au bout d'un délai propre
   au plugin ; une ligne ``##D=<ms>`` ajoute un délai avant les suivantes.
 
@@ -27,12 +28,43 @@ OPT_SUPPRESSION = "delete-key"
 #: Valeur de ``TERM`` transmise au programme ; vide : ``xterm``.
 OPT_TERM = "term"
 
+#: Encodage des caractères du terminal (#85) ; vide : :data:`ENCODAGE_DEFAUT`.
+OPT_ENCODAGE = "encoding"
+
 #: ``TERM`` quand l'option est vide (``widgets.vte_run`` de GTK3).
 TERM_DEFAUT = "xterm"
 
 #: Nombre de valeurs de ``Vte.EraseBinding`` (AUTO, ASCII_BACKSPACE,
 #: ASCII_DELETE, DELETE_SEQUENCE, TTY), dans l'ordre des listes de GTK3.
 NB_LIAISONS = 5
+
+#: Encodage quand l'option est vide ou inconnue.
+ENCODAGE_DEFAUT = "UTF-8"
+
+#: Encodages proposés (#85), noms acceptés à la fois par VTE (ICU) et par
+#: Python (``codecs``) : les messages de gcm4 écrits dans le terminal
+#: (« Session ended »…) sont encodés avec le même nom.
+ENCODAGES = (
+    "UTF-8",
+    "ISO-8859-1",
+    "ISO-8859-15",
+    "WINDOWS-1252",
+    "ISO-8859-2",
+    "WINDOWS-1250",
+    "ISO-8859-5",
+    "WINDOWS-1251",
+    "KOI8-R",
+    "KOI8-U",
+    "ISO-8859-7",
+    "ISO-8859-9",
+    "CP437",
+    "CP850",
+    "SHIFT_JIS",
+    "EUC-JP",
+    "EUC-KR",
+    "GB18030",
+    "BIG5",
+)
 
 #: Préfixe d'une ligne de délai dans ``commands``.
 PREFIXE_DELAI = "##D="
@@ -75,6 +107,34 @@ def liaison(options: Mapping[str, str], cle: str) -> int:
     brut = options.get(cle, "").strip()
     resultat = int(brut) if brut.isdigit() and int(brut) < NB_LIAISONS else 0
     logger.debug("liaison: {}", resultat)
+    return resultat
+
+
+def encodage(options: Mapping[str, str]) -> str:
+    """Encodage de l'hôte, nom de :data:`ENCODAGES` ; vide ou inconnu : :data:`ENCODAGE_DEFAUT`.
+
+    La casse est ignorée (``iso-8859-1`` → ``ISO-8859-1``). Une valeur
+    inconnue (fichier modifié à la main) est journalisée et remplacée par
+    l'UTF-8 : l'onglet s'ouvre quand même.
+    """
+    logger.debug("encodage: entrée")
+    brut = options.get(OPT_ENCODAGE, "").strip().upper()
+    if not brut:
+        resultat = ENCODAGE_DEFAUT
+    elif brut in ENCODAGES:
+        resultat = brut
+    else:
+        logger.warning("encodage: {!r} inconnu, {} utilisé", brut, ENCODAGE_DEFAUT)
+        resultat = ENCODAGE_DEFAUT
+    logger.debug("encodage: {}", resultat)
+    return resultat
+
+
+def encoder(texte: str, nom: str) -> bytes:
+    """``texte`` encodé en ``nom`` pour être affiché dans le terminal ; caractère absent : ``?``."""
+    logger.trace("encoder: {} caractère(s) en {}", len(texte), nom)
+    resultat = texte.encode(nom, errors="replace")
+    logger.trace("encoder: {} octet(s)", len(resultat))
     return resultat
 
 

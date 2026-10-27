@@ -16,7 +16,7 @@ Issue #128, reprise des mécanismes de Netcross (#224, #246).
 |---|---|---|---|
 | 01/10/2026 | b5fa496 | 739 | 19,7 % (2818/13135 lignes, 421/3304 branches) |
 
-Le seuil bloquant `fail_under = 18` laisse moins de 2 points de marge. Il absorbe une PR qui ajoute du code GTK non testable sans Xvfb, et rien de plus.
+Le seuil initial `fail_under = 18` (relevé depuis, voir « Palier 1 » ci-dessous) laissait moins de 2 points de marge. Il absorbe une PR qui ajoute du code GTK non testable sans Xvfb, et rien de plus.
 
 État à la mesure de référence : le cœur GTK3 `gnome_connection_manager.py` est à 8 %. `ssh_key_manager_dialog.py`, `ssh_config_editor.py`, `snmp_push_core.py` et `netmiko_bulk_core.py` ne sont importés par aucun test (0 %). Les modules sans GTK (`gcm4_core.py` 85 %, `models.py` 86 %, `master_password_core.py` et `*_menu_core.py` 100 %) tirent la moyenne.
 
@@ -48,7 +48,7 @@ fail-under=95.0 »).
 
 Le code d'interface `src/gcm4/ui/` n'est exécuté que par `tests/gtk4`, sous Xvfb, dans le job « Tests GTK4 (Xvfb) ». Les deux jobs mesurent la couverture et publient leurs données (artefacts `coverage-data-qualite`, `coverage-data-gtk4`) ; le job « Couverture combinée » les fusionne (`coverage combine`) :
 
-- le **seuil `fail_under`** s'applique au total combiné (`coverage report`, l'étape échoue dessous). Il reste aussi appliqué au total du seul job Qualité, requis par la protection de `dev` : le job combiné n'en fait pas encore partie (voir #278) ;
+- le **seuil `fail_under`** s'applique au total combiné **seulement** (`coverage report`, l'étape échoue dessous). Le job « Couverture combinée » est requis par la protection de `dev` (`.github/branch-protection/dev.json`, #278) ; le job Qualité passe `--cov-fail-under=0` (même commande dans `make ci`), car son total n'exécute pas `src/gcm4/ui/`. Le seuil du cœur (95 %) reste appliqué dans le job Qualité ;
 - le **résumé du job** détaille, par périmètre (`src/gcm4/ui/`, `src/gcm4/core/`, `src/gcm4/`), la couverture du job Qualité seul, du job GTK4 seul et combinée (`scripts/couverture_combinee.py`) ;
 - `coverage-combinee.xml` est publié en artefact `coverage-report-combinee`.
 
@@ -63,14 +63,26 @@ Mesure (21/10/2026, `dev` + #163, 1178 tests hors GTK4, 88 tests GTK4) :
 | `src/gcm4/core/` | 99,5 % | 82,8 % | 99,5 % |
 | `src/gcm4/` | 47,0 % | 87,0 % | 95,4 % |
 
-Le total du job Qualité seul baisse (29,9 % → 26,6 %) parce que `src/gcm4/ui/` y compte désormais à 0 % au lieu d'être absent ; il reste au-dessus du seuil de 18 %.
+Le total du job Qualité seul baisse (29,9 % → 26,6 %) parce que `src/gcm4/ui/` y compte désormais à 0 % au lieu d'être absent.
+
+### Palier 1 vers 95 % (issue #293, 22/10/2026)
+
+Mesure de `dev` (a592a8f, run CI 39840291314) : total combiné **41,7 %**, job Qualité seul **28,2 %**. `fail_under` passe de 18 à **41** : la mesure combinée arrondie à l'entier inférieur (0,7 pt de marge). Il ne pouvait pas monter tant qu'il s'appliquait aussi au job Qualité seul (28,2 %) : d'où #278. Cible de l'équipe : 95 % (Mathilde-Team/.github#9). Le seuil est relevé à chaque PR de tests, jamais baissé.
+
+### Palier 2 (issue #293, 24/10/2026)
+
+Mesure de `dev` (438340f, run CI 40101560678) : total combiné **43,9 %**. Tests ajoutés sans GTK ni réseau : `tests/test_plugin_base_registres.py` (contrats et `autoload()` des deux registres de `plugins/plugin_base.py`, 24,9 % → 100 %) et `tests/test_hypervisor_import_common.py` (clés SSH, `paramiko_connect` avec une doublure de paramiko, scan nmap, dconf ; 45,6 % → 100 %). Gain : 348 lignes ou branches sur 25 011, soit environ +1,4 pt (≈ 45,3 %). `fail_under` passe de 41 à **45** (entier inférieur de la nouvelle mesure combinée).
+
+### Palier 3 (issue #293, 26/10/2026)
+
+Mesure de `dev` + PR de tests (093ea00, run CI 40293284698) : total combiné **50,9 %**. Tests ajoutés sans GTK ni réseau : `tests/test_netmiko_bulk_core.py` (67 tests) couvre `src/gcm4/netmiko_bulk_core.py` — 324 instructions jusqu'alors importées par aucun test (0 %) — à **99,5 %** : profils (`DeviceProfile`, `ProfileStore`), inventaire CSV (`load_inventory` : délimiteurs, colonnes manquantes), gabarits (`render_template`), `scan_output_for_errors`, `push_to_device` (netmiko remplacé par une doublure), `run_bulk_push` (concurrence, callbacks, répertoire de logs) et `summarize_results`. Seule la ligne 492 (`ValueError` défensive inatteignable après les validations amont) reste non couverte. Suite complète : 1706 tests. `fail_under` passe de 45 à **50** (entier inférieur de la nouvelle mesure combinée, 0,9 pt de marge).
 
 ## Où le voir
 
 - **job Couverture combinée** (`ci.yml`) : total fusionné Qualité + GTK4 et tableau par périmètre dans le résumé du job ;
 - **job Qualité** (`ci.yml`) : `pytest --cov`, rapport `term-missing` dans les logs, `coverage.xml` publié en artefact `coverage-report`. L'étape échoue sous le seuil ;
-- **commentaire de PR** (`pr-coverage.yml`, `scripts/pr_coverage_comment.py`) : chaque PR vers `dev` reçoit un commentaire unique, mis à jour à chaque push. Il donne la couverture de la base et de la PR, le delta, la ligne du cœur (`src/gcm4/core/`) et les fichiers dont la couverture baisse. La base est mesurée avec la configuration de la PR, pour comparer le même périmètre. Il ne mesure que la suite hors GTK4 : `src/gcm4/ui/` y figure à 0 % ; la couverture combinée est dans le résumé du job « Couverture combinée » (#278).
+- **commentaire de PR** (`pr-coverage.yml`, `scripts/pr_coverage_comment.py`) : chaque PR vers `dev` reçoit un commentaire unique, mis à jour à chaque push. Il donne la couverture de la base et de la PR, le delta, la ligne du cœur (`src/gcm4/core/`) et les fichiers dont la couverture baisse. La base est mesurée avec la configuration de la PR, pour comparer le même périmètre. Il ne mesure que la suite hors GTK4 et le dit (« Périmètre de ce commentaire… ») : `src/gcm4/ui/` y figure à 0 %. Il n'en compare plus le total au seuil, qui s'applique au total combiné, visible dans le résumé du job « Couverture combinée » (#278).
 
 ## Suite prévue
 
-- rendre le job « Couverture combinée » requis sur `dev`, puis relever `fail_under` sur le total combiné (#278) ;
+- relever `fail_under` palier par palier jusqu'à 95 % (#293) : en tête des modules les moins couverts, le cœur GTK3 historique (`gnome_connection_manager.py`) et les plugins ;

@@ -5,6 +5,7 @@
 import getpass
 
 from gi.repository import Vte
+from loguru import logger
 
 
 def _protocol_field_defaults():
@@ -22,12 +23,17 @@ def _protocol_field_defaults():
         list[tuple[str, object]]: Liste vide si l'application n'est pas
         encore initialisée (garde-fou théorique, cf. plugin_base.py).
     """
+    logger.debug("_protocol_field_defaults: entrée")
     try:
         from gnome_connection_manager import wMain
-    except Exception:
+    except Exception as exc:
+        logger.debug("_protocol_field_defaults: {} : {}", type(exc).__name__, exc)
+        logger.debug("_protocol_field_defaults: sortie")
         return []
     if wMain is None:
+        logger.debug("_protocol_field_defaults: sortie")
         return []
+    logger.debug("_protocol_field_defaults: sortie")
     return wMain.plugin_registry.all_host_fields()
 
 
@@ -121,12 +127,14 @@ class Host:
                 ``_CORE_FIELDS`` pour les champs core, ou par le plugin
                 propriétaire pour les champs protocole-spécifiques).
         """
+        logger.debug("Host.__init__: entrée")
         for field_name, default in self._CORE_FIELDS:
             setattr(self, field_name, kwargs.get(field_name, default))
         if isinstance(self.tunnel, str):
             self.tunnel = self.tunnel.split(",")
         for field_name, default in _protocol_field_defaults():
             setattr(self, field_name, kwargs.get(field_name, default))
+        logger.debug("Host.__init__: fin")
 
     def __repr__(self):
         """Retourne une representation textuelle de l'hote.
@@ -134,6 +142,8 @@ class Host:
         Returns:
             str: Representation de l'hote.
         """
+        logger.debug("Host.__repr__: entrée")
+        logger.debug("Host.__repr__: sortie")
         return "group=[%s],\t name=[%s],\t host=[%s],\t type=[%s]" % (
             self.group,
             self.name,
@@ -147,6 +157,8 @@ class Host:
         Returns:
             str: Chaine de tunnels formatee.
         """
+        logger.debug("Host.tunnel_as_string: entrée")
+        logger.debug("Host.tunnel_as_string: sortie")
         return ",".join(self.tunnel)
 
     def clone(self):
@@ -155,10 +167,12 @@ class Host:
         Returns:
             Host: Nouvel hote identique.
         """
+        logger.debug("Host.clone: entrée")
         kwargs = {name: getattr(self, name, default) for name, default in self._CORE_FIELDS}
         kwargs["tunnel"] = self.tunnel_as_string()
         for name, default in _protocol_field_defaults():
             kwargs[name] = getattr(self, name, default)
+        logger.debug("Host.clone: sortie")
         return Host(**kwargs)
 
 
@@ -180,9 +194,13 @@ class HostUtils:
         Returns:
             str | bool: Valeur du champ, ou ``default`` si absent/illisible.
         """
+        logger.debug("HostUtils.get_val: entrée")
         try:
+            logger.debug("HostUtils.get_val: sortie")
             return cp.get(section, name) if type(default) != bool else cp.getboolean(section, name)
-        except:
+        except BaseException as exc:
+            logger.debug("HostUtils.get_val: {} : {}", type(exc).__name__, exc)
+            logger.debug("HostUtils.get_val: sortie")
             return default
 
     @staticmethod
@@ -199,6 +217,7 @@ class HostUtils:
         Returns:
             Host: Instance peuplee a partir de la section INI.
         """
+        logger.debug("HostUtils.load_host_from_ini: entrée")
         from gcm4_core import decrypt, get_password
         from utils import conf
 
@@ -244,6 +263,7 @@ class HostUtils:
         }
         for field_name, default in _protocol_field_defaults():
             kwargs[field_name] = HostUtils.get_val(cp, section, field_name, default)
+        logger.debug("HostUtils.load_host_from_ini: sortie")
         return Host(**kwargs)
 
     @staticmethod
@@ -259,10 +279,13 @@ class HostUtils:
                 champ ``pass``. Recupere via ``get_password()`` si vide
                 (defaut).
         """
+        logger.debug("HostUtils.save_host_to_ini: entrée")
         from gcm4_core import encrypt, get_password
 
         def _s(v):
             """Coerce any value to str safely (None → '')."""
+            logger.debug("HostUtils.save_host_to_ini._s: entrée")
+            logger.debug("HostUtils.save_host_to_ini._s: sortie")
             return "" if v is None else str(v)
 
         if pwd == "":
@@ -298,3 +321,4 @@ class HostUtils:
         cp.set(section, "post-connect-command", _s(getattr(host, "post_connect_command", "")))
         for field_name, default in _protocol_field_defaults():
             cp.set(section, field_name, str(getattr(host, field_name, default)))
+        logger.debug("HostUtils.save_host_to_ini: fin")
