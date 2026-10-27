@@ -733,7 +733,8 @@ class SshPlugin(ConnectionPlugin):
 
         try:
             from ssh_config_editor import SshConfigEditorDialog  # noqa: PLC0415
-        except ImportError:
+        except ImportError as exc:
+            logger.error("plugin ssh | module ssh_config_editor introuvable : {}", exc)
             self._show_missing_module_error(
                 _(
                     "ssh_config_editor module not found.\n"
@@ -760,7 +761,8 @@ class SshPlugin(ConnectionPlugin):
 
         try:
             from ssh_key_manager_dialog import SSHKeyManagerDialog  # noqa: PLC0415
-        except ImportError:
+        except ImportError as exc:
+            logger.error("plugin ssh | module ssh_key_manager_dialog introuvable : {}", exc)
             self._show_missing_module_error(
                 _(
                     "ssh_key_manager_dialog module not found.\n"
@@ -1064,8 +1066,8 @@ class SshPlugin(ConnectionPlugin):
                     desc.get_style_context().add_provider(
                         provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
                     )
-                except Exception:
-                    pass
+                except Exception as exc:
+                    logger.debug("plugin ssh | style CSS non appliqué : {}", exc)
 
             logger.info(
                 f"SshPlugin.patch_edit_host_dialog | dialog patched for managed host | alias={alias}"
