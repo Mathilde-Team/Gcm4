@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Reconnexion inversée (``asyncvnc2.listen``) de l'onglet VNC (Gcm4 #104, tâche 4).
 
 ``VncConnectionInfo.reverse`` fait écouter l'onglet sur ``host:port`` au
