@@ -61,7 +61,8 @@ from snmp_bulk_core import (  # noqa: E402
 # Utilise le _() global injecté par bindtextdomain() si présent, sinon no-op.
 try:
     _  # type: ignore[name-defined]  # noqa: B018 -- sonde volontaire de NameError, pas une expression morte
-except NameError:
+except NameError as exc:
+    logger.debug("snmp push | gettext non lié, _() local : {}", exc)
 
     def _(s: str) -> str:  # noqa: D401
         return s
@@ -325,8 +326,10 @@ class SnmpPushTab:
         chooser = Gtk.FileChooserButton(title=label_text, action=Gtk.FileChooserAction.OPEN)
         try:
             chooser.set_current_folder(self.default_dir)
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.debug(
+                "snmp push | dossier par défaut {!r} non appliqué : {}", self.default_dir, exc
+            )
         chooser.set_hexpand(True)
         grid.attach(chooser, 1, row_idx, 1, 1)
         return chooser
@@ -370,8 +373,10 @@ class SnmpPushTab:
         )
         try:
             self._chooser_profiles_file.set_current_folder(self.default_dir)
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.debug(
+                "snmp push | dossier par défaut {!r} non appliqué : {}", self.default_dir, exc
+            )
         self._chooser_profiles_file.connect("file-set", self._on_profiles_file_chosen)
         chooser_row.pack_start(self._chooser_profiles_file, True, True, 0)
         left.pack_start(chooser_row, False, False, 0)
@@ -652,6 +657,7 @@ class SnmpPushTab:
                 _("Profils écrits dans {p}").format(p=self.profiles.path)
             )
         except Exception as exc:  # noqa: BLE001
+            logger.warning("snmp push | écriture des profils impossible : {}", exc)
             self._lbl_config_status.set_text(_("Erreur d'écriture : {e}").format(e=exc))
 
     # ── Inventaire ────────────────────────────────────────────────────────
@@ -672,6 +678,7 @@ class SnmpPushTab:
             self.rows = load_inventory(csv_path)
             self.template_text = Path(tpl_path).read_text(encoding="utf-8")
         except Exception as exc:  # noqa: BLE001
+            logger.warning("snmp push | chargement de l'inventaire impossible : {}", exc)
             self._lbl_config_status.set_text(_("Erreur de chargement : {e}").format(e=exc))
             return
 
@@ -1094,6 +1101,7 @@ class SnmpPushTab:
         try:
             content = Path(log_path).read_text(encoding="utf-8")
         except OSError as exc:
+            logger.debug("snmp push | journal {} illisible : {}", log_path, exc)
             content = _("Impossible de lire le journal : {e}").format(e=exc)
         self._log_buffer.set_text(content)
 
