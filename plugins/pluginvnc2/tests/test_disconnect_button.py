@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncTab._resolve_disconnect_button_sensitivity (bouton
 "Déconnecter", barre d'outils).
 

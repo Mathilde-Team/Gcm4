@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests unitaires pour gcm4_core.py.
 
 Contrairement à tests/test_gcm.py (qui doit stubber GTK/VTE pour importer

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour inline_editor_core (éditeur inline `CellTextView`, sessions 43-44).
 
 Couvre la logique pure (zéro Gtk/Gdk) de classification d'un appui de

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Application libadwaita de gcm4 : instance unique, actions, À propos (#133, #134)."""
 
 from __future__ import annotations

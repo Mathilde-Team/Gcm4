@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Emplacement de la configuration de gcm4 et migration depuis ``~/.gcm`` (#99).
 
 Décision de l'autrice (12/10/2026, remplace D3 de #118) : le nom ``gcm4``

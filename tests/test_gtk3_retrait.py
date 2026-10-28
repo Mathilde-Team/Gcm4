@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Garde-fou du retrait de GTK3 (issue #178, sous-issue de #177).
 
 L'inventaire versionné ``tests/gtk3_inventaire.txt`` liste les fichiers

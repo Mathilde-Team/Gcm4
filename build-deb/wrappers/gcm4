@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Lanceur de gcm4 installé par le paquet .deb (#156).
 
 La base vit dans /usr/share/gcm4 (dossier privé) : il est placé en tête de

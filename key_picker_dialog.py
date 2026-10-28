@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Dialogue de sélection de clé SSH existante depuis ~/.ssh/.
 
 Adapté de SSH-Studio (BuddySirJava/SSH-Studio, GPLv3) — GTK4/Adw → GTK3.

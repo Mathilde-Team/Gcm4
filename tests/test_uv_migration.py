@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Verrou : gestion des dépendances migrée de Poetry vers uv (session-36).
 
 Contexte : `pyproject.toml` utilisait `[build-system]`/`[tool.poetry]` avec

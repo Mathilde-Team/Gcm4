@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour la capture d'écran (bouton "camera-photo-symbolic", barre
 d'outils) : VncDisplay.save_screenshot(), et les deux méthodes statiques
 pures de VncTab qui l'entourent (nom de fichier par défaut, message de

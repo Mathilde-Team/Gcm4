@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Préférences générales de la base GTK4, sans GTK (lot 5a, #147).
 
 Deux rôles :

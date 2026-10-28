@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Onglet « Push SNMP » (déploiement de configuration en masse par SNMP) pour GCM.
 
 Jumeau de ``plugin_netmiko_push.py`` : même contrat (``BatchPlugin``, pas

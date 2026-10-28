@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique commune aux plugins terminal (telnet, local…), sans GTK (#295).
 
 Repris de ``plugins/plugin_telnet.py`` et ``plugins/plugin_local.py`` (GTK3),

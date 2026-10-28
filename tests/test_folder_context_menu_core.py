@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour folder_context_menu_core (menu contextuel du panneau de serveurs, session-32).
 
 Couvre la logique pure (zero Gtk/Gio) de disposition du menu contextuel

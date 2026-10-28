@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Détecte les imports circulaires *à charge de module* dans le dépôt GCM.
 
 Hook pre-commit local (voir ``.pre-commit-config.yaml``) — appelé sans

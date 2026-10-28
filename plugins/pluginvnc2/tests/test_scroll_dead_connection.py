@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncDisplay._on_scroll face à une connexion déjà morte.
 
 Bug corrigé le 2026-09-12 : dernier des trois chemins souris à haute

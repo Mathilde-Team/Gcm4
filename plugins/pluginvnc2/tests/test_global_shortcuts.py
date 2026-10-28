@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour les raccourcis clavier globaux de VncTab (capture d'écran,
 copie presse-papiers, envoi de texte, plein écran, Ctrl+Alt+Suppr) -- Gtk.ShortcutController
 en phase CAPTURE, cf. docstring de VncTab._setup_global_shortcuts dans

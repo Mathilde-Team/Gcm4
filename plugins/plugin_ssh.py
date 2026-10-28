@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion SSH.
 
 Septième plugin de la série (après Web, IPMI SOL, Serial, RDP, VNC, SPICE).

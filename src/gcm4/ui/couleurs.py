@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Conversions de couleurs partagées par l'interface GTK4."""
 
 from __future__ import annotations

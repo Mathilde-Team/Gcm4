@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Fixtures partagées et détection GTK4.
 
 vnc_tab.py est un fichier unique qui importe GTK4 au niveau module (choix

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Cœur métier (sans GTK) du plugin de déploiement de configuration en masse
 via Netmiko pour GCM.
 

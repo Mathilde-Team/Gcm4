@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Outil « Export to JSON » (BatchPlugin) pour GCM.
 
 Complément de ``plugin_import_json.py`` : exporte toutes les connexions

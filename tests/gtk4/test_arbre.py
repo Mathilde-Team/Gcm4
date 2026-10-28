@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Arbre des hôtes sous Xvfb : fixture du lot 2, couleurs, repliés, erreurs (#139)."""
 
 from __future__ import annotations

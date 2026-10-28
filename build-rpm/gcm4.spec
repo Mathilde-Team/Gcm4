@@ -12,7 +12,7 @@ Version:        %{gcm4_version}
 # Paquet noarch unique pour Fedora et EL : pas de %%{?dist}.
 Release:        1
 Summary:        Tabbed connection manager (GTK4 base, no protocol plugin)
-License:        GPL-3.0-or-later
+License:        GPL-3.0-only AND GPL-3.0-or-later AND MIT
 URL:            https://github.com/Mathilde-Team/Gcm4
 BuildArch:      noarch
 Source0:        gcm4-%{version}.tar.gz
@@ -66,7 +66,7 @@ cp -r locale/. %{buildroot}%{_datadir}/locale/
 %find_lang gcm-lang
 
 %files -f gcm-lang.lang
-%license LICENSE
+%license LICENSE NOTICE
 %{_bindir}/gcm4
 %{_datadir}/gcm4/
 %{_datadir}/applications/io.github.MathildeDec.gcm4.desktop

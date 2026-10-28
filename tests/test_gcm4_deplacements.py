@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Validation et application des glisser-déposer, sans GTK (#141)."""
 
 from __future__ import annotations

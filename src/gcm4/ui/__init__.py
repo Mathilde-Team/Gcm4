@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Interface GTK4 de gcm4 : seul endroit autorisé à importer ``gi``.
 
 Versions exigées ici et nulle part ailleurs (#119) : GTK 4.0 et

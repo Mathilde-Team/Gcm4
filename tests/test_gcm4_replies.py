@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Groupes repliés au format GTK3 de collapsed-folders (#139)."""
 
 from __future__ import annotations

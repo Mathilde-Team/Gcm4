@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Valide les fichiers .po avec msgfmt --check.
 
 Usage (pre-commit) : appelé avec la liste des fichiers .po à vérifier.

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Un test sauté alors que sa dépendance est installée échoue (issue #160).
 
 Le mécanisme est dans ``tests/exigences.py`` : marqueurs ``requires_gettext``

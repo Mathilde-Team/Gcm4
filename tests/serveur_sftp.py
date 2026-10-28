@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Serveur SSH/SFTP de test (#75) : paramiko côté serveur, sur 127.0.0.1, port libre.
 
 Le protocole est le vrai (échange de clés, authentification, sous-système

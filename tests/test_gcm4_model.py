@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Modèle sans GTK de la base GTK4 (#136)."""
 
 from __future__ import annotations

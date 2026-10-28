@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Connexion telnet avec saisie automatique de l'utilisateur et du mot de passe.
 #
 # Lancé par plugins/telnet/gtk4.py dans le terminal VTE :

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests unitaires pour netmiko_bulk_core.py (cœur métier sans GTK).
 
 Le module n'importe ni GTK ni netmiko au niveau module (netmiko est importé

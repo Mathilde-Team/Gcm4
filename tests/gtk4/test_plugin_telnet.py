@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin telnet GTK4 (``plugins/telnet/gtk4.py``, #179) avec un vrai ``Vte.Terminal``.
 
 Un faux ``telnet`` (script Python placé en tête de ``PATH``) affiche les

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests de scripts/pr_coverage_comment.py (issue #128), sans réseau."""
 
 from __future__ import annotations

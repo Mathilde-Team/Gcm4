@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Outil « Import from VirtualBox » (BatchPlugin) pour GCM.
 
 Porté depuis une révision antérieure du projet (code fonctionnel mais pas

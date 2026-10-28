@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Modules de la racine embarqués par le paquet gcm4 (wheel, .deb, .rpm).
 
 Le wheel ne contient que ``src/gcm4`` et les modules de la racine listés dans

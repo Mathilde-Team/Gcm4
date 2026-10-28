@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Démarrage de gcm4 sous GTK4 : fenêtre, actions, À propos, état (#134)."""
 
 from __future__ import annotations
