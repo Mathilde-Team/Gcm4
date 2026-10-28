@@ -4,7 +4,7 @@
 
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://python.org)
 [![GTK 3](https://img.shields.io/badge/GTK-3.24-green.svg)](https://gtk.org)
-[![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-780-brightgreen.svg)](tests/)
 [![Ruff](https://img.shields.io/badge/ruff-pass-brightgreen.svg)](pyproject.toml)
 
@@ -437,7 +437,12 @@ Pour les changements importants, ouvrez d’abord une issue.
 
 ## Licence
 
-[GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
+Texte complet : [LICENSE](LICENSE) (GNU GPL version 3). Détail des régimes : [NOTICE](NOTICE).
+
+- Code écrit par l'équipe : **GPL-3.0-or-later**.
+- Fichiers repris de l'amont gnome-connection-manager (Renzo Bertuzzi) : **GPL-3.0 seule**, comme le prévoit l'avis amont (« version 3 », sans « ou toute version ultérieure »). Le programme distribué, qui combine les deux, est donc diffusé sous GPL-3.0 seule.
+- `pyAES.py` : MIT (Brandon Sterne).
+- Chaque fichier de code indique son régime par un en-tête `SPDX-License-Identifier` (vérifié par `tests/test_licence.py`).
 
 
 ---

@@ -2,6 +2,7 @@
 
 ## [Non publié]
 
+- **Licence (#339)** : `LICENSE` ne contient plus que le texte de la GPLv3 (GitHub reconnaît la licence) ; l'avis amont passe dans `NOTICE`, qui documente les trois régimes (code amont en GPL-3.0 seule, code de l'équipe en GPL-3.0-or-later, `pyAES.py` en MIT), le code vendorisé (gtk-frdp, SSH-Studio) et la licence des dépendances optionnelles ; en-tête `SPDX-License-Identifier` dans chaque fichier de code (`tests/test_licence.py`) ; `debian/copyright` au format DEP-5 par régime, champ License du .rpm complet, `NOTICE` embarqué dans les paquets
 - **gcm4 : protocoles sans adresse (#297)** : méthode facultative `requires_address` du contrat de plugin v1 (défaut : adresse exigée) ; le plugin local la déclare : champ Adresse masqué dans le dialogue hôte et enregistrement sans adresse accepté pour les hôtes `local`, comme le faisait GTK3 (`show_host = not is_local`)
 
 ## [4.0.0] — 2026-10-24
