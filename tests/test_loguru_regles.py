@@ -44,24 +44,12 @@ SECRET_NAMES = re.compile(
 )
 
 # Fichier -> nombre d'``except`` sans appel de journal (état de l'issue #171).
+# Restent : pluginvnc2 (paquet séparé), et les deux fichiers racine SSH
+# supprimés par le portage GTK4 (#97/#180) — lot du 26/10/2026 (issue #294).
 EXCEPT_SANS_JOURNAL = {
-    "gnome_connection_manager.py": 38,
-    "plugins/plugin_base.py": 2,
-    "plugins/plugin_import_libvirt.py": 1,
-    "plugins/plugin_import_ovirt.py": 4,
-    "plugins/plugin_import_proxmox.py": 2,
-    "plugins/plugin_ipmisol.py": 1,
-    "plugins/plugin_netmiko_push.py": 6,
-    "plugins/plugin_serial.py": 1,
-    "plugins/plugin_snmp_push.py": 6,
-    "plugins/plugin_spice.py": 8,
-    "plugins/plugin_ssh.py": 3,
-    "plugins/plugin_vnc.py": 7,
-    "plugins/plugin_web.py": 1,
     "plugins/pluginvnc2/vnc_tab.py": 14,
     "ssh_config_editor.py": 4,
     "ssh_key_manager_dialog.py": 17,
-    "widgets.py": 3,
 }
 
 # Modules qui définissent des fonctions sans logger de module.

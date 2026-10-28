@@ -1156,6 +1156,7 @@ classDiagram
         +bool websocket
         +str ws_path
         +Optional~str~ tls_ca_file
+        +bool reverse
     }
     class VncStatus {
         <<enum.Enum>>

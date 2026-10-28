@@ -39,7 +39,8 @@ from utils import GCMBase, msgbox  # noqa: E402, I001
 # fichier) pour éviter une dépendance circulaire au chargement du module.
 try:
     from gnome_connection_manager import groups  # noqa: E402, F401
-except (ImportError, NameError):
+except (ImportError, NameError) as exc:
+    logger.debug("import proxmox | groupes du module principal indisponibles : {}", exc)
     groups = {}  # noqa: F841
 
 # Utilise le _() global injecté par bindtextdomain() si présent, sinon no-op
@@ -56,7 +57,8 @@ if "_" not in globals():
 # fichier) pour éviter une dépendance circulaire au chargement du module.
 try:
     from gnome_connection_manager import groups  # noqa: E402, F401
-except (ImportError, NameError):
+except (ImportError, NameError) as exc:
+    logger.debug("import proxmox | groupes du module principal indisponibles : {}", exc)
     groups = {}  # noqa: F841
 
 
