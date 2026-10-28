@@ -264,6 +264,12 @@ class VncConnectionInfo:
     #: None = magasin système (comportement d'asyncvnc2 par défaut). Le nom
     #: d'hôte vérifié est toujours ``host``, renseigné par asyncvnc2.
     tls_ca_file: Optional[str] = None
+    #: Reconnexion inversée (Gcm4 #104, tâche 4) : au lieu de composer vers
+    #: ``host:port``, l'onglet ÉCOUTE sur ``host:port`` (``asyncvnc2.listen``)
+    #: et attend que le serveur VNC vienne à lui (``vncconfig -connect``,
+    #: UltraVNC ``-connect``…). Port conventionnel : 5500. Le pinning de clé
+    #: hôte est désactivé dans ce mode (cf. ``_resolve_connection_mode``).
+    reverse: bool = False
 
 
 class VncStatus(enum.Enum):
@@ -599,6 +605,33 @@ class VncDisplay(Gtk.Picture):
             self._schedule_auto_reconnect()
 
     @staticmethod
+    def _resolve_connection_mode(reverse: bool, host: str, port: int, pin_host_key: bool) -> dict:
+        """Sens d'établissement de la connexion (Gcm4 #104, tâche 4).
+
+        Renvoie ``opener`` (``"connect"`` ou ``"listen"``, nom de la
+        fonction d'asyncvnc2), ``status`` (texte affiché pendant
+        l'attente) et ``pin`` (pinning de clé hôte actif ou non).
+
+        En reconnexion inversée, ``host:port`` est l'adresse LOCALE
+        d'écoute, pas l'identité du serveur qui va se présenter : épingler
+        une clé sous cette adresse mélangerait les clés de tous les
+        serveurs qui s'y connectent, donc pas de pinning.
+        """
+        logger.debug(
+            "VncDisplay._resolve_connection_mode | entrée reverse={r} host={h} port={p}", r=reverse, h=host, p=port
+        )
+        if reverse:
+            resultat = {
+                "opener": "listen",
+                "status": f"En attente d'une connexion entrante sur {host}:{port}…",
+                "pin": False,
+            }
+        else:
+            resultat = {"opener": "connect", "status": f"Connexion à {host}…", "pin": pin_host_key}
+        logger.debug("VncDisplay._resolve_connection_mode | sortie {r}", r=resultat)
+        return resultat
+
+    @staticmethod
     def _resolve_transport_kwargs(websocket: bool, ws_path: str) -> dict:
         """Arguments de transport à passer à ``asyncvnc2.connect()``.
 
@@ -676,10 +709,12 @@ class VncDisplay(Gtk.Picture):
             port=self.info.port,
             shared=self.info.shared,
         )
-        self._set_status(VncStatus.CONNECTING, f"Connexion à {self.info.host}…")
+        mode = self._resolve_connection_mode(self.info.reverse, self.info.host, self.info.port, self.info.pin_host_key)
+        opener = getattr(asyncvnc2, mode["opener"])
+        self._set_status(VncStatus.CONNECTING, mode["status"])
 
         pinned_key = None
-        if self.info.pin_host_key:
+        if mode["pin"]:
             pinned_key = self.host_key_store.get(self.info.host, self.info.port)
 
         connect_kwargs = {
@@ -709,7 +744,7 @@ class VncDisplay(Gtk.Picture):
 
         try:
             try:
-                self._ctx = asyncvnc2.connect(self.info.host, self.info.port, shared=self.info.shared, **connect_kwargs)
+                self._ctx = opener(self.info.host, self.info.port, shared=self.info.shared, **connect_kwargs)
                 self.client = await self._ctx.__aenter__()
             except TypeError:
                 # ton asyncvnc2 n'a pas encore shared_flag_patch.py appliqué —
@@ -719,7 +754,7 @@ class VncDisplay(Gtk.Picture):
                     "host={host} | repli sans ce paramètre",
                     host=self.info.host,
                 )
-                self._ctx = asyncvnc2.connect(self.info.host, self.info.port, **connect_kwargs)
+                self._ctx = opener(self.info.host, self.info.port, **connect_kwargs)
                 self.client = await self._ctx.__aenter__()
         except PermissionError as exc:
             logger.error(
@@ -753,7 +788,7 @@ class VncDisplay(Gtk.Picture):
 
         # Après un succès, mémoriser/rafraîchir la clé hôte si l'auth Apple
         # ARD en a fourni une (no-op pour les serveurs VNC classiques).
-        if self.info.pin_host_key and self.client.host_key is not None:
+        if mode["pin"] and self.client.host_key is not None:
             self.host_key_store.set(self.info.host, self.info.port, self.client.host_key)
 
         title = getattr(self.client.video, "name", None) or self.info.name

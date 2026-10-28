@@ -17,3 +17,7 @@ class UpdateType(enum.Enum):
 
 def connect(*args, **kwargs):
     raise NotImplementedError("stub asyncvnc2: connect() n'est pas implemente")
+
+
+def listen(*args, **kwargs):
+    raise NotImplementedError("stub asyncvnc2: listen() n'est pas implemente")

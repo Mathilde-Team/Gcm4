@@ -46,6 +46,23 @@ requires_gtk4 = pytest.mark.skipif(
 )
 
 
+def _real_asyncvnc2() -> bool:
+    """Faux sous le stub ``tests/gtk_stub/asyncvnc2.py`` (qui n'a pas de
+    ``Client``) : seuls les tests de bout en bout contre le vrai protocole
+    en dépendent. La CI (Xvfb) installe le vrai asyncvnc2, ils y tournent."""
+    try:
+        import asyncvnc2
+    except ImportError:
+        return False
+    return hasattr(asyncvnc2, "Client")
+
+
+requires_real_asyncvnc2 = pytest.mark.skipif(
+    not _real_asyncvnc2(),
+    reason="stub asyncvnc2 (tests/gtk_stub) : test de bout en bout contre le vrai protocole",
+)
+
+
 def _real_gtk() -> bool:
     """Faux sous le stub ``tests/gtk_stub/gi`` (boucle GLib et signaux
     GObject non fonctionnels) : seuls les tests qui font tourner une vraie
