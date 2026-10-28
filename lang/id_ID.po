@@ -5108,110 +5108,8 @@ msgstr "Pisah V"
 msgid "Unsplit all consoles"
 msgstr "Gabungkan kembali semua konsol"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "Log xfreerdp:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "halaman 2"
-
-#~ msgid "page 1"
-#~ msgstr "halaman 1"
-
-#~ msgid "local"
-#~ msgstr "lokal"
-
-#~ msgid "label"
-#~ msgstr "label"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Edit"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Pisahkan konsol secara vertikal"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Pisahkan konsol secara horizontal"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Tampilkan Toolbar"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Kirim perintah ke beberapa host sekaligus"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Detik antar paket keep-alive"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Simpan buffer konsol aktif ke file"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (tidak tersedia di sini: Proxmox memerlukan tiket/proxy API)"
-
-#~ msgid "Open local console"
-#~ msgstr "Buka konsol lokal"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Port lokal sudah digunakan"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Impor daftar server dari file"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Argumen tambahan untuk diteruskan ke baris perintah"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Ekspor daftar server ke file"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Edit properti host"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Target Proxmox terdeteksi (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Target Proxmox terdeteksi"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Buat penerusan port dinamis"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Hubungkan ke host yang dipilih atau semua host dalam grup yang dipilih"
+#~ msgid "Colors and Keys"
+#~ msgstr "Warna dan Tombol"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5224,5 +5122,107 @@ msgstr "Gabungkan kembali semua konsol"
 #~ "1: min\n"
 #~ "9: maks"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Warna dan Tombol"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Hubungkan ke host yang dipilih atau semua host dalam grup yang dipilih"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Buat penerusan port dinamis"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Target Proxmox terdeteksi"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Target Proxmox terdeteksi (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Edit properti host"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Ekspor daftar server ke file"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Argumen tambahan untuk diteruskan ke baris perintah"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Impor daftar server dari file"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Port lokal sudah digunakan"
+
+#~ msgid "Open local console"
+#~ msgstr "Buka konsol lokal"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (tidak tersedia di sini: Proxmox memerlukan tiket/proxy API)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Simpan buffer konsol aktif ke file"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Detik antar paket keep-alive"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Kirim perintah ke beberapa host sekaligus"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Tampilkan Toolbar"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Pisahkan konsol secara horizontal"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Pisahkan konsol secara vertikal"
+
+#~ msgid "_Edit"
+#~ msgstr "_Edit"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "label"
+
+#~ msgid "local"
+#~ msgstr "lokal"
+
+#~ msgid "page 1"
+#~ msgstr "halaman 1"
+
+#~ msgid "page 2"
+#~ msgstr "halaman 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "Log xfreerdp:"
