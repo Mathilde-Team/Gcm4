@@ -147,8 +147,8 @@ class IpmiSolTab(Gtk.Box):
                 import signal as _signal
 
                 os.kill(pid, _signal.SIGTERM)
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.debug("ipmisol | arrêt du processus SOL impossible : {}", exc)
         self._deactivate_sol()
         self._lbl_status.set_text(_("Disconnect"))
         self._btn_connect.set_sensitive(True)

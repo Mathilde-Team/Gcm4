@@ -2,6 +2,8 @@
 
 ## [Non publié]
 
+- **gcm4 : protocoles sans adresse (#297)** : méthode facultative `requires_address` du contrat de plugin v1 (défaut : adresse exigée) ; le plugin local la déclare : champ Adresse masqué dans le dialogue hôte et enregistrement sans adresse accepté pour les hôtes `local`, comme le faisait GTK3 (`show_host = not is_local`)
+
 ## [4.0.0] — 2026-10-24
 
 > Première version de **gcm4** (réécriture GTK4/libadwaita). La numérotation
@@ -11,6 +13,7 @@
 > (journal) et `features.md` (§4.1).
 
 ### Added
+- **pluginvnc2, reconnexion inversée** (#104, tâche 4) : réglage `reverse` de la connexion VNC, l'onglet écoute (`asyncvnc2.listen`) et attend que le serveur vienne à lui ; pinning de clé hôte coupé dans ce mode. Tests `plugins/pluginvnc2/tests/test_reverse_listen.py`
 - **Push SNMP : dépôt du fichier rendu** (#74) : `snmp_bulk_core.py` dépose la configuration rendue sur le serveur de dépôt avant le `SNMP SET` (`FileTransferConfig`, `upload_config_file` : SFTP avec clé d'hôte vérifiée dans `known_hosts`, FTP, TFTP RFC 1350) et transmet le protocole de récupération au driver (`FETCH_PROTOCOLS` : H3C ftp/tftp, Cisco tftp/ftp/sftp, Huawei ftp/tftp/sftp) au lieu du TFTP codé en dur. Paramètre `transfer` optionnel de `push_to_device`/`run_bulk_push`, comportement inchangé sans lui. Testé contre de vrais serveurs SFTP, FTP et TFTP locaux
 - **pluginvnc2 : envoi de texte répété** (#93) : case « Garder la fenêtre ouverte après l'envoi » dans le dialogue « Envoyer du texte », décochée par défaut et mémorisée pour la durée de vie de l'onglet ; cochée, le champ est vidé après chaque envoi et le dialogue reste ouvert
 - **Sélection multiple et édition en lot** (#100) : l'arbre GTK4 passe en `Gtk.MultiSelection` (Ctrl+clic, Maj+clic) ; « Modifier les hôtes sélectionnés… » (clic droit dans la sélection ou touche Menu) change le port et/ou le groupe de plusieurs hôtes, case non cochée = champ inchangé. Conflits de noms dans le groupe cible refusés avant toute écriture. Logique sans GTK dans `gcm4.core.edition_lot`, guide « Modifier plusieurs hôtes » dans `docs/guide/base-gtk4.md`

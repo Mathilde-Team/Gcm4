@@ -7,7 +7,8 @@ la version typée. GTK n'est importé que pour l'annotation
 Un plugin est une sous-classe de :class:`ConnectionPlugin` :
 
 - **identité** : :attr:`~ConnectionPlugin.name`, :attr:`~ConnectionPlugin.version`,
-  :attr:`~ConnectionPlugin.protocols`, :meth:`~ConnectionPlugin.default_port` ;
+  :attr:`~ConnectionPlugin.protocols`, :meth:`~ConnectionPlugin.default_port`,
+  :meth:`~ConnectionPlugin.requires_address` ;
 - **hôte** : :meth:`~ConnectionPlugin.default_options`,
   :meth:`~ConnectionPlugin.validate_options`,
   :meth:`~ConnectionPlugin.build_host_options_widget` ;
@@ -112,6 +113,20 @@ class ConnectionPlugin(ABC):
         """Port proposé pour ``protocol`` quand le champ est vide (``None`` : aucun)."""
         logger.trace("default_port: {!r}", protocol)
         return None
+
+    def requires_address(self, protocol: str) -> bool:
+        """Vrai si ``protocol`` a besoin d'une adresse (défaut : vrai).
+
+        Facultatif (#297, validé par l'auteure) : un protocole sans hôte
+        distant (terminal local) rend ``False`` — la fenêtre d'hôte
+        n'exige alors pas d'adresse et masque le champ, comme GTK3
+        (``show_host = not is_local``). Sans plugin, l'adresse reste
+        requise. La valeur par défaut garde la compatibilité des plugins
+        existants (``api_version`` reste 1, même pattern que
+        :meth:`default_port`).
+        """
+        logger.trace("requires_address: {!r}", protocol)
+        return True
 
     # --- hôte -----------------------------------------------------------------
 
