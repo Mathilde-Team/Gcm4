@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-only
 """Logique métier de GNOME Connection Manager — zéro dépendance GTK.
 
 Extrait de ``gnome_connection_manager.py`` le 2026-08-30 (première étape de

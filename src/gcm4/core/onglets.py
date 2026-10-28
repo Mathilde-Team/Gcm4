@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Onglets ouverts, enregistrés à la fermeture et restaurés au démarrage (#246).
 
 Même clé et même format que l'application GTK3 (features.md §4.2) :

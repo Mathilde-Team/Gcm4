@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Contexte injecté dans chaque plugin (contrat v1, ``docs/plugins.md``, #151).
 
 Le plugin ne voit ni l'application ni la fenêtre : seulement ces cinq

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Onglet « Netmiko » (déploiement de configuration en masse) pour GCM.
 
 Ce plugin n'est volontairement PAS un ``ConnectionPlugin`` (cf.

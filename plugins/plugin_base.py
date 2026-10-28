@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Contrats plugin pour GCM.
 
 Ce module définit DEUX familles de plugins, chacune avec son propre contrat

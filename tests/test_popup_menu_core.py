@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour popup_menu_core (menu contextuel du terminal, session-33).
 
 Couvre la logique pure (zero Gtk/Gio) du menu contextuel ``popupMenu``,

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 r"""couverture_combinee.py -- tableau de la couverture fusionnée (issue #163).
 
 Le job CI « Couverture combinée » fusionne (``coverage combine``) les

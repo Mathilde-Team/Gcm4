@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Aucun secret dans le journal applicatif : mot de passe VNC, URI SPICE,
 fichier .vv Proxmox, mot de passe d'hôte (gnome_connection_manager).
 

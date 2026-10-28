@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """``gcm4 groupe/nom…`` : hôtes de la ligne de commande sélectionnés au démarrage (#154)."""
 
 from __future__ import annotations

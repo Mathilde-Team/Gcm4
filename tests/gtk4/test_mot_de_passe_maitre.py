@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Mot de passe maître GTK4 : verrou au démarrage, recouvrement, préférences (#98)."""
 
 from __future__ import annotations

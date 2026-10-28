@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """
 ssh_deploy.py
 Pour chaque hyperviseur libvirt (lu depuis dconf virt-manager) :

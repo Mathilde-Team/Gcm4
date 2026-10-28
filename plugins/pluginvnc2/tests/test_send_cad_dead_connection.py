@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncDisplay._send_cad face à une connexion déjà morte.
 
 Bug identifié en session 14 (audit systématique de tous les accès à

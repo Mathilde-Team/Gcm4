@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Icônes du lanceur gcm4 (#155) aux tailles standard du thème hicolor, à partir
 # de icon.png (128×128) : réduction seulement, jamais d'agrandissement (une
 # taille 256 ou 512 demanderait une source vectorielle).

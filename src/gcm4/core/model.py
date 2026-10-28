@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Modèle de la base GTK4 : Host, Group, HostStore, sans GTK (#136).
 
 Neutralité de protocole (CONSIGNES-AGENTS-IA.md §1) : ``Host`` ne porte

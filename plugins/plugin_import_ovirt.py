@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Outil « Import from oVirt » (BatchPlugin) pour GCM.
 
 Porté depuis une révision antérieure du projet (mêmes conditions que

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Intégration au bureau de gcm4 : lanceur, AppStream, icônes (issue #155).
 
 Ces tests n'ont besoin ni de GTK ni des validateurs : ils vérifient la

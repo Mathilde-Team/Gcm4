@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Menu contextuel, actions, raccourcis et activation de l'arbre (#142).
 
 - Clic droit (``Gtk.GestureClick`` bouton 3) sur une ligne ou la zone vide,

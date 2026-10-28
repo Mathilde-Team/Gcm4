@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncDisplay.send_text() -- envoyer du texte au serveur distant
 comme une suite de frappes clavier, en contournant le presse-papiers.
 

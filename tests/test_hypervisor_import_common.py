@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Helpers d'import hyperviseur de ``hypervisor_import_common.py`` (#293, palier 2).
 
 ``tests/test_gcm.py`` couvre déjà ``vm_name_split``, une partie de

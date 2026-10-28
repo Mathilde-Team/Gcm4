@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Glisser-déposer dans l'arbre, validé sans GTK (#141).
 
 Portage de ``Wmain._on_tree_drag_data_get`` / ``_on_tree_drag_data_received``

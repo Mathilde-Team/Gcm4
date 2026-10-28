@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Contrat plugin v1 sans GTK (#149)."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin local de gcm4 (contrat v1, ``docs/plugins.md``) : shell local dans un terminal VTE GTK4.
 
 Portage de ``plugins/plugin_local.py`` (GTK3, #179, #295) ; la logique sans

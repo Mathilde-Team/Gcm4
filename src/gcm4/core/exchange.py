@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Import et export des hôtes en CSV et JSON, sans GTK (#152).
 
 Portage de ``Wmain._csv_fields``, ``_host_to_dict``, ``_coerce_field_value``,

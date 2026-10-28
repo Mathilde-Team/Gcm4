@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Menu principal et raccourcis de gcm4, décrits sans GTK (#134).
 
 Structure reprise de ``Wmain._build_primary_menu`` (GTK3), limitée à la

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Lecture et écriture de ``~/.config/gcm4/gcm4.conf`` sans GTK (#137).
 
 Format repris de ``Wmain.loadConfig`` / ``Wmain.writeConfig`` (application

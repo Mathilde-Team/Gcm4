@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncDisplay._on_button_pressed / _on_button_released (maintien
 de bouton souris pour le drag, cf. _gdk_button_to_vnc).
 

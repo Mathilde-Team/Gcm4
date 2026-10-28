@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Diagramme de classes généré (issue #175)."""
 
 from __future__ import annotations

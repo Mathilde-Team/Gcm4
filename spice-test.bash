@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 ssh root@192.168.105.41 "pvesh create /nodes/DOCKER41/qemu/100/spiceproxy --output-format json" \
   | python3 -c "
 import json,sys

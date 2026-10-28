@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Validation d'un hôte avant enregistrement, sans GTK (#144).
 
 Seuls les champs communs sont vérifiés (inventaire dans

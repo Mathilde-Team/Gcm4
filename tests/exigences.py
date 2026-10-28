@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests sautés alors que leur dépendance est installée (issue #160).
 
 Greffon pytest chargé par ``tests/conftest.py`` (et par ``-p exigences``

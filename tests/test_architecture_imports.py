@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Contrats d'architecture des imports (issue #174), par analyse AST.
 
 L'ancien code n'est pas encore un paquet : import-linter (configuré dans

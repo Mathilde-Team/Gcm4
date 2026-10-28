@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Expressions régulières PCRE2 utilisées par GCM pour la détection d'URLs.
 
 Ce module expose trois patterns principaux:

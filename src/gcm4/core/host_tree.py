@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Arbre des groupes et des hôtes, sans GTK (#139).
 
 Construit depuis :class:`~gcm4.core.model.HostStore` la structure affichée
