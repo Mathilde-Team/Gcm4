@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Vérification des mises à jour au démarrage : accord, fil, toast (#245)."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Verrou textuel sur l'état GTK4 du plugin RDP (audit session-46).
 
 Contexte : dernier des trois chantiers dont l'ordre reste à confirmer avec

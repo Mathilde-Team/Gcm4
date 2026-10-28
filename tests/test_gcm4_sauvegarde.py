@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Aperçu d'import, bilan et copie de la configuration, sans GTK (#153)."""
 
 from __future__ import annotations

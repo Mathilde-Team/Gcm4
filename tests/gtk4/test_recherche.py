@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Recherche dans l'arbre sous Xvfb (#140)."""
 
 from __future__ import annotations

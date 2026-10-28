@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """scripts/couverture_combinee.py : détail de la couverture fusionnée (issue #163)."""
 
 from __future__ import annotations

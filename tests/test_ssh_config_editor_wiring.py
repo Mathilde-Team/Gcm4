@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Verrou textuel : `ssh_config_editor.py` est bien câblé dans l'UI (audit session-34).
 
 Contexte : `docs/features-backlog.md` (« Pas encore fait », urgence haute) et

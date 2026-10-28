@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncTab._resolve_resize_target_size (bouton "ajuster la
 fenêtre à la taille distante actuelle", barre d'outils).
 

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """logging_config -- configuration centrale de loguru (issue #130, sous-issue 4a).
 
 Reprend le module ``netcross_core.logging_config`` de Netcross, adapté à

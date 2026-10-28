@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncDisplay._on_key_pressed face à une connexion déjà morte.
 
 Bug corrigé le 2026-09-13 : dernier chemin haut-niveau d'entrée à recevoir ce

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """
 libvirt_inventory.py — v4 (CLI complet, CSV, Ansible INI/YAML, ports SPICE/RDP)
 

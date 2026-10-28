@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Contenu des paquets .deb/.rpm (issue #162).
 
 ``make install DESTDIR=...`` est la seule étape commune à ``make deb``,

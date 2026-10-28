@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique métier pure de l'éditeur inline `CellTextView` (`widgets.py`, zéro import Gtk).
 
 Premier des quatre signaux GTK3-only inventoriés par l'audit session-42

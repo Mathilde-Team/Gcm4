@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Dialogue GTK3 d'édition de ~/.ssh/config intégré à GCM.
 
 Fournit un éditeur visuel (liste d'hôtes + formulaire de champs)

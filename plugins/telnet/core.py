@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique du plugin telnet, sans GTK : commande et délai des commandes après connexion.
 
 Reprend ``plugins/plugin_telnet.py`` (GTK3) :

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests unitaires pour plugins/plugin_base.py — verrou GTK3 levé (session-25).
 
 Couvre le comportement NOUVEAU de cette session : ``plugin_base.py`` ne

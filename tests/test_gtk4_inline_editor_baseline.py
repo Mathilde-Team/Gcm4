@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Verrou textuel sur les signaux GTK3-only de l'éditeur inline `CellTextView` (audit session-42).
 
 Contexte : dernier point resté ouvert de l'audit historique des menus

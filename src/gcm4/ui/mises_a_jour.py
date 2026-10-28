@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Vérification des mises à jour au démarrage, côté interface (#245).
 
 - décision : :func:`gcm4.core.mises_a_jour.decision` (option, accord, variable

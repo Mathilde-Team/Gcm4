@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Préférences générales sans GTK : inventaire de Wconfig, lecture, écriture (#147)."""
 
 from __future__ import annotations

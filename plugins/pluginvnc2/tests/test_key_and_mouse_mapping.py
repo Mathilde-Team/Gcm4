@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour le mapping clavier/souris GDK -> asyncvnc2.
 
 Rappel du choix d'architecture (cf. le commentaire au-dessus de

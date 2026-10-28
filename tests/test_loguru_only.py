@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Un seul système de journalisation : loguru (issue #170).
 
 Analyse ``ast`` de tous les fichiers Python du dépôt (hors sous-projets

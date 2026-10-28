@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Dépôt du fichier rendu par ``snmp_bulk_core`` (SFTP, FTP, TFTP), issue #74.
 
 Les transports repris de l'ancien ``snmp_push_core.py`` sont testés contre de

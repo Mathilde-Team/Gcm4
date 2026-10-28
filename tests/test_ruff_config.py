@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Verrou : `pyproject.toml` exclut bien les dépôts vendorisés du lint ruff (session-35).
 
 Contexte : `[tool.ruff] exclude` ne mentionnait ni `SSH-Studio/` (code source

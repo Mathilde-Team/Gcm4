@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-only
 """Widgets GTK personnalisés pour l'interface GCM."""
 
 import os

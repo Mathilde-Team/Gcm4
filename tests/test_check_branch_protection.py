@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests de scripts/check_branch_protection.py (protection de dev, issue #161, repris de Netcross #334).
 
 Reseau exclu, comme pour scripts/pr_coverage_comment.py : l'etat de la

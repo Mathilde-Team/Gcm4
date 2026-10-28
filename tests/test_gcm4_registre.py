@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Découverte des plugins, tri et isolation des erreurs, sans GTK (#150)."""
 
 from __future__ import annotations

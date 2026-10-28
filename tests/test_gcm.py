@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests unitaires pour Gnome Connection Manager.
 
 Couvre les fonctions critiques sans dépendance GTK/VTE :

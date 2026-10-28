@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion RDP (GtkFrdp.Display embarqué).
 
 Quatrième plugin implémenté après Web, IPMI SOL et Serial.

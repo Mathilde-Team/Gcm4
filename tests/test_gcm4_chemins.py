@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Dossier ~/.config/gcm4 et migration depuis ~/.gcm (#99)."""
 
 from __future__ import annotations
