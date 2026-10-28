@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Outil « Import from libvirt » (BatchPlugin) pour GCM.
 
 Anciennement du code intégré directement dans ``gnome_connection_manager.py``

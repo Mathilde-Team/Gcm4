@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Traductions de gcm4 : domaine gettext ``gcm-lang`` de l'application GTK3.
 
 Les libellés repris de l'ancienne interface gardent leurs msgids anglais,

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Page Raccourcis modifiable (#247) : saisie, conflits, désactivation, réinitialisation."""
 
 from __future__ import annotations

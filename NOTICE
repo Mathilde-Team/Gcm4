@@ -1,0 +1,79 @@
+gcm4 — avis de licence
+======================
+
+gcm4 est un fork de gnome-connection-manager (Renzo Bertuzzi L.).
+Le texte complet de la licence GNU GPL version 3 est dans LICENSE.
+Chaque fichier de code porte un en-tête « SPDX-License-Identifier ».
+
+
+Avis de l'auteur amont (reproduit sans modification)
+----------------------------------------------------
+
+This is gnome-connection-manager, written and maintained by
+Renzo Bertuzzi L. <kuthulu@gmail.com>
+Project's Homepage: http://kuthulu.com/gcm or https://github.com/kuthulux/gnome-connection-manager
+
+Copyright © 2020 Renzo Bertuzzi L. <kuthulu@gmail.com>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 3, as
+published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License with
+the Debian GNU/Linux distribution in file /usr/share/common-licenses/GPL-3;
+if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+Ce que cela implique
+--------------------
+
+L'avis amont accorde la GPL « version 3 », sans « ou toute version
+ultérieure ». Trois régimes coexistent donc dans ce dépôt :
+
+- GPL-3.0-only : fichiers repris ou dérivés du code amont. Ils gardent
+  la licence d'origine tant que l'auteur amont n'a pas donné son accord
+  pour « ou toute version ultérieure » :
+    gnome_connection_manager.py, widgets.py, gcm4_core.py, models.py,
+    utils.py, urlregex.py, ssh.expect, style.css, postinst
+- GPL-3.0-or-later : code écrit par l'équipe Mathilde-Team (src/gcm4/,
+  plugins/, scripts/, tools/, tests/ et les autres modules).
+- MIT : pyAES.py, Copyright (c) 2007 Brandon Sterne
+  (http://brandon.sternefamily.net/files/mit-license.txt), repris de
+  l'amont avec sa licence d'origine.
+
+Le programme distribué (paquets .deb et .rpm) combine ces fichiers : il
+est donc diffusé, dans son ensemble, sous GPL-3.0-only. Le code de
+l'équipe reste réutilisable séparément sous GPL-3.0-or-later.
+
+
+Code vendorisé (non distribué dans les paquets gcm4)
+----------------------------------------------------
+
+- gtk-frdp/ (Marek Kasik, GNOME) : COPYING contient la LGPL-3.0 ;
+  gtk-frdp.h et gtk-frdp-version.h.in sont en LGPL-3.0-or-later, les
+  13 autres sources de src/ en GPL-3.0-or-later. L'ensemble de la
+  bibliothèque compilée est donc à traiter comme GPL-3.0-or-later.
+- SSH-Studio/ (BuddySirJava) : LICENSE contient la GPL-3.0, et
+  meson.build déclare « GPL-3.0-or-later ».
+
+Ces deux licences sont compatibles avec la GPL-3.0.
+
+
+Dépendances optionnelles (installées à part, non incluses)
+----------------------------------------------------------
+
+| Extra    | Paquet          | Licence             | Compatible GPL-3.0 |
+|----------|-----------------|---------------------|--------------------|
+| (base)   | loguru          | MIT                 | oui                |
+| netmiko  | netmiko         | MIT                 | oui                |
+| paramiko | paramiko        | LGPL-2.1            | oui (LGPL-2.1 §3)  |
+| libvirt  | libvirt-python  | LGPL-2.0-or-later   | oui                |
+| vnc      | pycryptodomex   | BSD-2-Clause, domaine public | oui       |
+
+Licences relevées sur PyPI pour les versions de uv.lock (octobre 2026).

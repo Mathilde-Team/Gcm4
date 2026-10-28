@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Préférences GTK4 : pages Général et Apparence, application immédiate (#147)."""
 
 from __future__ import annotations

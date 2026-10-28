@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique métier SSH de gcm4, zéro dépendance GTK — parsing de
 ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf.
 

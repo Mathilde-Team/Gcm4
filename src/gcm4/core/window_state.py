@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Géométrie de la fenêtre principale, dans ``gcm4.conf`` (#134).
 
 Mêmes clés que l'application GTK3 (section ``[window]``) : on peut passer

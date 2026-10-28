@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Lecture et écriture de gcm.conf sans GTK (#137)."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncTab._resolve_fullscreen_action (bouton plein écran, barre
 d'outils).
 

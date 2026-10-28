@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Décompte seconde par seconde avant la reconnexion automatique (Gcm4 #94).
 
 Jusqu'ici le message d'erreur affichait le délai une seule fois

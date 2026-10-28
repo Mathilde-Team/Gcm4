@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Construction de l'arbre des hôtes sans GTK (#139)."""
 
 from __future__ import annotations

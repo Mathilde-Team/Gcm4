@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests unitaires pour master_password_core.py.
 
 Comme tests/test_gcm4_core.py, ce fichier importe le module directement —

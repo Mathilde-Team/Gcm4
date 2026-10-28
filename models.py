@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-only
 """Modèles de données pour les hôtes et utilitaires de configuration."""
 
 import getpass

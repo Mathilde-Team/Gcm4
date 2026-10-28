@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion VNC (GtkVnc.Display natif, ou fallback subprocess).
 
 Cinquième plugin implémenté après Web, IPMI SOL, Serial et RDP.

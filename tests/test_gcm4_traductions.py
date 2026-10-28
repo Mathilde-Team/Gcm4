@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Chaque texte de gcm4 est traduit dans toutes les langues (décision du 12/10/2026).
 
 Textes de src/gcm4, du lanceur et des métadonnées AppStream de data/ (#274).

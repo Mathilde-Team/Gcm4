@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Workflow .github/workflows/i18n.yml : PR automatique des catalogues (issue #167)."""
 
 from __future__ import annotations

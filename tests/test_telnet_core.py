@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique sans GTK du plugin telnet (``plugins/telnet/core.py``, #179)."""
 
 from __future__ import annotations

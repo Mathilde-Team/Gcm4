@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
 # scripts/smoke-test-packages.sh -- test de fumée des paquets gcm4 (#156, #157).
 #
 # Sur le modèle de Netcross : le paquet est vérifié tel que l'utilisateur le

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Dialogue d'hôte : champs communs, création, modification, duplication (#145).
 
 ``Adw.Window`` modale. Seuls les champs **communs** sont édités (inventaire :

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Garde-fous de l'internationalisation (issue #168).
 
 1. Aucune liste de langues codée en dur hors de ``lang/LINGUAS``.

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin local GTK4 (``plugins/local/gtk4.py``, #295) avec un vrai ``Vte.Terminal``.
 
 Un faux shell (script Python désigné par ``SHELL``) note ses arguments,

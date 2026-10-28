@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncTab._resolve_screen_dropdown_index (dropdown de sélection
 d'écran, barre d'outils, multi-écran).
 

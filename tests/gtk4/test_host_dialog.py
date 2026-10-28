@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Dialogue d'hôte sous Xvfb : création, modification, duplication, annulation (#145)."""
 
 from __future__ import annotations

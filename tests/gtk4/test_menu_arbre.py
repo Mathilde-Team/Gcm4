@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Menu contextuel, actions et activation de l'arbre sous Xvfb (#142)."""
 
 from __future__ import annotations

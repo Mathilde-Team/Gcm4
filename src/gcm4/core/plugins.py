@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Contrat v1 entre la base gcm4 et ses plugins de connexion (#149), sans GTK.
 
 La référence pour écrire un plugin est ``docs/plugins.md`` ; ce module en est

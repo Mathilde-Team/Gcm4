@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Dialogues de confirmation et de saisie, compatibles libadwaita 1.2 à 1.9.
 
 ``Adw.AlertDialog`` (libadwaita ≥ 1.5) quand il existe, sinon

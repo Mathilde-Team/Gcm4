@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Fenêtre principale de gcm4 (#134).
 
 ``Adw.HeaderBar`` avec menu principal, ``Gtk.Paned`` : panneau gauche

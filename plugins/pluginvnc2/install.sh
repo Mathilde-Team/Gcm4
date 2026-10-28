@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
 # install.sh — installe les dépendances de pluginvnc2, vérifie ruff et
 # lance les tests. Pensé pour préparer un premier push GitHub propre :
 # rien n'est poussé ici, ce script prépare juste l'environnement local et

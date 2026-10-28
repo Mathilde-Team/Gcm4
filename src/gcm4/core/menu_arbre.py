@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Menu contextuel de l'arbre et règles de ses actions, sans GTK (#142).
 
 La disposition est celle de ``folder_context_menu_core.build_folder_context_menu_layout``

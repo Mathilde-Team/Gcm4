@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# SPDX-License-Identifier: MIT
 """AES encryption/decryption implementation in pure Python.
 
 Python implementation of the AES (Advanced Encryption Standard) symmetric

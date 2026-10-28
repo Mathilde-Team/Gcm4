@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion série (port local via picocom/minicom/screen).
 
 Troisième plugin implémenté après Web et IPMI SOL.

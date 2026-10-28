@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Raccourcis modifiables de la fenêtre, sans GTK : section ``[shortcuts]`` (#247)."""
 
 from __future__ import annotations

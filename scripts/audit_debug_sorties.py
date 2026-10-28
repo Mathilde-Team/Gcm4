@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Audit de la consigne « debug en entrée et à chaque sortie » (issue #171).
 
 ``CONSIGNES-AGENTS-IA.md`` §3 demande au moins deux ``debug()`` par

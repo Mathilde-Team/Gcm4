@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-only
 """GNOME Connection Manager - Terminal-based SSH/RDP/VNC/SPICE client manager.
 
 Main application module providing GTK3 UI, host database management, terminal

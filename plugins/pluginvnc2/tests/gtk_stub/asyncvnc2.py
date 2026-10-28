@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Stub minimal pour permettre l'import de vnc_tab.py sans le vrai
 asyncvnc2 installe (utilise seulement au moment de la collecte des tests
 de logique pure -- rien ici n'a besoin d'etre fonctionnellement correct,

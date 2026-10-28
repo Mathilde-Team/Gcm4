@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Mot de passe maître et code de recouvrement dans ChiffrementGcm (#98)."""
 
 from __future__ import annotations

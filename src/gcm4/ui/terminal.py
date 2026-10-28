@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Terminal VTE GTK4 commun aux plugins terminal (telnet, local…), #295.
 
 Repris de ``plugins/telnet/gtk4.py`` (#290) pour ne pas recopier la même

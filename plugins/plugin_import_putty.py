@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Outil « Import from PuTTY sessions » (BatchPlugin) pour GCM.
 
 Backlog §4.2 (urgence faible) de ``features.md``. Au même titre que

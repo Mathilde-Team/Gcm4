@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Dialogue d'hôte et protocole local (#297) : champ Adresse masqué, sans adresse.
 
 Comme le reste de ``test_plugin_local.py``, ces tests chargent le plugin

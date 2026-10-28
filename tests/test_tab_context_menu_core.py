@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour tab_context_menu_core (menu contextuel des onglets, session-31).
 
 Couvre la logique pure (zero Gtk/Gio) de disposition du menu contextuel des

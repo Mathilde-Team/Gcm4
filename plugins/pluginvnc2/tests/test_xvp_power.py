@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests du menu « Alimentation » (xvp) de l'onglet VNC (Gcm4 #104, tâche 5).
 
 asyncvnc2 expose ``send_xvp_shutdown()`` / ``send_xvp_reboot()`` /
