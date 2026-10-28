@@ -96,7 +96,7 @@ install: translate
 		>> $(DESTDIR)/usr/share/doc/$(PKG_NAME)/changelog
 	gzip -9 $(DESTDIR)/usr/share/doc/$(PKG_NAME)/changelog
 	cp gnome-connection-manager.desktop $(DESTDIR)/usr/share/applications/
-	cp LICENSE $(DESTDIR)/usr/share/doc/$(PKG_NAME)/copyright
+	cat NOTICE LICENSE > $(DESTDIR)/usr/share/doc/$(PKG_NAME)/copyright
 	cp -r lang icon.png ssh.expect style.css $(RUNTIME_PY) \
 		$(DESTDIR)/usr/share/$(PKG_NAME)/
 	for f in $(PLUGINS_PY); do \
