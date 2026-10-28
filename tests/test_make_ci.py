@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """`make ci` rejoue les étapes de la CI (issue #162).
 
 Chaque commande d'une ligne des jobs Qualité, Types et i18n de

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique commune aux plugins terminal, sans GTK (``gcm4.core.terminal``, #295)."""
 
 from __future__ import annotations

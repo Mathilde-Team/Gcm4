@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Cœur du plugin SFTP (``plugins/sftp/core.py``, #75) contre un vrai serveur paramiko.
 
 Le serveur (``tests/serveur_sftp.py``) parle le vrai protocole SSH/SFTP sur

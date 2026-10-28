@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """``except`` journalisés de ``plugins/ssh/core.py`` et ``tools/`` (issue #294).
 
 Les replis restent les mêmes (valeur par défaut, Include ignoré, nettoyage

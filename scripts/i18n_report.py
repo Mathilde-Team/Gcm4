@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Taux de traduction par langue des catalogues ``lang/*.po`` (issue #166).
 
 Lit ``lang/LINGUAS`` (seule liste des langues, issue #165) et compte, pour

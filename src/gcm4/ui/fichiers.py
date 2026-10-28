@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Choix d'un fichier ou d'un dossier, asynchrone, GTK 4.0 à 4.22 (#153).
 
 ``Gtk.FileDialog`` (GTK ≥ 4.10) quand il existe, sinon

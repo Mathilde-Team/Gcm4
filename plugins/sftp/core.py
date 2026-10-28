@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique du plugin SFTP (#75), sans GTK : connexion, navigation, transferts.
 
 Bibliothèque : paramiko (extra ``paramiko`` de ``pyproject.toml``). Tout ce

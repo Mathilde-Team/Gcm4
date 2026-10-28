@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests de logging_config (issue #130, sous-issue 4a), sans GTK."""
 
 from __future__ import annotations

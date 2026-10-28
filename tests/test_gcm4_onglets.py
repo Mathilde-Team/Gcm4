@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Onglets ouverts : format [window] open-tabs partagé avec GTK3 (#246)."""
 
 from __future__ import annotations

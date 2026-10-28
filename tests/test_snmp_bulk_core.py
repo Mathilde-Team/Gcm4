@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests unitaires pour snmp_bulk_core.py (cœur métier sans GTK).
 
 Ce module n'a jamais dépendance à GTK/VTE (voir claude.md « Conventions du

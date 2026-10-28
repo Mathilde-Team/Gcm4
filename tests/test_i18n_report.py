@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """scripts/i18n_report.py et job CI i18n (issue #166)."""
 
 from __future__ import annotations

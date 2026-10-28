@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Lanceur et métadonnées AppStream traduits (issue #274).
 
 ``scripts/i18n-update.sh`` extrait les textes de ``data/`` dans

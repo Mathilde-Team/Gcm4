@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Nom de l'organisation GitHub dans les fichiers suivis (issue #310).
 
 L'ancien nom mal orthographié de l'organisation ne correspond à aucun compte

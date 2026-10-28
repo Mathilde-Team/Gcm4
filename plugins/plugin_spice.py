@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion SPICE (SpiceClientGtk.Display natif, ou fallback subprocess).
 
 Sixième plugin implémenté après Web, IPMI SOL, Serial, RDP et VNC — le plus

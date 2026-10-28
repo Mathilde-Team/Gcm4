@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Intégration au bureau de gcm4 (#155) : valide le lanceur, les métadonnées
 # AppStream et les icônes de data/. Utilisé par le job CI « Intégration au
 # bureau » et par `make ci` / `make check-desktop`.

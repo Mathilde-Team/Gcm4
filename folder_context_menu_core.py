@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique metier pure du menu contextuel du panneau de serveurs (zero import Gtk/Gio).
 
 Extrait de ``widgets.FolderContextMenu`` (session-32, portage GTK4-ready du

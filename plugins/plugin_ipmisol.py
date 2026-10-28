@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion IPMI Serial-over-LAN (console BMC : iLO, iDRAC, IMM…).
 
 Deuxième plugin implémenté après Web. IPMI SOL n'a aujourd'hui AUCUNE page

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Helpers partagés par les imports hyperviseurs (libvirt / Proxmox).
 
 Ce module N'EST PAS un plugin — volontairement pas préfixé ``plugin_`` pour

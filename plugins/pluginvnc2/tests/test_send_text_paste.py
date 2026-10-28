@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncTab._resolve_pasted_clipboard_text -- bouton "Coller"
 (icône secondaire) sur le champ de saisie du dialogue "Envoyer du texte"
 (cf. docs/sessions/session-22.md).

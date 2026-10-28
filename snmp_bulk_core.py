@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Cœur métier (sans GTK) du déploiement SNMP pour GCM.
 
 Core simple et synchrone pour le plugin Push SNMP, adapté du style

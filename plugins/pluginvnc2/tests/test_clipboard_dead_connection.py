@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncDisplay._on_local_clipboard_read face à une connexion déjà
 morte.
 

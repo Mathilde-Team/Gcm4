@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin).
 
 Contient aujourd'hui uniquement :

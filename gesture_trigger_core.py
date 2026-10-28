@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique métier pure du déclenchement des menus contextuels (zéro import Gtk/Gio).
 
 Point 3 de l'audit session-29 (`docs/gtk4-migration.md` §3.6-ter), inventorié

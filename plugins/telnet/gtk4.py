@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin telnet de gcm4 (contrat v1, ``docs/plugins.md``) : terminal VTE GTK4.
 
 Portage de ``plugins/plugin_telnet.py`` (GTK3, #179) ; la logique sans GTK

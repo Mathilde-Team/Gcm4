@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Presse-papiers étendu (Extended Clipboard) vers le serveur (Gcm4 #104, tâche 1).
 
 Quand le serveur a confirmé Extended Clipboard

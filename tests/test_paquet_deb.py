@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Paquet .deb de la base GTK4 (issue #156) : cohérence des fichiers de build-deb/.
 
 Le paquet est construit puis installé et lancé par les jobs CI « Paquet .deb

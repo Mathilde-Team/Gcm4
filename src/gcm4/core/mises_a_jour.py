@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Vérification des mises à jour, sans GTK ni réseau dans les tests (#245).
 
 Règle de #123 : **jamais d'accès réseau au démarrage sans accord**.

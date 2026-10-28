@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Raccourcis modifiables (#247) : noms de touches GDK, saisie d'une combinaison.
 
 Le fichier garde la notation GTK3 en majuscules (``CTRL+PAGE_DOWN``) ; les

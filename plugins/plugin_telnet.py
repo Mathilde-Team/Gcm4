@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion Telnet.
 
 Huitième plugin de la série. ``TelnetTab`` duplique volontairement la

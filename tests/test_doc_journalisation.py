@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """docs/journalisation.md reste fidèle à logging_config.py (issue #172)."""
 
 from __future__ import annotations

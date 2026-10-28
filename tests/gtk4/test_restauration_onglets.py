@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Restauration des onglets ouverts au démarrage (#246), avec le plugin démo."""
 
 from __future__ import annotations

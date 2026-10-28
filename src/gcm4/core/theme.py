@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Thème de la base GTK4, sans GTK (#135).
 
 Clés reprises de l'application GTK3 (``Wmain.loadConfig``) :

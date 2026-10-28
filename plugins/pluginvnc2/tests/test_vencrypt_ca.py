@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """VeNCrypt côté onglet VNC (Gcm4 #104, tâche 2).
 
 asyncvnc2 négocie VeNCrypt seul (magasin système de CA, nom d'hôte

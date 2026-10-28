@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Arbre des groupes et des hôtes du panneau gauche (#139).
 
 ``Gtk.TreeListModel`` + ``Gtk.ListView`` + ``Gtk.TreeExpander`` (fin de

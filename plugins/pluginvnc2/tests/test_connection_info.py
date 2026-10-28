@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncConnectionInfo (dataclass de profil de connexion) et
 VncStatus."""
 

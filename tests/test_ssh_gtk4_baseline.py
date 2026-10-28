@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Verrou textuel sur les ruptures GTK3 des fichiers de widgets SSH (audit session-45).
 
 Contexte : dernier des trois chantiers GTK4 dont l'ordre reste à confirmer

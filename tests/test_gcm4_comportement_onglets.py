@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Onglet voisin et titre de la fenêtre, sans GTK (#247)."""
 
 from __future__ import annotations

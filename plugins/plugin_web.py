@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion Web (console BMC HTML5 : iLO/iDRAC/IMM, ou toute URL).
 
 Premier plugin implémenté, choisi comme preuve de concept car ``WebTab``

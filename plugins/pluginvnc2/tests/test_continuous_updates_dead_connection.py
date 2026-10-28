@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncDisplay._send_enable_continuous_updates face à une
 connexion déjà morte.
 

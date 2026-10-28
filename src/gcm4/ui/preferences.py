@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Préférences de la base GTK4 : pages Général et Apparence (lot 5a, #147).
 
 ``Adw.PreferencesWindow`` sans bouton OK : chaque changement est appliqué

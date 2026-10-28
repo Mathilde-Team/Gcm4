@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Protection par mot de passe maître du fichier de clé locale (``KEY_FILE``).
 
 Zéro dépendance GTK — voir ``CONSIGNES-AGENTS-IA.md``. Traite l'item

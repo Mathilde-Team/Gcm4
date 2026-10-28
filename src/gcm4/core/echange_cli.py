@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Import et export des hôtes en ligne de commande, sans fenêtre (#154).
 
 ``gcm4 --export-json FICHIER`` (ou ``--export-csv``) écrit les hôtes de

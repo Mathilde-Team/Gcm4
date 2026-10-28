@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Verrous textuels sur l'état des points de rupture GTK4 (audit session-28).
 
 Contexte : `docs/gtk4-migration.md` §3.2 inventorie les points de rupture

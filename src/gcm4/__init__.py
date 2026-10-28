@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """gcm4 : Gnome Connection Manager en GTK4 (épopée #118).
 
 Arbre ``src/gcm4/`` (décision D5) : ``core/`` sans GTK, ``ui/`` seul

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Import/export des hôtes et copie de la configuration depuis le menu Fichier (#153).
 
 Vrais dialogues sous Xvfb ; seul le sélecteur de fichiers est remplacé

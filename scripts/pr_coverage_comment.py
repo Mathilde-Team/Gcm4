@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 r"""pr_coverage_comment.py -- publie le commentaire de couverture d'une PR.
 
 Issue #128 (repris de Netcross, scripts/pr_coverage_comment.py, #224) : le

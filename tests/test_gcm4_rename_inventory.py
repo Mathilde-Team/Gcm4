@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Verrou d'inventaire pour le renommage GCM → gcm4 (audit session-30).
 
 Contexte : la décision de renommer le projet (GCM → gcm4) a été actée le

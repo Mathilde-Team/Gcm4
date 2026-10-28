@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour gesture_trigger_core (déclenchement Gtk.GestureClick, session-39).
 
 Couvre la logique pure (zéro Gtk/Gdk) de classification d'un clic sur

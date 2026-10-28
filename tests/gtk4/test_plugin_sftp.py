@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin SFTP GTK4 (``plugins/sftp/gtk4.py``, #75) contre un vrai serveur SSH/SFTP paramiko.
 
 Chaque test ouvre un onglet sur le serveur de ``tests/serveur_sftp.py``

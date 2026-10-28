@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Génère ``docs/class-diagram.md`` depuis le code (issue #175, modèle Netcross #140).
 
 Analyse statique (module ``ast``) : aucun module de GCM n'est importé, donc ni
