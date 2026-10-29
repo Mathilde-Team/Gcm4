@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin démo des tests (#151) : protocole ``demo``, onglet ``Gtk.Label``.
 
 Chargé comme un plugin en mode source (``plugins/<nom>/gtk4.py``) :

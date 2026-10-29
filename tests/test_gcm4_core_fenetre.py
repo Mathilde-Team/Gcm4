@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Cœur sans GTK du lot 1b (#134) : état de fenêtre, menu, traductions."""
 
 from __future__ import annotations

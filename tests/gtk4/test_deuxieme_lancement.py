@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Deuxième lancement de gcm4 transmis à l'instance en cours (#275).
 
 Deux niveaux :

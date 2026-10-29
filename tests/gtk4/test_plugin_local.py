@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin local GTK4 (``plugins/local/gtk4.py``, #295) avec un vrai ``Vte.Terminal``.
 
 Un faux shell (script Python désigné par ``SHELL``) note ses arguments,
@@ -144,6 +145,11 @@ def _enfants(widget):
     while enfant is not None:
         yield enfant
         enfant = enfant.get_next_sibling()
+
+
+def test_requires_address_faux(plugin):
+    """#297 : le protocole local ne requiert pas d'adresse."""
+    assert plugin.requires_address("local") is False
 
 
 def test_decouvert_depuis_les_sources(plugin):

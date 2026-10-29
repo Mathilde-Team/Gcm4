@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Glisser-déposer dans l'arbre sous Xvfb (#141)."""
 
 from __future__ import annotations

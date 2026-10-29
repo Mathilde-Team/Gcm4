@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-100 modules · 176 classes · 341 fonctions publiques de module.
+100 modules · 176 classes · 342 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -86,6 +86,7 @@ classDiagram
         +decrypt(passw, string, version) str
         +color_to_hex(rgba, diff) str
         +proto_default_port(proto, plugin_registry) str
+        +proto_requires_address(proto, plugin_registry) bool
         +all_default_ports(plugin_registry) set~str~
         +compute_zoom_size(current_size, delta, minimum, maximum) float
         +resolve_cluster_command(text) str
@@ -814,6 +815,7 @@ classDiagram
     }
     class plugins_local_gtk4_LocalPlugin {
         +default_port(protocol) int None
+        +requires_address(protocol) bool
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) LocalSession
     }
@@ -1173,6 +1175,7 @@ classDiagram
         +bool websocket
         +str ws_path
         +Optional~str~ tls_ca_file
+        +bool reverse
     }
     class VncStatus {
         <<enum.Enum>>
@@ -1711,6 +1714,7 @@ classDiagram
         +ClassVar~str~ version
         +ClassVar~tuple~str, ...~~ protocols
         +default_port(protocol) int None
+        +requires_address(protocol) bool
         +default_options(protocol) dict~str, str~
         +validate_options(protocol, options) list~FieldError~
         +build_host_options_widget(host, options, changed) Gtk.Widget

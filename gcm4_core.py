@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-only
 """Logique métier de GNOME Connection Manager — zéro dépendance GTK.
 
 Extrait de ``gnome_connection_manager.py`` le 2026-08-30 (première étape de
@@ -700,6 +701,43 @@ def proto_default_port(proto: str, plugin_registry: PluginRegistry) -> str:
         return ""
     result = str(port)
     app_logger.debug(f"proto_default_port() returning | result={result!r}")
+    return result
+
+
+def proto_requires_address(proto: str, plugin_registry: PluginRegistry) -> bool:
+    """Vrai si le protocole exige une adresse (défaut : vrai, #297).
+
+    Même paramètre explicite que ``proto_default_port`` ci-dessus (pas de
+    lecture d'un global GTK). Complément du contrat v1 (#297, validé par
+    l'auteure) : ``plugin.requires_address`` est accepté comme attribut
+    (booléen, plugins GTK3) **ou** comme méthode appelée avec ``proto``
+    (contrat v1 de ``gcm4.core.plugins.ConnectionPlugin``). Plugin absent
+    ou sans déclaration : l'adresse reste requise (vrai), les plugins
+    existants ne changent pas de comportement.
+
+    Args:
+        proto (str): Identifiant de protocole (ex. ``"ssh"``, ``"local"``...).
+        plugin_registry (PluginRegistry): Registre de plugins chargé
+            (``wMain.plugin_registry`` côté appelant GTK4).
+
+    Returns:
+        bool: ``False`` si le plugin du protocole déclare explicitement
+        qu'aucune adresse n'est nécessaire (terminal local) ; ``True``
+        sinon (plugin absent, sans déclaration, ou attribut vrai).
+    """
+    app_logger.debug(f"proto_requires_address() called | proto={proto!r}")
+    plugin = plugin_registry.get(proto)
+    if plugin is None:
+        app_logger.debug("proto_requires_address() returning | True (plugin absent)")
+        return True
+    requise = getattr(plugin, "requires_address", None)
+    if requise is None:
+        app_logger.debug("proto_requires_address() returning | True (sans déclaration)")
+        return True
+    if callable(requise):  # contrat v1 : requires_address(protocol) est une méthode
+        requise = requise(proto)
+    result = bool(requise)
+    app_logger.debug(f"proto_requires_address() returning | result={result!r}")
     return result
 
 

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Découverte des plugins et isolation de leurs erreurs (#150), sans GTK.
 
 Sources, dans cet ordre (``docs/plugins.md``, « Installation et découverte ») :

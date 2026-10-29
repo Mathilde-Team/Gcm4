@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Import/export des hôtes et copie de la configuration depuis le menu Fichier (#153).
 
 Actions de la fenêtre principale :

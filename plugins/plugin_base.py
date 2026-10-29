@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Contrats plugin pour GCM.
 
 Ce module définit DEUX familles de plugins, chacune avec son propre contrat
@@ -86,7 +87,8 @@ def _attach_debug_tracing(plugin_obj: object, scope: str) -> None:
             continue
         try:
             bound = getattr(plugin_obj, attr_name)
-        except Exception:
+        except Exception as exc:
+            logger.debug("trace plugin | attribut {} illisible : {}", attr_name, exc)
             continue
         if not callable(bound):
             continue
@@ -102,7 +104,8 @@ def _attach_debug_tracing(plugin_obj: object, scope: str) -> None:
 
         try:
             setattr(plugin_obj, attr_name, _wrapped)
-        except Exception:
+        except Exception as exc:
+            logger.debug("trace plugin | attribut {} non remplaçable : {}", attr_name, exc)
             continue
 
     setattr(plugin_obj, "_gcm_debug_tracing_attached", True)  # noqa: B010 (attribut dynamique)

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Menu contextuel de l'arbre sans GTK (#142)."""
 
 from __future__ import annotations

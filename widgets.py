@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-only
 """Widgets GTK personnalisés pour l'interface GCM."""
 
 import os
@@ -35,12 +36,14 @@ from loguru import logger as _loguru_logger
 
 try:
     USERHOME_DIR = os.getenv("HOME")
-except:
+except Exception as exc:
+    _loguru_logger.debug("widgets | variable HOME illisible : {}", exc)
     USERHOME_DIR = ""
 if USERHOME_DIR is None or USERHOME_DIR == "":
     try:
         USERHOME_DIR = os.path.expanduser("~")
-    except:
+    except Exception as exc:
+        _loguru_logger.debug("widgets | répertoire personnel introuvable : {}", exc)
         USERHOME_DIR = ""
 
 assert (USERHOME_DIR is not None) and (USERHOME_DIR != ""), (
@@ -1620,8 +1623,8 @@ def inputbox(title, text, default="", password=False, parent=None, icon_path=Non
     if icon_path:
         try:
             dlg.set_icon_from_file(icon_path)
-        except GLib.Error:
-            pass
+        except GLib.Error as exc:
+            _loguru_logger.debug("widgets | icône {} non appliquée : {}", icon_path, exc)
     if run_dialog_sync(dlg) == Gtk.ResponseType.OK:
         response = dlg.value
     else:

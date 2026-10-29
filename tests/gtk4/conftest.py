@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests de l'interface GTK4 de gcm4 (job « Tests GTK4 (Xvfb) »).
 
 Sans GTK4/libadwaita ou sans écran (job Qualité, uv sans PyGObject, venv

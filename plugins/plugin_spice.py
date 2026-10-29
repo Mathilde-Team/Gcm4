@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion SPICE (SpiceClientGtk.Display natif, ou fallback subprocess).
 
 Sixième plugin implémenté après Web, IPMI SOL, Serial, RDP et VNC — le plus
@@ -53,7 +54,8 @@ try:
     from gi.repository import SpiceClientGLib, SpiceClientGtk
 
     _SPICEGTK_OK = True
-except (ValueError, ImportError):
+except (ValueError, ImportError) as exc:
+    logger.debug("plugin spice | SpiceClientGtk indisponible : {}", exc)
     _SPICEGTK_OK = False
 
 # libvirt-python : interrogation native d'un hyperviseur libvirt pour
@@ -63,7 +65,8 @@ try:
     import libvirt as _libvirt_mod
 
     _LIBVIRT_OK = True
-except ImportError:
+except ImportError as exc:
+    logger.debug("plugin spice | libvirt-python absent : {}", exc)
     _LIBVIRT_OK = False
 
 # Détection des binaires SPICE disponibles
@@ -548,7 +551,8 @@ class SpiceTab(Gtk.Box):
 
         try:
             return json.loads(out)
-        except Exception:
+        except Exception as exc:
+            logger.warning("plugin spice | ticket SPICE non décodable : {}", exc)
             self._set_status(_("SPICE ticket error: {out}").format(out=out[:80]))
             return None
 
@@ -600,8 +604,10 @@ class SpiceTab(Gtk.Box):
         finally:
             try:
                 conn.close()
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug(
+                    "plugin spice | fermeture de la connexion libvirt impossible : {}", exc
+                )
 
         # Parse XML : <graphics type='spice' port=… tlsPort=… passwd=…>
         try:
@@ -669,7 +675,8 @@ class SpiceTab(Gtk.Box):
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                 )
-            except FileNotFoundError:
+            except FileNotFoundError as exc:
+                logger.debug("plugin spice | remote-viewer absent : {}", exc)
                 self._set_status(_("remote-viewer not found"))
                 return
             self._set_status(_("Connecting…"))
@@ -682,8 +689,8 @@ class SpiceTab(Gtk.Box):
         if self._spice_session is not None:
             try:
                 self._spice_session.disconnect()
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("plugin spice | déconnexion SPICE impossible : {}", exc)
             self._spice_session = None
         if self._spice_display is not None:
             self._display_box.remove(self._spice_display)
@@ -926,8 +933,8 @@ class SpiceTab(Gtk.Box):
         if self._spice_session is not None:
             try:
                 self._spice_session.disconnect()
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("plugin spice | déconnexion SPICE impossible : {}", exc)
             self._spice_session = None
         if self._spice_display is not None:
             self._display_box.remove(self._spice_display)
@@ -1002,7 +1009,8 @@ class SpiceTab(Gtk.Box):
                 return None
             try:
                 ticket = json.loads(out)
-            except Exception:
+            except Exception as exc:
+                logger.warning("plugin spice | ticket SPICE non décodable : {}", exc)
                 self._set_status(_("SPICE ticket error: {out}").format(out=out[:80]))
                 return None
             vv_lines = [

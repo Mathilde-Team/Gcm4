@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Transport WebSocket de l'onglet VNC (Gcm4 #104, tâche 3).
 
 asyncvnc2 accepte ``websocket=True`` / ``ws_path=`` sur ``connect()``.

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Sélection multiple et édition en lot dans l'arbre, sous Xvfb (#100)."""
 
 from __future__ import annotations

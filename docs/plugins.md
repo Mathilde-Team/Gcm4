@@ -37,6 +37,9 @@ class DemoPlugin(ConnectionPlugin):
     def default_port(self, protocol):
         return 4242
 
+    def requires_address(self, protocol):
+        return False  # protocole sans hôte distant
+
     def default_options(self, protocol):
         return {"mode": "rapide"}
 
@@ -123,6 +126,7 @@ surchargez `__init__`, appelez `super().__init__(context)`).
 | `version` | non | affichée dans Préférences > Extensions |
 | `protocols` | oui | tuple des protocoles gérés (`Host.protocol`) |
 | `default_port(protocol)` | non | port proposé quand le champ est vide, ou quand il contient encore le port par défaut de l'ancien protocole ; `None` : aucun |
+| `requires_address(protocol)` | non | `False` pour un protocole sans hôte distant (terminal local) : l'adresse n'est pas exigée et le champ est masqué, comme GTK3 ; défaut : `True` (#297) |
 
 ### Hôte
 

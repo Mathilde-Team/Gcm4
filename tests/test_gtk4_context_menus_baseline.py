@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Verrou textuel sur l'état des menus contextuels `Gtk.Menu` (audit session-29).
 
 Contexte : la session-28 (`docs/sessions/session-28.md`,

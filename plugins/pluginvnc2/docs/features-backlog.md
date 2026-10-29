@@ -161,6 +161,16 @@ qui reste réellement à faire.
   formulaire (même raison que le WebSocket : pas de formulaire de
   connexion dans le plugin). Tests : `tests/test_vencrypt_ca.py`, avec de
   vrais certificats et une vraie poignée de main TLS en boucle locale.
+- Reconnexion inversée (Gcm4 #104, tâche 4) : `VncConnectionInfo.reverse`
+  fait écouter l'onglet sur `host:port` (`asyncvnc2.listen`, port
+  conventionnel 5500) au lieu de composer vers lui ; état « En attente
+  d'une connexion entrante sur hôte:port… » pendant l'attente. Pinning
+  de clé hôte coupé dans ce mode : l'adresse d'écoute n'identifie pas le
+  serveur qui se présente. Une seule connexion par écoute (comportement
+  d'asyncvnc2) ; la reconnexion automatique relance une écoute. Pas
+  encore de sélecteur de mode dans un formulaire (le plugin n'en a pas).
+  Tests : `tests/test_reverse_listen.py`, dont un bout en bout avec le
+  vrai `listen()` et un faux serveur RFB 3.8.
 - Pinning de clé hôte (auth Apple ARD uniquement) façon `known_hosts` SSH
   — stocké dans `~/.gcm/vnc_host_keys.json`, écriture atomique, avec un
   message d'erreur explicite et un bouton de récupération en cas de clé

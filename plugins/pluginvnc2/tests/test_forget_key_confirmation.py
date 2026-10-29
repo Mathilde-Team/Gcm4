@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncTab._resolve_forget_key_confirmation (confirmation par
 retype avant « Oublier la clé enregistrée et réessayer »).
 

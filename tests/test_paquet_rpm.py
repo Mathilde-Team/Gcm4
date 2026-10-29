@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Paquet .rpm de la base GTK4 (issue #157) : cohérence de build-rpm/.
 
 Le paquet est construit sur Fedora puis vérifié et installé par les jobs CI

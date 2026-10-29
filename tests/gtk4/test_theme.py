@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Thème appliqué à chaud et conservé après redémarrage (#135)."""
 
 from __future__ import annotations

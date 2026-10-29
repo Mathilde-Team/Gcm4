@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Cœur métier (sans GTK) de l'import de sessions PuTTY pour GCM.
 
 Backlog §4.2 (urgence faible) de ``features.md`` : « Import PuTTY

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """``except`` journalisés de ``snmp_bulk_core.py`` (issue #294, lot 2).
 
 Mêmes replis qu'avant (``(False, message)``, journal de poussée non écrit),

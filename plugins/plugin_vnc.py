@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion VNC (GtkVnc.Display natif, ou fallback subprocess).
 
 Cinquième plugin implémenté après Web, IPMI SOL, Serial et RDP.
@@ -47,7 +48,8 @@ try:
     from gi.repository import GtkVnc, GVnc
 
     _GTKVNC_OK = True
-except (ValueError, ImportError):
+except (ValueError, ImportError) as exc:
+    logger.debug("plugin vnc | GtkVnc indisponible : {}", exc)
     _GTKVNC_OK = False
 
 VNC_BIN = (
@@ -221,8 +223,8 @@ class VncTab(Gtk.Box):
         if display:
             try:
                 port = str(5900 + int(display))
-            except ValueError:
-                pass
+            except ValueError as exc:
+                logger.debug("plugin vnc | numéro de display invalide {!r} : {}", display, exc)
         return h.host, port
 
     def _on_auth_credential(self, display, cred_list):
@@ -280,9 +282,10 @@ class VncTab(Gtk.Box):
         try:
             self._vnc_display.send_keys_ex(keyvals, GtkVnc.DisplayKeyEvent.PRESS)
             self._vnc_display.send_keys_ex(keyvals, GtkVnc.DisplayKeyEvent.RELEASE)
-        except AttributeError:
+        except AttributeError as exc:
             # Anciennes versions de gtk-vnc sans send_keys_ex : repli sur un
             # "clic" (appui + relachement immediat pour chaque touche).
+            logger.debug("plugin vnc | send_keys_ex absent, repli send_keys : {}", exc)
             self._vnc_display.send_keys(keyvals)
 
     def _on_vnc_server_cut_text(self, display, text):
@@ -299,7 +302,8 @@ class VncTab(Gtk.Box):
             return
         try:
             content = text if isinstance(text, str) else text.decode("utf-8", "replace")
-        except Exception:
+        except Exception as exc:
+            logger.debug("plugin vnc | presse-papiers distant illisible : {}", exc)
             return
         if not content:
             return
@@ -364,7 +368,8 @@ class VncTab(Gtk.Box):
         if display:
             try:
                 effective_port = str(5900 + int(display))
-            except ValueError:
+            except ValueError as exc:
+                logger.debug("plugin vnc | numéro de display invalide {!r} : {}", display, exc)
                 effective_port = port
         else:
             effective_port = port
@@ -386,7 +391,8 @@ class VncTab(Gtk.Box):
                 self._passwd_path = passwd_path
                 try:
                     self.make_vnc_passwd(pwd, passwd_path)
-                except Exception:
+                except Exception as exc:
+                    logger.warning("plugin vnc | fichier de mot de passe VNC non créé : {}", exc)
                     self._remove_passwd_file()
                     raise
                 cmd += ["-passwd", passwd_path]
@@ -493,7 +499,8 @@ class VncTab(Gtk.Box):
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                 )
-        except FileNotFoundError:
+        except FileNotFoundError as exc:
+            logger.debug("plugin vnc | viewer absent : {}", exc)
             self._remove_passwd_file()  # viewer absent : _wait_proc ne tournera pas
             self._set_status(_("xfreerdp not found"))
             return

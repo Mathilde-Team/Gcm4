@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Options de base de Wconfig (#247) : onglets, rayures de l'arbre, titre de la fenêtre."""
 
 from __future__ import annotations

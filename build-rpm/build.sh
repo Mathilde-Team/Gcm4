@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
 # build-rpm/build.sh -- construit le paquet .rpm de la base GTK4 gcm4 (#157).
 #
 # Sur le modèle de Netcross : une archive gcm4-<version>.tar.gz réunit ce
@@ -38,13 +39,13 @@ mkdir -p "$SRC_DIR" "$STAGE_DIR" "$DIST_DIR" "$TOPDIR"/{SOURCES,SPECS,BUILD,RPMS
 
 # Wheel : mêmes sources que le .deb (fichiers suivis par git seulement).
 (cd "$REPO_ROOT" && git ls-files -z -- src/gcm4 gcm4_core.py logging_config.py master_password_core.py pyAES.py \
-    pyproject.toml README.md LICENSE \
+    pyproject.toml README.md LICENSE NOTICE \
     | xargs -0 cp --parents -t "$SRC_DIR")
 "$PYTHON" -m build --wheel --no-isolation --outdir "$STAGE_DIR" "$SRC_DIR"
 # Nom de fichier imposé par le spec, indépendant du nom de distribution.
 mv "$STAGE_DIR"/*-"$VERSION"-py3-none-any.whl "$STAGE_DIR/gcm4-$VERSION-py3-none-any.whl"
 
-(cd "$REPO_ROOT" && git ls-files -z -- data LICENSE | xargs -0 cp --parents -t "$STAGE_DIR")
+(cd "$REPO_ROOT" && git ls-files -z -- data LICENSE NOTICE | xargs -0 cp --parents -t "$STAGE_DIR")
 cp "$REPO_ROOT/build-deb/wrappers/gcm4" "$STAGE_DIR/gcm4"
 "$REPO_ROOT/scripts/i18n-update.sh" --compile "$STAGE_DIR/locale"
 # Lanceur et métadonnées AppStream avec leurs traductions (#274) : remplacent

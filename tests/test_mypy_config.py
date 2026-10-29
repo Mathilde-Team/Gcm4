@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Configuration mypy (issue #173) : la liste des modules typés ne recule pas."""
 
 from __future__ import annotations

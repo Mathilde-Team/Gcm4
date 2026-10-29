@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Paquet src/gcm4 : point d'entrée et ligne de commande (issue #133).
 
 Sans display ni GTK : ``gcm4 --version`` et ``--help`` sont utilisés par

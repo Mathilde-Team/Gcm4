@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Outil « Export to CSV » (BatchPlugin) pour GCM.
 
 Complément de ``plugin_import_csv.py`` : exporte toutes les connexions

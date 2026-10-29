@@ -294,7 +294,7 @@ jobs:
   gtk4:
     # Issue #159 (job « Tests GTK4 (Xvfb) ») et #160 (aucun test GTK
     # sauté). Aujourd'hui : la suite de plugins/pluginvnc2 (seul code déjà
-    # GTK4, 207 tests) contre un vrai GTK4 sous Xvfb ; src/gcm4/ui la
+    # GTK4, 226 tests) contre un vrai GTK4 sous Xvfb ; src/gcm4/ui la
     # rejoindra (épopée #118). Conteneur Ubuntu comme le job gtk4 de
     # Netcross : python3-gi et GTK4 viennent des paquets, sans compilation.
     name: Tests GTK4 (Xvfb)
@@ -519,8 +519,10 @@ jobs:
             tests/gtk4 tests/test_gcm4_*.py -q -rs -p no:cacheprovider \
             --ignore=tests/gtk4/test_plugin_telnet.py \
             --ignore=tests/gtk4/test_plugin_local.py \
-            --ignore=tests/gtk4/test_plugin_ipmisol.py | tee /tmp/rocky9.txt
-          # test_plugin_local.py et test_plugin_ipmisol.py ignorés comme
+            --ignore=tests/gtk4/test_plugin_ipmisol.py \
+            --ignore=tests/gtk4/test_host_dialog_local.py | tee /tmp/rocky9.txt
+          # test_plugin_local.py, test_plugin_ipmisol.py et
+          # test_host_dialog_local.py ignorés comme
           # test_plugin_telnet.py : VTE GTK4 (Vte-3.91) n'existe pas sur
           # Rocky 9 (#223), le module gcm4.ui.terminal n'y est pas
           # importable ; couvert par le job GTK4 (ubuntu:26.04, VTE

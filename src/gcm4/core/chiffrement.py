@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Mots de passe chiffrés de gcm4.conf, compatibles avec l'application GTK3 (#138).
 
 Reprise de ``gcm4_core`` (``encrypt`` / ``decrypt`` / ``decrypt_old`` /

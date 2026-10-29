@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour HostKeyStore (pinning des clés hôte Apple ARD).
 
 Logique vérifiée de façon équivalente hors GTK pendant le développement
