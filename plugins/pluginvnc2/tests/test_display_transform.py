@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour get_display_transform() / widget_to_remote() (VncDisplay).
 
 Contrairement aux autres fichiers de tests "logique pure" du paquet, ceux-ci

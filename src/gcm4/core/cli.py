@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Ligne de commande de gcm4, analysée avant toute initialisation GTK (#133).
 
 ``gcm4 --version`` et ``gcm4 --help`` doivent fonctionner sans display ni

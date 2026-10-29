@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Dialogue d'hôte : champs communs, création, modification, duplication (#145).
 
 ``Adw.Window`` modale. Seuls les champs **communs** sont édités (inventaire :
@@ -147,6 +148,7 @@ class HostDialog(Adw.Window):
         self._remplir()
         self._maj_port_par_defaut()
         self._maj_zone_options()
+        self._maj_champ_adresse()
         self.initial = self.lire()
         self.verifier()
         self.connect("close-request", self._on_close_request)
@@ -362,9 +364,26 @@ class HostDialog(Adw.Window):
         """Changement de protocole : port par défaut, zone d'options, revalidation."""
         logger.debug("_on_protocole_change: {!r}", self._protocole_courant())
         self._maj_port_par_defaut(self._protocole_zone)
+        self._maj_champ_adresse()
         self._maj_zone_options()
         self.verifier()
         logger.debug("_on_protocole_change: fait")
+
+    def _maj_champ_adresse(self) -> None:
+        """Champ Adresse visible seulement si le protocole en exige une (#297).
+
+        Comme GTK3 (``show_host = not is_local``) : masqué pour un protocole
+        sans adresse (terminal local), visible sinon. Sans plugin, l'adresse
+        reste exigée donc le champ reste visible.
+        """
+        logger.debug("_maj_champ_adresse: entrée")
+        if self.registre is None:
+            self.adresse.set_visible(True)
+            logger.debug("_maj_champ_adresse: sans registre, champ visible")
+            return
+        visible = gcm4_core.proto_requires_address(self._protocole_courant(), self.registre)
+        self.adresse.set_visible(visible)
+        logger.debug("_maj_champ_adresse: fait | visible={}", visible)
 
     def _maj_port_par_defaut(self, ancien: str | None = None) -> None:
         """Port par défaut du protocole courant si le champ est vide ou n'a
@@ -547,17 +566,21 @@ class HostDialog(Adw.Window):
             logger.trace("verifier: remplissage initial en cours")
             return False
         hote = self.lire()
-        erreurs = validate_host(hote, self.store, self.original)
+        # Adresse exigée ou non selon le plugin du protocole (#297) : sans
+        # plugin la validation reste inchangée (adresse requise).
+        plugin = self.registre.get(hote.protocol) if self.registre is not None else None
+        adresse_requise = (
+            gcm4_core.proto_requires_address(hote.protocol, self.registre)
+            if self.registre is not None
+            else True
+        )
+        erreurs = validate_host(hote, self.store, self.original, adresse_requise=adresse_requise)
         erreur_port = erreur_de_port(self.port.get_text())
         if erreur_port is not None and all(e.champ != PORT for e in erreurs):
             erreurs.append(erreur_port)
         # Options du protocole : validation du plugin (#146).
-        if self.registre is not None:
-            plugin = self.registre.get(hote.protocol)
-            if plugin is not None:
-                erreurs.extend(
-                    plugin.validate_options(hote.protocol, self._options(hote.protocol))
-                )
+        if plugin is not None:
+            erreurs.extend(plugin.validate_options(hote.protocol, self._options(hote.protocol)))
         self.erreurs = erreurs
         par_champ = {e.champ: e.message for e in erreurs}
         for champ, ligne in ((NOM, self.nom), (ADRESSE, self.adresse), (PORT, self.port)):

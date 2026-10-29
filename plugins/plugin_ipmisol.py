@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion IPMI Serial-over-LAN (console BMC : iLO, iDRAC, IMM…).
 
 Deuxième plugin implémenté après Web. IPMI SOL n'a aujourd'hui AUCUNE page
@@ -147,8 +148,8 @@ class IpmiSolTab(Gtk.Box):
                 import signal as _signal
 
                 os.kill(pid, _signal.SIGTERM)
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.debug("ipmisol | arrêt du processus SOL impossible : {}", exc)
         self._deactivate_sol()
         self._lbl_status.set_text(_("Disconnect"))
         self._btn_connect.set_sensitive(True)

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion Web (console BMC HTML5 : iLO/iDRAC/IMM, ou toute URL).
 
 Premier plugin implémenté, choisi comme preuve de concept car ``WebTab``
@@ -40,7 +41,8 @@ for _webkit_version in ("4.1", "4.0"):
 
         _WEBKIT2_OK = True
         break
-    except (ValueError, ImportError):
+    except (ValueError, ImportError) as exc:
+        logger.debug("plugin web | WebKit2 {} indisponible : {}", _webkit_version, exc)
         continue
 
 

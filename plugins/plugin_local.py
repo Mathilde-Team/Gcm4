@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin de connexion "Local" (shell local, sans hôte distant).
 
 Neuvième et dernier plugin de la série. ``LocalTab`` duplique volontairement

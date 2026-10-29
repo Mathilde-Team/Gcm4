@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Pas de f-string autour ou dans `_()` / `N_()` (issue #165).
 
 Une f-string est évaluée avant l'appel : `_()` reçoit le texte déjà

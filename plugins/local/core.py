@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique du plugin local, sans GTK : shell à lancer et délai des commandes.
 
 Reprend ``plugins/plugin_local.py`` (GTK3) :

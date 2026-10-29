@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Mot de passe maître de ``.gcm4.key`` : déverrouillage, recouvrement, réglages (#98).
 
 Décisions de l'auteure (#98, 12/10/2026) :

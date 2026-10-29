@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Onglets et titre de la fenêtre : options de base reprises de Wconfig (#247), sans GTK.
 
 Mêmes clés et même sens que l'application GTK3 (``[options]``) :

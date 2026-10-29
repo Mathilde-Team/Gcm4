@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Registres de plugins de ``plugins/plugin_base.py`` (#293, palier 2).
 
 ``tests/test_plugin_base.py`` vérifie seulement que le module s'importe sans

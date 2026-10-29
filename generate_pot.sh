@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-or-later
 # generate_pot.sh — conservé pour compatibilité : la maintenance des
 # catalogues est faite par scripts/i18n-update.sh (issue #165), qui écrit
 # lang/messages.pot (l'ancien chemin po/gcm.pot n'existait plus) et met à

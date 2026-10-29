@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Validation des champs communs d'un hôte (#144)."""
 
 from __future__ import annotations

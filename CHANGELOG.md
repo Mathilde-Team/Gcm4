@@ -3,6 +3,8 @@
 ## [Non publié]
 
 - **gcm4 : plugin serial (#179)** : portage du plugin GTK3 au contrat v1 (`plugins/serial/`, `core.py` sans GTK + `gtk4.py`) — picocom, minicom ou screen (détection picocom > minicom > screen, choix de l'hôte prioritaire) dans le terminal commun des plugins. Paramètres série (débit, bits de données, parité, bits de stop, contrôle de flux, template constructeur, outil) dans la zone d'options du protocole, le champ Port de l'hôte restant lu comme débit pour les configurations GTK3 ; commandes selon les conventions de chaque outil, options libres par `shlex`. L'onglet GTK3 avec ses boutons Connecter/Déconnecter n'est pas repris : la session démarre à l'ouverture, se déconnecter = fermer l'onglet
+- **Licence (#339)** : `LICENSE` ne contient plus que le texte de la GPLv3 (GitHub reconnaît la licence) ; l'avis amont passe dans `NOTICE`, qui documente les trois régimes (code amont en GPL-3.0 seule, code de l'équipe en GPL-3.0-or-later, `pyAES.py` en MIT), le code vendorisé (gtk-frdp, SSH-Studio) et la licence des dépendances optionnelles ; en-tête `SPDX-License-Identifier` dans chaque fichier de code (`tests/test_licence.py`) ; `debian/copyright` au format DEP-5 par régime, champ License du .rpm complet, `NOTICE` embarqué dans les paquets
+- **gcm4 : protocoles sans adresse (#297)** : méthode facultative `requires_address` du contrat de plugin v1 (défaut : adresse exigée) ; le plugin local la déclare : champ Adresse masqué dans le dialogue hôte et enregistrement sans adresse accepté pour les hôtes `local`, comme le faisait GTK3 (`show_host = not is_local`)
 
 ## [4.0.0] — 2026-10-24
 
@@ -13,6 +15,7 @@
 > (journal) et `features.md` (§4.1).
 
 ### Added
+- **pluginvnc2, reconnexion inversée** (#104, tâche 4) : réglage `reverse` de la connexion VNC, l'onglet écoute (`asyncvnc2.listen`) et attend que le serveur vienne à lui ; pinning de clé hôte coupé dans ce mode. Tests `plugins/pluginvnc2/tests/test_reverse_listen.py`
 - **Push SNMP : dépôt du fichier rendu** (#74) : `snmp_bulk_core.py` dépose la configuration rendue sur le serveur de dépôt avant le `SNMP SET` (`FileTransferConfig`, `upload_config_file` : SFTP avec clé d'hôte vérifiée dans `known_hosts`, FTP, TFTP RFC 1350) et transmet le protocole de récupération au driver (`FETCH_PROTOCOLS` : H3C ftp/tftp, Cisco tftp/ftp/sftp, Huawei ftp/tftp/sftp) au lieu du TFTP codé en dur. Paramètre `transfer` optionnel de `push_to_device`/`run_bulk_push`, comportement inchangé sans lui. Testé contre de vrais serveurs SFTP, FTP et TFTP locaux
 - **pluginvnc2 : envoi de texte répété** (#93) : case « Garder la fenêtre ouverte après l'envoi » dans le dialogue « Envoyer du texte », décochée par défaut et mémorisée pour la durée de vie de l'onglet ; cochée, le champ est vidé après chaque envoi et le dialogue reste ouvert
 - **Sélection multiple et édition en lot** (#100) : l'arbre GTK4 passe en `Gtk.MultiSelection` (Ctrl+clic, Maj+clic) ; « Modifier les hôtes sélectionnés… » (clic droit dans la sélection ou touche Menu) change le port et/ou le groupe de plusieurs hôtes, case non cochée = champ inchangé. Conflits de noms dans le groupe cible refusés avant toute écriture. Logique sans GTK dans `gcm4.core.edition_lot`, guide « Modifier plusieurs hôtes » dans `docs/guide/base-gtk4.md`

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Outil « Import from CSV » (BatchPlugin) pour GCM.
 
 Anciennement ``Wmain.on_mnu_import_csv_activate`` dans

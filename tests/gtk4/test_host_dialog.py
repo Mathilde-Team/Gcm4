@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Dialogue d'hôte sous Xvfb : création, modification, duplication, annulation (#145)."""
 
 from __future__ import annotations
@@ -498,3 +499,15 @@ def test_port_par_defaut_a_l_ouverture(app_demo, pomper):
     d = _ouvrir(arbre, "add", None)
     assert d.port.get_text() == "4242"
     assert not d.modifie()
+
+
+def test_sans_plugin_adresse_visible_et_exigee(app_fixture, pomper):
+    """#297 : sans plugin, le champ Adresse reste visible et l'adresse exigée."""
+    app, _ = app_fixture
+    arbre = app.get_active_window().arbre
+    d = _ouvrir(arbre, "add", "LAB/bases")
+    pomper()
+    assert d.adresse.get_visible()
+    d.nom.set_text("neuf")
+    assert d.adresse.has_css_class("error")
+    d.close()

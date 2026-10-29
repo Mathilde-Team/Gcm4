@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests unitaires pour plugins/ssh/core.py.
 
 Fusion (session-26) de l'ancien ``test_ssh_migrate_gcm.py`` (partie

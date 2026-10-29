@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Mots de passe chiffrés de gcm4.conf, compatibles GTK3 (#138)."""
 
 from __future__ import annotations

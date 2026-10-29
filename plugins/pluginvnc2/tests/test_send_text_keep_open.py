@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour VncTab._resolve_send_text_action -- dialogue "Envoyer du
 texte" restant ouvert pour un envoi répété (issue #93).
 

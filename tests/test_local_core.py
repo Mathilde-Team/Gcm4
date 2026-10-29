@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique sans GTK du plugin local (``plugins/local/core.py``, #295)."""
 
 from __future__ import annotations

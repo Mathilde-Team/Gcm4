@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Fixtures partagées et détection GTK4.
 
 vnc_tab.py est un fichier unique qui importe GTK4 au niveau module (choix
@@ -42,6 +43,23 @@ GTK4_AVAILABLE = _gtk4_available()
 requires_gtk4 = pytest.mark.skipif(
     not GTK4_AVAILABLE,
     reason="PyGObject/GTK4 non disponible dans cet environnement (besoin d'un display ou de Xvfb)",
+)
+
+
+def _real_asyncvnc2() -> bool:
+    """Faux sous le stub ``tests/gtk_stub/asyncvnc2.py`` (qui n'a pas de
+    ``Client``) : seuls les tests de bout en bout contre le vrai protocole
+    en dépendent. La CI (Xvfb) installe le vrai asyncvnc2, ils y tournent."""
+    try:
+        import asyncvnc2
+    except ImportError:
+        return False
+    return hasattr(asyncvnc2, "Client")
+
+
+requires_real_asyncvnc2 = pytest.mark.skipif(
+    not _real_asyncvnc2(),
+    reason="stub asyncvnc2 (tests/gtk_stub) : test de bout en bout contre le vrai protocole",
 )
 
 

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour la copie de la capture d'écran dans le presse-papiers (bouton
 "edit-copy-symbolic", barre d'outils) : VncDisplay.copy_screenshot_to_clipboard(),
 et la méthode statique pure de VncTab qui l'entoure (message de retour affiché

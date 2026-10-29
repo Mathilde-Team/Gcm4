@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Mode zéro plugin et plugin démo dans l'application (#151)."""
 
 from __future__ import annotations

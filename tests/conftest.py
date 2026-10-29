@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Configuration commune des tests.
 
 Locale neutre : les messages testés sont les chaînes source (anglais). Sans ce

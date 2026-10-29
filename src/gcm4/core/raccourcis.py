@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Raccourcis de la fenêtre principale modifiables : section ``[shortcuts]`` (#247), sans GTK.
 
 Format du fichier, repris de GTK3 (``Wconfig``, ``get_key_name``) :

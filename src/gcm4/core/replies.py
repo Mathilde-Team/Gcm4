@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Groupes repliés de ``[window] collapsed-folders``, au format GTK3 (#139).
 
 L'application GTK3 y enregistre des chemins ``Gtk.TreePath`` de son arbre

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Tests pour la reconnexion automatique après une coupure inattendue
 (VncStatus.ERROR alors que la connexion avait déjà été établie au moins
 une fois) -- PAS après un stop()/close() volontaire (VncStatus.DISCONNECTED)

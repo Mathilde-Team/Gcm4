@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Logique metier pure du menu contextuel du terminal (zero import Gtk/Gio/Vte).
 
 Extrait de ``widgets.PopupMenu`` (session-33, portage GTK4-ready du menu

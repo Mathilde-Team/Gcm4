@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Édition de plusieurs hôtes en une fois, sans GTK (#100).
 
 La sélection multiple de l'arbre (:class:`gcm4.ui.host_tree.HostTree`)
