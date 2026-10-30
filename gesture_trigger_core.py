@@ -119,6 +119,60 @@ def classify_tree_servers_press(*, button, n_press):
     return "propagate"
 
 
+def masque_actif_dans_etat(retour_get_state, masque):
+    """Teste si un masque de modificateur est actif dans l'état renvoyé par ``Gdk.Event.get_state()``.
+
+    Contexte (bug exposé par la vérification empirique de l'issue #72, voir
+    `docs/gtk4-migration.md` §3.6-quaterdecies) : le type de retour de
+    ``Gdk.EventButton.get_state()`` dépend de la version de PyGObject. Un
+    appel direct peut renvoyer les flags ``Gdk.ModifierType`` seuls (le
+    ``etat & Gdk.ModifierType.CONTROL_MASK`` usuel fonctionne alors), ou
+    un tuple résultat ``(succès, état)`` (``_ResultTuple``, format observé
+    empiriquement sous PyGObject 3.56 / Ubuntu 26.04) — le même ``&``
+    lève alors ``TypeError: unsupported operand type(s) for &`` dans
+    ``Wmain.on_terminal_pressed`` (plantage journalisé puis avalé du
+    Ctrl+clic gauche « ouvrir le lien », jamais détecté en développement
+    car GTK3 y est absent — motivation même de la vérification manuelle de
+    l'issue #72). Cette fonction pure normalise les deux formats pour que
+    l'appelant reste identique quel que soit le PyGObject : elle déplie le
+    tuple (l'état est son dernier élément) avant d'appliquer le masque,
+    et ne se fie pas à un état signalé non garanti (succès à ``False``).
+
+    Args:
+        retour_get_state: Valeur de retour brute de ``get_state()`` — flags
+            ``Gdk.ModifierType`` ou équivalent entier, tuple
+            ``(succès, état)`` tel que ``_ResultTuple``, ou ``None`` (aucun
+            état disponible → masque réputé inactif).
+        masque: Masque à tester (ex. ``Gdk.ModifierType.CONTROL_MASK``) ;
+            flags ou entier, l'opérateur ``&`` s'appliquant aux deux.
+
+    Returns:
+        bool: `True` si le masque est actif dans l'état, `False` sinon
+        (notamment si ``retour_get_state`` est ``None``, un tuple vide, ou
+        un tuple résultat dont le succès est explicitement ``False`` —
+        l'état n'y est pas garanti et n'est pas testé).
+    """
+    logger.debug("masque_actif_dans_etat: entrée")
+    if retour_get_state is None:
+        logger.debug("masque_actif_dans_etat: sortie (sans état)")
+        return False
+    if isinstance(retour_get_state, tuple):
+        if not retour_get_state:
+            # tuple vide : pas d'état exploitable
+            logger.debug("masque_actif_dans_etat: sortie (tuple vide)")
+            return False
+        if isinstance(retour_get_state[0], bool) and not retour_get_state[0]:
+            # tuple résultat (succès, état) : l'état n'est pas garanti,
+            # on ne se fie pas à sa valeur
+            logger.debug("masque_actif_dans_etat: sortie (état non garanti)")
+            return False
+        # l'état est le dernier élément ; un « & » direct sur le tuple
+        # lèverait TypeError, on le déplie d'abord
+        retour_get_state = retour_get_state[-1]
+    logger.debug("masque_actif_dans_etat: sortie")
+    return bool(retour_get_state & masque)
+
+
 #: Issues possibles de la classification d'un clic sur un terminal VTE, voir
 #: :func:`classify_terminal_click`.
 TERMINAL_CLICK_OUTCOMES = ("paste", "open-menu", "check-url", "propagate")
