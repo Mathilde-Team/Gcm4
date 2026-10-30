@@ -881,7 +881,7 @@ msgstr ""
 msgid "public"
 msgstr ""
 
-#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr ""
