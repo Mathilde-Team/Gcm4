@@ -77,6 +77,17 @@ Mesure de `dev` (438340f, run CI 40101560678) : total combiné **43,9 %**. Tests
 
 Mesure de `dev` + PR de tests (093ea00, run CI 40293284698) : total combiné **50,9 %**. Tests ajoutés sans GTK ni réseau : `tests/test_netmiko_bulk_core.py` (67 tests) couvre `src/gcm4/netmiko_bulk_core.py` — 324 instructions jusqu'alors importées par aucun test (0 %) — à **99,5 %** : profils (`DeviceProfile`, `ProfileStore`), inventaire CSV (`load_inventory` : délimiteurs, colonnes manquantes), gabarits (`render_template`), `scan_output_for_errors`, `push_to_device` (netmiko remplacé par une doublure), `run_bulk_push` (concurrence, callbacks, répertoire de logs) et `summarize_results`. Seule la ligne 492 (`ValueError` défensive inatteignable après les validations amont) reste non couverte. Suite complète : 1706 tests. `fail_under` passe de 45 à **50** (entier inférieur de la nouvelle mesure combinée, 0,9 pt de marge).
 
+### Palier 4 (issue #293, 30/10/2026)
+
+Mesure de `dev` + PR de tests (reproduction locale du job : suite Qualité + suite GTK4 sous Xvfb, données fusionnées comme le job « Couverture combinée ») : total combiné **51,4 %**. Tests ajoutés (20) :
+
+- `tests/gtk4/test_fichiers.py` (12) : `src/gcm4/ui/fichiers.py` passe de 13,2 % à **100 %** — filtres JSON/CSV, chemins, vrai `Gtk.FileDialog` pour les trois modes, rappels `fin` rejoués par un faux dialogue (choix, annulation `GLib.Error`) et repli `Gtk.FileChooserNative` (GTK < 4.10) par une vue de `Gtk` sans `FileDialog` ;
+- `tests/gtk4/test_dialogues.py` (2) : repli `Adw.MessageDialog` (libadwaita < 1.5, Debian 12) de `src/gcm4/ui/dialogues.py`, avec et sans fenêtre racine — 77,5 % → **100 %** ;
+- `tests/gtk4/test_mises_a_jour.py` (+5) : `src/gcm4/ui/mises_a_jour.py` à **100 %** — vrai `ouvrir_page` (`Gtk.UriLauncher`, échec `GLib.Error`, repli `Gio.AppInfo` de GTK < 4.10), accord sur fichier corrompu et refus avec préférence non inscriptible (branches d'erreur) ;
+- `tests/test_gcm4_paquet.py` (+1) : `python -m gcm4 --version` exécuté en processus (`runpy`), le test de fumée en sous-processus n'étant pas mesuré — `src/gcm4/__main__.py` 0 % → **100 %**.
+
+Suite complète : 1959 tests (1730 hors GTK4, 229 GTK4). `fail_under` passe de 50 à **51** (entier inférieur de la nouvelle mesure combinée, 0,4 pt de marge).
+
 ## Où le voir
 
 - **job Couverture combinée** (`ci.yml`) : total fusionné Qualité + GTK4 et tableau par périmètre dans le résumé du job ;
