@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:30+0000\n"
+"POT-Creation-Date: 2026-10-30 14:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -960,7 +960,8 @@ msgstr ""
 msgid "⚙ Generate…"
 msgstr ""
 
-#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
+#: plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "{program} nu a fost găsit"
@@ -1961,7 +1962,7 @@ msgstr ""
 msgid "BMC/iDRAC (115200 8N1)"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Baud rate:"
 msgstr "Viteză (baud):"
 
@@ -1973,7 +1974,7 @@ msgstr ""
 msgid "DTR/DSR"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Data bits:"
 msgstr "Biți de date:"
 
@@ -1991,7 +1992,7 @@ msgstr "Ex: /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
 msgid "Flow control"
 msgstr "Control flux:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Flow control:"
 msgstr "Control flux:"
 
@@ -2039,7 +2040,7 @@ msgstr "Adaugă"
 msgid "Parity bit: None (N) = standard, Even (E), Odd (O)"
 msgstr "Bit de paritate: Niciuna (N) = standard, Par (E), Impar (O)"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Parity:"
 msgstr "Paritate:"
 
@@ -2063,7 +2064,7 @@ msgstr "Port serial:"
 msgid "Stop bits"
 msgstr "Biți de stop:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Stop bits:"
 msgstr "Biți de stop:"
 
@@ -2077,11 +2078,11 @@ msgstr "Biți de stop: 1 = standard, 2 = RS-485 / hardware vechi"
 msgid "Template"
 msgstr "Șablon:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Template:"
 msgstr "Șablon:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Tool"
 msgstr ""
 
