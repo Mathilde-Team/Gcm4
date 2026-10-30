@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:30+0000\n"
+"POT-Creation-Date: 2026-10-30 14:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -960,7 +960,8 @@ msgstr ""
 msgid "⚙ Generate…"
 msgstr ""
 
-#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
+#: plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "{program}을(를) 찾을 수 없음"
@@ -1961,7 +1962,7 @@ msgstr ""
 msgid "BMC/iDRAC (115200 8N1)"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Baud rate:"
 msgstr "보율(Baud rate):"
 
@@ -1973,7 +1974,7 @@ msgstr ""
 msgid "DTR/DSR"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Data bits:"
 msgstr "데이터 비트:"
 
@@ -1991,7 +1992,7 @@ msgstr "예: /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
 msgid "Flow control"
 msgstr "흐름 제어:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Flow control:"
 msgstr "흐름 제어:"
 
@@ -2039,7 +2040,7 @@ msgstr "추가"
 msgid "Parity bit: None (N) = standard, Even (E), Odd (O)"
 msgstr "패리티 비트: 없음(N) = 표준, 짝수(E), 홀수(O)"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Parity:"
 msgstr "패리티:"
 
@@ -2063,7 +2064,7 @@ msgstr "시리얼 포트:"
 msgid "Stop bits"
 msgstr "정지 비트:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Stop bits:"
 msgstr "정지 비트:"
 
@@ -2077,11 +2078,11 @@ msgstr "정지 비트: 1 = 표준, 2 = RS-485 / 구형 하드웨어"
 msgid "Template"
 msgstr "템플릿:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Template:"
 msgstr "템플릿:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Tool"
 msgstr ""
 
