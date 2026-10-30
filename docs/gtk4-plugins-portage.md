@@ -65,7 +65,7 @@ et c'est à l'autrice de trancher, sur #223 :
 | telnet | 216 | `Vte.Terminal` 2.91, commande `telnet` | `Vte.Terminal` 3.91 ; même schéma que ssh, en plus court | Rocky 9 sans VTE GTK4. **Premier portage conseillé** : le plus petit plugin terminal, il permet de valider le contrat v1 avec un vrai terminal |
 | local | 192 | `Vte.Terminal` 2.91, shell local | `Vte.Terminal` 3.91 | Rocky 9 sans VTE GTK4 |
 | serial | 689 | `Vte.Terminal` 2.91, `picocom`/`minicom`/`screen` | `Vte.Terminal` 3.91 ; la détection des outils série reste sans GTK (`core.py`) | Rocky 9 sans VTE GTK4 ; `picocom` vient d'EPEL sur Rocky 9 |
-| ipmisol | 246 | `Vte.Terminal` 2.91, `ipmitool sol activate` | `Vte.Terminal` 3.91 | Rocky 9 sans VTE GTK4 |
+| ipmisol | 246 | `Vte.Terminal` 2.91, `ipmitool sol activate` | **porté** : `plugins/ipmisol/` (contrat v1, #179) ; mot de passe via `IPMI_PASSWORD` (`Lancement.env`), `sol deactivate` à la fermeture | Rocky 9 sans VTE GTK4 |
 | web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | `WebKit.WebView` 6.0 ; repli vers le navigateur externe (`Gtk.UriLauncher` à partir de GTK 4.10, sinon `Gio.AppInfo`) | Rocky 9 : repli externe seulement |
 | vnc | 701 | `GtkVnc.Display` (gtk-vnc, GTK3 seulement partout) | **fusion avec `plugins/pluginvnc2`** (déjà GTK4, client asyncvnc2), comme prévu par #104 | #104 ; aucune version GTK4 de gtk-vnc dans les distributions |
 | spice | 1424 | `SpiceClientGtk.Display` 3.0 (GTK3 seulement partout) | aucun widget SPICE GTK4. Deux voies : affichage maison sur `SpiceClientGLib` (canal d'affichage vers `Gdk.MemoryTexture`, comme pluginvnc2), ou visionneuse externe (`remote-viewer`) | **choix à faire** (sous-issue au moment du portage) ; spice-gtk absent de Rocky 9 |
@@ -99,7 +99,7 @@ toutes les lignes suivantes.
 
 1. **telnet** : le plus petit plugin terminal. Il pose `Vte.Terminal` 3.91
    derrière le contrat v1, et un test sous Xvfb avec un vrai terminal.
-2. **local**, **ipmisol**, **serial** : même schéma. Avec local (#295), la
+2. **local** (#295), **ipmisol** (#179) : portés ; **serial** : même schéma. Avec local, la
    session VTE et la zone d'options de telnet passent dans `gcm4.ui.terminal`
    et `gcm4.core.terminal` (`docs/plugins.md`), que les plugins suivants
    réutilisent.

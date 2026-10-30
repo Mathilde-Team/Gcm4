@@ -519,8 +519,10 @@ jobs:
             tests/gtk4 tests/test_gcm4_*.py -q -rs -p no:cacheprovider \
             --ignore=tests/gtk4/test_plugin_telnet.py \
             --ignore=tests/gtk4/test_plugin_local.py \
+            --ignore=tests/gtk4/test_plugin_ipmisol.py \
             --ignore=tests/gtk4/test_host_dialog_local.py | tee /tmp/rocky9.txt
-          # test_plugin_local.py et test_host_dialog_local.py ignorés comme
+          # test_plugin_local.py, test_plugin_ipmisol.py et
+          # test_host_dialog_local.py ignorés comme
           # test_plugin_telnet.py : VTE GTK4 (Vte-3.91) n'existe pas sur
           # Rocky 9 (#223), le module gcm4.ui.terminal n'y est pas
           # importable ; couvert par le job GTK4 (ubuntu:26.04, VTE
