@@ -153,17 +153,26 @@ def test_chemin_fichier_local():
     assert fichiers._chemin(Gio.File.new_for_path("/tmp/exemple.json")) == "/tmp/exemple.json"
 
 
-# --- Vrai Gtk.FileDialog (GTK ≥ 4.10) ---
+# --- Vrai sélecteur : Gtk.FileDialog (GTK ≥ 4.10) ou FileChooserNative ---
 
 
 def test_choisir_ouvrir_vrai_dialogue(pomper):
-    """Mode ouvrir : vrai FileDialog modal, filtres JSON et CSV."""
+    """Mode ouvrir : vrai sélecteur modal, filtres JSON et CSV.
+
+    ``Gtk.FileDialog`` (GTK ≥ 4.10) quand il existe, sinon le vrai
+    ``Gtk.FileChooserNative`` (Debian 12 : GTK 4.8) — jamais de saut, le
+    job Debian 12 les refuse.
+    """
     recus: list[str | None] = []
     dialogue = fichiers.choisir(_parent(), fichiers.OUVRIR, "Ouvrir", recus.append)
-    assert isinstance(dialogue, Gtk.FileDialog)
-    assert dialogue.get_title() == "Ouvrir"
-    assert dialogue.get_modal()
-    assert dialogue.get_filters().get_n_items() == 2
+    if hasattr(Gtk, "FileDialog"):
+        assert isinstance(dialogue, Gtk.FileDialog)
+        assert dialogue.get_title() == "Ouvrir"
+        assert dialogue.get_modal()
+        assert dialogue.get_filters().get_n_items() == 2
+    else:  # Debian 12 : GTK 4.8, repli natif
+        assert isinstance(dialogue, Gtk.FileChooserNative)
+        assert dialogue.get_filters().get_n_items() == 2
     assert recus == []  # aucune boucle imbriquée : rien avant validation
     pomper()
 
@@ -174,8 +183,12 @@ def test_choisir_enregistrer_nom_propose(pomper):
     dialogue = fichiers.choisir(
         _parent(), fichiers.ENREGISTRER, "Enregistrer", recus.append, "gcm4-hosts.json"
     )
-    assert isinstance(dialogue, Gtk.FileDialog)
-    assert dialogue.get_initial_name() == "gcm4-hosts.json"
+    if hasattr(Gtk, "FileDialog"):
+        assert isinstance(dialogue, Gtk.FileDialog)
+        assert dialogue.get_initial_name() == "gcm4-hosts.json"
+    else:  # Debian 12 : GTK 4.8, repli natif
+        assert isinstance(dialogue, Gtk.FileChooserNative)
+        assert dialogue.get_current_name() == "gcm4-hosts.json"
     assert dialogue.get_filters().get_n_items() == 2
     assert recus == []
     pomper()
@@ -185,8 +198,12 @@ def test_choisir_dossier_sans_filtres(pomper):
     """Mode dossier : aucun filtre."""
     recus: list[str | None] = []
     dialogue = fichiers.choisir(_parent(), fichiers.DOSSIER, "Dossier", recus.append)
-    assert isinstance(dialogue, Gtk.FileDialog)
-    assert dialogue.get_filters() is None
+    if hasattr(Gtk, "FileDialog"):
+        assert isinstance(dialogue, Gtk.FileDialog)
+        assert dialogue.get_filters() is None
+    else:  # Debian 12 : GTK 4.8, repli natif
+        assert isinstance(dialogue, Gtk.FileChooserNative)
+        assert dialogue.get_filters().get_n_items() == 0
     assert recus == []
     pomper()
 
