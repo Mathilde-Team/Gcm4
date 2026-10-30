@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import configparser
 
+from gi.repository import GLib
+
 import gcm4
 import gcm4.ui  # noqa: F401  (require_version avant gi.repository)
 from gcm4.core import mises_a_jour as maj
@@ -111,6 +113,67 @@ def test_variable_d_environnement_et_config_illisible(app_fixture, pomper):
     assert ui.au_demarrage(fenetre) == maj.NON
     fenetre.config = None
     assert ui.au_demarrage(fenetre, environ={}) == maj.NON
+
+
+def test_enregistrer_accord_fichier_corrompu(tmp_path):
+    """Accord sur un fichier corrompu : l'échec est journalisé, pas levé."""
+    corrompu = tmp_path / "corrompu"
+    corrompu.mkdir()
+    (corrompu / "gcm4.conf").write_text("[options\n", encoding="utf-8")
+    ui.enregistrer_accord(str(corrompu / "gcm4.conf"), True)  # ne lève pas
+
+
+def test_accord_refuse_enregistrement_impossible(app_fixture, pomper, monkeypatch):
+    """« Non » avec préférence non inscriptible : journalisé, option coupée dans le modèle."""
+    from gcm4.core.config import ConfigError
+
+    app, _dossier = app_fixture
+    fenetre = _fenetre(app)
+
+    def casse(_fichier: str, _nom: str, _valeur: object) -> None:
+        raise ConfigError("lecture seule")
+
+    monkeypatch.setattr(ui.prefs_core, "save_preference", casse)
+    _choix, _fils = _demarrer(fenetre, lambda _v: None, monkeypatch)
+    _repondre(fenetre, "non", pomper)
+    assert fenetre.config.options.check_updates is False
+
+
+def test_ouvrir_page_vrai_lanceur(app_fixture, pomper):
+    """Le vrai ``Gtk.UriLauncher`` (GTK ≥ 4.10) : la demande ne lève pas."""
+    app, _dossier = app_fixture
+    ui.ouvrir_page(_fenetre(app), "https://example.org/")
+    pomper()
+
+
+def test_ouvrir_page_echec_journalise(app_fixture, monkeypatch):
+    """Portail indisponible (GLib.Error) : journalisé, aucune exception."""
+
+    class _LanceurQuiEchoue:
+        @classmethod
+        def new(cls, _url: str) -> _LanceurQuiEchoue:
+            return cls()
+
+        def launch(self, *_args: object) -> None:
+            raise GLib.Error()
+
+    class _VueGtk:
+        UriLauncher = _LanceurQuiEchoue
+
+    app, _dossier = app_fixture
+    monkeypatch.setattr(ui, "Gtk", _VueGtk)
+    ui.ouvrir_page(_fenetre(app), "https://example.org/")  # ne lève pas
+
+
+def test_ouvrir_page_repli_gtk_anterieur(app_fixture, monkeypatch):
+    """Sans ``UriLauncher`` (GTK < 4.10) : ``Gio.AppInfo`` est utilisé."""
+
+    class _VueGtk:  # sans UriLauncher : force le repli
+        pass
+
+    app, _dossier = app_fixture
+    monkeypatch.setattr(ui, "Gtk", _VueGtk)
+    ui.ouvrir_page(_fenetre(app), "https://example.org/")  # ne lève pas
 
 
 def test_preferences_activer_vaut_accord(app_fixture, pomper):
