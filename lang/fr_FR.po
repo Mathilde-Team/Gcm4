@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 14:37+0000\n"
+"POT-Creation-Date: 2026-10-30 23:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3834,12 +3834,32 @@ msgstr "Encodage des caractères du système distant ; UTF-8 en cas de doute."
 
 #: src/gcm4/ui/terminal.py
 #, python-brace-format
+msgid "Connection to {name} failed ({detail})"
+msgstr "Échec de la connexion à {name} ({detail})"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
 msgid "Encoding {name} is not available, UTF-8 is used."
 msgstr "L'encodage {name} n'est pas disponible, UTF-8 est utilisé."
 
 #: src/gcm4/ui/terminal.py
 msgid "Encoding:"
 msgstr "Encodage :"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "exit code {code}"
+msgstr "code de sortie {code}"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "signal {number}"
+msgstr "signal {number}"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "status {status}"
+msgstr "statut {status}"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
