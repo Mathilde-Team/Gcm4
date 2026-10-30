@@ -23,6 +23,7 @@ from gesture_trigger_core import (
     classify_tab_label_click,
     classify_terminal_click,
     classify_tree_servers_press,
+    masque_actif_dans_etat,
 )
 
 
@@ -66,6 +67,56 @@ class TestClassifyTreeServersPress(unittest.TestCase):
             classify_tree_servers_press(button=1, n_press=2),
         }
         self.assertEqual(reached, set(TREE_SERVERS_PRESS_OUTCOMES))
+
+
+class TestMasqueActifDansEtat(unittest.TestCase):
+    """Comportement de masque_actif_dans_etat() selon le format de get_state().
+
+    Voir `docs/gtk4-migration.md` §3.6-quaterdecies (issue #72) : PyGObject
+    récent (vérifié 3.56) renvoie un tuple résultat ``(succès, état)`` où un
+    ``&`` direct lève TypeError — la fonction doit normaliser les deux
+    formats (flags seuls et tuple) sans dépendre de Gtk/Gdk.
+    """
+
+    def test_flags_seuls_masque_actif(self):
+        """Flags seuls (PyGObject ancien), masque présent : True."""
+        self.assertTrue(masque_actif_dans_etat(0b100, 0b100))
+
+    def test_flags_seuls_masque_absent(self):
+        """Flags seuls, masque absent : False."""
+        self.assertFalse(masque_actif_dans_etat(0b011, 0b100))
+
+    def test_tuple_resultat_masque_actif(self):
+        """Tuple (succès, état) de PyGObject récent, masque présent : True.
+
+        C'est le format _ResultTuple observé empiriquement sous PyGObject
+        3.56 (Ubuntu 26.04) — l'ancien « & » direct plantait ici.
+        """
+        self.assertTrue(masque_actif_dans_etat((True, 0b100), 0b100))
+
+    def test_tuple_resultat_masque_absent(self):
+        """Tuple (succès, état), masque absent : False."""
+        self.assertFalse(masque_actif_dans_etat((True, 0b011), 0b100))
+
+    def test_tuple_resultat_succes_faux(self):
+        """Tuple avec succès=False : l'état n'est pas garanti, donc non testé.
+
+        Sémantique du tuple résultat GIR : l'état n'est valide que si la
+        lecture réussit ; on ne se fie pas à sa valeur sinon.
+        """
+        self.assertFalse(masque_actif_dans_etat((False, 0b100), 0b100))
+
+    def test_tuple_vide(self):
+        """Tuple vide : aucun état exploitable, masque réputé inactif."""
+        self.assertFalse(masque_actif_dans_etat((), 0b100))
+
+    def test_aucun_etat_renvoie_faux(self):
+        """get_state() à None (aucun état) : masque réputé inactif."""
+        self.assertFalse(masque_actif_dans_etat(None, 0b100))
+
+    def test_tuple_un_seul_element(self):
+        """Tuple réduit à l'état seul : le dernier élément reste l'état."""
+        self.assertTrue(masque_actif_dans_etat((0b100,), 0b100))
 
 
 class TestClassifyTerminalClick(unittest.TestCase):
