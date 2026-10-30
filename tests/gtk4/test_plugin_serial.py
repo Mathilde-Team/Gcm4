@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin serial GTK4 (``plugins/serial/gtk4.py``, #179) avec un vrai ``Vte.Terminal``.
 
 Un faux ``picocom`` (script désigné par le ``PATH``) note ses arguments ;

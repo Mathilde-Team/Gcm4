@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin serial de gcm4 (contrat v1, ``docs/plugins.md``) : port série dans un terminal VTE GTK4.
 
 Portage de ``plugins/plugin_serial.py`` (GTK3, #179, étape 2 de

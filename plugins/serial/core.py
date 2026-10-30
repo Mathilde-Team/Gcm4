@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Partie métier du plugin serial (sans GTK) — portage #179.
 
 Comportement repris de ``plugins/plugin_serial.py`` (GTK3) : détection de
