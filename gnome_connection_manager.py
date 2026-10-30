@@ -36,7 +36,11 @@ from typing import TYPE_CHECKING
 from loguru import logger as _loguru_logger
 
 import urlregex
-from gesture_trigger_core import classify_terminal_click, classify_tree_servers_press
+from gesture_trigger_core import (
+    classify_terminal_click,
+    classify_tree_servers_press,
+    masque_actif_dans_etat,
+)
 from models import Host, HostUtils
 from popup_menu_core import select_command_shortcuts
 from widgets import (
@@ -1650,8 +1654,14 @@ class Wmain(GCMBase, Gtk.Window):
         # modificateurs, et ici aussi les coordonnees attendues par
         # match_check_event()/hyperlink_check_event()).
         event = gesture.get_last_event(None)
+        # get_state() renvoie selon la version de PyGObject soit les flags
+        # seuls, soit un tuple résultat (succès, état) — le « & » direct lève
+        # TypeError sur PyGObject récent (bug exposé par la vérification
+        # empirique de l'issue #72, voir docs/gtk4-migration.md
+        # §3.6-quaterdecies) ; masque_actif_dans_etat() normalise les deux.
         ctrl_pressed = bool(
-            event is not None and event.get_state() & Gdk.ModifierType.CONTROL_MASK
+            event is not None
+            and masque_actif_dans_etat(event.get_state(), Gdk.ModifierType.CONTROL_MASK)
         )
         outcome = classify_terminal_click(
             button=button,
