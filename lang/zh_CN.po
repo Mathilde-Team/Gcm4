@@ -960,7 +960,7 @@ msgstr ""
 msgid "⚙ Generate…"
 msgstr ""
 
-#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "未找到 {program}"
@@ -5108,8 +5108,110 @@ msgstr "垂直分割"
 msgid "Unsplit all consoles"
 msgstr "取消所有控制台的分割"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "颜色与按键"
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp 日志："
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "page 2"
+#~ msgstr "第 2 页"
+
+#~ msgid "page 1"
+#~ msgstr "第 1 页"
+
+#~ msgid "local"
+#~ msgstr "本地"
+
+#~ msgid "label"
+#~ msgstr "标签"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "_Edit"
+#~ msgstr "_编辑"
+
+#~ msgid "Split console vertically"
+#~ msgstr "垂直分割控制台"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "水平分割控制台"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "显示工具栏"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "同时向多个主机发送命令"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "保活数据包之间的间隔秒数"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "将活动控制台缓冲区保存到文件"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE（此处不可用：Proxmox 需要 API 票据/代理）"
+
+#~ msgid "Open local console"
+#~ msgstr "打开本地控制台"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "本地端口已被分配"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "保持连接 (Keep-Alive)"
+
+#~ msgid "Import server list from file"
+#~ msgstr "从文件导入服务器列表"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "传递给命令行的额外参数"
+
+#~ msgid "Export server list to file"
+#~ msgstr "将服务器列表导出到文件"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "编辑主机属性"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "检测到的 Proxmox 目标 (dconf)："
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "检测到的 Proxmox 目标"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "创建动态端口转发"
+
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "连接到所选主机或所选分组中的所有主机"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5122,107 +5224,5 @@ msgstr "取消所有控制台的分割"
 #~ "1：最小\n"
 #~ "9：最大"
 
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "连接到所选主机或所选分组中的所有主机"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "创建动态端口转发"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "检测到的 Proxmox 目标"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "检测到的 Proxmox 目标 (dconf)："
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "编辑主机属性"
-
-#~ msgid "Export server list to file"
-#~ msgstr "将服务器列表导出到文件"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "传递给命令行的额外参数"
-
-#~ msgid "Import server list from file"
-#~ msgstr "从文件导入服务器列表"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "保持连接 (Keep-Alive)"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "本地端口已被分配"
-
-#~ msgid "Open local console"
-#~ msgstr "打开本地控制台"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE（此处不可用：Proxmox 需要 API 票据/代理）"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "将活动控制台缓冲区保存到文件"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "保活数据包之间的间隔秒数"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "同时向多个主机发送命令"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "显示工具栏"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "水平分割控制台"
-
-#~ msgid "Split console vertically"
-#~ msgstr "垂直分割控制台"
-
-#~ msgid "_Edit"
-#~ msgstr "_编辑"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "label"
-#~ msgstr "标签"
-
-#~ msgid "local"
-#~ msgstr "本地"
-
-#~ msgid "page 1"
-#~ msgstr "第 1 页"
-
-#~ msgid "page 2"
-#~ msgstr "第 2 页"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp 日志："
+#~ msgid "Colors and Keys"
+#~ msgstr "颜色与按键"

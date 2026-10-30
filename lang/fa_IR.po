@@ -960,7 +960,7 @@ msgstr ""
 msgid "⚙ Generate…"
 msgstr ""
 
-#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "{program} یافت نشد"
@@ -5108,8 +5108,110 @@ msgstr "تقسیم عمودی"
 msgid "Unsplit all consoles"
 msgstr "لغو تقسیم همه کنسول‌ها"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "رنگ‌ها و کلیدها"
+#~ msgid "xfreerdp log:"
+#~ msgstr "گزارش xfreerdp:"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "page 2"
+#~ msgstr "صفحه ۲"
+
+#~ msgid "page 1"
+#~ msgstr "صفحه ۱"
+
+#~ msgid "local"
+#~ msgstr "محلی"
+
+#~ msgid "label"
+#~ msgstr "برچسب"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "_Edit"
+#~ msgstr "_ویرایش"
+
+#~ msgid "Split console vertically"
+#~ msgstr "تقسیم عمودی کنسول"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "تقسیم افقی کنسول"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "نمایش نوار ابزار"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "ارسال دستورات به چند میزبان به‌طور همزمان"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "ثانیه بین بسته‌های keep-alive"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "ذخیره بافر کنسول فعال در فایل"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (در اینجا در دسترس نیست: Proxmox به تیکت/پراکسی API نیاز دارد)"
+
+#~ msgid "Open local console"
+#~ msgstr "باز کردن کنسول محلی"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "پورت محلی از قبل اختصاص یافته است"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Import server list from file"
+#~ msgstr "وارد کردن فهرست سرورها از فایل"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "آرگومان‌های اضافی برای ارسال به خط فرمان"
+
+#~ msgid "Export server list to file"
+#~ msgstr "صدور فهرست سرورها به فایل"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "ویرایش ویژگی‌های میزبان‌ها"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "اهداف Proxmox شناسایی‌شده (dconf):"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "هدف Proxmox شناسایی‌شده"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "ایجاد هدایت پورت دینامیک"
+
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "اتصال به میزبان انتخاب‌شده یا تمام میزبان‌های گروه انتخاب‌شده"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5122,107 +5224,5 @@ msgstr "لغو تقسیم همه کنسول‌ها"
 #~ "1: حداقل\n"
 #~ "9: حداکثر"
 
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "اتصال به میزبان انتخاب‌شده یا تمام میزبان‌های گروه انتخاب‌شده"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "ایجاد هدایت پورت دینامیک"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "هدف Proxmox شناسایی‌شده"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "اهداف Proxmox شناسایی‌شده (dconf):"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "ویرایش ویژگی‌های میزبان‌ها"
-
-#~ msgid "Export server list to file"
-#~ msgstr "صدور فهرست سرورها به فایل"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "آرگومان‌های اضافی برای ارسال به خط فرمان"
-
-#~ msgid "Import server list from file"
-#~ msgstr "وارد کردن فهرست سرورها از فایل"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "پورت محلی از قبل اختصاص یافته است"
-
-#~ msgid "Open local console"
-#~ msgstr "باز کردن کنسول محلی"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (در اینجا در دسترس نیست: Proxmox به تیکت/پراکسی API نیاز دارد)"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "ذخیره بافر کنسول فعال در فایل"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "ثانیه بین بسته‌های keep-alive"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "ارسال دستورات به چند میزبان به‌طور همزمان"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "نمایش نوار ابزار"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "تقسیم افقی کنسول"
-
-#~ msgid "Split console vertically"
-#~ msgstr "تقسیم عمودی کنسول"
-
-#~ msgid "_Edit"
-#~ msgstr "_ویرایش"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "label"
-#~ msgstr "برچسب"
-
-#~ msgid "local"
-#~ msgstr "محلی"
-
-#~ msgid "page 1"
-#~ msgstr "صفحه ۱"
-
-#~ msgid "page 2"
-#~ msgstr "صفحه ۲"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "xfreerdp log:"
-#~ msgstr "گزارش xfreerdp:"
+#~ msgid "Colors and Keys"
+#~ msgstr "رنگ‌ها و کلیدها"

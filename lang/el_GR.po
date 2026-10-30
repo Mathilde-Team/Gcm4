@@ -960,7 +960,7 @@ msgstr ""
 msgid "⚙ Generate…"
 msgstr ""
 
-#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "Το {program} δεν βρέθηκε"
@@ -5108,8 +5108,110 @@ msgstr "Διαίρεση Κ"
 msgid "Unsplit all consoles"
 msgstr "Κατάργηση διαίρεσης όλων των κονσολών"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Χρώματα και Πλήκτρα"
+#~ msgid "xfreerdp log:"
+#~ msgstr "Αρχείο καταγραφής xfreerdp:"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "page 2"
+#~ msgstr "σελίδα 2"
+
+#~ msgid "page 1"
+#~ msgstr "σελίδα 1"
+
+#~ msgid "local"
+#~ msgstr "τοπικό"
+
+#~ msgid "label"
+#~ msgstr "ετικέτα"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "_Edit"
+#~ msgstr "_Επεξεργασία"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Διαίρεση κονσόλας κάθετα"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Διαίρεση κονσόλας οριζόντια"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Εμφάνιση Γραμμής Εργαλείων"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Αποστολή εντολών σε πολλούς κεντρικούς υπολογιστές ταυτόχρονα"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Δευτερόλεπτα μεταξύ πακέτων keep-alive"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Αποθήκευση buffer ενεργής κονσόλας σε αρχείο"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (μη διαθέσιμο εδώ: το Proxmox απαιτεί API ticket/proxy)"
+
+#~ msgid "Open local console"
+#~ msgstr "Άνοιγμα τοπικής κονσόλας"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Η τοπική θύρα έχει ήδη εκχωρηθεί"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Εισαγωγή λίστας διακομιστών από αρχείο"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Πρόσθετα ορίσματα προς τη γραμμή εντολών"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Εξαγωγή λίστας διακομιστών σε αρχείο"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Επεξεργασία ιδιοτήτων κεντρικών υπολογιστών"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Εντοπισμένοι στόχοι Proxmox (dconf):"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Εντοπισμένος στόχος Proxmox"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Δημιουργία δυναμικής προώθησης θύρας"
+
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Σύνδεση στον επιλεγμένο κεντρικό υπολογιστή ή σε όλους τους κεντρικούς υπολογιστές της επιλεγμένης ομάδας"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5122,107 +5224,5 @@ msgstr "Κατάργηση διαίρεσης όλων των κονσολών"
 #~ "1: ελάχιστο\n"
 #~ "9: μέγιστο"
 
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Σύνδεση στον επιλεγμένο κεντρικό υπολογιστή ή σε όλους τους κεντρικούς υπολογιστές της επιλεγμένης ομάδας"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Δημιουργία δυναμικής προώθησης θύρας"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Εντοπισμένος στόχος Proxmox"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Εντοπισμένοι στόχοι Proxmox (dconf):"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Επεξεργασία ιδιοτήτων κεντρικών υπολογιστών"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Εξαγωγή λίστας διακομιστών σε αρχείο"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Πρόσθετα ορίσματα προς τη γραμμή εντολών"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Εισαγωγή λίστας διακομιστών από αρχείο"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Η τοπική θύρα έχει ήδη εκχωρηθεί"
-
-#~ msgid "Open local console"
-#~ msgstr "Άνοιγμα τοπικής κονσόλας"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (μη διαθέσιμο εδώ: το Proxmox απαιτεί API ticket/proxy)"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Αποθήκευση buffer ενεργής κονσόλας σε αρχείο"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Δευτερόλεπτα μεταξύ πακέτων keep-alive"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Αποστολή εντολών σε πολλούς κεντρικούς υπολογιστές ταυτόχρονα"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Εμφάνιση Γραμμής Εργαλείων"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Διαίρεση κονσόλας οριζόντια"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Διαίρεση κονσόλας κάθετα"
-
-#~ msgid "_Edit"
-#~ msgstr "_Επεξεργασία"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "label"
-#~ msgstr "ετικέτα"
-
-#~ msgid "local"
-#~ msgstr "τοπικό"
-
-#~ msgid "page 1"
-#~ msgstr "σελίδα 1"
-
-#~ msgid "page 2"
-#~ msgstr "σελίδα 2"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "xfreerdp log:"
-#~ msgstr "Αρχείο καταγραφής xfreerdp:"
+#~ msgid "Colors and Keys"
+#~ msgstr "Χρώματα και Πλήκτρα"
