@@ -172,7 +172,10 @@ class SessionTerminal:
                 os.close(ecriture)
             fds = [lecture]
         # VTE prend possession des descripteurs de ``fds`` et les ferme
-        # après le lancement, réussi ou non.
+        # après le lancement, réussi ou non. ``lancement.env`` complète
+        # l'environnement (ex. ``IPMI_PASSWORD``, #179).
+        if lancement.env:
+            envv = list(envv) + list(lancement.env)
         self.terminal.spawn_with_fds_async(
             Vte.PtyFlags.DEFAULT,
             None,
