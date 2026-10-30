@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-103 modules · 178 classes · 347 fonctions publiques de module.
+103 modules · 178 classes · 348 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -2048,6 +2048,7 @@ classDiagram
     }
     class mod_gcm4_ui_terminal {
         <<module>>
+        +libelle_echec(statut) str
         +rgba(texte) Gdk.RGBA None
         +zone_options(options, changed) Gtk.Widget
     }

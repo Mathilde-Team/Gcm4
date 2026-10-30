@@ -46,16 +46,17 @@ from . import core  # noqa: E402
 class IpmiSolSession(SessionTerminal):
     """Onglet SOL : session terminal commune, commandes envoyées au bout de 700 ms."""
 
-    def __init__(self, host: Host, lancement: core.Lancement, log) -> None:
+    def __init__(self, host: Host, lancement: core.Lancement, log, notifier=None) -> None:
         """Construit le terminal et lance ipmitool (asynchrone, rien ne bloque).
 
         Args:
             host: hôte ouvert (couleurs, options ``ipmi``).
             lancement: commande à lancer (:func:`core.lancement`).
             log: journal du plugin.
+            notifier: toast d'échec de connexion (#80, ``context.notify``).
         """
         logger.debug("IpmiSolSession.__init__: {!r}", host.path)
-        super().__init__(host, "ipmi", lancement, log, core.DELAI_COMMANDES_MS)
+        super().__init__(host, "ipmi", lancement, log, core.DELAI_COMMANDES_MS, notifier)
         self._chemin_ipmitool, self._hote_ipmi = lancement.argv[0], host
         logger.debug("IpmiSolSession.__init__: fait")
 
@@ -110,7 +111,7 @@ class IpmiSolPlugin(ConnectionPlugin):
             logger.debug("IpmiSolPlugin.open: ipmitool absent")
             raise FileNotFoundError(_("{program} not found").format(program=core.IPMITOOL))
         lancement = core.lancement(ipmitool, host)
-        session = IpmiSolSession(host, lancement, self.context.log)
+        session = IpmiSolSession(host, lancement, self.context.log, notifier=self.context.notify)
         logger.debug("IpmiSolPlugin.open: session ouverte")
         return session
 

@@ -44,16 +44,17 @@ __all__ = ["LIAISONS", "PALETTE", "PLUGIN", "TelnetPlugin", "TelnetSession", "_r
 class TelnetSession(SessionTerminal):
     """Onglet telnet : session terminal commune, commandes envoyées au bout de 3 s."""
 
-    def __init__(self, host: Host, lancement: core.Lancement, log) -> None:
+    def __init__(self, host: Host, lancement: core.Lancement, log, notifier=None) -> None:
         """Construit le terminal et lance ``lancement`` (asynchrone, rien ne bloque).
 
         Args:
             host: hôte ouvert (couleurs, options ``telnet``).
             lancement: commande à lancer (:func:`core.lancement`).
             log: journal du plugin.
+            notifier: toast d'échec de connexion (#80, ``context.notify``).
         """
         logger.debug("TelnetSession.__init__: {!r}", host.path)
-        super().__init__(host, "telnet", lancement, log, core.DELAI_COMMANDES_MS)
+        super().__init__(host, "telnet", lancement, log, core.DELAI_COMMANDES_MS, notifier)
         logger.debug("TelnetSession.__init__: fait")
 
 
@@ -105,7 +106,7 @@ class TelnetPlugin(ConnectionPlugin):
         except FileNotFoundError as exc:
             logger.debug("TelnetPlugin.open: {} absent", exc.args[0])
             raise FileNotFoundError(_("{program} not found").format(program=exc.args[0])) from None
-        session = TelnetSession(host, lancement, self.context.log)
+        session = TelnetSession(host, lancement, self.context.log, notifier=self.context.notify)
         logger.debug("TelnetPlugin.open: session ouverte")
         return session
 

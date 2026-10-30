@@ -289,6 +289,7 @@ def test_cle_changee(plugin, serveur, maison, cles_sftp, telechargements):
     assert core.empreinte(cles_sftp[0]) in session.etat.get_text()
     assert not session.barre.get_visible() and not session.connecte
     assert any("clé d'hôte changée" in m for m in contexte.log.messages)
+    assert any("has changed" in m for m in contexte.notifications)  # toast d'échec (#80)
     session.close()
     fenetre.destroy()
 
@@ -303,6 +304,8 @@ def test_mot_de_passe_demande(plugin, contexte, serveur, connue, telechargements
     assert hote is session.host
     done("mauvais")
     assert _attendre(lambda: contexte.demandes)
+    # deux refus : mot de passe vide au premier essai, puis « mauvais » (#80)
+    assert contexte.notifications.count("Authentication failed") == 2
     contexte.demandes.pop()[1](MOT_DE_PASSE)
     assert _attendre(lambda: session.connecte and not session.occupe)
     assert session.dossier == ACCUEIL
@@ -336,6 +339,7 @@ def test_serveur_injoignable_puis_reessai(plugin, contexte, serveur, connue, tel
     assert session.question.get_text().startswith("Connection failed: ")
     assert session.etat.get_text().startswith("Error: ")
     assert any(m.startswith("SFTP ") for m in contexte.log.messages)
+    assert any(m.startswith("Connection failed: ") for m in contexte.notifications)  # #80
     session.bouton_oui.emit("clicked")
     assert session.occupe
     assert _attendre(lambda: session.barre.get_visible())
