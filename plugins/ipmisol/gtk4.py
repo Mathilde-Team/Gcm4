@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin ipmisol de gcm4 (contrat v1, ``docs/plugins.md``) : SOL dans un terminal VTE GTK4.
 
 Portage de ``plugins/plugin_ipmisol.py`` (GTK3, #179, étape 2 de

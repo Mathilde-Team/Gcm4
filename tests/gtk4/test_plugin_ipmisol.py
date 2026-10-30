@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin ipmisol GTK4 (``plugins/ipmisol/gtk4.py``, #179) avec un vrai ``Vte.Terminal``.
 
 Un faux ``ipmitool`` (script Python désigné par le ``PATH``) note ses
