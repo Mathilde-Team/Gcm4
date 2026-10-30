@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-100 modules · 176 classes · 342 fonctions publiques de module.
+100 modules · 176 classes · 343 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -109,6 +109,7 @@ classDiagram
     class mod_gesture_trigger_core {
         <<module>>
         +classify_tree_servers_press(button, n_press)
+        +masque_actif_dans_etat(retour_get_state, masque)
         +classify_terminal_click(button, n_press, ctrl_pressed, paste_on_right_click)
         +classify_tab_label_click(button, n_press)
     }
