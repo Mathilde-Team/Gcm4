@@ -1,3 +1,3 @@
 # Total de scripts/audit_debug_sorties.py --total (issue #171).
 # Ne doit pas augmenter : le baisser après avoir instrumenté des fonctions.
-884
+775

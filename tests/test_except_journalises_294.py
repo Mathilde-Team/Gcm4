@@ -53,7 +53,7 @@ def test_remove_absent_host_is_logged(journal):
     """Retirer un hôte absent laisse une trace debug."""
     config = core.SSHConfig(file_path=Path("/nonexistent"))
     assert config.remove_host(core.SSHHost(patterns=["absent"])) is False
-    assert journal and "hôte absent" in journal[0][1]
+    assert any("hôte absent" in m for _n, m in journal)
 
 
 def test_unreadable_include_is_a_warning(tmp_path, journal):
