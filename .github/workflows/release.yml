@@ -47,7 +47,8 @@ jobs:
             debhelper dh-python dpkg-dev python3-build python3-hatchling python3-pip
           # Ubuntu 24.04 (ubuntu-latest) fournit hatchling 1.21, pyproject.toml
           # exige >= 1.24 et build-deb/build.sh construit sans isolation (#362).
-          sudo -n python3 -m pip install --quiet --break-system-packages "hatchling>=1.24"
+          # --ignore-installed : packaging de Debian ne se désinstalle pas avec pip.
+          sudo -n python3 -m pip install --quiet --break-system-packages --ignore-installed "hatchling>=1.24"
           sudo gem install --no-document fpm
 
       - name: Version
