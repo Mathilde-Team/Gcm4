@@ -169,6 +169,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
                 qui décide). Conservé pour cohérence d'API avec les autres
                 écrans de gestion (``Whost``, ``Wcluster``, ``Wconfig``).
         """
+        logger.debug("SshConfigEditorDialog.__init__: entrée | show={}", show)
         Gtk.Dialog.__init__(
             self,
             title=_("Edit SSH config (personal + shared)"),
@@ -228,9 +229,11 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         self._initialized = False
 
         logger.debug(
-            f"SshConfigEditorDialog.__init__ | personal={self._parsers[_TARGET_PERSONAL].config_path} (n="
-            f"{len(self._configs[_TARGET_PERSONAL].hosts)}) shared={self._parsers[_TARGET_SHARED].config_path} (n="
-            f"{len(self._configs[_TARGET_SHARED].hosts)})",
+            "SshConfigEditorDialog.__init__ | personal={} (n={}) shared={} (n={})",
+            self._parsers[_TARGET_PERSONAL].config_path,
+            len(self._configs[_TARGET_PERSONAL].hosts),
+            self._parsers[_TARGET_SHARED].config_path,
+            len(self._configs[_TARGET_SHARED].hosts),
         )
 
         self._build_ui()
@@ -250,6 +253,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
                     path=self._parsers[_TARGET_PERSONAL].config_path
                 ),
             )
+        logger.debug("SshConfigEditorDialog.__init__: fin")
 
     # ------------------------------------------------------------------
     # Construction de l'UI
@@ -257,6 +261,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
 
     def _build_ui(self) -> None:
         """Construit l'ensemble de l'interface (notebook + panneaux)."""
+        logger.debug("_build_ui: entrée")
         content = self.get_content_area()
         content.set_spacing(0)
 
@@ -283,6 +288,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
 
         content.show_all()
         self._error_bar.hide()
+        logger.debug("_build_ui: fin")
 
     def _make_action_buttons(self) -> Gtk.Box:
         """Crée une nouvelle paire de boutons Save/Cancel.
@@ -297,6 +303,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Returns:
             Box horizontal contenant les deux boutons.
         """
+        logger.debug("_make_action_buttons: entrée")
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
         btn_cancel = Gtk.Button(label=_("✕ Cancel"))
         btn_cancel.connect("clicked", self._on_dialog_cancel_clicked)
@@ -305,6 +312,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         btn_save.connect("clicked", self._on_dialog_save_clicked)
         box.pack_start(btn_cancel, False, False, 0)
         box.pack_start(btn_save, False, False, 0)
+        logger.debug("_make_action_buttons: fin")
         return box
 
     def _on_dialog_save_clicked(self, _widget: Gtk.Widget) -> None:
@@ -315,18 +323,22 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         ``dlg.save()``). Mode onglet épinglé : plus d'appelant synchrone à
         prévenir — la sauvegarde doit donc se faire ici, avant la fermeture.
         """
+        logger.debug("_on_dialog_save_clicked: entrée")
         if self.is_tab:
             self.save()
             self.request_close()
         else:
             self.response(Gtk.ResponseType.OK)
+        logger.debug("_on_dialog_save_clicked: fin")
 
     def _on_dialog_cancel_clicked(self, _widget: Gtk.Widget) -> None:
         """Gestionnaire du bouton Annuler (cf. ``_on_dialog_save_clicked``)."""
+        logger.debug("_on_dialog_cancel_clicked: entrée")
         if self.is_tab:
             self.request_close()
         else:
             self.response(Gtk.ResponseType.CANCEL)
+        logger.debug("_on_dialog_cancel_clicked: fin")
 
     def _top_window(self) -> Gtk.Window:
         """Retourne la fenêtre de haut niveau à utiliser comme parent pour
@@ -345,10 +357,13 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Returns:
             Gtk.Window: Fenêtre parente appropriée.
         """
+        logger.debug("_top_window: entrée | is_tab={}", self.is_tab)
         if self.is_tab:
             from gnome_connection_manager import wMain  # noqa: PLC0415
 
+            logger.debug("_top_window: retour fenêtre principale (mode onglet)")
             return wMain.window
+        logger.debug("_top_window: retour self (mode fenêtre autonome)")
         return self
 
     def _build_visual_tab(self) -> Gtk.Widget:
@@ -357,6 +372,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Returns:
             Widget racine de l'onglet.
         """
+        logger.debug("_build_visual_tab: entrée")
         paned = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
         paned.set_position(230)
 
@@ -510,6 +526,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
 
         right_box.pack_start(self._form_stack, True, True, 0)
         paned.pack2(right_box, True, False)
+        logger.debug("_build_visual_tab: fin")
         return paned
 
     def _build_port_forwarding_tab(self) -> Gtk.Widget:
@@ -523,6 +540,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Returns:
             Widget racine de l'onglet.
         """
+        logger.debug("_build_port_forwarding_tab: entrée")
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
         box.set_margin_start(8)
         box.set_margin_end(8)
@@ -605,6 +623,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         box.pack_start(sw, True, True, 0)
 
         self._on_pf_type_changed(self._pf_combo)
+        logger.debug("_build_port_forwarding_tab: fin")
         return box
 
     def _on_pf_type_changed(self, widget: Gtk.ComboBoxText) -> None:
@@ -613,6 +632,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             widget: Sélecteur Dynamic/Local/Remote.
         """
+        logger.debug("_on_pf_type_changed: entrée")
         tunnel_type = widget.get_active_id() or "local"
         is_dynamic = tunnel_type == "dynamic"
         self._pf_txt_host.set_sensitive(not is_dynamic)
@@ -625,9 +645,11 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             self._pf_lbl_local.set_text(_("Local Port"))
             self._pf_lbl_host.set_text(_("Remote Host"))
             self._pf_lbl_remote.set_text(_("Remote Port"))
+        logger.debug("_on_pf_type_changed: fin | type={}", tunnel_type)
 
     def _on_pf_add(self, _widget: Gtk.Widget) -> None:
         """Ajoute une redirection de port à la liste, selon le type sélectionné."""
+        logger.debug("_on_pf_add: entrée")
         tunnel_type = self._pf_combo.get_active_id() or "local"
         local = str(self._pf_txt_local.get_value_as_int())
         host = self._pf_txt_host.get_text().strip()
@@ -641,6 +663,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             if not host:
                 self._pf_error_label.set_text(_("Enter remote host"))
                 self._pf_error_label.show()
+                logger.debug("_on_pf_add: hôte distant manquant -> refus")
                 return
             raw = f"{local} {host}:{remote}"
 
@@ -648,13 +671,16 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         type_label = {"dynamic": _("Dynamic"), "remote": _("Remote")}.get(tunnel_type, _("Local"))
         self._pf_store.append([local, host, remote, raw, type_label])
         self._dirty = True
+        logger.debug("_on_pf_add: redirection ajoutée | type={} raw={}", tunnel_type, raw)
 
     def _on_pf_remove(self, _widget: Gtk.Widget) -> None:
         """Supprime la redirection de port sélectionnée dans la liste."""
+        logger.debug("_on_pf_remove: entrée")
         model, it = self._pf_tree.get_selection().get_selected()
         if it is not None:
             model.remove(it)
             self._dirty = True
+        logger.debug("_on_pf_remove: fin")
 
     def _build_raw_tab(self) -> Gtk.Widget:
         """Construit le panneau Raw/Diff.
@@ -662,6 +688,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Returns:
             Widget racine de l'onglet.
         """
+        logger.debug("_build_raw_tab: entrée")
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         vbox.set_margin_start(8)
         vbox.set_margin_end(8)
@@ -733,6 +760,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
 
         # IMPORTANT : connecter le signal APRÈS avoir créé self._raw_buffer
         self._raw_buffer.connect("changed", self._on_raw_changed)
+        logger.debug("_build_raw_tab: fin")
         return vbox
 
     def _populate_list(self) -> None:
@@ -742,6 +770,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         fichier d'origine), utilisé par le formulaire (point 5) pour savoir
         où déplacer/enregistrer un hôte.
         """
+        logger.debug("_populate_list: entrée")
         self._host_store.clear()
         self._host_source = {}
         _BADGE = {_TARGET_PERSONAL: "", _TARGET_SHARED: "🌐 "}
@@ -755,8 +784,10 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
                 tooltip = f"{tooltip}\n[{_TARGET_LABELS[target]}]"
                 self._host_store.append([display, tooltip, alias, target])
         logger.debug(
-            f"SshConfigEditorDialog._populate_list | personal={len(self._configs[_TARGET_PERSONAL].hosts)} shared="
-            f"{len(self._configs[_TARGET_SHARED].hosts)} -> {len(self._host_store)} ligne(s)",
+            "_populate_list | personal={} shared={} -> {} ligne(s)",
+            len(self._configs[_TARGET_PERSONAL].hosts),
+            len(self._configs[_TARGET_SHARED].hosts),
+            len(self._host_store),
         )
 
     def _host_filter_func(self, model: Gtk.TreeModel, it: Gtk.TreeIter, _data: object) -> bool:
@@ -770,10 +801,14 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Returns:
             True si la ligne doit être visible.
         """
+        logger.debug("_host_filter_func: entrée")
         text = self._search_entry.get_text().strip().lower()
         if not text:
+            logger.debug("_host_filter_func: filtre vide -> tout visible")
             return True
-        return text in model[it][0].lower() or text in model[it][1].lower()
+        visible = text in model[it][0].lower() or text in model[it][1].lower()
+        logger.debug("_host_filter_func: retour | visible={}", visible)
+        return visible
 
     def _load_host_in_form(self, host: SSHHost, source: str) -> None:
         """Remplit le formulaire avec les valeurs d'un hôte.
@@ -783,6 +818,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             source: Fichier d'origine de l'hôte (:data:`_TARGET_PERSONAL` ou
                 :data:`_TARGET_SHARED`), pour le sélecteur "Fichier" (point 5).
         """
+        logger.debug("_load_host_in_form: entrée | source={}", source)
         self._current_host = host
         self._current_host_source = source
         self._suspend_file_combo_signal = True
@@ -801,6 +837,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         self._load_port_forwarding_in_form(host)
         self._btn_remove.set_sensitive(True)
         self._btn_test.set_sensitive(bool(host.get_option("HostName") or host.patterns))
+        logger.debug("_load_host_in_form: fin")
 
     def _load_port_forwarding_in_form(self, host: SSHHost) -> None:
         """Peuple la liste "Redirection de port" depuis LocalForward/RemoteForward/DynamicForward.
@@ -808,6 +845,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             host: Bloc SSH à afficher.
         """
+        logger.debug("_load_port_forwarding_in_form: entrée")
         self._pf_store.clear()
         for raw in host.get_options("DynamicForward"):
             local = raw.split(None, 1)[0] if raw.split() else raw
@@ -824,6 +862,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             else:
                 target_host, target_port = host_port, ""
             self._pf_store.append([local, target_host, target_port, raw, type_label])
+        logger.debug("_load_port_forwarding_in_form: fin")
 
     def _save_form_to_host(self) -> bool:
         """Applique les valeurs du formulaire dans self._current_host.
@@ -831,7 +870,9 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Returns:
             True si tous les champs sont valides, False sinon.
         """
+        logger.debug("_save_form_to_host: entrée")
         if self._current_host is None:
+            logger.debug("_save_form_to_host: aucun hôte courant -> rien à faire")
             return True
 
         valid = True
@@ -852,6 +893,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
                     raise ValueError
                 self._error_labels["Port"].hide()
             except ValueError:
+                logger.debug("_save_form_to_host: port invalide | valeur={!r}", port_str)
                 self._show_field_error("Port", _("Port must be an integer between 1 and 65535"))
                 valid = False
 
@@ -869,11 +911,14 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
 
         self._save_port_forwarding_to_host()
 
+        logger.debug("_save_form_to_host: retour | valid={}", valid)
         return valid
 
     def _save_port_forwarding_to_host(self) -> None:
         """Réécrit LocalForward/RemoteForward/DynamicForward depuis la liste "Redirection de port"."""
+        logger.debug("_save_port_forwarding_to_host: entrée")
         if self._current_host is None:
+            logger.debug("_save_port_forwarding_to_host: aucun hôte courant -> retour")
             return
         dynamic_values: list[str] = []
         local_values: list[str] = []
@@ -889,6 +934,12 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         self._current_host.set_options("DynamicForward", dynamic_values)
         self._current_host.set_options("LocalForward", local_values)
         self._current_host.set_options("RemoteForward", remote_values)
+        logger.debug(
+            "_save_port_forwarding_to_host: fin | dyn={} local={} remote={}",
+            len(dynamic_values),
+            len(local_values),
+            len(remote_values),
+        )
 
     def _show_field_error(self, key: str, msg: str) -> None:
         """Affiche un message d'erreur sous un champ.
@@ -897,10 +948,12 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             key: Clé du champ concerné.
             msg: Texte de l'erreur.
         """
+        logger.debug("_show_field_error: entrée")
         lbl = self._error_labels.get(key)
         if lbl:
             lbl.set_text(msg)
             lbl.show()
+        logger.debug("_show_field_error: fin")
 
     def _on_raw_target_changed(self, combo: Gtk.ComboBoxText) -> None:
         """Change le fichier affiché dans l'onglet Raw/Diff (point 6).
@@ -908,10 +961,13 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             combo: Sélecteur de fichier Raw/Diff.
         """
+        logger.debug("_on_raw_target_changed: entrée")
         target = combo.get_active_id()
         if target is None or target == self._raw_target:
+            logger.debug("_on_raw_target_changed: cible inchangée -> ignoré")
             return
         self._switch_raw_target(target)
+        logger.debug("_on_raw_target_changed: fin | cible={}", target)
 
     def _switch_raw_target(self, target: str) -> None:
         """Repointe l'onglet Raw/Diff (``self._parser``/``self._config``) vers
@@ -921,24 +977,27 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             target: Clé de la cible (:data:`_TARGET_PERSONAL` ou
                 :data:`_TARGET_SHARED`).
         """
+        logger.debug("_switch_raw_target: entrée | target={}", target)
         self._raw_target = target
         self._parser = self._parsers[target]
         self._config = self._configs[target]
         self._sync_raw_from_model()
         logger.debug(
-            f"SshConfigEditorDialog._switch_raw_target | target={target} path={self._parser.config_path}"
+            "_switch_raw_target: cible basculée | target={} path={}",
+            target,
+            self._parser.config_path,
         )
 
     def _sync_raw_from_model(self) -> None:
         """Copie le contenu généré par le modèle dans la zone Raw."""
+        logger.debug("_sync_raw_from_model: entrée")
         content = self._config.generate_content()
-        logger.debug(
-            f"SshConfigEditorDialog._sync_raw_from_model | content genere : {len(content)} caracteres"
-        )
+        logger.debug("_sync_raw_from_model: contenu généré | {} caractères", len(content))
         self._raw_buffer.handler_block_by_func(self._on_raw_changed)
         self._raw_buffer.set_text(content)
         self._raw_buffer.handler_unblock_by_func(self._on_raw_changed)
         self._refresh_diff()
+        logger.debug("_sync_raw_from_model: fin")
 
     def _sync_model_from_raw(self) -> bool:
         """Parse le contenu de la zone Raw et recharge le modèle.
@@ -952,6 +1011,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Returns:
             True si le parsing a réussi.
         """
+        logger.debug("_sync_model_from_raw: entrée")
         import tempfile as _tempfile  # noqa: PLC0415
 
         start, end = self._raw_buffer.get_bounds()
@@ -964,18 +1024,26 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             self._config.hosts = tmp_parser.config.hosts
             self._config.global_options = tmp_parser.config.global_options
             self._config.include_directives = tmp_parser.config.include_directives
+            logger.debug("_sync_model_from_raw: parsing réussi")
             return True
         except Exception as exc:
-            logger.warning(f"Raw parse failed: {exc}")
+            logger.warning(
+                "_sync_model_from_raw: échec parsing Raw | {} | {}", type(exc).__name__, exc
+            )
             return False
         finally:
             try:
                 tmp_path.unlink(missing_ok=True)
-            except OSError:
-                pass
+            except OSError as exc:
+                logger.debug(
+                    "_sync_model_from_raw: nettoyage tmp impossible | {} | {}",
+                    type(exc).__name__,
+                    exc,
+                )
 
     def _refresh_diff(self) -> None:
         """Met à jour la zone diff entre le fichier original et la version courante."""
+        logger.debug("_refresh_diff: entrée")
         original = "\n".join(self._config.original_lines) + "\n"
         start, end = self._raw_buffer.get_bounds()
         current = self._raw_buffer.get_text(start, end, False)
@@ -994,6 +1062,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         it = self._diff_buffer.get_end_iter()
         if not diff:
             self._diff_buffer.insert_with_tags_by_name(it, _("No changes."), "header")
+            logger.debug("_refresh_diff: aucun changement")
             return
 
         for line in diff:
@@ -1005,6 +1074,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
                 self._diff_buffer.insert_with_tags_by_name(it, line, "removed")
             else:
                 self._diff_buffer.insert(it, line)
+        logger.debug("_refresh_diff: fin | {} ligne(s) de diff", len(diff))
 
     def save(self) -> None:
         """Sauvegarde la configuration sur disque (personnel ET partagé).
@@ -1017,6 +1087,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         contenu généré est identique au contenu sur disque, donc écrire les
         deux systématiquement est sûr même si un seul a changé.
         """
+        logger.debug("save: entrée | onglet courant={}", self._notebook.get_current_page())
         if self._notebook.get_current_page() == 1:
             if not self._sync_model_from_raw():
                 logger.error("save | raw parse failed, aborting write")
@@ -1027,8 +1098,8 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             # la dernière frappe) étaient silencieusement perdues à
             # l'enregistrement — bug rapporté : "Save ne sauvegarde rien".
             if not self._save_form_to_host():
-                logger.error("save | form validation failed, aborting write")
                 self._run_validation()
+                logger.error("save | form validation failed, aborting write")
                 return
             self._populate_list()
 
@@ -1037,16 +1108,21 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             try:
                 parser.write()
                 logger.info(
-                    f"save | {_TARGET_LABELS[target]} written successfully | path={parser.config_path}"
+                    "save: écrit | cible={} path={}", _TARGET_LABELS[target], parser.config_path
                 )
             except OSError as exc:
                 msg = f"{_TARGET_LABELS[target]} : {exc}"
-                logger.error(f"save | write failed | target={target} exc={exc}")
+                logger.error(
+                    "save: échec d'écriture | cible={} exc={}",
+                    _TARGET_LABELS[target],
+                    exc,
+                )
                 errors.append(msg)
 
         if errors:
             self._error_label.set_text("\n".join(errors))
             self._error_bar.show()
+        logger.debug("save: fin | erreurs={}", len(errors))
 
     def _run_validation(self) -> list[str]:
         """Lance la validation des DEUX fichiers et affiche les erreurs dans l'InfoBar.
@@ -1055,6 +1131,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             Liste des messages d'erreur (vide si OK), préfixés par le fichier
             concerné quand les deux ont des erreurs.
         """
+        logger.debug("_run_validation: entrée")
         errors: list[str] = []
         for target, parser in self._parsers.items():
             for err in parser.validate():
@@ -1064,11 +1141,14 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             self._error_bar.show()
         else:
             self._error_bar.hide()
+        logger.debug("_run_validation: retour | {} erreur(s)", len(errors))
         return errors
 
     def _update_save_button(self) -> None:
         """Active ou désactive le bouton Save selon la validité."""
+        logger.debug("_update_save_button: entrée")
         self._run_validation()
+        logger.debug("_update_save_button: fin")
 
     def _on_pick_identity_file(self, _widget: Gtk.Widget) -> None:
         """Ouvre le dialogue de sélection de clé SSH.
@@ -1076,10 +1156,12 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             _widget: Widget qui a déclenché l'événement.
         """
+        logger.debug("_on_pick_identity_file: entrée")
         dlg = KeyPickerDialog(parent=self._top_window())
         dlg.connect("key-selected", self._on_key_selected)
         run_dialog_sync(dlg)
         dlg.destroy()
+        logger.debug("_on_pick_identity_file: fin")
 
     def _on_key_selected(self, _dlg, key_path: str) -> None:
         """Callback du signal key-selected de KeyPickerDialog.
@@ -1088,8 +1170,10 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             _dlg: Dialog source (non utilisé).
             key_path: Chemin absolu de la clé privée sélectionnée.
         """
+        logger.debug("_on_key_selected: entrée")
         self._entries["IdentityFile"].set_text(key_path)
         self._dirty = True
+        logger.debug("_on_key_selected: fin")
 
     def _on_open_key_manager(self, _widget: Gtk.Widget) -> None:
         """Ouvre le dialogue de gestion des clés SSH.
@@ -1107,6 +1191,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         # En mode onglet épinglé (self.is_tab), self n'est jamais affiché ni
         # modal (cf. _top_window()) : rien à basculer, comme pour
         # Whost.on_btnKeyManager_clicked.
+        logger.debug("_on_open_key_manager: entrée")
         top_window = self._top_window()
         if not self.is_tab:
             self.set_modal(False)
@@ -1114,6 +1199,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         if not self.is_tab:
             dlg.connect("destroy", lambda _w: self.set_modal(True))
         dlg.show_all()
+        logger.debug("_on_open_key_manager: fin")
 
     def _on_host_selected(self, selection: Gtk.TreeSelection) -> None:
         """Charge l'hôte sélectionné dans le formulaire.
@@ -1121,6 +1207,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             selection: Sélection courante du TreeView.
         """
+        logger.debug("_on_host_selected: entrée")
         if self._current_host is not None:
             self._save_form_to_host()
             self._dirty = True
@@ -1133,12 +1220,14 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             self._form_stack.set_visible_child_name("placeholder")
             self._btn_remove.set_sensitive(False)
             self._btn_test.set_sensitive(False)
+            logger.debug("_on_host_selected: aucune sélection -> formulaire vide")
             return
 
         raw_alias, source = model[it][2], model[it][3]
         host = self._configs[source].get_host(raw_alias)
         if host:
             self._load_host_in_form(host, source)
+        logger.debug("_on_host_selected: fin")
 
     def _on_field_changed(self, _entry: Gtk.Entry, _key: str) -> None:
         """Marque le formulaire comme modifié.
@@ -1147,7 +1236,9 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             entry: Champ modifié.
             key: Clé SSH correspondante.
         """
+        logger.debug("_on_field_changed: entrée")
         self._dirty = True
+        logger.debug("_on_field_changed: fin")
 
     def _on_raw_changed(self, _buf: Gtk.TextBuffer) -> None:
         """Marque l'onglet Raw comme modifié.
@@ -1155,7 +1246,9 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             _buf: Buffer texte (non utilisé directement).
         """
+        logger.debug("_on_raw_changed: entrée")
         self._dirty = True
+        logger.debug("_on_raw_changed: fin")
 
     def _on_add_host(self, _widget: Gtk.Widget) -> None:
         """Crée un nouvel hôte vide (fichier personnel par défaut) et le sélectionne.
@@ -1167,6 +1260,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             _widget: Widget qui a déclenché l'événement.
         """
+        logger.debug("_on_add_host: entrée")
         new_host = SSHHost(patterns=["new-host"])
         new_host.options.append(SSHOption(key="HostName", value=""))
         new_host.options.append(SSHOption(key="User", value=""))
@@ -1176,6 +1270,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         if last >= 0:
             self._tree.set_cursor(Gtk.TreePath(last), None, False)
         self._dirty = True
+        logger.debug("_on_add_host: fin")
 
     def _on_remove_host(self, _widget: Gtk.Widget) -> None:
         """Supprime l'hôte actuellement sélectionné après confirmation.
@@ -1183,7 +1278,9 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             _widget: Widget qui a déclenché l'événement.
         """
+        logger.debug("_on_remove_host: entrée")
         if self._current_host is None or self._current_host_source is None:
+            logger.debug("_on_remove_host: aucun hôte courant -> ignoré")
             return
         alias = " ".join(self._current_host.patterns)
         dlg = Gtk.MessageDialog(
@@ -1205,6 +1302,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             self._populate_list()
             self._dirty = True
         dlg.destroy()
+        logger.debug("_on_remove_host: fin")
 
     def _on_host_file_changed(self, combo: Gtk.ComboBoxText) -> None:
         """Déplace l'hôte courant entre fichier personnel et partagé (point 5).
@@ -1212,10 +1310,13 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             combo: Sélecteur "Fichier" du formulaire.
         """
+        logger.debug("_on_host_file_changed: entrée")
         if self._suspend_file_combo_signal or self._current_host is None:
+            logger.debug("_on_host_file_changed: signal suspendu ou sans hôte -> ignoré")
             return
         new_target = combo.get_active_id()
         if new_target is None or new_target == self._current_host_source:
+            logger.debug("_on_host_file_changed: cible identique -> ignoré")
             return
 
         old_target = self._current_host_source
@@ -1234,8 +1335,10 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
                 break
 
         logger.info(
-            f"SshConfigEditorDialog._on_host_file_changed | alias={alias} "
-            f"{_TARGET_LABELS[old_target]} -> {_TARGET_LABELS[new_target]}"
+            "_on_host_file_changed: hôte déplacé | alias={} {} -> {}",
+            alias,
+            _TARGET_LABELS[old_target],
+            _TARGET_LABELS[new_target],
         )
 
     def _on_test_connection(self, _widget: Gtk.Widget) -> None:
@@ -1244,14 +1347,18 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             _widget: Widget qui a déclenché l'événement.
         """
+        logger.debug("_on_test_connection: entrée")
         if self._current_host is None:
+            logger.debug("_on_test_connection: aucun hôte courant -> ignoré")
             return
         alias = self._current_host.patterns[0] if self._current_host.patterns else ""
         if not alias:
+            logger.debug("_on_test_connection: alias vide -> ignoré")
             return
         dlg = _SshTestDialog(parent=self._top_window(), alias=alias)
         run_dialog_sync(dlg)
         dlg.destroy()
+        logger.debug("_on_test_connection: fin | alias={}", alias)
 
     def _on_copy_ssh_cmd(self, _widget: Gtk.Widget) -> None:
         """Copie la commande SSH complète dans le presse-papiers.
@@ -1259,7 +1366,9 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             _widget: Widget qui a déclenché l'événement.
         """
+        logger.debug("_on_copy_ssh_cmd: entrée")
         if self._current_host is None:
+            logger.debug("_on_copy_ssh_cmd: aucun hôte courant -> ignoré")
             return
         alias = self._current_host.patterns[0] if self._current_host.patterns else ""
         user = self._current_host.get_option("User") or ""
@@ -1272,6 +1381,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         clip = Gtk.Clipboard.get(Gdk.Atom.intern("CLIPBOARD", False))
         clip.set_text(cmd, -1)
         _show_toast(self, _("Copied: {cmd}").format(cmd=cmd))
+        logger.debug("_on_copy_ssh_cmd: commande copiée | alias={}", alias)
 
     def _on_search_changed(self, _entry: Gtk.SearchEntry) -> None:
         """Rafraîchit le filtre de la liste.
@@ -1279,7 +1389,9 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
         Args:
             _entry: Champ de recherche (non utilisé directement).
         """
+        logger.debug("_on_search_changed: entrée")
         self._host_filter.refilter()
+        logger.debug("_on_search_changed: fin")
 
     def _on_tab_switch(self, _nb: Gtk.Notebook, _page: Gtk.Widget, page_num: int) -> None:
         """Synchronise modèle ↔ Raw lors du changement d'onglet.
@@ -1289,10 +1401,12 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             _page: Page destination (non utilisé).
             page_num: Index de la page destination.
         """
+        logger.debug("_on_tab_switch: entrée | page={}", page_num)
         if not self._initialized:
             # Ignore le(s) signal(aux) "switch-page" émis par GTK pendant la
             # construction initiale du Notebook (avant que self._raw_buffer ne
             # soit synchronisé) — voir commentaire dans __init__.
+            logger.debug("_on_tab_switch: pas encore initialisé -> ignoré")
             return
         if page_num == 1:
             if self._current_host is not None:
@@ -1302,6 +1416,7 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             if self._sync_model_from_raw():
                 self._populate_list()
                 self._refresh_diff()
+        logger.debug("_on_tab_switch: fin")
 
 
 class _SshTestDialog(Gtk.Dialog):
@@ -1319,6 +1434,7 @@ class _SshTestDialog(Gtk.Dialog):
             parent: Fenêtre parente.
             alias: Alias SSH du bloc Host à tester.
         """
+        logger.debug("_SshTestDialog.__init__: entrée | alias={}", alias)
         super().__init__(
             title=_("Test connection — {alias}").format(alias=alias),
             transient_for=parent,
@@ -1330,9 +1446,11 @@ class _SshTestDialog(Gtk.Dialog):
         self._build_ui()
         self.show_all()
         GLib.idle_add(self._run_test)
+        logger.debug("_SshTestDialog.__init__: fin")
 
     def _build_ui(self) -> None:
         """Construit la zone d'affichage de sortie SSH."""
+        logger.debug("_SshTestDialog._build_ui: entrée")
         sw = Gtk.ScrolledWindow()
         sw.set_shadow_type(Gtk.ShadowType.IN)
         sw.set_margin_start(8)
@@ -1347,6 +1465,7 @@ class _SshTestDialog(Gtk.Dialog):
         sw.add(tv)
         self.get_content_area().pack_start(sw, True, True, 0)
         self.get_content_area().show_all()
+        logger.debug("_SshTestDialog._build_ui: fin")
 
     def _run_test(self) -> bool:
         """Lance ssh -o ConnectTimeout=5 -v alias et affiche la sortie.
@@ -1354,6 +1473,7 @@ class _SshTestDialog(Gtk.Dialog):
         Returns:
             False (fin du GLib.idle_add).
         """
+        logger.debug("_run_test: entrée | alias={}", self._alias)
         cmd = ["ssh", "-o", "ConnectTimeout=5", "-o", "BatchMode=yes", "-v", self._alias]
         self._append(_("Running: {cmd}\n\n").format(cmd=" ".join(cmd)))
         try:
@@ -1362,9 +1482,12 @@ class _SshTestDialog(Gtk.Dialog):
             self._append(output or _("(no output)\n"))
             self._append(_("\nExit code: {rc}").format(rc=result.returncode))
         except subprocess.TimeoutExpired:
+            logger.debug("_run_test: timeout après 10 s | alias={}", self._alias)
             self._append(_("\n[Timeout after 10 s]"))
         except Exception as exc:
+            logger.debug("_run_test: erreur | {} | {}", type(exc).__name__, exc)
             self._append(_("\n[Error: {exc}]").format(exc=exc))
+        logger.debug("_run_test: fin | code={}", result.returncode)
         return False
 
     def _append(self, text: str) -> None:
@@ -1373,7 +1496,9 @@ class _SshTestDialog(Gtk.Dialog):
         Args:
             text: Texte à ajouter.
         """
+        logger.debug("_append: entrée | {} caractère(s)", len(text))
         self._buf.insert(self._buf.get_end_iter(), text)
+        logger.debug("_append: fin")
 
 
 def _show_toast(parent: Gtk.Window, msg: str, duration_ms: int = 2500) -> None:
@@ -1384,6 +1509,7 @@ def _show_toast(parent: Gtk.Window, msg: str, duration_ms: int = 2500) -> None:
         msg: Message à afficher.
         duration_ms: Durée d'affichage en millisecondes.
     """
+    logger.debug("_show_toast: entrée | durée_ms={}", duration_ms)
     bar = Gtk.InfoBar()
     bar.set_message_type(Gtk.MessageType.INFO)
     bar.get_content_area().pack_start(Gtk.Label(label=msg), True, True, 0)
@@ -1392,3 +1518,4 @@ def _show_toast(parent: Gtk.Window, msg: str, duration_ms: int = 2500) -> None:
     if content:
         content.pack_start(bar, False, False, 0)
         GLib.timeout_add(duration_ms, lambda: bar.destroy() or False)
+    logger.debug("_show_toast: fin")

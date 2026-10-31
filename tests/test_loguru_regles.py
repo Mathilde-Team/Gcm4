@@ -49,7 +49,6 @@ SECRET_NAMES = re.compile(
 # supprimés par le portage GTK4 (#97/#180) — lot du 26/10/2026 (issue #294).
 EXCEPT_SANS_JOURNAL = {
     "plugins/pluginvnc2/vnc_tab.py": 14,
-    "ssh_config_editor.py": 4,
     "ssh_key_manager_dialog.py": 17,
 }
 
