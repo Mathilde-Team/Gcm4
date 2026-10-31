@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:14+0000\n"
+"POT-Creation-Date: 2026-10-31 23:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -408,19 +408,19 @@ msgstr "导出服务器"
 msgid "Export servers"
 msgstr "导出服务器"
 
-#: gnome_connection_manager.py plugins/plugin_export_csv.py
+#: gnome_connection_manager.py
 msgid "Export to CSV"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_csv.py
+#: gnome_connection_manager.py
 msgid "Export to CSV…"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_json.py
+#: gnome_connection_manager.py
 msgid "Export to JSON"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_json.py
+#: gnome_connection_manager.py
 msgid "Export to JSON…"
 msgstr ""
 
@@ -966,74 +966,6 @@ msgstr ""
 #, python-brace-format
 msgid "{program} not found"
 msgstr "未找到 {program}"
-
-#: plugins/plugin_export_csv.py
-#, python-brace-format
-msgid "CSV export error: {exc}"
-msgstr ""
-
-#: plugins/plugin_export_csv.py plugins/plugin_export_json.py
-#, python-brace-format
-msgid "{n} connection(s) exported to {filename}."
-msgstr ""
-
-#: plugins/plugin_export_json.py
-#, python-brace-format
-msgid "JSON export error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_csv.py
-#, fuzzy, python-brace-format
-#| msgid "Template name"
-msgid "CSV import error: {exc}"
-msgstr "模板名称"
-
-#: plugins/plugin_import_csv.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from CSV"
-msgstr "从 libvirt 导入"
-
-#: plugins/plugin_import_csv.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from CSV…"
-msgstr "从 libvirt 导入"
-
-#: plugins/plugin_import_csv.py
-msgid "No valid entry found in CSV."
-msgstr ""
-
-#: plugins/plugin_import_csv.py
-#, python-brace-format
-msgid "{n} connection(s) imported from CSV."
-msgstr ""
-
-#: plugins/plugin_import_json.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from JSON"
-msgstr "从 libvirt 导入"
-
-#: plugins/plugin_import_json.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from JSON…"
-msgstr "从 libvirt 导入"
-
-#: plugins/plugin_import_json.py
-#, python-brace-format
-msgid "JSON import error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_json.py
-msgid "No valid entry found in JSON."
-msgstr ""
-
-#: plugins/plugin_import_json.py
-#, python-brace-format
-msgid "{n} connection(s) imported from JSON."
-msgstr ""
 
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
 #: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
@@ -5246,6 +5178,11 @@ msgstr "垂直分割"
 msgid "Unsplit all consoles"
 msgstr "取消所有控制台的分割"
 
+#, fuzzy, python-brace-format
+#~| msgid "Template name"
+#~ msgid "CSV import error: {exc}"
+#~ msgstr "模板名称"
+
 #~ msgid "Colors and Keys"
 #~ msgstr "颜色与按键"
 
@@ -5280,6 +5217,26 @@ msgstr "取消所有控制台的分割"
 
 #~ msgid "Extra arguments to pass to command line"
 #~ msgstr "传递给命令行的额外参数"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from CSV"
+#~ msgstr "从 libvirt 导入"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from CSV…"
+#~ msgstr "从 libvirt 导入"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from JSON"
+#~ msgstr "从 libvirt 导入"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from JSON…"
+#~ msgstr "从 libvirt 导入"
 
 #~ msgid "Import server list from file"
 #~ msgstr "从文件导入服务器列表"
