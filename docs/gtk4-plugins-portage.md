@@ -86,7 +86,7 @@ toutes les lignes suivantes.
 
 | Plugin | Lignes | Technique GTK3 | Portage GTK4 | Bloquant ou décision liée |
 |---|---|---|---|---|
-| import_csv, import_json, export_csv, export_json | 103, 97, 100, 98 | `BatchPlugin`, dialogues `Gtk.FileChooserDialog` | **déjà repris par la base** : import/export CSV et JSON sans GTK (#152, PR #267), interface (#153, PR #269), ligne de commande (#154). À la fusion, les quatre fichiers sont retirés et leur entrée sort de l'inventaire GTK3 | fusion de #267 et #269 |
+| import_csv, import_json, export_csv, export_json | 103, 97, 100, 98 | `BatchPlugin`, dialogues `Gtk.FileChooserDialog` | **retirés** (31/10/2026) : remplacés par l'import/export CSV et JSON de la base — sans GTK (#152, PR #267), interface (#153, PR #269), ligne de commande (#154). Les quatre fichiers sont supprimés et leur entrée est sortie de l'inventaire GTK3 | remplacé par la base (fusionné) |
 | import_putty | 117 | `BatchPlugin`, sessions PuTTY | type « outil », dialogue GTK4 de choix de fichier | contrat « outil » |
 | import_libvirt | 1174 | `BatchPlugin`, `Gtk.TreeView` | type « outil » ; liste en `Gtk.ColumnView` ; la logique libvirt passe dans `core.py` | contrat « outil » |
 | import_ovirt | 1045 | idem | idem (API REST, JSON) | contrat « outil » |

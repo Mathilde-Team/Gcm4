@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:14+0000\n"
+"POT-Creation-Date: 2026-10-31 23:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -408,19 +408,19 @@ msgstr "Xuất Server"
 msgid "Export servers"
 msgstr "Xuất máy chủ"
 
-#: gnome_connection_manager.py plugins/plugin_export_csv.py
+#: gnome_connection_manager.py
 msgid "Export to CSV"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_csv.py
+#: gnome_connection_manager.py
 msgid "Export to CSV…"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_json.py
+#: gnome_connection_manager.py
 msgid "Export to JSON"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_json.py
+#: gnome_connection_manager.py
 msgid "Export to JSON…"
 msgstr ""
 
@@ -966,74 +966,6 @@ msgstr ""
 #, python-brace-format
 msgid "{program} not found"
 msgstr "Không tìm thấy {program}"
-
-#: plugins/plugin_export_csv.py
-#, python-brace-format
-msgid "CSV export error: {exc}"
-msgstr ""
-
-#: plugins/plugin_export_csv.py plugins/plugin_export_json.py
-#, python-brace-format
-msgid "{n} connection(s) exported to {filename}."
-msgstr ""
-
-#: plugins/plugin_export_json.py
-#, python-brace-format
-msgid "JSON export error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_csv.py
-#, fuzzy, python-brace-format
-#| msgid "Template name"
-msgid "CSV import error: {exc}"
-msgstr "Tên mẫu"
-
-#: plugins/plugin_import_csv.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from CSV"
-msgstr "Nhập từ libvirt"
-
-#: plugins/plugin_import_csv.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from CSV…"
-msgstr "Nhập từ libvirt"
-
-#: plugins/plugin_import_csv.py
-msgid "No valid entry found in CSV."
-msgstr ""
-
-#: plugins/plugin_import_csv.py
-#, python-brace-format
-msgid "{n} connection(s) imported from CSV."
-msgstr ""
-
-#: plugins/plugin_import_json.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from JSON"
-msgstr "Nhập từ libvirt"
-
-#: plugins/plugin_import_json.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from JSON…"
-msgstr "Nhập từ libvirt"
-
-#: plugins/plugin_import_json.py
-#, python-brace-format
-msgid "JSON import error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_json.py
-msgid "No valid entry found in JSON."
-msgstr ""
-
-#: plugins/plugin_import_json.py
-#, python-brace-format
-msgid "{n} connection(s) imported from JSON."
-msgstr ""
 
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
 #: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
@@ -5246,6 +5178,11 @@ msgstr "Chia V"
 msgid "Unsplit all consoles"
 msgstr "Hủy chia tất cả console"
 
+#, fuzzy, python-brace-format
+#~| msgid "Template name"
+#~ msgid "CSV import error: {exc}"
+#~ msgstr "Tên mẫu"
+
 #~ msgid "Colors and Keys"
 #~ msgstr "Màu và Phím"
 
@@ -5280,6 +5217,26 @@ msgstr "Hủy chia tất cả console"
 
 #~ msgid "Extra arguments to pass to command line"
 #~ msgstr "Đối số bổ sung truyền cho dòng lệnh"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from CSV"
+#~ msgstr "Nhập từ libvirt"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from CSV…"
+#~ msgstr "Nhập từ libvirt"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from JSON"
+#~ msgstr "Nhập từ libvirt"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from JSON…"
+#~ msgstr "Nhập từ libvirt"
 
 #~ msgid "Import server list from file"
 #~ msgstr "Nhập danh sách server từ tệp"

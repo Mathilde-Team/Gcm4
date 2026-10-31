@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:14+0000\n"
+"POT-Creation-Date: 2026-10-31 23:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -408,19 +408,19 @@ msgstr "Vie palvelimet"
 msgid "Export servers"
 msgstr "Vie palvelimet"
 
-#: gnome_connection_manager.py plugins/plugin_export_csv.py
+#: gnome_connection_manager.py
 msgid "Export to CSV"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_csv.py
+#: gnome_connection_manager.py
 msgid "Export to CSV…"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_json.py
+#: gnome_connection_manager.py
 msgid "Export to JSON"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_json.py
+#: gnome_connection_manager.py
 msgid "Export to JSON…"
 msgstr ""
 
@@ -966,74 +966,6 @@ msgstr ""
 #, python-brace-format
 msgid "{program} not found"
 msgstr "Ohjelmaa {program} ei löydy"
-
-#: plugins/plugin_export_csv.py
-#, python-brace-format
-msgid "CSV export error: {exc}"
-msgstr ""
-
-#: plugins/plugin_export_csv.py plugins/plugin_export_json.py
-#, python-brace-format
-msgid "{n} connection(s) exported to {filename}."
-msgstr ""
-
-#: plugins/plugin_export_json.py
-#, python-brace-format
-msgid "JSON export error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_csv.py
-#, fuzzy, python-brace-format
-#| msgid "Template name"
-msgid "CSV import error: {exc}"
-msgstr "Mallin nimi"
-
-#: plugins/plugin_import_csv.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from CSV"
-msgstr "Tuo libvirtistä"
-
-#: plugins/plugin_import_csv.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from CSV…"
-msgstr "Tuo libvirtistä"
-
-#: plugins/plugin_import_csv.py
-msgid "No valid entry found in CSV."
-msgstr ""
-
-#: plugins/plugin_import_csv.py
-#, python-brace-format
-msgid "{n} connection(s) imported from CSV."
-msgstr ""
-
-#: plugins/plugin_import_json.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from JSON"
-msgstr "Tuo libvirtistä"
-
-#: plugins/plugin_import_json.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from JSON…"
-msgstr "Tuo libvirtistä"
-
-#: plugins/plugin_import_json.py
-#, python-brace-format
-msgid "JSON import error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_json.py
-msgid "No valid entry found in JSON."
-msgstr ""
-
-#: plugins/plugin_import_json.py
-#, python-brace-format
-msgid "{n} connection(s) imported from JSON."
-msgstr ""
 
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
 #: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
@@ -5246,6 +5178,11 @@ msgstr "Jaa V"
 msgid "Unsplit all consoles"
 msgstr "Poista kaikkien konsolien jako"
 
+#, fuzzy, python-brace-format
+#~| msgid "Template name"
+#~ msgid "CSV import error: {exc}"
+#~ msgstr "Mallin nimi"
+
 #~ msgid "Colors and Keys"
 #~ msgstr "Värit ja näppäimet"
 
@@ -5280,6 +5217,26 @@ msgstr "Poista kaikkien konsolien jako"
 
 #~ msgid "Extra arguments to pass to command line"
 #~ msgstr "Komentoriville välitettävät lisäargumentit"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from CSV"
+#~ msgstr "Tuo libvirtistä"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from CSV…"
+#~ msgstr "Tuo libvirtistä"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from JSON"
+#~ msgstr "Tuo libvirtistä"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from JSON…"
+#~ msgstr "Tuo libvirtistä"
 
 #~ msgid "Import server list from file"
 #~ msgstr "Tuo palvelinlista tiedostosta"

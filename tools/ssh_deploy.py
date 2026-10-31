@@ -73,6 +73,7 @@ def get_libvirt_uris():
     Returns:
         list[str]: URIs trouvées, ou liste vide.
     """
+    log.debug("get_libvirt_uris: entrée")
     try:
         result = subprocess.run(
             ["dconf", "read", "/org/virt-manager/virt-manager/connections/uris"],
@@ -82,7 +83,9 @@ def get_libvirt_uris():
         )
         raw = result.stdout.strip()
         if not raw or raw == "@as []":
+            log.debug("get_libvirt_uris: retour collection")
             return []
+        log.debug("get_libvirt_uris: retour de findall()")
         return re.findall(r"'([^']+)'", raw)
     except Exception as e:
         log.error(f"dconf error: {e}")
@@ -98,9 +101,11 @@ def parse_libvirt_uri(uri):
     Returns:
         Hypervisor: Hyperviseur parsé.
     """
+    log.debug("parse_libvirt_uri: entrée | uri={!r}", uri)
     parsed = urlparse(uri)
     scheme = parsed.scheme
     transport = scheme.split("+")[1] if "+" in scheme else ("tcp" if parsed.hostname else "local")
+    log.debug("parse_libvirt_uri: retour de Hypervisor()")
     return Hypervisor(
         uri=uri,
         host=parsed.hostname or "localhost",
@@ -123,6 +128,13 @@ def ssh_connect(host, user, port=22, password=None, timeout=10):
     Returns:
         paramiko.SSHClient | None: Client connecté ou None.
     """
+    log.debug(
+        "ssh_connect: entrée | host={!r}, user={!r}, port={!r}, password={}",
+        host,
+        user,
+        port,
+        bool(password),
+    )
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     kwargs = dict(hostname=host, port=port, timeout=timeout, look_for_keys=True, allow_agent=True)
@@ -132,6 +144,7 @@ def ssh_connect(host, user, port=22, password=None, timeout=10):
         kwargs.update(password=password, look_for_keys=False, allow_agent=False)
     try:
         client.connect(**kwargs)
+        log.debug("ssh_connect: retour client")
         return client
     except Exception as e:
         log.debug(f"Connexion échouée {host}: {e}")
@@ -149,8 +162,10 @@ def ssh_run(client, cmd, timeout=30):
     Returns:
         tuple[int, str, str]: Code de retour, stdout, stderr.
     """
+    log.debug("ssh_run: entrée | cmd={} caractère(s), timeout={!r}", len(cmd), timeout)
     _, stdout, stderr = client.exec_command(cmd, timeout=timeout)
     rc = stdout.channel.recv_exit_status()
+    log.debug("ssh_run: retour")
     return (
         rc,
         stdout.read().decode(errors="replace").strip(),
@@ -182,6 +197,7 @@ def ensure_ssh_keys(client, hv_host):
     Returns:
         list[str]: Contenus des clés publiques disponibles.
     """
+    log.debug("ensure_ssh_keys: entrée | hv_host={!r}", hv_host)
     ssh_run(client, "mkdir -p /root/.ssh && chmod 700 /root/.ssh")
     pubkeys = []
     for ktype, privpath, keygen_cmd in KEY_TYPES:
@@ -198,6 +214,7 @@ def ensure_ssh_keys(client, hv_host):
         _, pub, _ = ssh_run(client, f"cat {privpath}.pub 2>/dev/null")
         if pub:
             pubkeys.append(pub)
+    log.debug("ensure_ssh_keys: retour pubkeys")
     return pubkeys
 
 
@@ -210,12 +227,15 @@ def load_inventory(path="inventory.json"):
     Returns:
         list[dict]: Contenu d'inventaire.
     """
+    log.debug("load_inventory: entrée | path={!r}", path)
     try:
         with open(path) as f:
+            log.debug("load_inventory: retour de load()")
             return json.load(f)
     except FileNotFoundError:
         log.error(f"{path} introuvable. Lancez d'abord libvirt_inventory.py")
         sys.exit(1)
+    log.debug("load_inventory: fin")
 
 
 def get_vm_targets(inventory, hv_host, default_user="root"):
@@ -229,6 +249,7 @@ def get_vm_targets(inventory, hv_host, default_user="root"):
     Returns:
         list[VMTarget]: Cibles VM prêtes au déploiement.
     """
+    log.debug("get_vm_targets: entrée | hv_host={!r}, default_user={!r}", hv_host, default_user)
     targets = []
     for hv in inventory:
         if hv["host"] != hv_host:
@@ -241,6 +262,7 @@ def get_vm_targets(inventory, hv_host, default_user="root"):
                 if ip:
                     targets.append(VMTarget(name=vm["name"], ip=ip, user=default_user))
                     break
+    log.debug("get_vm_targets: retour targets")
     return targets
 
 
@@ -261,20 +283,25 @@ def get_password(ip, user):
     Returns:
         str | None: Mot de passe saisi ou None si ignoré.
     """
+    log.debug("get_password: entrée | ip={!r}, user={!r}", ip, user)
     exact = (user, ip)
     if exact in _password_cache:
+        log.debug("get_password: retour")
         return _password_cache[exact]
     sk = _subnet_key(ip, user)
     if sk in _password_cache:
         log.info(f"    Mot de passe réutilisé (réseau {sk[1]}.0/24)")
         _password_cache[exact] = _password_cache[sk]
+        log.debug("get_password: retour")
         return _password_cache[exact]
     print(f"\n  Mot de passe SSH requis pour {user}@{ip}")
     pwd = getpass.getpass("  Entrez le mot de passe (Entrée pour ignorer) : ")
     if not pwd:
+        log.debug("get_password: retour None")
         return None
     _password_cache[exact] = pwd
     _password_cache[sk] = pwd
+    log.debug("get_password: retour")
     return pwd
 
 
@@ -288,8 +315,10 @@ def test_ssh_key_from_hypervisor(hv_client, vm):
     Returns:
         bool: True si la connexion par clé fonctionne.
     """
+    log.debug("test_ssh_key_from_hypervisor: entrée")
     cmd = f"ssh -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 {vm.user}@{vm.ip} echo OK 2>/dev/null"
     rc, out, _ = ssh_run(hv_client, cmd, timeout=15)
+    log.debug("test_ssh_key_from_hypervisor: retour calculé")
     return rc == 0 and "OK" in out
 
 
@@ -308,6 +337,7 @@ def copy_id_from_hypervisor(hv_client, vm, password):
     Returns:
         bool: True si déploiement réussi ou clé déjà présente.
     """
+    log.debug("copy_id_from_hypervisor: entrée | password={}", bool(password))
     rc_sp, sshpass_path, _ = ssh_run(hv_client, "which sshpass 2>/dev/null")
     if rc_sp == 0 and sshpass_path.strip():
         cmd = f"sshpass -p {_shell_quote(password)} ssh-copy-id -o StrictHostKeyChecking=no -o ConnectTimeout=5 {vm.user}@{vm.ip} 2>&1"
@@ -319,6 +349,7 @@ def copy_id_from_hypervisor(hv_client, vm, password):
         escaped = password.replace('"', '\\"')
         cmd = f'expect -c "spawn ssh-copy-id -o StrictHostKeyChecking=no {vm.user}@{vm.ip}; expect {{*password* {{ send \\"{escaped}\\r\\"; exp_continue }} eof}}" 2>&1'
     rc, out, _ = ssh_run(hv_client, cmd, timeout=30)
+    log.debug("copy_id_from_hypervisor: retour calculé")
     return rc == 0 or "already" in out.lower()
 
 
@@ -334,6 +365,7 @@ def process_hypervisor(hv, inventory, default_vm_user="root"):
     Returns:
         None: Met à jour `hv.vm_targets` en place.
     """
+    log.debug("process_hypervisor: entrée | default_vm_user={!r}", default_vm_user)
     print(f"\n{'═' * 60}\n  Hyperviseur : {hv.host}\n{'═' * 60}")
     hv_client = ssh_connect(hv.host, hv.user, hv.port)
     if not hv_client:
@@ -384,6 +416,7 @@ def process_hypervisor(hv, inventory, default_vm_user="root"):
             print(f"    ✗ {v.name} ({v.ip}) — {v.error or 'inconnu'}")
     finally:
         hv_client.close()
+    log.debug("process_hypervisor: fin")
 
 
 def export_report(hypervisors, path="ssh_deploy_report.json"):
@@ -396,6 +429,7 @@ def export_report(hypervisors, path="ssh_deploy_report.json"):
     Returns:
         None: Écrit le rapport sur disque.
     """
+    log.debug("export_report: entrée | path={!r}", path)
     data = [
         {
             "host": hv.host,
@@ -425,6 +459,7 @@ def main():
     Returns:
         None: Exécute le flux complet de traitement.
     """
+    log.debug("main: entrée")
     _configure_logging()
     import argparse
 
@@ -447,6 +482,7 @@ def main():
         hypervisors.append(hv)
     export_report(hypervisors)
     print("\n✅ Rapport → ssh_deploy_report.json")
+    log.debug("main: fin")
 
 
 if __name__ == "__main__":
