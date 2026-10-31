@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,6 +130,7 @@ msgid "Exports"
 msgstr ""
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr ""
 
@@ -3506,6 +3507,18 @@ msgid "Master password disabled."
 msgstr ""
 
 #: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr ""
 
@@ -3646,6 +3659,14 @@ msgstr ""
 
 #: src/gcm4/ui/terminal.py
 msgid "Encoding:"
+msgstr ""
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr ""
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
 msgstr ""
 
 #: ssh_config_editor.py

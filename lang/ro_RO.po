@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Pagina web a proiectului"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Ieșire"
 
@@ -3761,6 +3762,10 @@ msgid "Extensions"
 msgstr "Extensii"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt sau GNOME cu extensia AppIndicator"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Încărcată"
 
@@ -3781,6 +3786,10 @@ msgid "No extension found."
 msgstr "Nu s-a găsit nicio extensie."
 
 #: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Zona de notificare"
+
+#: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
 msgstr "Înlocuit în această sesiune de --debug sau GCM_LOG_LEVEL."
 
@@ -3797,6 +3806,10 @@ msgstr "Pagina de preferințe nu este disponibilă: {error}"
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Securitate"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Afișează o pictogramă în zona de notificare"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3882,6 +3895,14 @@ msgstr "semnal {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "stare {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Ascunde fereastra"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Afișează fereastra"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
@@ -5129,110 +5150,8 @@ msgstr "Divizare V"
 msgid "Unsplit all consoles"
 msgstr "Anulează divizarea tuturor consolelor"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "Jurnal xfreerdp:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "pagina 2"
-
-#~ msgid "page 1"
-#~ msgstr "pagina 1"
-
-#~ msgid "local"
-#~ msgstr "local"
-
-#~ msgid "label"
-#~ msgstr "etichetă"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Editare"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Divizează consola vertical"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Divizează consola orizontal"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Afișează bara de instrumente"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Trimite comenzi simultan către mai multe hosturi"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Secunde între pachetele keep-alive"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Salvează bufferul consolei active într-un fișier"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (indisponibil aici: Proxmox necesită ticket/proxy API)"
-
-#~ msgid "Open local console"
-#~ msgstr "Deschide consola locală"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Portul local este deja alocat"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Importă lista de servere din fișier"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Argumente suplimentare de transmis liniei de comandă"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Exportă lista de servere în fișier"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Editează proprietățile hosturilor"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Ținte Proxmox detectate (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Țintă Proxmox detectată"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Creează redirecționare de port dinamică"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Conectare la hostul selectat sau la toate hosturile din grupul selectat"
+#~ msgid "Colors and Keys"
+#~ msgstr "Culori și taste"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5164,107 @@ msgstr "Anulează divizarea tuturor consolelor"
 #~ "1: minim\n"
 #~ "9: maxim"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Culori și taste"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Conectare la hostul selectat sau la toate hosturile din grupul selectat"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Creează redirecționare de port dinamică"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Țintă Proxmox detectată"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Ținte Proxmox detectate (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Editează proprietățile hosturilor"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Exportă lista de servere în fișier"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Argumente suplimentare de transmis liniei de comandă"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Importă lista de servere din fișier"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Portul local este deja alocat"
+
+#~ msgid "Open local console"
+#~ msgstr "Deschide consola locală"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (indisponibil aici: Proxmox necesită ticket/proxy API)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Salvează bufferul consolei active într-un fișier"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Secunde între pachetele keep-alive"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Trimite comenzi simultan către mai multe hosturi"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Afișează bara de instrumente"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Divizează consola orizontal"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Divizează consola vertical"
+
+#~ msgid "_Edit"
+#~ msgstr "_Editare"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "etichetă"
+
+#~ msgid "local"
+#~ msgstr "local"
+
+#~ msgid "page 1"
+#~ msgstr "pagina 1"
+
+#~ msgid "page 2"
+#~ msgstr "pagina 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "Jurnal xfreerdp:"

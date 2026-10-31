@@ -141,6 +141,18 @@ Avec plusieurs lignes sélectionnées, les actions sur une seule ligne
 sélection revient à une sélection simple. Le glisser-déposer déplace
 toujours une seule ligne.
 
+## Icône dans la zone de notification
+
+**Paramètres > Général > Zone de notification** affiche une icône gcm4 dans
+la zone de notification du bureau (désactivée par défaut). Un clic masque la
+fenêtre principale ou la fait revenir ; le menu de l'icône propose
+« Afficher la fenêtre » ou « Masquer la fenêtre », et « Quitter ».
+
+L'icône suit le protocole StatusNotifierItem : KDE Plasma, XFCE, Cinnamon,
+MATE et LXQt l'affichent directement ; sous GNOME, il faut l'extension
+AppIndicator (paquet `gnome-shell-extension-appindicator`). Sans hôte
+compatible, l'option n'a pas d'effet et le journal l'indique.
+
 ## Configuration et journaux
 
 | Quoi | Où |

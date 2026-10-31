@@ -233,9 +233,17 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.interrupteurs: dict[str, Gtk.Switch] = {}
         for nom, libelle in OPTIONS_GENERALES:
             self._ligne_option(groupe, nom, libelle)
+        # Zone de notification (#83) : groupe à part, sous-titre sur les bureaux pris en charge.
+        notification = Adw.PreferencesGroup(title=_("Notification area"))
+        self._ligne_option(notification, "tray_icon", N_("Show an icon in the notification area"))
+        self.interrupteurs["tray_icon"].get_ancestor(Adw.ActionRow).set_subtitle(
+            _("KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension")
+        )
         if getattr(self.fenetre, "config", None) is None:  # illisible : jamais d'écriture
             groupe.set_sensitive(False)
+            notification.set_sensitive(False)
         page.add(groupe)
+        page.add(notification)
         logger.debug("_page_generale: fait")
         return page
 
@@ -619,6 +627,10 @@ class PreferencesWindow(Adw.PreferencesWindow):
         if self._enregistrer(nom, valeur) and nom == "check_updates" and valeur:
             # Activer l'option vaut accord explicite (#245).
             mises_a_jour.enregistrer_accord(self.config_file, True)
+        if nom == "tray_icon":
+            appliquer = getattr(self.application, "appliquer_zone_notification", None)
+            if appliquer is not None:
+                appliquer(valeur)
         if nom in dict(OPTIONS_FENETRE):
             self._appliquer()
         logger.debug("_on_option: fait")

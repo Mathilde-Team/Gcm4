@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Prosjektets hjemmeside"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Avslutt"
 
@@ -3761,6 +3762,10 @@ msgid "Extensions"
 msgstr "Utvidelser"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt eller GNOME med AppIndicator-utvidelsen"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Lastet"
 
@@ -3781,6 +3786,10 @@ msgid "No extension found."
 msgstr "Ingen utvidelse funnet."
 
 #: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Varslingsområde"
+
+#: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
 msgstr "Overstyrt i denne økten av --debug eller GCM_LOG_LEVEL."
 
@@ -3797,6 +3806,10 @@ msgstr "Innstillingssiden er ikke tilgjengelig: {error}"
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Sikkerhet"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Vis et ikon i varslingsområdet"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3882,6 +3895,14 @@ msgstr "signal {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "status {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Skjul vindu"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Vis vindu"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
@@ -5129,110 +5150,8 @@ msgstr "Del V"
 msgid "Unsplit all consoles"
 msgstr "Slå sammen alle konsoller"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp-logg:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "side 2"
-
-#~ msgid "page 1"
-#~ msgstr "side 1"
-
-#~ msgid "local"
-#~ msgstr "lokal"
-
-#~ msgid "label"
-#~ msgstr "etikett"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Rediger"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Del konsoll vertikalt"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Del konsoll horisontalt"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Vis verktøylinje"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Send kommandoer til flere verter samtidig"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Sekunder mellom keep-alive-pakker"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Lagre aktiv konsollbuffer til fil"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (ikke tilgjengelig her: Proxmox krever API-ticket/proxy)"
-
-#~ msgid "Open local console"
-#~ msgstr "Åpne lokal konsoll"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Lokal port allerede tildelt"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Importer serverliste fra fil"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Ekstra argumenter som skal sendes til kommandolinjen"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Eksporter serverliste til fil"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Rediger egenskaper for verter"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Oppdagede Proxmox-mål (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Oppdaget Proxmox-mål"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Opprett dynamisk portvideresending"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Koble til valgt vert eller alle verter i valgt gruppe"
+#~ msgid "Colors and Keys"
+#~ msgstr "Farger og taster"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5164,107 @@ msgstr "Slå sammen alle konsoller"
 #~ "1: min\n"
 #~ "9: maks"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Farger og taster"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Koble til valgt vert eller alle verter i valgt gruppe"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Opprett dynamisk portvideresending"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Oppdaget Proxmox-mål"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Oppdagede Proxmox-mål (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Rediger egenskaper for verter"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Eksporter serverliste til fil"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Ekstra argumenter som skal sendes til kommandolinjen"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Importer serverliste fra fil"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Lokal port allerede tildelt"
+
+#~ msgid "Open local console"
+#~ msgstr "Åpne lokal konsoll"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (ikke tilgjengelig her: Proxmox krever API-ticket/proxy)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Lagre aktiv konsollbuffer til fil"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Sekunder mellom keep-alive-pakker"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Send kommandoer til flere verter samtidig"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Vis verktøylinje"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Del konsoll horisontalt"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Del konsoll vertikalt"
+
+#~ msgid "_Edit"
+#~ msgstr "_Rediger"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "etikett"
+
+#~ msgid "local"
+#~ msgstr "lokal"
+
+#~ msgid "page 1"
+#~ msgstr "side 1"
+
+#~ msgid "page 2"
+#~ msgstr "side 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp-logg:"

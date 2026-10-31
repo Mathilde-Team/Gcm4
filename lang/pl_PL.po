@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Strona projektu"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Zakończ"
 
@@ -3761,6 +3762,10 @@ msgid "Extensions"
 msgstr "Rozszerzenia"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt lub GNOME z rozszerzeniem AppIndicator"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Wczytano"
 
@@ -3781,6 +3786,10 @@ msgid "No extension found."
 msgstr "Nie znaleziono żadnego rozszerzenia."
 
 #: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Obszar powiadomień"
+
+#: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
 msgstr "Zastąpione w tej sesji przez --debug lub GCM_LOG_LEVEL."
 
@@ -3797,6 +3806,10 @@ msgstr "Strona preferencji jest niedostępna: {error}"
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Bezpieczeństwo"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Pokazuj ikonę w obszarze powiadomień"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3882,6 +3895,14 @@ msgstr "sygnał {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "stan {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Ukryj okno"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Pokaż okno"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
@@ -5129,110 +5150,8 @@ msgstr "Podziel V"
 msgid "Unsplit all consoles"
 msgstr "Cofnij podział wszystkich konsol"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "Dziennik xfreerdp:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "strona 2"
-
-#~ msgid "page 1"
-#~ msgstr "strona 1"
-
-#~ msgid "local"
-#~ msgstr "lokalny"
-
-#~ msgid "label"
-#~ msgstr "etykieta"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Edytuj"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Podziel konsolę w pionie"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Podziel konsolę w poziomie"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Pokaż pasek narzędzi"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Wyślij polecenia do kilku hostów jednocześnie"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Sekundy między pakietami keep-alive"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Zapisz bufor aktywnej konsoli do pliku"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (niedostępne tutaj: Proxmox wymaga biletu API/proxy)"
-
-#~ msgid "Open local console"
-#~ msgstr "Otwórz lokalną konsolę"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Port lokalny jest już zajęty"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Importuj listę serwerów z pliku"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Dodatkowe argumenty przekazywane do wiersza poleceń"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Eksportuj listę serwerów do pliku"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Edytuj właściwości hostów"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Wykryte cele Proxmox (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Wykryty cel Proxmox"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Utwórz dynamiczne przekierowanie portu"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Połącz z wybranym hostem lub wszystkimi hostami w wybranej grupie"
+#~ msgid "Colors and Keys"
+#~ msgstr "Kolory i klawisze"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5164,107 @@ msgstr "Cofnij podział wszystkich konsol"
 #~ "1: min\n"
 #~ "9: maks"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Kolory i klawisze"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Połącz z wybranym hostem lub wszystkimi hostami w wybranej grupie"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Utwórz dynamiczne przekierowanie portu"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Wykryty cel Proxmox"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Wykryte cele Proxmox (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Edytuj właściwości hostów"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Eksportuj listę serwerów do pliku"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Dodatkowe argumenty przekazywane do wiersza poleceń"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Importuj listę serwerów z pliku"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Port lokalny jest już zajęty"
+
+#~ msgid "Open local console"
+#~ msgstr "Otwórz lokalną konsolę"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (niedostępne tutaj: Proxmox wymaga biletu API/proxy)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Zapisz bufor aktywnej konsoli do pliku"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Sekundy między pakietami keep-alive"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Wyślij polecenia do kilku hostów jednocześnie"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Pokaż pasek narzędzi"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Podziel konsolę w poziomie"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Podziel konsolę w pionie"
+
+#~ msgid "_Edit"
+#~ msgstr "_Edytuj"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "etykieta"
+
+#~ msgid "local"
+#~ msgstr "lokalny"
+
+#~ msgid "page 1"
+#~ msgstr "strona 1"
+
+#~ msgid "page 2"
+#~ msgstr "strona 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "Dziennik xfreerdp:"

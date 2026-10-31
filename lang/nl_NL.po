@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Homepage van het project"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Afsluiten"
 
@@ -3761,6 +3762,10 @@ msgid "Extensions"
 msgstr "Extensies"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt of GNOME met de AppIndicator-extensie"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Geladen"
 
@@ -3781,6 +3786,10 @@ msgid "No extension found."
 msgstr "Geen extensie gevonden."
 
 #: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Systeemvak"
+
+#: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
 msgstr "Voor deze sessie overschreven door --debug of GCM_LOG_LEVEL."
 
@@ -3797,6 +3806,10 @@ msgstr "Voorkeurenpagina niet beschikbaar: {error}"
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Beveiliging"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Een pictogram in het systeemvak tonen"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3882,6 +3895,14 @@ msgstr "signaal {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "status {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Venster verbergen"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Venster tonen"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
@@ -5129,110 +5150,8 @@ msgstr "Splits V"
 msgid "Unsplit all consoles"
 msgstr "Alle consoles samenvoegen"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp-log:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "pagina 2"
-
-#~ msgid "page 1"
-#~ msgstr "pagina 1"
-
-#~ msgid "local"
-#~ msgstr "lokaal"
-
-#~ msgid "label"
-#~ msgstr "label"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "Be_werken"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Console verticaal splitsen"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Console horizontaal splitsen"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Werkbalk weergeven"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Opdrachten naar meerdere hosts gelijktijdig verzenden"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Seconden tussen keep-alive-pakketten"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Actieve consolebuffer naar bestand opslaan"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (hier niet beschikbaar: Proxmox vereist API-ticket/proxy)"
-
-#~ msgid "Open local console"
-#~ msgstr "Lokale console openen"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Lokale poort al toegewezen"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Serverlijst importeren uit bestand"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Extra argumenten om door te geven aan de opdrachtregel"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Serverlijst exporteren naar bestand"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Hosteigenschappen bewerken"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Gedetecteerde Proxmox-doelen (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Gedetecteerd Proxmox-doel"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Dynamische poortdoorsturing maken"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Verbinden met geselecteerde host of alle hosts in geselecteerde groep"
+#~ msgid "Colors and Keys"
+#~ msgstr "Kleuren en toetsen"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5164,107 @@ msgstr "Alle consoles samenvoegen"
 #~ "1: min\n"
 #~ "9: max"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Kleuren en toetsen"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Verbinden met geselecteerde host of alle hosts in geselecteerde groep"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Dynamische poortdoorsturing maken"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Gedetecteerd Proxmox-doel"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Gedetecteerde Proxmox-doelen (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Hosteigenschappen bewerken"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Serverlijst exporteren naar bestand"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Extra argumenten om door te geven aan de opdrachtregel"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Serverlijst importeren uit bestand"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Lokale poort al toegewezen"
+
+#~ msgid "Open local console"
+#~ msgstr "Lokale console openen"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (hier niet beschikbaar: Proxmox vereist API-ticket/proxy)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Actieve consolebuffer naar bestand opslaan"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Seconden tussen keep-alive-pakketten"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Opdrachten naar meerdere hosts gelijktijdig verzenden"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Werkbalk weergeven"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Console horizontaal splitsen"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Console verticaal splitsen"
+
+#~ msgid "_Edit"
+#~ msgstr "Be_werken"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "label"
+
+#~ msgid "local"
+#~ msgstr "lokaal"
+
+#~ msgid "page 1"
+#~ msgstr "pagina 1"
+
+#~ msgid "page 2"
+#~ msgstr "pagina 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp-log:"

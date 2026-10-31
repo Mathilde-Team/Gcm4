@@ -24,6 +24,7 @@ from gcm4.ui import raccourcis as raccourcis_ui
 from gcm4.ui.contexte import ContexteApplication
 from gcm4.ui.main_window import MainWindow
 from gcm4.ui.preferences import PreferencesWindow, css_police
+from gcm4.ui.zone_notification import IconeNotification
 
 APPLICATION_ID = "io.github.MathildeDec.gcm4"
 SITE = "https://github.com/Mathilde-Team/Gcm4"
@@ -82,9 +83,11 @@ class Gcm4Application(Adw.Application):
         self.css_couleurs: Gtk.CssProvider | None = None
         self.css_police: Gtk.CssProvider | None = None
         self.preferences: Gtk.Window | None = None  # fenêtre des préférences ouverte (#147)
+        self.zone_notification: IconeNotification | None = None  # icône SNI (#83)
         self.connect("startup", self._on_startup)
         self.connect("activate", self._on_activate)
         self.connect("command-line", self._on_command_line)
+        self.connect("shutdown", lambda *_a: self.appliquer_zone_notification(False))
         logger.debug("Gcm4Application.__init__: prête")
 
     def _on_startup(self, _app: Adw.Application) -> None:
@@ -297,9 +300,71 @@ class Gcm4Application(Adw.Application):
             fenetre.restaurer_onglets()  # une fois, à la création (#246)
             fenetre.ouvrir_hotes(getattr(self.args, "hotes", []))  # gcm4 groupe/nom (#154)
             mises_a_jour.au_demarrage(fenetre)  # jamais sans accord (#245)
+            if prefs_core.load_preferences(self.config_file).tray_icon:
+                self.appliquer_zone_notification(True)
         else:
             fenetre.present()
         logger.debug("_on_activate: fenêtre présentée")
+
+    def _fenetre_principale(self) -> Gtk.Window | None:
+        """Fenêtre principale, même masquée par l'icône de notification (#83)."""
+        logger.trace("_fenetre_principale")
+        resultat = next((f for f in self.get_windows() if isinstance(f, MainWindow)), None)
+        logger.trace("_fenetre_principale: {}", resultat is not None)
+        return resultat
+
+    def _principale_visible(self) -> bool:
+        """La fenêtre principale est-elle affichée ? (libellé du menu de l'icône)."""
+        logger.trace("_principale_visible")
+        fenetre = self._fenetre_principale()
+        resultat = fenetre is not None and fenetre.get_visible()
+        logger.trace("_principale_visible: {}", resultat)
+        return resultat
+
+    def basculer_fenetre(self) -> None:
+        """Clic sur l'icône de notification : masque la fenêtre affichée, sinon la présente."""
+        logger.debug("basculer_fenetre: entrée")
+        fenetre = self._fenetre_principale()
+        if fenetre is not None and fenetre.get_visible():
+            fenetre.set_visible(False)
+            logger.debug("basculer_fenetre: masquée")
+            return
+        if fenetre is None:
+            self.activate()  # aucune fenêtre (fermée) : la crée
+        else:
+            fenetre.present()
+        logger.debug("basculer_fenetre: présentée")
+
+    def appliquer_zone_notification(self, active: bool) -> None:
+        """Affiche ou retire l'icône de la zone de notification (préférence ``tray-icon``, #83).
+
+        Sans bus de session, l'option reste sans effet (journalisé).
+        """
+        logger.debug("appliquer_zone_notification: {}", active)
+        if not active:
+            if self.zone_notification is not None:
+                self.zone_notification.arreter()
+                self.zone_notification = None
+            logger.debug("appliquer_zone_notification: retirée")
+            return
+        if self.zone_notification is not None:
+            logger.debug("appliquer_zone_notification: déjà affichée")
+            return
+        connexion = self.get_dbus_connection()
+        if connexion is None:
+            logger.warning("zone de notification : aucun bus de session D-Bus, icône non affichée")
+            return
+        depot = os.path.normpath(ICONES_DEPOT)
+        self.zone_notification = IconeNotification(
+            connexion,
+            APPLICATION_ID,
+            depot if os.path.isdir(depot) else "",
+            self._principale_visible,
+            self.basculer_fenetre,
+            lambda: self.activate_action("quit", None),
+        )
+        self.zone_notification.demarrer()
+        logger.debug("appliquer_zone_notification: publiée")
 
     def _on_quit(self, _action: Gio.SimpleAction, _param: object) -> None:
         """Ctrl+Q : ferme les fenêtres (leur état est enregistré) puis quitte.

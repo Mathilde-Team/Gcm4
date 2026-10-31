@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-103 modules · 178 classes · 348 fonctions publiques de module.
+104 modules · 179 classes · 348 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -42,7 +42,7 @@ flowchart TD
     g4 -->|1| g3
     g5 -->|3| g0
     g5 -->|2| g3
-    g5 -->|55| g4
+    g5 -->|56| g4
 ```
 
 ## Cœur (sans GTK)
@@ -1495,6 +1495,7 @@ classDiagram
         +bool check_updates
         +bool disable_hosts_stripes
         +bool update_title
+        +bool tray_icon
         +str app_title
         +str font
         +str font_color
@@ -1771,6 +1772,7 @@ classDiagram
         +bool cycle_tabs
         +bool disable_hosts_stripes
         +bool update_title
+        +bool tray_icon
         +str app_title
     }
     class Raccourci {
@@ -1910,6 +1912,7 @@ classDiagram
 | `gcm4.ui.preferences` | `src/gcm4/ui/preferences.py` | Préférences de la base GTK4 : pages Général et Apparence (lot 5a, #147). |
 | `gcm4.ui.raccourcis` | `src/gcm4/ui/raccourcis.py` | Raccourcis modifiables (#247) : noms de touches GDK, saisie d'une combinaison. |
 | `gcm4.ui.terminal` | `src/gcm4/ui/terminal.py` | Terminal VTE GTK4 commun aux plugins terminal (telnet, local…), #295. |
+| `gcm4.ui.zone_notification` | `src/gcm4/ui/zone_notification.py` | Icône de la zone de notification de gcm4 (#83) : StatusNotifierItem sur D-Bus. |
 
 ```mermaid
 classDiagram
@@ -1924,6 +1927,8 @@ classDiagram
         +appliquer_theme(mode) None
         +appliquer_police_arbre(description) None
         +set_group_colors(couleurs) None
+        +basculer_fenetre() None
+        +appliquer_zone_notification(active) None
         +boite_a_propos() Gtk.Widget
     }
     class ContexteApplication {
@@ -2054,5 +2059,13 @@ classDiagram
     }
     class SessionTerminal {
         +close() None
+    }
+    class IconeNotification {
+        +demarrer() None
+        +arreter() None
+        +entrees() list~tuple~int, dict~str, GLib.Variant~~~
+        +disposition() GLib.Variant
+        +rafraichir() None
+        +activer(ident) None
     }
 ```

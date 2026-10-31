@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Projektin kotisivu"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Lopeta"
 
@@ -3761,6 +3762,10 @@ msgid "Extensions"
 msgstr "Laajennukset"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt tai GNOME ja AppIndicator-laajennus"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Ladattu"
 
@@ -3781,6 +3786,10 @@ msgid "No extension found."
 msgstr "Laajennuksia ei löytynyt."
 
 #: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Ilmoitusalue"
+
+#: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
 msgstr "Ohitettu tässä istunnossa valinnalla --debug tai GCM_LOG_LEVEL."
 
@@ -3797,6 +3806,10 @@ msgstr "Asetussivu ei ole käytettävissä: {error}"
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Turvallisuus"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Näytä kuvake ilmoitusalueella"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3882,6 +3895,14 @@ msgstr "signaali {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "tila {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Piilota ikkuna"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Näytä ikkuna"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
@@ -5129,110 +5150,8 @@ msgstr "Jaa V"
 msgid "Unsplit all consoles"
 msgstr "Poista kaikkien konsolien jako"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp-loki:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "sivu 2"
-
-#~ msgid "page 1"
-#~ msgstr "sivu 1"
-
-#~ msgid "local"
-#~ msgstr "paikallinen"
-
-#~ msgid "label"
-#~ msgstr "nimike"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Muokkaa"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Jaa konsoli pystysuunnassa"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Jaa konsoli vaakasuunnassa"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Näytä työkalupalkki"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Lähetä komennot useille isännille samanaikaisesti"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Sekuntien väli keep-alive-paketeissa"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Tallenna aktiivisen konsolin puskuri tiedostoon"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (ei käytettävissä tässä: Proxmox vaatii API-tiketin/proxyn)"
-
-#~ msgid "Open local console"
-#~ msgstr "Avaa paikallinen konsoli"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Paikallinen portti on jo varattu"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Tuo palvelinlista tiedostosta"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Komentoriville välitettävät lisäargumentit"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Vie palvelinlista tiedostoon"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Muokkaa isäntien ominaisuuksia"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Havaitut Proxmox-kohteet (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Havaittu Proxmox-kohde"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Luo dynaaminen portinvälitys"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Yhdistä valittuun isäntään tai valitun ryhmän kaikkiin isäntiin"
+#~ msgid "Colors and Keys"
+#~ msgstr "Värit ja näppäimet"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5164,107 @@ msgstr "Poista kaikkien konsolien jako"
 #~ "1: min\n"
 #~ "9: maks"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Värit ja näppäimet"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Yhdistä valittuun isäntään tai valitun ryhmän kaikkiin isäntiin"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Luo dynaaminen portinvälitys"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Havaittu Proxmox-kohde"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Havaitut Proxmox-kohteet (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Muokkaa isäntien ominaisuuksia"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Vie palvelinlista tiedostoon"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Komentoriville välitettävät lisäargumentit"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Tuo palvelinlista tiedostosta"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Paikallinen portti on jo varattu"
+
+#~ msgid "Open local console"
+#~ msgstr "Avaa paikallinen konsoli"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (ei käytettävissä tässä: Proxmox vaatii API-tiketin/proxyn)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Tallenna aktiivisen konsolin puskuri tiedostoon"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Sekuntien väli keep-alive-paketeissa"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Lähetä komennot useille isännille samanaikaisesti"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Näytä työkalupalkki"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Jaa konsoli vaakasuunnassa"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Jaa konsoli pystysuunnassa"
+
+#~ msgid "_Edit"
+#~ msgstr "_Muokkaa"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "nimike"
+
+#~ msgid "local"
+#~ msgstr "paikallinen"
+
+#~ msgid "page 1"
+#~ msgstr "sivu 1"
+
+#~ msgid "page 2"
+#~ msgstr "sivu 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp-loki:"
