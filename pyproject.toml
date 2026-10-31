@@ -328,9 +328,11 @@ skip_covered = false
 # Palier 4 de #293 (30/10/2026) : 51,4 % sur dev + tests de
 # src/gcm4/ui/fichiers.py, dialogues.py, mises_a_jour.py et __main__.py,
 # soit 51.
+# Palier 5 de #293 (31/10/2026) : 52,4 % sur dev + tests de
+# utils.py (helpers GTK : 30,9 % → 95,5 %), soit 52.
 # Relever ce chiffre quand la base monte, ne jamais le baisser
 # pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
-fail_under = 51
+fail_under = 52
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
