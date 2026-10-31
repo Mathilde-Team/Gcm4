@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:42+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3123,6 +3123,10 @@ msgid "unsupported format or version"
 msgstr "μη υποστηριζόμενη μορφή ή έκδοση"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Συντομεύσεις πληκτρολογίου"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Επόμενη καρτέλα"
 
@@ -3137,6 +3141,10 @@ msgstr "Αποθήκευση ρυθμίσεων ως…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Αναζήτηση"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Οδηγός χρήσης"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3270,6 +3278,14 @@ msgstr "Η θύρα πρέπει να είναι αριθμός από {min} έ�
 msgid "The name must not contain «/»."
 msgstr "Το όνομα δεν πρέπει να περιέχει «/»."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Κεντρικοί υπολογιστές"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Κύριο παράθυρο"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3343,6 +3359,10 @@ msgid "Connection"
 msgstr "Σύνδεση"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Τύπος σύνδεσης· οι επιλογές του εμφανίζονται παρακάτω"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Απόρριψη"
 
@@ -3359,6 +3379,10 @@ msgid "Existing groups"
 msgstr "Υπάρχουσες ομάδες"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Επιπλέον ορίσματα για την εντολή σύνδεσης, αν το πρωτόκολλο τα υποστηρίζει"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Επιπλέον παράμετροι"
 
@@ -3367,8 +3391,20 @@ msgid "Foreground color"
 msgstr "Χρώμα κειμένου"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Όνομα κεντρικού υπολογιστή ή διεύθυνση IP του διακομιστή"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Συνέχεια επεξεργασίας"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Αφήστε κενό για να χρησιμοποιηθεί η προεπιλεγμένη θύρα του πρωτοκόλλου"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Όνομα που εμφανίζεται στη λίστα κεντρικών υπολογιστών, μοναδικό στην ομάδα του"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3387,6 +3423,10 @@ msgid "No extension is installed."
 msgstr "Δεν έχει εγκατασταθεί επέκταση."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Σημείωση που εμφανίζεται στην επεξήγηση της λίστας κεντρικών υπολογιστών"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Πρωτόκολλο"
 
@@ -3403,14 +3443,22 @@ msgstr "Εντολή κελύφους που εκτελείται τοπικά, 
 msgid "The changes to this host have not been saved."
 msgstr "Οι αλλαγές σε αυτόν τον υπολογιστή δεν αποθηκεύτηκαν."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Χρήση των χρωμάτων κονσόλας των ρυθμίσεων αντί για τα παρακάτω χρώματα"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Όνομα χρήστη στον απομακρυσμένο υπολογιστή"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Τι θα γίνει με την καρτέλα της κονσόλας όταν τελειώσει η σύνδεση"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Υπάρχει ήδη στοιχείο με αυτό το όνομα στο «{group}»."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Κεντρικοί υπολογιστές"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3742,8 +3790,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Σημειώστε ή εκτυπώστε αυτόν τον κωδικό και φυλάξτε τον σε ασφαλές μέρος: δεν θα εμφανιστεί ξανά. Αν ξεχάσετε τον κύριο κωδικό, ξεκλειδώνει τους αποθηκευμένους κωδικούς και στη συνέχεια επιλέγετε νέο κύριο κωδικό."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Προσθήκη του τίτλου της τρέχουσας καρτέλας στον τίτλο του παραθύρου"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Μετά την τελευταία καρτέλα επιστροφή στην πρώτη και αντίστροφα"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Ερώτηση και όταν μια καρτέλα κλείνει με το μεσαίο κουμπί του ποντικιού"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Εμφάνιση"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Ερώτηση πριν κλείσει μια καρτέλα κονσόλας"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Ερώτηση πριν από την έξοδο όταν υπάρχουν ανοιχτές συνδέσεις"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3762,6 +3830,14 @@ msgid "Extensions"
 msgstr "Επεκτάσεις"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Ακολουθεί το στυλ του συστήματος ή επιβάλλει φωτεινό ή σκούρο θέμα"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Γραμματοσειρά της λίστας κεντρικών υπολογιστών"
+
+#: src/gcm4/ui/preferences.py
 msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
 msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt ή GNOME με την επέκταση AppIndicator"
 
@@ -3778,8 +3854,8 @@ msgid "Logging"
 msgstr "Καταγραφή"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Κύριο παράθυρο"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Αναζήτηση νεότερης δημοσιευμένης έκδοσης στο GitHub κατά την εκκίνηση"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3804,12 +3880,28 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Η σελίδα προτιμήσεων δεν είναι διαθέσιμη: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Επανασύνδεση των υπολογιστών που ήταν ανοιχτοί όταν έκλεισε η εφαρμογή"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Ασφάλεια"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show an icon in the notification area"
 msgstr "Εμφάνιση εικονιδίου στην περιοχή ειδοποιήσεων"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Εμφάνιση όλων των γραμμών της λίστας κεντρικών υπολογιστών με το ίδιο φόντο"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Εμφάνιση της λίστας κεντρικών υπολογιστών με τη γραμματοσειρά της επιφάνειας εργασίας"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Εμφάνιση της λίστας κεντρικών υπολογιστών δίπλα στις κονσόλες"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3832,6 +3924,10 @@ msgstr "Χρήση γραμματοσειράς συστήματος"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Έκδοση {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Τίτλος παραθύρου· αφήστε κενό για να χρησιμοποιηθεί το όνομα της εφαρμογής"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format

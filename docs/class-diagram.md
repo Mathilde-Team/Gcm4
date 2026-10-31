@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-104 modules · 179 classes · 348 fonctions publiques de module.
+105 modules · 179 classes · 352 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -42,7 +42,7 @@ flowchart TD
     g4 -->|1| g3
     g5 -->|3| g0
     g5 -->|2| g3
-    g5 -->|56| g4
+    g5 -->|59| g4
 ```
 
 ## Cœur (sans GTK)
@@ -1897,6 +1897,7 @@ classDiagram
 | Module | Fichier | Rôle |
 |---|---|---|
 | `gcm4.ui` | `src/gcm4/ui/__init__.py` | Interface GTK4 de gcm4 : seul endroit autorisé à importer ``gi``. |
+| `gcm4.ui.aide` | `src/gcm4/ui/aide.py` | Menu Aide de gcm4 (#86) : guide utilisateur et fenêtre des raccourcis. |
 | `gcm4.ui.application` | `src/gcm4/ui/application.py` | Application libadwaita de gcm4 : instance unique, actions, À propos (#133, #134). |
 | `gcm4.ui.contexte` | `src/gcm4/ui/contexte.py` | Contexte injecté dans chaque plugin (contrat v1, ``docs/plugins.md``, #151). |
 | `gcm4.ui.couleurs` | `src/gcm4/ui/couleurs.py` | Conversions de couleurs partagées par l'interface GTK4. |
@@ -1916,6 +1917,13 @@ classDiagram
 
 ```mermaid
 classDiagram
+    class mod_gcm4_ui_aide {
+        <<module>>
+        +ouvrir_guide(fenetre) None
+        +sections(effectifs) list~tuple~str, list~tuple~str, str~~~~
+        +fenetre_raccourcis(effectifs) Gtk.Widget
+        +presenter_raccourcis(parent, effectifs) Gtk.Widget
+    }
     class mod_gcm4_ui_application {
         <<module>>
         +run(args, argv) int

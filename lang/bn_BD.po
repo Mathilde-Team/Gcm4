@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:42+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3123,6 +3123,10 @@ msgid "unsupported format or version"
 msgstr "অসমর্থিত ফরম্যাট বা সংস্করণ"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "কিবোর্ড শর্টকাট"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "পরবর্তী ট্যাব"
 
@@ -3137,6 +3141,10 @@ msgstr "কনফিগারেশন এভাবে সংরক্ষণ…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "অনুসন্ধান"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "ব্যবহারকারী নির্দেশিকা"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3270,6 +3278,14 @@ msgstr "পোর্ট {min} থেকে {max}-এর মধ্যে এক�
 msgid "The name must not contain «/»."
 msgstr "নামে '/' থাকতে পারবে না।"
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "হোস্ট"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "প্রধান উইন্ডো"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3343,6 +3359,10 @@ msgid "Connection"
 msgstr "সংযোগ"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "সংযোগের ধরন; এর বিকল্পগুলো নিচে দেখানো হয়"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "বাতিল করুন"
 
@@ -3359,6 +3379,10 @@ msgid "Existing groups"
 msgstr "বিদ্যমান গ্রুপ"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "প্রোটোকল সমর্থন করলে সংযোগ কমান্ডে যোগ করা অতিরিক্ত আর্গুমেন্ট"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "অতিরিক্ত প্যারামিটার"
 
@@ -3367,8 +3391,20 @@ msgid "Foreground color"
 msgstr "লেখার রং"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "সার্ভারের হোস্ট নাম বা IP ঠিকানা"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "সম্পাদনা চালিয়ে যান"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "প্রোটোকলের ডিফল্ট পোর্ট ব্যবহার করতে ফাঁকা রাখুন"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "হোস্ট তালিকায় দেখানো নাম, নিজের গ্রুপে অনন্য"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3387,6 +3423,10 @@ msgid "No extension is installed."
 msgstr "কোনো এক্সটেনশন ইনস্টল করা নেই।"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "হোস্ট তালিকার টুলটিপে দেখানো নোট"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "প্রোটোকল"
 
@@ -3403,14 +3443,22 @@ msgstr "এই সংযোগ শেষ হওয়ার ঠিক পরে,
 msgid "The changes to this host have not been saved."
 msgstr "এই হোস্টের পরিবর্তনগুলো সংরক্ষিত হয়নি।"
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "নিচের রঙের বদলে সেটিংসের কনসোল রং ব্যবহার করুন"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "দূরবর্তী হোস্টে ব্যবহারকারীর নাম"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "সংযোগ শেষ হলে কনসোল ট্যাবের কী হবে"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "'{group}'-এ এই নামের একটি আইটেম আগে থেকেই আছে।"
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "হোস্ট"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3742,8 +3790,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "এই কোডটি লিখে রাখুন বা প্রিন্ট করুন এবং নিরাপদ স্থানে রাখুন: এটি আর দেখানো হবে না। মাস্টার পাসওয়ার্ড ভুলে গেলে এটি সংরক্ষিত পাসওয়ার্ড আনলক করে, তারপর আপনি একটি নতুন মাস্টার পাসওয়ার্ড বেছে নেন।"
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "বর্তমান ট্যাবের শিরোনাম উইন্ডোর শিরোনামে যোগ করে"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "শেষ ট্যাবের পরে প্রথম ট্যাবে ফিরে যান, এবং উল্টোটাও"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "মাউসের মাঝের বোতাম দিয়ে ট্যাব বন্ধ করলেও জিজ্ঞেস করুন"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "চেহারা"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "কনসোল ট্যাব বন্ধ করার আগে জিজ্ঞেস করুন"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "সংযোগ খোলা থাকলে প্রস্থান করার আগে জিজ্ঞেস করুন"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3762,6 +3830,14 @@ msgid "Extensions"
 msgstr "এক্সটেনশন"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "সিস্টেমের শৈলী অনুসরণ করুন বা হালকা অথবা গাঢ় থিম বাধ্যতামূলক করুন"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "হোস্ট তালিকার ফন্ট"
+
+#: src/gcm4/ui/preferences.py
 msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
 msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt অথবা AppIndicator এক্সটেনশনসহ GNOME"
 
@@ -3778,8 +3854,8 @@ msgid "Logging"
 msgstr "লগিং"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "প্রধান উইন্ডো"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "শুরুতে GitHub-এ নতুন প্রকাশিত সংস্করণ খুঁজুন"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3804,12 +3880,28 @@ msgid "Preferences page unavailable: {error}"
 msgstr "পছন্দের পাতা উপলব্ধ নয়: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "অ্যাপ্লিকেশন বন্ধ করার সময় খোলা হোস্টগুলোতে আবার সংযোগ করুন"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "নিরাপত্তা"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show an icon in the notification area"
 msgstr "বিজ্ঞপ্তি এলাকায় একটি আইকন দেখান"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "হোস্ট তালিকার সব সারি একই পটভূমিতে দেখান"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "ডেস্কটপের ফন্টে হোস্ট তালিকা দেখান"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "কনসোলের পাশে হোস্ট তালিকা দেখান"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3832,6 +3924,10 @@ msgstr "সিস্টেমের ফন্ট ব্যবহার করু
 #, python-brace-format
 msgid "Version {version}"
 msgstr "সংস্করণ {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "উইন্ডোর শিরোনাম; অ্যাপ্লিকেশনের নাম ব্যবহার করতে ফাঁকা রাখুন"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format

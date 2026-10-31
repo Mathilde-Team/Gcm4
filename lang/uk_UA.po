@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:42+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3123,6 +3123,10 @@ msgid "unsupported format or version"
 msgstr "непідтримуваний формат або версія"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Комбінації клавіш"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Наступна вкладка"
 
@@ -3137,6 +3141,10 @@ msgstr "Зберегти конфігурацію як…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Пошук"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Посібник користувача"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3270,6 +3278,14 @@ msgstr "Порт має бути числом від {min} до {max}."
 msgid "The name must not contain «/»."
 msgstr "Назва не повинна містити «/»."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Вузли"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Головне вікно"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3343,6 +3359,10 @@ msgid "Connection"
 msgstr "З'єднання"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Тип з'єднання; його параметри показано нижче"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Відкинути"
 
@@ -3359,6 +3379,10 @@ msgid "Existing groups"
 msgstr "Наявні групи"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Додаткові аргументи команди з'єднання, якщо протокол їх підтримує"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Додаткові параметри"
 
@@ -3367,8 +3391,20 @@ msgid "Foreground color"
 msgstr "Колір тексту"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Ім'я хоста або IP-адреса сервера"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Продовжити редагування"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Залиште порожнім, щоб використати типовий порт протоколу"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Назва у списку хостів, унікальна в межах групи"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3387,6 +3423,10 @@ msgid "No extension is installed."
 msgstr "Розширень не встановлено."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Примітка, що показується у підказці списку хостів"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Протокол"
 
@@ -3403,14 +3443,22 @@ msgstr "Команда оболонки, що виконується локал�
 msgid "The changes to this host have not been saved."
 msgstr "Зміни цього вузла не збережено."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Використовувати кольори консолі з налаштувань замість кольорів нижче"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Ім'я користувача на віддаленому хості"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Що робити з вкладкою консолі після завершення з'єднання"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "У «{group}» вже є елемент із такою назвою."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Вузли"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3742,8 +3790,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Запишіть або роздрукуйте цей код і зберігайте його в надійному місці: його більше не буде показано. Якщо ви забудете головний пароль, він розблокує збережені паролі, після чого ви виберете новий головний пароль."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Додавати заголовок поточної вкладки до заголовка вікна"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Після останньої вкладки повертатися до першої і навпаки"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Питати також під час закриття вкладки середньою кнопкою миші"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Вигляд"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Питати перед закриттям вкладки консолі"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Питати перед виходом, якщо є відкриті з'єднання"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3762,6 +3830,14 @@ msgid "Extensions"
 msgstr "Розширення"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Дотримуватися стилю системи або примусово ввімкнути світлу чи темну тему"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Шрифт списку хостів"
+
+#: src/gcm4/ui/preferences.py
 msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
 msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt або GNOME з розширенням AppIndicator"
 
@@ -3778,8 +3854,8 @@ msgid "Logging"
 msgstr "Журналювання"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Головне вікно"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Перевіряти під час запуску наявність новішої опублікованої версії на GitHub"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3804,12 +3880,28 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Сторінка параметрів недоступна: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Повторно з'єднуватися з хостами, відкритими на момент закриття програми"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Безпека"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show an icon in the notification area"
 msgstr "Показувати значок в області сповіщень"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Показувати всі рядки списку хостів на однаковому тлі"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Показувати список хостів шрифтом робочого столу"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Показувати список хостів поруч із консолями"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3832,6 +3924,10 @@ msgstr "Використовувати системний шрифт"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Версія {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Заголовок вікна; залиште порожнім, щоб використати назву програми"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format

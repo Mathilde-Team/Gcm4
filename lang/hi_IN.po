@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:42+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3123,6 +3123,10 @@ msgid "unsupported format or version"
 msgstr "असमर्थित प्रारूप या संस्करण"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "कीबोर्ड शॉर्टकट"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "अगला टैब"
 
@@ -3137,6 +3141,10 @@ msgstr "कॉन्फ़िगरेशन इस रूप में सह�
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "खोजें"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "उपयोगकर्ता मार्गदर्शिका"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3270,6 +3278,14 @@ msgstr "पोर्ट {min} से {max} के बीच की संख्�
 msgid "The name must not contain «/»."
 msgstr "नाम में '/' नहीं होना चाहिए।"
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "होस्ट"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "मुख्य विंडो"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3343,6 +3359,10 @@ msgid "Connection"
 msgstr "कनेक्शन"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "कनेक्शन का प्रकार; इसके विकल्प नीचे दिखाए गए हैं"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "छोड़ें"
 
@@ -3359,6 +3379,10 @@ msgid "Existing groups"
 msgstr "मौजूदा समूह"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "कनेक्शन कमांड में जोड़े जाने वाले अतिरिक्त आर्गुमेंट, यदि प्रोटोकॉल उनका समर्थन करता है"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "अतिरिक्त पैरामीटर"
 
@@ -3367,8 +3391,20 @@ msgid "Foreground color"
 msgstr "पाठ का रंग"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "सर्वर का होस्ट नाम या IP पता"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "संपादन जारी रखें"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "प्रोटोकॉल का डिफ़ॉल्ट पोर्ट उपयोग करने के लिए खाली छोड़ें"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "होस्ट सूची में दिखने वाला नाम, अपने समूह में अद्वितीय"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3387,6 +3423,10 @@ msgid "No extension is installed."
 msgstr "कोई एक्सटेंशन स्थापित नहीं है।"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "होस्ट सूची के टूलटिप में दिखने वाला नोट"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "प्रोटोकॉल"
 
@@ -3403,14 +3443,22 @@ msgstr "यह कनेक्शन समाप्त होते ही, स
 msgid "The changes to this host have not been saved."
 msgstr "इस होस्ट के बदलाव सहेजे नहीं गए हैं।"
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "नीचे दिए रंगों के बजाय सेटिंग्स के कंसोल रंगों का उपयोग करें"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "दूरस्थ होस्ट पर उपयोगकर्ता नाम"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "कनेक्शन समाप्त होने पर कंसोल टैब के साथ क्या करना है"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "'{group}' में इस नाम का आइटम पहले से मौजूद है।"
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "होस्ट"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3742,8 +3790,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "इस कोड को लिख लें या प्रिंट करें और सुरक्षित स्थान पर रखें: यह फिर से नहीं दिखाया जाएगा। यदि आप मास्टर पासवर्ड भूल जाते हैं, तो यह सहेजे गए पासवर्ड अनलॉक करता है, फिर आप नया मास्टर पासवर्ड चुनते हैं।"
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "वर्तमान टैब का शीर्षक विंडो शीर्षक में जोड़ता है"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "अंतिम टैब के बाद पहले टैब पर लौटें, और इसके विपरीत"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "माउस के मध्य बटन से टैब बंद करने पर भी पूछें"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "दिखावट"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "कंसोल टैब बंद करने से पहले पूछें"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "कनेक्शन खुले होने पर बाहर निकलने से पहले पूछें"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3762,6 +3830,14 @@ msgid "Extensions"
 msgstr "एक्सटेंशन"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "सिस्टम की शैली का पालन करें या हल्की या गहरी थीम लागू करें"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "होस्ट सूची का फ़ॉन्ट"
+
+#: src/gcm4/ui/preferences.py
 msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
 msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt या AppIndicator एक्सटेंशन के साथ GNOME"
 
@@ -3778,8 +3854,8 @@ msgid "Logging"
 msgstr "लॉगिंग"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "मुख्य विंडो"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "प्रारंभ पर GitHub पर नया प्रकाशित संस्करण खोजें"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3804,12 +3880,28 @@ msgid "Preferences page unavailable: {error}"
 msgstr "प्राथमिकता पृष्ठ उपलब्ध नहीं: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "एप्लिकेशन बंद होने के समय खुले होस्ट से फिर से कनेक्ट करें"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "सुरक्षा"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show an icon in the notification area"
 msgstr "सूचना क्षेत्र में आइकन दिखाएँ"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "होस्ट सूची की सभी पंक्तियाँ एक ही पृष्ठभूमि पर दिखाएँ"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "होस्ट सूची को डेस्कटॉप फ़ॉन्ट में दिखाएँ"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "होस्ट सूची को कंसोल के बगल में दिखाएँ"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3832,6 +3924,10 @@ msgstr "सिस्टम फ़ॉन्ट का उपयोग करे�
 #, python-brace-format
 msgid "Version {version}"
 msgstr "संस्करण {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "विंडो शीर्षक; एप्लिकेशन का नाम उपयोग करने के लिए खाली छोड़ें"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format

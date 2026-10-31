@@ -63,21 +63,54 @@ from gcm4.ui.mot_de_passe_maitre import GroupeMotDePasseMaitre
 #: Modes du thème, dans l'ordre de la liste déroulante.
 MODES = ("system", "light", "dark")
 
-#: Options de la page Général : (attribut de Preferences et d'AppConfig, libellé).
+#: Options de la page Général : (attribut de Preferences et d'AppConfig,
+#: libellé, sous-titre explicatif #86).
 OPTIONS_GENERALES = (
-    ("confirm_exit", N_("Confirm on exit")),
-    ("check_updates", N_("Check updates")),
-    ("restore_open_tabs", N_("Restore open tabs from the previous session on startup")),
+    (
+        "confirm_exit",
+        N_("Confirm on exit"),
+        N_("Ask before quitting while connections are open"),
+    ),
+    (
+        "check_updates",
+        N_("Check updates"),
+        N_("Look for a newer published version on GitHub at startup"),
+    ),
+    (
+        "restore_open_tabs",
+        N_("Restore open tabs from the previous session on startup"),
+        N_("Reconnect the hosts that were open when the application was closed"),
+    ),
     # Onglets (#247), libellés de Wconfig (GTK3).
-    ("confirm_close_tab", N_("Confirm on close console")),
-    ("confirm_close_tab_middle", N_("Confirm on close console with middle click")),
-    ("cycle_tabs", N_("Circle around tabs when going to the previous/next tab")),
+    (
+        "confirm_close_tab",
+        N_("Confirm on close console"),
+        N_("Ask before closing a console tab"),
+    ),
+    (
+        "confirm_close_tab_middle",
+        N_("Confirm on close console with middle click"),
+        N_("Also ask when a tab is closed with the middle mouse button"),
+    ),
+    (
+        "cycle_tabs",
+        N_("Circle around tabs when going to the previous/next tab"),
+        N_("After the last tab, go back to the first one, and the other way round"),
+    ),
 )
 
-#: Options de la page Apparence, groupe « Fenêtre principale » (#247).
+#: Options de la page Apparence, groupe « Fenêtre principale » (#247, #86).
 OPTIONS_FENETRE = (
-    ("disable_hosts_stripes", N_("Disable alternating stripes in hosts window")),
-    ("update_title", N_("Dynamic title")),
+    (
+        "disable_hosts_stripes",
+        N_("Disable alternating stripes in hosts window"),
+        N_("Show every row of the host list on the same background"),
+    ),
+    (
+        "update_title",
+        N_("Dynamic title"),
+        N_("Add the title of the current tab to the window title"),
+    ),
 )
 
 
@@ -231,13 +264,15 @@ class PreferencesWindow(Adw.PreferencesWindow):
         page = Adw.PreferencesPage(title=_("General"), icon_name="preferences-system-symbolic")
         groupe = Adw.PreferencesGroup()
         self.interrupteurs: dict[str, Gtk.Switch] = {}
-        for nom, libelle in OPTIONS_GENERALES:
-            self._ligne_option(groupe, nom, libelle)
+        for nom, libelle, sous_titre in OPTIONS_GENERALES:
+            self._ligne_option(groupe, nom, libelle, sous_titre)
         # Zone de notification (#83) : groupe à part, sous-titre sur les bureaux pris en charge.
         notification = Adw.PreferencesGroup(title=_("Notification area"))
-        self._ligne_option(notification, "tray_icon", N_("Show an icon in the notification area"))
-        self.interrupteurs["tray_icon"].get_ancestor(Adw.ActionRow).set_subtitle(
-            _("KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension")
+        self._ligne_option(
+            notification,
+            "tray_icon",
+            N_("Show an icon in the notification area"),
+            N_("KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"),
         )
         if getattr(self.fenetre, "config", None) is None:  # illisible : jamais d'écriture
             groupe.set_sensitive(False)
@@ -247,14 +282,19 @@ class PreferencesWindow(Adw.PreferencesWindow):
         logger.debug("_page_generale: fait")
         return page
 
-    def _ligne_option(self, groupe: Adw.PreferencesGroup, nom: str, libelle: str) -> None:
-        """Interrupteur d'une option ``[options]`` (``AppConfig``), ajouté à ``groupe``."""
+    def _ligne_option(
+        self, groupe: Adw.PreferencesGroup, nom: str, libelle: str, sous_titre: str
+    ) -> None:
+        """Interrupteur d'une option ``[options]`` (``AppConfig``), ajouté à ``groupe``.
+
+        ``libelle`` et ``sous_titre`` : msgids, traduits ici.
+        """
         logger.debug("_ligne_option: {}", nom)
         config = getattr(self.fenetre, "config", None)
         interrupteur = Gtk.Switch(valign=Gtk.Align.CENTER)
         valeur = getattr(config.options, nom) if config is not None else None
         interrupteur.set_active(getattr(self.valeurs, nom) if valeur is None else bool(valeur))
-        ligne = Adw.ActionRow(title=_(libelle))
+        ligne = Adw.ActionRow(title=_(libelle), subtitle=_(sous_titre))
         ligne.add_suffix(interrupteur)
         ligne.set_activatable_widget(interrupteur)
         interrupteur.connect("notify::active", self._on_option, nom)
@@ -270,7 +310,9 @@ class PreferencesWindow(Adw.PreferencesWindow):
         )
         groupe = Adw.PreferencesGroup()
 
-        self.theme = Adw.ComboRow(title=_("Theme"))
+        self.theme = Adw.ComboRow(
+            title=_("Theme"), subtitle=_("Follow the system style or force a light or dark one")
+        )
         self.theme.set_model(Gtk.StringList.new([_("System"), _("Light"), _("Dark")]))
         mode = self.valeurs.theme if self.valeurs.theme in MODES else "system"
         self.theme.set_selected(MODES.index(mode))
@@ -278,7 +320,9 @@ class PreferencesWindow(Adw.PreferencesWindow):
         groupe.add(self.theme)
 
         self.panneau = Gtk.Switch(valign=Gtk.Align.CENTER, active=self.valeurs.show_panel)
-        ligne = Adw.ActionRow(title=_("Show Panel"))
+        ligne = Adw.ActionRow(
+            title=_("Show Panel"), subtitle=_("Show the host list next to the consoles")
+        )
         ligne.add_suffix(self.panneau)
         ligne.set_activatable_widget(self.panneau)
         self.panneau.connect("notify::active", self._on_panneau)
@@ -287,13 +331,17 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.police_systeme = Gtk.Switch(
             valign=Gtk.Align.CENTER, active=not self.valeurs.tree_font
         )
-        ligne = Adw.ActionRow(title=_("Use system font"))
+        ligne = Adw.ActionRow(
+            title=_("Use system font"), subtitle=_("Show the host list in the desktop font")
+        )
         ligne.add_suffix(self.police_systeme)
         ligne.set_activatable_widget(self.police_systeme)
         groupe.add(ligne)
         self.police = _bouton_police()
         _ecrire_police(self.police, self.valeurs.tree_font or "Sans 11")
-        self.ligne_police = Adw.ActionRow(title=_("Tree font"))
+        self.ligne_police = Adw.ActionRow(
+            title=_("Tree font"), subtitle=_("Font of the host list")
+        )
         self.ligne_police.add_suffix(self.police)
         self.ligne_police.set_activatable_widget(self.police)
         self.ligne_police.set_sensitive(bool(self.valeurs.tree_font))
@@ -314,13 +362,14 @@ class PreferencesWindow(Adw.PreferencesWindow):
         """
         logger.debug("_groupe_fenetre: entrée")
         groupe = Adw.PreferencesGroup(title=_("Main window"))
-        for nom, libelle in OPTIONS_FENETRE:
-            self._ligne_option(groupe, nom, libelle)
+        for nom, libelle, sous_titre in OPTIONS_FENETRE:
+            self._ligne_option(groupe, nom, libelle, sous_titre)
         config = getattr(self.fenetre, "config", None)
         titre = config.options.app_title if config is not None else self.valeurs.app_title
         if titre.strip() == comportement_onglets.NOM_APPLICATION:
             titre = ""  # valeur écrite par GTK3 pour « titre par défaut »
         self.titre = Adw.EntryRow(title=_("Title"), show_apply_button=True)
+        self.titre.set_tooltip_text(_("Window title; leave blank to use the application name"))
         self.titre.set_text(titre.strip())
         self.titre.connect("apply", self._on_titre)
         groupe.add(self.titre)
@@ -631,7 +680,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
             appliquer = getattr(self.application, "appliquer_zone_notification", None)
             if appliquer is not None:
                 appliquer(valeur)
-        if nom in dict(OPTIONS_FENETRE):
+        if nom in {option for option, _l, _s in OPTIONS_FENETRE}:
             self._appliquer()
         logger.debug("_on_option: fait")
 
