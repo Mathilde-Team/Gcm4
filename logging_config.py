@@ -92,6 +92,7 @@ _FILES: list[str] = []
 
 def level_from_env() -> str:
     """Niveau demandé par l'environnement (``GCM_LOG_LEVEL`` puis ``GCM_DEBUG``)."""
+    _logger.trace("level_from_env: entrée")
     level = os.environ.get(ENV_LEVEL, "").strip()
     if level:
         _logger.debug("level_from_env: {} défini -> {}", ENV_LEVEL, level.upper())
@@ -105,6 +106,7 @@ def level_from_env() -> str:
 
 def is_debug_level(level: str) -> bool:
     """Vrai si ``level`` active le mode debug (``DEBUG`` ou ``TRACE``)."""
+    _logger.trace("is_debug_level: entrée | level={!r}", level)
     result = level.strip().upper() in DEBUG_LEVELS
     _logger.debug("is_debug_level: niveau={} -> {}", level, result)
     return result
@@ -112,6 +114,7 @@ def is_debug_level(level: str) -> bool:
 
 def app_log_path(config_dir: str) -> str:
     """Chemin du journal permanent de l'application dans ``config_dir``."""
+    _logger.trace("app_log_path: entrée | config_dir={!r}", config_dir)
     path = os.path.join(config_dir, "log", APP_LOG_NAME)
     _logger.debug("app_log_path: -> {}", path)
     return path
@@ -138,6 +141,13 @@ def configure_logging(
     Returns:
         loguru.Logger: le logger global, configuré.
     """
+    _logger.trace(
+        "configure_logging: entrée | level={!r}, config_dir={!r}, log_file={!r}, force={!r}",
+        level,
+        config_dir,
+        log_file,
+        force,
+    )
     global _CONFIGURED, _LEVEL
     if _CONFIGURED and not force:
         _logger.debug("configure_logging: déjà configuré (force=False) -> sans effet")
@@ -214,6 +224,7 @@ def configure_logging(
 
 def enable_debug(level: str = "DEBUG", *, config_dir: str | None = None):
     """Active le mode debug à chaud (option ``--debug``)."""
+    _logger.trace("enable_debug: entrée | level={!r}, config_dir={!r}", level, config_dir)
     result = configure_logging(level, config_dir=config_dir, force=True)
     _logger.debug("enable_debug: fin (level={})", level)
     return result
@@ -221,6 +232,7 @@ def enable_debug(level: str = "DEBUG", *, config_dir: str | None = None):
 
 def current_level() -> str:
     """Niveau effectivement configuré."""
+    _logger.trace("current_level: entrée")
     if not _CONFIGURED:
         configure_logging()
     _logger.debug("current_level: -> {}", _LEVEL)
@@ -235,6 +247,7 @@ def log_files() -> list[str]:
 
 def is_debug_enabled() -> bool:
     """Vrai si le mode debug est actif."""
+    _logger.trace("is_debug_enabled: entrée")
     result = is_debug_level(current_level())
     _logger.debug("is_debug_enabled: -> {}", result)
     return result
@@ -247,6 +260,9 @@ def extract_debug_flag(argv: list[str]) -> tuple[bool, list[str]]:
         tuple[bool, list[str]]: (option présente, arguments restants dans
         leur ordre d'origine).
     """
+    _logger.trace(
+        "extract_debug_flag: entrée | argv={} élément(s)", len(argv) if argv is not None else 0
+    )
     rest = [a for a in argv if a != DEBUG_FLAG]
     found = len(rest) != len(argv)
     _logger.debug("extract_debug_flag: present={} restants={}", found, len(rest))
@@ -255,6 +271,7 @@ def extract_debug_flag(argv: list[str]) -> tuple[bool, list[str]]:
 
 def add_debug_argument(parser) -> None:
     """Ajoute l'option ``--debug`` commune à un ``argparse.ArgumentParser``."""
+    _logger.trace("add_debug_argument: entrée")
     parser.add_argument(
         DEBUG_FLAG,
         action="store_true",
@@ -266,6 +283,7 @@ def add_debug_argument(parser) -> None:
 
 def apply_debug_argument(args, *, config_dir: str | None = None) -> None:
     """Active le mode debug si ``args.debug`` est vrai (après ``parse_args``)."""
+    _logger.trace("apply_debug_argument: entrée | config_dir={!r}", config_dir)
     active = bool(getattr(args, "debug", False))
     if active:
         enable_debug(config_dir=config_dir)
@@ -274,6 +292,7 @@ def apply_debug_argument(args, *, config_dir: str | None = None) -> None:
 
 def get_logger(name: str):
     """Logger loguru lié au module ``name`` (configure au besoin)."""
+    _logger.trace("get_logger: entrée | name={!r}", name)
     if not _CONFIGURED:
         configure_logging()
     _logger.debug("get_logger: logger lié à {}", name)
@@ -298,6 +317,7 @@ def summarize(value: object, name: str = "") -> str:
     évoque un secret (mot de passe, jeton, clé, ticket...) est toujours
     rendu ``***``.
     """
+    _logger.trace("summarize: entrée | name={!r}", name)
     if name and _SECRET_NAME_RE.search(name):
         _logger.debug("summarize: nom sensible -> ***")
         return "***"
@@ -347,6 +367,7 @@ def mask_password(text: object) -> str:
 
 def _reset_for_tests() -> None:
     """Remet le module dans son état initial (tests uniquement)."""
+    _logger.trace("_reset_for_tests: entrée")
     global _CONFIGURED, _LEVEL
     for handler_id in _HANDLER_IDS:
         try:
