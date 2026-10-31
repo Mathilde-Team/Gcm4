@@ -5129,110 +5129,8 @@ msgstr "수직 분할"
 msgid "Unsplit all consoles"
 msgstr "모든 콘솔 분할 해제"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp 로그:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "페이지 2"
-
-#~ msgid "page 1"
-#~ msgstr "페이지 1"
-
-#~ msgid "local"
-#~ msgstr "로컬"
-
-#~ msgid "label"
-#~ msgstr "레이블"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_편집"
-
-#~ msgid "Split console vertically"
-#~ msgstr "콘솔을 수직으로 분할"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "콘솔을 수평으로 분할"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "도구 모음 표시"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "여러 호스트에 동시에 명령 보내기"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Keep-Alive 패킷 사이의 시간(초)"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "활성 콘솔 버퍼를 파일로 저장"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE (여기서는 사용 불가: Proxmox는 API 티켓/프록시가 필요함)"
-
-#~ msgid "Open local console"
-#~ msgstr "로컬 콘솔 열기"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "로컬 포트가 이미 할당됨"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "파일에서 서버 목록 가져오기"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "명령줄에 전달할 추가 인수"
-
-#~ msgid "Export server list to file"
-#~ msgstr "서버 목록을 파일로 내보내기"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "호스트 속성 편집"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "감지된 Proxmox 대상 (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "감지된 Proxmox 대상"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "동적 포트 포워딩 생성"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "선택한 호스트 또는 선택한 그룹의 모든 호스트에 연결"
+#~ msgid "Colors and Keys"
+#~ msgstr "색상 및 키"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5143,107 @@ msgstr "모든 콘솔 분할 해제"
 #~ "1: 최소\n"
 #~ "9: 최대"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "색상 및 키"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "선택한 호스트 또는 선택한 그룹의 모든 호스트에 연결"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "동적 포트 포워딩 생성"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "감지된 Proxmox 대상"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "감지된 Proxmox 대상 (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "호스트 속성 편집"
+
+#~ msgid "Export server list to file"
+#~ msgstr "서버 목록을 파일로 내보내기"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "명령줄에 전달할 추가 인수"
+
+#~ msgid "Import server list from file"
+#~ msgstr "파일에서 서버 목록 가져오기"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "로컬 포트가 이미 할당됨"
+
+#~ msgid "Open local console"
+#~ msgstr "로컬 콘솔 열기"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE (여기서는 사용 불가: Proxmox는 API 티켓/프록시가 필요함)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "활성 콘솔 버퍼를 파일로 저장"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Keep-Alive 패킷 사이의 시간(초)"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "여러 호스트에 동시에 명령 보내기"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "도구 모음 표시"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "콘솔을 수평으로 분할"
+
+#~ msgid "Split console vertically"
+#~ msgstr "콘솔을 수직으로 분할"
+
+#~ msgid "_Edit"
+#~ msgstr "_편집"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "레이블"
+
+#~ msgid "local"
+#~ msgstr "로컬"
+
+#~ msgid "page 1"
+#~ msgstr "페이지 1"
+
+#~ msgid "page 2"
+#~ msgstr "페이지 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp 로그:"

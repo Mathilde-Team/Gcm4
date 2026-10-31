@@ -5129,110 +5129,8 @@ msgstr "विभाजन V"
 msgid "Unsplit all consoles"
 msgstr "सभी कंसोल को अविभाजित करें"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp लॉग:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "पेज 2"
-
-#~ msgid "page 1"
-#~ msgstr "पेज 1"
-
-#~ msgid "local"
-#~ msgstr "लोकल"
-
-#~ msgid "label"
-#~ msgstr "लेबल"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_संपादन"
-
-#~ msgid "Split console vertically"
-#~ msgstr "कंसोल को लंबवत रूप से विभाजित करें"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "कंसोल को क्षैतिज रूप से विभाजित करें"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "टूलबार दिखाएं"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "एक साथ कई होस्ट को कमांड भेजें"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "keep-alive पैकेट के बीच सेकंड"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "एक्टिव कंसोल बफर को फ़ाइल में सहेजें"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE (यहाँ उपलब्ध नहीं: Proxmox को API टिकट/प्रॉक्सी की आवश्यकता है)"
-
-#~ msgid "Open local console"
-#~ msgstr "लोकल कंसोल खोलें"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "लोकल पोर्ट पहले से असाइन किया गया है"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "फ़ाइल से सर्वर सूची आयात करें"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "कमांड लाइन पर पास करने के लिए अतिरिक्त आर्गुमेंट"
-
-#~ msgid "Export server list to file"
-#~ msgstr "सर्वर सूची को फ़ाइल में निर्यात करें"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "होस्ट गुण संपादित करें"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "पहचाने गए Proxmox लक्ष्य (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "पहचाना गया Proxmox लक्ष्य"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "डायनामिक पोर्ट फॉरवर्डिंग बनाएं"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "चयनित होस्ट या चयनित समूह के सभी होस्ट से कनेक्ट करें"
+#~ msgid "Colors and Keys"
+#~ msgstr "रंग और कीज़"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5143,107 @@ msgstr "सभी कंसोल को अविभाजित करें"
 #~ "1: न्यूनतम\n"
 #~ "9: अधिकतम"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "रंग और कीज़"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "चयनित होस्ट या चयनित समूह के सभी होस्ट से कनेक्ट करें"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "डायनामिक पोर्ट फॉरवर्डिंग बनाएं"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "पहचाना गया Proxmox लक्ष्य"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "पहचाने गए Proxmox लक्ष्य (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "होस्ट गुण संपादित करें"
+
+#~ msgid "Export server list to file"
+#~ msgstr "सर्वर सूची को फ़ाइल में निर्यात करें"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "कमांड लाइन पर पास करने के लिए अतिरिक्त आर्गुमेंट"
+
+#~ msgid "Import server list from file"
+#~ msgstr "फ़ाइल से सर्वर सूची आयात करें"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "लोकल पोर्ट पहले से असाइन किया गया है"
+
+#~ msgid "Open local console"
+#~ msgstr "लोकल कंसोल खोलें"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE (यहाँ उपलब्ध नहीं: Proxmox को API टिकट/प्रॉक्सी की आवश्यकता है)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "एक्टिव कंसोल बफर को फ़ाइल में सहेजें"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "keep-alive पैकेट के बीच सेकंड"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "एक साथ कई होस्ट को कमांड भेजें"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "टूलबार दिखाएं"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "कंसोल को क्षैतिज रूप से विभाजित करें"
+
+#~ msgid "Split console vertically"
+#~ msgstr "कंसोल को लंबवत रूप से विभाजित करें"
+
+#~ msgid "_Edit"
+#~ msgstr "_संपादन"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "लेबल"
+
+#~ msgid "local"
+#~ msgstr "लोकल"
+
+#~ msgid "page 1"
+#~ msgstr "पेज 1"
+
+#~ msgid "page 2"
+#~ msgstr "पेज 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp लॉग:"
