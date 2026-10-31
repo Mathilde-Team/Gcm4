@@ -69,20 +69,26 @@ def is_log_call(node: ast.AST, methods: set[str] = LOG_METHODS) -> bool:
     Returns:
         bool: Le nœud est une instruction-appel de journal.
     """
+    logger.trace(
+        "is_log_call: entrée | methods={} élément(s)", len(methods) if methods is not None else 0
+    )
     call = node.value if isinstance(node, ast.Expr) else node
     if not (
         isinstance(call, ast.Call)
         and isinstance(call.func, ast.Attribute)
         and call.func.attr in methods
     ):
+        logger.trace("is_log_call: retour False")
         return False
     target = call.func.value
+    logger.trace("is_log_call: retour calculé")
     return (isinstance(target, ast.Name) and target.id in LOGGER_NAMES) or (
         isinstance(target, ast.Attribute) and target.attr in LOGGER_NAMES
     )
 
 
 def _body_without_docstring(func: ast.FunctionDef | ast.AsyncFunctionDef) -> list[ast.stmt]:
+    logger.trace("_body_without_docstring: entrée")
     body = list(func.body)
     if (
         body
@@ -91,21 +97,29 @@ def _body_without_docstring(func: ast.FunctionDef | ast.AsyncFunctionDef) -> lis
     ):
         if isinstance(body[0].value.value, str):
             body = body[1:]
+    logger.trace("_body_without_docstring: retour body")
     return body
 
 
 def _child_blocks(stmt: ast.stmt) -> list[list[ast.stmt]]:
     """Blocs d'instructions imbriqués (if/for/while/with/try/match), hors définitions."""
+    logger.trace("_child_blocks: entrée")
     if isinstance(stmt, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+        logger.trace("_child_blocks: retour collection")
         return []
     blocks = [getattr(stmt, f) for f in ("body", "orelse", "finalbody") if getattr(stmt, f, None)]
     blocks += [h.body for h in getattr(stmt, "handlers", [])]
     blocks += [c.body for c in getattr(stmt, "cases", [])]
+    logger.trace("_child_blocks: retour blocks")
     return blocks
 
 
 def _returns_without_trace(statements: list[ast.stmt]) -> int:
     """Nombre de ``return`` non précédés d'un appel de journal (blocs imbriqués compris)."""
+    logger.trace(
+        "_returns_without_trace: entrée | statements={} élément(s)",
+        len(statements) if statements is not None else 0,
+    )
     missing = 0
     previous: ast.stmt | None = None
     for stmt in statements:
@@ -114,27 +128,39 @@ def _returns_without_trace(statements: list[ast.stmt]) -> int:
         for block in _child_blocks(stmt):
             missing += _returns_without_trace(block)
         previous = stmt
+    logger.trace("_returns_without_trace: retour missing")
     return missing
 
 
 def _ends_traced(block: list[ast.stmt]) -> bool:
     """Le bloc se termine par un journal, un ``return`` ou un ``raise`` sur tous ses chemins."""
+    logger.trace(
+        "_ends_traced: entrée | block={} élément(s)", len(block) if block is not None else 0
+    )
     if not block:
+        logger.trace("_ends_traced: retour False")
         return False
     last = block[-1]
     if isinstance(last, (ast.Return, ast.Raise)) or is_log_call(last):
+        logger.trace("_ends_traced: retour True")
         return True
     if isinstance(last, ast.If):
+        logger.trace("_ends_traced: retour calculé")
         return _ends_traced(last.body) and _ends_traced(last.orelse)
     if isinstance(last, (ast.With, ast.AsyncWith)):
+        logger.trace("_ends_traced: retour de _ends_traced()")
         return _ends_traced(last.body)
     if isinstance(last, ast.Try):
         if last.finalbody and _ends_traced(last.finalbody):
+            logger.trace("_ends_traced: retour True")
             return True
         main = last.orelse or last.body
+        logger.trace("_ends_traced: retour calculé")
         return _ends_traced(main) and all(_ends_traced(h.body) for h in last.handlers)
     if isinstance(last, ast.Match):
+        logger.trace("_ends_traced: retour de all()")
         return all(_ends_traced(c.body) for c in last.cases)
+    logger.trace("_ends_traced: retour False")
     return False
 
 
@@ -147,13 +173,16 @@ def audit_function(func: ast.FunctionDef | ast.AsyncFunctionDef) -> list[str]:
     Returns:
         list[str]: ``"entrée"``, ``"sortie"`` (ou vide si conforme / exemptée).
     """
+    logger.trace("audit_function: entrée")
     body = _body_without_docstring(func)
     if not body or all(
         isinstance(s, ast.Pass) or (isinstance(s, ast.Expr) and isinstance(s.value, ast.Constant))
         for s in body
     ):
+        logger.trace("audit_function: retour collection")
         return []
     if len(body) == 1 and isinstance(body[0], (ast.Return, ast.Raise)):
+        logger.trace("audit_function: retour collection")
         return []  # accesseur ou méthode de protocole d'une ligne
     problems = []
     if not is_log_call(body[0], {"trace", "debug"}):
@@ -161,6 +190,7 @@ def audit_function(func: ast.FunctionDef | ast.AsyncFunctionDef) -> list[str]:
     falls_through = not _ends_traced(body)
     if _returns_without_trace(body) or falls_through:
         problems.append("sortie")
+    logger.trace("audit_function: retour problems")
     return problems
 
 
@@ -173,6 +203,7 @@ def audit_source(source: str) -> list[tuple[int, str, list[str]]]:
     Returns:
         list[tuple[int, str, list[str]]]: Fonctions à instrumenter.
     """
+    logger.debug("audit_source: entrée | source={!r}", source)
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", SyntaxWarning)
         tree = ast.parse(source)
@@ -182,6 +213,7 @@ def audit_source(source: str) -> list[tuple[int, str, list[str]]]:
             problems = audit_function(node)
             if problems:
                 found.append((node.lineno, node.name, problems))
+    logger.debug("audit_source: retour found")
     return found
 
 
@@ -191,9 +223,11 @@ def python_files() -> list[str]:
     Returns:
         list[str]: Chemins relatifs à la racine.
     """
+    logger.debug("python_files: entrée")
     out = subprocess.run(
         ["git", "ls-files", "*.py"], cwd=ROOT, capture_output=True, text=True, check=True
     )
+    logger.debug("python_files: retour collection")
     return [f for f in out.stdout.split() if not f.startswith(EXCLUDED) and "/tests/" not in f]
 
 
@@ -237,6 +271,7 @@ def main(argv: list[str] | None = None) -> int:
     Returns:
         int: 0.
     """
+    logger.debug("main: entrée | argv={} élément(s)", len(argv) if argv is not None else 0)
     parser = argparse.ArgumentParser(
         description="Fonctions sans debug() en entrée ou à chaque sortie"
     )

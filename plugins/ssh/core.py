@@ -139,6 +139,10 @@ class SSHHost:
         Raises:
             ValueError: Si aucune directive ``Host`` n'est trouvée ou s'il y en a plusieurs.
         """
+        logger.debug(
+            "SSHHost.from_raw_lines: entrée | lines={} élément(s)",
+            len(lines) if lines is not None else 0,
+        )
         host = cls()
         found_host_line = False
         for line in lines:
@@ -170,6 +174,7 @@ class SSHHost:
         if not found_host_line:
             raise ValueError("No Host declaration found in raw host block.")
 
+        logger.debug("SSHHost.from_raw_lines: retour host")
         return host
 
     def get_option(self, key: str) -> str | None:
@@ -181,9 +186,12 @@ class SSHHost:
         Returns:
             Valeur de la directive, ou ``None`` si absente.
         """
+        logger.trace("SSHHost.get_option: entrée")
         for opt in self.options:
             if opt.key.lower() == key.lower():
+                logger.trace("SSHHost.get_option: retour")
                 return opt.value
+        logger.trace("SSHHost.get_option: retour None")
         return None
 
     def set_option(self, key: str, value: str) -> None:
@@ -193,11 +201,14 @@ class SSHHost:
             key: Nom de la directive.
             value: Valeur à affecter.
         """
+        logger.debug("SSHHost.set_option: entrée | valeur={}", bool(value))
         for opt in self.options:
             if opt.key.lower() == key.lower():
                 opt.value = value
+                logger.debug("SSHHost.set_option: sortie")
                 return
         self.options.append(SSHOption(key=key, value=value))
+        logger.debug("SSHHost.set_option: fin")
 
     def remove_option(self, key: str) -> bool:
         """Supprime une directive si elle existe.
@@ -208,10 +219,13 @@ class SSHHost:
         Returns:
             ``True`` si la directive a été trouvée et supprimée, ``False`` sinon.
         """
+        logger.debug("SSHHost.remove_option: entrée")
         for i, opt in enumerate(self.options):
             if opt.key.lower() == key.lower():
                 del self.options[i]
+                logger.debug("SSHHost.remove_option: retour True")
                 return True
+        logger.debug("SSHHost.remove_option: retour False")
         return False
 
     def get_options(self, key: str) -> list[str]:
@@ -240,6 +254,10 @@ class SSHHost:
             key: Nom de la directive.
             values: Valeurs à écrire, une par ligne, dans l'ordre fourni.
         """
+        logger.debug(
+            "SSHHost.set_options: entrée | values={} élément(s)",
+            len(values) if values is not None else 0,
+        )
         insert_at = next(
             (i for i, opt in enumerate(self.options) if opt.key.lower() == key.lower()),
             len(self.options),
@@ -247,6 +265,7 @@ class SSHHost:
         self.options = [opt for opt in self.options if opt.key.lower() != key.lower()]
         for offset, value in enumerate(values):
             self.options.insert(insert_at + offset, SSHOption(key=key, value=value))
+        logger.debug("SSHHost.set_options: fin")
 
 
 @dataclass
@@ -275,6 +294,7 @@ class SSHConfig:
         Returns:
             Contenu SSH config prêt à être écrit sur disque.
         """
+        logger.debug("SSHConfig.generate_content: entrée")
         lines: list[str] = []
         for opt in self.global_options:
             lines.append(str(opt))
@@ -289,6 +309,7 @@ class SSHConfig:
             lines.pop()
         for inc in self.include_directives:
             lines.append(f"Include {inc}")
+        logger.debug("SSHConfig.generate_content: retour calculé")
         return "\n".join(lines) + "\n"
 
     def is_dirty(self) -> bool:
@@ -297,12 +318,14 @@ class SSHConfig:
         Returns:
             ``True`` si des modifications non sauvegardées existent.
         """
+        logger.debug("SSHConfig.is_dirty: entrée")
         current = self.generate_content().splitlines()
         original = [line.rstrip("\n") for line in self.original_lines]
         while current and current[-1] == "":
             current.pop()
         while original and original[-1] == "":
             original.pop()
+        logger.debug("SSHConfig.is_dirty: retour calculé")
         return current != original
 
     def get_host(self, alias: str) -> SSHHost | None:
@@ -314,9 +337,12 @@ class SSHConfig:
         Returns:
             Le SSHHost correspondant, ou ``None`` si introuvable.
         """
+        logger.debug("SSHConfig.get_host: entrée | alias={!r}", alias)
         for h in self.hosts:
             if alias in h.patterns:
+                logger.debug("SSHConfig.get_host: retour h")
                 return h
+        logger.debug("SSHConfig.get_host: retour None")
         return None
 
     def add_host(self, host: SSHHost) -> None:
@@ -325,7 +351,9 @@ class SSHConfig:
         Args:
             host: Bloc SSH à ajouter.
         """
+        logger.debug("SSHConfig.add_host: entrée")
         self.hosts.append(host)
+        logger.debug("SSHConfig.add_host: fin")
 
     def remove_host(self, host: SSHHost) -> bool:
         """Supprime un bloc Host de la liste.
@@ -336,8 +364,10 @@ class SSHConfig:
         Returns:
             ``True`` si trouvé et supprimé, ``False`` sinon.
         """
+        logger.debug("SSHConfig.remove_host: entrée")
         try:
             self.hosts.remove(host)
+            logger.debug("SSHConfig.remove_host: retour True")
             return True
         except ValueError:
             logger.debug("SSHConfig.remove_host | hôte absent de la configuration, rien à retirer")
@@ -361,11 +391,13 @@ class SSHConfigParser:
             config_path: Chemin explicite vers le fichier config SSH.
                 Par défaut ``~/.ssh/config``.
         """
+        logger.debug("SSHConfigParser.__init__: entrée | config_path={!r}", config_path)
         self.config_path: Path = config_path or Path.home() / ".ssh" / "config"
         self.config: SSHConfig = SSHConfig(file_path=self.config_path)
         self._have_backed_up_this_session: bool = False
         self.auto_backup_enabled: bool = True
         self.backup_dir: Path | None = None
+        logger.debug("SSHConfigParser.__init__: fin")
 
     def parse(self) -> SSHConfig:
         """Lit et parse le fichier de configuration SSH.
@@ -373,6 +405,7 @@ class SSHConfigParser:
         Returns:
             Objet SSHConfig peuplé depuis le fichier.
         """
+        logger.debug("SSHConfigParser.parse: entrée")
         if not self.config_path.exists():
             logger.warning(f"SSH config file not found: {self.config_path}")
             return self.config
@@ -383,6 +416,7 @@ class SSHConfigParser:
 
         self._parse_main_lines(self.config.original_lines)
         self._resolve_includes()
+        logger.debug("SSHConfigParser.parse: retour")
         return self.config
 
     def write(self, backup: bool = True) -> None:
@@ -394,6 +428,7 @@ class SSHConfigParser:
         Args:
             backup: Si ``False``, désactive le backup pour cet appel.
         """
+        logger.debug("SSHConfigParser.write: entrée | backup={!r}", backup)
         content = self._generate_content()
 
         if self.config_path.exists():
@@ -401,6 +436,7 @@ class SSHConfigParser:
                 with self.config_path.open("r", encoding="utf-8") as f:
                     current = f.read()
                 if current == content:
+                    logger.debug("SSHConfigParser.write: sortie")
                     return
             except OSError as exc:
                 logger.debug(
@@ -413,6 +449,7 @@ class SSHConfigParser:
             self._have_backed_up_this_session = True
 
         self._atomic_write(content)
+        logger.debug("SSHConfigParser.write: fin")
 
     def validate(self) -> list[str]:
         """Valide la configuration chargée.
@@ -425,6 +462,7 @@ class SSHConfigParser:
         Returns:
             Liste de messages d'erreur (vide si tout est valide).
         """
+        logger.debug("SSHConfigParser.validate: entrée")
         errors: list[str] = []
         seen: dict[str, SSHHost] = {}
 
@@ -455,6 +493,7 @@ class SSHConfigParser:
                 if not path.exists():
                     errors.append(f"IdentityFile not found for host {host.patterns[0]}: {ident}")
 
+        logger.debug("SSHConfigParser.validate: retour errors")
         return errors
 
     # ------------------------------------------------------------------
@@ -467,6 +506,10 @@ class SSHConfigParser:
         Args:
             lines: Lignes du fichier config (sans ``\n`` terminaux).
         """
+        logger.debug(
+            "SSHConfigParser._parse_main_lines: entrée | lines={} élément(s)",
+            len(lines) if lines is not None else 0,
+        )
         self.config.hosts.clear()
         self.config.global_options.clear()
         self.config.include_directives.clear()
@@ -513,9 +556,11 @@ class SSHConfigParser:
         if current_host is not None:
             current_host.end_line = len(lines) - 1
             self.config.hosts.append(current_host)
+        logger.debug("SSHConfigParser._parse_main_lines: fin")
 
     def _resolve_includes(self) -> None:
         """Résout les directives Include et stocke le contenu des fichiers inclus."""
+        logger.debug("SSHConfigParser._resolve_includes: entrée")
         resolved: dict[Path, list[str]] = {}
         base_dir = self.config_path.parent
 
@@ -542,6 +587,7 @@ class SSHConfigParser:
                     continue
 
         self.config.includes_resolved = resolved
+        logger.debug("SSHConfigParser._resolve_includes: fin")
 
     def _is_shared_target(self) -> bool:
         """Return True if ``config_path`` est le fichier ssh_config partagé.
@@ -564,6 +610,7 @@ class SSHConfigParser:
         4.a), la copie est elle aussi écrite via ``pkexec`` puisque son
         répertoire est root-owned.
         """
+        logger.debug("SSHConfigParser._backup_file: entrée")
         ts = datetime.now().strftime("%Y%m%d-%H%M%S")
         target_dir: Path
         if self.backup_dir:
@@ -579,6 +626,7 @@ class SSHConfigParser:
                 logger.info(f"Backup created (shared, via pkexec): {backup}")
             except OSError as exc:
                 logger.warning(f"Failed to create shared backup: {exc}")
+            logger.debug("SSHConfigParser._backup_file: sortie")
             return
 
         try:
@@ -620,8 +668,12 @@ class SSHConfigParser:
         Raises:
             OSError: En cas d'échec d'écriture ou de déplacement.
         """
+        logger.debug(
+            "SSHConfigParser._atomic_write: entrée | content={} caractère(s)", len(content)
+        )
         if self._is_shared_target():
             _write_text_via_pkexec(self.config_path, content, mode=0o644)
+            logger.debug("SSHConfigParser._atomic_write: sortie")
             return
 
         tmp = tempfile.NamedTemporaryFile(
@@ -653,6 +705,7 @@ class SSHConfigParser:
             except Exception as unlink_exc:
                 logger.warning("fichier temporaire {} non supprimé : {}", tmp_path, unlink_exc)
             raise
+        logger.debug("SSHConfigParser._atomic_write: fin")
 
 
 # ---------------------------------------------------------------------------
@@ -722,7 +775,9 @@ _MANAGED_DESCRIPTION = "⚙ SSH config: ~/.ssh/config → Host {name}"
 
 def _cp_get(cp: configparser.RawConfigParser, section: str, key: str, default: str = "") -> str:
     """Read a string value with a safe fallback."""
+    logger.trace("_cp_get: entrée | section={!r}, default={!r}", section, default)
     try:
+        logger.trace("_cp_get: retour de get()")
         return cp.get(section, key)
     except (configparser.NoSectionError, configparser.NoOptionError) as exc:
         logger.debug("_cp_get | section {} : {}, valeur par défaut", section, type(exc).__name__)
@@ -736,7 +791,9 @@ def _cp_getbool(
     default: bool = False,
 ) -> bool:
     """Read a boolean value with a safe fallback."""
+    logger.trace("_cp_getbool: entrée | section={!r}, default={!r}", section, default)
     try:
+        logger.trace("_cp_getbool: retour de getboolean()")
         return cp.getboolean(section, key)
     except (configparser.NoSectionError, configparser.NoOptionError, ValueError) as exc:
         logger.debug(
@@ -752,7 +809,9 @@ def _cp_getint(
     default: int = 0,
 ) -> int:
     """Read an integer value with a safe fallback."""
+    logger.trace("_cp_getint: entrée | section={!r}, default={!r}", section, default)
     try:
+        logger.trace("_cp_getint: retour de int()")
         return int(cp.get(section, key))
     except (configparser.NoSectionError, configparser.NoOptionError, ValueError) as exc:
         logger.debug(
@@ -775,6 +834,7 @@ def is_shared_target(path: Path) -> bool:
     Returns:
         True if the path must be written with elevated privileges (root).
     """
+    logger.debug("is_shared_target: entrée | path={!r}", path)
     try:
         path.relative_to(SHARED_SSH_CONFIG_PATH.parent)
     except ValueError:
@@ -782,6 +842,7 @@ def is_shared_target(path: Path) -> bool:
             "{} hors de {} : écriture sans élévation", path, SHARED_SSH_CONFIG_PATH.parent
         )
         return False
+    logger.debug("is_shared_target: retour True")
     return True
 
 
@@ -800,6 +861,12 @@ def _write_text_via_pkexec(path: Path, content: str, mode: int) -> None:
     Raises:
         OSError: When pkexec is unavailable, refused, or the write fails.
     """
+    logger.debug(
+        "_write_text_via_pkexec: entrée | path={!r}, content={} caractère(s), mode={!r}",
+        path,
+        len(content),
+        mode,
+    )
     fd, tmp_name = tempfile.mkstemp(suffix=".conf", prefix="gcm_ssh_config_")
     tmp_path = Path(tmp_name)
     try:
@@ -840,12 +907,21 @@ def _write_text_privileged(path: Path, content: str, mode: int, *, shared: bool)
     Raises:
         OSError: When the write (direct or privileged) fails.
     """
+    logger.debug(
+        "_write_text_privileged: entrée | path={!r}, content={} caractère(s), mode={!r}, shared={!r}",
+        path,
+        len(content),
+        mode,
+        shared,
+    )
     if not shared:
         path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
         path.chmod(mode)
+        logger.debug("_write_text_privileged: sortie")
         return
     _write_text_via_pkexec(path, content, mode)
+    logger.debug("_write_text_privileged: fin")
 
 
 def backup_file(path: Path, *, shared: bool = False) -> Path | None:
@@ -868,6 +944,7 @@ def backup_file(path: Path, *, shared: bool = False) -> Path | None:
     Raises:
         OSError: When the copy operation fails.
     """
+    logger.debug("backup_file: entrée | path={!r}, shared={!r}", path, shared)
     if not path.exists():
         logger.debug(f"backup_file | source does not exist, skipping | path={path}")
         return None
@@ -904,6 +981,9 @@ def _render_ssh_stanza(
     Returns:
         Multi-line string for the stanza (no trailing newline).
     """
+    logger.debug(
+        "_render_ssh_stanza: entrée | name={!r}, host={!r}, section={!r}", name, host, section
+    )
     safe_name = name.replace(" ", "_")
     port = _cp_getint(cp, section, "port", DEFAULT_SSH_PORT)
     user = _cp_get(cp, section, "user", getpass.getuser())
@@ -1005,6 +1085,7 @@ def _render_ssh_stanza(
     if extra_params:
         lines.append(f"    # GCM extra-params: {extra_params}")
 
+    logger.debug("_render_ssh_stanza: retour de join()")
     return "\n".join(lines)
 
 
@@ -1020,7 +1101,9 @@ def _parse_tunnel_to_proxyjump(raw: str) -> str:
         ProxyJump string (e.g. ``ops@bastion.example.com:2222``), or empty
         string if *raw* is malformed.
     """
+    logger.debug("_parse_tunnel_to_proxyjump: entrée | raw={!r}", raw)
     if not raw:
+        logger.debug("_parse_tunnel_to_proxyjump: retour ''")
         return ""
     try:
         at_idx = raw.find("@")
@@ -1042,10 +1125,12 @@ def _parse_tunnel_to_proxyjump(raw: str) -> str:
                 jump_port = DEFAULT_SSH_PORT
 
         if not jump_host:
+            logger.debug("_parse_tunnel_to_proxyjump: retour ''")
             return ""
 
         user_prefix = f"{jump_user}@" if jump_user else ""
         port_suffix = f":{jump_port}" if jump_port != DEFAULT_SSH_PORT else ""
+        logger.debug("_parse_tunnel_to_proxyjump: retour")
         return f"{user_prefix}{jump_host}{port_suffix}"
     except Exception as exc:
         logger.warning(f"_parse_tunnel_to_proxyjump | parse error | raw={raw} exc={exc}")
@@ -1080,6 +1165,11 @@ def _write_ssh_config(ssh_config_path: Path, stanzas: dict[str, str]) -> None:
     Raises:
         OSError: When the file cannot be written.
     """
+    logger.debug(
+        "_write_ssh_config: entrée | ssh_config_path={!r}, stanzas={} élément(s)",
+        ssh_config_path,
+        len(stanzas) if stanzas is not None else 0,
+    )
     shared = is_shared_target(ssh_config_path)
 
     existing = ""
@@ -1142,6 +1232,11 @@ def _rewrite_gcm_conf(gcm_conf_path: Path, migrated_aliases: set[str]) -> None:
     Raises:
         OSError: When the file cannot be written.
     """
+    logger.debug(
+        "_rewrite_gcm_conf: entrée | gcm_conf_path={!r}, migrated_aliases={} élément(s)",
+        gcm_conf_path,
+        len(migrated_aliases) if migrated_aliases is not None else 0,
+    )
     cp = configparser.RawConfigParser()
     cp.optionxform = str  # type: ignore[assignment,method-assign]  # preserve key case
     cp.read(str(gcm_conf_path), encoding="utf-8")
@@ -1226,6 +1321,13 @@ def migrate_ssh_hosts(
         FileNotFoundError: When gcm.conf does not exist.
         configparser.Error: When gcm.conf cannot be parsed.
     """
+    logger.debug(
+        "migrate_ssh_hosts: entrée | gcm_conf={!r}, ssh_config={!r}, dry_run={!r}, only_names={} élément(s)",
+        gcm_conf,
+        ssh_config,
+        dry_run,
+        len(only_names) if only_names is not None else 0,
+    )
     gcm_path = Path(gcm_conf).expanduser() if gcm_conf else Path.home() / ".gcm" / "gcm.conf"
     ssh_path = Path(ssh_config).expanduser() if ssh_config else Path.home() / ".ssh" / "config"
 
@@ -1305,6 +1407,7 @@ def migrate_ssh_hosts(
         logger.info("migrate_ssh_hosts | dry-run — no files written")
         for stanza_name, stanza in stanzas.items():
             logger.info(f"migrate_ssh_hosts | [dry-run] stanza for {stanza_name}:\n{stanza}")
+        logger.debug("migrate_ssh_hosts: retour result")
         return result
 
     shared = is_shared_target(ssh_path)
@@ -1334,6 +1437,7 @@ def migrate_ssh_hosts(
         msg = f"Failed to write {ssh_path}: {exc}"
         logger.error(f"migrate_ssh_hosts | {msg}")
         result["errors"].append(msg)
+        logger.debug("migrate_ssh_hosts: retour result")
         return result
 
     # ------------------------------------------------------------------
@@ -1352,6 +1456,7 @@ def migrate_ssh_hosts(
         msg = f"Failed to rewrite {gcm_path}: {exc}"
         logger.error(f"migrate_ssh_hosts | {msg}")
         result["errors"].append(msg)
+        logger.debug("migrate_ssh_hosts: retour result")
         return result
 
     logger.info(
@@ -1372,13 +1477,16 @@ def _load_existing_stanzas(ssh_path: Path) -> dict[str, str]:
     Returns:
         Dict mapping alias → stanza string (may be empty if no block exists).
     """
+    logger.debug("_load_existing_stanzas: entrée | ssh_path={!r}", ssh_path)
     if not ssh_path.exists():
+        logger.debug("_load_existing_stanzas: retour collection")
         return {}
 
     text = ssh_path.read_text(encoding="utf-8")
     begin = text.find(_SSH_MARKER_BEGIN)
     end = text.find(_SSH_MARKER_END)
     if begin == -1 or end == -1:
+        logger.debug("_load_existing_stanzas: retour collection")
         return {}
 
     block = text[begin + len(_SSH_MARKER_BEGIN) : end]
@@ -1421,6 +1529,7 @@ def _extract_ssh_config_aliases(path: Path) -> list[str]:
     Returns:
         Ordered list of alias strings (may be empty).
     """
+    logger.debug("_extract_ssh_config_aliases: entrée | path={!r}", path)
     aliases: list[str] = []
     if not path.exists():
         logger.debug(f"_extract_ssh_config_aliases | source does not exist | path={path}")
@@ -1474,6 +1583,12 @@ def import_ssh_config(
     Raises:
         OSError: En cas d'échec d'écriture de gcm.conf.
     """
+    logger.debug(
+        "import_ssh_config: entrée | source={!r}, gcm_conf={!r}, dry_run={!r}",
+        source,
+        gcm_conf,
+        dry_run,
+    )
     source_path = Path(source).expanduser()
     gcm_path = Path(gcm_conf).expanduser() if gcm_conf else Path.home() / ".gcm" / "gcm.conf"
 
@@ -1538,6 +1653,7 @@ def import_ssh_config(
         return result
 
     if not result["imported"]:
+        logger.debug("import_ssh_config: retour result")
         return result
 
     backup = backup_file(gcm_path)
@@ -1573,6 +1689,7 @@ def import_ssh_config(
 
 def _build_parser() -> argparse.ArgumentParser:
     """Build and return the CLI argument parser."""
+    logger.debug("_build_parser: entrée")
     p = argparse.ArgumentParser(
         description="Migrate GCM SSH hosts to ~/.ssh/config",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -1610,6 +1727,7 @@ def _build_parser() -> argparse.ArgumentParser:
         choices=["TRACE", "DEBUG", "INFO", "WARNING", "ERROR"],
         help="Log verbosity (default: INFO)",
     )
+    logger.debug("_build_parser: retour p")
     return p
 
 
@@ -1619,6 +1737,7 @@ def _configure_logging(level: str) -> None:
     Args:
         level: Minimum log level string.
     """
+    logger.debug("_configure_logging: entrée | level={!r}", level)
     logger.remove()
     logger.add(
         sys.stderr,
@@ -1628,6 +1747,7 @@ def _configure_logging(level: str) -> None:
         ),
         colorize=True,
     )
+    logger.debug("_configure_logging: fin")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -1639,6 +1759,7 @@ def main(argv: list[str] | None = None) -> int:
     Returns:
         Exit code (0 = success, 1 = error).
     """
+    logger.debug("main: entrée | argv={} élément(s)", len(argv) if argv is not None else 0)
     parser = _build_parser()
     args = parser.parse_args(argv)
     _configure_logging(args.log_level)
@@ -1663,7 +1784,9 @@ def main(argv: list[str] | None = None) -> int:
         if result["errors"]:
             for err in result["errors"]:
                 logger.error(f"main | error: {err}")
+            logger.debug("main: retour 1")
             return 1
+        logger.debug("main: retour 0")
         return 0
 
     try:
@@ -1691,8 +1814,10 @@ def main(argv: list[str] | None = None) -> int:
     if result["errors"]:
         for err in result["errors"]:
             logger.error(f"main | error: {err}")
+        logger.debug("main: retour 1")
         return 1
 
+    logger.debug("main: retour 0")
     return 0
 
 

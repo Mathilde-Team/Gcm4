@@ -82,6 +82,7 @@ def _lire_rapport(chemin: str) -> dict:
     """Charge un rapport JSON de coverage.py."""
     logger.debug("_lire_rapport() | chemin={}", chemin)
     with open(chemin, encoding="utf-8") as f:
+        logger.debug("_lire_rapport: retour de load()")
         return json.load(f)
 
 
@@ -106,8 +107,11 @@ PERIMETRE = (
 
 def _ligne_seuil(seuil: float | None) -> str:
     """Phrase de rappel du seuil bloquant (appliqué au total combiné, pas à ce total)."""
+    logger.debug("_ligne_seuil: entrée | seuil={!r}", seuil)
     if seuil is None:
+        logger.debug("_ligne_seuil: retour sans seuil configuré")
         return "Aucun seuil bloquant configuré (`fail_under` absent de pyproject.toml)."
+    logger.debug("_ligne_seuil: retour")
     return (
         f"Seuil bloquant : {_pct(seuil)} (`fail_under`) sur le **total combiné** "
         "Qualité + GTK4, contrôlé par le job « Couverture combinée » (détail par "
@@ -232,6 +236,7 @@ def _appel_api(chemin: str, token: str, methode: str = "GET", corps: str | None 
         },
     )
     with urllib.request.urlopen(requete) as reponse:  # noqa: S310 (URL fixe api.github.com)
+        logger.debug("_appel_api: retour de loads()")
         return json.loads(reponse.read())
 
 
@@ -247,6 +252,7 @@ def publier(repo: str, pr: int, corps: str, token: str) -> str:
                 methode="PATCH",
                 corps=json.dumps({"body": corps}),
             )
+            logger.debug("publier: retour")
             return f"commentaire existant mis à jour ({c['html_url']})"
     cree = _appel_api(
         f"/repos/{repo}/issues/{pr}/comments",
@@ -254,11 +260,13 @@ def publier(repo: str, pr: int, corps: str, token: str) -> str:
         methode="POST",
         corps=json.dumps({"body": corps}),
     )
+    logger.debug("publier: retour")
     return f"commentaire créé ({cree['html_url']})"
 
 
 def main(argv: list[str]) -> int:
     """Point d'entrée : 0 si publié, 2 si l'environnement GitHub manque."""
+    logger.debug("main: entrée | argv={} élément(s)", len(argv) if argv is not None else 0)
     parseur = argparse.ArgumentParser(description="Commentaire de couverture d'une PR")
     parseur.add_argument("--pr-json", required=True, help="rapport coverage.py de la PR")
     parseur.add_argument("--base-json", required=True, help="rapport coverage.py de la base")
@@ -279,6 +287,7 @@ def main(argv: list[str]) -> int:
     )
     if arguments.dry_run:
         print(corps)
+        logger.debug("main: retour 0")
         return 0
     token = os.environ.get("GITHUB_TOKEN")
     repo = os.environ.get("GITHUB_REPOSITORY")
@@ -299,6 +308,7 @@ def main(argv: list[str]) -> int:
             "::warning::Commentaire de couverture refusé (403, PR depuis un fork) : "
             "rapport dans le résumé du job."
         )
+    logger.debug("main: retour 0")
     return 0
 
 

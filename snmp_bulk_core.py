@@ -143,6 +143,7 @@ class SnmpAuth:
             base["privacy_protocol"] = self.priv_protocol
             base["privacy_password"] = self.priv_password or ""
             base["security_level"] = self.security_level
+        logger.debug("SnmpAuth.session_kwargs: retour base")
         return base
 
 
@@ -174,6 +175,7 @@ class SnmpProfileStore:
         self._profiles: dict[str, SnmpProfile] = {}
         if self.path.exists():
             self.load()
+        logger.debug("SnmpProfileStore.__init__: fin")
 
     def load(self) -> None:
         """Charge les profils depuis le fichier."""
@@ -206,6 +208,7 @@ class SnmpProfileStore:
                     poll_timeout=config.getfloat(section, "poll_timeout", fallback=120.0),
                 )
                 self._profiles[name] = profile
+        logger.debug("SnmpProfileStore.load: fin")
 
     def save(self) -> None:
         """Sauvegarde les profils sur disque."""
@@ -232,6 +235,7 @@ class SnmpProfileStore:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with open(self.path, "w") as f:
             config.write(f)
+        logger.debug("SnmpProfileStore.save: fin")
 
     def get(self, name: str) -> SnmpProfile | None:
         """Récupère un profil par nom.
@@ -257,6 +261,7 @@ class SnmpProfileStore:
         logger.debug(f"SnmpProfileStore.set | name={name} vendor={profile.vendor}")
         self._profiles[name] = profile
         self.save()
+        logger.debug("SnmpProfileStore.set: fin")
 
     def delete(self, name: str) -> None:
         """Supprime un profil.
@@ -267,6 +272,7 @@ class SnmpProfileStore:
         logger.debug(f"SnmpProfileStore.delete | name={name}")
         self._profiles.pop(name, None)
         self.save()
+        logger.debug("SnmpProfileStore.delete: fin")
 
 
 # ────────────────────────────────────────────────────────────────────────
@@ -311,6 +317,7 @@ def load_inventory(csv_path: str | Path) -> list[InventoryRow]:
                         line_no=line_no, ip=ip, profile_name=profile_name, variables=vars_dict
                     )
                 )
+    logger.debug("load_inventory: retour rows")
     return rows
 
 
@@ -331,6 +338,7 @@ def find_missing_variables(template: str, available: set[str]) -> set[str]:
     """
     logger.debug(f"find_missing_variables | available={available}")
     template_vars = set(_VAR_RE.findall(template))
+    logger.debug("find_missing_variables: retour calculé")
     return template_vars - available
 
 
@@ -352,9 +360,12 @@ def render_template(template: str, variables: dict[str, str]) -> str:
         Args:
             match: Correspondance regex sur ``#nom_variable#``.
         """
+        logger.trace("replace: entrée")
         var_name = match.group(1)
+        logger.trace("replace: retour de get()")
         return variables.get(var_name, f"#{var_name}#")
 
+    logger.debug("render_template: retour de sub()")
     return _VAR_RE.sub(replace, template)
 
 
@@ -735,6 +746,7 @@ class SnmpDriver:
         self.retries = retries
         self.poll_interval = poll_interval
         self.poll_timeout = poll_timeout
+        logger.debug("SnmpDriver.__init__: fin")
 
     def _session(self, host: str) -> Session:
         """Crée une session EzSnmp.
@@ -758,6 +770,7 @@ class SnmpDriver:
         logger.debug(f"SnmpDriver._set_multiple | host={host} n_oid={len(oid_values)}")
         try:
             self._session(host).set_multiple(oid_values)
+            logger.debug("SnmpDriver._set_multiple: retour True « OK »")
             return True, "OK"
         except (EasySNMPTimeoutError, EasySNMPError) as exc:
             logger.warning("SNMP SET vers {} échoué : {}", host, exc)
@@ -776,6 +789,7 @@ class SnmpDriver:
         logger.debug(f"SnmpDriver._get | host={host} oid={oid}")
         try:
             var = self._session(host).get(oid)
+            logger.debug("SnmpDriver._get: retour True")
             return True, var.value
         except (
             EasySNMPTimeoutError,
@@ -886,6 +900,7 @@ class H3cComwareDriver(SnmpDriver):
         )
         proto = self.protocol_value(protocol)
         if proto is None:
+            logger.debug("H3cComwareDriver.push: retour de _unsupported_protocol()")
             return self._unsupported_protocol(protocol)
         t0 = time.time()
         idx = int(t0) % 2147483647 or 1
@@ -904,8 +919,10 @@ class H3cComwareDriver(SnmpDriver):
 
         ok, detail = self._set_multiple(host, oid_values)
         if not ok:
+            logger.debug("H3cComwareDriver.push: retour False (SET initial échoué)")
             return False, f"SET initial échoué: {detail}"
 
+        logger.debug("H3cComwareDriver.push: retour de _poll_result_table()")
         return self._poll_result_table(host, idx)
 
     def _poll_result_table(self, host: str, op_idx: int) -> tuple[bool, str]:
@@ -947,6 +964,9 @@ class H3cComwareDriver(SnmpDriver):
                     state = int(state_var.value)
                     if state != self._STATE_IN_PROGRESS:
                         if state == self._STATE_SUCCESS:
+                            logger.debug(
+                                "H3cComwareDriver._poll_result_table: retour True « succès »"
+                            )
                             return True, "succès"
                         detail = f"état terminal non-succès (code={state})"
                         try:
@@ -962,6 +982,7 @@ class H3cComwareDriver(SnmpDriver):
                             logger.debug(
                                 "raison d'échec illisible pour la ligne {} : {}", match_row, exc
                             )
+                        logger.debug("H3cComwareDriver._poll_result_table: retour False")
                         return False, detail
                 except (EasySNMPError, ValueError) as exc:
                     logger.warning("lecture de State sur {} échouée : {}", host, exc)
@@ -969,6 +990,9 @@ class H3cComwareDriver(SnmpDriver):
 
             time.sleep(self.poll_interval)
 
+        logger.debug(
+            "H3cComwareDriver._poll_result_table: retour False « timeout en attente du résultat »"
+        )
         return False, "timeout en attente du résultat"
 
 
@@ -1015,6 +1039,7 @@ class CiscoConfigCopyDriver(SnmpDriver):
         )
         proto = self.protocol_value(protocol)
         if proto is None:
+            logger.debug("CiscoConfigCopyDriver.push: retour de _unsupported_protocol()")
             return self._unsupported_protocol(protocol)
         t0 = time.time()
         idx = int(t0) % 2147483647 or 1
@@ -1034,6 +1059,7 @@ class CiscoConfigCopyDriver(SnmpDriver):
 
         ok, detail = self._set_multiple(host, oid_values)
         if not ok:
+            logger.debug("CiscoConfigCopyDriver.push: retour False (SET initial échoué)")
             return False, f"SET initial échoué: {detail}"
 
         deadline = time.time() + self.poll_timeout
@@ -1050,15 +1076,23 @@ class CiscoConfigCopyDriver(SnmpDriver):
                 return False, f"state invalide: {state_str}"
 
             if state == self._STATE_SUCCESSFUL:
+                logger.debug("CiscoConfigCopyDriver.push: retour True « succès »")
                 return True, "succès"
             elif state == self._STATE_FAILED:
+                logger.debug(
+                    "CiscoConfigCopyDriver.push: retour False « la copie a échoué côté équipement »"
+                )
                 return False, "la copie a échoué côté équipement"
             elif state in (self._STATE_WAITING, self._STATE_RUNNING):
                 time.sleep(self.poll_interval)
                 continue
             else:
+                logger.debug("CiscoConfigCopyDriver.push: retour False (état inconnu)")
                 return False, f"état inconnu: {state}"
 
+        logger.debug(
+            "CiscoConfigCopyDriver.push: retour False « timeout en attente de ccCopyState »"
+        )
         return False, "timeout en attente de ccCopyState"
 
 
@@ -1120,6 +1154,7 @@ class HuaweiVrpDriver(SnmpDriver):
         )
         proto = self.protocol_value(protocol)
         if proto is None:
+            logger.debug("HuaweiVrpDriver.push: retour de _unsupported_protocol()")
             return self._unsupported_protocol(protocol)
         t0 = time.time()
         idx = int(t0) % 2147483647 or 1
@@ -1142,8 +1177,10 @@ class HuaweiVrpDriver(SnmpDriver):
 
         ok, detail = self._set_multiple(host, oid_values)
         if not ok:
+            logger.debug("HuaweiVrpDriver.push: retour False (SET initial échoué)")
             return False, f"SET initial échoué: {detail}"
 
+        logger.debug("HuaweiVrpDriver.push: retour de _poll_result_table()")
         return self._poll_result_table(host, idx)
 
     def _poll_result_table(self, host: str, op_idx: int) -> tuple[bool, str]:
@@ -1185,6 +1222,9 @@ class HuaweiVrpDriver(SnmpDriver):
                     state = int(state_var.value)
                     if state != self._STATE_IN_PROGRESS:
                         if state == self._STATE_SUCCESS:
+                            logger.debug(
+                                "HuaweiVrpDriver._poll_result_table: retour True « succès »"
+                            )
                             return True, "succès"
                         detail = f"état terminal non-succès (code brut={state})"
                         try:
@@ -1200,6 +1240,7 @@ class HuaweiVrpDriver(SnmpDriver):
                             logger.debug(
                                 "raison d'échec illisible pour la ligne {} : {}", match_row, exc
                             )
+                        logger.debug("HuaweiVrpDriver._poll_result_table: retour False")
                         return False, detail
                 except (EasySNMPError, ValueError) as exc:
                     logger.warning("lecture de State sur {} échouée : {}", host, exc)
@@ -1207,6 +1248,9 @@ class HuaweiVrpDriver(SnmpDriver):
 
             time.sleep(self.poll_interval)
 
+        logger.debug(
+            "HuaweiVrpDriver._poll_result_table: retour False « timeout en attente du résultat »"
+        )
         return False, "timeout en attente du résultat"
 
 
@@ -1255,6 +1299,7 @@ def push_to_device(
 
     driver_class = DRIVERS.get(profile.vendor)
     if not driver_class:
+        logger.debug("push_to_device: retour de PushResult()")
         return PushResult(
             row=row,
             status=STATUS_REJECTED,
@@ -1311,6 +1356,7 @@ def push_to_device(
     except OSError as exc:
         logger.warning("journal de poussée {} non écrit : {}", log_path, exc)
 
+    logger.debug("push_to_device: retour de PushResult()")
     return PushResult(
         row=row,
         status=status,
@@ -1395,6 +1441,7 @@ def run_bulk_push(
             if on_row_done:
                 on_row_done(result)
 
+    logger.debug("run_bulk_push: retour results")
     return results
 
 
