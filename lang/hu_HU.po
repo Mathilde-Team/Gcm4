@@ -5129,8 +5129,110 @@ msgstr "Felosztás V"
 msgid "Unsplit all consoles"
 msgstr "Az összes konzol felosztásának megszüntetése"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Színek és billentyűk"
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp napló:"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "page 2"
+#~ msgstr "2. oldal"
+
+#~ msgid "page 1"
+#~ msgstr "1. oldal"
+
+#~ msgid "local"
+#~ msgstr "helyi"
+
+#~ msgid "label"
+#~ msgstr "felirat"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "_Edit"
+#~ msgstr "Sz_erkesztés"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Konzol felosztása függőlegesen"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Konzol felosztása vízszintesen"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Eszköztár megjelenítése"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Parancsok küldése egyszerre több hosztnak"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Másodpercek a keep-alive csomagok között"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Az aktív konzol pufferének mentése fájlba"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (itt nem elérhető: a Proxmox API jegyet/proxyt igényel)"
+
+#~ msgid "Open local console"
+#~ msgstr "Helyi konzol megnyitása"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "A helyi port már foglalt"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Szerverlista importálása fájlból"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Parancssorban átadandó további argumentumok"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Szerverlista exportálása fájlba"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Hosztok tulajdonságainak szerkesztése"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Észlelt Proxmox célok (dconf):"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Észlelt Proxmox cél"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Dinamikus port továbbítás létrehozása"
+
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Csatlakozás a kijelölt hoszthoz vagy a kijelölt csoport összes hosztjához"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5143,107 +5245,5 @@ msgstr "Az összes konzol felosztásának megszüntetése"
 #~ "1: min\n"
 #~ "9: max"
 
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Csatlakozás a kijelölt hoszthoz vagy a kijelölt csoport összes hosztjához"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Dinamikus port továbbítás létrehozása"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Észlelt Proxmox cél"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Észlelt Proxmox célok (dconf):"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Hosztok tulajdonságainak szerkesztése"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Szerverlista exportálása fájlba"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Parancssorban átadandó további argumentumok"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Szerverlista importálása fájlból"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "A helyi port már foglalt"
-
-#~ msgid "Open local console"
-#~ msgstr "Helyi konzol megnyitása"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (itt nem elérhető: a Proxmox API jegyet/proxyt igényel)"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Az aktív konzol pufferének mentése fájlba"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Másodpercek a keep-alive csomagok között"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Parancsok küldése egyszerre több hosztnak"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Eszköztár megjelenítése"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Konzol felosztása vízszintesen"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Konzol felosztása függőlegesen"
-
-#~ msgid "_Edit"
-#~ msgstr "Sz_erkesztés"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "label"
-#~ msgstr "felirat"
-
-#~ msgid "local"
-#~ msgstr "helyi"
-
-#~ msgid "page 1"
-#~ msgstr "1. oldal"
-
-#~ msgid "page 2"
-#~ msgstr "2. oldal"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp napló:"
+#~ msgid "Colors and Keys"
+#~ msgstr "Színek és billentyűk"
