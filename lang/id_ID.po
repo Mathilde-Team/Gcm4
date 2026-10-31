@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:16+0000\n"
+"POT-Creation-Date: 2026-10-31 23:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Halaman utama proyek"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Keluar"
 
@@ -3769,6 +3770,10 @@ msgid "Font of the host list"
 msgstr "Fon daftar host"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, atau GNOME dengan ekstensi AppIndicator"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Dimuat"
 
@@ -3787,6 +3792,10 @@ msgstr "Cari versi terbitan yang lebih baru di GitHub saat mulai"
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "Tidak ada ekstensi yang ditemukan."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Area notifikasi"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3809,6 +3818,10 @@ msgstr "Sambungkan kembali host yang terbuka saat aplikasi ditutup"
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Keamanan"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Tampilkan ikon di area notifikasi"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show every row of the host list on the same background"
@@ -3910,6 +3923,14 @@ msgstr "sinyal {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "status {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Sembunyikan jendela"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Tampilkan jendela"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:16+0000\n"
+"POT-Creation-Date: 2026-10-31 23:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "الصفحة الرئيسية للمشروع"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "خروج"
 
@@ -3769,6 +3770,10 @@ msgid "Font of the host list"
 msgstr "خط قائمة المضيفين"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt أو GNOME مع امتداد AppIndicator"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "محمّل"
 
@@ -3787,6 +3792,10 @@ msgstr "البحث عند البدء عن إصدار منشور أحدث على 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "لم يتم العثور على أي إضافة."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "منطقة الإشعارات"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3809,6 +3818,10 @@ msgstr "إعادة الاتصال بالمضيفين الذين كانوا مف�
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "الأمان"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "إظهار أيقونة في منطقة الإشعارات"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show every row of the host list on the same background"
@@ -3910,6 +3923,14 @@ msgstr "إشارة {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "الحالة {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "إخفاء النافذة"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "إظهار النافذة"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

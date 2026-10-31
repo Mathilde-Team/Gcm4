@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:16+0000\n"
+"POT-Creation-Date: 2026-10-31 23:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "프로젝트 홈페이지"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "종료"
 
@@ -3769,6 +3770,10 @@ msgid "Font of the host list"
 msgstr "호스트 목록 글꼴"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt 또는 AppIndicator 확장이 있는 GNOME"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "불러옴"
 
@@ -3787,6 +3792,10 @@ msgstr "시작할 때 GitHub에서 더 새로운 공개 버전을 확인합니�
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "확장을 찾을 수 없습니다."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "알림 영역"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3809,6 +3818,10 @@ msgstr "응용 프로그램을 닫을 때 열려 있던 호스트에 다시 연�
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "보안"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "알림 영역에 아이콘 표시"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show every row of the host list on the same background"
@@ -3910,6 +3923,14 @@ msgstr "시그널 {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "상태 {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "창 숨기기"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "창 표시"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

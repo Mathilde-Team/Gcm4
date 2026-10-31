@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:16+0000\n"
+"POT-Creation-Date: 2026-10-31 23:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "项目主页"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "退出"
 
@@ -3769,6 +3770,10 @@ msgid "Font of the host list"
 msgstr "主机列表的字体"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt，或安装了 AppIndicator 扩展的 GNOME"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "已加载"
 
@@ -3787,6 +3792,10 @@ msgstr "启动时在 GitHub 上检查是否有更新的已发布版本"
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "未找到任何扩展。"
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "通知区域"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3809,6 +3818,10 @@ msgstr "重新连接关闭应用程序时打开着的主机"
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "安全"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "在通知区域显示图标"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show every row of the host list on the same background"
@@ -3910,6 +3923,14 @@ msgstr "信号 {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "状态 {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "隐藏窗口"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "显示窗口"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

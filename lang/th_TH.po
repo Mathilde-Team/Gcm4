@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:16+0000\n"
+"POT-Creation-Date: 2026-10-31 23:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "โฮมเพจของโปรเจกต์"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "ออก"
 
@@ -3769,6 +3770,10 @@ msgid "Font of the host list"
 msgstr "แบบอักษรของรายการโฮสต์"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt หรือ GNOME ที่มีส่วนขยาย AppIndicator"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "โหลดแล้ว"
 
@@ -3787,6 +3792,10 @@ msgstr "ค้นหารุ่นที่เผยแพร่ใหม่ก
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "ไม่พบส่วนขยาย"
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "พื้นที่แจ้งเตือน"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3809,6 +3818,10 @@ msgstr "เชื่อมต่อใหม่กับโฮสต์ที่
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "ความปลอดภัย"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "แสดงไอคอนในพื้นที่แจ้งเตือน"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show every row of the host list on the same background"
@@ -3910,6 +3923,14 @@ msgstr "สัญญาณ {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "สถานะ {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "ซ่อนหน้าต่าง"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "แสดงหน้าต่าง"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
