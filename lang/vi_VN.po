@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:34+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Trang chủ của dự án"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Thoát"
 
@@ -3837,6 +3838,10 @@ msgid "Font of the host list"
 msgstr "Phông chữ của danh sách máy chủ"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt hoặc GNOME với tiện ích AppIndicator"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Đã nạp"
 
@@ -3855,6 +3860,10 @@ msgstr "Tìm phiên bản mới hơn đã phát hành trên GitHub khi khởi đ
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "Không tìm thấy phần mở rộng nào."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Khu vực thông báo"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3877,6 +3886,10 @@ msgstr "Kết nối lại các máy chủ đang mở khi ứng dụng bị đón
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Bảo mật"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Hiển thị biểu tượng trong khu vực thông báo"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show every row of the host list on the same background"
@@ -3978,6 +3991,14 @@ msgstr "tín hiệu {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "trạng thái {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Ẩn cửa sổ"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Hiện cửa sổ"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
