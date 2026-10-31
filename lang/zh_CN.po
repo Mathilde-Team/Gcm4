@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 16:44+0000\n"
+"POT-Creation-Date: 2026-10-31 23:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3054,6 +3054,10 @@ msgid "unsupported format or version"
 msgstr "不支持的格式或版本"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "键盘快捷键"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "下一个标签页"
 
@@ -3068,6 +3072,10 @@ msgstr "配置另存为…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "搜索"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "用户指南"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3201,6 +3209,14 @@ msgstr "端口必须是 {min} 到 {max} 之间的数字。"
 msgid "The name must not contain «/»."
 msgstr "名称不能包含“/”。"
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "主机"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "主窗口"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3274,6 +3290,10 @@ msgid "Connection"
 msgstr "连接"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "连接类型；其选项显示在下方"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "放弃"
 
@@ -3290,6 +3310,10 @@ msgid "Existing groups"
 msgstr "现有分组"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "附加到连接命令的参数（如果协议支持）"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "额外参数"
 
@@ -3298,8 +3322,20 @@ msgid "Foreground color"
 msgstr "文字颜色"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "服务器的主机名或 IP 地址"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "继续编辑"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "留空则使用协议的默认端口"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "在主机列表中显示的名称，在其分组内唯一"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3318,6 +3354,10 @@ msgid "No extension is installed."
 msgstr "未安装扩展。"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "在主机列表的工具提示中显示的备注"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "协议"
 
@@ -3334,14 +3374,22 @@ msgstr "在此连接结束后立即由支持的协议在本地后台运行的 Sh
 msgid "The changes to this host have not been saved."
 msgstr "此主机的更改尚未保存。"
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "使用设置中的控制台颜色，而不是下方的颜色"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "远程主机上的用户名"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "连接结束时如何处理控制台标签页"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "“{group}”中已存在同名项目。"
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "主机"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3673,8 +3721,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "请记下或打印此代码并妥善保管：它不会再次显示。如果忘记主密码，它可以解锁已保存的密码，然后您选择新的主密码。"
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "将当前标签页的标题添加到窗口标题中"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "到达最后一个标签页后回到第一个，反之亦然"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "使用鼠标中键关闭标签页时也进行确认"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "外观"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "关闭控制台标签页前进行确认"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "仍有打开的连接时，退出前进行确认"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3693,6 +3761,14 @@ msgid "Extensions"
 msgstr "扩展"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "跟随系统样式，或强制使用浅色或深色主题"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "主机列表的字体"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "已加载"
 
@@ -3705,8 +3781,8 @@ msgid "Logging"
 msgstr "日志"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "主窗口"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "启动时在 GitHub 上检查是否有更新的已发布版本"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3727,8 +3803,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "首选项页面不可用：{error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "重新连接关闭应用程序时打开着的主机"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "安全"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "主机列表的所有行使用相同的背景"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "使用桌面字体显示主机列表"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "在控制台旁边显示主机列表"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3751,6 +3843,10 @@ msgstr "使用系统字体"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "版本 {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "窗口标题；留空则使用应用程序名称"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format

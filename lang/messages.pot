@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 16:44+0000\n"
+"POT-Creation-Date: 2026-10-31 23:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2860,6 +2860,14 @@ msgstr ""
 msgid "Next tab"
 msgstr ""
 
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr ""
+
+#: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr ""
+
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Copy Address"
 msgstr ""
@@ -2992,6 +3000,14 @@ msgstr ""
 msgid "An address is required."
 msgstr ""
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr ""
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr ""
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3061,7 +3077,27 @@ msgid "Connection"
 msgstr ""
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr ""
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr ""
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr ""
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr ""
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
+msgstr ""
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
 msgstr ""
 
 #: src/gcm4/ui/host_dialog.py
@@ -3077,11 +3113,23 @@ msgid "Protocol options"
 msgstr ""
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr ""
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr ""
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Foreground color"
 msgstr ""
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Background color"
+msgstr ""
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
 msgstr ""
 
 #: src/gcm4/ui/host_dialog.py
@@ -3095,6 +3143,10 @@ msgstr ""
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
+msgstr ""
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
 msgstr ""
 
 #: src/gcm4/ui/host_dialog.py
@@ -3131,10 +3183,6 @@ msgstr ""
 
 #: src/gcm4/ui/host_tree.py
 msgid "No matching hosts"
-msgstr ""
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
 msgstr ""
 
 #: src/gcm4/ui/host_tree.py
@@ -3447,7 +3495,43 @@ msgid "Master password disabled."
 msgstr ""
 
 #: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Look for a newer published version on GitHub at startup"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
 msgstr ""
 
 #: src/gcm4/ui/preferences.py
@@ -3455,7 +3539,19 @@ msgid "Theme"
 msgstr ""
 
 #: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
 msgid "Use system font"
+msgstr ""
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
 msgstr ""
 
 #: src/gcm4/ui/preferences.py
@@ -3463,7 +3559,7 @@ msgid "Tree font"
 msgstr ""
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
+msgid "Window title; leave blank to use the application name"
 msgstr ""
 
 #: src/gcm4/ui/preferences.py

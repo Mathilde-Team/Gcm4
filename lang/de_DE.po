@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 16:44+0000\n"
+"POT-Creation-Date: 2026-10-31 23:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3054,6 +3054,10 @@ msgid "unsupported format or version"
 msgstr "nicht unterstütztes Format oder nicht unterstützte Version"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Tastenkürzel"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Nächster Reiter"
 
@@ -3068,6 +3072,10 @@ msgstr "Konfiguration speichern unter…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Suchen"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Benutzerhandbuch"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3201,6 +3209,14 @@ msgstr "Der Port muss eine Zahl zwischen {min} und {max} sein."
 msgid "The name must not contain «/»."
 msgstr "Der Name darf kein „/“ enthalten."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Hosts"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Hauptfenster"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3274,6 +3290,10 @@ msgid "Connection"
 msgstr "Verbindung"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Verbindungstyp; seine Optionen werden unten angezeigt"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Verwerfen"
 
@@ -3290,6 +3310,10 @@ msgid "Existing groups"
 msgstr "Vorhandene Gruppen"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Zusätzliche Argumente für den Verbindungsbefehl, sofern das Protokoll sie unterstützt"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Zusätzliche Parameter"
 
@@ -3298,8 +3322,20 @@ msgid "Foreground color"
 msgstr "Textfarbe"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Hostname oder IP-Adresse des Servers"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Weiter bearbeiten"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Leer lassen, um den Standardport des Protokolls zu verwenden"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "In der Hostliste angezeigter Name, eindeutig innerhalb seiner Gruppe"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3318,6 +3354,10 @@ msgid "No extension is installed."
 msgstr "Keine Erweiterung installiert."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Notiz, die im Tooltip der Hostliste angezeigt wird"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokoll"
 
@@ -3334,14 +3374,22 @@ msgstr "Shell-Befehl, der lokal im Hintergrund direkt nach dem Ende dieser Verbi
 msgid "The changes to this host have not been saved."
 msgstr "Die Änderungen an diesem Host wurden nicht gespeichert."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Die Konsolenfarben der Einstellungen statt der Farben unten verwenden"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Benutzername auf dem entfernten Host"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Was mit dem Konsolen-Tab geschieht, wenn die Verbindung endet"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "In „{group}“ gibt es bereits ein Element mit diesem Namen."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Hosts"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3673,8 +3721,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Notieren oder drucken Sie diesen Code und bewahren Sie ihn sicher auf: Er wird nicht erneut angezeigt. Wenn Sie das Master-Passwort vergessen, entsperrt er die gespeicherten Passwörter, danach wählen Sie ein neues Master-Passwort."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Den Titel des aktuellen Tabs zum Fenstertitel hinzufügen"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Nach dem letzten Tab zum ersten zurückkehren und umgekehrt"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Auch fragen, wenn ein Tab mit der mittleren Maustaste geschlossen wird"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Erscheinungsbild"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Vor dem Schließen eines Konsolen-Tabs fragen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Vor dem Beenden fragen, solange Verbindungen offen sind"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3693,6 +3761,14 @@ msgid "Extensions"
 msgstr "Erweiterungen"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Dem Systemstil folgen oder ein helles bzw. dunkles Design erzwingen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Schriftart der Hostliste"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Geladen"
 
@@ -3705,8 +3781,8 @@ msgid "Logging"
 msgstr "Protokollierung"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Hauptfenster"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Beim Start auf GitHub nach einer neueren veröffentlichten Version suchen"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3727,8 +3803,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Einstellungsseite nicht verfügbar: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Die beim Schließen der Anwendung geöffneten Hosts erneut verbinden"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Sicherheit"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Alle Zeilen der Hostliste mit demselben Hintergrund anzeigen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Die Hostliste in der Schriftart der Arbeitsumgebung anzeigen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Die Hostliste neben den Konsolen anzeigen"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3751,6 +3843,10 @@ msgstr "Systemschrift verwenden"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Version {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Fenstertitel; leer lassen, um den Namen der Anwendung zu verwenden"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format

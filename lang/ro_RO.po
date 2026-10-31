@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 16:44+0000\n"
+"POT-Creation-Date: 2026-10-31 23:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3054,6 +3054,10 @@ msgid "unsupported format or version"
 msgstr "format sau versiune neacceptate"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Scurtături de tastatură"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Fila următoare"
 
@@ -3068,6 +3072,10 @@ msgstr "Salvează configurația ca…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Căutare"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Ghidul utilizatorului"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3201,6 +3209,14 @@ msgstr "Portul trebuie să fie un număr între {min} și {max}."
 msgid "The name must not contain «/»."
 msgstr "Numele nu poate conține „/”."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Gazde"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Fereastra principală"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3274,6 +3290,10 @@ msgid "Connection"
 msgstr "Conexiune"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Tipul conexiunii; opțiunile sale sunt afișate mai jos"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Renunță"
 
@@ -3290,6 +3310,10 @@ msgid "Existing groups"
 msgstr "Grupuri existente"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Argumente adăugate la comanda de conectare, dacă protocolul le acceptă"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Parametri suplimentari"
 
@@ -3298,8 +3322,20 @@ msgid "Foreground color"
 msgstr "Culoarea textului"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Numele gazdei sau adresa IP a serverului"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Continuați editarea"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Lăsați gol pentru a folosi portul implicit al protocolului"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Nume afișat în lista de gazde, unic în cadrul grupului"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3318,6 +3354,10 @@ msgid "No extension is installed."
 msgstr "Nicio extensie instalată."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Notă afișată în indiciul listei de gazde"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protocol"
 
@@ -3334,14 +3374,22 @@ msgstr "Comandă shell rulată local, în fundal, imediat după încheierea aces
 msgid "The changes to this host have not been saved."
 msgstr "Modificările acestei gazde nu au fost salvate."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Folosește culorile consolei din setări în locul culorilor de mai jos"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Numele de utilizator pe gazda la distanță"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Ce se întâmplă cu fila consolei când conexiunea se încheie"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Există deja un element cu acest nume în „{group}”."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Gazde"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3673,8 +3721,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Notați sau imprimați acest cod și păstrați-l într-un loc sigur: nu va mai fi afișat. Dacă uitați parola principală, el deblochează parolele salvate, apoi alegeți o nouă parolă principală."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Adaugă titlul filei curente la titlul ferestrei"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "După ultima filă, revino la prima și invers"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Întreabă și când o filă este închisă cu butonul din mijloc al mouse-ului"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Aspect"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Întreabă înainte de a închide o filă de consolă"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Întreabă înainte de ieșire dacă există conexiuni deschise"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3693,6 +3761,14 @@ msgid "Extensions"
 msgstr "Extensii"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Urmează stilul sistemului sau impune o temă luminoasă sau întunecată"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Fontul listei de gazde"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Încărcată"
 
@@ -3705,8 +3781,8 @@ msgid "Logging"
 msgstr "Jurnalizare"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Fereastra principală"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Caută la pornire o versiune publicată mai nouă pe GitHub"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3727,8 +3803,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Pagina de preferințe nu este disponibilă: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Reconectează gazdele deschise la închiderea aplicației"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Securitate"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Afișează toate rândurile listei de gazde pe același fundal"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Afișează lista de gazde cu fontul desktopului"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Afișează lista de gazde lângă console"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3751,6 +3843,10 @@ msgstr "Folosește fontul sistemului"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Versiunea {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Titlul ferestrei; lăsați gol pentru a folosi numele aplicației"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format

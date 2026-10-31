@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 16:44+0000\n"
+"POT-Creation-Date: 2026-10-31 23:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3054,6 +3054,10 @@ msgid "unsupported format or version"
 msgstr "desteklenmeyen biçim veya sürüm"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Klavye kısayolları"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Sonraki sekme"
 
@@ -3068,6 +3072,10 @@ msgstr "Yapılandırmayı farklı kaydet…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Ara"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Kullanıcı kılavuzu"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3201,6 +3209,14 @@ msgstr "Bağlantı noktası {min} ile {max} arasında bir sayı olmalıdır."
 msgid "The name must not contain «/»."
 msgstr "Ad '/' içermemelidir."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Sunucular"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Ana pencere"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3274,6 +3290,10 @@ msgid "Connection"
 msgstr "Bağlantı"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Bağlantı türü; seçenekleri aşağıda gösterilir"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Vazgeç"
 
@@ -3290,6 +3310,10 @@ msgid "Existing groups"
 msgstr "Mevcut gruplar"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Protokol destekliyorsa bağlantı komutuna eklenen ek bağımsız değişkenler"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Ek parametreler"
 
@@ -3298,8 +3322,20 @@ msgid "Foreground color"
 msgstr "Metin rengi"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Sunucunun ana makine adı veya IP adresi"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Düzenlemeye devam et"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Protokolün varsayılan bağlantı noktasını kullanmak için boş bırakın"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Ana makine listesinde gösterilen ad, grubunda benzersiz"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3318,6 +3354,10 @@ msgid "No extension is installed."
 msgstr "Yüklü eklenti yok."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Ana makine listesinin ipucunda gösterilen not"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokol"
 
@@ -3334,14 +3374,22 @@ msgstr "Bu bağlantı sona erdikten hemen sonra, destekleyen protokollerce yerel
 msgid "The changes to this host have not been saved."
 msgstr "Bu sunucudaki değişiklikler kaydedilmedi."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Aşağıdaki renkler yerine ayarlardaki konsol renklerini kullan"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Uzak ana makinedeki kullanıcı adı"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Bağlantı sona erdiğinde konsol sekmesine ne yapılacağı"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "'{group}' içinde bu adda bir öğe zaten var."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Sunucular"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3673,8 +3721,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Bu kodu not alın veya yazdırın ve güvenli bir yerde saklayın: bir daha gösterilmeyecek. Ana parolayı unutursanız kayıtlı parolaların kilidini açar, ardından yeni bir ana parola seçersiniz."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Geçerli sekmenin başlığını pencere başlığına ekler"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Son sekmeden sonra ilk sekmeye dön, tersi de geçerli"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Bir sekme farenin orta tuşuyla kapatıldığında da sor"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Görünüm"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Bir konsol sekmesini kapatmadan önce sor"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Açık bağlantılar varken çıkmadan önce sor"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3693,6 +3761,14 @@ msgid "Extensions"
 msgstr "Uzantılar"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Sistem stilini izle veya açık ya da koyu bir tema zorla"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Ana makine listesinin yazı tipi"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Yüklendi"
 
@@ -3705,8 +3781,8 @@ msgid "Logging"
 msgstr "Günlükleme"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Ana pencere"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Başlangıçta GitHub'da yayımlanmış daha yeni bir sürüm ara"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3727,8 +3803,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Tercihler sayfası kullanılamıyor: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Uygulama kapatıldığında açık olan ana makinelere yeniden bağlan"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Güvenlik"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Ana makine listesinin tüm satırlarını aynı arka planla göster"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Ana makine listesini masaüstü yazı tipiyle göster"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Ana makine listesini konsolların yanında göster"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3751,6 +3843,10 @@ msgstr "Sistem yazı tipini kullan"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Sürüm {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Pencere başlığı; uygulama adını kullanmak için boş bırakın"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
