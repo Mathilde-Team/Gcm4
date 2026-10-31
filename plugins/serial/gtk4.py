@@ -58,16 +58,17 @@ _LIBELLES_FLUX = ("None", "XON/XOFF (software)", "RTS/CTS (hardware)", "DTR/DSR"
 class SerialSession(SessionTerminal):
     """Onglet série : session terminal commune, commandes envoyées au bout de 3 s."""
 
-    def __init__(self, host: Host, lancement: Lancement, log) -> None:
+    def __init__(self, host: Host, lancement: Lancement, log, notifier=None) -> None:
         """Construit le terminal et lance l'outil série (asynchrone, rien ne bloque).
 
         Args:
             host: hôte ouvert (couleurs, options ``serial``).
             lancement: commande à lancer (:func:`core.commande`).
             log: journal du plugin.
+            notifier: toast d'échec de connexion (#80, ``context.notify``).
         """
         logger.debug("SerialSession.__init__: {!r}", host.path)
-        super().__init__(host, "serial", lancement, log, DELAIS_COMMANDES_MS)
+        super().__init__(host, "serial", lancement, log, DELAIS_COMMANDES_MS, notifier)
         logger.debug("SerialSession.__init__: fait")
 
 
@@ -206,7 +207,9 @@ class SerialPlugin(ConnectionPlugin):
                 _("{program} not found").format(program="picocom/minicom/screen")
             )
         argv = core.commande(chemin, host.host, parametres, host.extra_params)
-        session = SerialSession(host, Lancement(argv), self.context.log)
+        session = SerialSession(
+            host, Lancement(argv), self.context.log, notifier=self.context.notify
+        )
         logger.debug("SerialPlugin.open: session ouverte")
         return session
 

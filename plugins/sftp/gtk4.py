@@ -396,17 +396,19 @@ class SessionSftp:
             )
         elif isinstance(exc, core.CleHoteChangee):
             self.context.log.warning("SFTP {} : clé d'hôte changée", self.host.path)
-            self._etat(
-                _(
-                    "Host key of {host} has changed (fingerprint {fingerprint}). Connection "
-                    "refused: check the server, then remove the old key from {file}."
-                ).format(host=exc.nom, fingerprint=exc.empreinte, file=self.connexion.known_hosts)
-            )
+            message = _(
+                "Host key of {host} has changed (fingerprint {fingerprint}). Connection "
+                "refused: check the server, then remove the old key from {file}."
+            ).format(host=exc.nom, fingerprint=exc.empreinte, file=self.connexion.known_hosts)
+            self._etat(message)
+            self.context.notify(message)  # échec de connexion (#80), onglet en arrière-plan
         elif isinstance(exc, core.AuthentificationRefusee):
             self._etat(_("Authentication failed"))
+            self.context.notify(_("Authentication failed"))  # échec de connexion (#80)
             self.context.ask_password(self.host, self._mot_de_passe_saisi)
         else:
             self._echec(exc)
+            self.context.notify(_("Connection failed: {error}").format(error=exc))  # #80
             self._poser_question(
                 _("Connection failed: {error}").format(error=exc),
                 _("Retry"),

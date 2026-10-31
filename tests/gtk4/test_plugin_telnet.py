@@ -26,6 +26,7 @@ from gi.repository import GLib, Gtk, Vte  # noqa: E402
 
 from gcm4.core import registre  # noqa: E402
 from gcm4.core.model import Host  # noqa: E402
+from gcm4.ui.terminal import libelle_echec  # noqa: E402
 
 RACINE = Path(__file__).resolve().parents[2]
 
@@ -84,12 +85,17 @@ class Contexte:
     """Contexte minimal du contrat v1 (``docs/plugins.md``)."""
 
     def __init__(self):
-        """Journal vide, configuration vide."""
+        """Journal vide, notifications vides, configuration vide."""
         self.log = Journal()
+        self.notifications: list[str] = []
 
     def config(self):
         """Section ``[plugin telnet]`` vide."""
         return {}
+
+    def notify(self, message):
+        """Notification notée (#80 : toasts d'échec de connexion)."""
+        self.notifications.append(message)
 
 
 @pytest.fixture
@@ -332,6 +338,62 @@ def test_zone_d_options_vide(plugin):
     case, defilement, _aide, _grille = list(_enfants(zone))
     assert not case.get_active() and not defilement.get_child().get_sensitive()
     assert options == {}
+
+
+def test_echec_connexion_notifie(plugin, faux_telnet):
+    """Session terminée sur un code d'erreur : toast d'échec de connexion (#80).
+
+    Le faux telnet se termine par ``exit 7`` : la notification cite l'hôte et
+    le code, même quand l'onglet est en arrière-plan.
+    """
+    hote = _hote()
+    session = plugin.open(hote)
+    fenetre = _afficher(session)
+    assert _attendre(lambda: "login:" in _texte(session.terminal))
+    session.terminal.feed_child(b"bob\r")
+    assert _attendre(lambda: "Password:" in _texte(session.terminal))
+    session.terminal.feed_child(b"pw\r")
+    assert _attendre(lambda: "$ " in _texte(session.terminal))
+    session.terminal.feed_child(b"exit\r")
+    assert _attendre(lambda: session.code_de_sortie is not None)
+    assert os.waitstatus_to_exitcode(session.code_de_sortie) == 7
+    assert plugin.context.notifications == ["Connection to routeur failed (exit code 7)"]
+    session.close()
+    fenetre.destroy()
+
+
+def test_sortie_propre_pas_de_notification(plugin, faux_telnet, monkeypatch):
+    """Sortie propre (code 0) : « Session ended », pas de toast (#80)."""
+    monkeypatch.setenv("FAUX_TELNET_MUET", "1")
+    hote = _hote()
+    session = plugin.open(hote)
+    fenetre = _afficher(session)
+    assert _attendre(lambda: session.pid > 0)  # pty prêt : un feed plus tôt peut être perdu
+    session.terminal.feed_child(b"\r")
+    assert _attendre(lambda: session.code_de_sortie is not None)
+    assert os.waitstatus_to_exitcode(session.code_de_sortie) == 0
+    assert plugin.context.notifications == []
+    session.close()
+    fenetre.destroy()
+
+
+def test_fermeture_par_l_utilisateur_pas_un_echec(plugin, faux_telnet, monkeypatch):
+    """Onglet fermé : le SIGHUP de ``close()`` n'est pas un échec, pas de toast (#80)."""
+    monkeypatch.setenv("FAUX_TELNET_MUET", "1")
+    hote = _hote()
+    session = plugin.open(hote)
+    assert _attendre(lambda: session.pid > 0)
+    session.close()
+    assert _attendre(lambda: session.code_de_sortie is not None)
+    assert os.WIFSIGNALED(session.code_de_sortie)
+    assert plugin.context.notifications == []
+
+
+def test_libelle_echec():
+    """Statuts ``waitpid`` décodés : code de sortie, signal, statut inhabituel."""
+    assert libelle_echec(7 << 8) == "exit code 7"
+    assert libelle_echec(signal.SIGTERM) == "signal 15"
+    assert libelle_echec(767) == "status 767"
 
 
 def _enfants(widget):

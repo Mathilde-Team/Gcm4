@@ -71,12 +71,17 @@ class Contexte:
     """Contexte minimal du contrat v1 (``docs/plugins.md``)."""
 
     def __init__(self):
-        """Journal vide, configuration vide."""
+        """Journal vide, notifications vides, configuration vide."""
         self.log = Journal()
+        self.notifications: list[str] = []
 
     def config(self):
         """Section ``[plugin local]`` vide."""
         return {}
+
+    def notify(self, message):
+        """Notification notée (#80 : toasts d'échec de connexion)."""
+        self.notifications.append(message)
 
 
 @pytest.fixture
