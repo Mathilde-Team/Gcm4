@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:34+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Homepage van het project"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Afsluiten"
 
@@ -3837,6 +3838,10 @@ msgid "Font of the host list"
 msgstr "Lettertype van de hostlijst"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt of GNOME met de AppIndicator-extensie"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Geladen"
 
@@ -3855,6 +3860,10 @@ msgstr "Bij het opstarten op GitHub zoeken naar een nieuwere gepubliceerde versi
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "Geen extensie gevonden."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Systeemvak"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3877,6 +3886,10 @@ msgstr "De hosts opnieuw verbinden die open waren toen de toepassing werd geslot
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Beveiliging"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Een pictogram in het systeemvak tonen"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show every row of the host list on the same background"
@@ -3978,6 +3991,14 @@ msgstr "signaal {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "status {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Venster verbergen"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Venster tonen"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

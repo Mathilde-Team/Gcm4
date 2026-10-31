@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:34+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Projektets webbplats"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Avsluta"
 
@@ -3837,6 +3838,10 @@ msgid "Font of the host list"
 msgstr "Typsnitt för värdlistan"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt eller GNOME med tillägget AppIndicator"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Inläst"
 
@@ -3855,6 +3860,10 @@ msgstr "Sök efter en nyare publicerad version på GitHub vid start"
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "Inget tillägg hittades."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Meddelandefält"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3877,6 +3886,10 @@ msgstr "Återanslut de värdar som var öppna när programmet stängdes"
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Säkerhet"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Visa en ikon i meddelandefältet"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show every row of the host list on the same background"
@@ -3978,6 +3991,14 @@ msgstr "signal {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "status {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Dölj fönster"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Visa fönster"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

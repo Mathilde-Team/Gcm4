@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:34+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "プロジェクトのホームページ"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "終了"
 
@@ -3837,6 +3838,10 @@ msgid "Font of the host list"
 msgstr "ホスト一覧のフォント"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt、または AppIndicator 拡張機能付きの GNOME"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "読み込み済み"
 
@@ -3855,6 +3860,10 @@ msgstr "起動時に GitHub で新しい公開バージョンを確認します"
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "拡張機能が見つかりません。"
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "通知領域"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3877,6 +3886,10 @@ msgstr "アプリケーションを閉じたときに開いていたホストに
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "セキュリティ"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "通知領域にアイコンを表示する"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show every row of the host list on the same background"
@@ -3978,6 +3991,14 @@ msgstr "シグナル {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "ステータス {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "ウィンドウを隠す"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "ウィンドウを表示"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

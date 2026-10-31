@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:34+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "प्रोजेक्ट का होमपेज"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "छोड़ें"
 
@@ -3837,6 +3838,10 @@ msgid "Font of the host list"
 msgstr "होस्ट सूची का फ़ॉन्ट"
 
 #: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt या AppIndicator एक्सटेंशन के साथ GNOME"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "लोड किया गया"
 
@@ -3855,6 +3860,10 @@ msgstr "प्रारंभ पर GitHub पर नया प्रकाश�
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "कोई एक्सटेंशन नहीं मिला।"
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "सूचना क्षेत्र"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3877,6 +3886,10 @@ msgstr "एप्लिकेशन बंद होने के समय ख�
 #: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "सुरक्षा"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "सूचना क्षेत्र में आइकन दिखाएँ"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show every row of the host list on the same background"
@@ -3978,6 +3991,14 @@ msgstr "सिग्नल {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "स्थिति {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "विंडो छिपाएँ"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "विंडो दिखाएँ"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format
