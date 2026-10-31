@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "niet-ondersteund formaat of niet-ondersteunde versie"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Sneltoetsen"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Volgend tabblad"
 
@@ -3136,6 +3140,10 @@ msgstr "Configuratie opslaan als…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Zoeken"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Gebruikershandleiding"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3277,14 @@ msgstr "De poort moet een getal tussen {min} en {max} zijn."
 msgid "The name must not contain «/»."
 msgstr "De naam mag geen ‘/’ bevatten."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Hosts"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Hoofdvenster"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3358,10 @@ msgid "Connection"
 msgstr "Verbinding"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Verbindingstype; de opties ervan staan hieronder"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Verwerpen"
 
@@ -3358,6 +3378,10 @@ msgid "Existing groups"
 msgstr "Bestaande groepen"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Extra argumenten voor de verbindingsopdracht, als het protocol ze ondersteunt"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Extra parameters"
 
@@ -3366,8 +3390,20 @@ msgid "Foreground color"
 msgstr "Tekstkleur"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Hostnaam of IP-adres van de server"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Verder bewerken"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Leeg laten om de standaardpoort van het protocol te gebruiken"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Naam in de hostlijst, uniek binnen de groep"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3422,10 @@ msgid "No extension is installed."
 msgstr "Geen extensie geïnstalleerd."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Notitie die in de tooltip van de hostlijst wordt getoond"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protocol"
 
@@ -3402,14 +3442,22 @@ msgstr "Shell-opdracht die lokaal op de achtergrond wordt uitgevoerd direct na h
 msgid "The changes to this host have not been saved."
 msgstr "De wijzigingen aan deze host zijn niet opgeslagen."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "De consolekleuren uit de instellingen gebruiken in plaats van de kleuren hieronder"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Gebruikersnaam op de externe host"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Wat er met het consoletabblad gebeurt als de verbinding eindigt"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Er bestaat al een item met deze naam in ‘{group}’."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Hosts"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3789,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Noteer of print deze code en bewaar hem op een veilige plek: hij wordt niet meer getoond. Als u het hoofdwachtwoord vergeet, ontgrendelt hij de opgeslagen wachtwoorden en kiest u daarna een nieuw hoofdwachtwoord."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "De titel van het huidige tabblad aan de venstertitel toevoegen"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Na het laatste tabblad terug naar het eerste, en omgekeerd"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Ook vragen als een tabblad met de middelste muisknop wordt gesloten"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Uiterlijk"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Vragen voordat een consoletabblad wordt gesloten"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Vragen voor het afsluiten zolang er verbindingen open zijn"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3829,14 @@ msgid "Extensions"
 msgstr "Extensies"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "De systeemstijl volgen of een licht of donker thema afdwingen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Lettertype van de hostlijst"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Geladen"
 
@@ -3773,8 +3849,8 @@ msgid "Logging"
 msgstr "Logboek"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Hoofdvenster"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Bij het opstarten op GitHub zoeken naar een nieuwere gepubliceerde versie"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Voorkeurenpagina niet beschikbaar: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "De hosts opnieuw verbinden die open waren toen de toepassing werd gesloten"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Beveiliging"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Alle rijen van de hostlijst met dezelfde achtergrond tonen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "De hostlijst in het lettertype van de desktop tonen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "De hostlijst naast de consoles tonen"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "Systeemlettertype gebruiken"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Versie {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Venstertitel; leeg laten om de naam van de toepassing te gebruiken"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "Splits V"
 msgid "Unsplit all consoles"
 msgstr "Alle consoles samenvoegen"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp-log:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "pagina 2"
-
-#~ msgid "page 1"
-#~ msgstr "pagina 1"
-
-#~ msgid "local"
-#~ msgstr "lokaal"
-
-#~ msgid "label"
-#~ msgstr "label"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "Be_werken"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Console verticaal splitsen"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Console horizontaal splitsen"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Werkbalk weergeven"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Opdrachten naar meerdere hosts gelijktijdig verzenden"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Seconden tussen keep-alive-pakketten"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Actieve consolebuffer naar bestand opslaan"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (hier niet beschikbaar: Proxmox vereist API-ticket/proxy)"
-
-#~ msgid "Open local console"
-#~ msgstr "Lokale console openen"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Lokale poort al toegewezen"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Serverlijst importeren uit bestand"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Extra argumenten om door te geven aan de opdrachtregel"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Serverlijst exporteren naar bestand"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Hosteigenschappen bewerken"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Gedetecteerde Proxmox-doelen (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Gedetecteerd Proxmox-doel"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Dynamische poortdoorsturing maken"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Verbinden met geselecteerde host of alle hosts in geselecteerde groep"
+#~ msgid "Colors and Keys"
+#~ msgstr "Kleuren en toetsen"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "Alle consoles samenvoegen"
 #~ "1: min\n"
 #~ "9: max"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Kleuren en toetsen"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Verbinden met geselecteerde host of alle hosts in geselecteerde groep"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Dynamische poortdoorsturing maken"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Gedetecteerd Proxmox-doel"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Gedetecteerde Proxmox-doelen (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Hosteigenschappen bewerken"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Serverlijst exporteren naar bestand"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Extra argumenten om door te geven aan de opdrachtregel"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Serverlijst importeren uit bestand"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Lokale poort al toegewezen"
+
+#~ msgid "Open local console"
+#~ msgstr "Lokale console openen"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (hier niet beschikbaar: Proxmox vereist API-ticket/proxy)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Actieve consolebuffer naar bestand opslaan"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Seconden tussen keep-alive-pakketten"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Opdrachten naar meerdere hosts gelijktijdig verzenden"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Werkbalk weergeven"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Console horizontaal splitsen"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Console verticaal splitsen"
+
+#~ msgid "_Edit"
+#~ msgstr "Be_werken"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "label"
+
+#~ msgid "local"
+#~ msgstr "lokaal"
+
+#~ msgid "page 1"
+#~ msgstr "pagina 1"
+
+#~ msgid "page 2"
+#~ msgstr "pagina 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp-log:"

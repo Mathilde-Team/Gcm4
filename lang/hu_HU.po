@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "nem támogatott formátum vagy verzió"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Gyorsbillentyűk"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Következő lap"
 
@@ -3136,6 +3140,10 @@ msgstr "Beállítások mentése másként…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Keresés"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Felhasználói kézikönyv"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3277,14 @@ msgstr "A portnak {min} és {max} közötti számnak kell lennie."
 msgid "The name must not contain «/»."
 msgstr "A név nem tartalmazhat „/” karaktert."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Gépek"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Főablak"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3358,10 @@ msgid "Connection"
 msgstr "Kapcsolat"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Kapcsolattípus; a beállításai lent láthatók"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Elvetés"
 
@@ -3358,6 +3378,10 @@ msgid "Existing groups"
 msgstr "Meglévő csoportok"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "A kapcsolódási parancshoz adott további argumentumok, ha a protokoll támogatja őket"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "További paraméterek"
 
@@ -3366,8 +3390,20 @@ msgid "Foreground color"
 msgstr "Szövegszín"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "A kiszolgáló gépneve vagy IP-címe"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Szerkesztés folytatása"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Hagyja üresen a protokoll alapértelmezett portjának használatához"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "A gépek listájában megjelenő név, a csoportján belül egyedi"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3422,10 @@ msgid "No extension is installed."
 msgstr "Nincs telepített bővítmény."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "A gépek listájának buboréksúgójában megjelenő megjegyzés"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokoll"
 
@@ -3402,14 +3442,22 @@ msgstr "Helyben, a háttérben, közvetlenül a kapcsolat vége után futó para
 msgid "The changes to this host have not been saved."
 msgstr "A gép módosításai nincsenek mentve."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "A beállítások konzolszíneinek használata a lenti színek helyett"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Felhasználónév a távoli gépen"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Mi történjen a konzollappal, amikor a kapcsolat véget ér"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Már van ilyen nevű elem itt: „{group}”."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Gépek"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3789,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Írja fel vagy nyomtassa ki ezt a kódot, és tartsa biztonságos helyen: többé nem jelenik meg. Ha elfelejti a mesterjelszót, feloldja a mentett jelszavakat, majd új mesterjelszót választ."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Az aktuális lap címének hozzáadása az ablak címéhez"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Az utolsó lap után vissza az elsőre, és fordítva"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Akkor is kérdezzen, ha egy lapot a középső egérgombbal zárnak be"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Megjelenés"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Kérdezzen egy konzollap bezárása előtt"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Kérdezzen kilépés előtt, ha vannak nyitott kapcsolatok"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3829,14 @@ msgid "Extensions"
 msgstr "Bővítmények"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "A rendszer stílusának követése, vagy világos, illetve sötét téma kényszerítése"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "A gépek listájának betűtípusa"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Betöltve"
 
@@ -3773,8 +3849,8 @@ msgid "Logging"
 msgstr "Naplózás"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Főablak"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Indításkor újabb kiadott verzió keresése a GitHubon"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "A beállítási oldal nem érhető el: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Az alkalmazás bezárásakor nyitott gépek újracsatlakoztatása"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Biztonság"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "A gépek listájának minden sora azonos háttérrel jelenjen meg"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "A gépek listája az asztali környezet betűtípusával jelenjen meg"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "A gépek listája a konzolok mellett jelenjen meg"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "Rendszer betűtípusának használata"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Verzió: {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Az ablak címe; hagyja üresen az alkalmazás nevének használatához"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "Felosztás V"
 msgid "Unsplit all consoles"
 msgstr "Az összes konzol felosztásának megszüntetése"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp napló:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "2. oldal"
-
-#~ msgid "page 1"
-#~ msgstr "1. oldal"
-
-#~ msgid "local"
-#~ msgstr "helyi"
-
-#~ msgid "label"
-#~ msgstr "felirat"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "Sz_erkesztés"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Konzol felosztása függőlegesen"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Konzol felosztása vízszintesen"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Eszköztár megjelenítése"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Parancsok küldése egyszerre több hosztnak"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Másodpercek a keep-alive csomagok között"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Az aktív konzol pufferének mentése fájlba"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (itt nem elérhető: a Proxmox API jegyet/proxyt igényel)"
-
-#~ msgid "Open local console"
-#~ msgstr "Helyi konzol megnyitása"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "A helyi port már foglalt"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Szerverlista importálása fájlból"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Parancssorban átadandó további argumentumok"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Szerverlista exportálása fájlba"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Hosztok tulajdonságainak szerkesztése"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Észlelt Proxmox célok (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Észlelt Proxmox cél"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Dinamikus port továbbítás létrehozása"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Csatlakozás a kijelölt hoszthoz vagy a kijelölt csoport összes hosztjához"
+#~ msgid "Colors and Keys"
+#~ msgstr "Színek és billentyűk"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "Az összes konzol felosztásának megszüntetése"
 #~ "1: min\n"
 #~ "9: max"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Színek és billentyűk"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Csatlakozás a kijelölt hoszthoz vagy a kijelölt csoport összes hosztjához"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Dinamikus port továbbítás létrehozása"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Észlelt Proxmox cél"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Észlelt Proxmox célok (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Hosztok tulajdonságainak szerkesztése"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Szerverlista exportálása fájlba"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Parancssorban átadandó további argumentumok"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Szerverlista importálása fájlból"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "A helyi port már foglalt"
+
+#~ msgid "Open local console"
+#~ msgstr "Helyi konzol megnyitása"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (itt nem elérhető: a Proxmox API jegyet/proxyt igényel)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Az aktív konzol pufferének mentése fájlba"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Másodpercek a keep-alive csomagok között"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Parancsok küldése egyszerre több hosztnak"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Eszköztár megjelenítése"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Konzol felosztása vízszintesen"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Konzol felosztása függőlegesen"
+
+#~ msgid "_Edit"
+#~ msgstr "Sz_erkesztés"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "felirat"
+
+#~ msgid "local"
+#~ msgstr "helyi"
+
+#~ msgid "page 1"
+#~ msgstr "1. oldal"
+
+#~ msgid "page 2"
+#~ msgstr "2. oldal"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp napló:"

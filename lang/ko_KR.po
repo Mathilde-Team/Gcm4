@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "지원하지 않는 형식 또는 버전"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "키보드 바로 가기"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "다음 탭"
 
@@ -3136,6 +3140,10 @@ msgstr "다른 이름으로 구성 저장…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "검색"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "사용자 안내서"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3277,14 @@ msgstr "포트는 {min}에서 {max} 사이의 숫자여야 합니다."
 msgid "The name must not contain «/»."
 msgstr "이름에 '/'를 사용할 수 없습니다."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "호스트"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "기본 창"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3358,10 @@ msgid "Connection"
 msgstr "연결"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "연결 유형. 해당 옵션은 아래에 표시됩니다"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "버리기"
 
@@ -3358,6 +3378,10 @@ msgid "Existing groups"
 msgstr "기존 그룹"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "프로토콜이 지원하는 경우 연결 명령에 추가되는 인수"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "추가 매개변수"
 
@@ -3366,8 +3390,20 @@ msgid "Foreground color"
 msgstr "글자색"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "서버의 호스트 이름 또는 IP 주소"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "계속 편집"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "프로토콜의 기본 포트를 사용하려면 비워 두십시오"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "호스트 목록에 표시되는 이름으로, 그룹 안에서 고유해야 합니다"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3422,10 @@ msgid "No extension is installed."
 msgstr "설치된 확장 기능이 없습니다."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "호스트 목록의 도움말에 표시되는 메모"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "프로토콜"
 
@@ -3402,14 +3442,22 @@ msgstr "이 연결이 끝난 직후, 지원하는 프로토콜이 백그라운�
 msgid "The changes to this host have not been saved."
 msgstr "이 호스트의 변경 사항이 저장되지 않았습니다."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "아래 색상 대신 설정의 콘솔 색상을 사용합니다"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "원격 호스트의 사용자 이름"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "연결이 끝났을 때 콘솔 탭을 어떻게 할지"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "'{group}'에 같은 이름의 항목이 이미 있습니다."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "호스트"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3789,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "이 코드를 적어 두거나 인쇄하여 안전한 곳에 보관하세요. 다시 표시되지 않습니다. 마스터 비밀번호를 잊으면 이 코드로 저장된 비밀번호의 잠금을 해제한 다음 새 마스터 비밀번호를 선택합니다."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "현재 탭의 제목을 창 제목에 추가합니다"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "마지막 탭 다음에는 첫 번째 탭으로 돌아가며, 반대도 마찬가지입니다"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "마우스 가운데 버튼으로 탭을 닫을 때에도 확인합니다"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "모양"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "콘솔 탭을 닫기 전에 확인합니다"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "열린 연결이 있으면 종료하기 전에 확인합니다"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3829,14 @@ msgid "Extensions"
 msgstr "확장"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "시스템 스타일을 따르거나 밝은 테마 또는 어두운 테마를 강제합니다"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "호스트 목록 글꼴"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "불러옴"
 
@@ -3773,8 +3849,8 @@ msgid "Logging"
 msgstr "로그"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "기본 창"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "시작할 때 GitHub에서 더 새로운 공개 버전을 확인합니다"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "환경설정 페이지를 사용할 수 없습니다: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "응용 프로그램을 닫을 때 열려 있던 호스트에 다시 연결합니다"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "보안"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "호스트 목록의 모든 행을 같은 배경으로 표시합니다"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "호스트 목록을 데스크톱 글꼴로 표시합니다"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "호스트 목록을 콘솔 옆에 표시합니다"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "시스템 글꼴 사용"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "버전 {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "창 제목. 응용 프로그램 이름을 사용하려면 비워 두십시오"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "수직 분할"
 msgid "Unsplit all consoles"
 msgstr "모든 콘솔 분할 해제"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp 로그:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "페이지 2"
-
-#~ msgid "page 1"
-#~ msgstr "페이지 1"
-
-#~ msgid "local"
-#~ msgstr "로컬"
-
-#~ msgid "label"
-#~ msgstr "레이블"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_편집"
-
-#~ msgid "Split console vertically"
-#~ msgstr "콘솔을 수직으로 분할"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "콘솔을 수평으로 분할"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "도구 모음 표시"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "여러 호스트에 동시에 명령 보내기"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Keep-Alive 패킷 사이의 시간(초)"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "활성 콘솔 버퍼를 파일로 저장"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE (여기서는 사용 불가: Proxmox는 API 티켓/프록시가 필요함)"
-
-#~ msgid "Open local console"
-#~ msgstr "로컬 콘솔 열기"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "로컬 포트가 이미 할당됨"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "파일에서 서버 목록 가져오기"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "명령줄에 전달할 추가 인수"
-
-#~ msgid "Export server list to file"
-#~ msgstr "서버 목록을 파일로 내보내기"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "호스트 속성 편집"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "감지된 Proxmox 대상 (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "감지된 Proxmox 대상"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "동적 포트 포워딩 생성"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "선택한 호스트 또는 선택한 그룹의 모든 호스트에 연결"
+#~ msgid "Colors and Keys"
+#~ msgstr "색상 및 키"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "모든 콘솔 분할 해제"
 #~ "1: 최소\n"
 #~ "9: 최대"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "색상 및 키"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "선택한 호스트 또는 선택한 그룹의 모든 호스트에 연결"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "동적 포트 포워딩 생성"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "감지된 Proxmox 대상"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "감지된 Proxmox 대상 (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "호스트 속성 편집"
+
+#~ msgid "Export server list to file"
+#~ msgstr "서버 목록을 파일로 내보내기"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "명령줄에 전달할 추가 인수"
+
+#~ msgid "Import server list from file"
+#~ msgstr "파일에서 서버 목록 가져오기"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "로컬 포트가 이미 할당됨"
+
+#~ msgid "Open local console"
+#~ msgstr "로컬 콘솔 열기"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE (여기서는 사용 불가: Proxmox는 API 티켓/프록시가 필요함)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "활성 콘솔 버퍼를 파일로 저장"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Keep-Alive 패킷 사이의 시간(초)"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "여러 호스트에 동시에 명령 보내기"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "도구 모음 표시"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "콘솔을 수평으로 분할"
+
+#~ msgid "Split console vertically"
+#~ msgstr "콘솔을 수직으로 분할"
+
+#~ msgid "_Edit"
+#~ msgstr "_편집"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "레이블"
+
+#~ msgid "local"
+#~ msgstr "로컬"
+
+#~ msgid "page 1"
+#~ msgstr "페이지 1"
+
+#~ msgid "page 2"
+#~ msgstr "페이지 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp 로그:"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "format sau versiune neacceptate"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Scurtături de tastatură"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Fila următoare"
 
@@ -3136,6 +3140,10 @@ msgstr "Salvează configurația ca…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Căutare"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Ghidul utilizatorului"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3277,14 @@ msgstr "Portul trebuie să fie un număr între {min} și {max}."
 msgid "The name must not contain «/»."
 msgstr "Numele nu poate conține „/”."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Gazde"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Fereastra principală"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3358,10 @@ msgid "Connection"
 msgstr "Conexiune"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Tipul conexiunii; opțiunile sale sunt afișate mai jos"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Renunță"
 
@@ -3358,6 +3378,10 @@ msgid "Existing groups"
 msgstr "Grupuri existente"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Argumente adăugate la comanda de conectare, dacă protocolul le acceptă"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Parametri suplimentari"
 
@@ -3366,8 +3390,20 @@ msgid "Foreground color"
 msgstr "Culoarea textului"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Numele gazdei sau adresa IP a serverului"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Continuați editarea"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Lăsați gol pentru a folosi portul implicit al protocolului"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Nume afișat în lista de gazde, unic în cadrul grupului"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3422,10 @@ msgid "No extension is installed."
 msgstr "Nicio extensie instalată."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Notă afișată în indiciul listei de gazde"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protocol"
 
@@ -3402,14 +3442,22 @@ msgstr "Comandă shell rulată local, în fundal, imediat după încheierea aces
 msgid "The changes to this host have not been saved."
 msgstr "Modificările acestei gazde nu au fost salvate."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Folosește culorile consolei din setări în locul culorilor de mai jos"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Numele de utilizator pe gazda la distanță"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Ce se întâmplă cu fila consolei când conexiunea se încheie"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Există deja un element cu acest nume în „{group}”."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Gazde"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3789,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Notați sau imprimați acest cod și păstrați-l într-un loc sigur: nu va mai fi afișat. Dacă uitați parola principală, el deblochează parolele salvate, apoi alegeți o nouă parolă principală."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Adaugă titlul filei curente la titlul ferestrei"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "După ultima filă, revino la prima și invers"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Întreabă și când o filă este închisă cu butonul din mijloc al mouse-ului"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Aspect"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Întreabă înainte de a închide o filă de consolă"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Întreabă înainte de ieșire dacă există conexiuni deschise"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3829,14 @@ msgid "Extensions"
 msgstr "Extensii"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Urmează stilul sistemului sau impune o temă luminoasă sau întunecată"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Fontul listei de gazde"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Încărcată"
 
@@ -3773,8 +3849,8 @@ msgid "Logging"
 msgstr "Jurnalizare"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Fereastra principală"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Caută la pornire o versiune publicată mai nouă pe GitHub"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Pagina de preferințe nu este disponibilă: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Reconectează gazdele deschise la închiderea aplicației"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Securitate"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Afișează toate rândurile listei de gazde pe același fundal"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Afișează lista de gazde cu fontul desktopului"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Afișează lista de gazde lângă console"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "Folosește fontul sistemului"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Versiunea {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Titlul ferestrei; lăsați gol pentru a folosi numele aplicației"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "Divizare V"
 msgid "Unsplit all consoles"
 msgstr "Anulează divizarea tuturor consolelor"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "Jurnal xfreerdp:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "pagina 2"
-
-#~ msgid "page 1"
-#~ msgstr "pagina 1"
-
-#~ msgid "local"
-#~ msgstr "local"
-
-#~ msgid "label"
-#~ msgstr "etichetă"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Editare"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Divizează consola vertical"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Divizează consola orizontal"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Afișează bara de instrumente"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Trimite comenzi simultan către mai multe hosturi"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Secunde între pachetele keep-alive"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Salvează bufferul consolei active într-un fișier"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (indisponibil aici: Proxmox necesită ticket/proxy API)"
-
-#~ msgid "Open local console"
-#~ msgstr "Deschide consola locală"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Portul local este deja alocat"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Importă lista de servere din fișier"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Argumente suplimentare de transmis liniei de comandă"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Exportă lista de servere în fișier"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Editează proprietățile hosturilor"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Ținte Proxmox detectate (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Țintă Proxmox detectată"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Creează redirecționare de port dinamică"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Conectare la hostul selectat sau la toate hosturile din grupul selectat"
+#~ msgid "Colors and Keys"
+#~ msgstr "Culori și taste"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "Anulează divizarea tuturor consolelor"
 #~ "1: minim\n"
 #~ "9: maxim"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Culori și taste"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Conectare la hostul selectat sau la toate hosturile din grupul selectat"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Creează redirecționare de port dinamică"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Țintă Proxmox detectată"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Ținte Proxmox detectate (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Editează proprietățile hosturilor"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Exportă lista de servere în fișier"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Argumente suplimentare de transmis liniei de comandă"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Importă lista de servere din fișier"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Portul local este deja alocat"
+
+#~ msgid "Open local console"
+#~ msgstr "Deschide consola locală"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (indisponibil aici: Proxmox necesită ticket/proxy API)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Salvează bufferul consolei active într-un fișier"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Secunde între pachetele keep-alive"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Trimite comenzi simultan către mai multe hosturi"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Afișează bara de instrumente"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Divizează consola orizontal"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Divizează consola vertical"
+
+#~ msgid "_Edit"
+#~ msgstr "_Editare"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "etichetă"
+
+#~ msgid "local"
+#~ msgstr "local"
+
+#~ msgid "page 1"
+#~ msgstr "pagina 1"
+
+#~ msgid "page 2"
+#~ msgstr "pagina 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "Jurnal xfreerdp:"

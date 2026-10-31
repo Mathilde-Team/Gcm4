@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "format atau versi tidak didukung"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Pintasan papan ketik"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Tab berikutnya"
 
@@ -3136,6 +3140,10 @@ msgstr "Simpan konfigurasi sebagai…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Cari"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Panduan pengguna"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3277,14 @@ msgstr "Port harus berupa angka antara {min} dan {max}."
 msgid "The name must not contain «/»."
 msgstr "Nama tidak boleh mengandung '/'."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Host"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Jendela utama"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3358,10 @@ msgid "Connection"
 msgstr "Koneksi"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Jenis koneksi; opsinya ditampilkan di bawah"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Buang"
 
@@ -3358,6 +3378,10 @@ msgid "Existing groups"
 msgstr "Grup yang ada"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Argumen tambahan untuk perintah koneksi, jika protokol mendukungnya"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Parameter tambahan"
 
@@ -3366,8 +3390,20 @@ msgid "Foreground color"
 msgstr "Warna teks"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Nama host atau alamat IP server"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Lanjutkan menyunting"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Biarkan kosong untuk memakai port bawaan protokol"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Nama yang ditampilkan di daftar host, unik dalam grupnya"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3422,10 @@ msgid "No extension is installed."
 msgstr "Tidak ada ekstensi yang terpasang."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Catatan yang ditampilkan di tooltip daftar host"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokol"
 
@@ -3402,14 +3442,22 @@ msgstr "Perintah shell yang dijalankan lokal di latar belakang tepat setelah kon
 msgid "The changes to this host have not been saved."
 msgstr "Perubahan pada host ini belum disimpan."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Gunakan warna konsol dari pengaturan, bukan warna di bawah"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Nama pengguna di host jarak jauh"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Apa yang dilakukan pada tab konsol saat koneksi berakhir"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Item dengan nama ini sudah ada di '{group}'."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Host"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3789,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Catat atau cetak kode ini dan simpan di tempat yang aman: kode ini tidak akan ditampilkan lagi. Jika Anda lupa kata sandi utama, kode ini membuka kata sandi tersimpan, lalu Anda memilih kata sandi utama baru."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Menambahkan judul tab saat ini ke judul jendela"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Setelah tab terakhir, kembali ke tab pertama, dan sebaliknya"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Tanyakan juga saat tab ditutup dengan tombol tengah tetikus"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Tampilan"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Tanyakan sebelum menutup tab konsol"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Tanyakan sebelum keluar jika masih ada koneksi terbuka"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3829,14 @@ msgid "Extensions"
 msgstr "Ekstensi"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Ikuti gaya sistem atau paksa tema terang atau gelap"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Fon daftar host"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Dimuat"
 
@@ -3773,8 +3849,8 @@ msgid "Logging"
 msgstr "Pencatatan log"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Jendela utama"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Cari versi terbitan yang lebih baru di GitHub saat mulai"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Halaman preferensi tidak tersedia: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Sambungkan kembali host yang terbuka saat aplikasi ditutup"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Keamanan"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Tampilkan semua baris daftar host dengan latar yang sama"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Tampilkan daftar host dengan fon desktop"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Tampilkan daftar host di samping konsol"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "Gunakan fon sistem"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Versi {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Judul jendela; biarkan kosong untuk memakai nama aplikasi"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "Pisah V"
 msgid "Unsplit all consoles"
 msgstr "Gabungkan kembali semua konsol"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "Log xfreerdp:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "halaman 2"
-
-#~ msgid "page 1"
-#~ msgstr "halaman 1"
-
-#~ msgid "local"
-#~ msgstr "lokal"
-
-#~ msgid "label"
-#~ msgstr "label"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Edit"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Pisahkan konsol secara vertikal"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Pisahkan konsol secara horizontal"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Tampilkan Toolbar"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Kirim perintah ke beberapa host sekaligus"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Detik antar paket keep-alive"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Simpan buffer konsol aktif ke file"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (tidak tersedia di sini: Proxmox memerlukan tiket/proxy API)"
-
-#~ msgid "Open local console"
-#~ msgstr "Buka konsol lokal"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Port lokal sudah digunakan"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Impor daftar server dari file"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Argumen tambahan untuk diteruskan ke baris perintah"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Ekspor daftar server ke file"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Edit properti host"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Target Proxmox terdeteksi (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Target Proxmox terdeteksi"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Buat penerusan port dinamis"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Hubungkan ke host yang dipilih atau semua host dalam grup yang dipilih"
+#~ msgid "Colors and Keys"
+#~ msgstr "Warna dan Tombol"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "Gabungkan kembali semua konsol"
 #~ "1: min\n"
 #~ "9: maks"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Warna dan Tombol"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Hubungkan ke host yang dipilih atau semua host dalam grup yang dipilih"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Buat penerusan port dinamis"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Target Proxmox terdeteksi"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Target Proxmox terdeteksi (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Edit properti host"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Ekspor daftar server ke file"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Argumen tambahan untuk diteruskan ke baris perintah"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Impor daftar server dari file"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Port lokal sudah digunakan"
+
+#~ msgid "Open local console"
+#~ msgstr "Buka konsol lokal"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (tidak tersedia di sini: Proxmox memerlukan tiket/proxy API)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Simpan buffer konsol aktif ke file"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Detik antar paket keep-alive"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Kirim perintah ke beberapa host sekaligus"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Tampilkan Toolbar"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Pisahkan konsol secara horizontal"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Pisahkan konsol secara vertikal"
+
+#~ msgid "_Edit"
+#~ msgstr "_Edit"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "label"
+
+#~ msgid "local"
+#~ msgstr "lokal"
+
+#~ msgid "page 1"
+#~ msgstr "halaman 1"
+
+#~ msgid "page 2"
+#~ msgstr "halaman 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "Log xfreerdp:"

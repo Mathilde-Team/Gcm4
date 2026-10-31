@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "تنسيق أو إصدار غير مدعوم"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "اختصارات لوحة المفاتيح"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "اللسان التالي"
 
@@ -3136,6 +3140,10 @@ msgstr "حفظ الإعدادات باسم…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "بحث"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "دليل المستخدم"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3277,14 @@ msgstr "يجب أن يكون المنفذ رقمًا بين {min} و{max}."
 msgid "The name must not contain «/»."
 msgstr "يجب ألا يحتوي الاسم على «/»."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "المضيفات"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "النافذة الرئيسية"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3358,10 @@ msgid "Connection"
 msgstr "الاتصال"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "نوع الاتصال؛ تظهر خياراته أدناه"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "تجاهل"
 
@@ -3358,6 +3378,10 @@ msgid "Existing groups"
 msgstr "المجموعات الموجودة"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "وسائط إضافية تُضاف إلى أمر الاتصال إذا كان البروتوكول يدعمها"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "معاملات إضافية"
 
@@ -3366,8 +3390,20 @@ msgid "Foreground color"
 msgstr "لون النص"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "اسم المضيف أو عنوان IP للخادم"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "متابعة التحرير"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "اتركه فارغًا لاستخدام المنفذ الافتراضي للبروتوكول"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "الاسم المعروض في قائمة المضيفين، فريد داخل مجموعته"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3422,10 @@ msgid "No extension is installed."
 msgstr "لا توجد امتدادات مثبتة."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "ملاحظة تظهر في تلميح قائمة المضيفين"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "البروتوكول"
 
@@ -3402,14 +3442,22 @@ msgstr "أمر صدفة يُشغَّل محليًا في الخلفية فور �
 msgid "The changes to this host have not been saved."
 msgstr "لم تُحفظ تغييرات هذا المضيف."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "استخدام ألوان الطرفية من الإعدادات بدلًا من الألوان أدناه"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "اسم المستخدم على المضيف البعيد"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "ما يجب فعله بلسان الطرفية عند انتهاء الاتصال"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "يوجد عنصر بهذا الاسم في «{group}» بالفعل."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "المضيفات"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3789,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "دوّن هذا الرمز أو اطبعه واحفظه في مكان آمن: لن يُعرض مرة أخرى. إذا نسيت كلمة المرور الرئيسية، فإنه يفتح كلمات المرور المحفوظة، ثم تختار كلمة مرور رئيسية جديدة."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "إضافة عنوان اللسان الحالي إلى عنوان النافذة"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "بعد اللسان الأخير العودة إلى الأول، والعكس"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "السؤال أيضًا عند إغلاق لسان بزر الفأرة الأوسط"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "المظهر"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "السؤال قبل إغلاق لسان طرفية"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "السؤال قبل الخروج عند وجود اتصالات مفتوحة"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3829,14 @@ msgid "Extensions"
 msgstr "الإضافات"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "اتباع نمط النظام أو فرض سمة فاتحة أو داكنة"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "خط قائمة المضيفين"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "محمّل"
 
@@ -3773,8 +3849,8 @@ msgid "Logging"
 msgstr "السجلات"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "النافذة الرئيسية"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "البحث عند البدء عن إصدار منشور أحدث على GitHub"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "صفحة التفضيلات غير متاحة: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "إعادة الاتصال بالمضيفين الذين كانوا مفتوحين عند إغلاق التطبيق"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "الأمان"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "عرض كل صفوف قائمة المضيفين بالخلفية نفسها"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "عرض قائمة المضيفين بخط سطح المكتب"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "عرض قائمة المضيفين بجانب الطرفيات"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "استخدام خط النظام"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "الإصدار {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "عنوان النافذة؛ اتركه فارغًا لاستخدام اسم التطبيق"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "تقسيم عمودي"
 msgid "Unsplit all consoles"
 msgstr "إلغاء تقسيم جميع وحدات التحكم"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "سجل xfreerdp:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "صفحة 2"
-
-#~ msgid "page 1"
-#~ msgstr "صفحة 1"
-
-#~ msgid "local"
-#~ msgstr "محلي"
-
-#~ msgid "label"
-#~ msgstr "تسمية"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_تحرير"
-
-#~ msgid "Split console vertically"
-#~ msgstr "تقسيم وحدة التحكم عموديًا"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "تقسيم وحدة التحكم أفقيًا"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "إظهار شريط الأدوات"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "إرسال أوامر إلى عدة مضيفين في نفس الوقت"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "ثوانٍ بين حزم keep-alive"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "حفظ المخزن المؤقت لوحدة التحكم النشطة في ملف"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (غير متاح هنا: يتطلب Proxmox تذكرة/وكيل API)"
-
-#~ msgid "Open local console"
-#~ msgstr "فتح وحدة التحكم المحلية"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "المنفذ المحلي مخصص بالفعل"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "استيراد قائمة الخوادم من ملف"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "وسائط إضافية تُمرَّر إلى سطر الأوامر"
-
-#~ msgid "Export server list to file"
-#~ msgstr "تصدير قائمة الخوادم إلى ملف"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "تحرير خصائص المضيفين"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "أهداف Proxmox المكتشفة (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "هدف Proxmox مكتشف"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "إنشاء إعادة توجيه منفذ ديناميكي"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "الاتصال بالمضيف المحدد أو جميع المضيفين في المجموعة المحددة"
+#~ msgid "Colors and Keys"
+#~ msgstr "الألوان والمفاتيح"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "إلغاء تقسيم جميع وحدات التحكم"
 #~ "1: الحد الأدنى\n"
 #~ "9: الحد الأقصى"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "الألوان والمفاتيح"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "الاتصال بالمضيف المحدد أو جميع المضيفين في المجموعة المحددة"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "إنشاء إعادة توجيه منفذ ديناميكي"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "هدف Proxmox مكتشف"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "أهداف Proxmox المكتشفة (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "تحرير خصائص المضيفين"
+
+#~ msgid "Export server list to file"
+#~ msgstr "تصدير قائمة الخوادم إلى ملف"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "وسائط إضافية تُمرَّر إلى سطر الأوامر"
+
+#~ msgid "Import server list from file"
+#~ msgstr "استيراد قائمة الخوادم من ملف"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "المنفذ المحلي مخصص بالفعل"
+
+#~ msgid "Open local console"
+#~ msgstr "فتح وحدة التحكم المحلية"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (غير متاح هنا: يتطلب Proxmox تذكرة/وكيل API)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "حفظ المخزن المؤقت لوحدة التحكم النشطة في ملف"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "ثوانٍ بين حزم keep-alive"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "إرسال أوامر إلى عدة مضيفين في نفس الوقت"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "إظهار شريط الأدوات"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "تقسيم وحدة التحكم أفقيًا"
+
+#~ msgid "Split console vertically"
+#~ msgstr "تقسيم وحدة التحكم عموديًا"
+
+#~ msgid "_Edit"
+#~ msgstr "_تحرير"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "تسمية"
+
+#~ msgid "local"
+#~ msgstr "محلي"
+
+#~ msgid "page 1"
+#~ msgstr "صفحة 1"
+
+#~ msgid "page 2"
+#~ msgstr "صفحة 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "سجل xfreerdp:"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "formatet eller versionen understøttes ikke"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Tastaturgenveje"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Næste faneblad"
 
@@ -3136,6 +3140,10 @@ msgstr "Gem konfiguration som…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Søg"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Brugervejledning"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3277,14 @@ msgstr "Porten skal være et tal mellem {min} og {max}."
 msgid "The name must not contain «/»."
 msgstr "Navnet må ikke indeholde “/”."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Værter"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Hovedvindue"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3358,10 @@ msgid "Connection"
 msgstr "Forbindelse"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Forbindelsestype; dens indstillinger vises nedenfor"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Kassér"
 
@@ -3358,6 +3378,10 @@ msgid "Existing groups"
 msgstr "Eksisterende grupper"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Ekstra argumenter til forbindelseskommandoen, hvis protokollen understøtter dem"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Ekstra parametre"
 
@@ -3366,8 +3390,20 @@ msgid "Foreground color"
 msgstr "Tekstfarve"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Værtsnavn eller IP-adresse på serveren"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Fortsæt redigering"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Lad stå tomt for at bruge protokollens standardport"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Navn vist i værtslisten, entydigt i sin gruppe"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3422,10 @@ msgid "No extension is installed."
 msgstr "Ingen udvidelse er installeret."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Note vist i værtslistens værktøjstip"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokol"
 
@@ -3402,14 +3442,22 @@ msgstr "Skalkommando, der køres lokalt i baggrunden lige efter forbindelsen slu
 msgid "The changes to this host have not been saved."
 msgstr "Ændringerne af denne vært er ikke gemt."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Brug konsolfarverne fra indstillingerne i stedet for farverne nedenfor"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Brugernavn på fjernværten"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Hvad der skal ske med konsolfanen, når forbindelsen slutter"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Der findes allerede et element med dette navn i “{group}”."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Værter"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3789,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Skriv denne kode ned eller udskriv den, og opbevar den et sikkert sted: den vises ikke igen. Hvis du glemmer hovedadgangskoden, låser den de gemte adgangskoder op, og derefter vælger du en ny hovedadgangskode."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Tilføj titlen på den aktuelle fane til vinduestitlen"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Efter den sidste fane gå tilbage til den første og omvendt"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Spørg også, når en fane lukkes med musens midterste knap"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Udseende"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Spørg før en konsolfane lukkes"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Spørg før afslutning, mens der er åbne forbindelser"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3829,14 @@ msgid "Extensions"
 msgstr "Udvidelser"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Følg systemets stil eller gennemtving et lyst eller mørkt tema"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Skrifttype for værtslisten"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Indlæst"
 
@@ -3773,8 +3849,8 @@ msgid "Logging"
 msgstr "Logning"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Hovedvindue"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Søg efter en nyere udgivet version på GitHub ved opstart"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Indstillingssiden er ikke tilgængelig: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Genopret forbindelsen til de værter, der var åbne, da programmet blev lukket"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Sikkerhed"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Vis alle rækker i værtslisten med samme baggrund"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Vis værtslisten med skrivebordets skrifttype"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Vis værtslisten ved siden af konsollerne"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "Brug systemets skrifttype"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Version {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Vinduestitel; lad stå tomt for at bruge programmets navn"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "Opdel V"
 msgid "Unsplit all consoles"
 msgstr "Fjern opdeling af alle konsoller"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp-log:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "side 2"
-
-#~ msgid "page 1"
-#~ msgstr "side 1"
-
-#~ msgid "local"
-#~ msgstr "lokal"
-
-#~ msgid "label"
-#~ msgstr "etiket"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Rediger"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Opdel konsol vertikalt"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Opdel konsol horisontalt"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Vis værktøjslinje"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Send kommandoer til flere værter på samme tid"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Sekunder mellem keep-alive-pakker"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Gem den aktive konsols buffer til en fil"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (ikke tilgængelig her: Proxmox kræver API-billet/proxy)"
-
-#~ msgid "Open local console"
-#~ msgstr "Åbn lokal konsol"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Lokal port allerede tildelt"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Importer serverliste fra fil"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Ekstra argumenter til kommandolinjen"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Eksporter serverliste til fil"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Rediger værters egenskaber"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Registrerede Proxmox-mål (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Registreret Proxmox-mål"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Opret dynamisk portvideresendelse"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Forbind til den valgte vært eller alle værter i den valgte gruppe"
+#~ msgid "Colors and Keys"
+#~ msgstr "Farver og taster"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "Fjern opdeling af alle konsoller"
 #~ "1: min\n"
 #~ "9: maks"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Farver og taster"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Forbind til den valgte vært eller alle værter i den valgte gruppe"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Opret dynamisk portvideresendelse"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Registreret Proxmox-mål"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Registrerede Proxmox-mål (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Rediger værters egenskaber"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Eksporter serverliste til fil"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Ekstra argumenter til kommandolinjen"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Importer serverliste fra fil"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Lokal port allerede tildelt"
+
+#~ msgid "Open local console"
+#~ msgstr "Åbn lokal konsol"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (ikke tilgængelig her: Proxmox kræver API-billet/proxy)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Gem den aktive konsols buffer til en fil"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Sekunder mellem keep-alive-pakker"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Send kommandoer til flere værter på samme tid"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Vis værktøjslinje"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Opdel konsol horisontalt"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Opdel konsol vertikalt"
+
+#~ msgid "_Edit"
+#~ msgstr "_Rediger"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "etiket"
+
+#~ msgid "local"
+#~ msgstr "lokal"
+
+#~ msgid "page 1"
+#~ msgstr "side 1"
+
+#~ msgid "page 2"
+#~ msgstr "side 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp-log:"
