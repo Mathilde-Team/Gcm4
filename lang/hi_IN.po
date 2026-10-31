@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 16:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -408,19 +408,19 @@ msgstr "सर्वर निर्यात करें"
 msgid "Export servers"
 msgstr "सर्वर निर्यात करें"
 
-#: gnome_connection_manager.py plugins/plugin_export_csv.py
+#: gnome_connection_manager.py
 msgid "Export to CSV"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_csv.py
+#: gnome_connection_manager.py
 msgid "Export to CSV…"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_json.py
+#: gnome_connection_manager.py
 msgid "Export to JSON"
 msgstr ""
 
-#: gnome_connection_manager.py plugins/plugin_export_json.py
+#: gnome_connection_manager.py
 msgid "Export to JSON…"
 msgstr ""
 
@@ -965,74 +965,6 @@ msgstr ""
 #, python-brace-format
 msgid "{program} not found"
 msgstr "{program} नहीं मिला"
-
-#: plugins/plugin_export_csv.py
-#, python-brace-format
-msgid "CSV export error: {exc}"
-msgstr ""
-
-#: plugins/plugin_export_csv.py plugins/plugin_export_json.py
-#, python-brace-format
-msgid "{n} connection(s) exported to {filename}."
-msgstr ""
-
-#: plugins/plugin_export_json.py
-#, python-brace-format
-msgid "JSON export error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_csv.py
-#, fuzzy, python-brace-format
-#| msgid "Template name"
-msgid "CSV import error: {exc}"
-msgstr "टेम्पलेट नाम"
-
-#: plugins/plugin_import_csv.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from CSV"
-msgstr "libvirt से आयात करें"
-
-#: plugins/plugin_import_csv.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from CSV…"
-msgstr "libvirt से आयात करें"
-
-#: plugins/plugin_import_csv.py
-msgid "No valid entry found in CSV."
-msgstr ""
-
-#: plugins/plugin_import_csv.py
-#, python-brace-format
-msgid "{n} connection(s) imported from CSV."
-msgstr ""
-
-#: plugins/plugin_import_json.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from JSON"
-msgstr "libvirt से आयात करें"
-
-#: plugins/plugin_import_json.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from JSON…"
-msgstr "libvirt से आयात करें"
-
-#: plugins/plugin_import_json.py
-#, python-brace-format
-msgid "JSON import error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_json.py
-msgid "No valid entry found in JSON."
-msgstr ""
-
-#: plugins/plugin_import_json.py
-#, python-brace-format
-msgid "{n} connection(s) imported from JSON."
-msgstr ""
 
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
 #: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
@@ -5129,6 +5061,11 @@ msgstr "विभाजन V"
 msgid "Unsplit all consoles"
 msgstr "सभी कंसोल को अविभाजित करें"
 
+#, fuzzy, python-brace-format
+#~| msgid "Template name"
+#~ msgid "CSV import error: {exc}"
+#~ msgstr "टेम्पलेट नाम"
+
 #~ msgid "Colors and Keys"
 #~ msgstr "रंग और कीज़"
 
@@ -5163,6 +5100,26 @@ msgstr "सभी कंसोल को अविभाजित करें"
 
 #~ msgid "Extra arguments to pass to command line"
 #~ msgstr "कमांड लाइन पर पास करने के लिए अतिरिक्त आर्गुमेंट"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from CSV"
+#~ msgstr "libvirt से आयात करें"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from CSV…"
+#~ msgstr "libvirt से आयात करें"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from JSON"
+#~ msgstr "libvirt से आयात करें"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from JSON…"
+#~ msgstr "libvirt से आयात करें"
 
 #~ msgid "Import server list from file"
 #~ msgstr "फ़ाइल से सर्वर सूची आयात करें"

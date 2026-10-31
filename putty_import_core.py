@@ -18,7 +18,9 @@ scanne un dossier de sessions PuTTY et produit des dicts « row » au format
 attendu par ``Wmain._dict_to_host`` (mêmes clés que l'import CSV/JSON —
 ``name``/``host``/``user``/``port``/``type``/``protocol``/``description``),
 sans jamais construire de ``Host`` lui-même (ceci reste la responsabilité du
-cœur GTK, comme pour ``plugin_import_csv.py``).
+cœur GTK, comme pour l'import/export CSV/JSON de la base GTK4 —
+``gcm4.core.exchange`` ; les plugins GTK3 correspondants sont retirés,
+issue #179).
 
 Portée volontairement limitée à SSH et Telnet (protocoles PuTTY les plus
 courants et directement équivalents à des plugins GCM existants) : Rlogin et

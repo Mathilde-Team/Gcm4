@@ -3,10 +3,6 @@
 gnome_connection_manager.py
 key_picker_dialog.py
 models.py
-plugins/plugin_export_csv.py
-plugins/plugin_export_json.py
-plugins/plugin_import_csv.py
-plugins/plugin_import_json.py
 plugins/plugin_import_libvirt.py
 plugins/plugin_import_ovirt.py
 plugins/plugin_import_proxmox.py
