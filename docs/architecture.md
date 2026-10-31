@@ -55,8 +55,8 @@ Chaque protocole est découvert automatiquement par `PluginRegistry.autoload()`.
 | Import Proxmox | `plugin_import_proxmox.py` | ✅ `qm list`/`qm config`, ticket SPICE via `pvesh`, résolution IP 4 niveaux |
 | Import VirtualBox | `plugin_import_virtualbox.py` | ✅ URI `vbox+ssh://user@host[:port]/` saisie manuelle — non documenté |
 | Import oVirt | `plugin_import_ovirt.py` | ✅ Pilotage Engine oVirt (URL + API REST + user SSH) — non documenté |
-| Import CSV / JSON | `plugin_import_csv.py` / `plugin_import_json.py` | ✅ |
-| Export CSV / JSON | `plugin_export_csv.py` / `plugin_export_json.py` | ✅ Sans mot de passe |
+| Import CSV / JSON | `plugin_import_csv.py` / `plugin_import_json.py` | ❌ **Supprimés le 31/10/2026 (#179)** : remplacés par l'import de la base GTK4 (`gcm4.core.exchange`, #152/#153) |
+| Export CSV / JSON | `plugin_export_csv.py` / `plugin_export_json.py` | ❌ **Supprimés le 31/10/2026 (#179)** : remplacés par l'export de la base GTK4 (#152/#153), sans mot de passe |
 | Push config masse — Netmiko | `plugin_netmiko_push.py` + `netmiko_bulk_core.py` | ✅ Session CLI SSH/équipement, profils, inventaire CSV, gabarits `#colonne#` — non documenté |
 | Push config masse — SNMP | `plugin_snmp_push.py` + `snmp_bulk_core.py` | ✅ `SNMP SET` déclencheur (H3C/Cisco/**Huawei ajouté le 2026-08-30**), `ThreadPoolExecutor`. **#74 (2026-10-24)** : dépôt du fichier rendu par SFTP/FTP/TFTP (`FileTransferConfig`, `upload_config_file`) et protocole de récupération TFTP/FTP/SFTP transmis au driver, repris de `snmp_push_core.py`, supprimé ; le formulaire du plugin GTK3 ne propose pas encore ces réglages (§2.2-bis) |
 | Import PuTTY (`~/.putty/sessions/`) | `plugin_import_putty.py` + `putty_import_core.py` | ✅ **2026-09-01.** Scanne un dossier de sessions PuTTY Unix (`Clé=Valeur` par fichier, noms de fichier décodés du schéma `%XX`) ; SSH/Telnet uniquement (Rlogin/Raw sans équivalent GCM, Serial hors périmètre — champs PuTTY trop différents du plugin série, voir docstring de `putty_import_core.py`), sessions ignorées listées dans le message de résumé |
@@ -643,12 +643,13 @@ plugins/                         découverts par autoload() (cf. plugin_base.py)
 ├── plugin_import_libvirt.py / plugin_import_proxmox.py
 ├── plugin_import_virtualbox.py    URI vbox+ssh:// saisie manuelle
 ├── plugin_import_ovirt.py         Engine oVirt (URL + API REST + user SSH)
-├── plugin_import_csv.py / plugin_import_json.py
 ├── plugin_import_putty.py         ✅ 2026-09-01 — sessions PuTTY Unix
 │                                   (~/.putty/sessions/), SSH/Telnet
 │                                   uniquement ; scan/parsing dans
 │                                   putty_import_core.py (racine, zéro GTK)
-├── plugin_export_csv.py / plugin_export_json.py
+│                                   (import/export CSV/JSON supprimés le
+│                                   31/10/2026, #179 : remplacés par la base
+│                                   GTK4 — gcm4.core.exchange)
 ├── plugin_netmiko_push.py         BatchPlugin — get_batch_plugin() (PAS get_plugin(),
 │                                   c'est normal : PluginRegistry l'ignore à raison,
 │                                   BatchPluginRegistry le charge séparément)

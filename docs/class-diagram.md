@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-105 modules · 179 classes · 352 fonctions publiques de module.
+101 modules · 175 classes · 348 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -30,7 +30,7 @@ flowchart TD
     g1 -->|2| g2
     g0 -->|2| g1
     g0 -->|1| g2
-    g2 -->|58| g1
+    g2 -->|54| g1
     g2 -->|4| g0
     g2 -->|24| g4
     g2 -->|5| g5
@@ -758,10 +758,6 @@ classDiagram
 | `plugins.local.core` | `plugins/local/core.py` | Logique du plugin local, sans GTK : shell à lancer et délai des commandes. |
 | `plugins.local.gtk4` | `plugins/local/gtk4.py` | Plugin local de gcm4 (contrat v1, ``docs/plugins.md``) : shell local dans un terminal VTE GTK4. |
 | `plugins.plugin_base` | `plugins/plugin_base.py` | Contrats plugin pour GCM. |
-| `plugins.plugin_export_csv` | `plugins/plugin_export_csv.py` | Outil « Export to CSV » (BatchPlugin) pour GCM. |
-| `plugins.plugin_export_json` | `plugins/plugin_export_json.py` | Outil « Export to JSON » (BatchPlugin) pour GCM. |
-| `plugins.plugin_import_csv` | `plugins/plugin_import_csv.py` | Outil « Import from CSV » (BatchPlugin) pour GCM. |
-| `plugins.plugin_import_json` | `plugins/plugin_import_json.py` | Outil « Import from JSON » (BatchPlugin) pour GCM. |
 | `plugins.plugin_import_libvirt` | `plugins/plugin_import_libvirt.py` | Outil « Import from libvirt » (BatchPlugin) pour GCM. |
 | `plugins.plugin_import_ovirt` | `plugins/plugin_import_ovirt.py` | Outil « Import from oVirt » (BatchPlugin) pour GCM. |
 | `plugins.plugin_import_proxmox` | `plugins/plugin_import_proxmox.py` | Outil « Import from Proxmox » (BatchPlugin) pour GCM. |
@@ -871,38 +867,6 @@ classDiagram
         +tool_ids() list~str~
         +autoload(directory, package) list~str~
     }
-    class mod_plugins_plugin_export_csv {
-        <<module>>
-        +get_batch_plugin() CsvExportBatchPlugin
-    }
-    class CsvExportBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- CsvExportBatchPlugin
-    class mod_plugins_plugin_export_json {
-        <<module>>
-        +get_batch_plugin() JsonExportBatchPlugin
-    }
-    class JsonExportBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- JsonExportBatchPlugin
-    class mod_plugins_plugin_import_csv {
-        <<module>>
-        +get_batch_plugin() CsvImportBatchPlugin
-    }
-    class CsvImportBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- CsvImportBatchPlugin
-    class mod_plugins_plugin_import_json {
-        <<module>>
-        +get_batch_plugin() JsonImportBatchPlugin
-    }
-    class JsonImportBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- JsonImportBatchPlugin
     class mod_plugins_plugin_import_libvirt {
         <<module>>
         +build_preferences_tab(notebook)
