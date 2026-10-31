@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:21+0000\n"
+"POT-Creation-Date: 2026-10-31 17:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3277,6 +3277,14 @@ msgstr "포트는 {min}에서 {max} 사이의 숫자여야 합니다."
 msgid "The name must not contain «/»."
 msgstr "이름에 '/'를 사용할 수 없습니다."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "호스트"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "기본 창"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3450,10 +3458,6 @@ msgstr "연결이 끝났을 때 콘솔 탭을 어떻게 할지"
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "'{group}'에 같은 이름의 항목이 이미 있습니다."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "호스트"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3847,10 +3851,6 @@ msgstr "로그"
 #: src/gcm4/ui/preferences.py
 msgid "Look for a newer published version on GitHub at startup"
 msgstr "시작할 때 GitHub에서 더 새로운 공개 버전을 확인합니다"
-
-#: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "기본 창"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."

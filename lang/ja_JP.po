@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 17:21+0000\n"
+"POT-Creation-Date: 2026-10-31 17:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3277,6 +3277,14 @@ msgstr "ポートは {min} から {max} までの数値で指定してくださ�
 msgid "The name must not contain «/»."
 msgstr "名前に「/」は使えません。"
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "ホスト"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "メインウィンドウ"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3450,10 +3458,6 @@ msgstr "接続終了時にコンソールのタブをどうするか"
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "「{group}」には同じ名前の項目がすでにあります。"
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "ホスト"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3847,10 +3851,6 @@ msgstr "ログ"
 #: src/gcm4/ui/preferences.py
 msgid "Look for a newer published version on GitHub at startup"
 msgstr "起動時に GitHub で新しい公開バージョンを確認します"
-
-#: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "メインウィンドウ"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
