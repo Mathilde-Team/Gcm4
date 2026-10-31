@@ -11,6 +11,7 @@ from __future__ import annotations
 import ast
 import os
 import re
+import runpy
 import subprocess
 import sys
 from pathlib import Path
@@ -47,6 +48,20 @@ def test_version_sans_display():
     assert r.returncode == 0, r.stderr
     assert r.stdout.strip() == f"gcm4 {gcm4.__version__}"
     assert r.stderr == ""
+
+
+def test_module_version_en_processus(monkeypatch, capsys):
+    """``python -m gcm4 --version`` exécuté en processus : même sortie, code 0.
+
+    Le test de fumée ci-dessus passe par un sous-processus, invisible pour
+    la couverture ; celui-ci exécute ``src/gcm4/__main__.py`` en processus
+    (argparse termine avant tout import GTK, aucun display nécessaire).
+    """
+    monkeypatch.setattr(sys, "argv", ["gcm4", "--version"])
+    with pytest.raises(SystemExit) as infos:
+        runpy.run_module("gcm4", run_name="__main__")
+    assert infos.value.code in (0, None)
+    assert capsys.readouterr().out.strip() == f"gcm4 {gcm4.__version__}"
 
 
 def test_version_lue_dans_les_metadonnees():

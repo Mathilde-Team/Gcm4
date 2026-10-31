@@ -63,6 +63,24 @@ LIAISONS = (
 )
 
 
+def libelle_echec(statut: int) -> str:
+    """Libellé court d'un statut ``waitpid`` : code de sortie, signal ou statut brut.
+
+    Le signal ``child-exited`` de VTE transmet le statut tel que ``waitpid``
+    le rend ; le code de sortie s'en extrait par :func:`os.WEXITSTATUS`
+    (#80 : notification des échecs de connexion).
+    """
+    logger.debug("libelle_echec: entrée")
+    if os.WIFEXITED(statut):
+        resultat = _("exit code {code}").format(code=os.WEXITSTATUS(statut))
+    elif os.WIFSIGNALED(statut):
+        resultat = _("signal {number}").format(number=os.WTERMSIG(statut))
+    else:
+        resultat = _("status {status}").format(status=statut)
+    logger.debug("libelle_echec: {}", resultat)
+    return resultat
+
+
 def rgba(texte: str) -> Gdk.RGBA | None:
     """``Gdk.RGBA`` de ``texte`` (``#rrggbb``…), ``None`` si illisible."""
     logger.trace("rgba: {!r}", texte)
@@ -81,6 +99,7 @@ class SessionTerminal:
         pid: processus lancé ; 0 avant la fin du lancement et après sa fin.
         fermee: onglet fermé (``close()`` appelé).
         code_de_sortie: statut ``waitpid`` du programme ; ``None`` tant qu'il tourne.
+        notifier: appelé quand la session se termine anormalement (#80), ou ``None``.
     """
 
     def __init__(
@@ -90,6 +109,7 @@ class SessionTerminal:
         lancement: terminal.Lancement,
         log,
         debut_commandes_ms: int,
+        notifier: Callable[[str], None] | None = None,
     ) -> None:
         """Construit le terminal et lance ``lancement`` (asynchrone, rien ne bloque).
 
@@ -99,10 +119,15 @@ class SessionTerminal:
             lancement: commande à lancer.
             log: journal du plugin (``context.log``).
             debut_commandes_ms: délai du premier envoi de ``commands``.
+            notifier: toast d'échec (``context.notify``) ; ``None`` quand un code
+                de sortie non nul n'est pas un échec de connexion (shell local,
+                dont l'utilisateur contrôle le code de sortie).
         """
         logger.debug("SessionTerminal.__init__: {} {!r}", protocole, host.path)
         self.log = log
         self.protocole = protocole
+        self.host = host
+        self.notifier = notifier
         self.pid = 0
         self.fermee = False
         self.code_de_sortie: int | None = None
@@ -172,7 +197,10 @@ class SessionTerminal:
                 os.close(ecriture)
             fds = [lecture]
         # VTE prend possession des descripteurs de ``fds`` et les ferme
-        # après le lancement, réussi ou non.
+        # après le lancement, réussi ou non. ``lancement.env`` complète
+        # l'environnement (ex. ``IPMI_PASSWORD``, #179).
+        if lancement.env:
+            envv = list(envv) + list(lancement.env)
         self.terminal.spawn_with_fds_async(
             Vte.PtyFlags.DEFAULT,
             None,
@@ -212,12 +240,25 @@ class SessionTerminal:
         return GLib.SOURCE_REMOVE
 
     def _fin(self, _terminal, statut: int) -> None:
-        """Fin du programme : l'onglet reste ouvert avec « Session ended »."""
+        """Fin du programme : l'onglet reste ouvert avec « Session ended » ; un échec est notifié.
+
+        Un code de sortie non nul ou un signal — quand l'onglet n'a pas été fermé
+        par l'utilisateur — est un échec de connexion probable (authentification
+        refusée, hôte injoignable, #80) : un toast le dit, l'onglet pouvant être
+        en arrière-plan.
+        """
         logger.debug("SessionTerminal._fin: statut {}", statut)
         self.code_de_sortie = statut
         self.pid = 0
         self._oublier_minuteries()
         self._afficher("\r\n" + _("Session ended") + "\r\n")
+        if self.notifier is not None and statut != 0 and not self.fermee:
+            logger.debug("SessionTerminal._fin: échec notifié")
+            self.notifier(
+                _("Connection to {name} failed ({detail})").format(
+                    name=self.host.name, detail=libelle_echec(statut)
+                )
+            )
         logger.debug("SessionTerminal._fin: fait")
 
     def _oublier_minuteries(self) -> None:

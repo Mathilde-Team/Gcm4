@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:30+0000\n"
+"POT-Creation-Date: 2026-10-30 23:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -881,7 +881,8 @@ msgstr ""
 msgid "public"
 msgstr ""
 
-#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
+#: plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr ""
@@ -1860,7 +1861,7 @@ msgstr ""
 msgid "Ex : /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Baud rate:"
 msgstr ""
 
@@ -1868,7 +1869,7 @@ msgstr ""
 msgid "Transmission speed in baud"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Template:"
 msgstr ""
 
@@ -1876,7 +1877,7 @@ msgstr ""
 msgid "Load vendor-recommended serial settings"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Data bits:"
 msgstr ""
 
@@ -1884,7 +1885,7 @@ msgstr ""
 msgid "Number of data bits per byte (8 = standard)"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Parity:"
 msgstr ""
 
@@ -1892,7 +1893,7 @@ msgstr ""
 msgid "Parity bit: None (N) = standard, Even (E), Odd (O)"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Stop bits:"
 msgstr ""
 
@@ -1900,7 +1901,7 @@ msgstr ""
 msgid "Stop bits: 1 = standard, 2 = RS-485 / legacy hardware"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Flow control:"
 msgstr ""
 
@@ -1940,7 +1941,7 @@ msgstr ""
 msgid "Flow control"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Tool"
 msgstr ""
 
@@ -3616,7 +3617,27 @@ msgstr ""
 
 #: src/gcm4/ui/terminal.py
 #, python-brace-format
+msgid "exit code {code}"
+msgstr ""
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "signal {number}"
+msgstr ""
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "status {status}"
+msgstr ""
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
 msgid "Encoding {name} is not available, UTF-8 is used."
+msgstr ""
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "Connection to {name} failed ({detail})"
 msgstr ""
 
 #: src/gcm4/ui/terminal.py

@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-97 modules · 174 classes · 338 fonctions publiques de module.
+103 modules · 178 classes · 348 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -32,8 +32,8 @@ flowchart TD
     g0 -->|1| g2
     g2 -->|58| g1
     g2 -->|4| g0
-    g2 -->|15| g4
-    g2 -->|3| g5
+    g2 -->|24| g4
+    g2 -->|5| g5
     g3 -->|2| g0
     g3 -->|2| g4
     g3 -->|1| g5
@@ -109,6 +109,7 @@ classDiagram
     class mod_gesture_trigger_core {
         <<module>>
         +classify_tree_servers_press(button, n_press)
+        +masque_actif_dans_etat(retour_get_state, masque)
         +classify_terminal_click(button, n_press, ctrl_pressed, paste_on_right_click)
         +classify_tab_label_click(button, n_press)
     }
@@ -751,6 +752,9 @@ classDiagram
 
 | Module | Fichier | Rôle |
 |---|---|---|
+| `plugins.ipmisol` | `plugins/ipmisol/__init__.py` | Plugin ipmisol : SOL (console série des cartes de gestion) dans un terminal. |
+| `plugins.ipmisol.core` | `plugins/ipmisol/core.py` | Partie métier du plugin ipmisol (sans GTK) — portage #179. |
+| `plugins.ipmisol.gtk4` | `plugins/ipmisol/gtk4.py` | Plugin ipmisol de gcm4 (contrat v1, ``docs/plugins.md``) : SOL dans un terminal VTE GTK4. |
 | `plugins.local.core` | `plugins/local/core.py` | Logique du plugin local, sans GTK : shell à lancer et délai des commandes. |
 | `plugins.local.gtk4` | `plugins/local/gtk4.py` | Plugin local de gcm4 (contrat v1, ``docs/plugins.md``) : shell local dans un terminal VTE GTK4. |
 | `plugins.plugin_base` | `plugins/plugin_base.py` | Contrats plugin pour GCM. |
@@ -775,6 +779,9 @@ classDiagram
 | `plugins.plugin_vnc` | `plugins/plugin_vnc.py` | Plugin de connexion VNC (GtkVnc.Display natif, ou fallback subprocess). |
 | `plugins.plugin_web` | `plugins/plugin_web.py` | Plugin de connexion Web (console BMC HTML5 : iLO/iDRAC/IMM, ou toute URL). |
 | `plugins.pluginvnc2.vnc_tab` | `plugins/pluginvnc2/vnc_tab.py` | vnc_tab.py — Onglet VNC complet pour gnome-connection-manager (fork GTK4) |
+| `plugins.serial` | `plugins/serial/__init__.py` | Plugin serial : port série local (picocom, minicom, screen) dans un terminal. |
+| `plugins.serial.core` | `plugins/serial/core.py` | Partie métier du plugin serial (sans GTK) — portage #179. |
+| `plugins.serial.gtk4` | `plugins/serial/gtk4.py` | Plugin serial de gcm4 (contrat v1, ``docs/plugins.md``) : port série dans un terminal VTE GTK4. |
 | `plugins.sftp.core` | `plugins/sftp/core.py` | Logique du plugin SFTP (#75), sans GTK : connexion, navigation, transferts. |
 | `plugins.sftp.gtk4` | `plugins/sftp/gtk4.py` | Plugin SFTP de gcm4 (contrat v1, ``docs/plugins.md``) : navigateur de fichiers distant (#75). |
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
@@ -784,6 +791,23 @@ classDiagram
 
 ```mermaid
 classDiagram
+    class mod_plugins_ipmisol_core {
+        <<module>>
+        +chemin(environnement) str None
+        +port(host) int
+        +lancement(chemin, host) Lancement
+        +desactivation(chemin, host) bool
+    }
+    class IpmiSolSession {
+        <<SessionTerminal>>
+        +close() None
+    }
+    class plugins_ipmisol_gtk4_IpmiSolPlugin {
+        +default_port(protocol) int None
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) IpmiSolSession
+    }
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_ipmisol_gtk4_IpmiSolPlugin
     class mod_plugins_local_core {
         <<module>>
         +shell(environ) str
@@ -951,13 +975,13 @@ classDiagram
         <<Gtk.Box>>
         +connect_ipmi()
     }
-    class IpmiSolPlugin {
+    class plugins_plugin_ipmisol_IpmiSolPlugin {
         +build_tab(host, get_password) Gtk.Widget
         +build_edit_page() Gtk.Widget
         +load_host_fields(host) None
         +save_host_fields(host) None
     }
-    plugins_plugin_base_ConnectionPlugin <|-- IpmiSolPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_ipmisol_IpmiSolPlugin
     class mod_plugins_plugin_local {
         <<module>>
         +get_plugin() LocalPlugin
@@ -1010,14 +1034,14 @@ classDiagram
         <<Gtk.Box>>
         +connect_serial()
     }
-    class SerialPlugin {
+    class plugins_plugin_serial_SerialPlugin {
         +build_tab(host, get_password) Gtk.Widget
         +build_edit_page() Gtk.Widget
         +load_host_fields(host) None
         +save_host_fields(host) None
         +host_fields() list~tuple~str, object~~
     }
-    plugins_plugin_base_ConnectionPlugin <|-- SerialPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_serial_SerialPlugin
     class mod_plugins_plugin_snmp_push {
         <<module>>
         +open_snmp_push_tab(wmain) SnmpPushTab
@@ -1182,6 +1206,22 @@ classDiagram
         <<Gtk.Box>>
         +close()
     }
+    class mod_plugins_serial_core {
+        <<module>>
+        +outil(environ, prefere) str None
+        +parametres(options, port_hote) dict~str, str~
+        +parametres_template(nom) tuple~str, str, str, str, str~ None
+        +commande(chemin, appareil, parametres, extra) list~str~
+    }
+    class SerialSession {
+        <<SessionTerminal>>
+    }
+    class plugins_serial_gtk4_SerialPlugin {
+        +default_port(protocol) int None
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) SerialSession
+    }
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_serial_gtk4_SerialPlugin
     class mod_plugins_sftp_core {
         <<module>>
         +empreinte(cle) str
@@ -1816,6 +1856,7 @@ classDiagram
         <<dataclass>>
         +list~str~ argv
         +str mot_de_passe
+        +tuple~str, ...~ env
     }
     class mod_gcm4_core_theme {
         <<module>>
@@ -2007,6 +2048,7 @@ classDiagram
     }
     class mod_gcm4_ui_terminal {
         <<module>>
+        +libelle_echec(statut) str
         +rgba(texte) Gdk.RGBA None
         +zone_options(options, changed) Gtk.Widget
     }

@@ -54,6 +54,7 @@ class KeyPickerDialog(Gtk.Dialog):
         Args:
             parent: Fenêtre parente GCM (pour centrage modal).
         """
+        logger.debug("KeyPickerDialog.__init__: entrée")
         super().__init__(
             title=_("Select SSH Key"),
             transient_for=parent,
@@ -72,9 +73,11 @@ class KeyPickerDialog(Gtk.Dialog):
         self._load_keys()
         self.show_all()
         self.connect("response", self._on_response)
+        logger.debug("KeyPickerDialog.__init__: fin")
 
     def _build_ui(self) -> None:
         """Construit le panneau principal : info label + liste de clés."""
+        logger.debug("_build_ui: entrée")
         content = self.get_content_area()
         content.set_spacing(6)
         content.set_margin_start(12)
@@ -143,15 +146,17 @@ class KeyPickerDialog(Gtk.Dialog):
         )
         self._no_key_label.set_justify(Gtk.Justification.CENTER)
         content.pack_start(self._no_key_label, False, False, 8)
+        logger.debug("_build_ui: fin")
 
     def _load_keys(self) -> None:
         """Scanne ~/.ssh/ et peuple le ListStore."""
+        logger.debug("_load_keys: entrée")
         self._store.clear()
         ssh_dir = Path.home() / ".ssh"
-        logger.debug(f"KeyPickerDialog._load_keys | ssh_dir={ssh_dir}")
 
         if not ssh_dir.exists():
             self._show_empty(True)
+            logger.debug("_load_keys: {} absent -> liste vide", ssh_dir)
             return
 
         entries: list[tuple[str, Path, Path | None]] = []
@@ -184,6 +189,7 @@ class KeyPickerDialog(Gtk.Dialog):
             )
 
         self._show_empty(len(self._store) == 0)
+        logger.debug("_load_keys: fin")
 
     def _show_empty(self, empty: bool) -> None:
         """Affiche ou masque le label « aucune clé ».
@@ -191,10 +197,12 @@ class KeyPickerDialog(Gtk.Dialog):
         Args:
             empty: True pour afficher le label, False pour le masquer.
         """
+        logger.debug("_show_empty: entrée | empty={}", empty)
         self._no_key_label.set_visible(empty)
         parent_sw = self._tree.get_parent()
         if parent_sw:
             parent_sw.set_visible(not empty)
+        logger.debug("_show_empty: fin")
 
     def _get_fingerprint(self, path: Path) -> str:
         """Calcule le fingerprint via ssh-keygen -lf.
@@ -205,6 +213,7 @@ class KeyPickerDialog(Gtk.Dialog):
         Returns:
             Fingerprint abrégé ou chaîne vide.
         """
+        logger.debug("_get_fingerprint: entrée | {}", path)
         try:
             result = subprocess.run(
                 ["ssh-keygen", "-lf", str(path)],
@@ -214,9 +223,15 @@ class KeyPickerDialog(Gtk.Dialog):
             )
             if result.returncode == 0:
                 parts = result.stdout.strip().split()
-                return parts[1][:32] if len(parts) >= 2 else ""
+                if len(parts) >= 2:
+                    logger.debug("_get_fingerprint: retour fingerprint")
+                    return parts[1][:32]
+                logger.debug("_get_fingerprint: sortie ssh-keygen inattendue -> vide")
+                return ""
+            logger.debug("_get_fingerprint: ssh-keygen rc={} -> vide", result.returncode)
         except Exception as exc:
-            logger.debug(f"_get_fingerprint | {path} → {exc}")
+            logger.debug("_get_fingerprint: except -> {} | {}", type(exc).__name__, exc)
+        logger.debug("_get_fingerprint: retour vide")
         return ""
 
     def _check_permissions(self, path: Path) -> tuple[str, bool]:
@@ -228,13 +243,15 @@ class KeyPickerDialog(Gtk.Dialog):
         Returns:
             Tuple (texte_permissions, permissions_correctes).
         """
+        logger.debug("_check_permissions: entrée | {}", path)
         try:
             mode = path.stat().st_mode
             perms = stat.S_IMODE(mode)
             ok = perms <= 0o600 and not (mode & stat.S_IRWXG) and not (mode & stat.S_IRWXO)
+            logger.debug("_check_permissions: retour perms={} ok={}", oct(perms)[-3:], ok)
             return (f"{oct(perms)[-3:]} ✓" if ok else f"{oct(perms)[-3:]} ⚠", ok)
         except OSError as exc:
-            logger.debug(f"_check_permissions | {path} → {exc}")
+            logger.debug("_check_permissions: except OSError -> {} | {}", type(exc).__name__, exc)
             return ("?", False)
 
     def _render_icon(
@@ -246,6 +263,7 @@ class KeyPickerDialog(Gtk.Dialog):
         _data: object,
     ) -> None:
         """Affiche une icône verrou selon le type et les permissions."""
+        logger.debug("_render_icon: entrée")
         priv_path = model[it][1]
         perms_ok = model[it][5]
         if priv_path.endswith(".pub"):
@@ -256,6 +274,7 @@ class KeyPickerDialog(Gtk.Dialog):
             icon = "channel-insecure-symbolic"
         cell.set_property("icon-name", icon)
         cell.set_property("stock-size", Gtk.IconSize.SMALL_TOOLBAR)
+        logger.debug("_render_icon: fin")
 
     def _render_name(
         self,
@@ -266,12 +285,14 @@ class KeyPickerDialog(Gtk.Dialog):
         _data: object,
     ) -> None:
         """Affiche le nom, en orange si permissions incorrectes."""
+        logger.debug("_render_name: entrée")
         name = model[it][0]
         perms_ok = model[it][5]
         if not perms_ok and not name.endswith(".pub"):
             cell.set_property("markup", f'<span color="orange">{name}</span>')
         else:
             cell.set_property("text", name)
+        logger.debug("_render_name: fin")
 
     def _render_type(
         self,
@@ -282,13 +303,17 @@ class KeyPickerDialog(Gtk.Dialog):
         _data: object,
     ) -> None:
         """Affiche 'private' ou 'public' selon le type de clé."""
+        logger.debug("_render_type: entrée")
         priv_path = model[it][1]
         cell.set_property("text", _("public") if priv_path.endswith(".pub") else _("private"))
+        logger.debug("_render_type: fin")
 
     def _on_selection_changed(self, selection: Gtk.TreeSelection) -> None:
         """Active le bouton Use si au moins une ligne est sélectionnée."""
+        logger.debug("_on_selection_changed: entrée")
         _model, rows = selection.get_selected_rows()
         self._btn_use.set_sensitive(len(rows) > 0)
+        logger.debug("_on_selection_changed: fin | {} ligne(s)", len(rows))
 
     def _on_row_activated(
         self,
@@ -297,13 +322,18 @@ class KeyPickerDialog(Gtk.Dialog):
         _col: Gtk.TreeViewColumn,
     ) -> None:
         """Double-clic : émet key-selected pour cette seule ligne et ferme."""
+        logger.debug("_on_row_activated: entrée | path={}", path)
         it = self._store.get_iter(path)
         if it:
             self._emit_selection([it])
             self.destroy()
+            logger.debug("_on_row_activated: ligne activée -> émis et fermé")
+            return
+        logger.debug("_on_row_activated: itérateur nul -> ignoré")
 
     def _on_response(self, _dlg: KeyPickerDialog, response_id: int) -> None:
         """Gère les boutons Cancel / Generate / Use."""
+        logger.debug("_on_response: entrée | response_id={}", response_id)
         if response_id == Gtk.ResponseType.OK:
             _model, rows = self._tree.get_selection().get_selected_rows()
             its = [self._store.get_iter(p) for p in rows]
@@ -314,7 +344,9 @@ class KeyPickerDialog(Gtk.Dialog):
         elif response_id == Gtk.ResponseType.HELP:
             self._open_key_manager()
         else:
+            logger.debug("_on_response: réponse {} -> fermeture", response_id)
             self.destroy()
+        logger.debug("_on_response: fin")
 
     def _emit_selection(self, iters: list[Gtk.TreeIter]) -> None:
         """Émet key-selected avec le(s) chemin(s) de clé(s) privée(s) choisi(s).
@@ -325,6 +357,7 @@ class KeyPickerDialog(Gtk.Dialog):
         Args:
             iters: Itérateurs sur les lignes sélectionnées.
         """
+        logger.debug("_emit_selection: entrée | {} ligne(s)", len(iters))
         paths: list[str] = []
         for it in iters:
             priv_path = self._store[it][1]
@@ -335,6 +368,7 @@ class KeyPickerDialog(Gtk.Dialog):
         result = ", ".join(paths)
         logger.info(f"KeyPickerDialog | key-selected path(s)={result}")
         self.emit("key-selected", result)
+        logger.debug("_emit_selection: fin | {} chemin(s)", len(paths))
 
     def _open_key_manager(self) -> None:
         """Ouvre l'onglet Gestionnaire de clés SSH (singleton "sshkeys",
@@ -350,6 +384,7 @@ class KeyPickerDialog(Gtk.Dialog):
         pas forcément pendant que ce picker reste ouvert. On restaure donc
         au retour au premier plan de CE dialogue (focus-in-event).
         """
+        logger.debug("_open_key_manager: entrée")
         self.set_modal(False)
         if getattr(self, "_key_manager_focus_handler_id", None) is None:
             self._key_manager_focus_handler_id = self.connect(
@@ -359,6 +394,7 @@ class KeyPickerDialog(Gtk.Dialog):
         from gnome_connection_manager import wMain  # noqa: PLC0415
 
         wMain.plugin_registry.get("ssh").manage_ssh_keys()
+        logger.debug("_open_key_manager: fin")
 
     def _on_regain_focus_from_key_manager(self, _widget: Gtk.Widget, _event) -> bool:
         """Restaure la modalité de ce picker et recharge la liste des clés
@@ -367,9 +403,11 @@ class KeyPickerDialog(Gtk.Dialog):
         Se déconnecte lui-même : n'a besoin de s'exécuter qu'une fois par
         passage par « Generate… ».
         """
+        logger.debug("_on_regain_focus_from_key_manager: entrée")
         if getattr(self, "_key_manager_focus_handler_id", None) is not None:
             self.disconnect(self._key_manager_focus_handler_id)
             self._key_manager_focus_handler_id = None
         self.set_modal(True)
         self._load_keys()
+        logger.debug("_on_regain_focus_from_key_manager: retour False (propagation)")
         return False

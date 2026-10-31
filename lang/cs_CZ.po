@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-26 00:30+0000\n"
+"POT-Creation-Date: 2026-10-30 23:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -960,7 +960,8 @@ msgstr ""
 msgid "⚙ Generate…"
 msgstr ""
 
-#: plugins/local/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
+#: plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "Program {program} nebyl nalezen"
@@ -1961,7 +1962,7 @@ msgstr ""
 msgid "BMC/iDRAC (115200 8N1)"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Baud rate:"
 msgstr "Rychlost (baud):"
 
@@ -1973,7 +1974,7 @@ msgstr ""
 msgid "DTR/DSR"
 msgstr ""
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Data bits:"
 msgstr "Datové bity:"
 
@@ -1991,7 +1992,7 @@ msgstr "Např.: /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
 msgid "Flow control"
 msgstr "Řízení toku:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Flow control:"
 msgstr "Řízení toku:"
 
@@ -2039,7 +2040,7 @@ msgstr "Přidat"
 msgid "Parity bit: None (N) = standard, Even (E), Odd (O)"
 msgstr "Bit parity: Žádná (N) = standard, Sudá (E), Lichá (O)"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Parity:"
 msgstr "Parita:"
 
@@ -2063,7 +2064,7 @@ msgstr "Sériový port:"
 msgid "Stop bits"
 msgstr "Stop bity:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Stop bits:"
 msgstr "Stop bity:"
 
@@ -2077,11 +2078,11 @@ msgstr "Stop bity: 1 = standard, 2 = RS-485 / starší hardware"
 msgid "Template"
 msgstr "Šablona:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Template:"
 msgstr "Šablona:"
 
-#: plugins/plugin_serial.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py
 msgid "Tool"
 msgstr ""
 
@@ -3855,12 +3856,32 @@ msgstr "Kódování znaků vzdáleného systému; v případě pochybností UTF-
 
 #: src/gcm4/ui/terminal.py
 #, python-brace-format
+msgid "Connection to {name} failed ({detail})"
+msgstr "Připojení k {name} selhalo ({detail})"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
 msgid "Encoding {name} is not available, UTF-8 is used."
 msgstr "Kódování {name} není k dispozici, použije se UTF-8."
 
 #: src/gcm4/ui/terminal.py
 msgid "Encoding:"
 msgstr "Kódování:"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "exit code {code}"
+msgstr "návratový kód {code}"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "signal {number}"
+msgstr "signál {number}"
+
+#: src/gcm4/ui/terminal.py
+#, python-brace-format
+msgid "status {status}"
+msgstr "stav {status}"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

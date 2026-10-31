@@ -5,7 +5,7 @@
 
 import weakref as _weakref
 
-from gi.repository import GLib, Gtk
+from gi.repository import Gio, GLib, Gtk
 from loguru import logger
 
 
@@ -112,14 +112,24 @@ def show_open_dialog(parent, title, action, last_path_holder=None):
         Gtk.ResponseType.OK,
     )
     btn_ok.get_style_context().add_class("suggested-action")
-    dlg.set_do_overwrite_confirmation(True)
+    # GTK4 a retiré la confirmation d'écrasement configurable de
+    # GtkFileChooser (le sélecteur la gère lui-même) ; la base GTK3
+    # encore debout la demande toujours.
+    if hasattr(dlg, "set_do_overwrite_confirmation"):
+        dlg.set_do_overwrite_confirmation(True)
     if holder is not None and not hasattr(holder, "lastPath"):
         holder.lastPath = os.path.expanduser("~") or ""
-    dlg.set_current_folder(getattr(holder, "lastPath", os.path.expanduser("~") or ""))
+    # GTK4 : set_current_folder prend un Gio.File (la version str a
+    # disparu avec GtkFileChooser en GTK4).
+    dossier = getattr(holder, "lastPath", os.path.expanduser("~") or "")
+    dlg.set_current_folder(Gio.File.new_for_path(dossier))
 
     if run_dialog_sync(dlg) == Gtk.ResponseType.OK:
-        filename = dlg.get_filename()
-        if holder is not None:
+        # GTK4 : get_filename() a disparu, get_file() renvoie un Gio.File
+        # (None si rien n'est encore sélectionné).
+        fichier = dlg.get_file()
+        filename = fichier.get_path() if fichier is not None else None
+        if holder is not None and filename is not None:
             holder.lastPath = os.path.dirname(filename)
     else:
         filename = None
@@ -150,12 +160,14 @@ def msgbox(text, parent=None, icon_path=None):
         buttons=Gtk.ButtonsType.OK,
         text=text,
     )
-    if icon_path:
+    if icon_path and hasattr(msg_box, "set_icon_from_file"):
+        # GTK4 a retiré les icônes de fenêtre (l'application les fournit
+        # au bureau) : l'appel ne concerne que la base GTK3, avec son
+        # repli silencieux si l'icône est introuvable.
         try:
             msg_box.set_icon_from_file(icon_path)
         except GLib.Error as exc:
             logger.debug("msgbox: {} : {}", type(exc).__name__, exc)
-            pass
     ok_btn = msg_box.get_widget_for_response(Gtk.ResponseType.OK)
     if ok_btn is not None:
         ok_btn.get_style_context().add_class("suggested-action")
@@ -314,7 +326,13 @@ def embed_dialog_content(gcm_instance):
             % (dialog,)
         )
     if content is not None:
-        dialog.remove(content)
+        # GTK4 : GtkContainer.remove() a disparu. Un enfant direct d'une
+        # Window se détache via set_child(None) ; la zone de contenu d'un
+        # Dialog a pour parent une Box interne et se détache elle-même.
+        if content.get_parent() is dialog:
+            dialog.set_child(None)
+        else:
+            content.unparent()
     if dialog is not gcm_instance:
         dialog.destroy()
     gcm_instance.main_widget = content

@@ -325,9 +325,17 @@ skip_covered = false
 # inférieur. Palier 2 de #293 (24/10/2026) : 43,9 % sur dev + tests de
 # plugin_base et hypervisor_import_common (≈ 45,3 %), soit 45. Palier 3 de
 # #293 (26/10/2026) : 50,9 % sur dev + tests de netmiko_bulk_core, soit 50.
+# Palier 4 de #293 (30/10/2026) : 51,4 % sur dev + tests de
+# src/gcm4/ui/fichiers.py, dialogues.py, mises_a_jour.py et __main__.py,
+# soit 51.
+# Palier 5 de #293 (31/10/2026) : 52,4 % sur dev + tests de
+# utils.py (helpers GTK : 30,9 % → 95,5 %), soit 52.
+# Palier 6 de #293 (31/10/2026) : 53,9 % sur dev + tests de
+# plugins/ssh/core.py (45,5 % → 87,7 % en mesure combinée :
+# migration/import ssh_config, pkexec, backups, CLI), soit 53.
 # Relever ce chiffre quand la base monte, ne jamais le baisser
 # pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
-fail_under = 50
+fail_under = 53
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",

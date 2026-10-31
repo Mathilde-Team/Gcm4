@@ -1334,6 +1334,78 @@ GTK4), `plugins/ssh/gtk4.py` et RDP — ordre entre ces chantiers toujours à
 confirmer avec l'auteure. Détail complet de session :
 `docs/sessions/session-44.md`.
 
+## 3.6-quaterdecies Vérification empirique des portages GestureClick et inline editor (issue #72, 2026-10-26)
+
+**Contexte** : les portages des sessions 39-44 (§3.6-octies à
+§3.6-terdecies) ont tous été écrits « en aveugle » — GTK3 était absent de
+l'environnement de développement, chaque section le notait explicitement
+(« non vérifiable empiriquement dans cet environnement de travail »).
+Cette section documente la vérification manuelle demandée par l'issue #72
+avant mise en production, menée sur l'application GTK3 **réelle**.
+
+**Harnais** : application lancée sous Xvfb (`:99`) avec openbox, clics
+clavier/souris injectés au niveau serveur X (XTEST via python-xlib) —
+donc les vrais chemins d'événements GTK (synthèse 2BUTTON/3BUTTON,
+focus, grabs), pas des `widget.event()` synthétiques. Terminal réel via
+`addTab("local")` (VTE + shell), arbre peuplé par une configuration de
+test (3 hôtes dans un groupe). Le harnais n'est pas commité : la règle
+« aucun nouveau code GTK3 » (tests/test_gtk3_retrait.py,
+gtk3_inventaire.txt) l'interdit — il vit hors du dépôt.
+
+**Résultats : 14/14 PASS.**
+
+- Terminal (GestureMultiPress porté session-40) : double-clic sélectionne
+  le mot (run de 60 « P » sélectionné exactement), triple-clic la ligne
+  entière, clic simple donne le focus au VTE — la sélection native VTE
+  n'est pas avalée par le geste (la mise en garde de §3.6-nonies était
+  fondée).
+- Étiquette d'onglet (session-41) : clic droit ouvre le popover
+  `TabContextMenu` (Gio.Menu, 3 entrées), clic milieu ferme l'onglet.
+- Arbre `treeServers` (session-39) : clic simple sélectionne la ligne,
+  clic droit sur un hôte ouvre `popupMenuFolder` avec les sections
+  attendues (4 pour « host »), clic droit dans le vide ouvre le menu
+  racine (2 sections) — le contenu s'adapte bien à la cible.
+- Éditeur inline (sessions 42-44) : sur l'arbre « Command » de la fenêtre
+  Paramètres (seul site réellement éditable — le renderer de
+  `treeServers` n'est PAS éditable, son renommage passe par le menu
+  contextuel), le double-clic démarre bien l'édition `CellTextView` avec
+  le texte actuel, et Entrée valide la nouvelle valeur dans le modèle.
+
+**Bug réel trouvé et corrigé** (l'objet même de cette vérification) :
+`Wmain.on_terminal_pressed` plantait en `TypeError: unsupported operand
+type(s) for &` sur PyGObject récent — `Gdk.EventButton.get_state()` y
+renvoie un tuple résultat `(succès, état)` (`_ResultTuple`, vérifié sur
+PyGObject 3.56 / Ubuntu 26.04) et non plus les flags seuls, cassant le
+Ctrl+clic gauche « ouvrir le lien » à chaque pression (plantage journalisé
+puis avalé, donc invisible en développement sans GTK3). Correctif :
+`gesture_trigger_core.masque_actif_dans_etat()` (fonction pure, zéro
+import Gtk, testée à 100 % lignes et branches) normalise les deux formats
+et remplace le `&` direct à l'unique site appelant. Vérifié empiriquement
+après correctif : plus aucun TypeError sur la même série de clics.
+
+**Observations annexes** (faites pendant la session, sans comparaison
+avant/après sur le code inchangé — à confirmer avec l'auteure si besoin) :
+
+- La page « Shortcuts » de la fenêtre Paramètres déborde de la hauteur
+  d'écran par défaut (mesuré : `treeCustom` positionné à 846 px dans un
+  dialogue de 748 px) : l'arbre « Custom Commands », siège de l'éditeur
+  inline, n'est pas cliquable tant que l'arbre « Standard Commands »
+  n'est pas réduit. Le code de cette fenêtre n'est pas touché par cette
+  session ; à rapprocher éventuellement d'une amélioration de
+  disposition séparée.
+- Pièges rencontrés pour tout futur harnais empirique (aucun n'est un
+  bug des portages) : `widget.get_window().get_origin()` peut renvoyer
+  l'origine d'une fenêtre ancêtre (décalage de 38 px mesuré sur le VTE)
+  — préférer `translate_coordinates` vers le toplevel ; `get_cell_area`
+  est en coordonnées bin window (conversion nécessaire) ; la sortie du
+  shell n'arrive qu'après plusieurs secondes (attendre la position du
+  curseur, pas un délai fixe) ; trois clics XTEST consécutifs sans
+  release sont coalescés par le serveur X (alterner press/release).
+
+**Reste ouvert** : rien sur le périmètre GestureClick/inline editor — les
+sites encore non portés (couple `focus-out-event`/`populate-popup`,
+`plugins/ssh/gtk4.py`, RDP) restent ceux listés en fin de §3.6-terdecies.
+
 ## 3.7 Audit de `plugins/ssh/gtk4.py` (session-45, 2026-09-18)
 
 Avant de choisir lequel des trois chantiers restants traiter (le couple
