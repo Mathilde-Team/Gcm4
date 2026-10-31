@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "desteklenmeyen biçim veya sürüm"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Klavye kısayolları"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Sonraki sekme"
 
@@ -3136,6 +3140,10 @@ msgstr "Yapılandırmayı farklı kaydet…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Ara"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Kullanıcı kılavuzu"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3342,6 +3350,10 @@ msgid "Connection"
 msgstr "Bağlantı"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Bağlantı türü; seçenekleri aşağıda gösterilir"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Vazgeç"
 
@@ -3358,6 +3370,10 @@ msgid "Existing groups"
 msgstr "Mevcut gruplar"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Protokol destekliyorsa bağlantı komutuna eklenen ek bağımsız değişkenler"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Ek parametreler"
 
@@ -3366,8 +3382,20 @@ msgid "Foreground color"
 msgstr "Metin rengi"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Sunucunun ana makine adı veya IP adresi"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Düzenlemeye devam et"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Protokolün varsayılan bağlantı noktasını kullanmak için boş bırakın"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Ana makine listesinde gösterilen ad, grubunda benzersiz"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3414,10 @@ msgid "No extension is installed."
 msgstr "Yüklü eklenti yok."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Ana makine listesinin ipucunda gösterilen not"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokol"
 
@@ -3401,6 +3433,18 @@ msgstr "Bu bağlantı sona erdikten hemen sonra, destekleyen protokollerce yerel
 #: src/gcm4/ui/host_dialog.py
 msgid "The changes to this host have not been saved."
 msgstr "Bu sunucudaki değişiklikler kaydedilmedi."
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Aşağıdaki renkler yerine ayarlardaki konsol renklerini kullan"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Uzak ana makinedeki kullanıcı adı"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Bağlantı sona erdiğinde konsol sekmesine ne yapılacağı"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3785,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Bu kodu not alın veya yazdırın ve güvenli bir yerde saklayın: bir daha gösterilmeyecek. Ana parolayı unutursanız kayıtlı parolaların kilidini açar, ardından yeni bir ana parola seçersiniz."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Geçerli sekmenin başlığını pencere başlığına ekler"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Son sekmeden sonra ilk sekmeye dön, tersi de geçerli"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Bir sekme farenin orta tuşuyla kapatıldığında da sor"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Görünüm"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Bir konsol sekmesini kapatmadan önce sor"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Açık bağlantılar varken çıkmadan önce sor"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3825,14 @@ msgid "Extensions"
 msgstr "Uzantılar"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Sistem stilini izle veya açık ya da koyu bir tema zorla"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Ana makine listesinin yazı tipi"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Yüklendi"
 
@@ -3771,6 +3843,10 @@ msgstr "Günlük klasörü"
 #: src/gcm4/ui/preferences.py
 msgid "Logging"
 msgstr "Günlükleme"
+
+#: src/gcm4/ui/preferences.py
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Başlangıçta GitHub'da yayımlanmış daha yeni bir sürüm ara"
 
 #: src/gcm4/ui/preferences.py
 msgid "Main window"
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Tercihler sayfası kullanılamıyor: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Uygulama kapatıldığında açık olan ana makinelere yeniden bağlan"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Güvenlik"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Ana makine listesinin tüm satırlarını aynı arka planla göster"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Ana makine listesini masaüstü yazı tipiyle göster"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Ana makine listesini konsolların yanında göster"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "Sistem yazı tipini kullan"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Sürüm {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Pencere başlığı; uygulama adını kullanmak için boş bırakın"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "Dikey Böl"
 msgid "Unsplit all consoles"
 msgstr "Tüm konsol bölmelerini birleştir"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp günlüğü:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "sayfa 2"
-
-#~ msgid "page 1"
-#~ msgstr "sayfa 1"
-
-#~ msgid "local"
-#~ msgstr "yerel"
-
-#~ msgid "label"
-#~ msgstr "etiket"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Düzenle"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Konsolu dikey olarak böl"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Konsolu yatay olarak böl"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Araç Çubuğunu Göster"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Birden çok sunucuya aynı anda komut gönder"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Keep-alive paketleri arasındaki süre (saniye)"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Etkin konsol tamponunu dosyaya kaydet"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (burada kullanılamaz: Proxmox API bileti/proxy gerektirir)"
-
-#~ msgid "Open local console"
-#~ msgstr "Yerel konsolu aç"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Yerel port zaten atanmış"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Sunucu listesini dosyadan içe aktar"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Komut satırına geçirilecek ek argümanlar"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Sunucu listesini dosyaya aktar"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Sunucu özelliklerini düzenle"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Tespit edilen Proxmox hedefleri (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Tespit edilen Proxmox hedefi"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Dinamik port yönlendirme oluştur"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Seçilen sunucuya veya seçilen gruptaki tüm sunuculara bağlan"
+#~ msgid "Colors and Keys"
+#~ msgstr "Renkler ve Tuşlar"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "Tüm konsol bölmelerini birleştir"
 #~ "1: min\n"
 #~ "9: maks"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Renkler ve Tuşlar"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Seçilen sunucuya veya seçilen gruptaki tüm sunuculara bağlan"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Dinamik port yönlendirme oluştur"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Tespit edilen Proxmox hedefi"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Tespit edilen Proxmox hedefleri (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Sunucu özelliklerini düzenle"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Sunucu listesini dosyaya aktar"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Komut satırına geçirilecek ek argümanlar"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Sunucu listesini dosyadan içe aktar"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Yerel port zaten atanmış"
+
+#~ msgid "Open local console"
+#~ msgstr "Yerel konsolu aç"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (burada kullanılamaz: Proxmox API bileti/proxy gerektirir)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Etkin konsol tamponunu dosyaya kaydet"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Keep-alive paketleri arasındaki süre (saniye)"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Birden çok sunucuya aynı anda komut gönder"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Araç Çubuğunu Göster"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Konsolu yatay olarak böl"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Konsolu dikey olarak böl"
+
+#~ msgid "_Edit"
+#~ msgstr "_Düzenle"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "etiket"
+
+#~ msgid "local"
+#~ msgstr "yerel"
+
+#~ msgid "page 1"
+#~ msgstr "sayfa 1"
+
+#~ msgid "page 2"
+#~ msgstr "sayfa 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp günlüğü:"

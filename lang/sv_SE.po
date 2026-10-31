@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "formatet eller versionen stöds inte"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Tangentbordsgenvägar"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Nästa flik"
 
@@ -3136,6 +3140,10 @@ msgstr "Spara konfiguration som…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Sök"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Användarhandbok"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3342,6 +3350,10 @@ msgid "Connection"
 msgstr "Anslutning"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Anslutningstyp; dess alternativ visas nedan"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Förkasta"
 
@@ -3358,6 +3370,10 @@ msgid "Existing groups"
 msgstr "Befintliga grupper"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Extra argument till anslutningskommandot, om protokollet stöder dem"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Extra parametrar"
 
@@ -3366,8 +3382,20 @@ msgid "Foreground color"
 msgstr "Textfärg"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Värdnamn eller IP-adress för servern"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Fortsätt redigera"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Lämna tomt för att använda protokollets standardport"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Namn som visas i värdlistan, unikt inom sin grupp"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3414,10 @@ msgid "No extension is installed."
 msgstr "Inget tillägg är installerat."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Anteckning som visas i värdlistans verktygstips"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokoll"
 
@@ -3401,6 +3433,18 @@ msgstr "Skalkommando som körs lokalt i bakgrunden direkt efter att anslutningen
 #: src/gcm4/ui/host_dialog.py
 msgid "The changes to this host have not been saved."
 msgstr "Ändringarna av den här värden har inte sparats."
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Använd konsolfärgerna från inställningarna i stället för färgerna nedan"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Användarnamn på fjärrvärden"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Vad som ska hända med konsolfliken när anslutningen avslutas"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3785,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Skriv ner eller skriv ut den här koden och förvara den på ett säkert ställe: den visas inte igen. Om du glömmer huvudlösenordet låser den upp de sparade lösenorden, sedan väljer du ett nytt huvudlösenord."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Lägg till den aktuella flikens titel i fönstertiteln"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Efter sista fliken gå tillbaka till den första, och omvänt"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Fråga även när en flik stängs med musens mittenknapp"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Utseende"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Fråga innan en konsolflik stängs"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Fråga innan programmet avslutas medan anslutningar är öppna"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3825,14 @@ msgid "Extensions"
 msgstr "Tillägg"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Följ systemets stil eller tvinga ett ljust eller mörkt tema"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Typsnitt för värdlistan"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Inläst"
 
@@ -3771,6 +3843,10 @@ msgstr "Loggmapp"
 #: src/gcm4/ui/preferences.py
 msgid "Logging"
 msgstr "Loggning"
+
+#: src/gcm4/ui/preferences.py
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Sök efter en nyare publicerad version på GitHub vid start"
 
 #: src/gcm4/ui/preferences.py
 msgid "Main window"
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Inställningssidan är inte tillgänglig: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Återanslut de värdar som var öppna när programmet stängdes"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Säkerhet"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Visa alla rader i värdlistan med samma bakgrund"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Visa värdlistan med skrivbordets typsnitt"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Visa värdlistan bredvid konsolerna"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "Använd systemets typsnitt"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Version {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Fönstertitel; lämna tomt för att använda programmets namn"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "Dela V"
 msgid "Unsplit all consoles"
 msgstr "Avdela alla konsoler"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp-logg:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "sida 2"
-
-#~ msgid "page 1"
-#~ msgstr "sida 1"
-
-#~ msgid "local"
-#~ msgstr "lokal"
-
-#~ msgid "label"
-#~ msgstr "etikett"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Redigera"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Dela konsol vertikalt"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Dela konsol horisontellt"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Visa verktygsfält"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Skicka kommandon till flera värdar samtidigt"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Sekunder mellan keep-alive-paket"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Spara aktiv konsolbuffert till fil"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (inte tillgängligt här: Proxmox kräver API-biljett/proxy)"
-
-#~ msgid "Open local console"
-#~ msgstr "Öppna lokal konsol"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Lokal port redan tilldelad"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Importera serverlista från fil"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Extra argument att skicka till kommandoraden"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Exportera serverlista till fil"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Redigera värdegenskaper"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Identifierade Proxmox-mål (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Identifierat Proxmox-mål"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Skapa dynamisk portvidarebefordran"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Anslut till vald värd eller alla värdar i vald grupp"
+#~ msgid "Colors and Keys"
+#~ msgstr "Färger och tangenter"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "Avdela alla konsoler"
 #~ "1: min\n"
 #~ "9: max"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Färger och tangenter"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Anslut till vald värd eller alla värdar i vald grupp"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Skapa dynamisk portvidarebefordran"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Identifierat Proxmox-mål"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Identifierade Proxmox-mål (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Redigera värdegenskaper"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Exportera serverlista till fil"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Extra argument att skicka till kommandoraden"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Importera serverlista från fil"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Lokal port redan tilldelad"
+
+#~ msgid "Open local console"
+#~ msgstr "Öppna lokal konsol"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (inte tillgängligt här: Proxmox kräver API-biljett/proxy)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Spara aktiv konsolbuffert till fil"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Sekunder mellan keep-alive-paket"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Skicka kommandon till flera värdar samtidigt"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Visa verktygsfält"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Dela konsol horisontellt"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Dela konsol vertikalt"
+
+#~ msgid "_Edit"
+#~ msgstr "_Redigera"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "etikett"
+
+#~ msgid "local"
+#~ msgstr "lokal"
+
+#~ msgid "page 1"
+#~ msgstr "sida 1"
+
+#~ msgid "page 2"
+#~ msgstr "sida 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp-logg:"

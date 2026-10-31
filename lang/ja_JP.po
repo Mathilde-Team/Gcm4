@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "サポートされていない形式またはバージョンです"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "キーボードショートカット"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "次のタブ"
 
@@ -3136,6 +3140,10 @@ msgstr "設定に名前を付けて保存…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "検索"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "ユーザーガイド"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3342,6 +3350,10 @@ msgid "Connection"
 msgstr "接続"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "接続の種類。オプションは下に表示されます"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "破棄"
 
@@ -3358,6 +3370,10 @@ msgid "Existing groups"
 msgstr "既存のグループ"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "プロトコルが対応している場合に接続コマンドへ追加する引数"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "追加パラメーター"
 
@@ -3366,8 +3382,20 @@ msgid "Foreground color"
 msgstr "文字色"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "サーバーのホスト名または IP アドレス"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "編集を続ける"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "空欄にするとプロトコルの既定のポートを使用します"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "ホスト一覧に表示される名前。グループ内で一意"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3414,10 @@ msgid "No extension is installed."
 msgstr "拡張機能がインストールされていません。"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "ホスト一覧のツールチップに表示されるメモ"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "プロトコル"
 
@@ -3401,6 +3433,18 @@ msgstr "この接続の終了直後に、対応するプロトコルがバック
 #: src/gcm4/ui/host_dialog.py
 msgid "The changes to this host have not been saved."
 msgstr "このホストの変更は保存されていません。"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "下の色ではなく、設定のコンソールの色を使用します"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "リモートホストのユーザー名"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "接続終了時にコンソールのタブをどうするか"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3785,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "このコードを書き留めるか印刷して、安全な場所に保管してください。再表示されません。マスターパスワードを忘れた場合、このコードで保存されたパスワードのロックを解除し、新しいマスターパスワードを選びます。"
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "現在のタブのタイトルをウィンドウのタイトルに追加します"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "最後のタブの次は最初のタブに戻り、逆も同様です"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "マウスの中ボタンでタブを閉じるときも確認します"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "外観"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "コンソールのタブを閉じる前に確認します"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "接続が開いているときは終了前に確認します"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3825,14 @@ msgid "Extensions"
 msgstr "拡張機能"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "システムのスタイルに従うか、ライトまたはダークを強制します"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "ホスト一覧のフォント"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "読み込み済み"
 
@@ -3771,6 +3843,10 @@ msgstr "ログフォルダー"
 #: src/gcm4/ui/preferences.py
 msgid "Logging"
 msgstr "ログ"
+
+#: src/gcm4/ui/preferences.py
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "起動時に GitHub で新しい公開バージョンを確認します"
 
 #: src/gcm4/ui/preferences.py
 msgid "Main window"
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "設定ページを利用できません: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "アプリケーションを閉じたときに開いていたホストに再接続します"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "セキュリティ"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "ホスト一覧のすべての行を同じ背景で表示します"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "ホスト一覧をデスクトップのフォントで表示します"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "ホスト一覧をコンソールの横に表示します"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "システムのフォントを使用"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "バージョン {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "ウィンドウのタイトル。空欄にするとアプリケーション名を使用します"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "垂直分割"
 msgid "Unsplit all consoles"
 msgstr "すべてのコンソールの分割を解除"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp ログ:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "ページ2"
-
-#~ msgid "page 1"
-#~ msgstr "ページ1"
-
-#~ msgid "local"
-#~ msgstr "ローカル"
-
-#~ msgid "label"
-#~ msgstr "ラベル"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_編集"
-
-#~ msgid "Split console vertically"
-#~ msgstr "コンソールを垂直に分割"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "コンソールを水平に分割"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "ツールバーを表示"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "複数のホストに同時にコマンドを送信"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "キープアライブパケットの送信間隔（秒）"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "アクティブなコンソールバッファをファイルに保存"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE（ここでは利用できません: Proxmox には API チケット/プロキシが必要です）"
-
-#~ msgid "Open local console"
-#~ msgstr "ローカルコンソールを開く"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "ローカルポートは既に割り当てられています"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "キープアライブ"
-
-#~ msgid "Import server list from file"
-#~ msgstr "サーバーリストをファイルからインポート"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "コマンドラインに渡す追加の引数"
-
-#~ msgid "Export server list to file"
-#~ msgstr "サーバーリストをファイルにエクスポート"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "ホストのプロパティを編集"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "検出された Proxmox ターゲット (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "検出された Proxmox ターゲット"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "動的ポートフォワーディングを作成"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "選択したホスト、または選択したグループ内のすべてのホストに接続する"
+#~ msgid "Colors and Keys"
+#~ msgstr "色とキー"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "すべてのコンソールの分割を解除"
 #~ "1: 最小\n"
 #~ "9: 最大"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "色とキー"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "選択したホスト、または選択したグループ内のすべてのホストに接続する"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "動的ポートフォワーディングを作成"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "検出された Proxmox ターゲット"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "検出された Proxmox ターゲット (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "ホストのプロパティを編集"
+
+#~ msgid "Export server list to file"
+#~ msgstr "サーバーリストをファイルにエクスポート"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "コマンドラインに渡す追加の引数"
+
+#~ msgid "Import server list from file"
+#~ msgstr "サーバーリストをファイルからインポート"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "キープアライブ"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "ローカルポートは既に割り当てられています"
+
+#~ msgid "Open local console"
+#~ msgstr "ローカルコンソールを開く"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE（ここでは利用できません: Proxmox には API チケット/プロキシが必要です）"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "アクティブなコンソールバッファをファイルに保存"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "キープアライブパケットの送信間隔（秒）"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "複数のホストに同時にコマンドを送信"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "ツールバーを表示"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "コンソールを水平に分割"
+
+#~ msgid "Split console vertically"
+#~ msgstr "コンソールを垂直に分割"
+
+#~ msgid "_Edit"
+#~ msgstr "_編集"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "ラベル"
+
+#~ msgid "local"
+#~ msgstr "ローカル"
+
+#~ msgid "page 1"
+#~ msgstr "ページ1"
+
+#~ msgid "page 2"
+#~ msgstr "ページ2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp ログ:"

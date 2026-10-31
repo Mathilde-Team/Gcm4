@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "অসমর্থিত ফরম্যাট বা সংস্করণ"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "কিবোর্ড শর্টকাট"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "পরবর্তী ট্যাব"
 
@@ -3136,6 +3140,10 @@ msgstr "কনফিগারেশন এভাবে সংরক্ষণ…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "অনুসন্ধান"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "ব্যবহারকারী নির্দেশিকা"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3342,6 +3350,10 @@ msgid "Connection"
 msgstr "সংযোগ"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "সংযোগের ধরন; এর বিকল্পগুলো নিচে দেখানো হয়"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "বাতিল করুন"
 
@@ -3358,6 +3370,10 @@ msgid "Existing groups"
 msgstr "বিদ্যমান গ্রুপ"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "প্রোটোকল সমর্থন করলে সংযোগ কমান্ডে যোগ করা অতিরিক্ত আর্গুমেন্ট"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "অতিরিক্ত প্যারামিটার"
 
@@ -3366,8 +3382,20 @@ msgid "Foreground color"
 msgstr "লেখার রং"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "সার্ভারের হোস্ট নাম বা IP ঠিকানা"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "সম্পাদনা চালিয়ে যান"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "প্রোটোকলের ডিফল্ট পোর্ট ব্যবহার করতে ফাঁকা রাখুন"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "হোস্ট তালিকায় দেখানো নাম, নিজের গ্রুপে অনন্য"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3414,10 @@ msgid "No extension is installed."
 msgstr "কোনো এক্সটেনশন ইনস্টল করা নেই।"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "হোস্ট তালিকার টুলটিপে দেখানো নোট"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "প্রোটোকল"
 
@@ -3401,6 +3433,18 @@ msgstr "এই সংযোগ শেষ হওয়ার ঠিক পরে,
 #: src/gcm4/ui/host_dialog.py
 msgid "The changes to this host have not been saved."
 msgstr "এই হোস্টের পরিবর্তনগুলো সংরক্ষিত হয়নি।"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "নিচের রঙের বদলে সেটিংসের কনসোল রং ব্যবহার করুন"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "দূরবর্তী হোস্টে ব্যবহারকারীর নাম"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "সংযোগ শেষ হলে কনসোল ট্যাবের কী হবে"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3785,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "এই কোডটি লিখে রাখুন বা প্রিন্ট করুন এবং নিরাপদ স্থানে রাখুন: এটি আর দেখানো হবে না। মাস্টার পাসওয়ার্ড ভুলে গেলে এটি সংরক্ষিত পাসওয়ার্ড আনলক করে, তারপর আপনি একটি নতুন মাস্টার পাসওয়ার্ড বেছে নেন।"
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "বর্তমান ট্যাবের শিরোনাম উইন্ডোর শিরোনামে যোগ করে"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "শেষ ট্যাবের পরে প্রথম ট্যাবে ফিরে যান, এবং উল্টোটাও"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "মাউসের মাঝের বোতাম দিয়ে ট্যাব বন্ধ করলেও জিজ্ঞেস করুন"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "চেহারা"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "কনসোল ট্যাব বন্ধ করার আগে জিজ্ঞেস করুন"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "সংযোগ খোলা থাকলে প্রস্থান করার আগে জিজ্ঞেস করুন"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3825,14 @@ msgid "Extensions"
 msgstr "এক্সটেনশন"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "সিস্টেমের শৈলী অনুসরণ করুন বা হালকা অথবা গাঢ় থিম বাধ্যতামূলক করুন"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "হোস্ট তালিকার ফন্ট"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "লোড হয়েছে"
 
@@ -3771,6 +3843,10 @@ msgstr "লগ ফোল্ডার"
 #: src/gcm4/ui/preferences.py
 msgid "Logging"
 msgstr "লগিং"
+
+#: src/gcm4/ui/preferences.py
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "শুরুতে GitHub-এ নতুন প্রকাশিত সংস্করণ খুঁজুন"
 
 #: src/gcm4/ui/preferences.py
 msgid "Main window"
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "পছন্দের পাতা উপলব্ধ নয়: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "অ্যাপ্লিকেশন বন্ধ করার সময় খোলা হোস্টগুলোতে আবার সংযোগ করুন"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "নিরাপত্তা"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "হোস্ট তালিকার সব সারি একই পটভূমিতে দেখান"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "ডেস্কটপের ফন্টে হোস্ট তালিকা দেখান"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "কনসোলের পাশে হোস্ট তালিকা দেখান"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "সিস্টেমের ফন্ট ব্যবহার করু
 #, python-brace-format
 msgid "Version {version}"
 msgstr "সংস্করণ {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "উইন্ডোর শিরোনাম; অ্যাপ্লিকেশনের নাম ব্যবহার করতে ফাঁকা রাখুন"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "বিভক্ত V"
 msgid "Unsplit all consoles"
 msgstr "সব কনসোলের বিভক্তি বাতিল করুন"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp লগ:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "পৃষ্ঠা ২"
-
-#~ msgid "page 1"
-#~ msgstr "পৃষ্ঠা ১"
-
-#~ msgid "local"
-#~ msgstr "লোকাল"
-
-#~ msgid "label"
-#~ msgstr "লেবেল"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_সম্পাদনা"
-
-#~ msgid "Split console vertically"
-#~ msgstr "কনসোল উলম্বভাবে বিভক্ত করুন"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "কনসোল আনুভূমিকভাবে বিভক্ত করুন"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "টুলবার দেখান"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "একসাথে একাধিক হোস্টে কমান্ড পাঠান"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Keep-alive প্যাকেটের মধ্যে সেকেন্ড"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "অ্যাক্টিভ কনসোল বাফার ফাইলে সংরক্ষণ করুন"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (এখানে উপলব্ধ নয়: Proxmox-এর জন্য API টিকিট/প্রক্সি প্রয়োজন)"
-
-#~ msgid "Open local console"
-#~ msgstr "লোকাল কনসোল খুলুন"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "লোকাল পোর্ট ইতিমধ্যে নির্ধারিত"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "ফাইল থেকে সার্ভার তালিকা আমদানি করুন"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "কমান্ড লাইনে পাস করার জন্য অতিরিক্ত আর্গুমেন্ট"
-
-#~ msgid "Export server list to file"
-#~ msgstr "ফাইলে সার্ভার তালিকা এক্সপোর্ট করুন"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "হোস্টের প্রপার্টিজ সম্পাদনা করুন"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "সনাক্ত করা Proxmox লক্ষ্য (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "সনাক্ত করা Proxmox লক্ষ্য"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "ডায়নামিক পোর্ট ফরওয়ার্ডিং তৈরি করুন"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "নির্বাচিত হোস্ট বা নির্বাচিত গ্রুপের সব হোস্টে সংযোগ করুন"
+#~ msgid "Colors and Keys"
+#~ msgstr "রঙ এবং কী"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "সব কনসোলের বিভক্তি বাতিল ক�
 #~ "1: সর্বনিম্ন\n"
 #~ "9: সর্বোচ্চ"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "রঙ এবং কী"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "নির্বাচিত হোস্ট বা নির্বাচিত গ্রুপের সব হোস্টে সংযোগ করুন"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "ডায়নামিক পোর্ট ফরওয়ার্ডিং তৈরি করুন"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "সনাক্ত করা Proxmox লক্ষ্য"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "সনাক্ত করা Proxmox লক্ষ্য (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "হোস্টের প্রপার্টিজ সম্পাদনা করুন"
+
+#~ msgid "Export server list to file"
+#~ msgstr "ফাইলে সার্ভার তালিকা এক্সপোর্ট করুন"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "কমান্ড লাইনে পাস করার জন্য অতিরিক্ত আর্গুমেন্ট"
+
+#~ msgid "Import server list from file"
+#~ msgstr "ফাইল থেকে সার্ভার তালিকা আমদানি করুন"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "লোকাল পোর্ট ইতিমধ্যে নির্ধারিত"
+
+#~ msgid "Open local console"
+#~ msgstr "লোকাল কনসোল খুলুন"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (এখানে উপলব্ধ নয়: Proxmox-এর জন্য API টিকিট/প্রক্সি প্রয়োজন)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "অ্যাক্টিভ কনসোল বাফার ফাইলে সংরক্ষণ করুন"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Keep-alive প্যাকেটের মধ্যে সেকেন্ড"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "একসাথে একাধিক হোস্টে কমান্ড পাঠান"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "টুলবার দেখান"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "কনসোল আনুভূমিকভাবে বিভক্ত করুন"
+
+#~ msgid "Split console vertically"
+#~ msgstr "কনসোল উলম্বভাবে বিভক্ত করুন"
+
+#~ msgid "_Edit"
+#~ msgstr "_সম্পাদনা"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "লেবেল"
+
+#~ msgid "local"
+#~ msgstr "লোকাল"
+
+#~ msgid "page 1"
+#~ msgstr "পৃষ্ঠা ১"
+
+#~ msgid "page 2"
+#~ msgstr "পৃষ্ঠা ২"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp লগ:"

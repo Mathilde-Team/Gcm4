@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "nepodporovaný formát nebo verze"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Klávesové zkratky"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Další karta"
 
@@ -3136,6 +3140,10 @@ msgstr "Uložit konfiguraci jako…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Hledat"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Uživatelská příručka"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3342,6 +3350,10 @@ msgid "Connection"
 msgstr "Připojení"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Typ připojení; jeho volby jsou zobrazeny níže"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Zahodit"
 
@@ -3358,6 +3370,10 @@ msgid "Existing groups"
 msgstr "Existující skupiny"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Další argumenty připojovacího příkazu, pokud je protokol podporuje"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Další parametry"
 
@@ -3366,8 +3382,20 @@ msgid "Foreground color"
 msgstr "Barva textu"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Název hostitele nebo IP adresa serveru"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Pokračovat v úpravách"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Ponechte prázdné pro použití výchozího portu protokolu"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Název zobrazený v seznamu hostitelů, jedinečný v rámci skupiny"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3414,10 @@ msgid "No extension is installed."
 msgstr "Není nainstalováno žádné rozšíření."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Poznámka zobrazená v tipu seznamu hostitelů"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokol"
 
@@ -3401,6 +3433,18 @@ msgstr "Příkaz shellu spuštěný místně na pozadí hned po ukončení tohot
 #: src/gcm4/ui/host_dialog.py
 msgid "The changes to this host have not been saved."
 msgstr "Změny tohoto hostitele nebyly uloženy."
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Použít barvy konzole z nastavení místo barev níže"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Uživatelské jméno na vzdáleném hostiteli"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Co udělat s kartou konzole po skončení připojení"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3785,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Zapište si nebo vytiskněte tento kód a uložte ho na bezpečné místo: znovu se nezobrazí. Pokud zapomenete hlavní heslo, odemkne uložená hesla a poté zvolíte nové hlavní heslo."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Přidá název aktuální karty k názvu okna"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Po poslední kartě přejít zpět na první a naopak"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Ptát se i při zavření karty prostředním tlačítkem myši"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Vzhled"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Ptát se před zavřením karty konzole"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Ptát se před ukončením, pokud jsou otevřená připojení"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3825,14 @@ msgid "Extensions"
 msgstr "Rozšíření"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Řídit se stylem systému nebo vynutit světlý či tmavý motiv"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Písmo seznamu hostitelů"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Načteno"
 
@@ -3771,6 +3843,10 @@ msgstr "Složka protokolů"
 #: src/gcm4/ui/preferences.py
 msgid "Logging"
 msgstr "Protokolování"
+
+#: src/gcm4/ui/preferences.py
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Při spuštění hledat novější vydanou verzi na GitHubu"
 
 #: src/gcm4/ui/preferences.py
 msgid "Main window"
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Stránka předvoleb není dostupná: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Znovu připojit hostitele otevřené při zavření aplikace"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Zabezpečení"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Zobrazit všechny řádky seznamu hostitelů se stejným pozadím"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Zobrazit seznam hostitelů písmem pracovního prostředí"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Zobrazit seznam hostitelů vedle konzolí"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "Použít systémové písmo"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Verze {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Název okna; ponechte prázdné pro použití názvu aplikace"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "Rozdělit V"
 msgid "Unsplit all consoles"
 msgstr "Zrušit rozdělení všech konzolí"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "Protokol xfreerdp:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "stránka 2"
-
-#~ msgid "page 1"
-#~ msgstr "stránka 1"
-
-#~ msgid "local"
-#~ msgstr "místní"
-
-#~ msgid "label"
-#~ msgstr "popisek"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_Upravit"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Rozdělit konzoli vertikálně"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Rozdělit konzoli horizontálně"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Zobrazit nástrojovou lištu"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Odeslat příkazy více hostitelům najednou"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Sekundy mezi pakety keep-alive"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Uložit buffer aktivní konzole do souboru"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (zde není k dispozici: Proxmox vyžaduje API ticket/proxy)"
-
-#~ msgid "Open local console"
-#~ msgstr "Otevřít místní konzoli"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Místní port je již přiřazen"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Importovat seznam serverů ze souboru"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Další argumenty pro příkazový řádek"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Exportovat seznam serverů do souboru"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Upravit vlastnosti hostitelů"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Detekované cíle Proxmox (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Detekovaný cíl Proxmox"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Vytvořit dynamické předávání portů"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Připojit k vybranému hostiteli nebo všem hostitelům ve vybrané skupině"
+#~ msgid "Colors and Keys"
+#~ msgstr "Barvy a klávesy"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "Zrušit rozdělení všech konzolí"
 #~ "1: min\n"
 #~ "9: max"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Barvy a klávesy"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Připojit k vybranému hostiteli nebo všem hostitelům ve vybrané skupině"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Vytvořit dynamické předávání portů"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Detekovaný cíl Proxmox"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Detekované cíle Proxmox (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Upravit vlastnosti hostitelů"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Exportovat seznam serverů do souboru"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Další argumenty pro příkazový řádek"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Importovat seznam serverů ze souboru"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Místní port je již přiřazen"
+
+#~ msgid "Open local console"
+#~ msgstr "Otevřít místní konzoli"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (zde není k dispozici: Proxmox vyžaduje API ticket/proxy)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Uložit buffer aktivní konzole do souboru"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Sekundy mezi pakety keep-alive"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Odeslat příkazy více hostitelům najednou"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Zobrazit nástrojovou lištu"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Rozdělit konzoli horizontálně"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Rozdělit konzoli vertikálně"
+
+#~ msgid "_Edit"
+#~ msgstr "_Upravit"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "popisek"
+
+#~ msgid "local"
+#~ msgstr "místní"
+
+#~ msgid "page 1"
+#~ msgstr "stránka 1"
+
+#~ msgid "page 2"
+#~ msgstr "stránka 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "Protokol xfreerdp:"

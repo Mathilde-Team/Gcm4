@@ -172,13 +172,17 @@ class HostDialog(Adw.Window):
         page = Adw.PreferencesPage()
         connexion = Adw.PreferencesGroup(title=_("Connection"))
         self.nom = self._ligne(connexion, _("Name"))
+        self.nom.set_tooltip_text(_("Name shown in the host list, unique within its group"))
         self.groupe = self._ligne(connexion, _("Group"))
         self.groupe.set_tooltip_text(_("To create subgroups use format group1/group2/group3"))
         self.groupe.add_suffix(self._liste_des_groupes())
         self.adresse = self._ligne(connexion, _("Host"))
+        self.adresse.set_tooltip_text(_("Host name or IP address of the server"))
         self.port = self._ligne(connexion, _("Port"))
+        self.port.set_tooltip_text(_("Leave blank to use the default port of the protocol"))
         self.port.set_input_purpose(Gtk.InputPurpose.DIGITS)
         self.utilisateur = self._ligne(connexion, _("User"))
+        self.utilisateur.set_tooltip_text(_("User name on the remote host"))
         self.mot_de_passe = Adw.PasswordEntryRow(title=_("Password"))
         self.mot_de_passe.set_tooltip_text(
             _("Leave blank for passwordless/public key authentication")
@@ -186,6 +190,7 @@ class HostDialog(Adw.Window):
         self.mot_de_passe.connect("changed", lambda _e: self.verifier())
         connexion.add(self.mot_de_passe)
         self.protocole = Adw.ComboRow(title=_("Protocol"))
+        self.protocole.set_tooltip_text(_("Connection type; its options are shown below"))
         self._protocoles = sorted({p for p in protocoles if p})
         if self.base.protocol and self.base.protocol not in self._protocoles:
             self._protocoles.append(self.base.protocol)
@@ -209,7 +214,12 @@ class HostDialog(Adw.Window):
 
         affichage = Adw.PreferencesGroup(title=_("Display"))
         self.description = self._ligne(affichage, _("Description"))
-        self.couleurs_par_defaut = self._interrupteur(affichage, _("Default colors"))
+        self.description.set_tooltip_text(_("Note shown in the tooltip of the host list"))
+        self.couleurs_par_defaut = self._interrupteur(
+            affichage,
+            _("Default colors"),
+            _("Use the console colors of the settings instead of the colors below"),
+        )
         self.couleurs_par_defaut.connect("notify::active", lambda *_a: self._couleurs_actives())
         self.premier_plan = _bouton_couleur()
         self.fond = _bouton_couleur()
@@ -228,6 +238,9 @@ class HostDialog(Adw.Window):
             _("Include this host in the workspace (Tools > Open Workspace)"),
         )
         self.fermeture = Adw.ComboRow(title=_("Close console"))
+        self.fermeture.set_tooltip_text(
+            _("What to do with the console tab when the connection ends")
+        )
         self.fermeture.set_model(
             Gtk.StringList.new(
                 [_("Use global preference"), _("Never"), _("Always"), _("Only on clean exit")]
@@ -255,6 +268,15 @@ class HostDialog(Adw.Window):
             )
         )
         self.parametres = self._ligne(commandes, _("Extra parameters"))
+        self.parametres.set_tooltip_text(
+            _("Extra arguments added to the connection command, if the protocol supports them")
+        )
+        # Info-bulles d'aide rendues après une erreur de saisie (verifier, #86).
+        self._aides = {
+            NOM: self.nom.get_tooltip_text(),
+            ADRESSE: self.adresse.get_tooltip_text(),
+            PORT: self.port.get_tooltip_text(),
+        }
         page.add(commandes)
 
         self.message = Gtk.Label(wrap=True, xalign=0, visible=False)
@@ -589,7 +611,7 @@ class HostDialog(Adw.Window):
                 ligne.set_tooltip_text(par_champ[champ])
             else:
                 ligne.remove_css_class("error")
-                ligne.set_tooltip_text(None)
+                ligne.set_tooltip_text(self._aides[champ])  # info-bulle d'aide (#86)
         # Création : pas de message avant la première saisie (formulaire vide).
         vierge = self.mode == CREATION and not self.modifie()
         self.message.set_label("\n".join(e.message for e in erreurs))

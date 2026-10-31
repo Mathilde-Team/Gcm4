@@ -19,7 +19,7 @@ from gcm4.core import raccourcis as raccourcis_core
 from gcm4.core.config import ConfigError
 from gcm4.core.i18n import _
 from gcm4.core.registre import Candidat, PluginRegistry, decouvrir
-from gcm4.ui import mises_a_jour
+from gcm4.ui import aide, mises_a_jour
 from gcm4.ui import raccourcis as raccourcis_ui
 from gcm4.ui.contexte import ContexteApplication
 from gcm4.ui.main_window import MainWindow
@@ -82,6 +82,7 @@ class Gcm4Application(Adw.Application):
         self.css_couleurs: Gtk.CssProvider | None = None
         self.css_police: Gtk.CssProvider | None = None
         self.preferences: Gtk.Window | None = None  # fenêtre des préférences ouverte (#147)
+        self.fenetre_raccourcis: Gtk.Widget | None = None  # Aide > Raccourcis clavier (#86)
         self.connect("startup", self._on_startup)
         self.connect("activate", self._on_activate)
         self.connect("command-line", self._on_command_line)
@@ -93,6 +94,8 @@ class Gcm4Application(Adw.Application):
         for nom, rappel in (
             ("quit", self._on_quit),
             ("about", self._on_about),
+            ("help", self._on_help),
+            ("shortcuts", self._on_shortcuts),
             ("preferences", self._on_preferences),
         ):
             action = Gio.SimpleAction.new(nom, None)
@@ -344,6 +347,20 @@ class Gcm4Application(Adw.Application):
         else:  # Adw.AboutDialog
             boite.present(fenetre)
         logger.debug("_on_about: présentée")
+
+    def _on_help(self, _action: Gio.SimpleAction, _param: object) -> None:
+        """Aide > Guide utilisateur (F1, #86) : guide ouvert dans le navigateur."""
+        logger.debug("_on_help: entrée")
+        aide.ouvrir_guide(self.get_active_window())
+        logger.debug("_on_help: fait")
+
+    def _on_shortcuts(self, _action: Gio.SimpleAction, _param: object) -> None:
+        """Aide > Raccourcis clavier (Ctrl+?, #86) : raccourcis effectifs."""
+        logger.debug("_on_shortcuts: entrée")
+        self.fenetre_raccourcis = aide.presenter_raccourcis(
+            self.get_active_window(), self.raccourcis_effectifs()
+        )
+        logger.debug("_on_shortcuts: fait")
 
     def _on_preferences(self, _action: Gio.SimpleAction, _param: object) -> None:
         """Édition > Préférences (Ctrl+,) : pages Général et Apparence (#147)."""

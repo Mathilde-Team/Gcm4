@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "nicht unterstütztes Format oder nicht unterstützte Version"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Tastenkürzel"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Nächster Reiter"
 
@@ -3136,6 +3140,10 @@ msgstr "Konfiguration speichern unter…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Suchen"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Benutzerhandbuch"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3342,6 +3350,10 @@ msgid "Connection"
 msgstr "Verbindung"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Verbindungstyp; seine Optionen werden unten angezeigt"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Verwerfen"
 
@@ -3358,6 +3370,10 @@ msgid "Existing groups"
 msgstr "Vorhandene Gruppen"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Zusätzliche Argumente für den Verbindungsbefehl, sofern das Protokoll sie unterstützt"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Zusätzliche Parameter"
 
@@ -3366,8 +3382,20 @@ msgid "Foreground color"
 msgstr "Textfarbe"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Hostname oder IP-Adresse des Servers"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Weiter bearbeiten"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Leer lassen, um den Standardport des Protokolls zu verwenden"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "In der Hostliste angezeigter Name, eindeutig innerhalb seiner Gruppe"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3414,10 @@ msgid "No extension is installed."
 msgstr "Keine Erweiterung installiert."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Notiz, die im Tooltip der Hostliste angezeigt wird"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokoll"
 
@@ -3401,6 +3433,18 @@ msgstr "Shell-Befehl, der lokal im Hintergrund direkt nach dem Ende dieser Verbi
 #: src/gcm4/ui/host_dialog.py
 msgid "The changes to this host have not been saved."
 msgstr "Die Änderungen an diesem Host wurden nicht gespeichert."
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Die Konsolenfarben der Einstellungen statt der Farben unten verwenden"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Benutzername auf dem entfernten Host"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Was mit dem Konsolen-Tab geschieht, wenn die Verbindung endet"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3785,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Notieren oder drucken Sie diesen Code und bewahren Sie ihn sicher auf: Er wird nicht erneut angezeigt. Wenn Sie das Master-Passwort vergessen, entsperrt er die gespeicherten Passwörter, danach wählen Sie ein neues Master-Passwort."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Den Titel des aktuellen Tabs zum Fenstertitel hinzufügen"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Nach dem letzten Tab zum ersten zurückkehren und umgekehrt"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Auch fragen, wenn ein Tab mit der mittleren Maustaste geschlossen wird"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Erscheinungsbild"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Vor dem Schließen eines Konsolen-Tabs fragen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Vor dem Beenden fragen, solange Verbindungen offen sind"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3825,14 @@ msgid "Extensions"
 msgstr "Erweiterungen"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Dem Systemstil folgen oder ein helles bzw. dunkles Design erzwingen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Schriftart der Hostliste"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Geladen"
 
@@ -3771,6 +3843,10 @@ msgstr "Protokollordner"
 #: src/gcm4/ui/preferences.py
 msgid "Logging"
 msgstr "Protokollierung"
+
+#: src/gcm4/ui/preferences.py
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Beim Start auf GitHub nach einer neueren veröffentlichten Version suchen"
 
 #: src/gcm4/ui/preferences.py
 msgid "Main window"
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Einstellungsseite nicht verfügbar: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Die beim Schließen der Anwendung geöffneten Hosts erneut verbinden"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Sicherheit"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Alle Zeilen der Hostliste mit demselben Hintergrund anzeigen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Die Hostliste in der Schriftart der Arbeitsumgebung anzeigen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Die Hostliste neben den Konsolen anzeigen"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "Systemschrift verwenden"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Version {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Fenstertitel; leer lassen, um den Namen der Anwendung zu verwenden"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "Teilen V"
 msgid "Unsplit all consoles"
 msgstr "Alle Konsolenteilungen aufheben"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "xfreerdp-Protokoll:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "Seite 2"
-
-#~ msgid "page 1"
-#~ msgstr "Seite 1"
-
-#~ msgid "local"
-#~ msgstr "lokal"
-
-#~ msgid "label"
-#~ msgstr "Beschriftung"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "B_earbeiten"
-
-#~ msgid "Split console vertically"
-#~ msgstr "Konsole vertikal teilen"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "Konsole horizontal teilen"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "Symbolleiste anzeigen"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "Befehle gleichzeitig an mehrere Hosts senden"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "Sekunden zwischen Keep-Alive-Paketen"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "Puffer der aktiven Konsole in Datei speichern"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (hier nicht verfügbar: Proxmox erfordert API-Ticket/Proxy)"
-
-#~ msgid "Open local console"
-#~ msgstr "Lokale Konsole öffnen"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "Lokaler Port bereits zugewiesen"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "Serverliste aus Datei importieren"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "Zusätzliche Argumente für die Befehlszeile"
-
-#~ msgid "Export server list to file"
-#~ msgstr "Serverliste in Datei exportieren"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "Host-Eigenschaften bearbeiten"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "Erkannte Proxmox-Ziele (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "Erkanntes Proxmox-Ziel"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "Dynamische Portweiterleitung erstellen"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "Mit ausgewähltem Host oder allen Hosts in der ausgewählten Gruppe verbinden"
+#~ msgid "Colors and Keys"
+#~ msgstr "Farben und Tasten"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "Alle Konsolenteilungen aufheben"
 #~ "1: min\n"
 #~ "9: max"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "Farben und Tasten"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "Mit ausgewähltem Host oder allen Hosts in der ausgewählten Gruppe verbinden"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "Dynamische Portweiterleitung erstellen"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "Erkanntes Proxmox-Ziel"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "Erkannte Proxmox-Ziele (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "Host-Eigenschaften bearbeiten"
+
+#~ msgid "Export server list to file"
+#~ msgstr "Serverliste in Datei exportieren"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "Zusätzliche Argumente für die Befehlszeile"
+
+#~ msgid "Import server list from file"
+#~ msgstr "Serverliste aus Datei importieren"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "Lokaler Port bereits zugewiesen"
+
+#~ msgid "Open local console"
+#~ msgstr "Lokale Konsole öffnen"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (hier nicht verfügbar: Proxmox erfordert API-Ticket/Proxy)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "Puffer der aktiven Konsole in Datei speichern"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "Sekunden zwischen Keep-Alive-Paketen"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "Befehle gleichzeitig an mehrere Hosts senden"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "Symbolleiste anzeigen"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "Konsole horizontal teilen"
+
+#~ msgid "Split console vertically"
+#~ msgstr "Konsole vertikal teilen"
+
+#~ msgid "_Edit"
+#~ msgstr "B_earbeiten"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "Beschriftung"
+
+#~ msgid "local"
+#~ msgstr "lokal"
+
+#~ msgid "page 1"
+#~ msgstr "Seite 1"
+
+#~ msgid "page 2"
+#~ msgstr "Seite 2"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "xfreerdp-Protokoll:"

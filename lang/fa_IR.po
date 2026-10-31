@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3122,6 +3122,10 @@ msgid "unsupported format or version"
 msgstr "قالب یا نسخهٔ پشتیبانی‌نشده"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "میان‌برهای صفحه‌کلید"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "زبانه بعدی"
 
@@ -3136,6 +3140,10 @@ msgstr "ذخیرهٔ پیکربندی با نام…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "جستجو"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "راهنمای کاربر"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3342,6 +3350,10 @@ msgid "Connection"
 msgstr "اتصال"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "نوع اتصال؛ گزینه‌های آن در زیر نمایش داده می‌شوند"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "دور انداختن"
 
@@ -3358,6 +3370,10 @@ msgid "Existing groups"
 msgstr "گروه‌های موجود"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "آرگومان‌های اضافی برای فرمان اتصال، اگر پروتکل از آن‌ها پشتیبانی کند"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "پارامترهای اضافی"
 
@@ -3366,8 +3382,20 @@ msgid "Foreground color"
 msgstr "رنگ متن"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "نام میزبان یا نشانی IP کارساز"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "ادامهٔ ویرایش"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "برای استفاده از درگاه پیش‌فرض پروتکل خالی بگذارید"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "نامی که در فهرست میزبان‌ها نمایش داده می‌شود، یکتا در گروه خود"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3414,10 @@ msgid "No extension is installed."
 msgstr "هیچ افزونه‌ای نصب نشده است."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "یادداشتی که در راهنمای ابزار فهرست میزبان‌ها نمایش داده می‌شود"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "پروتکل"
 
@@ -3401,6 +3433,18 @@ msgstr "فرمان پوسته که بلافاصله پس از پایان این 
 #: src/gcm4/ui/host_dialog.py
 msgid "The changes to this host have not been saved."
 msgstr "تغییرات این میزبان ذخیره نشده است."
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "استفاده از رنگ‌های پایانه در تنظیمات به جای رنگ‌های زیر"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "نام کاربری روی میزبان راه دور"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "با زبانهٔ پایانه پس از پایان اتصال چه شود"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3785,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "این کد را یادداشت یا چاپ کنید و در جای امنی نگه دارید: دیگر نمایش داده نمی‌شود. اگر گذرواژهٔ اصلی را فراموش کنید، گذرواژه‌های ذخیره‌شده را باز می‌کند و سپس گذرواژهٔ اصلی جدیدی انتخاب می‌کنید."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "افزودن عنوان زبانهٔ جاری به عنوان پنجره"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "پس از آخرین زبانه به اولین بازگردد و برعکس"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "هنگام بستن زبانه با دکمهٔ میانی موشواره نیز بپرسد"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "ظاهر"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "پیش از بستن زبانهٔ پایانه بپرسد"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "هنگامی که اتصال باز وجود دارد، پیش از خروج بپرسد"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3825,14 @@ msgid "Extensions"
 msgstr "افزونه‌ها"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "پیروی از سبک سامانه یا اجبار به پوستهٔ روشن یا تیره"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "قلم فهرست میزبان‌ها"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "بارگذاری شد"
 
@@ -3771,6 +3843,10 @@ msgstr "پوشه گزارش‌ها"
 #: src/gcm4/ui/preferences.py
 msgid "Logging"
 msgstr "گزارش‌گیری"
+
+#: src/gcm4/ui/preferences.py
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "هنگام آغاز، نگارش منتشرشدهٔ جدیدتر را در GitHub جست‌وجو کند"
 
 #: src/gcm4/ui/preferences.py
 msgid "Main window"
@@ -3795,8 +3871,24 @@ msgid "Preferences page unavailable: {error}"
 msgstr "صفحه ترجیحات در دسترس نیست: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "اتصال دوباره به میزبان‌هایی که هنگام بستن برنامه باز بودند"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "امنیت"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "نمایش همهٔ سطرهای فهرست میزبان‌ها با پس‌زمینهٔ یکسان"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "نمایش فهرست میزبان‌ها با قلم میزکار"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "نمایش فهرست میزبان‌ها در کنار پایانه‌ها"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3911,10 @@ msgstr "استفاده از قلم سیستم"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "نسخه {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "عنوان پنجره؛ برای استفاده از نام برنامه خالی بگذارید"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -5129,110 +5225,8 @@ msgstr "تقسیم عمودی"
 msgid "Unsplit all consoles"
 msgstr "لغو تقسیم همه کنسول‌ها"
 
-#~ msgid "xfreerdp log:"
-#~ msgstr "گزارش xfreerdp:"
-
-#~ msgid "vnc"
-#~ msgstr "vnc"
-
-#~ msgid "telnet"
-#~ msgstr "telnet"
-
-#~ msgid "ssh"
-#~ msgstr "ssh"
-
-#~ msgid "spice"
-#~ msgstr "spice"
-
-#~ msgid "rdp"
-#~ msgstr "rdp"
-
-#~ msgid "page 2"
-#~ msgstr "صفحه ۲"
-
-#~ msgid "page 1"
-#~ msgstr "صفحه ۱"
-
-#~ msgid "local"
-#~ msgstr "محلی"
-
-#~ msgid "label"
-#~ msgstr "برچسب"
-
-#~ msgid "__glade_unnamed_37"
-#~ msgstr "__glade_unnamed_37"
-
-#~ msgid "__glade_unnamed_36"
-#~ msgstr "__glade_unnamed_36"
-
-#~ msgid "__glade_unnamed_32"
-#~ msgstr "__glade_unnamed_32"
-
-#~ msgid "__glade_unnamed_30"
-#~ msgstr "__glade_unnamed_30"
-
-#~ msgid "__glade_unnamed_29"
-#~ msgstr "__glade_unnamed_29"
-
-#~ msgid "__glade_unnamed_28"
-#~ msgstr "__glade_unnamed_28"
-
-#~ msgid "_Edit"
-#~ msgstr "_ویرایش"
-
-#~ msgid "Split console vertically"
-#~ msgstr "تقسیم عمودی کنسول"
-
-#~ msgid "Split console horizontally"
-#~ msgstr "تقسیم افقی کنسول"
-
-#~ msgid "Show Toolbar"
-#~ msgstr "نمایش نوار ابزار"
-
-#~ msgid "Send commands to several hosts at the same time"
-#~ msgstr "ارسال دستورات به چند میزبان به‌طور همزمان"
-
-#~ msgid "Seconds between keep-alive packets"
-#~ msgstr "ثانیه بین بسته‌های keep-alive"
-
-#~ msgid "Save active console buffer to file"
-#~ msgstr "ذخیره بافر کنسول فعال در فایل"
-
-#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
-#~ msgstr "SPICE  (در اینجا در دسترس نیست: Proxmox به تیکت/پراکسی API نیاز دارد)"
-
-#~ msgid "Open local console"
-#~ msgstr "باز کردن کنسول محلی"
-
-#~ msgid "Local port already assigned"
-#~ msgstr "پورت محلی از قبل اختصاص یافته است"
-
-#~ msgid "Keep-Alive"
-#~ msgstr "Keep-Alive"
-
-#~ msgid "Import server list from file"
-#~ msgstr "وارد کردن فهرست سرورها از فایل"
-
-#~ msgid "Extra arguments to pass to command line"
-#~ msgstr "آرگومان‌های اضافی برای ارسال به خط فرمان"
-
-#~ msgid "Export server list to file"
-#~ msgstr "صدور فهرست سرورها به فایل"
-
-#~ msgid "Edit hosts properties"
-#~ msgstr "ویرایش ویژگی‌های میزبان‌ها"
-
-#~ msgid "Detected Proxmox targets (dconf):"
-#~ msgstr "اهداف Proxmox شناسایی‌شده (dconf):"
-
-#~ msgid "Detected Proxmox target"
-#~ msgstr "هدف Proxmox شناسایی‌شده"
-
-#~ msgid "Create dynamic port forwarding"
-#~ msgstr "ایجاد هدایت پورت دینامیک"
-
-#~ msgid "Connect to selected host or all hosts in selected group"
-#~ msgstr "اتصال به میزبان انتخاب‌شده یا تمام میزبان‌های گروه انتخاب‌شده"
+#~ msgid "Colors and Keys"
+#~ msgstr "رنگ‌ها و کلیدها"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5245,5 +5239,107 @@ msgstr "لغو تقسیم همه کنسول‌ها"
 #~ "1: حداقل\n"
 #~ "9: حداکثر"
 
-#~ msgid "Colors and Keys"
-#~ msgstr "رنگ‌ها و کلیدها"
+#~ msgid "Connect to selected host or all hosts in selected group"
+#~ msgstr "اتصال به میزبان انتخاب‌شده یا تمام میزبان‌های گروه انتخاب‌شده"
+
+#~ msgid "Create dynamic port forwarding"
+#~ msgstr "ایجاد هدایت پورت دینامیک"
+
+#~ msgid "Detected Proxmox target"
+#~ msgstr "هدف Proxmox شناسایی‌شده"
+
+#~ msgid "Detected Proxmox targets (dconf):"
+#~ msgstr "اهداف Proxmox شناسایی‌شده (dconf):"
+
+#~ msgid "Edit hosts properties"
+#~ msgstr "ویرایش ویژگی‌های میزبان‌ها"
+
+#~ msgid "Export server list to file"
+#~ msgstr "صدور فهرست سرورها به فایل"
+
+#~ msgid "Extra arguments to pass to command line"
+#~ msgstr "آرگومان‌های اضافی برای ارسال به خط فرمان"
+
+#~ msgid "Import server list from file"
+#~ msgstr "وارد کردن فهرست سرورها از فایل"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "Keep-Alive"
+
+#~ msgid "Local port already assigned"
+#~ msgstr "پورت محلی از قبل اختصاص یافته است"
+
+#~ msgid "Open local console"
+#~ msgstr "باز کردن کنسول محلی"
+
+#~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
+#~ msgstr "SPICE  (در اینجا در دسترس نیست: Proxmox به تیکت/پراکسی API نیاز دارد)"
+
+#~ msgid "Save active console buffer to file"
+#~ msgstr "ذخیره بافر کنسول فعال در فایل"
+
+#~ msgid "Seconds between keep-alive packets"
+#~ msgstr "ثانیه بین بسته‌های keep-alive"
+
+#~ msgid "Send commands to several hosts at the same time"
+#~ msgstr "ارسال دستورات به چند میزبان به‌طور همزمان"
+
+#~ msgid "Show Toolbar"
+#~ msgstr "نمایش نوار ابزار"
+
+#~ msgid "Split console horizontally"
+#~ msgstr "تقسیم افقی کنسول"
+
+#~ msgid "Split console vertically"
+#~ msgstr "تقسیم عمودی کنسول"
+
+#~ msgid "_Edit"
+#~ msgstr "_ویرایش"
+
+#~ msgid "__glade_unnamed_28"
+#~ msgstr "__glade_unnamed_28"
+
+#~ msgid "__glade_unnamed_29"
+#~ msgstr "__glade_unnamed_29"
+
+#~ msgid "__glade_unnamed_30"
+#~ msgstr "__glade_unnamed_30"
+
+#~ msgid "__glade_unnamed_32"
+#~ msgstr "__glade_unnamed_32"
+
+#~ msgid "__glade_unnamed_36"
+#~ msgstr "__glade_unnamed_36"
+
+#~ msgid "__glade_unnamed_37"
+#~ msgstr "__glade_unnamed_37"
+
+#~ msgid "label"
+#~ msgstr "برچسب"
+
+#~ msgid "local"
+#~ msgstr "محلی"
+
+#~ msgid "page 1"
+#~ msgstr "صفحه ۱"
+
+#~ msgid "page 2"
+#~ msgstr "صفحه ۲"
+
+#~ msgid "rdp"
+#~ msgstr "rdp"
+
+#~ msgid "spice"
+#~ msgstr "spice"
+
+#~ msgid "ssh"
+#~ msgstr "ssh"
+
+#~ msgid "telnet"
+#~ msgstr "telnet"
+
+#~ msgid "vnc"
+#~ msgstr "vnc"
+
+#~ msgid "xfreerdp log:"
+#~ msgstr "گزارش xfreerdp:"
