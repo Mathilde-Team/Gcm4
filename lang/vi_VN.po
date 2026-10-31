@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Trang chủ của dự án"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Thoát"
 
@@ -3122,6 +3123,10 @@ msgid "unsupported format or version"
 msgstr "định dạng hoặc phiên bản không được hỗ trợ"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Phím tắt"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Thẻ tiếp theo"
 
@@ -3136,6 +3141,10 @@ msgstr "Lưu cấu hình thành…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Tìm kiếm"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Hướng dẫn sử dụng"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3278,14 @@ msgstr "Cổng phải là số từ {min} đến {max}."
 msgid "The name must not contain «/»."
 msgstr "Tên không được chứa '/'."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Máy chủ"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Cửa sổ chính"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3359,10 @@ msgid "Connection"
 msgstr "Kết nối"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Kiểu kết nối; các tùy chọn của nó hiển thị bên dưới"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Bỏ"
 
@@ -3358,6 +3379,10 @@ msgid "Existing groups"
 msgstr "Nhóm hiện có"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Đối số bổ sung cho lệnh kết nối, nếu giao thức hỗ trợ"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Tham số bổ sung"
 
@@ -3366,8 +3391,20 @@ msgid "Foreground color"
 msgstr "Màu chữ"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Tên máy chủ hoặc địa chỉ IP của máy chủ"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Tiếp tục sửa"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Để trống để dùng cổng mặc định của giao thức"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Tên hiển thị trong danh sách máy chủ, duy nhất trong nhóm"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3423,10 @@ msgid "No extension is installed."
 msgstr "Chưa cài tiện ích mở rộng nào."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Ghi chú hiển thị trong chú giải của danh sách máy chủ"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Giao thức"
 
@@ -3402,14 +3443,22 @@ msgstr "Lệnh shell chạy cục bộ ở nền ngay sau khi kết nối này k
 msgid "The changes to this host have not been saved."
 msgstr "Các thay đổi của máy chủ này chưa được lưu."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Dùng màu bảng điều khiển trong cài đặt thay cho các màu bên dưới"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Tên người dùng trên máy chủ từ xa"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Xử lý thẻ bảng điều khiển thế nào khi kết nối kết thúc"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Đã có một mục cùng tên trong '{group}'."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Máy chủ"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3790,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Hãy ghi lại hoặc in mã này và cất giữ ở nơi an toàn: mã sẽ không được hiển thị lại. Nếu bạn quên mật khẩu chính, mã này mở khóa các mật khẩu đã lưu, sau đó bạn chọn mật khẩu chính mới."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Thêm tiêu đề của thẻ hiện tại vào tiêu đề cửa sổ"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Sau thẻ cuối cùng quay lại thẻ đầu tiên, và ngược lại"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Cũng hỏi khi đóng thẻ bằng nút giữa chuột"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Giao diện"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Hỏi trước khi đóng một thẻ bảng điều khiển"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Hỏi trước khi thoát khi còn kết nối đang mở"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3830,18 @@ msgid "Extensions"
 msgstr "Phần mở rộng"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Theo kiểu của hệ thống hoặc buộc dùng chủ đề sáng hay tối"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Phông chữ của danh sách máy chủ"
+
+#: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt hoặc GNOME với tiện ích AppIndicator"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Đã nạp"
 
@@ -3773,12 +3854,16 @@ msgid "Logging"
 msgstr "Ghi nhật ký"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Cửa sổ chính"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Tìm phiên bản mới hơn đã phát hành trên GitHub khi khởi động"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "Không tìm thấy phần mở rộng nào."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Khu vực thông báo"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3795,8 +3880,28 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Trang tùy chọn không khả dụng: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Kết nối lại các máy chủ đang mở khi ứng dụng bị đóng"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Bảo mật"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Hiển thị biểu tượng trong khu vực thông báo"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Hiển thị mọi dòng của danh sách máy chủ trên cùng một nền"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Hiển thị danh sách máy chủ bằng phông chữ của màn hình nền"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Hiển thị danh sách máy chủ bên cạnh các bảng điều khiển"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3924,10 @@ msgstr "Dùng phông chữ hệ thống"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Phiên bản {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Tiêu đề cửa sổ; để trống để dùng tên ứng dụng"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -3882,6 +3991,14 @@ msgstr "tín hiệu {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "trạng thái {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Ẩn cửa sổ"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Hiện cửa sổ"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

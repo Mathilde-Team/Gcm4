@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "דף הבית של הפרויקט"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "יציאה"
 
@@ -3122,6 +3123,10 @@ msgid "unsupported format or version"
 msgstr "תבנית או גרסה לא נתמכות"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "קיצורי מקלדת"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "הלשונית הבאה"
 
@@ -3136,6 +3141,10 @@ msgstr "שמירת התצורה בשם…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "חיפוש"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "מדריך למשתמש"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3278,14 @@ msgstr "הפתחה חייבת להיות מספר בין {min} ל־{max}."
 msgid "The name must not contain «/»."
 msgstr "השם לא יכול להכיל „/”."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "מארחים"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "חלון ראשי"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3359,10 @@ msgid "Connection"
 msgstr "חיבור"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "סוג החיבור; האפשרויות שלו מוצגות למטה"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "לבטל"
 
@@ -3358,6 +3379,10 @@ msgid "Existing groups"
 msgstr "קבוצות קיימות"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "ארגומנטים נוספים לפקודת החיבור, אם הפרוטוקול תומך בהם"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "פרמטרים נוספים"
 
@@ -3366,8 +3391,20 @@ msgid "Foreground color"
 msgstr "צבע טקסט"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "שם המארח או כתובת ה־IP של השרת"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "להמשיך בעריכה"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "השאירו ריק כדי להשתמש ביציאת ברירת המחדל של הפרוטוקול"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "השם המוצג ברשימת המארחים, ייחודי בתוך הקבוצה"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3423,10 @@ msgid "No extension is installed."
 msgstr "לא מותקנת אף הרחבה."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "הערה המוצגת בחלונית העזרה של רשימת המארחים"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "פרוטוקול"
 
@@ -3402,14 +3443,22 @@ msgstr "פקודת מעטפת שרצה מקומית ברקע מיד אחרי ס�
 msgid "The changes to this host have not been saved."
 msgstr "השינויים במארח זה לא נשמרו."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "שימוש בצבעי המסוף מההגדרות במקום הצבעים שלמטה"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "שם המשתמש במארח המרוחק"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "מה לעשות בלשונית המסוף כשהחיבור מסתיים"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "כבר קיים פריט בשם זה ב־„{group}”."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "מארחים"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3790,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "יש לרשום או להדפיס קוד זה ולשמור אותו במקום בטוח: הוא לא יוצג שוב. אם תשכחו את הסיסמה הראשית, הוא פותח את הסיסמאות השמורות ואז בוחרים סיסמה ראשית חדשה."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "הוספת כותרת הלשונית הנוכחית לכותרת החלון"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "אחרי הלשונית האחרונה לחזור לראשונה, ולהפך"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "לשאול גם כשלשונית נסגרת בלחצן האמצעי של העכבר"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "מראה"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "לשאול לפני סגירת לשונית מסוף"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "לשאול לפני יציאה כשיש חיבורים פתוחים"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3830,18 @@ msgid "Extensions"
 msgstr "הרחבות"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "לעקוב אחר סגנון המערכת או לכפות ערכת נושא בהירה או כהה"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "גופן רשימת המארחים"
+
+#: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt או GNOME עם ההרחבה AppIndicator"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "נטען"
 
@@ -3773,12 +3854,16 @@ msgid "Logging"
 msgstr "רישום יומן"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "חלון ראשי"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "לחפש בהפעלה גרסה מפורסמת חדשה יותר ב־GitHub"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "לא נמצאה הרחבה."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "אזור ההודעות"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3795,8 +3880,28 @@ msgid "Preferences page unavailable: {error}"
 msgstr "עמוד ההעדפות אינו זמין: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "להתחבר מחדש למארחים שהיו פתוחים כשהיישום נסגר"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "אבטחה"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "הצגת סמל באזור ההודעות"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "הצגת כל שורות רשימת המארחים על אותו רקע"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "הצגת רשימת המארחים בגופן של שולחן העבודה"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "הצגת רשימת המארחים ליד המסופים"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3924,10 @@ msgstr "שימוש בגופן המערכת"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "גרסה {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "כותרת החלון; השאירו ריק כדי להשתמש בשם היישום"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -3882,6 +3991,14 @@ msgstr "אות {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "מצב {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "הסתרת החלון"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "הצגת החלון"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

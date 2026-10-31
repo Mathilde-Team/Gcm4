@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "プロジェクトのホームページ"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "終了"
 
@@ -3122,6 +3123,10 @@ msgid "unsupported format or version"
 msgstr "サポートされていない形式またはバージョンです"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "キーボードショートカット"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "次のタブ"
 
@@ -3136,6 +3141,10 @@ msgstr "設定に名前を付けて保存…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "検索"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "ユーザーガイド"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3278,14 @@ msgstr "ポートは {min} から {max} までの数値で指定してくださ�
 msgid "The name must not contain «/»."
 msgstr "名前に「/」は使えません。"
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "ホスト"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "メインウィンドウ"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3359,10 @@ msgid "Connection"
 msgstr "接続"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "接続の種類。オプションは下に表示されます"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "破棄"
 
@@ -3358,6 +3379,10 @@ msgid "Existing groups"
 msgstr "既存のグループ"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "プロトコルが対応している場合に接続コマンドへ追加する引数"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "追加パラメーター"
 
@@ -3366,8 +3391,20 @@ msgid "Foreground color"
 msgstr "文字色"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "サーバーのホスト名または IP アドレス"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "編集を続ける"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "空欄にするとプロトコルの既定のポートを使用します"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "ホスト一覧に表示される名前。グループ内で一意"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3423,10 @@ msgid "No extension is installed."
 msgstr "拡張機能がインストールされていません。"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "ホスト一覧のツールチップに表示されるメモ"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "プロトコル"
 
@@ -3402,14 +3443,22 @@ msgstr "この接続の終了直後に、対応するプロトコルがバック
 msgid "The changes to this host have not been saved."
 msgstr "このホストの変更は保存されていません。"
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "下の色ではなく、設定のコンソールの色を使用します"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "リモートホストのユーザー名"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "接続終了時にコンソールのタブをどうするか"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "「{group}」には同じ名前の項目がすでにあります。"
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "ホスト"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3790,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "このコードを書き留めるか印刷して、安全な場所に保管してください。再表示されません。マスターパスワードを忘れた場合、このコードで保存されたパスワードのロックを解除し、新しいマスターパスワードを選びます。"
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "現在のタブのタイトルをウィンドウのタイトルに追加します"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "最後のタブの次は最初のタブに戻り、逆も同様です"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "マウスの中ボタンでタブを閉じるときも確認します"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "外観"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "コンソールのタブを閉じる前に確認します"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "接続が開いているときは終了前に確認します"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3830,18 @@ msgid "Extensions"
 msgstr "拡張機能"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "システムのスタイルに従うか、ライトまたはダークを強制します"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "ホスト一覧のフォント"
+
+#: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt、または AppIndicator 拡張機能付きの GNOME"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "読み込み済み"
 
@@ -3773,12 +3854,16 @@ msgid "Logging"
 msgstr "ログ"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "メインウィンドウ"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "起動時に GitHub で新しい公開バージョンを確認します"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "拡張機能が見つかりません。"
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "通知領域"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3795,8 +3880,28 @@ msgid "Preferences page unavailable: {error}"
 msgstr "設定ページを利用できません: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "アプリケーションを閉じたときに開いていたホストに再接続します"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "セキュリティ"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "通知領域にアイコンを表示する"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "ホスト一覧のすべての行を同じ背景で表示します"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "ホスト一覧をデスクトップのフォントで表示します"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "ホスト一覧をコンソールの横に表示します"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3924,10 @@ msgstr "システムのフォントを使用"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "バージョン {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "ウィンドウのタイトル。空欄にするとアプリケーション名を使用します"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -3882,6 +3991,14 @@ msgstr "シグナル {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "ステータス {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "ウィンドウを隠す"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "ウィンドウを表示"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

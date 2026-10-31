@@ -69,12 +69,31 @@ MENU_PRINCIPAL: tuple[SousMenu, ...] = (
             ),
         ),
     ),
-    SousMenu(N_("Help"), ((Entree(N_("About"), "app.about"),),)),
+    SousMenu(
+        N_("Help"),
+        (
+            # Aide (#86) : guide utilisateur en ligne et fenêtre des raccourcis.
+            (
+                Entree(N_("User Guide"), "app.help"),
+                Entree(N_("Keyboard Shortcuts"), "app.shortcuts"),
+            ),
+            (Entree(N_("About"), "app.about"),),
+        ),
+    ),
 )
+
+#: Guide utilisateur ouvert par Aide > Guide utilisateur (F1, #86) : la
+#: documentation du dépôt, rien à maintenir en double dans l'application.
+#: ``docs/guide/utilisateur.md`` n'est qu'une inclusion MkDocs de
+#: ``Documentation-fr.md`` (une ligne sur GitHub, aucun site Pages publié) :
+#: on ouvre donc le fichier inclus, rendu par GitHub.
+GUIDE_UTILISATEUR = "https://github.com/Mathilde-Team/Gcm4/blob/main/Documentation-fr.md"
 
 RACCOURCIS: dict[str, tuple[str, ...]] = {
     "app.quit": ("<Control>q",),
     "app.preferences": ("<Control>comma",),
+    "app.help": ("F1",),
+    "app.shortcuts": ("<Control>question",),
     "win.toggle-panel": ("F9",),
     "win.search": ("<Control>f",),
     # GTK3 : CTRL+SHIFT+TAB / CTRL+TAB ; Ctrl+Page précédente/suivante comme Gtk.Notebook.

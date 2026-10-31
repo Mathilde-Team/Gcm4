@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Projektin kotisivu"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Lopeta"
 
@@ -3122,6 +3123,10 @@ msgid "unsupported format or version"
 msgstr "muotoa tai versiota ei tueta"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Pikanäppäimet"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Seuraava välilehti"
 
@@ -3136,6 +3141,10 @@ msgstr "Tallenna asetukset nimellä…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Hae"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Käyttöopas"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3278,14 @@ msgstr "Portin on oltava luku väliltä {min}–{max}."
 msgid "The name must not contain «/»."
 msgstr "Nimessä ei saa olla merkkiä ”/”."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Palvelimet"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Pääikkuna"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3359,10 @@ msgid "Connection"
 msgstr "Yhteys"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Yhteystyyppi; sen asetukset näkyvät alla"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Hylkää"
 
@@ -3358,6 +3379,10 @@ msgid "Existing groups"
 msgstr "Olemassa olevat ryhmät"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Yhteyskomentoon lisättävät argumentit, jos protokolla tukee niitä"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Lisäparametrit"
 
@@ -3366,8 +3391,20 @@ msgid "Foreground color"
 msgstr "Tekstin väri"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Palvelimen isäntänimi tai IP-osoite"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Jatka muokkausta"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Jätä tyhjäksi, niin käytetään protokollan oletusporttia"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Isäntäluettelossa näkyvä nimi, yksilöllinen ryhmänsä sisällä"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3423,10 @@ msgid "No extension is installed."
 msgstr "Laajennuksia ei ole asennettu."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Isäntäluettelon työkaluvihjeessä näkyvä huomautus"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokolla"
 
@@ -3402,14 +3443,22 @@ msgstr "Paikallisesti taustalla heti yhteyden päätyttyä suoritettava komento 
 msgid "The changes to this host have not been saved."
 msgstr "Tämän palvelimen muutoksia ei ole tallennettu."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Käytä asetusten konsolivärejä alla olevien värien sijaan"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Käyttäjänimi etäisännällä"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Mitä konsolivälilehdelle tehdään, kun yhteys päättyy"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Kohteessa ”{group}” on jo tämänniminen kohde."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Palvelimet"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3790,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Kirjoita tämä koodi muistiin tai tulosta se ja säilytä sitä turvallisessa paikassa: sitä ei näytetä uudelleen. Jos unohdat pääsalasanan, se avaa tallennetut salasanat, minkä jälkeen valitset uuden pääsalasanan."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Lisää nykyisen välilehden otsikko ikkunan otsikkoon"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Viimeisen välilehden jälkeen palaa ensimmäiseen ja päinvastoin"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Kysy myös, kun välilehti suljetaan hiiren keskipainikkeella"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Ulkoasu"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Kysy ennen konsolivälilehden sulkemista"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Kysy ennen lopettamista, kun yhteyksiä on auki"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3830,18 @@ msgid "Extensions"
 msgstr "Laajennukset"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "Seuraa järjestelmän tyyliä tai pakota vaalea tai tumma teema"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Isäntäluettelon fontti"
+
+#: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt tai GNOME ja AppIndicator-laajennus"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Ladattu"
 
@@ -3773,12 +3854,16 @@ msgid "Logging"
 msgstr "Lokitus"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Pääikkuna"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Etsi käynnistettäessä uudempaa julkaistua versiota GitHubista"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "Laajennuksia ei löytynyt."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Ilmoitusalue"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3795,8 +3880,28 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Asetussivu ei ole käytettävissä: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Yhdistä uudelleen isännät, jotka olivat auki sovelluksen sulkeutuessa"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Turvallisuus"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Näytä kuvake ilmoitusalueella"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Näytä isäntäluettelon kaikki rivit samalla taustalla"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Näytä isäntäluettelo työpöydän fontilla"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Näytä isäntäluettelo konsolien vieressä"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3924,10 @@ msgstr "Käytä järjestelmän fonttia"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Versio {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Ikkunan otsikko; jätä tyhjäksi, niin käytetään sovelluksen nimeä"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -3882,6 +3991,14 @@ msgstr "signaali {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "tila {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Piilota ikkuna"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Näytä ikkuna"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

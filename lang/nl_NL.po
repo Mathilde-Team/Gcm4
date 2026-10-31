@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-10-31 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,6 +681,7 @@ msgid "Project's Homepage"
 msgstr "Homepage van het project"
 
 #: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Afsluiten"
 
@@ -3122,6 +3123,10 @@ msgid "unsupported format or version"
 msgstr "niet-ondersteund formaat of niet-ondersteunde versie"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Sneltoetsen"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Volgend tabblad"
 
@@ -3136,6 +3141,10 @@ msgstr "Configuratie opslaan als…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "Zoeken"
+
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Gebruikershandleiding"
 
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Choose Color…"
@@ -3269,6 +3278,14 @@ msgstr "De poort moet een getal tussen {min} en {max} zijn."
 msgid "The name must not contain «/»."
 msgstr "De naam mag geen ‘/’ bevatten."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Hosts"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Hoofdvenster"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
@@ -3342,6 +3359,10 @@ msgid "Connection"
 msgstr "Verbinding"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Verbindingstype; de opties ervan staan hieronder"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Verwerpen"
 
@@ -3358,6 +3379,10 @@ msgid "Existing groups"
 msgstr "Bestaande groepen"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Extra argumenten voor de verbindingsopdracht, als het protocol ze ondersteunt"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Extra parameters"
 
@@ -3366,8 +3391,20 @@ msgid "Foreground color"
 msgstr "Tekstkleur"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Hostnaam of IP-adres van de server"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Verder bewerken"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Leeg laten om de standaardpoort van het protocol te gebruiken"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Naam in de hostlijst, uniek binnen de groep"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +3423,10 @@ msgid "No extension is installed."
 msgstr "Geen extensie geïnstalleerd."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Notitie die in de tooltip van de hostlijst wordt getoond"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protocol"
 
@@ -3402,14 +3443,22 @@ msgstr "Shell-opdracht die lokaal op de achtergrond wordt uitgevoerd direct na h
 msgid "The changes to this host have not been saved."
 msgstr "De wijzigingen aan deze host zijn niet opgeslagen."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "De consolekleuren uit de instellingen gebruiken in plaats van de kleuren hieronder"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Gebruikersnaam op de externe host"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Wat er met het consoletabblad gebeurt als de verbinding eindigt"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Er bestaat al een item met deze naam in ‘{group}’."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Hosts"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3741,8 +3790,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Noteer of print deze code en bewaar hem op een veilige plek: hij wordt niet meer getoond. Als u het hoofdwachtwoord vergeet, ontgrendelt hij de opgeslagen wachtwoorden en kiest u daarna een nieuw hoofdwachtwoord."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "De titel van het huidige tabblad aan de venstertitel toevoegen"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Na het laatste tabblad terug naar het eerste, en omgekeerd"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Ook vragen als een tabblad met de middelste muisknop wordt gesloten"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Uiterlijk"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Vragen voordat een consoletabblad wordt gesloten"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Vragen voor het afsluiten zolang er verbindingen open zijn"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,6 +3830,18 @@ msgid "Extensions"
 msgstr "Extensies"
 
 #: src/gcm4/ui/preferences.py
+msgid "Follow the system style or force a light or dark one"
+msgstr "De systeemstijl volgen of een licht of donker thema afdwingen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Lettertype van de hostlijst"
+
+#: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt of GNOME met de AppIndicator-extensie"
+
+#: src/gcm4/ui/preferences.py
 msgid "Loaded"
 msgstr "Geladen"
 
@@ -3773,12 +3854,16 @@ msgid "Logging"
 msgstr "Logboek"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Hoofdvenster"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Bij het opstarten op GitHub zoeken naar een nieuwere gepubliceerde versie"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "Geen extensie gevonden."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Systeemvak"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3795,8 +3880,28 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Voorkeurenpagina niet beschikbaar: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "De hosts opnieuw verbinden die open waren toen de toepassing werd gesloten"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Beveiliging"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Een pictogram in het systeemvak tonen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Alle rijen van de hostlijst met dezelfde achtergrond tonen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "De hostlijst in het lettertype van de desktop tonen"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "De hostlijst naast de consoles tonen"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +3924,10 @@ msgstr "Systeemlettertype gebruiken"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Versie {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Venstertitel; leeg laten om de naam van de toepassing te gebruiken"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -3882,6 +3991,14 @@ msgstr "signaal {number}"
 #, python-brace-format
 msgid "status {status}"
 msgstr "status {status}"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Venster verbergen"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Venster tonen"
 
 #: ssh_config_editor.py
 #, fuzzy, python-brace-format

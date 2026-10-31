@@ -118,6 +118,18 @@ gcm4 [--version] [--debug] [-c DOSSIER] [GROUPE/NOM ...]
 `-c DOSSIER` utilise un autre dossier de configuration (sans migration
 depuis `~/.gcm/`).
 
+## Aide intégrée
+
+- **Aide > Guide utilisateur** (`F1`) ouvre la
+  [documentation utilisateur](utilisateur.md) dans le navigateur
+  (`Documentation-fr.md` sur GitHub).
+- **Aide > Raccourcis clavier** (`Ctrl+?`) affiche tous les raccourcis,
+  personnalisations de **Paramètres > Raccourcis** comprises ; un raccourci
+  désactivé n'y figure pas.
+- Les champs du dialogue d'hôte ont une info-bulle (survol), et les options
+  des pages **Général** et **Apparence** des Paramètres un sous-titre qui
+  explique leur effet.
+
 ## Modifier plusieurs hôtes
 
 L'arbre accepte une sélection de plusieurs lignes (#100) : **Ctrl+clic**
@@ -140,6 +152,18 @@ Avec plusieurs lignes sélectionnées, les actions sur une seule ligne
 (Suppr, F2, menu d'un hôte) ne s'appliquent pas : un clic droit hors de la
 sélection revient à une sélection simple. Le glisser-déposer déplace
 toujours une seule ligne.
+
+## Icône dans la zone de notification
+
+**Paramètres > Général > Zone de notification** affiche une icône gcm4 dans
+la zone de notification du bureau (désactivée par défaut). Un clic masque la
+fenêtre principale ou la fait revenir ; le menu de l'icône propose
+« Afficher la fenêtre » ou « Masquer la fenêtre », et « Quitter ».
+
+L'icône suit le protocole StatusNotifierItem : KDE Plasma, XFCE, Cinnamon,
+MATE et LXQt l'affichent directement ; sous GNOME, il faut l'extension
+AppIndicator (paquet `gnome-shell-extension-appindicator`). Sans hôte
+compatible, l'option n'a pas d'effet et le journal l'indique.
 
 ## Configuration et journaux
 
