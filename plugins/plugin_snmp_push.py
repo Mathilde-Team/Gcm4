@@ -98,6 +98,7 @@ def open_snmp_push_tab(wmain) -> SnmpPushTab:
     Args:
         wmain: Instance ``Wmain`` de GCM (fournit ``.nbConsole`` et ``.window``).
     """
+    logger.debug("open_snmp_push_tab: entrée")
     logger.debug(f"open_snmp_push_tab | wmain={wmain}")
     existing = getattr(wmain, "_snmp_push_tab", None)
     notebook = wmain.nbConsole
@@ -105,6 +106,7 @@ def open_snmp_push_tab(wmain) -> SnmpPushTab:
         page_num = notebook.page_num(existing.get_root_widget())
         if page_num != -1:
             notebook.set_current_page(page_num)
+            logger.debug("open_snmp_push_tab: sortie")
             return existing
         wmain._snmp_push_tab = None
 
@@ -116,6 +118,7 @@ def open_snmp_push_tab(wmain) -> SnmpPushTab:
     notebook.set_tab_reorderable(root, True)
     notebook.set_current_page(notebook.get_n_pages() - 1)
     wmain._snmp_push_tab = tab
+    logger.debug("open_snmp_push_tab: sortie")
     return tab
 
 
@@ -131,6 +134,7 @@ def _build_closable_tab_label(
         notebook: Notebook GTK parent, pour retrouver le numéro de page à fermer.
         page_widget: Widget racine de la page associée à cet onglet.
     """
+    logger.debug("_build_closable_tab_label: entrée")
     logger.debug(f"_build_closable_tab_label | text={text}")
     box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
     box.pack_start(Gtk.Label(label=text), False, False, 0)
@@ -144,14 +148,17 @@ def _build_closable_tab_label(
         Args:
             _b: Bouton GTK à l'origine du signal (non utilisé).
         """
+        logger.debug("_on_close: entrée")
         logger.debug("_build_closable_tab_label._on_close")
         page_num = notebook.page_num(page_widget)
         if page_num != -1:
             notebook.remove_page(page_num)
+        logger.debug("_on_close: fin")
 
     btn.connect("clicked", _on_close)
     box.pack_start(btn, False, False, 0)
     box.show_all()
+    logger.debug("_build_closable_tab_label: sortie")
     return box
 
 
@@ -165,6 +172,7 @@ class SnmpPushTab:
             parent_window: Fenêtre GTK parente (dialogues modaux éventuels).
             default_dir: Dossier initial proposé dans les sélecteurs de fichiers.
         """
+        logger.debug("SnmpPushTab.__init__: entrée")
         logger.debug(f"SnmpPushTab.__init__ | default_dir={default_dir}")
         self.parent_window = parent_window
         self.default_dir = default_dir or str(Path.home())
@@ -181,6 +189,7 @@ class SnmpPushTab:
         self._log_dir: Path | None = None
 
         self._build_ui()
+        logger.debug("SnmpPushTab.__init__: fin")
 
     def get_root_widget(self) -> Gtk.Widget:
         """Retourne le widget racine à insérer dans le notebook de sessions."""
@@ -193,6 +202,7 @@ class SnmpPushTab:
 
     def _build_ui(self):
         """Construit le ``Gtk.Stack`` à 3 phases (Configuration/Suivi/Résultats)."""
+        logger.debug("SnmpPushTab._build_ui: entrée")
         logger.debug("SnmpPushTab._build_ui")
         outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         outer.set_margin_start(10)
@@ -210,6 +220,7 @@ class SnmpPushTab:
         self.stack.add_titled(self._build_config_page(), "config", _("1. Configuration"))
         self.stack.add_titled(self._build_monitor_page(), "monitor", _("2. Suivi"))
         self.stack.add_titled(self._build_results_page(), "results", _("3. Résultats"))
+        logger.debug("SnmpPushTab._build_ui: fin")
 
     # ══════════════════════════════════════════════════════════════════
     # Phase 1 : Configuration
@@ -221,6 +232,7 @@ class SnmpPushTab:
         Returns:
             Le widget racine de la page.
         """
+        logger.debug("SnmpPushTab._build_config_page: entrée")
         logger.debug("SnmpPushTab._build_config_page")
         page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
 
@@ -307,6 +319,7 @@ class SnmpPushTab:
         btn_launch.connect("clicked", self._on_launch)
         opts.pack_end(btn_launch, False, False, 0)
 
+        logger.debug("SnmpPushTab._build_config_page: sortie")
         return page
 
     def _make_chooser_row(self, grid, row_idx, label_text) -> Gtk.FileChooserButton:
@@ -320,6 +333,7 @@ class SnmpPushTab:
         Returns:
             Le ``Gtk.FileChooserButton`` créé.
         """
+        logger.debug("SnmpPushTab._make_chooser_row: entrée")
         logger.debug(f"SnmpPushTab._make_chooser_row | row_idx={row_idx} label={label_text}")
         lbl = Gtk.Label(label=label_text)
         lbl.set_xalign(0)
@@ -333,12 +347,14 @@ class SnmpPushTab:
             )
         chooser.set_hexpand(True)
         grid.attach(chooser, 1, row_idx, 1, 1)
+        logger.debug("SnmpPushTab._make_chooser_row: sortie")
         return chooser
 
     # ── Éditeur de profils SNMP ──────────────────────────────────────────
 
     def _build_profile_editor(self) -> Gtk.Widget:
         """Construit l'éditeur de profils SNMP embarqué (liste + formulaire)."""
+        logger.debug("SnmpPushTab._build_profile_editor: entrée")
         logger.debug("SnmpPushTab._build_profile_editor")
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
@@ -395,12 +411,14 @@ class SnmpPushTab:
                 label_text: Libellé affiché devant le widget.
                 widget: Widget de saisie à insérer.
             """
+            logger.debug("add_field: entrée")
             logger.debug(f"_build_profile_editor.add_field | row={row} label={label_text}")
             lbl = Gtk.Label(label=label_text)
             lbl.set_xalign(0)
             form.attach(lbl, 0, row, 1, 1)
             widget.set_hexpand(True)
             form.attach(widget, 1, row, 1, 1)
+            logger.debug("add_field: fin")
 
         self._f_name = Gtk.Entry()
         add_field(0, _("Nom du profil (= colonne 'type'/'profile' du CSV) :"), self._f_name)
@@ -467,10 +485,12 @@ class SnmpPushTab:
         form.attach(btn_row, 0, 12, 2, 1)
 
         hbox.pack_start(form, True, True, 0)
+        logger.debug("SnmpPushTab._build_profile_editor: sortie")
         return hbox
 
     def _build_transfer_editor(self) -> Gtk.Widget:
         """Éditeur du serveur de dépôt pour SNMP."""
+        logger.debug("SnmpPushTab._build_transfer_editor: entrée")
         logger.debug("SnmpPushTab._build_transfer_editor")
         form = Gtk.Grid(column_spacing=8, row_spacing=6)
 
@@ -482,12 +502,14 @@ class SnmpPushTab:
                 label_text: Libellé affiché devant le widget.
                 widget: Widget de saisie à insérer.
             """
+            logger.debug("add_field: entrée")
             logger.debug(f"_build_transfer_editor.add_field | row={row} label={label_text}")
             lbl = Gtk.Label(label=label_text)
             lbl.set_xalign(0)
             form.attach(lbl, 0, row, 1, 1)
             widget.set_hexpand(True)
             form.attach(widget, 1, row, 1, 1)
+            logger.debug("add_field: fin")
 
         self._t_server_ip = Gtk.Entry()
         self._t_server_ip.set_text("192.168.1.1")
@@ -504,6 +526,7 @@ class SnmpPushTab:
         hint.set_line_wrap(True)
         form.attach(hint, 0, 1, 2, 1)
 
+        logger.debug("SnmpPushTab._build_transfer_editor: sortie")
         return form
 
     def _current_server_ip(self) -> str:
@@ -517,17 +540,21 @@ class SnmpPushTab:
         Args:
             chk: Case à cocher GTK à l'origine du signal.
         """
+        logger.debug("SnmpPushTab._on_toggle_show_pw: entrée")
         logger.debug(f"SnmpPushTab._on_toggle_show_pw | active={chk.get_active()}")
         show = chk.get_active()
         for entry in (self._f_community, self._f_auth_key, self._f_priv_key):
             entry.set_visibility(show)
+        logger.debug("SnmpPushTab._on_toggle_show_pw: fin")
 
     def _refresh_profile_list(self):
         """Recharge la liste des profils SNMP affichée depuis ``self.profiles``."""
+        logger.debug("SnmpPushTab._refresh_profile_list: entrée")
         logger.debug("SnmpPushTab._refresh_profile_list")
         self._profile_store.clear()
         for p in self.profiles.all():
             self._profile_store.append([p.name, p.vendor, p.auth.version, p.port])
+        logger.debug("SnmpPushTab._refresh_profile_list: fin")
 
     def _on_profiles_file_chosen(self, chooser):
         """Recharge le magasin de profils depuis le fichier choisi.
@@ -535,13 +562,16 @@ class SnmpPushTab:
         Args:
             chooser: Sélecteur de fichier GTK à l'origine du signal.
         """
+        logger.debug("SnmpPushTab._on_profiles_file_chosen: entrée")
         logger.debug("SnmpPushTab._on_profiles_file_chosen")
         path = chooser.get_filename()
         if not path:
+            logger.debug("SnmpPushTab._on_profiles_file_chosen: sortie")
             return
         self.profiles = SnmpProfileStore(path)
         self._refresh_profile_list()
         self._lbl_config_status.set_text(_("Profils SNMP chargés depuis {p}").format(p=path))
+        logger.debug("SnmpPushTab._on_profiles_file_chosen: fin")
 
     def _on_profile_selected(self, selection):
         """Remplit le formulaire avec le profil sélectionné dans la liste.
@@ -549,12 +579,15 @@ class SnmpPushTab:
         Args:
             selection: Sélection GTK de la liste de profils.
         """
+        logger.debug("SnmpPushTab._on_profile_selected: entrée")
         model, it = selection.get_selected()
         if it is None:
+            logger.debug("SnmpPushTab._on_profile_selected: sortie")
             return
         name = model[it][P_NAME]
         p = self.profiles.get(name)
         if p is None:
+            logger.debug("SnmpPushTab._on_profile_selected: sortie")
             return
         logger.debug(f"SnmpPushTab._on_profile_selected | name={name}")
         self._f_name.set_text(p.name)
@@ -569,6 +602,7 @@ class SnmpPushTab:
         self._f_priv_key.set_text(p.auth.priv_password or "")
         self._f_port.set_value(p.port)
         self._f_timeout.set_value(p.timeout)
+        logger.debug("SnmpPushTab._on_profile_selected: fin")
 
     def _on_profile_new(self, _btn):
         """Réinitialise le formulaire pour la saisie d'un nouveau profil.
@@ -576,6 +610,7 @@ class SnmpPushTab:
         Args:
             _btn: Bouton GTK à l'origine du signal (non utilisé).
         """
+        logger.debug("SnmpPushTab._on_profile_new: entrée")
         logger.debug("SnmpPushTab._on_profile_new")
         self._f_name.set_text("")
         self._f_vendor.set_active(-1)
@@ -589,6 +624,7 @@ class SnmpPushTab:
         self._f_port.set_value(161)
         self._f_timeout.set_value(5)
         self._f_name.grab_focus()
+        logger.debug("SnmpPushTab._on_profile_new: fin")
 
     def _on_profile_delete(self, _btn):
         """Supprime le profil actuellement sélectionné dans la liste.
@@ -596,14 +632,17 @@ class SnmpPushTab:
         Args:
             _btn: Bouton GTK à l'origine du signal (non utilisé).
         """
+        logger.debug("SnmpPushTab._on_profile_delete: entrée")
         selection = self._profile_tv.get_selection()
         model, it = selection.get_selected()
         if it is None:
+            logger.debug("SnmpPushTab._on_profile_delete: sortie")
             return
         name = model[it][P_NAME]
         logger.debug(f"SnmpPushTab._on_profile_delete | name={name}")
         self.profiles.delete(name)
         self._refresh_profile_list()
+        logger.debug("SnmpPushTab._on_profile_delete: fin")
 
     def _on_profile_apply(self, _btn):
         """Valide le formulaire et enregistre le profil en mémoire.
@@ -611,13 +650,16 @@ class SnmpPushTab:
         Args:
             _btn: Bouton GTK à l'origine du signal (non utilisé).
         """
+        logger.debug("SnmpPushTab._on_profile_apply: entrée")
         name = self._f_name.get_text().strip()
         if not name:
             self._lbl_config_status.set_text(_("Le profil doit avoir un nom."))
+            logger.debug("SnmpPushTab._on_profile_apply: sortie")
             return
         vendor_id = self._f_vendor.get_active_id() or ""
         if not vendor_id:
             self._lbl_config_status.set_text(_("Choisissez un constructeur."))
+            logger.debug("SnmpPushTab._on_profile_apply: sortie")
             return
         logger.debug(f"SnmpPushTab._on_profile_apply | name={name} vendor={vendor_id}")
         auth_proto = self._f_auth_proto.get_active_id() or ""
@@ -641,6 +683,7 @@ class SnmpPushTab:
         self.profiles.set(name, profile)
         self._refresh_profile_list()
         self._lbl_config_status.set_text(_("Profil '{n}' mis à jour (en mémoire).").format(n=name))
+        logger.debug("SnmpPushTab._on_profile_apply: fin")
 
     def _on_profiles_save_file(self, _btn):
         """Écrit le magasin de profils SNMP sur disque.
@@ -648,8 +691,10 @@ class SnmpPushTab:
         Args:
             _btn: Bouton GTK à l'origine du signal (non utilisé).
         """
+        logger.debug("SnmpPushTab._on_profiles_save_file: entrée")
         if not self.profiles.path or str(self.profiles.path) in ("", "."):
             self._lbl_config_status.set_text(_("Choisissez d'abord un fichier snmp_profiles.ini."))
+            logger.debug("SnmpPushTab._on_profiles_save_file: sortie")
             return
         logger.debug(f"SnmpPushTab._on_profiles_save_file | path={self.profiles.path}")
         try:
@@ -660,6 +705,7 @@ class SnmpPushTab:
         except Exception as exc:  # noqa: BLE001
             logger.warning("snmp push | écriture des profils impossible : {}", exc)
             self._lbl_config_status.set_text(_("Erreur d'écriture : {e}").format(e=exc))
+        logger.debug("SnmpPushTab._on_profiles_save_file: fin")
 
     # ── Inventaire ────────────────────────────────────────────────────────
 
@@ -669,10 +715,12 @@ class SnmpPushTab:
         Args:
             _btn: Bouton GTK à l'origine du signal (non utilisé).
         """
+        logger.debug("SnmpPushTab._on_load_inventory: entrée")
         csv_path = self._chooser_csv.get_filename()
         tpl_path = self._chooser_tpl.get_filename()
         if not csv_path or not tpl_path:
             self._lbl_config_status.set_text(_("Choisissez l'inventaire CSV et le gabarit."))
+            logger.debug("SnmpPushTab._on_load_inventory: sortie")
             return
         logger.debug(f"SnmpPushTab._on_load_inventory | csv={csv_path} tpl={tpl_path}")
         try:
@@ -681,6 +729,7 @@ class SnmpPushTab:
         except Exception as exc:  # noqa: BLE001
             logger.warning("snmp push | chargement de l'inventaire impossible : {}", exc)
             self._lbl_config_status.set_text(_("Erreur de chargement : {e}").format(e=exc))
+            logger.debug("SnmpPushTab._on_load_inventory: sortie")
             return
 
         self._inv_store.clear()
@@ -692,6 +741,7 @@ class SnmpPushTab:
         self._lbl_config_status.set_text(
             _("{n} hôte(s) chargé(s) depuis {csv}.").format(n=len(self.rows), csv=csv_path)
         )
+        logger.debug("SnmpPushTab._on_load_inventory: fin")
 
     def _on_row_toggled(self, _cell, path):
         """Inverse la case « Envoyer » de la ligne d'inventaire cliquée.
@@ -700,8 +750,10 @@ class SnmpPushTab:
             _cell: Cell renderer GTK à l'origine du signal (non utilisé).
             path: Chemin (index) de la ligne basculée dans le ``Gtk.ListStore``.
         """
+        logger.debug("SnmpPushTab._on_row_toggled: entrée")
         logger.debug(f"SnmpPushTab._on_row_toggled | path={path}")
         self._inv_store[path][C_SEL] = not self._inv_store[path][C_SEL]
+        logger.debug("SnmpPushTab._on_row_toggled: fin")
 
     def _on_inventory_selection_changed(self, selection):
         """Met à jour l'aperçu de rendu pour la ligne d'inventaire sélectionnée.
@@ -709,8 +761,10 @@ class SnmpPushTab:
         Args:
             selection: Sélection GTK de la liste d'inventaire.
         """
+        logger.debug("SnmpPushTab._on_inventory_selection_changed: entrée")
         model, it = selection.get_selected()
         if it is None:
+            logger.debug("SnmpPushTab._on_inventory_selection_changed: sortie")
             return
         idx = model[it][C_IDX]
         row = self.rows[idx]
@@ -724,6 +778,7 @@ class SnmpPushTab:
         else:
             self._lbl_preview_warn.set_text("")
         self._preview_buffer.set_text(render_template(self.template_text, context))
+        logger.debug("SnmpPushTab._on_inventory_selection_changed: fin")
 
     def _selected_rows(self) -> list[InventoryRow]:
         """Retourne les lignes d'inventaire actuellement cochées.
@@ -731,11 +786,13 @@ class SnmpPushTab:
         Returns:
             Liste des ``InventoryRow`` cochées dans le ``Gtk.ListStore``.
         """
+        logger.debug("SnmpPushTab._selected_rows: entrée")
         logger.debug("SnmpPushTab._selected_rows")
         out = []
         for r in self._inv_store:
             if r[C_SEL]:
                 out.append(self.rows[r[C_IDX]])
+        logger.debug("SnmpPushTab._selected_rows: sortie")
         return out
 
     def _on_validate(self, _btn):
@@ -744,8 +801,10 @@ class SnmpPushTab:
         Args:
             _btn: Bouton GTK à l'origine du signal (non utilisé).
         """
+        logger.debug("SnmpPushTab._on_validate: entrée")
         if not self.rows:
             self._lbl_config_status.set_text(_("Chargez d'abord un inventaire."))
+            logger.debug("SnmpPushTab._on_validate: sortie")
             return
         logger.debug("SnmpPushTab._on_validate")
         n_ok = 0
@@ -768,10 +827,12 @@ class SnmpPushTab:
             self._lbl_config_status.set_text(
                 _("⚠ Renseignez le serveur de dépôt avant de lancer.")
             )
+            logger.debug("SnmpPushTab._on_validate: sortie")
             return
         self._lbl_config_status.set_text(
             _("Validation : {ok} prêt(s), {err} en erreur.").format(ok=n_ok, err=n_err)
         )
+        logger.debug("SnmpPushTab._on_validate: fin")
 
     # ══════════════════════════════════════════════════════════════════
     # Phase 2 : Suivi
@@ -779,6 +840,7 @@ class SnmpPushTab:
 
     def _build_monitor_page(self) -> Gtk.Widget:
         """Construit la page de la phase 2 (Suivi en temps réel)."""
+        logger.debug("SnmpPushTab._build_monitor_page: entrée")
         logger.debug("SnmpPushTab._build_monitor_page")
         page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
 
@@ -831,6 +893,7 @@ class SnmpPushTab:
         btn_row.pack_end(self._btn_goto_results, False, False, 0)
         page.pack_start(btn_row, False, False, 0)
 
+        logger.debug("SnmpPushTab._build_monitor_page: sortie")
         return page
 
     def _on_launch(self, _btn):
@@ -839,20 +902,25 @@ class SnmpPushTab:
         Args:
             _btn: Bouton GTK à l'origine du signal (non utilisé).
         """
+        logger.debug("SnmpPushTab._on_launch: entrée")
         if self._running:
+            logger.debug("SnmpPushTab._on_launch: sortie")
             return
         if not self.rows:
             self._lbl_config_status.set_text(_("Chargez d'abord un inventaire."))
+            logger.debug("SnmpPushTab._on_launch: sortie")
             return
         selected = self._selected_rows()
         if not selected:
             self._lbl_config_status.set_text(_("Aucune ligne cochée."))
+            logger.debug("SnmpPushTab._on_launch: sortie")
             return
         server_ip = self._current_server_ip()
         if not server_ip:
             self._lbl_config_status.set_text(
                 _("⚠ Renseignez le serveur de dépôt avant de lancer.")
             )
+            logger.debug("SnmpPushTab._on_launch: sortie")
             return
 
         logger.debug(f"SnmpPushTab._on_launch | n_selected={len(selected)} server_ip={server_ip}")
@@ -897,8 +965,10 @@ class SnmpPushTab:
             Args:
                 row: Ligne d'inventaire dont l'envoi démarre.
             """
+            logger.debug("on_row_start: entrée")
             logger.debug(f"_on_launch.on_row_start | ip={row.ip}")
             GLib.idle_add(self._set_monitor_status, row.line_no, _STATUS_LABELS["running"], "", "")
+            logger.debug("on_row_start: fin")
 
         def on_row_done(result: PushResult):
             """Reporte le résultat d'un envoi dans le tableau de suivi.
@@ -906,11 +976,14 @@ class SnmpPushTab:
             Args:
                 result: Résultat du push pour un équipement.
             """
+            logger.debug("on_row_done: entrée")
             logger.debug(f"_on_launch.on_row_done | ip={result.row.ip} status={result.status}")
             GLib.idle_add(self._handle_row_done, result)
+            logger.debug("on_row_done: fin")
 
         def worker():
             """Exécute le déploiement en masse dans un thread dédié."""
+            logger.debug("worker: entrée")
             logger.debug("_on_launch.worker | start")
             try:
                 run_bulk_push(
@@ -926,8 +999,10 @@ class SnmpPushTab:
                 )
             finally:
                 GLib.idle_add(self._on_run_finished)
+            logger.debug("worker: fin")
 
         threading.Thread(target=worker, daemon=True).start()
+        logger.debug("SnmpPushTab._on_launch: fin")
 
     def _on_cancel_run(self, _btn):
         """Demande l'annulation du déploiement en cours.
@@ -935,9 +1010,11 @@ class SnmpPushTab:
         Args:
             _btn: Bouton GTK à l'origine du signal (non utilisé).
         """
+        logger.debug("SnmpPushTab._on_cancel_run: entrée")
         logger.debug("SnmpPushTab._on_cancel_run")
         self._cancel_event.set()
         self._btn_cancel_run.set_sensitive(False)
+        logger.debug("SnmpPushTab._on_cancel_run: fin")
 
     def _set_monitor_status(self, line_no, status_text, detail, duration_text):
         """Met à jour la ligne de suivi correspondant à *line_no*.
@@ -951,13 +1028,16 @@ class SnmpPushTab:
         Returns:
             ``False`` (convention ``GLib.idle_add`` : ne pas répéter l'appel).
         """
+        logger.debug("SnmpPushTab._set_monitor_status: entrée")
         it = self._monitor_store_by_line.get(line_no)
         if it is None:
+            logger.debug("SnmpPushTab._set_monitor_status: sortie")
             return False
         logger.debug(f"SnmpPushTab._set_monitor_status | line_no={line_no} status={status_text}")
         self._monitor_store[it][R_STATUS] = status_text
         self._monitor_store[it][R_DETAIL] = detail
         self._monitor_store[it][R_DURATION] = duration_text
+        logger.debug("SnmpPushTab._set_monitor_status: sortie")
         return False
 
     def _handle_row_done(self, result: PushResult):
@@ -969,6 +1049,7 @@ class SnmpPushTab:
         Returns:
             ``False`` (convention ``GLib.idle_add`` : ne pas répéter l'appel).
         """
+        logger.debug("SnmpPushTab._handle_row_done: entrée")
         logger.debug(f"SnmpPushTab._handle_row_done | ip={result.row.ip} status={result.status}")
         self._results_by_line[result.row.line_no] = result
         detail = result.error
@@ -982,10 +1063,12 @@ class SnmpPushTab:
         self._progress.set_fraction(self._done_count / max(1, self._total_to_run))
         self._progress.set_text(_("{d} / {n}").format(d=self._done_count, n=self._total_to_run))
         self._update_counts()
+        logger.debug("SnmpPushTab._handle_row_done: sortie")
         return False
 
     def _update_counts(self):
         """Met à jour les compteurs OK/Rejetés/Échecs/En attente affichés."""
+        logger.debug("SnmpPushTab._update_counts: entrée")
         logger.debug("SnmpPushTab._update_counts")
         counts = {STATUS_OK: 0, STATUS_REJECTED: 0, STATUS_FAILED: 0}
         for r in self._results_by_line.values():
@@ -996,6 +1079,7 @@ class SnmpPushTab:
         self._lbl_count_rejected.set_text(_("Rejetés : {n}").format(n=counts[STATUS_REJECTED]))
         self._lbl_count_failed.set_text(_("Échecs : {n}").format(n=counts[STATUS_FAILED]))
         self._lbl_count_pending.set_text(_("En attente : {n}").format(n=pending))
+        logger.debug("SnmpPushTab._update_counts: fin")
 
     def _on_run_finished(self):
         """Termine la phase de suivi et bascule sur la page des résultats.
@@ -1003,11 +1087,13 @@ class SnmpPushTab:
         Returns:
             ``False`` (convention ``GLib.idle_add`` : ne pas répéter l'appel).
         """
+        logger.debug("SnmpPushTab._on_run_finished: entrée")
         logger.debug("SnmpPushTab._on_run_finished")
         self._running = False
         self._btn_cancel_run.set_sensitive(False)
         self._btn_goto_results.set_sensitive(True)
         self._populate_results()
+        logger.debug("SnmpPushTab._on_run_finished: sortie")
         return False
 
     # ══════════════════════════════════════════════════════════════════
@@ -1016,6 +1102,7 @@ class SnmpPushTab:
 
     def _build_results_page(self) -> Gtk.Widget:
         """Construit la page de la phase 3 (Résultats et journaux)."""
+        logger.debug("SnmpPushTab._build_results_page: entrée")
         logger.debug("SnmpPushTab._build_results_page")
         page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
 
@@ -1059,10 +1146,12 @@ class SnmpPushTab:
         btn_row.pack_end(btn_new, False, False, 0)
         page.pack_start(btn_row, False, False, 0)
 
+        logger.debug("SnmpPushTab._build_results_page: sortie")
         return page
 
     def _populate_results(self):
         """Remplit la liste des résultats depuis ``self._results_by_line``."""
+        logger.debug("SnmpPushTab._populate_results: entrée")
         logger.debug("SnmpPushTab._populate_results")
         self._results_store.clear()
         results = sorted(self._results_by_line.values(), key=lambda r: r.row.line_no)
@@ -1084,6 +1173,7 @@ class SnmpPushTab:
                     r.row.line_no,
                 ]
             )
+        logger.debug("SnmpPushTab._populate_results: fin")
 
     def _on_result_selected(self, selection):
         """Affiche le journal du résultat sélectionné dans la liste.
@@ -1091,13 +1181,16 @@ class SnmpPushTab:
         Args:
             selection: Sélection GTK de la liste de résultats.
         """
+        logger.debug("SnmpPushTab._on_result_selected: entrée")
         model, it = selection.get_selected()
         if it is None:
+            logger.debug("SnmpPushTab._on_result_selected: sortie")
             return
         log_path = model[it][RES_LOGPATH]
         logger.debug(f"SnmpPushTab._on_result_selected | log_path={log_path}")
         if not log_path:
             self._log_buffer.set_text("")
+            logger.debug("SnmpPushTab._on_result_selected: sortie")
             return
         try:
             content = Path(log_path).read_text(encoding="utf-8")
@@ -1105,6 +1198,7 @@ class SnmpPushTab:
             logger.debug("snmp push | journal {} illisible : {}", log_path, exc)
             content = _("Impossible de lire le journal : {e}").format(e=exc)
         self._log_buffer.set_text(content)
+        logger.debug("SnmpPushTab._on_result_selected: fin")
 
     def _on_open_log_dir(self, _btn):
         """Ouvre le dossier des journaux dans le gestionnaire de fichiers.
@@ -1112,13 +1206,16 @@ class SnmpPushTab:
         Args:
             _btn: Bouton GTK à l'origine du signal (non utilisé).
         """
+        logger.debug("SnmpPushTab._on_open_log_dir: entrée")
         if self._log_dir is None:
+            logger.debug("SnmpPushTab._on_open_log_dir: sortie")
             return
         logger.debug(f"SnmpPushTab._on_open_log_dir | log_dir={self._log_dir}")
         try:
             subprocess.Popen(["xdg-open", str(self._log_dir)])
         except Exception as exc:  # noqa: BLE001
             logger.debug(f"xdg-open a échoué : {exc}")
+        logger.debug("SnmpPushTab._on_open_log_dir: fin")
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -1140,6 +1237,7 @@ class SnmpPushBatchPlugin(BatchPlugin):
 
     def activate(self) -> None:
         """Ouvre (ou ramène le focus sur) l'onglet Push SNMP."""
+        logger.debug("SnmpPushBatchPlugin.activate: entrée")
         logger.debug("SnmpPushBatchPlugin.activate")
         if self.app is None:
             raise RuntimeError(
@@ -1147,6 +1245,7 @@ class SnmpPushBatchPlugin(BatchPlugin):
                 "(BatchPluginRegistry.bind_app() n'a pas été appelé)"
             )
         open_snmp_push_tab(self.app)
+        logger.debug("SnmpPushBatchPlugin.activate: fin")
 
 
 def get_batch_plugin() -> SnmpPushBatchPlugin:
