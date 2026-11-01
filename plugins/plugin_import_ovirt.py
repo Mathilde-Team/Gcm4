@@ -77,6 +77,7 @@ def _ovirt_api_get(engine_url, username, password, verify_ssl, path, log_fn=None
     Returns:
         dict | None: Corps JSON décodé, ou None en cas d'échec.
     """
+    logger.debug("_ovirt_api_get: entrée")
     url = engine_url.rstrip("/") + path
     creds = base64.b64encode(f"{username}:{password}".encode()).decode()
     req = Request(
@@ -93,6 +94,7 @@ def _ovirt_api_get(engine_url, username, password, verify_ssl, path, log_fn=None
         ctx.verify_mode = ssl.CERT_NONE
     try:
         with urlopen(req, timeout=timeout, context=ctx) as resp:
+            logger.debug("_ovirt_api_get: sortie")
             return json.loads(resp.read().decode(errors="replace"))
     except HTTPError as e:
         logger.warning("import ovirt | erreur HTTP {} sur {} : {}", e.code, path, e.reason)
@@ -106,6 +108,7 @@ def _ovirt_api_get(engine_url, username, password, verify_ssl, path, log_fn=None
         logger.warning("import ovirt | erreur inattendue sur {} : {}", path, e)
         if log_fn:
             log_fn(f"  ERREUR inattendue sur {path} : {e}")
+    logger.debug("_ovirt_api_get: sortie")
     return None
 
 
@@ -121,14 +124,19 @@ def _probe_tcp_direct(host, port, timeout=4):
     Returns:
         bool: True si la connexion TCP directe aboutit.
     """
+    logger.debug("_probe_tcp_direct: entrée")
     if not host:
+        logger.debug("_probe_tcp_direct: sortie")
         return False
     try:
         with socket.create_connection((host, port), timeout=timeout):
+            logger.debug("_probe_tcp_direct: sortie")
             return True
     except OSError as exc:
         logger.debug("import ovirt | {}:{} injoignable : {}", host, port, exc)
+        logger.debug("_probe_tcp_direct: sortie")
         return False
+    logger.debug("_probe_tcp_direct: fin")
 
 
 def _ovirt_get_host_address(engine_url, username, password, verify_ssl, host_id, log_fn=None):
@@ -145,11 +153,15 @@ def _ovirt_get_host_address(engine_url, username, password, verify_ssl, host_id,
     Returns:
         str: Adresse de l'hôte, ou chaîne vide si indisponible.
     """
+    logger.debug("_ovirt_get_host_address: entrée")
     if not host_id:
+        logger.debug("_ovirt_get_host_address: sortie")
         return ""
     data = _ovirt_api_get(engine_url, username, password, verify_ssl, f"/hosts/{host_id}", log_fn)
     if not data:
+        logger.debug("_ovirt_get_host_address: sortie")
         return ""
+    logger.debug("_ovirt_get_host_address: sortie")
     return data.get("address", "") or data.get("name", "") or ""
 
 
@@ -168,10 +180,12 @@ def _prompt_manual_route(vm_name, log_fn):
     Returns:
         str | None: Texte saisi par l'utilisateur, ou None si annulé/vide.
     """
+    logger.debug("_prompt_manual_route: entrée")
     result = {}
     done = threading.Event()
 
     def _do():
+        logger.debug("_do: entrée")
         try:
             result["value"] = inputbox(
                 _("Unreachable VM: {vm}").format(vm=vm_name),
@@ -186,6 +200,7 @@ def _prompt_manual_route(vm_name, log_fn):
             )
         finally:
             done.set()
+        logger.debug("_do: sortie")
         return False
 
     GLib.idle_add(_do)
@@ -193,7 +208,9 @@ def _prompt_manual_route(vm_name, log_fn):
     value = (result.get("value") or "").strip()
     if not value:
         log_fn(f"  - {vm_name} : ignorée (aucune route fournie par l'utilisateur)")
+        logger.debug("_prompt_manual_route: sortie")
         return None
+    logger.debug("_prompt_manual_route: sortie")
     return value
 
 
@@ -208,6 +225,7 @@ def _parse_manual_route(manual, fallback_ip):
     Returns:
         dict | None: {"mode": "direct"|"jump", "host": str, "extra_params": str}.
     """
+    logger.debug("_parse_manual_route: entrée")
     manual = manual.strip()
     if manual.startswith("-J"):
         parts = manual.split()
@@ -218,11 +236,15 @@ def _parse_manual_route(manual, fallback_ip):
         )
         jump_flag = " ".join(parts[:-1]) if target != parts[-1] else " ".join(parts)
         if not target:
+            logger.debug("_parse_manual_route: sortie")
             return None
+        logger.debug("_parse_manual_route: sortie")
         return {"mode": "jump", "host": target, "extra_params": jump_flag}
     host = manual.split(":")[0].strip()
     if not host:
+        logger.debug("_parse_manual_route: sortie")
         return None
+    logger.debug("_parse_manual_route: sortie")
     return {"mode": "direct", "host": host, "extra_params": ""}
 
 
@@ -253,9 +275,11 @@ def _ovirt_resolve_route(
         ou None si la VM doit être ignorée.
     """
     # 1) Connexion directe depuis la machine locale (GCM)
+    logger.debug("_ovirt_resolve_route: entrée")
     log_fn(f"  ↳ {vm_name} : test de connexion directe vers {ip_addr}:22…")
     if _probe_tcp_direct(ip_addr, 22):
         log_fn(f"  ↳ {vm_name} : accès direct OK")
+        logger.debug("_ovirt_resolve_route: sortie")
         return {"mode": "direct", "host": ip_addr, "extra_params": ""}
     log_fn(f"  ↳ {vm_name} : accès direct impossible")
 
@@ -268,6 +292,7 @@ def _ovirt_resolve_route(
             try:
                 if hv_common.check_port_open(client, hv_common.libvirt_ssh_run, ip_addr, 22):
                     log_fn(f"  ↳ {vm_name} : jump proxy via le moteur OK")
+                    logger.debug("_ovirt_resolve_route: sortie")
                     return {
                         "mode": "jump",
                         "host": ip_addr,
@@ -290,6 +315,7 @@ def _ovirt_resolve_route(
             try:
                 if hv_common.check_port_open(client, hv_common.libvirt_ssh_run, ip_addr, 22):
                     log_fn(f"  ↳ {vm_name} : jump proxy via l'hyperviseur OK")
+                    logger.debug("_ovirt_resolve_route: sortie")
                     return {
                         "mode": "jump",
                         "host": ip_addr,
@@ -308,12 +334,14 @@ def _ovirt_resolve_route(
     # 4) Secours manuel : demander à l'utilisateur
     manual = _prompt_manual_route(vm_name, log_fn)
     if not manual:
+        logger.debug("_ovirt_resolve_route: sortie")
         return None
     route = _parse_manual_route(manual, ip_addr)
     if route:
         log_fn(
             f"  ↳ {vm_name} : route manuelle retenue → {route['mode']} {route['host']} {route['extra_params']}"
         )
+    logger.debug("_ovirt_resolve_route: sortie")
     return route
 
 
@@ -329,20 +357,26 @@ def _ovirt_probe_port_via_route(route, port, ssh_user, log_fn):
     Returns:
         bool: True si le port est confirmé ouvert.
     """
+    logger.debug("_ovirt_probe_port_via_route: entrée")
     if route["mode"] == "direct":
+        logger.debug("_ovirt_probe_port_via_route: sortie")
         return _probe_tcp_direct(route["host"], port)
     m = re.search(r"-J\s+(?:[^@\s]+@)?([^\s:]+)(?::(\d+))?", route.get("extra_params", ""))
     if not m:
+        logger.debug("_ovirt_probe_port_via_route: sortie")
         return False
     jump_host = m.group(1)
     jump_port = int(m.group(2)) if m.group(2) else 22
     client = hv_common.paramiko_connect(jump_host, jump_port, ssh_user, log_fn)
     if client is None:
+        logger.debug("_ovirt_probe_port_via_route: sortie")
         return False
     try:
+        logger.debug("_ovirt_probe_port_via_route: sortie")
         return hv_common.check_port_open(client, hv_common.libvirt_ssh_run, route["host"], port)
     finally:
         client.close()
+    logger.debug("_ovirt_probe_port_via_route: fin")
 
 
 def _ovirt_fetch_hosts(
@@ -376,6 +410,7 @@ def _ovirt_fetch_hosts(
     Returns:
         list[dict]: Hôtes prêts à importer dans GCM.
     """
+    logger.debug("_ovirt_fetch_hosts: entrée")
     if proto_filter is None:
         proto_filter = {"ssh", "rdp"}
     results = []
@@ -384,6 +419,7 @@ def _ovirt_fetch_hosts(
     data = _ovirt_api_get(engine_url, username, password, verify_ssl, "/vms", log_fn)
     if data is None:
         log_fn("  ERREUR : impossible de récupérer la liste des VMs (vérifier URL/identifiants).")
+        logger.debug("_ovirt_fetch_hosts: sortie")
         return results
 
     vms = data.get("vm", [])
@@ -497,6 +533,7 @@ def _ovirt_fetch_hosts(
 
         progress_fn((idx + 1) / total, f"{idx + 1}/{total} VM(s) traitée(s)")
 
+    logger.debug("_ovirt_fetch_hosts: sortie")
     return results
 
 
@@ -537,12 +574,14 @@ class OvirtImportDialog(GCMBase):
                 automatiquement (utilisé quand l'écran sera embarqué comme
                 onglet épinglé, cf. ``Wmain.open_management_tab``).
         """
+        logger.debug("OvirtImportDialog.__init__: entrée")
         self.parent = parent_window
         self.on_done = on_done_callback
         self.default_user = default_user
         self._discovered = []
         GCMBase.__init__(self, path=None, parent=parent_window, show=show)
         self._build_ui(show=show)
+        logger.debug("OvirtImportDialog.__init__: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Construction de l'UI
@@ -557,6 +596,7 @@ class OvirtImportDialog(GCMBase):
         Args:
             show: Si True, affiche le dialogue après construction.
         """
+        logger.debug("OvirtImportDialog._build_ui: entrée")
         dlg = Gtk.Dialog(
             title=_("Import from oVirt"),
             transient_for=self.parent,
@@ -781,6 +821,7 @@ class OvirtImportDialog(GCMBase):
         if show:
             dlg.show_all()
         self._stack.set_visible_child_name("config")
+        logger.debug("OvirtImportDialog._build_ui: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Helpers log / progress
@@ -796,13 +837,18 @@ class OvirtImportDialog(GCMBase):
             None: Planifie l'ajout du message dans le thread GTK.
         """
 
+        logger.debug("OvirtImportDialog._log: entrée")
+
         def _do():
+            logger.debug("_do: entrée")
             buf = self._log_buf
             buf.insert(buf.get_end_iter(), msg + "\n")
             self._log_view.scroll_mark_onscreen(buf.get_insert())
+            logger.debug("_do: sortie")
             return False
 
         GLib.idle_add(_do)
+        logger.debug("OvirtImportDialog._log: fin")
 
     def _set_progress(self, frac, text):
         """Met à jour la barre de progression du scan.
@@ -815,12 +861,17 @@ class OvirtImportDialog(GCMBase):
             None: Planifie la mise à jour de la progress bar.
         """
 
+        logger.debug("OvirtImportDialog._set_progress: entrée")
+
         def _do():
+            logger.debug("_do: entrée")
             self._progress.set_fraction(frac)
             self._progress.set_text(text)
+            logger.debug("_do: sortie")
             return False
 
         GLib.idle_add(_do)
+        logger.debug("OvirtImportDialog._set_progress: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Phase 1 → Scan
@@ -835,9 +886,11 @@ class OvirtImportDialog(GCMBase):
         Returns:
             None: Démarre un thread de scan et met à jour l'UI.
         """
+        logger.debug("OvirtImportDialog._on_scan_clicked: entrée")
         engine_url = self._entry_url.get_text().strip()
         if not engine_url:
             self._log(_("Engine URL is required."))
+            logger.debug("OvirtImportDialog._on_scan_clicked: sortie")
             return
         username = self._entry_user.get_text().strip()
         password = self._entry_pass.get_text()
@@ -851,6 +904,7 @@ class OvirtImportDialog(GCMBase):
             proto_filter.add("rdp")
         if not proto_filter:
             self._log(_("No connection type selected."))
+            logger.debug("OvirtImportDialog._on_scan_clicked: sortie")
             return
 
         self._btn_scan.set_sensitive(False)
@@ -858,6 +912,7 @@ class OvirtImportDialog(GCMBase):
         logger.debug("OvirtImportDialog._on_scan_clicked | scan started")
 
         def worker():
+            logger.debug("worker: entrée")
             try:
                 results = _ovirt_fetch_hosts(
                     engine_url,
@@ -874,8 +929,10 @@ class OvirtImportDialog(GCMBase):
                 self._log(_("Scan failed: {exc}").format(exc=exc))
                 results = []
             GLib.idle_add(self._show_preview, results)
+            logger.debug("worker: fin")
 
         threading.Thread(target=worker, daemon=True).start()
+        logger.debug("OvirtImportDialog._on_scan_clicked: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Phase 2 → Tableau de prévisualisation
@@ -883,8 +940,11 @@ class OvirtImportDialog(GCMBase):
 
     def _host_exists(self, name, grp):
         """Vérifie si un hôte avec ce nom existe déjà dans le groupe GCM."""
+        logger.debug("OvirtImportDialog._host_exists: entrée")
         if grp in groups:
+            logger.debug("OvirtImportDialog._host_exists: sortie")
             return any(h.name == name for h in groups[grp])
+        logger.debug("OvirtImportDialog._host_exists: sortie")
         return False
 
     def _show_preview(self, host_dicts):
@@ -896,6 +956,7 @@ class OvirtImportDialog(GCMBase):
         Returns:
             None: Remplit la grille de prévisualisation et met à jour le résumé.
         """
+        logger.debug("OvirtImportDialog._show_preview: entrée")
         self._discovered = host_dicts
         self._preview_store.clear()
 
@@ -938,15 +999,20 @@ class OvirtImportDialog(GCMBase):
         self._btn_scan.set_label(_("🔄  Rescan"))
         self._btn_scan.set_sensitive(True)
         self._dlg.resize(820, 900)
+        logger.debug("OvirtImportDialog._show_preview: fin")
 
     def _on_preview_toggled(self, renderer, path):
         """Inverse la sélection d'une ligne de prévisualisation."""
+        logger.debug("OvirtImportDialog._on_preview_toggled: entrée")
         self._preview_store[path][self._COL_SEL] = not self._preview_store[path][self._COL_SEL]
+        logger.debug("OvirtImportDialog._on_preview_toggled: fin")
 
     def _select_all(self, value):
         """Coche ou décoche toutes les lignes de prévisualisation."""
+        logger.debug("OvirtImportDialog._select_all: entrée")
         for row in self._preview_store:
             row[self._COL_SEL] = value
+        logger.debug("OvirtImportDialog._select_all: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Import final
@@ -961,6 +1027,7 @@ class OvirtImportDialog(GCMBase):
         Returns:
             None: Déclenche l'import et met à jour l'UI.
         """
+        logger.debug("OvirtImportDialog._on_import_clicked: entrée")
         self._btn_import.set_sensitive(False)
         overwrite = self._chk_overwrite.get_active()
         to_import = []
@@ -973,6 +1040,7 @@ class OvirtImportDialog(GCMBase):
         if not to_import:
             self._log(_("No connection to import (all already exist or none selected)."))
             self._btn_import.set_sensitive(True)
+            logger.debug("OvirtImportDialog._on_import_clicked: sortie")
             return
         self.on_done(to_import)
         logger.info(f"OvirtImportDialog._on_import_clicked | imported={len(to_import)}")
@@ -980,6 +1048,7 @@ class OvirtImportDialog(GCMBase):
         self._lbl_summary.set_markup(
             f"<b>{len(to_import)}</b> connexion(s) importée(s) avec succès."
         )
+        logger.debug("OvirtImportDialog._on_import_clicked: fin")
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -1017,6 +1086,7 @@ class OvirtImportBatchPlugin(BatchPlugin):
         Raises:
             RuntimeError: Si l'application n'est pas liée au plugin.
         """
+        logger.debug("OvirtImportBatchPlugin.activate: entrée")
         if self.app is None:
             raise RuntimeError(
                 "OvirtImportBatchPlugin.activate() appelé sans app liée "
@@ -1025,20 +1095,24 @@ class OvirtImportBatchPlugin(BatchPlugin):
         app = self.app
 
         def on_done(host_dicts):
+            logger.debug("on_done: entrée")
             if not host_dicts:
                 msgbox(_("No host imported."), parent=app.window)
+                logger.debug("on_done: sortie")
                 return
             n = app._import_done(host_dicts, default_group="OVIRT")
             if n:
                 msgbox(_("{n} connection(s) imported from oVirt.").format(n=n), parent=app.window)
             else:
                 msgbox(_("No new host (duplicates ignored)."), parent=app.window)
+            logger.debug("on_done: fin")
 
         app.open_management_tab(
             "ovirt-import",
             _("Import from oVirt"),
             lambda: OvirtImportDialog(app.window, on_done, show=False),
         )
+        logger.debug("OvirtImportBatchPlugin.activate: fin")
 
 
 def get_batch_plugin() -> OvirtImportBatchPlugin:
