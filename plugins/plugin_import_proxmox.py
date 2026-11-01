@@ -84,7 +84,9 @@ class ProxmoxPrefsTab:
         Args:
             notebook: Widget Gtk.Notebook auquel ajouter l'onglet.
         """
+        logger.debug("ProxmoxPrefsTab.__init__: entrée")
         self._build(notebook)
+        logger.debug("ProxmoxPrefsTab.__init__: fin")
 
     def _build(self, notebook):
         """Construit l'interface de l'onglet.
@@ -92,6 +94,7 @@ class ProxmoxPrefsTab:
         Args:
             notebook: Widget Gtk.Notebook récepteur.
         """
+        logger.debug("ProxmoxPrefsTab._build: entrée")
         from utils import conf
 
         outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
@@ -124,6 +127,7 @@ class ProxmoxPrefsTab:
         notebook.append_page(outer, Gtk.Label(label=_("Proxmox")))
         outer.show_all()
         notebook.show_all()
+        logger.debug("ProxmoxPrefsTab._build: fin")
 
     def apply(self):
         """Valide et enregistre les préférences dans la configuration.
@@ -131,9 +135,11 @@ class ProxmoxPrefsTab:
         Returns:
             None: Les valeurs sont sauvegardées dans conf.PROXMOX_DEFAULT_USER.
         """
+        logger.debug("ProxmoxPrefsTab.apply: entrée")
         from utils import conf
 
         conf.PROXMOX_DEFAULT_USER = (self._entry_user.get_text() or "").strip() or "root"
+        logger.debug("ProxmoxPrefsTab.apply: fin")
 
 
 def build_preferences_tab(notebook):
@@ -165,11 +171,13 @@ def _proxmox_fetch_hosts(uris, ssh_user, log_fn, progress_fn, proto_filter=None)
     Returns:
         list[dict]: Hôtes prêts à importer dans GCM.
     """
+    logger.debug("_proxmox_fetch_hosts: entrée")
     if not hv_common.PARAMIKO_OK:
         log_fn(
             "ERREUR : paramiko non installé → "
             + hv_common.dep_install_hint("python3-paramiko", "python3-paramiko", "python-paramiko")
         )
+        logger.debug("_proxmox_fetch_hosts: sortie")
         return []
     if proto_filter is None:
         proto_filter = {"ssh", "spice", "rdp"}
@@ -461,6 +469,7 @@ def _proxmox_fetch_hosts(uris, ssh_user, log_fn, progress_fn, proto_filter=None)
 
         progress_fn((idx + 1) / total, f"{idx + 1}/{total} hyperviseurs traités")
 
+    logger.debug("_proxmox_fetch_hosts: sortie")
     return results
 
 
@@ -497,12 +506,14 @@ class ProxmoxImportDialog(GCMBase):
                 automatiquement (utilisé quand l'écran sera embarqué comme
                 onglet épinglé, cf. ``Wmain.open_management_tab``).
         """
+        logger.debug("ProxmoxImportDialog.__init__: entrée")
         self.parent = parent_window
         self.on_done = on_done_callback
         self.default_user = default_user
         self._discovered = []
         GCMBase.__init__(self, path=None, parent=parent_window, show=show)
         self._build_ui(show=show)
+        logger.debug("ProxmoxImportDialog.__init__: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Construction de l'UI
@@ -517,6 +528,7 @@ class ProxmoxImportDialog(GCMBase):
         Args:
             show: Si True, affiche le dialogue après construction.
         """
+        logger.debug("ProxmoxImportDialog._build_ui: entrée")
         dlg = Gtk.Dialog(
             title=_("Import from Proxmox"),
             transient_for=self.parent,
@@ -732,20 +744,24 @@ class ProxmoxImportDialog(GCMBase):
             dlg.show_all()
         self._stack.set_visible_child_name("config")
         self._populate_uris()
+        logger.debug("ProxmoxImportDialog._build_ui: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Peuplement des cibles Proxmox
     # ──────────────────────────────────────────────────────────────────────────
 
     def _populate_uris(self):
+        logger.debug("ProxmoxImportDialog._populate_uris: entrée")
         uris = [
             u for u in hv_common.libvirt_get_uris_from_dconf() if "+ssh://" in u and "/system" in u
         ]
         if not uris:
             self._log(_("No SSH URI found in dconf.\nEnter an IP/host below and click Add."))
+            logger.debug("ProxmoxImportDialog._populate_uris: sortie")
             return
         for uri in uris:
             self._uri_store.append([True, uri])
+        logger.debug("ProxmoxImportDialog._populate_uris: fin")
 
     def _normalize_manual_uri(self, raw_target):
         """Convertit une saisie libre en URI qemu+ssh://.../system.
@@ -756,10 +772,13 @@ class ProxmoxImportDialog(GCMBase):
         Returns:
             str: URI normalisée, ou chaîne vide si entrée invalide.
         """
+        logger.debug("ProxmoxImportDialog._normalize_manual_uri: entrée")
         raw = (raw_target or "").strip()
         if not raw:
+            logger.debug("ProxmoxImportDialog._normalize_manual_uri: sortie")
             return ""
         if "://" in raw:
+            logger.debug("ProxmoxImportDialog._normalize_manual_uri: sortie")
             return raw
         if "@" in raw:
             user, hostport = raw.split("@", 1)
@@ -774,7 +793,9 @@ class ProxmoxImportDialog(GCMBase):
                 host, port = h, int(p)
         host = host.strip()
         if not host:
+            logger.debug("ProxmoxImportDialog._normalize_manual_uri: sortie")
             return ""
+        logger.debug("ProxmoxImportDialog._normalize_manual_uri: sortie")
         return f"qemu+ssh://{user}@{host}:{port}/system"
 
     def _on_add_manual_uri(self, widget):
@@ -786,52 +807,69 @@ class ProxmoxImportDialog(GCMBase):
         Returns:
             None: Met à jour la liste des cibles et le log UI.
         """
+        logger.debug("ProxmoxImportDialog._on_add_manual_uri: entrée")
         uri = self._normalize_manual_uri(self._entry_manual_uri.get_text())
         if not uri:
             self._log(_("Invalid Proxmox target."))
+            logger.debug("ProxmoxImportDialog._on_add_manual_uri: sortie")
             return
         existing = [row[1] for row in self._uri_store]
         if uri in existing:
             self._log(_("Target already present: {uri}").format(uri=uri))
             self._entry_manual_uri.set_text("")
+            logger.debug("ProxmoxImportDialog._on_add_manual_uri: sortie")
             return
         self._uri_store.append([True, uri])
         self._log(_("Target added: {uri}").format(uri=uri))
         self._entry_manual_uri.set_text("")
+        logger.debug("ProxmoxImportDialog._on_add_manual_uri: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Helpers log / progress
     # ──────────────────────────────────────────────────────────────────────────
 
     def _log(self, msg):
+        logger.debug("ProxmoxImportDialog._log: entrée")
+
         def _do():
+            logger.debug("_do: entrée")
             buf = self._log_buf
             buf.insert(buf.get_end_iter(), msg + "\n")
             self._log_view.scroll_mark_onscreen(buf.get_insert())
+            logger.debug("_do: sortie")
             return False
 
         GLib.idle_add(_do)
+        logger.debug("ProxmoxImportDialog._log: fin")
 
     def _set_progress(self, frac, text):
+        logger.debug("ProxmoxImportDialog._set_progress: entrée")
+
         def _do():
+            logger.debug("_do: entrée")
             self._progress.set_fraction(frac)
             self._progress.set_text(text)
+            logger.debug("_do: sortie")
             return False
 
         GLib.idle_add(_do)
+        logger.debug("ProxmoxImportDialog._set_progress: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # URI toggle
     # ──────────────────────────────────────────────────────────────────────────
 
     def _on_uri_toggled(self, renderer, path):
+        logger.debug("ProxmoxImportDialog._on_uri_toggled: entrée")
         self._uri_store[path][0] = not self._uri_store[path][0]
+        logger.debug("ProxmoxImportDialog._on_uri_toggled: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Phase 1 → Scan Proxmox
     # ──────────────────────────────────────────────────────────────────────────
 
     def _on_scan_clicked(self, widget):
+        logger.debug("ProxmoxImportDialog._on_scan_clicked: entrée")
         self._btn_scan.set_sensitive(False)
         self._btn_scan.set_label(_("Scanning…"))
         self._btn_import.set_sensitive(True)
@@ -850,6 +888,7 @@ class ProxmoxImportDialog(GCMBase):
         if not uris:
             self._log(_("No Proxmox target selected."))
             self._btn_scan.set_sensitive(True)
+            logger.debug("ProxmoxImportDialog._on_scan_clicked: sortie")
             return
         user = self._entry_user.get_text().strip() or "root"
         proto_filter = set()
@@ -864,9 +903,11 @@ class ProxmoxImportDialog(GCMBase):
         if not proto_filter:
             self._log(_("No connection type selected."))
             self._btn_scan.set_sensitive(True)
+            logger.debug("ProxmoxImportDialog._on_scan_clicked: sortie")
             return
 
         def worker():
+            logger.debug("worker: entrée")
             try:
                 results = _proxmox_fetch_hosts(
                     uris, user, self._log, self._set_progress, proto_filter
@@ -876,19 +917,25 @@ class ProxmoxImportDialog(GCMBase):
                 self._log(_("Scan failed: {exc}").format(exc=exc))
                 results = []
             GLib.idle_add(self._show_preview, results)
+            logger.debug("worker: fin")
 
         threading.Thread(target=worker, daemon=True).start()
+        logger.debug("ProxmoxImportDialog._on_scan_clicked: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Phase 2 → Tableau de prévisualisation
     # ──────────────────────────────────────────────────────────────────────────
 
     def _host_exists(self, name, grp):
+        logger.debug("ProxmoxImportDialog._host_exists: entrée")
         if grp in groups:
+            logger.debug("ProxmoxImportDialog._host_exists: sortie")
             return any(h.name == name for h in groups[grp])
+        logger.debug("ProxmoxImportDialog._host_exists: sortie")
         return False
 
     def _show_preview(self, host_dicts):
+        logger.debug("ProxmoxImportDialog._show_preview: entrée")
         self._discovered = host_dicts
         self._preview_store.clear()
         n_new = 0
@@ -930,19 +977,25 @@ class ProxmoxImportDialog(GCMBase):
         self._btn_scan.set_sensitive(True)
         if not self.is_tab:
             self._dlg.resize(820, 900)
+        logger.debug("ProxmoxImportDialog._show_preview: fin")
 
     def _on_preview_toggled(self, renderer, path):
+        logger.debug("ProxmoxImportDialog._on_preview_toggled: entrée")
         self._preview_store[path][self._COL_SEL] = not self._preview_store[path][self._COL_SEL]
+        logger.debug("ProxmoxImportDialog._on_preview_toggled: fin")
 
     def _select_all(self, value):
+        logger.debug("ProxmoxImportDialog._select_all: entrée")
         for row in self._preview_store:
             row[self._COL_SEL] = value
+        logger.debug("ProxmoxImportDialog._select_all: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Import final
     # ──────────────────────────────────────────────────────────────────────────
 
     def _on_import_clicked(self, widget):
+        logger.debug("ProxmoxImportDialog._on_import_clicked: entrée")
         self._btn_import.set_sensitive(False)
         overwrite = self._chk_overwrite.get_active()
         to_import = []
@@ -955,6 +1008,7 @@ class ProxmoxImportDialog(GCMBase):
         if not to_import:
             self._log(_("No connection to import (all already exist or none selected)."))
             self._btn_import.set_sensitive(True)
+            logger.debug("ProxmoxImportDialog._on_import_clicked: sortie")
             return
         self.on_done(to_import)
         logger.info(f"ProxmoxImportDialog._on_import_clicked | imported={len(to_import)}")
@@ -962,6 +1016,7 @@ class ProxmoxImportDialog(GCMBase):
         self._lbl_summary.set_markup(
             f"<b>{len(to_import)}</b> connexion(s) importée(s) avec succès."
         )
+        logger.debug("ProxmoxImportDialog._on_import_clicked: fin")
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -994,6 +1049,7 @@ class ProxmoxImportBatchPlugin(BatchPlugin):
         Raises:
             RuntimeError: Si l'application n'est pas liée au plugin.
         """
+        logger.debug("ProxmoxImportBatchPlugin.activate: entrée")
         if self.app is None:
             raise RuntimeError(
                 "ProxmoxImportBatchPlugin.activate() appelé sans app liée "
@@ -1005,8 +1061,10 @@ class ProxmoxImportBatchPlugin(BatchPlugin):
         default_user = conf.__dict__.get("PROXMOX_DEFAULT_USER", "root")
 
         def on_done(host_dicts):
+            logger.debug("on_done: entrée")
             if not host_dicts:
                 msgbox(_("No host imported."), parent=app.window)
+                logger.debug("on_done: sortie")
                 return
             n = app._import_done(host_dicts, default_group="PROXMOX")
             if n:
@@ -1015,12 +1073,14 @@ class ProxmoxImportBatchPlugin(BatchPlugin):
                 )
             else:
                 msgbox(_("No new host (duplicates ignored)."), parent=app.window)
+            logger.debug("on_done: fin")
 
         app.open_management_tab(
             "proxmox-import",
             _("Import from Proxmox"),
             lambda: ProxmoxImportDialog(app.window, on_done, default_user, show=False),
         )
+        logger.debug("ProxmoxImportBatchPlugin.activate: fin")
 
 
 def get_batch_plugin() -> ProxmoxImportBatchPlugin:
