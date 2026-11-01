@@ -245,14 +245,17 @@ app_logger = gcm4_core.setup_app_logger(CONFIG_DIR, debug=_cli_debug)
 
 def _gi_version(module):
     """Version « majeure.mineure.micro » d'une bibliothèque gi, ou « ? »."""
+    _loguru_logger.debug("_gi_version: entrée")
     try:
         major, minor = module.get_major_version(), module.get_minor_version()
         parts = (major, minor, module.get_micro_version())
         result = ".".join(str(p) for p in parts)
     except Exception as exc:  # stub de test ou binding ancien
         app_logger.debug("_gi_version() -> ? ({})", type(exc).__name__)
+        _loguru_logger.debug("_gi_version: sortie")
         return "?"
     app_logger.debug("_gi_version() -> {}", result)
+    _loguru_logger.debug("_gi_version: sortie")
     return result
 
 
@@ -342,7 +345,9 @@ def msgbox(text, parent=None):
         text (str): Message a afficher.
         parent (Gtk.Window, optional): Fenetre parente. Defaults to None.
     """
+    _loguru_logger.debug("msgbox: entrée")
     _base_msgbox(text, parent=parent, icon_path=ICON_PATH)
+    _loguru_logger.debug("msgbox: fin")
 
 
 def msgconfirm(text):
@@ -354,6 +359,7 @@ def msgconfirm(text):
     Returns:
         Gtk.ResponseType: ResponseType.OK ou ResponseType.CANCEL.
     """
+    _loguru_logger.debug("msgconfirm: entrée")
     msgBox = Gtk.MessageDialog(
         parent=wMain.window,
         modal=True,
@@ -367,6 +373,7 @@ def msgconfirm(text):
         ok_btn.get_style_context().add_class("suggested-action")
     response = run_dialog_sync(msgBox)
     msgBox.destroy()
+    _loguru_logger.debug("msgconfirm: sortie")
     return response
 
 
@@ -388,10 +395,12 @@ def send_desktop_notification(summary, body=""):
         summary (str): Titre de la notification (deja traduit par l'appelant).
         body (str, optional): Corps du message (deja traduit). Defaults to "".
     """
+    _loguru_logger.debug("send_desktop_notification: entrée")
     if conf.DISABLE_NOTIFICATIONS:
         app_logger.debug(
             "send_desktop_notification() returning | desactivee par conf.DISABLE_NOTIFICATIONS"
         )
+        _loguru_logger.debug("send_desktop_notification: sortie")
         return
     try:
         bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
@@ -418,6 +427,7 @@ def send_desktop_notification(summary, body=""):
         )
     except Exception as e:
         app_logger.warning(f"send_desktop_notification() | echec inattendu : {e}")
+    _loguru_logger.debug("send_desktop_notification: fin")
 
 
 def _launch_hook_command(command, source):
@@ -446,10 +456,12 @@ def _launch_hook_command(command, source):
     Returns:
         None: Cette fonction ne retourne rien de significatif.
     """
+    _loguru_logger.debug("_launch_hook_command: entrée")
     if command is None:
         app_logger.debug(
             f"_launch_hook_command() returning | {source} : aucune commande a executer"
         )
+        _loguru_logger.debug("_launch_hook_command: sortie")
         return
     try:
         subprocess.Popen(command, shell=True)
@@ -458,6 +470,7 @@ def _launch_hook_command(command, source):
         )
     except Exception as e:
         app_logger.warning(f"_launch_hook_command() | {source} : echec de lancement, ignore : {e}")
+    _loguru_logger.debug("_launch_hook_command: fin")
 
 
 def run_pre_connect_hook(host):
@@ -489,6 +502,7 @@ def run_pre_connect_hook(host):
     Returns:
         None: Cette fonction ne retourne rien de significatif.
     """
+    _loguru_logger.debug("run_pre_connect_hook: entrée")
     template = getattr(host, "pre_connect_command", "") or ""
     app_logger.debug(
         f"run_pre_connect_hook() called | host={getattr(host, 'name', '?')!r} "
@@ -502,6 +516,7 @@ def run_pre_connect_hook(host):
         protocol=getattr(host, "protocol", "") or "",
     )
     _launch_hook_command(command, "run_pre_connect_hook")
+    _loguru_logger.debug("run_pre_connect_hook: fin")
 
 
 def resolve_post_connect_command(host, proto):
@@ -543,6 +558,7 @@ def msginfo(text):
     Args:
         text (str): Message a afficher.
     """
+    _loguru_logger.debug("msginfo: entrée")
     msgBox = Gtk.MessageDialog(
         parent=wMain.window,
         modal=True,
@@ -556,6 +572,7 @@ def msginfo(text):
         ok_btn.get_style_context().add_class("suggested-action")
     run_dialog_sync(msgBox)
     msgBox.destroy()
+    _loguru_logger.debug("msginfo: fin")
 
 
 def inputbox(title, text, default="", password=False):
@@ -584,6 +601,7 @@ def show_font_dialog(parent, title, button):
         title: Parametre title.
         button: Parametre button.
     """
+    _loguru_logger.debug("show_font_dialog: entrée")
     if not hasattr(parent, "dlgFont"):
         parent.dlgFont = None
 
@@ -599,6 +617,7 @@ def show_font_dialog(parent, title, button):
         button.set_label(button.selected_font.to_string())
         set_widget_font(button.get_child(), button.selected_font)
     parent.dlgFont.hide()
+    _loguru_logger.debug("show_font_dialog: fin")
 
 
 def parse_color_rgba(spec):
@@ -610,8 +629,10 @@ def parse_color_rgba(spec):
     Returns:
         Gdk.RGBA: Objet couleur RGBA parse.
     """
+    _loguru_logger.debug("parse_color_rgba: entrée")
     rgba = Gdk.RGBA()
     b = rgba.parse(spec)  # noqa: F841
+    _loguru_logger.debug("parse_color_rgba: sortie")
     return rgba
 
 
@@ -634,6 +655,7 @@ def set_widget_font(widget, font_desc):
         widget: Widget Gtk sur lequel appliquer la police.
         font_desc (Pango.FontDescription): Description de la police.
     """
+    _loguru_logger.debug("set_widget_font: entrée")
     try:
         family = font_desc.get_family() or "monospace"
         size_pango = font_desc.get_size()
@@ -659,6 +681,7 @@ def set_widget_font(widget, font_desc):
         widget.get_style_context().add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
     except Exception as exc:
         _loguru_logger.debug("style CSS non appliqué : {}", exc)
+    _loguru_logger.debug("set_widget_font: fin")
 
 
 def color_to_hex(rgba, diff=0):
@@ -679,6 +702,7 @@ def get_key_name(event):
     Returns:
         str: Nom de la touche avec modificateurs (ex: 'CTRL+ALT+A').
     """
+    _loguru_logger.debug("get_key_name: entrée")
     name = ""
     if event.state & Gdk.ModifierType.CONTROL_MASK:
         name = name + "CTRL+"
@@ -688,6 +712,7 @@ def get_key_name(event):
         name = name + "ALT+"
     if event.state & Gdk.ModifierType.SUPER_MASK:
         name = name + "SUPER+"
+    _loguru_logger.debug("get_key_name: sortie")
     return name + Gdk.keyval_name(event.keyval).upper()
 
 
@@ -719,11 +744,13 @@ def load_encryption_key():
     ``RuntimeError`` à la place, attrapée ici pour reproduire le
     comportement d'origine (message affiché, exécution qui continue).
     """
+    _loguru_logger.debug("load_encryption_key: entrée")
     try:
         gcm4_core.load_encryption_key(KEY_FILE)
     except RuntimeError as exc:
         _loguru_logger.error("clé de chiffrement non chargée : {}", exc)
         msgbox(str(exc))
+    _loguru_logger.debug("load_encryption_key: fin")
 
 
 def initialise_encyption_key():
@@ -731,11 +758,13 @@ def initialise_encyption_key():
 
     Voir ``load_encryption_key`` ci-dessus pour le contrat exception/msgbox.
     """
+    _loguru_logger.debug("initialise_encyption_key: entrée")
     try:
         gcm4_core.initialise_encyption_key(KEY_FILE)
     except RuntimeError as exc:
         _loguru_logger.error("clé de chiffrement non régénérée : {}", exc)
         msgbox(str(exc))
+    _loguru_logger.debug("initialise_encyption_key: fin")
 
 
 def xor(pw, str1):
@@ -780,6 +809,7 @@ def vte_feed(terminal, data):
         data (str or bytes): Donnees a envoyer (str UTF-8 ou bytes bruts).
     """
     # fix #82: écriture directe sur le fd PTY (fiable toutes versions VTE)
+    _loguru_logger.debug("vte_feed: entrée")
     data_bytes = data.encode("utf-8") if isinstance(data, str) else data
     try:
         pty = terminal.get_pty()
@@ -787,6 +817,7 @@ def vte_feed(terminal, data):
             fd = pty.get_fd()
             if fd >= 0:
                 os.write(fd, data_bytes)
+                _loguru_logger.debug("vte_feed: sortie")
                 return
     except Exception as exc:
         _loguru_logger.debug("écriture directe au pty impossible, repli feed_child : {}", exc)
@@ -799,6 +830,7 @@ def vte_feed(terminal, data):
             terminal.feed_child(data, len(data))
     else:
         terminal.feed_child(data, len(data))
+    _loguru_logger.debug("vte_feed: fin")
 
 
 # ─── VNC / SPICE (#102) ──────────────────────────────────────────────────────
@@ -845,9 +877,11 @@ def _serial_templates_load(cp):
     Returns:
         bool: True si la section a été trouvée et traitée, False sinon.
     """
+    _loguru_logger.debug("_serial_templates_load: entrée")
     global _SERIAL_TEMPLATES
     if not cp.has_section("serial_templates"):
         _SERIAL_TEMPLATES = dict(_SERIAL_TEMPLATES_DEFAULT)
+        _loguru_logger.debug("_serial_templates_load: sortie")
         return False
     _SERIAL_TEMPLATES = dict(_SERIAL_TEMPLATES_DEFAULT)
     for name, value in cp.items("serial_templates"):
@@ -859,6 +893,7 @@ def _serial_templates_load(cp):
         parts = [p.strip() for p in value.split(",")]
         if len(parts) == 5:
             _SERIAL_TEMPLATES[original_name] = tuple(parts)
+    _loguru_logger.debug("_serial_templates_load: sortie")
     return True
 
 
@@ -870,11 +905,13 @@ def _serial_templates_save(cp):
     Args:
         cp (configparser.RawConfigParser): Objet de configuration à mettre à jour.
     """
+    _loguru_logger.debug("_serial_templates_save: entrée")
     if cp.has_section("serial_templates"):
         cp.remove_section("serial_templates")
     cp.add_section("serial_templates")
     for name, tpl in _SERIAL_TEMPLATES.items():
         cp.set("serial_templates", name, ",".join(tpl))
+    _loguru_logger.debug("_serial_templates_save: fin")
 
 
 def get_serial_templates():
@@ -888,13 +925,17 @@ def set_serial_templates(templates):
     Args:
         templates (dict): Nouveau contenu (nom -> (baud, flow, parity, databits, stopbits)).
     """
+    _loguru_logger.debug("set_serial_templates: entrée")
     global _SERIAL_TEMPLATES
     _SERIAL_TEMPLATES = dict(templates)
+    _loguru_logger.debug("set_serial_templates: fin")
 
 
 def reset_serial_templates():
     """Réinitialise les templates série aux valeurs par défaut d'origine."""
+    _loguru_logger.debug("reset_serial_templates: entrée")
     set_serial_templates(_SERIAL_TEMPLATES_DEFAULT)
+    _loguru_logger.debug("reset_serial_templates: fin")
 
 
 # Templates série : (débit, flow, parity, databits, stopbits)
@@ -927,11 +968,13 @@ def _compute_zoom_size(current_size, delta, minimum=None, maximum=None):
     (``_TERMINAL_ZOOM_MIN_SIZE``/``_MAX_SIZE``, identiques à celles
     utilisées ici auparavant).
     """
+    _loguru_logger.debug("_compute_zoom_size: entrée")
     kwargs = {}
     if minimum is not None:
         kwargs["minimum"] = minimum
     if maximum is not None:
         kwargs["maximum"] = maximum
+    _loguru_logger.debug("_compute_zoom_size: sortie")
     return gcm4_core.compute_zoom_size(current_size, delta, **kwargs)
 
 
@@ -975,9 +1018,12 @@ class SerialTemplatesTab:
         Args:
             notebook (_type_): _description_
         """
+        _loguru_logger.debug("__init__: entrée")
         self._build(notebook)
+        _loguru_logger.debug("__init__: fin")
 
     def _build(self, notebook):
+        _loguru_logger.debug("_build: entrée")
         outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         outer.set_margin_start(10)
         outer.set_margin_end(10)
@@ -1058,31 +1104,43 @@ class SerialTemplatesTab:
         notebook.append_page(outer, Gtk.Label(label=_("Serial Templates")))
         outer.show_all()
         notebook.show_all()
+        _loguru_logger.debug("_build: fin")
 
     def _populate_store(self):
+        _loguru_logger.debug("_populate_store: entrée")
         self._store.clear()
         for name, tpl in get_serial_templates().items():
             baud, flow, parity, databits, stopbits = tpl
             self._store.append([name, baud, flow, parity, databits, stopbits])
+        _loguru_logger.debug("_populate_store: fin")
 
     def _on_cell_edited(self, renderer, path, new_text, col_idx):
+        _loguru_logger.debug("_on_cell_edited: entrée")
         self._store[path][col_idx] = new_text.strip()
+        _loguru_logger.debug("_on_cell_edited: fin")
 
     def _on_add(self, widget):
+        _loguru_logger.debug("_on_add: entrée")
         self._store.append([_("New template"), "9600", "n", "n", "8", "1"])
+        _loguru_logger.debug("_on_add: fin")
 
     def _on_delete(self, widget):
+        _loguru_logger.debug("_on_delete: entrée")
         sel = self._tv.get_selection()
         model, it = sel.get_selected()
         if it is not None:
             model.remove(it)
+        _loguru_logger.debug("_on_delete: fin")
 
     def _on_restore_defaults(self, widget):
+        _loguru_logger.debug("_on_restore_defaults: entrée")
         reset_serial_templates()
         self._populate_store()
+        _loguru_logger.debug("_on_restore_defaults: fin")
 
     def apply(self):
         """Applique les modifications dans les templates série (set_serial_templates)."""
+        _loguru_logger.debug("apply: entrée")
         new_templates = {}
         for row in self._store:
             name = row[self._COL_NAME].strip()
@@ -1094,6 +1152,7 @@ class SerialTemplatesTab:
             if name and baud:
                 new_templates[name] = (baud, flow, parity, databits, stopbits)
         set_serial_templates(new_templates)
+        _loguru_logger.debug("apply: fin")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1132,6 +1191,7 @@ class Wmain(GCMBase, Gtk.Window):
 
     def __init__(self, **kwargs):
         """Construit la fenêtre principale (widgets, signaux, état)."""
+        _loguru_logger.debug("__init__: entrée")
         Gtk.Window.__init__(self)
         GCMBase.__init__(self, path=None, **kwargs)
         self.main_widget = self
@@ -1451,6 +1511,7 @@ class Wmain(GCMBase, Gtk.Window):
 
         if conf.STARTUP_LOCAL:
             self.addTab(self.nbConsole, "local")
+        _loguru_logger.debug("__init__: fin")
 
     def get_widget(self, name):
         """Retourne le widget identifie par name.
@@ -1472,6 +1533,7 @@ class Wmain(GCMBase, Gtk.Window):
 
     def update_visual(self):
         """Met a jour les proprietes visuelles de la fenetre principale."""
+        _loguru_logger.debug("update_visual: entrée")
         window = self.get_widget("wMain")
         screen = window.get_screen()
         visual = screen.get_rgba_visual()
@@ -1489,6 +1551,7 @@ class Wmain(GCMBase, Gtk.Window):
             sys.stderr.write("System doesn't support transparency\n")
             window.transparency = False
             window.set_visual(screen.get_system_visual())
+        _loguru_logger.debug("update_visual: fin")
 
     def enable_window_transparency(self, window):
         # hack to allow transparent widgets inside a opaque window
@@ -1502,6 +1565,7 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             window: Parametre window.
         """
+        _loguru_logger.debug("enable_window_transparency: entrée")
         if hasattr(window, "style_provider") and window.style_provider:
             Gtk.StyleContext.remove_provider_for_screen(
                 Gdk.Screen.get_default(), window.style_provider
@@ -1538,6 +1602,7 @@ class Wmain(GCMBase, Gtk.Window):
             window.style_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
         )
+        _loguru_logger.debug("enable_window_transparency: fin")
 
     # -- Wmain.new {
     def new(self):
@@ -1546,6 +1611,7 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             instance: Nouvelle instance de la classe.
         """
+        _loguru_logger.debug("new: entrée")
         self.hpMain = self.get_widget("hpMain")
         self.wMainWindow = self.get_widget("wMain")
         # hpMainWindow est un alias vers wMainWindow utilisé pour le fullscreen
@@ -1560,6 +1626,7 @@ class Wmain(GCMBase, Gtk.Window):
         # dans nbConsole. Voir open_management_tab / close_management_tab.
         self._management_tabs = {}
         self._pinned_tab_count = 0
+        _loguru_logger.debug("new: fin")
 
     # -- Wmain.new }
 
@@ -1568,8 +1635,10 @@ class Wmain(GCMBase, Gtk.Window):
 
     def check_updates(self):
         """Verifie la disponibilite d'une mise a jour en ligne."""
+        _loguru_logger.debug("check_updates: entrée")
         checker = CheckUpdates(self)
         checker.start()
+        _loguru_logger.debug("check_updates: fin")
 
     # -- Wmain.attach_terminal_click_gesture {
     def attach_terminal_click_gesture(self, widget):
@@ -1642,6 +1711,7 @@ class Wmain(GCMBase, Gtk.Window):
                 ``self._tree_servers_press_gesture``, qui garde sa propre
                 reference car il n'existe qu'un seul ``treeServers``).
         """
+        _loguru_logger.debug("on_terminal_pressed: entrée")
         button = gesture.get_current_button()
         app_logger.debug(
             f"on_terminal_pressed() called | button={button!r} n_press={n_press!r} "
@@ -1672,6 +1742,7 @@ class Wmain(GCMBase, Gtk.Window):
         if outcome == "paste":
             widget.paste_clipboard()
             app_logger.debug("on_terminal_pressed() returning | outcome='paste'")
+            _loguru_logger.debug("on_terminal_pressed: sortie")
             return
         if outcome == "open-menu":
             nb = widget.get_parent().get_parent()
@@ -1684,6 +1755,7 @@ class Wmain(GCMBase, Gtk.Window):
             )
             self.popupMenu.popup_at(widget, x, y)
             app_logger.debug("on_terminal_pressed() returning | outcome='open-menu'")
+            _loguru_logger.debug("on_terminal_pressed: sortie")
             return
         if outcome == "check-url" and event is not None:
             url, tag = widget.match_check_event(event)
@@ -1699,6 +1771,7 @@ class Wmain(GCMBase, Gtk.Window):
         nb = widget.get_parent().get_parent()
         self.on_tab_focus(nb, nb.get_nth_page(nb.get_current_page()), nb.get_current_page())
         app_logger.debug(f"on_terminal_pressed() returning | outcome={outcome!r}")
+        _loguru_logger.debug("on_terminal_pressed: fin")
 
     # -- Wmain.on_terminal_pressed }
 
@@ -1711,6 +1784,7 @@ class Wmain(GCMBase, Gtk.Window):
             event (Gdk.EventKey): Evenement clavier.
             *args: Arguments supplementaires (ignorés).
         """
+        _loguru_logger.debug("on_terminal_keypress: entrée")
         if conf.DISABLE_SHORTCUTS:
             # Préférence "Désactiver les raccourcis clavier" (backlog §4.2,
             # urgence faible) : toutes les combinaisons de `shortcuts`
@@ -1719,6 +1793,7 @@ class Wmain(GCMBase, Gtk.Window):
             # distante — utile quand une combinaison entre en conflit avec
             # une application distante (ex. Ctrl+Tab utilisé par l'appli
             # distante elle-même).
+            _loguru_logger.debug("on_terminal_keypress: sortie")
             return False
         if get_key_name(event) in shortcuts:
             cmd = shortcuts[get_key_name(event)]
@@ -1806,6 +1881,7 @@ class Wmain(GCMBase, Gtk.Window):
                     widget.get_parent().get_parent().get_tab_label(
                         widget.get_parent()
                     ).mark_tab_as_active()
+                    _loguru_logger.debug("on_terminal_keypress: sortie")
                     return True
                 elif cmd == _CONNECT:
                     self.on_btnConnect_clicked(None)
@@ -1824,7 +1900,9 @@ class Wmain(GCMBase, Gtk.Window):
                 # comandos del usuario
                 vte_feed(widget, cmd)
 
+            _loguru_logger.debug("on_terminal_keypress: sortie")
             return True
+        _loguru_logger.debug("on_terminal_keypress: sortie")
         return False
 
     def terminal_zoom(self, widget, delta=0, reset=False):
@@ -1875,9 +1953,11 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Vte.Terminal): Terminal source.
             *args: Arguments supplementaires (ignorés).
         """
+        _loguru_logger.debug("on_terminal_selection: entrée")
         if conf.AUTO_COPY_SELECTION:
             if widget.get_has_selection():
                 self.terminal_copy(widget)
+        _loguru_logger.debug("on_terminal_selection: sortie")
         return True
 
     def find_word(self, backwards=False):
@@ -1886,7 +1966,9 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             backwards (bool): Si True, recherche dans la direction inverse (par défaut False).
         """
+        _loguru_logger.debug("find_word: entrée")
         if not self.search:
+            _loguru_logger.debug("find_word: sortie")
             return
 
         if self.search["pcre2"]:
@@ -1894,6 +1976,7 @@ class Wmain(GCMBase, Gtk.Window):
                 self.search["terminal"].search_find_previous()
             else:
                 self.search["terminal"].search_find_next()
+            _loguru_logger.debug("find_word: sortie")
             return
 
         pos = -1
@@ -1916,15 +1999,18 @@ class Wmain(GCMBase, Gtk.Window):
                 break
         if pos == -1:
             self.search["index"] = len(self.search["lines"]) if backwards else 0
+        _loguru_logger.debug("find_word: fin")
 
     def init_search(self):
         """Initialise la barre de recherche dans le terminal."""
+        _loguru_logger.debug("init_search: entrée")
         if (
             hasattr(self, "search")
             and self.search
             and self.get_widget("txtSearch").get_text() == self.search["word"]
             and self.current == self.search["terminal"]
         ):
+            _loguru_logger.debug("init_search: sortie")
             return True
 
         terminal = self.find_active_terminal(self.hpMain)
@@ -1933,6 +2019,7 @@ class Wmain(GCMBase, Gtk.Window):
         else:
             self.current = terminal
         if terminal is None:
+            _loguru_logger.debug("init_search: sortie")
             return False
 
         self.search = {}
@@ -1940,6 +2027,7 @@ class Wmain(GCMBase, Gtk.Window):
         if text == "" or text == _("search..."):
             terminal.search_set_regex(None, 0)
             terminal.match_remove_all()
+            _loguru_logger.debug("init_search: sortie")
             return True
 
         self.search["terminal"] = terminal
@@ -1953,6 +2041,7 @@ class Wmain(GCMBase, Gtk.Window):
             terminal.search_set_wrap_around(True)
             terminal.match_add_regex(new_reg_m, 0)
             self.search["pcre2"] = True
+            _loguru_logger.debug("init_search: sortie")
             return True
         except Exception as e:
             app_logger.warning(f"PCRE2 indisponible ({e}), bascule sur recherche custom")
@@ -1971,6 +2060,7 @@ class Wmain(GCMBase, Gtk.Window):
                 wrapped += self.chunkstring(x, cols)
         self.search["lines"] = wrapped
         self.search["index"] = len(self.search["lines"])
+        _loguru_logger.debug("init_search: sortie")
         return True
 
     def chunkstring(self, string, length):
@@ -2002,31 +2092,39 @@ class Wmain(GCMBase, Gtk.Window):
             item (str): Code d\'action du menu.
             *args: Arguments additionnels (ignorés).
         """
+        _loguru_logger.debug("on_popupmenu: entrée")
         if item == "V":  # PASTE
             self.terminal_paste(self.popupMenu.terminal)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "C":  # COPY
             self.terminal_copy(self.popupMenu.terminal)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "CV":  # COPY and PASTE
             self.terminal_copy_paste(self.popupMenu.terminal)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "A":  # SELECT ALL
             self.terminal_select_all(self.popupMenu.terminal)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "CA":  # COPY ALL
             self.terminal_copy_all(self.popupMenu.terminal)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "X":  # CLOSE CONSOLE
             widget = self.popupMenu.terminal.get_parent()
             notebook = widget.get_parent()
             page = notebook.page_num(widget)
             notebook.remove_page(page)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "CP":  # CUSTOM COMMANDS
             vte_feed(self.popupMenu.terminal, args[0])
         elif item == "S":  # SAVE BUFFER
             self.show_save_buffer(self.popupMenu.terminal)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "H":  # COPY HOST ADDRESS TO CLIPBOARD
             if self.treeServers.get_selection().get_selected()[
@@ -2040,6 +2138,7 @@ class Wmain(GCMBase, Gtk.Window):
                 cb = Gtk.Clipboard.get_default(Gdk.Display.get_default())
                 cb.set_text(host.host, len(host.host))
                 cb.store()
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "D":  # DUPLICATE HOST
             if self.treeServers.get_selection().get_selected()[
@@ -2059,6 +2158,7 @@ class Wmain(GCMBase, Gtk.Window):
                 groups[group].append(newhost)
                 self.updateTree()
                 self.writeConfig()
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "R":  # RENAME TAB
             text = inputbox(
@@ -2074,6 +2174,7 @@ class Wmain(GCMBase, Gtk.Window):
                     nb.get_nth_page(nb.get_current_page()),
                     nb.get_current_page(),
                 )
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "RS" or item == "RS2":  # RESET CONSOLE
             if item == "RS":
@@ -2082,6 +2183,7 @@ class Wmain(GCMBase, Gtk.Window):
             else:
                 term = self.popupMenu.terminal
             term.reset(True, False)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "RC" or item == "RC2":  # RESET AND CLEAR CONSOLE
             if item == "RC":
@@ -2090,6 +2192,7 @@ class Wmain(GCMBase, Gtk.Window):
             else:
                 term = self.popupMenu.terminal
             term.reset(True, True)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "RO":  # REOPEN SESION
             tab = self.popupMenuTab.label.get_parent().get_parent()
@@ -2108,6 +2211,7 @@ class Wmain(GCMBase, Gtk.Window):
                 if term.command[2] is not None and term.command[2] != "":
                     GLib.timeout_add(2000, self.send_data, term, term.command[2])
             tab.mark_tab_as_active()
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "CC" or item == "CC2":  # CLONE CONSOLE
             if item == "CC":
@@ -2125,6 +2229,7 @@ class Wmain(GCMBase, Gtk.Window):
                 host.name = tab.get_text()
                 host.log = hasattr(term, "log_handler_id") and term.log_handler_id != 0
                 self.addTab(ntbk, host)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "L" or item == "L2":  # ENABLE/DISABLE LOG
             if item == "L":
@@ -2135,9 +2240,11 @@ class Wmain(GCMBase, Gtk.Window):
             if conf.CONTINUOUS_TAB_LOG and not widget.get_active():
                 msgbox(_("Continuous log mode is active and cannot be disabled per tab."))
                 widget.set_active(True)
+                _loguru_logger.debug("on_popupmenu: sortie")
                 return True
             if not self.set_terminal_logger(term, widget.get_active()):
                 widget.set_active(False)
+            _loguru_logger.debug("on_popupmenu: sortie")
             return True
         elif item == "SPH":
             self.on_btnHSplit_clicked(widget, args)
@@ -2145,6 +2252,7 @@ class Wmain(GCMBase, Gtk.Window):
             self.on_btnVSplit_clicked(widget, args)
         elif item == "USP":
             self.on_btnUnsplit_clicked(widget, args)
+        _loguru_logger.debug("on_popupmenu: fin")
 
     def createMenu(self):
         """Construit les menus contextuels de l'application.
@@ -2177,6 +2285,7 @@ class Wmain(GCMBase, Gtk.Window):
         d'origine), le declenchement Gtk.GestureClick (commun aux quatre) et
         le cas Gtk.Entry/populate-popup.
         """
+        _loguru_logger.debug("createMenu: entrée")
         self.popupMenu = PopupMenu(self.on_popupmenu)
         self.popupMenu.populate_commands(select_command_shortcuts(shortcuts))
 
@@ -2222,6 +2331,7 @@ class Wmain(GCMBase, Gtk.Window):
         # reste en Gtk.Menu classique pour l'instant (sous-menu "Custom
         # commands" dynamique, cf. audit session-29).
         self.popupMenuTab = TabContextMenu(self.on_popupmenu)
+        _loguru_logger.debug("createMenu: fin")
 
     def _build_primary_menu(self):
         """Construit le menu hamburger qui remplace l'ancien GtkMenuBar (palier 2).
@@ -2248,25 +2358,32 @@ class Wmain(GCMBase, Gtk.Window):
         et déjà maintenu à jour par ``createMenu()``/les Préférences, nul
         besoin de le dupliquer ici.
         """
+        _loguru_logger.debug("_build_primary_menu: entrée")
         self._primary_actions = Gio.SimpleActionGroup()
 
         def add_action(name, handler):
+            _loguru_logger.debug("Wmain.add_action: entrée")
             action = Gio.SimpleAction.new(name, None)
             action.connect("activate", lambda _a, _p: handler())
             self._primary_actions.add_action(action)
+            _loguru_logger.debug("Wmain.add_action: sortie")
             return action
 
         def add_stateful_action(name, initial, on_change):
+            _loguru_logger.debug("Wmain.add_stateful_action: entrée")
             action = Gio.SimpleAction.new_stateful(
                 name, None, GLib.Variant.new_boolean(bool(initial))
             )
 
             def _on_change_state(a, value):
+                _loguru_logger.debug("_on_change_state: entrée")
                 on_change(value.get_boolean())
                 a.set_state(value)
+                _loguru_logger.debug("_on_change_state: fin")
 
             action.connect("change-state", _on_change_state)
             self._primary_actions.add_action(action)
+            _loguru_logger.debug("Wmain.add_stateful_action: sortie")
             return action
 
         # -- File --
@@ -2397,6 +2514,7 @@ class Wmain(GCMBase, Gtk.Window):
 
         self.btnPrimaryMenu = self.get_widget("btnPrimaryMenu")
         self.btnPrimaryMenu.set_menu_model(menu)
+        _loguru_logger.debug("_build_primary_menu: fin")
 
     def _open_connection_tab(self, notebook, host):
         """Ouvre un onglet de connexion pour ``host.protocol``, quel qu'il soit.
@@ -2417,6 +2535,7 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             Gtk.Widget: Widget (ou son conteneur) ajoute au notebook.
         """
+        _loguru_logger.debug("_open_connection_tab: entrée")
         proto = getattr(host, "protocol", "ssh") or "ssh"
         plugin = self.plugin_registry.get(proto)
         if plugin is None:
@@ -2425,14 +2544,18 @@ class Wmain(GCMBase, Gtk.Window):
         run_pre_connect_hook(host)
 
         def get_pwd():
+            _loguru_logger.debug("Wmain.get_pwd: entrée")
             try:
                 app_logger.debug(
                     f"Password requested for host {host.name} (provided={bool(host.password)})"
                 )
+                _loguru_logger.debug("Wmain.get_pwd: sortie")
                 return host.password
             except Exception as e:
                 app_logger.debug(f"Failed to decrypt password for host {host.name}: {e}")
+                _loguru_logger.debug("Wmain.get_pwd: sortie")
                 return ""
+            _loguru_logger.debug("Wmain.get_pwd: fin")
 
         widget = plugin.build_tab(host, get_pwd)
         connect = getattr(widget, f"connect_{proto}", None)
@@ -2471,6 +2594,7 @@ class Wmain(GCMBase, Gtk.Window):
 
             if connect is not None:
                 connect()
+            _loguru_logger.debug("_open_connection_tab: sortie")
             return widget
 
         if plugin.self_scrolling:
@@ -2494,6 +2618,7 @@ class Wmain(GCMBase, Gtk.Window):
         notebook.set_current_page(notebook.get_n_pages() - 1)
         if connect is not None:
             connect()
+        _loguru_logger.debug("_open_connection_tab: sortie")
         return target
 
     def _import_done(self, host_dicts, default_group="IMPORT"):
@@ -2506,6 +2631,7 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             int: Nombre d'hôtes ajoutés.
         """
+        _loguru_logger.debug("_import_done: entrée")
         added = 0
         for d in host_dicts:
             # Ignorer la ventilation par nom — tout va dans default_group
@@ -2585,6 +2711,7 @@ class Wmain(GCMBase, Gtk.Window):
             added += 1
         self.updateTree()
         self.writeConfig()
+        _loguru_logger.debug("_import_done: sortie")
         return added
 
     # ── CSV / JSON import/export ──────────────────────────────────────────────
@@ -2652,16 +2779,22 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             Valeur convertie (bool/int/str selon le type de default).
         """
+        _loguru_logger.debug("_coerce_field_value: entrée")
         if raw is None:
+            _loguru_logger.debug("_coerce_field_value: sortie")
             return default
         if isinstance(default, bool):
+            _loguru_logger.debug("_coerce_field_value: sortie")
             return str(raw).strip().lower() in ("true", "1", "yes")
         if isinstance(default, int):
             try:
+                _loguru_logger.debug("_coerce_field_value: sortie")
                 return int(raw)
             except (TypeError, ValueError) as exc:
                 _loguru_logger.debug("préférence {!r} non entière, défaut : {}", raw, exc)
+                _loguru_logger.debug("_coerce_field_value: sortie")
                 return default
+        _loguru_logger.debug("_coerce_field_value: sortie")
         return raw
 
     def _dict_to_host(self, d):
@@ -2672,6 +2805,7 @@ class Wmain(GCMBase, Gtk.Window):
         un protocole avec ses propres champs ne nécessite aucune modification
         de cette méthode.
         """
+        _loguru_logger.debug("_dict_to_host: entrée")
         kwargs = {
             "group": d.get("group", "IMPORT"),
             "name": d.get("name", ""),
@@ -2700,10 +2834,12 @@ class Wmain(GCMBase, Gtk.Window):
         }
         for field_name, default in self.plugin_registry.all_host_fields():
             kwargs[field_name] = self._coerce_field_value(default, d.get(field_name))
+        _loguru_logger.debug("_dict_to_host: sortie")
         return Host(**kwargs)
 
     def _import_hosts_from_list(self, host_list):
         """Ajoute une liste de Host dans le modèle et écrit la config."""
+        _loguru_logger.debug("_import_hosts_from_list: entrée")
         added = 0
         for h in host_list:
             gname = h.group or "IMPORT"
@@ -2716,14 +2852,17 @@ class Wmain(GCMBase, Gtk.Window):
             added += 1
         self.updateTree()
         self.writeConfig()
+        _loguru_logger.debug("_import_hosts_from_list: sortie")
         return added
 
     def on_mnu_export_csv_activate(self, widget, *args):
         """Exporte toutes les connexions vers un fichier CSV (sans mot de passe)."""
+        _loguru_logger.debug("on_mnu_export_csv_activate: entrée")
         filename = show_open_dialog(
             parent=self.wMain, title=_("Export to CSV"), action=Gtk.FileChooserAction.SAVE
         )
         if not filename:
+            _loguru_logger.debug("on_mnu_export_csv_activate: sortie")
             return
         if not filename.endswith(".csv"):
             filename += ".csv"
@@ -2739,19 +2878,23 @@ class Wmain(GCMBase, Gtk.Window):
         except Exception as e:
             _loguru_logger.error("export CSV impossible : {}", e)
             msgbox(_("CSV export error: {e}").format(e=e))
+            _loguru_logger.debug("on_mnu_export_csv_activate: sortie")
             return
         msgbox(
             _("{count} connection(s) exported to {filename}.").format(
                 count=len(hosts), filename=filename
             )
         )
+        _loguru_logger.debug("on_mnu_export_csv_activate: fin")
 
     def on_mnu_export_json_activate(self, widget, *args):
         """Exporte toutes les connexions vers un fichier JSON (sans mot de passe)."""
+        _loguru_logger.debug("on_mnu_export_json_activate: entrée")
         filename = show_open_dialog(
             parent=self.wMain, title=_("Export to JSON"), action=Gtk.FileChooserAction.SAVE
         )
         if not filename:
+            _loguru_logger.debug("on_mnu_export_json_activate: sortie")
             return
         if not filename.endswith(".json"):
             filename += ".json"
@@ -2765,27 +2908,33 @@ class Wmain(GCMBase, Gtk.Window):
         except Exception as e:
             _loguru_logger.error("export JSON impossible : {}", e)
             msgbox(_("JSON export error: {e}").format(e=e))
+            _loguru_logger.debug("on_mnu_export_json_activate: sortie")
             return
         msgbox(
             _("{count} connection(s) exported to {filename}.").format(
                 count=len(hosts), filename=filename
             )
         )
+        _loguru_logger.debug("on_mnu_export_json_activate: fin")
 
     # ── Dark mode ─────────────────────────────────────────────────────────────
 
     def _apply_dark_mode(self, enabled):
         """Active ou désactive le mode sombre GTK."""
+        _loguru_logger.debug("_apply_dark_mode: entrée")
         settings = Gtk.Settings.get_default()
         settings.set_property("gtk-application-prefer-dark-theme", enabled)
+        _loguru_logger.debug("_apply_dark_mode: fin")
 
     def on_mnu_dark_mode_toggled(self, widget, *args):
         """Bascule le mode sombre GTK et persiste l'état."""
+        _loguru_logger.debug("on_mnu_dark_mode_toggled: entrée")
         enabled = widget.get_active()
         conf.DARK_MODE = enabled
         conf.THEME_MODE = "dark" if enabled else "light"
         self._apply_dark_mode(enabled)
         self.writeConfig()
+        _loguru_logger.debug("on_mnu_dark_mode_toggled: fin")
 
     def terminal_copy(self, terminal):
         """Copie la selection du terminal dans le presse-papiers.
@@ -2793,7 +2942,9 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             terminal (Vte.Terminal): Terminal source.
         """
+        _loguru_logger.debug("terminal_copy: entrée")
         terminal.copy_clipboard_format(Vte.Format.TEXT)
+        _loguru_logger.debug("terminal_copy: fin")
 
     def terminal_paste(self, terminal):
         """Colle le presse-papiers dans le terminal.
@@ -2801,7 +2952,9 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             terminal (Vte.Terminal): Terminal cible.
         """
+        _loguru_logger.debug("terminal_paste: entrée")
         terminal.paste_clipboard()
+        _loguru_logger.debug("terminal_paste: fin")
 
     def terminal_copy_paste(self, terminal):
         """Copie puis colle la selection dans le terminal.
@@ -2809,8 +2962,10 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             terminal (Vte.Terminal): Terminal cible.
         """
+        _loguru_logger.debug("terminal_copy_paste: entrée")
         terminal.copy_clipboard_format(Vte.Format.TEXT)
         terminal.paste_clipboard()
+        _loguru_logger.debug("terminal_copy_paste: fin")
 
     def terminal_select_all(self, terminal):
         """Selectionne tout le contenu du terminal.
@@ -2818,7 +2973,9 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             terminal (Vte.Terminal): Terminal cible.
         """
+        _loguru_logger.debug("terminal_select_all: entrée")
         terminal.select_all()
+        _loguru_logger.debug("terminal_select_all: fin")
 
     def terminal_copy_all(self, terminal):
         """Copie tout le contenu du terminal dans le presse-papiers.
@@ -2826,9 +2983,11 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             terminal (Vte.Terminal): Terminal cible.
         """
+        _loguru_logger.debug("terminal_copy_all: entrée")
         terminal.select_all()
         terminal.copy_clipboard_format(Vte.Format.TEXT)
         terminal.select_none()
+        _loguru_logger.debug("terminal_copy_all: fin")
 
     def on_menuCopy_activate(self, widget):
         """Gestionnaire du menu Copier.
@@ -2836,9 +2995,11 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             widget (Gtk.MenuItem): Widget declencheur.
         """
+        _loguru_logger.debug("on_menuCopy_activate: entrée")
         terminal = self.find_active_terminal(self.hpMain)
         if terminal:
             self.terminal_copy(terminal)
+        _loguru_logger.debug("on_menuCopy_activate: fin")
 
     def on_menuPaste_activate(self, widget):
         """Gestionnaire du menu Coller.
@@ -2846,9 +3007,11 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             widget (Gtk.MenuItem): Widget declencheur.
         """
+        _loguru_logger.debug("on_menuPaste_activate: entrée")
         terminal = self.find_active_terminal(self.hpMain)
         if terminal:
             self.terminal_paste(terminal)
+        _loguru_logger.debug("on_menuPaste_activate: fin")
 
     def on_menuCopyPaste_activate(self, widget):
         """Gestionnaire du menu Copier-Coller.
@@ -2856,9 +3019,11 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             widget (Gtk.MenuItem): Widget declencheur.
         """
+        _loguru_logger.debug("on_menuCopyPaste_activate: entrée")
         terminal = self.find_active_terminal(self.hpMain)
         if terminal:
             self.terminal_copy_paste(terminal)
+        _loguru_logger.debug("on_menuCopyPaste_activate: fin")
 
     def on_menuSelectAll_activate(self, widget):
         """Gestionnaire du menu Tout selectionner.
@@ -2866,9 +3031,11 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             widget (Gtk.MenuItem): Widget declencheur.
         """
+        _loguru_logger.debug("on_menuSelectAll_activate: entrée")
         terminal = self.find_active_terminal(self.hpMain)
         if terminal:
             self.terminal_select_all(terminal)
+        _loguru_logger.debug("on_menuSelectAll_activate: fin")
 
     def on_menuCopyAll_activate(self, widget):
         """Gestionnaire du menu Tout copier.
@@ -2876,9 +3043,11 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             widget (Gtk.MenuItem): Widget declencheur.
         """
+        _loguru_logger.debug("on_menuCopyAll_activate: entrée")
         terminal = self.find_active_terminal(self.hpMain)
         if terminal:
             self.terminal_copy_all(terminal)
+        _loguru_logger.debug("on_menuCopyAll_activate: fin")
 
     def on_menuSettings_activate(self, widget):
         """Gestionnaire du menu Parametres.
@@ -2886,7 +3055,9 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             widget (Gtk.MenuItem): Widget declencheur.
         """
+        _loguru_logger.debug("on_menuSettings_activate: entrée")
         self.open_management_tab("settings", _("Settings"), lambda: Wconfig(show=False))
+        _loguru_logger.debug("on_menuSettings_activate: fin")
 
     def on_output_written(self, terminal, data):
         """Callback VTE >= 0.60 : capture la sortie brute du terminal pour le logging.
@@ -2898,6 +3069,7 @@ class Wmain(GCMBase, Gtk.Window):
             terminal (Vte.Terminal): Terminal source du signal.
             data (GLib.Bytes): Bytes bruts recus du processus enfant.
         """
+        _loguru_logger.debug("on_output_written: entrée")
         if hasattr(terminal, "log") and terminal.log:
             try:
                 text = (
@@ -2909,6 +3081,7 @@ class Wmain(GCMBase, Gtk.Window):
                 terminal.log.flush()
             except Exception as exc:
                 _loguru_logger.debug("écriture du journal de session impossible : {}", exc)
+        _loguru_logger.debug("on_output_written: fin")
 
     def on_contents_changed(self, terminal):
         """Callback VTE < 0.60 : capture les changements de contenu pour le logging.
@@ -2919,7 +3092,9 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             terminal (Vte.Terminal): Terminal source du signal.
         """
+        _loguru_logger.debug("on_contents_changed: entrée")
         if not hasattr(terminal, "log") or not terminal.log:
+            _loguru_logger.debug("on_contents_changed: sortie")
             return
         col, row = terminal.get_cursor_position()
         if terminal.last_logged_row != row:
@@ -2930,6 +3105,7 @@ class Wmain(GCMBase, Gtk.Window):
             terminal.last_logged_col = col
             terminal.log.write(text[:-1])
             terminal.log.flush()
+        _loguru_logger.debug("on_contents_changed: fin")
 
     def _sanitize_tab_log_name(self, raw_name):
         """Nettoie le nom d'onglet pour créer un nom de fichier sûr.
@@ -2940,7 +3116,9 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             str: Nom nettoyé sans caractères incompatibles avec le système de fichiers.
         """
+        _loguru_logger.debug("_sanitize_tab_log_name: entrée")
         cleaned = _re.sub(r"[^A-Za-z0-9._-]+", "_", (raw_name or "terminal").strip())
+        _loguru_logger.debug("_sanitize_tab_log_name: sortie")
         return cleaned.strip("._-") or "terminal"
 
     def _build_terminal_log_file(self, terminal, continuous_mode=False):
@@ -2954,6 +3132,7 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             str: Chemin absolu du fichier log à utiliser.
         """
+        _loguru_logger.debug("_build_terminal_log_file: entrée")
         p = terminal.get_parent()
         title = p.get_parent().get_tab_label(p).get_text().strip() if p else "terminal"
         safe_title = self._sanitize_tab_log_name(title)
@@ -2962,11 +3141,14 @@ class Wmain(GCMBase, Gtk.Window):
             stamp = time.strftime("%Y%m%d-%H%M%S")
             filename = os.path.join(log_dir, f"{safe_title}+{stamp}+.log")
             if not os.path.exists(filename):
+                _loguru_logger.debug("_build_terminal_log_file: sortie")
                 return filename
             for i in range(1, 1000):
                 candidate = os.path.join(log_dir, f"{safe_title}+{stamp}+{i:03d}.log")
                 if not os.path.exists(candidate):
+                    _loguru_logger.debug("_build_terminal_log_file: sortie")
                     return candidate
+            _loguru_logger.debug("_build_terminal_log_file: sortie")
             return os.path.join(log_dir, f"{safe_title}+{stamp}+999.log")
 
         log_dir = os.path.expanduser(conf.LOG_PATH)
@@ -2974,7 +3156,9 @@ class Wmain(GCMBase, Gtk.Window):
         for i in range(1, 1000):
             candidate = f"{prefix}-{i:03d}.log"
             if not os.path.exists(candidate):
+                _loguru_logger.debug("_build_terminal_log_file: sortie")
                 return candidate
+        _loguru_logger.debug("_build_terminal_log_file: sortie")
         return f"{prefix}-999.log"
 
     def _close_terminal_log(self, terminal):
@@ -2986,12 +3170,14 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             None: Ferme le flux si ouvert.
         """
+        _loguru_logger.debug("_close_terminal_log: entrée")
         try:
             if hasattr(terminal, "log") and terminal.log and not terminal.log.closed:
                 terminal.log.flush()
                 terminal.log.close()
         except Exception as exc:
             _loguru_logger.debug("fermeture du journal de session impossible : {}", exc)
+        _loguru_logger.debug("_close_terminal_log: fin")
 
     def _on_terminal_child_exited(self, terminal, status, tab):
         """Gère la fin du processus enfant d'un terminal.
@@ -3004,9 +3190,11 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             None: Marque l'onglet comme fermé et ferme le log.
         """
+        _loguru_logger.debug("_on_terminal_child_exited: entrée")
         tab.mark_tab_as_closed()
         self._close_terminal_log(terminal)
         self._stop_sshfs_mount(terminal)
+        _loguru_logger.debug("_on_terminal_child_exited: fin")
 
     def _ssh_auth_wrap(self, host, cmd):
         """Prefixe une commande avec sshpass si necessaire, selon l'authentification de l'hote.
@@ -3019,10 +3207,14 @@ class Wmain(GCMBase, Gtk.Window):
             list[str] | None: Commande finale, ou None si aucune authentification
                 non-interactive n'est disponible (pas de cle, pas de sshpass).
         """
+        _loguru_logger.debug("_ssh_auth_wrap: entrée")
         if host.private_key or not host.password:
+            _loguru_logger.debug("_ssh_auth_wrap: sortie")
             return cmd
         if shutil.which("sshpass"):
+            _loguru_logger.debug("_ssh_auth_wrap: sortie")
             return ["sshpass", "-p", host.password] + cmd
+        _loguru_logger.debug("_ssh_auth_wrap: sortie")
         return None
 
     def _ensure_remote_sshfs_dir(self, host, remote_path, port):
@@ -3037,13 +3229,16 @@ class Wmain(GCMBase, Gtk.Window):
             remote_path (str): Chemin distant a creer.
             port (str): Port SSH.
         """
+        _loguru_logger.debug("_ensure_remote_sshfs_dir: entrée")
         if remote_path in ("", ".", "~"):
+            _loguru_logger.debug("_ensure_remote_sshfs_dir: sortie")
             return
         ssh_bin = shutil.which("ssh")
         if not ssh_bin:
             app_logger.warning(
                 f"SSHFS | binaire 'ssh' introuvable, mkdir distant ignoré pour host {host.name}"
             )
+            _loguru_logger.debug("_ensure_remote_sshfs_dir: sortie")
             return
         user = host.user or get_username()
         cmd = [ssh_bin, "-p", port, "-o", "ConnectTimeout=8"]
@@ -3056,6 +3251,7 @@ class Wmain(GCMBase, Gtk.Window):
                 f"SSHFS | pas de clé privée ni de sshpass disponible, "
                 f"mkdir distant ignoré pour host {host.name}.",
             )
+            _loguru_logger.debug("_ensure_remote_sshfs_dir: sortie")
             return
         try:
             subprocess.run(
@@ -3066,6 +3262,7 @@ class Wmain(GCMBase, Gtk.Window):
             app_logger.warning(
                 f"SSHFS | échec du mkdir distant {remote_path} pour host {host.name} : {exc}"
             )
+        _loguru_logger.debug("_ensure_remote_sshfs_dir: fin")
 
     def _start_sshfs_mount(self, terminal, host):
         """Monte localement le système de fichiers distant via sshfs (si activé).
@@ -3079,8 +3276,10 @@ class Wmain(GCMBase, Gtk.Window):
             terminal (Vte.Terminal): Terminal SSH associé (pour stocker l'état).
             host (Host): Hôte GCM ('ssh_sshfs_mount' doit être vrai).
         """
+        _loguru_logger.debug("_start_sshfs_mount: entrée")
         terminal.sshfs_mountpoint = None
         if not getattr(host, "ssh_sshfs_mount", False):
+            _loguru_logger.debug("_start_sshfs_mount: sortie")
             return
         real_user = get_username()
         # Valeurs par defaut si l'hote n'a pas ete re-enregistre depuis l'ajout
@@ -3098,11 +3297,13 @@ class Wmain(GCMBase, Gtk.Window):
             app_logger.warning(
                 f"SSHFS | binaire 'sshfs' introuvable, montage ignoré pour host {host.name}"
             )
+            _loguru_logger.debug("_start_sshfs_mount: sortie")
             return
         try:
             os.makedirs(local_mount, exist_ok=True)
         except OSError as exc:
             app_logger.error(f"SSHFS | impossible de créer {local_mount} : {exc}")
+            _loguru_logger.debug("_start_sshfs_mount: sortie")
             return
 
         user = host.user or get_username()
@@ -3128,6 +3329,7 @@ class Wmain(GCMBase, Gtk.Window):
                 "SSHFS | pas de clé privée ni de sshpass disponible, "
                 f"montage ignoré pour host {host.name}"
             )
+            _loguru_logger.debug("_start_sshfs_mount: sortie")
             return
 
         try:
@@ -3141,6 +3343,7 @@ class Wmain(GCMBase, Gtk.Window):
             app_logger.error(
                 f"SSHFS | échec du lancement du montage pour host {host.name} : {exc}"
             )
+        _loguru_logger.debug("_start_sshfs_mount: fin")
 
     def _stop_sshfs_mount(self, terminal):
         """Démonte (fusermount -u) un montage sshfs associé à un terminal, si présent.
@@ -3148,14 +3351,17 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             terminal (Vte.Terminal): Terminal dont la session vient de se terminer.
         """
+        _loguru_logger.debug("_stop_sshfs_mount: entrée")
         local_mount = getattr(terminal, "sshfs_mountpoint", None)
         if not local_mount:
+            _loguru_logger.debug("_stop_sshfs_mount: sortie")
             return
         umount_bin = shutil.which("fusermount3") or shutil.which("fusermount")
         if not umount_bin:
             app_logger.warning(
                 f"SSHFS | fusermount introuvable, démontage manuel requis pour {local_mount}"
             )
+            _loguru_logger.debug("_stop_sshfs_mount: sortie")
             return
         try:
             subprocess.run([umount_bin, "-u", local_mount], capture_output=True, text=True)
@@ -3163,6 +3369,7 @@ class Wmain(GCMBase, Gtk.Window):
         except Exception as exc:
             app_logger.warning(f"SSHFS | échec du démontage de {local_mount} : {exc}")
         terminal.sshfs_mountpoint = None
+        _loguru_logger.debug("_stop_sshfs_mount: fin")
 
     def set_terminal_logger(self, terminal, enable_logging=True, continuous_mode=False):
         """Active ou desactive le logging de session pour un terminal VTE.
@@ -3180,6 +3387,7 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             bool: True si l'operation a reussi, False en cas d'erreur (ex: fichier non writable).
         """
+        _loguru_logger.debug("set_terminal_logger: entrée")
         if conf.CONTINUOUS_TAB_LOG:
             continuous_mode = True
 
@@ -3208,6 +3416,7 @@ class Wmain(GCMBase, Gtk.Window):
                     )
 
             if hasattr(terminal, "log") and terminal.log and not terminal.log.closed:
+                _loguru_logger.debug("set_terminal_logger: sortie")
                 return True
 
             filename = self._build_terminal_log_file(terminal, continuous_mode=continuous_mode)
@@ -3235,14 +3444,17 @@ class Wmain(GCMBase, Gtk.Window):
                 if hasattr(terminal, "log_handler_id") and terminal.log_handler_id != 0:
                     terminal.disconnect(terminal.log_handler_id)
                     terminal.log_handler_id = 0
+                _loguru_logger.debug("set_terminal_logger: sortie")
                 return False
         else:
             if conf.CONTINUOUS_TAB_LOG:
+                _loguru_logger.debug("set_terminal_logger: sortie")
                 return True
             if hasattr(terminal, "log_handler_id") and terminal.log_handler_id != 0:
                 terminal.disconnect(terminal.log_handler_id)
                 terminal.log_handler_id = 0
             self._close_terminal_log(terminal)
+        _loguru_logger.debug("set_terminal_logger: sortie")
         return True
 
     def registerUrlRegexes(self, terminal):
@@ -3251,9 +3463,11 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             terminal (Vte.Terminal): Terminal cible.
         """
+        _loguru_logger.debug("registerUrlRegexes: entrée")
         terminal.tag_direct = self.registerUrlRegex(terminal, urlregex.DIRECT)
         terminal.tag_url = self.registerUrlRegex(terminal, urlregex.URL)
         terminal.tag_email = self.registerUrlRegex(terminal, urlregex.EMAIL)
+        _loguru_logger.debug("registerUrlRegexes: fin")
 
     def registerUrlRegex(self, terminal, regex):
         """Enregistre une expression reguliere d'URL dans le terminal.
@@ -3262,13 +3476,16 @@ class Wmain(GCMBase, Gtk.Window):
             terminal (Vte.Terminal): Terminal cible.
             regex (str): Expression reguliere.
         """
+        _loguru_logger.debug("registerUrlRegex: entrée")
         try:
             new_reg_m = Vte.Regex.new_for_match(regex, len(regex), urlregex.PCRE2_FLAGS)
             tag = terminal.match_add_regex(new_reg_m, 0)
             terminal.match_set_cursor_name(tag, "pointer")
+            _loguru_logger.debug("registerUrlRegex: sortie")
             return tag
         except Exception as exc:
             _loguru_logger.debug("expression régulière d'URL non enregistrée : {}", exc)
+        _loguru_logger.debug("registerUrlRegex: fin")
 
     def open_management_tab(self, key, title, factory):
         """Ouvre un ecran de gestion (Parametres, editeur d'hote, ...) comme
@@ -3288,11 +3505,13 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             GCMBase: L'instance ouverte (nouvelle, ou existante si reutilisee).
         """
+        _loguru_logger.debug("open_management_tab: entrée")
         existing = self._management_tabs.get(key)
         if existing is not None:
             page_num = self.nbConsole.page_num(existing)
             if page_num != -1:
                 self.nbConsole.set_current_page(page_num)
+                _loguru_logger.debug("open_management_tab: sortie")
                 return existing._gcm_owner_instance
             # Onglet reference mais plus present (etat incoherent) : on
             # oublie la reference perimee et on recree.
@@ -3316,6 +3535,7 @@ class Wmain(GCMBase, Gtk.Window):
         self._management_tabs[key] = content
 
         self.nbConsole.set_current_page(self.nbConsole.page_num(content))
+        _loguru_logger.debug("open_management_tab: sortie")
         return instance
 
     def close_management_tab(self, tab_key):
@@ -3324,8 +3544,10 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             tab_key (str): Cle logique passee a ``open_management_tab``.
         """
+        _loguru_logger.debug("close_management_tab: entrée")
         content = self._management_tabs.pop(tab_key, None)
         if content is None:
+            _loguru_logger.debug("close_management_tab: sortie")
             return
         owner = getattr(content, "_gcm_owner_instance", None)
         if owner is not None:
@@ -3341,6 +3563,7 @@ class Wmain(GCMBase, Gtk.Window):
             self.nbConsole.remove_page(page_num)
             self.nbConsole.is_closed = False
             self._pinned_tab_count = max(0, self._pinned_tab_count - 1)
+        _loguru_logger.debug("close_management_tab: fin")
 
     def addTab(self, notebook, host):
         r"""Ajoute un nouvel onglet de connexion au notebook.
@@ -3352,7 +3575,9 @@ class Wmain(GCMBase, Gtk.Window):
         # Onglet de connexion : dispatch entierement generique vers le
         # plugin enregistre sous host.protocol (cf. _open_connection_tab),
         # plus aucun protocole code en dur ici.
+        _loguru_logger.debug("addTab: entrée")
         if isinstance(host, Host):
+            _loguru_logger.debug("addTab: sortie")
             return self._open_connection_tab(notebook, host)
 
         try:
@@ -3493,6 +3718,7 @@ class Wmain(GCMBase, Gtk.Window):
         except Exception as e:
             app_logger.exception(f"Erreur de connexion serveur: {e}")
             msgbox("%s: %s" % (_("Error connecting to server"), sys.exc_info()[1]))
+        _loguru_logger.debug("addTab: fin")
 
     def send_data(self, terminal, data):
         """Envoie des données au terminal actif.
@@ -3501,7 +3727,9 @@ class Wmain(GCMBase, Gtk.Window):
             terminal (Vte.Terminal): Terminal cible.
             data (str): Données à envoyer.
         """
+        _loguru_logger.debug("send_data: entrée")
         vte_feed(terminal, "%s\r" % data)
+        _loguru_logger.debug("send_data: sortie")
         return False
 
     def initLeftPane(self):
@@ -3510,6 +3738,7 @@ class Wmain(GCMBase, Gtk.Window):
         # col 0=name, 1=host_obj, 2=stock_id(connexion), 3=bg_color, 4=proto_icon_name,
         # 5=fg_color (couleur de groupe, features.md §4.2 — None = pas de
         # surcharge, laisse la couleur de texte par defaut du theme)
+        _loguru_logger.debug("initLeftPane: entrée")
         self.treeModel = Gtk.TreeStore(
             GObject.TYPE_STRING, GObject.TYPE_PYOBJECT, str, str, str, str
         )
@@ -3558,6 +3787,7 @@ class Wmain(GCMBase, Gtk.Window):
         self.treeServers.connect("query-tooltip", self.on_treeServers_tooltip)
         self.loadConfig()
         self.updateTree()
+        _loguru_logger.debug("initLeftPane: fin")
 
     def on_treeServers_tooltip(self, widget, x, y, keyboard, tooltip):
         r"""Gestionnaire d\'affichage du tooltip de l\'arbre des serveurs.
@@ -3572,6 +3802,7 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             bool: True pour afficher le tooltip.
         """
+        _loguru_logger.debug("on_treeServers_tooltip: entrée")
         x, y = widget.convert_widget_to_bin_window_coords(x, y)
         pos = widget.get_path_at_pos(x, y)
         if pos:
@@ -3585,7 +3816,9 @@ class Wmain(GCMBase, Gtk.Window):
                     host.description,
                 )
                 tooltip.set_markup(text)
+                _loguru_logger.debug("on_treeServers_tooltip: sortie")
                 return True
+        _loguru_logger.debug("on_treeServers_tooltip: sortie")
         return False
 
     def add_shortcut(self, cp, scuts, command, name, default):
@@ -3598,14 +3831,17 @@ class Wmain(GCMBase, Gtk.Window):
             name (str): Nom du raccourci.
             default (str): Valeur par défaut.
         """
+        _loguru_logger.debug("add_shortcut: entrée")
         try:
             scuts[cp.get("shortcuts", command)] = name
         except BaseException as exc:
             _loguru_logger.debug("raccourci {} illisible, valeur par défaut : {}", command, exc)
             scuts[default] = name
+        _loguru_logger.debug("add_shortcut: fin")
 
     def loadConfig(self):
         """Charge la configuration depuis le fichier INI."""
+        _loguru_logger.debug("loadConfig: entrée")
         global groups
 
         cp = configparser.RawConfigParser()
@@ -3614,15 +3850,21 @@ class Wmain(GCMBase, Gtk.Window):
         # Leer configuracion general — lecture option par option avec défaut
         # pour ne pas bloquer au premier champ manquant (ancien fichier de config)
         def _gopt(section, key, default, typ=str):
+            _loguru_logger.debug("Wmain._gopt: entrée")
             try:
                 if typ == bool:
+                    _loguru_logger.debug("Wmain._gopt: sortie")
                     return cp.getboolean(section, key)
                 if typ == int:
+                    _loguru_logger.debug("Wmain._gopt: sortie")
                     return cp.getint(section, key)
+                _loguru_logger.debug("Wmain._gopt: sortie")
                 return cp.get(section, key)
             except Exception as exc:
                 _loguru_logger.debug("option {!r} hors du fichier de config : {}", str(key), exc)
+                _loguru_logger.debug("Wmain._gopt: sortie")
                 return default
+            _loguru_logger.debug("Wmain._gopt: fin")
 
         conf.WORD_SEPARATORS = _gopt("options", "word-separators", conf.WORD_SEPARATORS)
         conf.BUFFER_LINES = _gopt("options", "buffer-lines", conf.BUFFER_LINES, int)
@@ -3782,6 +4024,7 @@ class Wmain(GCMBase, Gtk.Window):
                     groups[g] = []
         except Exception as exc:
             _loguru_logger.debug("noms de groupes vides non parsés : {}", exc)
+        _loguru_logger.debug("loadConfig: fin")
 
     def is_node_collapsed(self, model, path, iter, nodes):
         """Indique si un noeud de l'arbre est reduit.
@@ -3795,8 +4038,10 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             bool: True si le noeud est reduit, False sinon.
         """
+        _loguru_logger.debug("is_node_collapsed: entrée")
         if self.treeModel.get_value(iter, 1) is None and not self.treeServers.row_expanded(path):
             nodes.append(self.treeModel.get_string_from_iter(iter))
+        _loguru_logger.debug("is_node_collapsed: fin")
 
     def get_collapsed_nodes(self):
         """Retourne la liste des noeuds reduits de l'arbre.
@@ -3804,28 +4049,35 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             list[str]: Chemins des noeuds reduits.
         """
+        _loguru_logger.debug("get_collapsed_nodes: entrée")
         nodes = []
         self.treeModel.foreach(self.is_node_collapsed, nodes)
+        _loguru_logger.debug("get_collapsed_nodes: sortie")
         return nodes
 
     # ── Drag & drop ───────────────────────────────────────────────────────────
 
     def _on_tree_drag_data_get(self, widget, context, selection, info, time):
         """Fournit le chemin de la ligne source lors d'un drag."""
+        _loguru_logger.debug("_on_tree_drag_data_get: entrée")
         model, it = self.treeServers.get_selection().get_selected()
         if it is None:
+            _loguru_logger.debug("_on_tree_drag_data_get: sortie")
             return
         path = model.get_string_from_iter(it)
         selection.set(selection.get_target(), 8, path.encode())
+        _loguru_logger.debug("_on_tree_drag_data_get: fin")
 
     def _on_tree_drag_data_received(self, widget, context, x, y, selection, info, time):
         """Reçoit les données drop et déplace l'hôte ou le groupe."""
+        _loguru_logger.debug("_on_tree_drag_data_received: entrée")
         src_path_str = selection.get_data().decode()
         try:
             src_it = self.treeModel.get_iter_from_string(src_path_str)
         except (ValueError, RuntimeError) as exc:
             _loguru_logger.debug("chemin source {!r} invalide, annulé : {}", src_path_str, exc)
             Gdk.drag_status(context, 0, time)
+            _loguru_logger.debug("_on_tree_drag_data_received: sortie")
             return
 
         src_host = self.treeModel.get_value(src_it, 1)  # None = dossier
@@ -3835,16 +4087,19 @@ class Wmain(GCMBase, Gtk.Window):
         # Groupe source
         def _full_group(it):
             """Construit le chemin complet group/subgroup depuis un iter."""
+            _loguru_logger.debug("Wmain._full_group: entrée")
             parts = []
             cur = it
             while cur:
                 parts.insert(0, self.treeModel.get_value(cur, 0))
                 cur = self.treeModel.iter_parent(cur)
+            _loguru_logger.debug("Wmain._full_group: sortie")
             return "/".join(parts)
 
         drop_info = self.treeServers.get_dest_row_at_pos(x, y)
         if drop_info is None:
             Gdk.drag_status(context, 0, time)
+            _loguru_logger.debug("_on_tree_drag_data_received: sortie")
             return
         dest_path_gtk, drop_pos = drop_info
         try:
@@ -3852,6 +4107,7 @@ class Wmain(GCMBase, Gtk.Window):
         except Exception as exc:
             _loguru_logger.debug("chemin destination invalide, glisser annulé : {}", exc)
             Gdk.drag_status(context, 0, time)
+            _loguru_logger.debug("_on_tree_drag_data_received: sortie")
             return
 
         dest_host = self.treeModel.get_value(dest_it, 1)
@@ -3879,6 +4135,7 @@ class Wmain(GCMBase, Gtk.Window):
                 except StopIteration as exc:
                     _loguru_logger.debug("hôte source introuvable, glisser annulé : {}", exc)
                     Gdk.drag_status(context, 0, time)
+                    _loguru_logger.debug("_on_tree_drag_data_received: sortie")
                     return
                 lst.pop(idx_src)
                 if dest_host is not None:
@@ -3910,6 +4167,7 @@ class Wmain(GCMBase, Gtk.Window):
             context.finish(True, True, time)
             self.updateTree()
             self.writeConfig()
+            _loguru_logger.debug("_on_tree_drag_data_received: sortie")
             return
 
         # ── Dossier / groupe → autre dossier (devient enfant) ────────────────
@@ -3925,11 +4183,13 @@ class Wmain(GCMBase, Gtk.Window):
                     dest_full = _full_group(dest_parent)
                 else:
                     Gdk.drag_status(context, 0, time)
+                    _loguru_logger.debug("_on_tree_drag_data_received: sortie")
                     return
 
             # Pas de déplacement sur soi-même ou sur un descendant
             if dest_full == src_full or dest_full.startswith(src_full + "/"):
                 Gdk.drag_status(context, 0, time)
+                _loguru_logger.debug("_on_tree_drag_data_received: sortie")
                 return
 
             src_leaf = src_full.split("/")[-1]
@@ -3943,6 +4203,7 @@ class Wmain(GCMBase, Gtk.Window):
                     )
                 )
                 Gdk.drag_status(context, 0, time)
+                _loguru_logger.debug("_on_tree_drag_data_received: sortie")
                 return
 
             # Renommer toutes les clés src_full et src_full/...
@@ -3961,17 +4222,21 @@ class Wmain(GCMBase, Gtk.Window):
             context.finish(True, True, time)
             self.updateTree()
             self.writeConfig()
+            _loguru_logger.debug("_on_tree_drag_data_received: sortie")
             return
 
         Gdk.drag_status(context, 0, time)
+        _loguru_logger.debug("_on_tree_drag_data_received: fin")
 
     def set_collapsed_nodes(self):
         """Applique l'etat reduit/etendu aux noeuds de l'arbre."""
+        _loguru_logger.debug("set_collapsed_nodes: entrée")
         self.treeServers.expand_all()
         if self.treeModel.get_iter_first():
             for node in conf.COLLAPSED_FOLDERS.split(","):
                 if node != "":
                     self.treeServers.collapse_row(Gtk.TreePath.new_from_string(node))
+        _loguru_logger.debug("set_collapsed_nodes: fin")
 
     def servers_background_color(self):
         """Retourne la couleur de fond de la liste des serveurs.
@@ -3979,14 +4244,17 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             Gdk.RGBA: Couleur de fond.
         """
+        _loguru_logger.debug("servers_background_color: entrée")
         self.color_index += 1
         unevenColor = self.color_back1 if conf.DISABLE_HOSTS_STRIPES else self.color_back2
+        _loguru_logger.debug("servers_background_color: sortie")
         return self.color_back1 if self.color_index % 2 else unevenColor
 
     def updateTree(self):
         """Met a jour l'arbre des serveurs depuis la configuration."""
         # Ne pas supprimer les groupes vides — ils sont des dossiers valides
         # (on retire seulement les None/clés vides générés par erreur)
+        _loguru_logger.debug("updateTree: entrée")
         for grupo in list(groups.keys()):
             if grupo is None or grupo == "":
                 del groups[grupo]
@@ -4003,9 +4271,12 @@ class Wmain(GCMBase, Gtk.Window):
 
         def _proto_icon(proto):
             """Retourne l'icon-name declare par le plugin de ce protocole."""
+            _loguru_logger.debug("Wmain._proto_icon: entrée")
             plugin = self.plugin_registry.get(proto or "ssh")
             if plugin is not None and plugin.icon_name:
+                _loguru_logger.debug("Wmain._proto_icon: sortie")
                 return plugin.icon_name
+            _loguru_logger.debug("Wmain._proto_icon: sortie")
             return "network-workstation"
 
         for grupo in grupos:
@@ -4038,6 +4309,7 @@ class Wmain(GCMBase, Gtk.Window):
         self.set_collapsed_nodes()
         conf.COLLAPSED_FOLDERS = None
         self.update_row_color()
+        _loguru_logger.debug("updateTree: fin")
 
     def update_row_color(self, node=None):
         # custom method to get alternating row colors in treeview, as that is not
@@ -4047,6 +4319,7 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             node (Gtk.TreeIter, optional): Noeud de depart (None = racine).
         """
+        _loguru_logger.debug("update_row_color: entrée")
         if not node:
             self.color_index = 0
             # fix: get_background_color deprecie — utiliser lookup_color() avec fallback
@@ -4077,6 +4350,7 @@ class Wmain(GCMBase, Gtk.Window):
             self.treeModel[i][3] = self.servers_background_color()
             self.update_row_color(i)
             i = self.treeModel.iter_next(i)
+        _loguru_logger.debug("update_row_color: fin")
 
     def get_folder(self, obj, folder, path):
         """Retourne l'iterateur de l'arbre pour un dossier donne.
@@ -4089,18 +4363,24 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             Gtk.TreeIter or None: Iterateur du dossier.
         """
+        _loguru_logger.debug("get_folder: entrée")
         if not obj:
+            _loguru_logger.debug("get_folder: sortie")
             return None
         for row in obj:
             if path == folder + "/" + row[0]:
+                _loguru_logger.debug("get_folder: sortie")
                 return row
             i = self.get_folder(row.iterchildren(), folder + "/" + row[0], path)
             if i:
+                _loguru_logger.debug("get_folder: sortie")
                 return i
+        _loguru_logger.debug("get_folder: fin")
 
     def writeConfig(self):
         """Sauvegarde la configuration courante dans le fichier INI."""
 
+        _loguru_logger.debug("writeConfig: entrée")
         cp = configparser.RawConfigParser()
         cp.read(CONFIG_FILE + ".tmp")
 
@@ -4213,6 +4493,7 @@ class Wmain(GCMBase, Gtk.Window):
         cp.write(f)
         f.close()
         os.rename(CONFIG_FILE + ".tmp", CONFIG_FILE)
+        _loguru_logger.debug("writeConfig: fin")
 
     def on_tab_scroll(self, notebook, event):
         # According to https://sourcecodequery.com/example-method/Gdk.Event.get_scroll_deltas
@@ -4228,6 +4509,7 @@ class Wmain(GCMBase, Gtk.Window):
             notebook (Gtk.Notebook): Notebook cible.
             event (Gdk.EventScroll): Evenement molette.
         """
+        _loguru_logger.debug("on_tab_scroll: entrée")
         gsdir = event.get_scroll_direction()
 
         # Note: https://api.gtkd.org/gdk.Event.Event.getScrollDeltas.html
@@ -4267,6 +4549,7 @@ class Wmain(GCMBase, Gtk.Window):
                 notebook.set_current_page(0)
             else:
                 notebook.next_page()
+        _loguru_logger.debug("on_tab_scroll: fin")
 
     def on_tab_focus(self, widget, tab=None, *args):
         """Gestionnaire de prise de focus d'un onglet.
@@ -4276,6 +4559,7 @@ class Wmain(GCMBase, Gtk.Window):
             tab: Onglet ciblé.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_tab_focus: entrée")
         if isinstance(widget, Vte.Terminal):
             self.current = widget
         if conf.UPDATE_TITLE and widget is not None:
@@ -4293,6 +4577,7 @@ class Wmain(GCMBase, Gtk.Window):
                 self.wMain.set_title("%s - %s" % (conf.APP_TITLE or app_name, tab_text.strip()))
             else:
                 self.wMain.set_title(conf.APP_TITLE or app_name)
+        _loguru_logger.debug("on_tab_focus: fin")
 
     def split_notebook(self, direction):
         """Divise le notebook courant.
@@ -4300,6 +4585,7 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             direction (str): Direction de division ("h" ou "v").
         """
+        _loguru_logger.debug("split_notebook: entrée")
         csp = self.current.get_parent() if self.current is not None else None
         cnb = csp.get_parent() if csp is not None else None
 
@@ -4362,6 +4648,7 @@ class Wmain(GCMBase, Gtk.Window):
             hp.queue_draw()
             self.current = cnb.get_nth_page(cnb.get_current_page()).get_children()[0]
             self.on_tab_focus(cnb, cnb.get_nth_page(cnb.get_current_page()))
+        _loguru_logger.debug("split_notebook: fin")
 
     def find_notebook(self, widget, exclude=None):
         """Trouve le notebook contenant le widget.
@@ -4373,16 +4660,22 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             Gtk.Notebook: Notebook trouvé, ou None.
         """
+        _loguru_logger.debug("find_notebook: entrée")
         if widget != exclude and isinstance(widget, Gtk.Notebook):
+            _loguru_logger.debug("find_notebook: sortie")
             return widget
         else:
             if not hasattr(widget, "get_children"):
+                _loguru_logger.debug("find_notebook: sortie")
                 return None
             for w in widget.get_children():
                 wid = self.find_notebook(w, exclude)
                 if wid != exclude and isinstance(wid, Gtk.Notebook):
+                    _loguru_logger.debug("find_notebook: sortie")
                     return wid
+            _loguru_logger.debug("find_notebook: sortie")
             return None
+        _loguru_logger.debug("find_notebook: fin")
 
     def find_active_terminal(self, widget):
         """Retourne le terminal actif dans le notebook courant.
@@ -4393,17 +4686,23 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             Vte.Terminal or None: Terminal actif.
         """
+        _loguru_logger.debug("find_active_terminal: entrée")
         if isinstance(widget, Vte.Terminal) and widget.is_focus():
+            _loguru_logger.debug("find_active_terminal: sortie")
             return widget
         else:
             if not hasattr(widget, "get_children"):
+                _loguru_logger.debug("find_active_terminal: sortie")
                 return None
 
             for w in widget.get_children():
                 wid = self.find_active_terminal(w)
                 if isinstance(wid, Vte.Terminal) and wid.is_focus():
+                    _loguru_logger.debug("find_active_terminal: sortie")
                     return wid
+            _loguru_logger.debug("find_active_terminal: sortie")
             return None
+        _loguru_logger.debug("find_active_terminal: fin")
 
     def check_notebook_pages(self, widget):
         """Verifie et ajuste l'etat des onglets du notebook.
@@ -4411,10 +4710,12 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             widget: Parametre widget.
         """
+        _loguru_logger.debug("check_notebook_pages: entrée")
         if widget.get_n_pages() == 0:
             # eliminar el notebook solo si queda otro notebook y no quedan tabs en el actual
             paned = widget.get_parent()
             if paned is None or paned == self.hpMain:
+                _loguru_logger.debug("check_notebook_pages: sortie")
                 return
             container = paned.get_parent()
             save = paned.get_child2() if paned.get_child1() == widget else paned.get_child1()
@@ -4428,6 +4729,7 @@ class Wmain(GCMBase, Gtk.Window):
                     self.nbConsole = self.find_notebook(save)
             p = self.nbConsole.get_current_page()
             self.on_tab_focus(self.nbConsole, self.nbConsole.get_nth_page(p), p)
+        _loguru_logger.debug("check_notebook_pages: fin")
 
     def on_page_removed(self, widget, *args):
         """Gestionnaire de suppression d'une page du notebook.
@@ -4436,6 +4738,7 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Notebook): Notebook source.
             *args: Arguments supplémentaires (ignorés).
         """
+        _loguru_logger.debug("on_page_removed: entrée")
         child = args[0] if args else None
         # Les onglets de gestion epingles (Parametres, ...) ne sont pas des
         # sessions : ils ne doivent pas compter dans la confirmation de
@@ -4453,6 +4756,7 @@ class Wmain(GCMBase, Gtk.Window):
             # save a reference to this notebook, on_page_added check if the notebook
             # must be removed
             self.check_notebook = widget
+        _loguru_logger.debug("on_page_removed: fin")
 
     def on_page_added(self, widget, *args):
         """Gestionnaire d'ajout d'une page au notebook.
@@ -4461,12 +4765,14 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Notebook): Notebook source.
             *args: Arguments supplémentaires (ignorés).
         """
+        _loguru_logger.debug("on_page_added: entrée")
         child = args[0] if args else None
         if not getattr(child, "_gcm_management_tab", False):
             self.count += 1
         if hasattr(self, "check_notebook"):
             self.check_notebook_pages(self.check_notebook)
             delattr(self, "check_notebook")
+        _loguru_logger.debug("on_page_added: fin")
 
     def show_save_buffer(self, terminal):
         """Affiche une boite de dialogue pour sauvegarder le buffer du terminal.
@@ -4474,6 +4780,7 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             terminal (Vte.Terminal): Terminal source.
         """
+        _loguru_logger.debug("show_save_buffer: entrée")
         dlg = Gtk.FileChooserDialog(
             title=_("Save as"),
             parent=self.wMain,
@@ -4510,9 +4817,11 @@ class Wmain(GCMBase, Gtk.Window):
                 _loguru_logger.error("écriture du tampon vers {} impossible : {}", filename, exc)
                 dlg.destroy()
                 msgbox("%s: %s" % (_("Can't open file for writting"), filename))
+                _loguru_logger.debug("show_save_buffer: sortie")
                 return
 
         dlg.destroy()
+        _loguru_logger.debug("show_save_buffer: fin")
 
     def set_panel_visible(self, visibility):
         """Affiche ou cache le panneau gauche.
@@ -4520,6 +4829,7 @@ class Wmain(GCMBase, Gtk.Window):
         Args:
             visibility (bool): True pour afficher, False pour cacher.
         """
+        _loguru_logger.debug("set_panel_visible: entrée")
         if visibility:
             GLib.timeout_add(
                 200,
@@ -4541,6 +4851,7 @@ class Wmain(GCMBase, Gtk.Window):
             if action is not None:
                 action.set_state(GLib.Variant.new_boolean(visibility))
         conf.SHOW_PANEL = visibility
+        _loguru_logger.debug("set_panel_visible: fin")
 
     # -- Wmain custom methods }
 
@@ -4552,8 +4863,10 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Widget): Widget source.
             *args: Arguments additionnels (ignorés).
         """
+        _loguru_logger.debug("on_wMain_destroy: entrée")
         self.writeConfig()
         Gtk.main_quit()
+        _loguru_logger.debug("on_wMain_destroy: fin")
 
     # -- Wmain.on_wMain_destroy }
 
@@ -4565,6 +4878,7 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Widget): Widget source.
             *args: Arguments additionnels (ignorés).
         """
+        _loguru_logger.debug("on_wMain_delete_event: entrée")
         conf.WINDOW_WIDTH, conf.WINDOW_HEIGHT = self.get_widget("wMain").get_size()
         if (
             conf.CONFIRM_ON_EXIT
@@ -4579,7 +4893,9 @@ class Wmain(GCMBase, Gtk.Window):
             )
             != Gtk.ResponseType.OK
         ):
+            _loguru_logger.debug("on_wMain_delete_event: sortie")
             return True
+        _loguru_logger.debug("on_wMain_delete_event: fin")
 
     # -- Wmain.on_wMain_delete_event }
 
@@ -4591,11 +4907,13 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.MenuItem): Widget declencheur.
             *args: Arguments supplémentaires (ignorés).
         """
+        _loguru_logger.debug("on_guardar_como1_activate: entrée")
         term = self.find_active_terminal(self.hpMain)
         if term is None:
             term = self.current
         if term is not None:
             self.show_save_buffer(term)
+        _loguru_logger.debug("on_guardar_como1_activate: fin")
 
     # -- Wmain.on_guardar_como1_activate }
 
@@ -4607,12 +4925,14 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.MenuItem): Widget declencheur.
             *args: Arguments supplémentaires (ignorés).
         """
+        _loguru_logger.debug("on_importar_servidores1_activate: entrée")
         filename = show_open_dialog(
             parent=self.wMain, title=_("Open"), action=Gtk.FileChooserAction.OPEN
         )
         if filename is not None:
             password = inputbox(_("Import Servers"), _("Enter password"), password=True)
             if password is None:
+                _loguru_logger.debug("on_importar_servidores1_activate: sortie")
                 return
 
             # abrir archivo con lista de servers y cargarlos en el arbol
@@ -4624,12 +4944,14 @@ class Wmain(GCMBase, Gtk.Window):
                 s = decrypt(password, cp.get("gcm", "gcm"))
                 if s != password[::-1]:
                     msgbox(_("Invalid password"))
+                    _loguru_logger.debug("on_importar_servidores1_activate: sortie")
                     return
 
                 if (
                     msgconfirm(_("Server list will be overwritten, continue?"))
                     != Gtk.ResponseType.OK
                 ):
+                    _loguru_logger.debug("on_importar_servidores1_activate: sortie")
                     return
 
                 grupos = {}
@@ -4645,12 +4967,14 @@ class Wmain(GCMBase, Gtk.Window):
             except BaseException as exc:
                 _loguru_logger.warning("fichier d'hôtes invalide : {}", exc)
                 msgbox(_("Invalid file"))
+                _loguru_logger.debug("on_importar_servidores1_activate: sortie")
                 return
             # sobreescribir lista de hosts
             global groups
             groups = grupos
 
             self.updateTree()
+        _loguru_logger.debug("on_importar_servidores1_activate: fin")
 
     # -- Wmain.on_importar_servidores1_activate }
 
@@ -4662,6 +4986,7 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.MenuItem): Widget declencheur.
             *args: Arguments supplémentaires (ignorés).
         """
+        _loguru_logger.debug("on_exportar_servidores1_activate: entrée")
         filename = show_open_dialog(
             parent=self.wMain,
             title=_("Save as"),
@@ -4670,6 +4995,7 @@ class Wmain(GCMBase, Gtk.Window):
         if filename is not None:
             password = inputbox(_("Export Servers"), _("Enter password"), password=True)
             if password is None:
+                _loguru_logger.debug("on_exportar_servidores1_activate: sortie")
                 return
 
             try:
@@ -4691,6 +5017,7 @@ class Wmain(GCMBase, Gtk.Window):
             except BaseException as exc:
                 _loguru_logger.warning("export des hôtes impossible : {}", exc)
                 msgbox(_("Invalid file"))
+        _loguru_logger.debug("on_exportar_servidores1_activate: fin")
 
     # -- Wmain.on_exportar_servidores1_activate }
 
@@ -4702,9 +5029,11 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Widget): Widget source.
             *args: Arguments additionnels (ignorés).
         """
+        _loguru_logger.debug("on_salir1_activate: entrée")
         conf.WINDOW_WIDTH, conf.WINDOW_HEIGHT = self.get_widget("wMain").get_size()
         self.writeConfig()
         Gtk.main_quit()
+        _loguru_logger.debug("on_salir1_activate: fin")
 
     # -- Wmain.on_salir1_activate }
 
@@ -4716,7 +5045,9 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.CheckMenuItem): Widget declencheur.
             *args: Arguments supplémentaires (ignorés).
         """
+        _loguru_logger.debug("on_show_panel_toggled: entrée")
         self.set_panel_visible(widget.get_active())
+        _loguru_logger.debug("on_show_panel_toggled: fin")
 
     # -- Wmain.on_show_panel_activate }
 
@@ -4728,7 +5059,9 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Widget): Widget source.
             *args: Arguments additionnels (ignorés).
         """
+        _loguru_logger.debug("on_acerca_de1_activate: entrée")
         w_about = Wabout()  # noqa: F841
+        _loguru_logger.debug("on_acerca_de1_activate: fin")
 
     # -- Wmain.on_acerca_de1_activate }
 
@@ -4741,6 +5074,7 @@ class Wmain(GCMBase, Gtk.Window):
             event (Gdk.EventButton): Evenement souris.
             *args: Arguments supplémentaires (ignorés).
         """
+        _loguru_logger.debug("on_double_click: entrée")
         if (
             event.type in [Gdk.EventType._2BUTTON_PRESS, Gdk.EventType._3BUTTON_PRESS]
             and event.button == 1
@@ -4753,6 +5087,7 @@ class Wmain(GCMBase, Gtk.Window):
                 # fix #64: vérifier aussi Y — si clic sous la barre d'onglets, c'est dans
                 # le terminal (MC, etc.)
                 if event.y > size.height + 8:
+                    _loguru_logger.debug("on_double_click: sortie")
                     return False
                 if (
                     pos <= size.x + size.width + 8
@@ -4760,14 +5095,18 @@ class Wmain(GCMBase, Gtk.Window):
                     >= widget.get_allocation().width
                     - widget.style_get_property("scroll-arrow-hlength")
                 ):
+                    _loguru_logger.debug("on_double_click: sortie")
                     return True
             if (
                 isinstance(widget, Gtk.Toolbar)
                 and widget.get_drop_index(event.x, event.y) < widget.get_n_items()
             ):
+                _loguru_logger.debug("on_double_click: sortie")
                 return True
             self.addTab(widget if isinstance(widget, Gtk.Notebook) else self.nbConsole, "local")
+            _loguru_logger.debug("on_double_click: sortie")
             return True
+        _loguru_logger.debug("on_double_click: fin")
 
     # -- Wmain.on_double_click }
 
@@ -4779,6 +5118,7 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Widget): Widget source.
             *args: Arguments additionnels (ignorés).
         """
+        _loguru_logger.debug("on_btnLocal_clicked: entrée")
         if (
             self.current is not None
             and self.current.get_parent() is not None
@@ -4788,6 +5128,7 @@ class Wmain(GCMBase, Gtk.Window):
         else:
             ntbk = self.nbConsole
         self.addTab(ntbk, "local")
+        _loguru_logger.debug("on_btnLocal_clicked: fin")
 
     # -- Wmain.on_btnLocal_clicked }
 
@@ -4799,6 +5140,7 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Widget): Widget source.
             *args: Arguments additionnels (ignorés).
         """
+        _loguru_logger.debug("on_btnConnect_clicked: entrée")
         if self.treeServers.get_selection().get_selected()[1] is not None:
             if not self.treeModel.iter_has_child(
                 self.treeServers.get_selection().get_selected()[1]
@@ -4815,12 +5157,14 @@ class Wmain(GCMBase, Gtk.Window):
                     if g == group or g.startswith(group + "/"):
                         for host in groups[g]:
                             self.addTab(self.nbConsole, host)
+        _loguru_logger.debug("on_btnConnect_clicked: fin")
 
     # -- Wmain.on_btnConnect_clicked }
 
     # -- Wmain.on_btnAdd_clicked {
     def on_btnAdd_clicked(self, widget, *args):
         """Gestionnaire du bouton Ajouter un hote."""
+        _loguru_logger.debug("on_btnAdd_clicked: entrée")
         group = ""
         if self.treeServers.get_selection().get_selected()[1] is not None:
             selected = self.treeServers.get_selection().get_selected()[1]
@@ -4841,16 +5185,20 @@ class Wmain(GCMBase, Gtk.Window):
             else:
                 group = inputbox(_("Add Host"), _("Group name:"), "HOSTS")
                 if not group:
+                    _loguru_logger.debug("on_btnAdd_clicked: sortie")
                     return
                 group = group.strip()
 
         def _factory():
+            _loguru_logger.debug("Wmain._factory: entrée")
             inst = Whost(show=False)
             inst.init(group)
+            _loguru_logger.debug("Wmain._factory: sortie")
             return inst
 
         wHost = self.open_management_tab("host:__new__", _("New host"), _factory)  # noqa: F841
         self.updateTree()
+        _loguru_logger.debug("on_btnAdd_clicked: fin")
 
     # -- Wmain.on_btnAdd_clicked }
 
@@ -4863,13 +5211,17 @@ class Wmain(GCMBase, Gtk.Window):
         Returns:
             str: Nom du groupe selectionne ou chaine vide.
         """
+        _loguru_logger.debug("get_group: entrée")
         if self.treeModel.iter_parent(i):
             p = self.get_group(self.treeModel.iter_parent(i))
+            _loguru_logger.debug("get_group: sortie")
             return (p + "/" if p != "" else "") + self.treeModel.get_value(
                 self.treeModel.iter_parent(i), 0
             )
         else:
+            _loguru_logger.debug("get_group: sortie")
             return ""
+        _loguru_logger.debug("get_group: fin")
 
     # -- Wmain.on_bntEdit_clicked {
     def on_bntEdit_clicked(self, widget, *args):
@@ -4879,6 +5231,7 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_bntEdit_clicked: entrée")
         if self.treeServers.get_selection().get_selected()[
             1
         ] is not None and not self.treeModel.iter_has_child(
@@ -4889,12 +5242,15 @@ class Wmain(GCMBase, Gtk.Window):
             key = "host:%s/%s" % (host.group, host.name)  # noqa: F841
 
             def _factory(host=host):
+                _loguru_logger.debug("_factory: entrée")
                 inst = Whost(show=False)
                 inst.init(host.group, host)
+                _loguru_logger.debug("_factory: sortie")
                 return inst
 
             wHost = self.open_management_tab(key, host.name, _factory)  # noqa: F841
-            # self.updateTree()
+        _loguru_logger.debug("on_bntEdit_clicked: fin")
+        # self.updateTree()
 
     # -- Wmain.on_bntEdit_clicked }
 
@@ -4906,6 +5262,7 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnDel_clicked: entrée")
         if self.treeServers.get_selection().get_selected()[1] is not None:
             if not self.treeModel.iter_has_child(
                 self.treeServers.get_selection().get_selected()[1]
@@ -4949,6 +5306,7 @@ class Wmain(GCMBase, Gtk.Window):
                             del groups[h]
                     self.updateTree()
         self.writeConfig()
+        _loguru_logger.debug("on_btnDel_clicked: fin")
 
     # -- Wmain.on_btnDel_clicked }
 
@@ -4956,32 +5314,41 @@ class Wmain(GCMBase, Gtk.Window):
 
     def _selected_folder_path(self):
         """Retourne le chemin complet du dossier sélectionné (ou None si hôte/rien)."""
+        _loguru_logger.debug("_selected_folder_path: entrée")
         sel = self.treeServers.get_selection().get_selected()[1]
         if sel is None:
+            _loguru_logger.debug("_selected_folder_path: sortie")
             return None
         if not self.treeModel.iter_has_child(sel):
             # hôte sélectionné → on prend son groupe parent
             sel = self.treeModel.iter_parent(sel)
             if sel is None:
+                _loguru_logger.debug("_selected_folder_path: sortie")
                 return None
+        _loguru_logger.debug("_selected_folder_path: sortie")
         return self._iter_full_path(sel)
 
     def _iter_full_path(self, it):
         """Construit le chemin complet d'un iter (ex: LINUX/debian)."""
+        _loguru_logger.debug("_iter_full_path: entrée")
         parts = []
         cur = it
         while cur:
             parts.insert(0, self.treeModel.get_value(cur, 0))
             cur = self.treeModel.iter_parent(cur)
+        _loguru_logger.debug("_iter_full_path: sortie")
         return "/".join(parts)
 
     def _on_new_group_clicked(self, widget, *args):
         """Crée un nouveau groupe, enfant du groupe sélectionné si applicable."""
+        _loguru_logger.debug("_on_new_group_clicked: entrée")
         name = inputbox(_("New Group"), _("Group name:"))
         if not name:
+            _loguru_logger.debug("_on_new_group_clicked: sortie")
             return
         name = name.strip().strip("/")
         if not name:
+            _loguru_logger.debug("_on_new_group_clicked: sortie")
             return
 
         # Déterminer le parent
@@ -4999,16 +5366,20 @@ class Wmain(GCMBase, Gtk.Window):
 
         if full_name in groups:
             msgbox(_("Group '{full_name}' already exists.").format(full_name=full_name))
+            _loguru_logger.debug("_on_new_group_clicked: sortie")
             return
 
         groups[full_name] = []
         self.updateTree()
         self.writeConfig()
+        _loguru_logger.debug("_on_new_group_clicked: fin")
 
     def _on_rename_group_clicked(self, widget, *args):
         """Renomme le groupe sélectionné (et tous ses sous-groupes et hôtes enfants)."""
+        _loguru_logger.debug("_on_rename_group_clicked: entrée")
         sel = self.treeServers.get_selection().get_selected()[1]
         if sel is None or not self.treeModel.iter_has_child(sel):
+            _loguru_logger.debug("_on_rename_group_clicked: sortie")
             return
 
         old_full = self._iter_full_path(sel)
@@ -5016,6 +5387,7 @@ class Wmain(GCMBase, Gtk.Window):
         old_leaf = self.treeModel.get_value(sel, 0)
         new_leaf = inputbox(_("Rename Group"), _("New name:"), old_leaf)
         if not new_leaf or new_leaf.strip() == old_leaf:
+            _loguru_logger.debug("_on_rename_group_clicked: sortie")
             return
         new_leaf = new_leaf.strip().strip("/")
 
@@ -5026,6 +5398,7 @@ class Wmain(GCMBase, Gtk.Window):
 
         if new_full in groups and new_full != old_full:
             msgbox(_("Group '{new_full}' already exists.").format(new_full=new_full))
+            _loguru_logger.debug("_on_rename_group_clicked: sortie")
             return
 
         # Renommer dans groups : clé principale + tous les sous-groupes
@@ -5055,6 +5428,7 @@ class Wmain(GCMBase, Gtk.Window):
 
         self.updateTree()
         self.writeConfig()
+        _loguru_logger.debug("_on_rename_group_clicked: fin")
 
     def _on_group_color_clicked(self, widget, *args):
         """Ouvre un sélecteur de couleur pour le dossier sélectionné.
@@ -5064,8 +5438,10 @@ class Wmain(GCMBase, Gtk.Window):
         sous-dossiers/hôtes sans couleur propre — voir
         ``gcm4_core.resolve_group_color()``.
         """
+        _loguru_logger.debug("_on_group_color_clicked: entrée")
         sel = self.treeServers.get_selection().get_selected()[1]
         if sel is None or not self.treeModel.iter_has_child(sel):
+            _loguru_logger.debug("_on_group_color_clicked: sortie")
             return
         group = self._iter_full_path(sel)
 
@@ -5081,6 +5457,7 @@ class Wmain(GCMBase, Gtk.Window):
             self.updateTree()
             self.writeConfig()
         dlg.destroy()
+        _loguru_logger.debug("_on_group_color_clicked: fin")
 
     def _on_group_color_reset_clicked(self, widget, *args):
         """Retire la couleur du dossier sélectionné (repli sur l'héritage/thème).
@@ -5090,14 +5467,17 @@ class Wmain(GCMBase, Gtk.Window):
         couleur la conserve, un sous-dossier sans couleur propre bascule sur
         l'ancêtre coloré suivant (ou le thème, s'il n'y en a aucun).
         """
+        _loguru_logger.debug("_on_group_color_reset_clicked: entrée")
         sel = self.treeServers.get_selection().get_selected()[1]
         if sel is None or not self.treeModel.iter_has_child(sel):
+            _loguru_logger.debug("_on_group_color_reset_clicked: sortie")
             return
         group = self._iter_full_path(sel)
         if group in self.group_colors:
             del self.group_colors[group]
             self.updateTree()
             self.writeConfig()
+        _loguru_logger.debug("_on_group_color_reset_clicked: fin")
 
     # -- Wmain.on_btnHSplit_clicked {
     def on_btnHSplit_clicked(self, widget, *args):
@@ -5107,7 +5487,9 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnHSplit_clicked: entrée")
         self.split_notebook(HSPLIT)
+        _loguru_logger.debug("on_btnHSplit_clicked: fin")
 
     # -- Wmain.on_btnHSplit_clicked }
 
@@ -5119,7 +5501,9 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnVSplit_clicked: entrée")
         self.split_notebook(VSPLIT)
+        _loguru_logger.debug("on_btnVSplit_clicked: fin")
 
     # -- Wmain.on_btnVSplit_clicked }
 
@@ -5131,6 +5515,7 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnUnsplit_clicked: entrée")
         wid = self.find_notebook(self.hpMain, self.nbConsole)
         while wid is not None:
             # Mover los tabs al notebook principal
@@ -5165,6 +5550,7 @@ class Wmain(GCMBase, Gtk.Window):
             self.nbConsole,
             self.nbConsole.get_nth_page(self.nbConsole.get_current_page()),
         )
+        _loguru_logger.debug("on_btnUnsplit_clicked: fin")
 
     # -- Wmain.on_btnUnsplit_clicked }
 
@@ -5176,7 +5562,9 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnConfig_clicked: entrée")
         self.open_management_tab("settings", _("Settings"), lambda: Wconfig(show=False))
+        _loguru_logger.debug("on_btnConfig_clicked: fin")
 
     # -- Wmain.on_btnConfig_clicked }
 
@@ -5188,8 +5576,10 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnSearchBack_clicked: entrée")
         if self.init_search():
             self.find_word(backwards=True)
+        _loguru_logger.debug("on_btnSearchBack_clicked: fin")
 
     # -- Wmain.on_btnSearchBack_clicked }
 
@@ -5201,8 +5591,10 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnSearch_clicked: entrée")
         if self.init_search():
             self.find_word()
+        _loguru_logger.debug("on_btnSearch_clicked: fin")
 
     # -- Wmain.on_btnSearch_clicked }
 
@@ -5214,7 +5606,9 @@ class Wmain(GCMBase, Gtk.Window):
             event (Gdk.EventKey): Evenement clavier.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnSearch_key_press: entrée")
         if event.state & (Gdk.ModifierType.SHIFT_MASK | Gdk.ModifierType.CONTROL_MASK):
+            _loguru_logger.debug("on_btnSearch_key_press: sortie")
             return
         if event.keyval in (Gdk.KEY_Return, Gdk.KEY_KP_Enter):
             if self.init_search():
@@ -5223,6 +5617,7 @@ class Wmain(GCMBase, Gtk.Window):
             widget.set_text("")
             self.init_search()
             self.get_widget("searchBar").hide()
+        _loguru_logger.debug("on_btnSearch_key_press: fin")
 
     # -- Wmain.on_btnCluster_clicked {
     # -- Wmain._make_batch_plugin_activator {
@@ -5237,7 +5632,10 @@ class Wmain(GCMBase, Gtk.Window):
         plutot que de remonter comme un plantage silencieux.
         """
 
+        _loguru_logger.debug("_make_batch_plugin_activator: entrée")
+
         def _activate():
+            _loguru_logger.debug("Wmain._activate: entrée")
             try:
                 batch_plugin.activate()
             except Exception as exc:  # noqa: BLE001
@@ -5252,7 +5650,9 @@ class Wmain(GCMBase, Gtk.Window):
                     ).format(name=batch_plugin.display_name, error=exc),
                     parent=self.window,
                 )
+            _loguru_logger.debug("Wmain._activate: fin")
 
+        _loguru_logger.debug("_make_batch_plugin_activator: sortie")
         return _activate
 
     # -- Wmain._make_batch_plugin_activator }
@@ -5271,8 +5671,10 @@ class Wmain(GCMBase, Gtk.Window):
         jamais — seuls les VRAIS echecs sont remontes (cf.
         ``BatchPluginRegistry.autoload``).
         """
+        _loguru_logger.debug("_warn_if_batch_plugin_failed: entrée")
         errors = self.batch_plugin_registry.load_errors
         if not errors:
+            _loguru_logger.debug("_warn_if_batch_plugin_failed: sortie")
             return
 
         lines = [f"• {module} : {cause}" for module, cause in errors.items()]
@@ -5286,6 +5688,7 @@ class Wmain(GCMBase, Gtk.Window):
         # (cf. __init__) mais peut ne pas être encore affichée à cet
         # instant précis de la construction de Wmain.
         GLib.idle_add(lambda: (msgbox(message, parent=self.window), False)[1])
+        _loguru_logger.debug("_warn_if_batch_plugin_failed: fin")
 
     # -- Wmain._warn_if_batch_plugin_failed }
 
@@ -5297,6 +5700,7 @@ class Wmain(GCMBase, Gtk.Window):
             *args: Arguments supplémentaires.
         """
         # obtenir la liste des consoles ouvertes
+        _loguru_logger.debug("on_btnCluster_clicked: entrée")
         consoles = []
         obj = wMain.hpMain
         s = []
@@ -5318,12 +5722,14 @@ class Wmain(GCMBase, Gtk.Window):
 
         if len(consoles) == 0:
             msgbox(_("No open consoles"))
+            _loguru_logger.debug("on_btnCluster_clicked: sortie")
             return True
 
         def _factory(consoles=consoles):
             return Wcluster(terms=consoles, show=False)
 
         self.open_management_tab("cluster", _("Cluster"), _factory)
+        _loguru_logger.debug("on_btnCluster_clicked: sortie")
         return True
 
     # -- Wmain.on_btnCluster_clicked }
@@ -5347,6 +5753,7 @@ class Wmain(GCMBase, Gtk.Window):
             bool: True (comportement conservé pour cohérence avec les
             autres gestionnaires de ce fichier, ex. ``on_btnCluster_clicked``).
         """
+        _loguru_logger.debug("on_open_workspace_clicked: entrée")
         app_logger.debug("Wmain.on_open_workspace_clicked() called")
         hosts = gcm4_core.workspace_hosts(groups)
         if len(hosts) == 0:
@@ -5354,12 +5761,14 @@ class Wmain(GCMBase, Gtk.Window):
                 "Wmain.on_open_workspace_clicked() returning | espace de travail vide"
             )
             msgbox(_('No hosts in the workspace yet — check "Workspace" in Edit Host to add one'))
+            _loguru_logger.debug("on_open_workspace_clicked: sortie")
             return True
         for host in hosts:
             self.addTab(self.nbConsole, host)
         app_logger.debug(
             f"Wmain.on_open_workspace_clicked() returning | {len(hosts)} hôte(s) ouvert(s)"
         )
+        _loguru_logger.debug("on_open_workspace_clicked: sortie")
         return True
 
     # -- Wmain.on_open_workspace_clicked }
@@ -5373,10 +5782,12 @@ class Wmain(GCMBase, Gtk.Window):
             event (Gdk.EventButton): Evenement souris.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_hpMain_button_press_event: entrée")
         if event.type in [Gdk.EventType._2BUTTON_PRESS] and not self.row_activated:
             p = self.hpMain.get_position()
             self.set_panel_visible(p == 0)
         self.row_activated = False
+        _loguru_logger.debug("on_hpMain_button_press_event: fin")
 
     # -- Wmain.on_hpMain_button_press_event }
 
@@ -5388,11 +5799,13 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.TreeView): TreeView source.
             *args: Arguments supplémentaires (ignorés).
         """
+        _loguru_logger.debug("on_tvServers_row_activated: entrée")
         self.row_activated = True
         if not self.treeModel.iter_has_child(widget.get_selection().get_selected()[1]):
             selected = widget.get_selection().get_selected()[1]
             host = self.treeModel.get_value(selected, 1)
             self.addTab(self.nbConsole, host)
+        _loguru_logger.debug("on_tvServers_row_activated: fin")
 
     # -- Wmain.on_tvServers_row_activated }
 
@@ -5403,7 +5816,9 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.TreeView): TreeView source.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_tvServers_row_collapsed: entrée")
         self.update_row_color()
+        _loguru_logger.debug("on_tvServers_row_collapsed: fin")
 
     def on_tvServers_row_expanded(self, widget, *args):
         """Gestionnaire d'expansion d'un noeud de l'arbre.
@@ -5412,7 +5827,9 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.TreeView): TreeView source.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_tvServers_row_expanded: entrée")
         self.update_row_color()
+        _loguru_logger.debug("on_tvServers_row_expanded: fin")
 
     def on_tvServers_style_updated(self, widget, *args):
         """Gestionnaire de mise a jour du style de l'arbre des serveurs.
@@ -5421,7 +5838,9 @@ class Wmain(GCMBase, Gtk.Window):
             widget (Gtk.TreeView): Widget source.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_tvServers_style_updated: entrée")
         self.update_row_color()
+        _loguru_logger.debug("on_tvServers_style_updated: fin")
 
     # -- Wmain.on_tvServers_pressed {
     def on_tvServers_pressed(self, gesture, n_press, x, y):
@@ -5443,6 +5862,7 @@ class Wmain(GCMBase, Gtk.Window):
             x (float): Coordonnée X du clic, relative à ``treeServers``.
             y (float): Coordonnée Y du clic, relative à ``treeServers``.
         """
+        _loguru_logger.debug("on_tvServers_pressed: entrée")
         button = gesture.get_current_button()
         app_logger.debug(
             f"on_tvServers_pressed() called | button={button!r} n_press={n_press!r} "
@@ -5451,10 +5871,12 @@ class Wmain(GCMBase, Gtk.Window):
         outcome = classify_tree_servers_press(button=button, n_press=n_press)
         if outcome == "propagate":
             app_logger.debug("on_tvServers_pressed() returning | outcome='propagate'")
+            _loguru_logger.debug("on_tvServers_pressed: sortie")
             return
         if outcome == "swallow":
             gesture.set_state(Gtk.EventSequenceState.CLAIMED)
             app_logger.debug("on_tvServers_pressed() returning | outcome='swallow'")
+            _loguru_logger.debug("on_tvServers_pressed: sortie")
             return
         # outcome == "open-menu"
         pthinfo = self.treeServers.get_path_at_pos(int(x), int(y))
@@ -5475,6 +5897,7 @@ class Wmain(GCMBase, Gtk.Window):
         self.popupMenuFolder.popup_at(self.treeServers, x, y)
         gesture.set_state(Gtk.EventSequenceState.CLAIMED)
         app_logger.debug("on_tvServers_pressed() returning | outcome='open-menu'")
+        _loguru_logger.debug("on_tvServers_pressed: fin")
 
     # -- Wmain.on_tvServers_pressed }
 
@@ -5529,6 +5952,7 @@ class Whost(GCMBase, Gtk.Dialog):
                 Wmain.open_management_tab).
             **kwargs: Arguments supplémentaires.
         """
+        _loguru_logger.debug("__init__: entrée")
         Gtk.Dialog.__init__(self)
         GCMBase.__init__(self, path=None, **kwargs)
         self.main_widget = self
@@ -5593,9 +6017,11 @@ class Whost(GCMBase, Gtk.Dialog):
         viewport_props.add(self.gridHostProps)
 
         def _grid_label(text, halign=Gtk.Align.START):
+            _loguru_logger.debug("Whost._grid_label: entrée")
             lbl = Gtk.Label(label=text)
             lbl.set_halign(halign)
             lbl.show()
+            _loguru_logger.debug("Whost._grid_label: sortie")
             return lbl
 
         self.gridHostProps.attach(_grid_label(_("Group")), 0, 0, 1, 1)
@@ -5926,6 +6352,7 @@ class Whost(GCMBase, Gtk.Dialog):
 
         if show:
             self.show_all()
+        _loguru_logger.debug("__init__: fin")
 
     def get_widget(self, name):
         """Retrouve un widget par son id .glade d'origine.
@@ -5954,6 +6381,7 @@ class Whost(GCMBase, Gtk.Dialog):
             instance: Nouvelle instance de la classe.
         """
 
+        _loguru_logger.debug("new: entrée")
         self.cmbGroup = self.get_widget("cmbGroup")
         # Le groupe est géré via l'arborescence — lecture seule dans le dialogue
         # On stocke la valeur dans un attribut dédié pour la récupérer à la validation
@@ -6044,6 +6472,7 @@ class Whost(GCMBase, Gtk.Dialog):
         # (ex: SSH -> Advanced SSH / Port forwarding / SSHFS visibles,
         # RDP -> uniquement l'onglet RDP, etc.)
         self._update_host_tabs_for_type(self.cmbType.get_active_id() or "ssh")
+        _loguru_logger.debug("new: fin")
 
     # -- Whost.new }
 
@@ -6094,8 +6523,10 @@ class Whost(GCMBase, Gtk.Dialog):
         Args:
             (none)
         """
+        _loguru_logger.debug("_fix_host_notebook_pages: entrée")
         nb = self.get_widget("nbHost")
         if nb is None:
+            _loguru_logger.debug("_fix_host_notebook_pages: sortie")
             return
         for index, (widget_id, label) in enumerate(self._HOST_NOTEBOOK_PAGES):
             page = self.get_widget(widget_id)
@@ -6104,6 +6535,7 @@ class Whost(GCMBase, Gtk.Dialog):
             nb.reorder_child(page, index)
             if label:
                 nb.set_tab_label_text(page, _(label))
+        _loguru_logger.debug("_fix_host_notebook_pages: fin")
 
     def _update_host_tabs_for_type(self, proto):
         """Affiche/masque les onglets du dialogue Edit Host selon le protocole.
@@ -6121,6 +6553,7 @@ class Whost(GCMBase, Gtk.Dialog):
             proto (str): Valeur active de cmbType ("ssh", "rdp", "vnc",
                 "spice", "serial", "ipmi", "web", "telnet" ou "local").
         """
+        _loguru_logger.debug("_update_host_tabs_for_type: entrée")
         vte_protocols = {"ssh", "telnet", "local", "serial", "ipmi"}
         is_vte = proto in vte_protocols
 
@@ -6140,6 +6573,7 @@ class Whost(GCMBase, Gtk.Dialog):
         # Onglet SSH : une seule page plugin (fusionne les anciennes pages
         # Advanced SSH/Port forwarding/SSHFS, sous-onglets internes).
         self._plugin_page["ssh"].set_visible(proto == "ssh")
+        _loguru_logger.debug("_update_host_tabs_for_type: fin")
 
     # ── compatibilité ascendante (anciens attributs injectés) ───────────────
 
@@ -6181,10 +6615,12 @@ class Whost(GCMBase, Gtk.Dialog):
 
     def init(self, group, host=None):
         """Initialise les parametres de configuration avec les valeurs par defaut."""
+        _loguru_logger.debug("init: entrée")
         self._group_value = group
         self.cmbGroup.get_child().set_text(group)
         if host is None:
             self.isNew = True
+            _loguru_logger.debug("init: sortie")
             return
 
         self.isNew = False
@@ -6302,9 +6738,11 @@ class Whost(GCMBase, Gtk.Dialog):
                     break
         except Exception as exc:
             app_logger.debug("Whost.init | patch_edit_host_dialog skipped | exc={}", exc)
+        _loguru_logger.debug("init: fin")
 
     def update_texttags(self, *args):
         """Met a jour les tags de texte (couleurs, polices) dans la vue."""
+        _loguru_logger.debug("update_texttags: entrée")
         buf = self.txtCommands.get_buffer()
         text_iter = buf.get_start_iter()
         buf.remove_all_tags(text_iter, buf.get_end_iter())
@@ -6319,6 +6757,7 @@ class Whost(GCMBase, Gtk.Dialog):
                 buf.apply_tag_by_name("DELAY1", start, n)
                 buf.apply_tag_by_name("DELAY2", n, end)
             text_iter = end
+        _loguru_logger.debug("update_texttags: fin")
 
     # -- Whost custom methods }
 
@@ -6330,7 +6769,9 @@ class Whost(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_cancelbutton1_clicked: entrée")
         self.request_close()
+        _loguru_logger.debug("on_cancelbutton1_clicked: fin")
 
     # -- Whost.on_cancelbutton1_clicked }
 
@@ -6342,6 +6783,7 @@ class Whost(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_okbutton1_clicked: entrée")
         group_txt = self.cmbGroup.get_active_text()
         if (
             not group_txt
@@ -6388,10 +6830,12 @@ class Whost(GCMBase, Gtk.Dialog):
         # Validar datos
         if group == "" or name == "" or (host == "" and ctype != "local"):
             msgbox(_("Fields group, name and host are required"))
+            _loguru_logger.debug("on_okbutton1_clicked: sortie")
             return
 
         if ctype != "local" and not (port and port.isdigit() and 1 <= int(port) <= 65535):
             msgbox(_("Invalid port"))
+            _loguru_logger.debug("on_okbutton1_clicked: sortie")
             return
 
         term = self.txtTerm.get_text()
@@ -6460,6 +6904,7 @@ class Whost(GCMBase, Gtk.Dialog):
                                 group,
                             )
                         )
+                        _loguru_logger.debug("on_okbutton1_clicked: sortie")
                         return
                 # agregar host a grupo
                 groups[group].append(host)
@@ -6480,6 +6925,7 @@ class Whost(GCMBase, Gtk.Dialog):
                                         group,
                                     )
                                 )
+                                _loguru_logger.debug("on_okbutton1_clicked: sortie")
                                 return
                         groups[group].append(host)
                         for h in groups[self.oldGroup]:
@@ -6499,6 +6945,7 @@ class Whost(GCMBase, Gtk.Dialog):
                                         group,
                                     )
                                 )
+                                _loguru_logger.debug("on_okbutton1_clicked: sortie")
                                 return
                         for h in groups[self.oldGroup]:
                             if h.name == self.oldName:
@@ -6519,6 +6966,7 @@ class Whost(GCMBase, Gtk.Dialog):
         wMain.writeConfig()
 
         self.request_close()
+        _loguru_logger.debug("on_okbutton1_clicked: fin")
 
     # -- Whost.on_okbutton1_clicked }
 
@@ -6533,6 +6981,7 @@ class Whost(GCMBase, Gtk.Dialog):
             widget (Gtk.ComboBox): Combo modifie.
             *args: Arguments supplémentaires (ignorés).
         """
+        _loguru_logger.debug("on_cmbType_changed: entrée")
         proto = widget.get_active_id() or "ssh"
         is_ssh = proto == "ssh"
         is_local = proto == "local"
@@ -6611,6 +7060,7 @@ class Whost(GCMBase, Gtk.Dialog):
                 self._spice_prefill_from_extra_params()
             else:
                 self._spice_frame.hide()
+        _loguru_logger.debug("on_cmbType_changed: fin")
 
     # -- Whost.on_cmbType_changed }
 
@@ -6622,7 +7072,9 @@ class Whost(GCMBase, Gtk.Dialog):
             widget: Parametre widget.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_chkCommands_toggled: entrée")
         self.txtCommands.set_sensitive(widget.get_active())
+        _loguru_logger.debug("on_chkCommands_toggled: fin")
 
     # -- Whost.on_chkCommands_toggled }
 
@@ -6634,7 +7086,9 @@ class Whost(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnBColor_clicked: entrée")
         widget.selected_color = widget.get_rgba().to_string()
+        _loguru_logger.debug("on_btnBColor_clicked: fin")
 
     # -- Whost.on_btnBColor_clicked }
 
@@ -6646,8 +7100,10 @@ class Whost(GCMBase, Gtk.Dialog):
             widget (Gtk.CheckButton): Bouton bascule.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_chkDefaultColors_toggled: entrée")
         self.btnFColor.set_sensitive(not widget.get_active())
         self.btnBColor.set_sensitive(not widget.get_active())
+        _loguru_logger.debug("on_chkDefaultColors_toggled: fin")
 
     # -- Whost.on_chkDefaultColors_toggled }
 
@@ -6659,7 +7115,9 @@ class Whost(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnFColor_clicked: entrée")
         widget.selected_color = widget.get_rgba().to_string()
+        _loguru_logger.debug("on_btnFColor_clicked: fin")
 
     # -- Whost.on_btnFColor_clicked }
 
@@ -6671,11 +7129,13 @@ class Whost(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnBrowse_clicked: entrée")
         filename = show_open_dialog(
             parent=wMain.wMain, title=_("Open"), action=Gtk.FileChooserAction.OPEN
         )
         if filename is not None:
             self.txtPrivateKey.set_text(filename)
+        _loguru_logger.debug("on_btnBrowse_clicked: fin")
 
     # -- Whost.on_btnBrowse_clicked }
 
@@ -6691,8 +7151,11 @@ class Whost(GCMBase, Gtk.Dialog):
         Returns:
             Gtk.Window: Fenetre parente appropriee.
         """
+        _loguru_logger.debug("_top_window: entrée")
         if self.is_tab:
+            _loguru_logger.debug("_top_window: sortie")
             return wMain.window
+        _loguru_logger.debug("_top_window: sortie")
         return self.get_widget("wHost")
 
     # -- Whost.on_btnPickKey_clicked {
@@ -6703,12 +7166,15 @@ class Whost(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnPickKey_clicked: entrée")
         if not _KEY_PICKER_OK:
+            _loguru_logger.debug("on_btnPickKey_clicked: sortie")
             return
         dlg = KeyPickerDialog(parent=self._top_window())
         dlg.connect("key-selected", self._on_key_picked)
         run_dialog_sync(dlg)
         dlg.destroy()
+        _loguru_logger.debug("on_btnPickKey_clicked: fin")
 
     def _on_key_picked(self, _dlg, key_path):
         """Callback du signal key-selected de KeyPickerDialog.
@@ -6717,7 +7183,9 @@ class Whost(GCMBase, Gtk.Dialog):
             _dlg: Dialogue source (non utilise).
             key_path (str): Chemin absolu de la cle privee selectionnee.
         """
+        _loguru_logger.debug("_on_key_picked: entrée")
         self.txtPrivateKey.set_text(key_path)
+        _loguru_logger.debug("_on_key_picked: fin")
 
     # -- Whost.on_btnPickKey_clicked }
 
@@ -6733,7 +7201,9 @@ class Whost(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnKeyManager_clicked: entrée")
         wMain.plugin_registry.get("ssh").manage_ssh_keys()
+        _loguru_logger.debug("on_btnKeyManager_clicked: fin")
 
     # -- Whost.on_btnKeyManager_clicked }
 
@@ -6763,6 +7233,7 @@ class Wabout(GCMBase, Gtk.AboutDialog):
 
     def __init__(self, **kwargs):
         """Construit et affiche immédiatement la boîte "À propos"."""
+        _loguru_logger.debug("__init__: entrée")
         Gtk.AboutDialog.__init__(self)
         GCMBase.__init__(self, path=None, parent=wMain.window, **kwargs)
         self.main_widget = self
@@ -6788,6 +7259,7 @@ class Wabout(GCMBase, Gtk.AboutDialog):
 
         self.set_icon_from_file(ICON_PATH)
         self.show_all()
+        _loguru_logger.debug("__init__: fin")
 
     def on_wAbout_close(self, widget, *args):
         """Détruit la fenêtre "À propos".
@@ -6800,7 +7272,9 @@ class Wabout(GCMBase, Gtk.AboutDialog):
             widget (Gtk.Widget): Widget source.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_wAbout_close: entrée")
         self.destroy()
+        _loguru_logger.debug("on_wAbout_close: fin")
 
 
 class Wconfig(GCMBase, Gtk.Dialog):
@@ -6857,6 +7331,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
                 Wmain.open_management_tab).
             **kwargs: Arguments supplémentaires.
         """
+        _loguru_logger.debug("__init__: entrée")
         Gtk.Dialog.__init__(self)
         GCMBase.__init__(self, path=None, **kwargs)
         self.main_widget = self
@@ -7017,6 +7492,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
 
         if show:
             self.show_all()
+        _loguru_logger.debug("__init__: fin")
 
     # -- Wconfig.new {
     def new(self):
@@ -7025,6 +7501,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
         generaux, couleurs/police courantes, raccourcis), a partir de la
         configuration en cours (``conf``/``shortcuts``).
         """
+        _loguru_logger.debug("new: entrée")
         self.dlgColor = None
         self.capture_keys = False
         # Bouton OK vert, comme Save/Connect/Use ailleurs dans l'application
@@ -7209,6 +7686,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
                         _module_name,
                         _e,
                     )
+        _loguru_logger.debug("new: fin")
 
     # -- Wconfig.new }
 
@@ -7222,6 +7700,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
             ptype (type): Type du parametre.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("addParam: entrée")
         x = self.tblGeneral.rows
         self.tblGeneral.rows += 1
         value = eval(field)
@@ -7301,6 +7780,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
                 Gtk.AttachOptions.EXPAND | Gtk.AttachOptions.FILL,
                 0,
             )
+        _loguru_logger.debug("addParam: fin")
 
     def on_edited(self, widget, rownum, value, model, colnum):
         """Gestionnaire de fin d'edition d'une cellule.
@@ -7312,6 +7792,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
             model (Gtk.TreeModel): Modele de la cellule.
             colnum (int): Numero de la colonne.
         """
+        _loguru_logger.debug("on_edited: entrée")
         model[rownum][colnum] = value
         if model == self.treeModel2:
             i = self.treeModel2.get_iter_first()
@@ -7324,6 +7805,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
             self.treeModel2.append(None, ["", ""])
             if self.capture_keys:
                 self.capture_keys = False
+        _loguru_logger.debug("on_edited: fin")
 
     def on_editing_started(self, widget, entry, rownum, model, colnum):
         """Gestionnaire de debut d'edition d'une cellule.
@@ -7335,6 +7817,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
             model (Gtk.TreeModel): Modele de la cellule.
             colnum (int): Numero de la colonne.
         """
+        _loguru_logger.debug("on_editing_started: entrée")
         self.capture_keys = True
         entry.connect(
             "key-press-event",
@@ -7343,11 +7826,13 @@ class Wconfig(GCMBase, Gtk.Dialog):
             rownum,
             colnum,
         )
+        _loguru_logger.debug("on_editing_started: fin")
 
     # -- Wconfig custom methods }
 
     def _on_theme_combo_changed(self, combo):
         """Bascule le thème GTK depuis le combo Light/Dark/System."""
+        _loguru_logger.debug("_on_theme_combo_changed: entrée")
         theme_id = combo.get_active_id() or "system"
         conf.THEME_MODE = theme_id
         settings = Gtk.Settings.get_default()
@@ -7380,6 +7865,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
             mnu_dark.handler_block_by_func(wMain.on_mnu_dark_mode_toggled)
             mnu_dark.set_active(conf.DARK_MODE)
             mnu_dark.handler_unblock_by_func(wMain.on_mnu_dark_mode_toggled)
+        _loguru_logger.debug("_on_theme_combo_changed: fin")
 
     # -- Wconfig.on_cancelbutton1_clicked {
     def on_cancelbutton1_clicked(self, widget, *args):
@@ -7389,7 +7875,9 @@ class Wconfig(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_cancelbutton1_clicked: entrée")
         self.request_close()
+        _loguru_logger.debug("on_cancelbutton1_clicked: fin")
 
     # -- Wconfig.on_cancelbutton1_clicked }
 
@@ -7401,6 +7889,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_okbutton1_clicked: entrée")
         for obj in self.tblGeneral:
             if hasattr(obj, "field"):
                 if isinstance(obj, Gtk.CheckButton):
@@ -7454,6 +7943,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
         wMain.writeConfig()
 
         self.request_close()
+        _loguru_logger.debug("on_okbutton1_clicked: fin")
 
     # -- Wconfig.on_okbutton1_clicked }
 
@@ -7465,7 +7955,9 @@ class Wconfig(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnBColor_clicked: entrée")
         widget.selected_color = widget.get_rgba().to_string()
+        _loguru_logger.debug("on_btnBColor_clicked: fin")
 
     # -- Wconfig.on_btnBColor_clicked }
 
@@ -7477,7 +7969,9 @@ class Wconfig(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnFColor_clicked: entrée")
         widget.selected_color = widget.get_rgba().to_string()
+        _loguru_logger.debug("on_btnFColor_clicked: fin")
 
     # -- Wconfig.on_btnFColor_clicked }
 
@@ -7489,8 +7983,10 @@ class Wconfig(GCMBase, Gtk.Dialog):
             widget (Gtk.CheckButton): Bouton bascule.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_chkDefaultColors_toggled: entrée")
         self.btnFColor.set_sensitive(not widget.get_active())
         self.btnBColor.set_sensitive(not widget.get_active())
+        _loguru_logger.debug("on_chkDefaultColors_toggled: fin")
 
     # -- Wconfig.on_chkDefaultColors_toggled }
 
@@ -7502,8 +7998,10 @@ class Wconfig(GCMBase, Gtk.Dialog):
             widget (Gtk.CheckButton): Bouton bascule.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_chkDefaultFont_toggled: entrée")
         self.btnFont.set_sensitive(not widget.get_active())
         self.lblFont.set_sensitive(not widget.get_active())
+        _loguru_logger.debug("on_chkDefaultFont_toggled: fin")
 
     # -- Wconfig.on_chkDefaultFont_toggled }
 
@@ -7515,7 +8013,9 @@ class Wconfig(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_btnFont_clicked: entrée")
         show_font_dialog(self, _("Select font"), self.btnFont)
+        _loguru_logger.debug("on_btnFont_clicked: fin")
 
     # -- Wconfig.on_btnFont_clicked }
 
@@ -7528,6 +8028,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
             event (Gdk.EventKey): Evenement clavier.
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_treeCommands_key_press_event: entrée")
         if (
             self.capture_keys
             and len(args) == 3
@@ -7537,6 +8038,7 @@ class Wconfig(GCMBase, Gtk.Dialog):
             key = get_key_name(event)
             if key not in ["RETURN", "KP_ENTER"]:
                 widget.set_text(get_key_name(event))
+        _loguru_logger.debug("on_treeCommands_key_press_event: fin")
 
     # -- Wconfig.on_treeCommands_key_press_event }
 
@@ -7586,6 +8088,7 @@ class Wcluster(GCMBase, Gtk.Dialog):
                 Wmain.open_management_tab).
             **kwargs: Arguments supplémentaires.
         """
+        _loguru_logger.debug("__init__: entrée")
         Gtk.Dialog.__init__(self)
         GCMBase.__init__(self, path=None, **kwargs)
         self.main_widget = self
@@ -7652,6 +8155,7 @@ class Wcluster(GCMBase, Gtk.Dialog):
             d'origine pour btnAll/btnNone/btnInvert.
 
             """
+            _loguru_logger.debug("Wcluster._icon_label_button: entrée")
             btn = Gtk.Button()
             btn.set_receives_default(False)
             align = Gtk.Alignment.new(0.5, 0.5, 0, 0)
@@ -7664,6 +8168,7 @@ class Wcluster(GCMBase, Gtk.Dialog):
             align.add(inner)
             btn.add(align)
             btn.show_all()
+            _loguru_logger.debug("Wcluster._icon_label_button: sortie")
             return btn
 
         buttons_col = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -7747,12 +8252,14 @@ class Wcluster(GCMBase, Gtk.Dialog):
 
         if show:
             self.show_all()
+        _loguru_logger.debug("__init__: fin")
 
     # -- Wcluster.new {
     def new(self):
         """Initialise le modele de la liste des hotes et l'historique de
         commandes, a partir de ``self.terms`` (deja fourni au constructeur).
         """
+        _loguru_logger.debug("new: entrée")
         self.treeStore = Gtk.TreeStore(
             GObject.TYPE_BOOLEAN, GObject.TYPE_STRING, GObject.TYPE_OBJECT
         )
@@ -7768,6 +8275,7 @@ class Wcluster(GCMBase, Gtk.Dialog):
         self.treeHosts.append_column(Gtk.TreeViewColumn(_("Host"), Gtk.CellRendererText(), text=1))
         self.txtCommands1.history = []
         self._refresh_favorites()
+        _loguru_logger.debug("new: fin")
 
     # -- Wcluster.new }
 
@@ -7860,8 +8368,10 @@ class Wcluster(GCMBase, Gtk.Dialog):
             widget (Gtk.CheckButton): Bouton bascule.
             path (str): Chemin dans le modele.
         """
+        _loguru_logger.debug("on_active_toggled: entrée")
         self.treeStore[path][0] = not self.treeStore[path][0]
         self.change_color(self.treeStore[path][2], self.treeStore[path][0])
+        _loguru_logger.debug("on_active_toggled: fin")
 
     def change_color(self, term, activate):
         """Change la couleur d'un terminal dans la liste cluster.
@@ -7870,13 +8380,17 @@ class Wcluster(GCMBase, Gtk.Dialog):
             term (Gtk.ColorButton): Bouton couleur.
             activate (bool): Etat d'activation du terminal.
         """
+        _loguru_logger.debug("change_color: entrée")
         obj = term.get_parent()
         if obj is None:
+            _loguru_logger.debug("change_color: sortie")
             return
         nb = obj.get_parent()
         if nb is None:
+            _loguru_logger.debug("change_color: sortie")
             return
         nb.get_tab_label(obj).set_selected(activate)
+        _loguru_logger.debug("change_color: fin")
 
     # -- Wcluster custom methods }
 
@@ -7895,9 +8409,12 @@ class Wcluster(GCMBase, Gtk.Dialog):
             widget (Gtk.Window): Fenetre detruite.
             *args: Arguments supplementaires.
         """
+        _loguru_logger.debug("on_wCluster_destroy: entrée")
         if self.is_tab:
+            _loguru_logger.debug("on_wCluster_destroy: sortie")
             return
         self.on_btnNone_clicked(None)
+        _loguru_logger.debug("on_wCluster_destroy: fin")
 
     # -- Wcluster.on_wCluster_destroy }
 
@@ -7907,7 +8424,9 @@ class Wcluster(GCMBase, Gtk.Dialog):
         qui passe par ``request_close``). Miroir, en mode onglet epingle, du
         comportement de ``on_wCluster_destroy`` en mode fenetre autonome.
         """
+        _loguru_logger.debug("on_tab_will_close: entrée")
         self.on_btnNone_clicked(None)
+        _loguru_logger.debug("on_tab_will_close: fin")
 
     # -- Wcluster.on_cancelbutton2_clicked {
     def on_cancelbutton2_clicked(self, widget, *args):
@@ -7917,7 +8436,9 @@ class Wcluster(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplementaires.
         """
+        _loguru_logger.debug("on_cancelbutton2_clicked: entrée")
         self.request_close()
+        _loguru_logger.debug("on_cancelbutton2_clicked: fin")
 
     # -- Wcluster.on_cancelbutton2_clicked }
 
@@ -7929,9 +8450,11 @@ class Wcluster(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplementaires.
         """
+        _loguru_logger.debug("on_btnAll_clicked: entrée")
         for x in self.treeStore:
             x[0] = True
             self.change_color(x[2], x[0])
+        _loguru_logger.debug("on_btnAll_clicked: fin")
 
     # -- Wcluster.on_btnAll_clicked }
 
@@ -7943,9 +8466,11 @@ class Wcluster(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplementaires.
         """
+        _loguru_logger.debug("on_btnNone_clicked: entrée")
         for x in self.treeStore:
             x[0] = False
             self.change_color(x[2], x[0])
+        _loguru_logger.debug("on_btnNone_clicked: fin")
 
     # -- Wcluster.on_btnNone_clicked }
 
@@ -7957,9 +8482,11 @@ class Wcluster(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplementaires.
         """
+        _loguru_logger.debug("on_btnInvert_clicked: entrée")
         for x in self.treeStore:
             x[0] = not x[0]
             self.change_color(x[2], x[0])
+        _loguru_logger.debug("on_btnInvert_clicked: fin")
 
     # -- Wcluster.on_btnInvert_clicked }
 
@@ -7984,9 +8511,11 @@ class Wcluster(GCMBase, Gtk.Dialog):
         Args:
             widget (Gtk.TextView): La zone de saisie des commandes (txtCommands1).
         """
+        _loguru_logger.debug("send_cluster_commands: entrée")
         buf = widget.get_buffer()
         text = buf.get_text(buf.get_start_iter(), buf.get_end_iter(), False)
         if not text:
+            _loguru_logger.debug("send_cluster_commands: sortie")
             return
         buf.set_text("")
         command_to_send = gcm4_core.resolve_cluster_command(text)
@@ -7995,6 +8524,7 @@ class Wcluster(GCMBase, Gtk.Dialog):
                 vte_feed(x[2], command_to_send + "\r")
         widget.history.append(gcm4_core.mask_cluster_command(text))
         widget.history_index = -1
+        _loguru_logger.debug("send_cluster_commands: fin")
 
     def on_txtCommands_key_press_event(self, widget, event, *args):
         """Gestionnaire de touche dans la zone de commandes cluster.
@@ -8004,11 +8534,13 @@ class Wcluster(GCMBase, Gtk.Dialog):
             event (Gdk.EventKey): Evenement clavier.
             *args: Arguments supplementaires.
         """
+        _loguru_logger.debug("on_txtCommands_key_press_event: entrée")
         if (
             not event.state & Gdk.ModifierType.CONTROL_MASK
             and Gdk.keyval_name(event.keyval).upper() == "RETURN"
         ):
             self.send_cluster_commands(widget)
+            _loguru_logger.debug("on_txtCommands_key_press_event: sortie")
             return True
         if event.state & Gdk.ModifierType.CONTROL_MASK and Gdk.keyval_name(
             event.keyval
@@ -8025,6 +8557,7 @@ class Wcluster(GCMBase, Gtk.Dialog):
                 widget.get_buffer().set_text(
                     widget.history[widget.history_index] if widget.history_index >= 0 else ""
                 )
+        _loguru_logger.debug("on_txtCommands_key_press_event: fin")
 
     # -- Wcluster.on_txtCommands_key_press_event }
 
@@ -8039,7 +8572,9 @@ class Wcluster(GCMBase, Gtk.Dialog):
             widget (Gtk.Button): Bouton clique.
             *args: Arguments supplementaires.
         """
+        _loguru_logger.debug("on_btnExecuteCluster_clicked: entrée")
         self.send_cluster_commands(self.txtCommands1)
+        _loguru_logger.debug("on_btnExecuteCluster_clicked: fin")
 
     # -- Wcluster.on_btnExecuteCluster_clicked }
 
@@ -8057,8 +8592,10 @@ class CheckUpdates(Thread):
         Args:
             p: Parametre p.
         """
+        _loguru_logger.debug("__init__: entrée")
         Thread.__init__(self)
         self.parent = p
+        _loguru_logger.debug("__init__: fin")
 
     def msg(self, text, parent):
         """Envoie une notification.
@@ -8067,6 +8604,7 @@ class CheckUpdates(Thread):
             text (str): Texte de la notification.
             parent: Widget parent pour la notification.
         """
+        _loguru_logger.debug("msg: entrée")
         self.msgBox = Gtk.MessageDialog(
             parent=parent,
             modal=True,
@@ -8077,6 +8615,7 @@ class CheckUpdates(Thread):
         self.msgBox.set_icon_from_file(ICON_PATH)
         self.msgBox.connect("response", self.on_clicked)
         self.msgBox.show_all()
+        _loguru_logger.debug("msg: sortie")
         return False
 
     def on_clicked(self, *args):
@@ -8085,10 +8624,13 @@ class CheckUpdates(Thread):
         Args:
             *args: Arguments supplémentaires.
         """
+        _loguru_logger.debug("on_clicked: entrée")
         self.msgBox.destroy()
+        _loguru_logger.debug("on_clicked: fin")
 
     def run(self):
         """Execute la boucle de notifications."""
+        _loguru_logger.debug("run: entrée")
         try:
             import socket
             import urllib.request as urllib
@@ -8117,6 +8659,7 @@ class CheckUpdates(Thread):
                     )
         except Exception as exc:
             _loguru_logger.debug("vérification de nouvelle version impossible : {}", exc)
+        _loguru_logger.debug("run: fin")
 
 
 # -- main {
@@ -8124,8 +8667,10 @@ class CheckUpdates(Thread):
 
 def main():
     """Point d'entree principal de l'application GCM."""
+    _loguru_logger.debug("main: entrée")
     w_main = Wmain()
     w_main.run()
+    _loguru_logger.debug("main: fin")
 
 
 if __name__ == "__main__":
