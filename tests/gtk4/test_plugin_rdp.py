@@ -3,9 +3,10 @@
 
 AsyncRdp (FreeRDP 3) n'est pas installé par le job GTK4 : ses modules sont
 remplacés par des doublures (``asyncrdp``, ``RdpSession``, ``RdpView``)
-qui notent les appels. La boucle asyncio tourne sur GLib
-(``gi.events.GLibEventLoopPolicy``), comme dans l'application
-(:mod:`gcm4.ui.boucle`). Essai réel contre xrdp : voir la PR #105.
+qui notent les appels. Les tâches tournent sur une boucle asyncio
+ordinaire : Debian 12 et Rocky 9 n'ont pas ``gi.events`` (PyGObject < 3.50),
+la boucle GLib est vérifiée à part (``test_boucle.py``). Essai réel contre
+xrdp : voir la PR #379.
 """
 
 from __future__ import annotations
@@ -13,7 +14,6 @@ from __future__ import annotations
 import asyncio
 import sys
 import types
-import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -117,19 +117,14 @@ class Contexte:
 
 
 @pytest.fixture
-def boucle_glib():
-    """Boucle asyncio sur GLib, comme ``boucle.executer`` dans l'application."""
-    from gi.events import GLibEventLoopPolicy
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", DeprecationWarning)
-        precedente = asyncio.get_event_loop_policy()
-        asyncio.set_event_loop_policy(GLibEventLoopPolicy())
-        loop = asyncio.get_event_loop()
+def boucle_glib(monkeypatch):
+    """Boucle asyncio courante, déclarée disponible comme sous ``boucle.executer``."""
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    monkeypatch.setattr(boucle, "asyncio_disponible", lambda: True)
     yield loop
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", DeprecationWarning)
-        asyncio.set_event_loop_policy(precedente)
+    asyncio.set_event_loop(None)
+    loop.close()
 
 
 @pytest.fixture

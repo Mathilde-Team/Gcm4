@@ -6,9 +6,11 @@ from __future__ import annotations
 import asyncio
 import warnings
 
-from gi.events import GLibEventLoopPolicy
-
 from gcm4.ui import boucle
+
+
+class PolitiqueGlib(asyncio.DefaultEventLoopPolicy):
+    """Doublure de ``gi.events.GLibEventLoopPolicy`` (absente sur Debian 12, Rocky 9)."""
 
 
 def _politique():
@@ -18,14 +20,24 @@ def _politique():
         return asyncio.get_event_loop_policy()
 
 
-def test_politique_glib_pendant_run_puis_restauree():
-    """GLibEventLoopPolicy installée pendant ``lancer``, l'ancienne remise après."""
+def test_politique_detectee():
+    """``gi.events`` présent (PyGObject 3.50+) : GLibEventLoopPolicy, sinon None."""
+    try:
+        from gi.events import GLibEventLoopPolicy
+    except ImportError:
+        GLibEventLoopPolicy = None
+    assert boucle._politique_glib() is GLibEventLoopPolicy
+
+
+def test_politique_glib_pendant_run_puis_restauree(monkeypatch):
+    """La politique GLib est installée pendant ``lancer``, l'ancienne remise après."""
+    monkeypatch.setattr(boucle, "_politique_glib", lambda: PolitiqueGlib)
     avant = _politique()
     vus = []
 
     def lancer():
         """Faux ``application.run`` : note la politique et l'état d'asyncio."""
-        vus.append((isinstance(_politique(), GLibEventLoopPolicy), boucle.asyncio_disponible()))
+        vus.append((isinstance(_politique(), PolitiqueGlib), boucle.asyncio_disponible()))
         return 3
 
     assert boucle.executer(lancer) == 3
@@ -34,8 +46,9 @@ def test_politique_glib_pendant_run_puis_restauree():
     assert boucle.asyncio_disponible() is False
 
 
-def test_politique_restauree_apres_exception():
+def test_politique_restauree_apres_exception(monkeypatch):
     """Une exception de ``lancer`` remonte, la politique est quand même restaurée."""
+    monkeypatch.setattr(boucle, "_politique_glib", lambda: PolitiqueGlib)
     avant = _politique()
 
     def lancer():
