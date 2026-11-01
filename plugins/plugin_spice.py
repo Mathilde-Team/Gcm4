@@ -168,6 +168,7 @@ def _ask_password_dialog(prompt: str = "Mot de passe sudo requis :") -> str | No
     Returns:
         Le mot de passe saisi, ou None si annulé.
     """
+    logger.debug("_ask_password_dialog: entrée")
     dialog = Gtk.Dialog(
         title="Authentification requise",
         flags=Gtk.DialogFlags.MODAL,
@@ -198,6 +199,7 @@ def _ask_password_dialog(prompt: str = "Mot de passe sudo requis :") -> str | No
     response = run_dialog_sync(dialog)
     password = entry.get_text() if response == Gtk.ResponseType.OK else None
     dialog.destroy()
+    logger.debug("_ask_password_dialog: sortie")
     return password
 
 
@@ -222,6 +224,7 @@ class HostsUpdater:
         Returns:
             Ensemble de noms en minuscules.
         """
+        logger.debug("HostsUpdater._existing_nodes: entrée")
         names: set[str] = set()
         for line in hosts_text.splitlines():
             stripped = line.strip()
@@ -230,6 +233,7 @@ class HostsUpdater:
             parts = stripped.split()
             for name in parts[1:]:
                 names.add(name.lower())
+        logger.debug("HostsUpdater._existing_nodes: sortie")
         return names
 
     def _build_lines(self, pairs: list[tuple[str, str]], existing: set[str]) -> list[str]:
@@ -242,6 +246,7 @@ class HostsUpdater:
         Returns:
             Lignes prêtes à être ajoutées (sans newline finale).
         """
+        logger.debug("HostsUpdater._build_lines: entrée")
         lines: list[str] = []
         for host_ip, node_name in pairs:
             if node_name.lower() in existing:
@@ -249,6 +254,7 @@ class HostsUpdater:
                 continue
             lines.append(f"{host_ip:<20}{node_name}  {self.MARKER}")
             app_logger.info(f"_build_lines | queued | ip={host_ip} node={node_name}")
+        logger.debug("HostsUpdater._build_lines: sortie")
         return lines
 
     def _write_direct(self, new_text: str) -> None:
@@ -257,9 +263,11 @@ class HostsUpdater:
         Args:
             new_text: Contenu complet du fichier.
         """
+        logger.debug("HostsUpdater._write_direct: entrée")
         with open(self.HOSTS_FILE, "w", encoding="utf-8") as fh:
             fh.write(new_text)
         app_logger.info("_write_direct | écriture directe OK")
+        logger.debug("HostsUpdater._write_direct: fin")
 
     def _write_via_sudo(self, new_text: str) -> None:
         """Écrit new_text dans /etc/hosts via sudo -S tee, avec dialog GTK3.
@@ -273,6 +281,7 @@ class HostsUpdater:
             PermissionError: Si l'authentification échoue après MAX_ATTEMPTS tentatives
                              ou si l'utilisateur annule.
         """
+        logger.debug("HostsUpdater._write_via_sudo: entrée")
         for attempt in range(1, self.MAX_ATTEMPTS + 1):
             prompt = (
                 "Mot de passe sudo requis pour modifier /etc/hosts :"
@@ -308,6 +317,7 @@ class HostsUpdater:
                 raise PermissionError(f"sudo tee a échoué : {result.stderr.strip()}")
 
             app_logger.info("_write_via_sudo | écriture via sudo tee OK")
+            logger.debug("HostsUpdater._write_via_sudo: sortie")
             return
 
         raise PermissionError(f"Échec d'authentification après {self.MAX_ATTEMPTS} tentatives")
@@ -372,6 +382,7 @@ class SpiceTab(Gtk.Box):
             host (Host): Objet Host GCM avec protocol='spice'.
             get_password_fn (callable): Fonction retournant le mot de passe dechiffre.
         """
+        logger.debug("SpiceTab.__init__: entrée")
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.host = host
         self._get_password = get_password_fn
@@ -386,16 +397,20 @@ class SpiceTab(Gtk.Box):
         self.set_margin_top(16)
         self.set_margin_bottom(16)
         self._build_ui()
+        logger.debug("SpiceTab.__init__: fin")
 
     def _build_ui(self):
         """Construit l'interface du panneau SPICE (spice-gtk natif ou fallback)."""
+        logger.debug("SpiceTab._build_ui: entrée")
         if _SPICEGTK_OK:
             self._build_ui_native()
         else:
             self._build_ui_legacy()
+        logger.debug("SpiceTab._build_ui: fin")
 
     def _build_ui_native(self):
         """Construit la barre d'outils + le conteneur du widget SpiceClientGtk.Display."""
+        logger.debug("SpiceTab._build_ui_native: entrée")
         h = self.host
         port = getattr(h, "port", "5930") or "5930"
 
@@ -440,9 +455,11 @@ class SpiceTab(Gtk.Box):
         self.pack_start(self._display_box, True, True, 0)
 
         self.show_all()
+        logger.debug("SpiceTab._build_ui_native: fin")
 
     def _build_ui_legacy(self):
         """Construit l'interface fallback (ancien comportement subprocess)."""
+        logger.debug("SpiceTab._build_ui_legacy: entrée")
         h = self.host
         port = getattr(h, "port", "5930") or "5930"
         title = Gtk.Label()
@@ -486,6 +503,7 @@ class SpiceTab(Gtk.Box):
         self.pack_start(lbl_bin, False, False, 0)
         app_logger.debug(f"SpiceTab._build_ui_legacy | SPICE_BIN={SPICE_BIN}")
         self.show_all()
+        logger.debug("SpiceTab._build_ui_legacy: fin")
 
     # ── Mode natif (spice-gtk) ───────────────────────────────────────────────
 
@@ -495,6 +513,7 @@ class SpiceTab(Gtk.Box):
         Returns:
             URI spice:// ou None si les informations sont insuffisantes.
         """
+        logger.debug("SpiceTab._build_spice_uri: entrée")
         h = self.host
         port = str(getattr(h, "port", "5930") or "5930")
         pwd = self._get_password() or ""
@@ -508,6 +527,7 @@ class SpiceTab(Gtk.Box):
             uri += f"&tls-port={tls_port}"
 
         app_logger.debug(f"SpiceTab._build_spice_uri | uri={mask_password(uri)}")
+        logger.debug("SpiceTab._build_spice_uri: sortie")
         return uri
 
     def _fetch_proxmox_ticket(self) -> dict | None:
@@ -516,11 +536,13 @@ class SpiceTab(Gtk.Box):
         Returns:
             Ticket JSON analysé, ou None si erreur.
         """
+        logger.debug("SpiceTab._fetch_proxmox_ticket: entrée")
         h = self.host
         node_name = (getattr(h, "spice_px_node", "") or "").strip()
         vmid = (getattr(h, "spice_px_vmid", "") or "").strip()
         if not node_name or not vmid:
             self._set_status(_("Error: Proxmox node and VMID required"))
+            logger.debug("SpiceTab._fetch_proxmox_ticket: sortie")
             return None
 
         hv_host = h.host
@@ -547,14 +569,18 @@ class SpiceTab(Gtk.Box):
                 f"SpiceTab._fetch_proxmox_ticket | SSH error | exc={exc}", exception=True
             )
             self._set_status(_("SSH error: {exc}").format(exc=exc))
+            logger.debug("SpiceTab._fetch_proxmox_ticket: sortie")
             return None
 
         try:
+            logger.debug("SpiceTab._fetch_proxmox_ticket: sortie")
             return json.loads(out)
         except Exception as exc:
             logger.warning("plugin spice | ticket SPICE non décodable : {}", exc)
             self._set_status(_("SPICE ticket error: {out}").format(out=out[:80]))
+            logger.debug("SpiceTab._fetch_proxmox_ticket: sortie")
             return None
+        logger.debug("SpiceTab._fetch_proxmox_ticket: fin")
 
     def _fetch_libvirt_spice_params(self) -> dict | None:
         """Récupère les paramètres SPICE d'une VM via libvirt-python.
@@ -566,6 +592,7 @@ class SpiceTab(Gtk.Box):
             Dict ``{host, port, tls-port, password}`` (port/tls-port peuvent
             être None si désactivés), ou None si erreur.
         """
+        logger.debug("SpiceTab._fetch_libvirt_spice_params: entrée")
         import xml.etree.ElementTree as _ET
 
         h = self.host
@@ -574,9 +601,11 @@ class SpiceTab(Gtk.Box):
 
         if not libvirt_uri:
             self._set_status(_("Error: libvirt URI required"))
+            logger.debug("SpiceTab._fetch_libvirt_spice_params: sortie")
             return None
         if not vm_name:
             self._set_status(_("Error: VM name required"))
+            logger.debug("SpiceTab._fetch_libvirt_spice_params: sortie")
             return None
 
         # Connexion à l'hyperviseur
@@ -588,6 +617,7 @@ class SpiceTab(Gtk.Box):
                 exception=True,
             )
             self._set_status(_("libvirt error: {exc}").format(exc=exc))
+            logger.debug("SpiceTab._fetch_libvirt_spice_params: sortie")
             return None
 
         # Recherche de la VM
@@ -600,6 +630,7 @@ class SpiceTab(Gtk.Box):
                 f"SpiceTab._fetch_libvirt_spice_params | VM error | vm={vm_name} | exc={exc}"
             )
             self._set_status(_("VM introuvable : {vm}").format(vm=vm_name))
+            logger.debug("SpiceTab._fetch_libvirt_spice_params: sortie")
             return None
         finally:
             try:
@@ -616,10 +647,12 @@ class SpiceTab(Gtk.Box):
         except _ET.ParseError as exc:
             app_logger.error(f"SpiceTab._fetch_libvirt_spice_params | XML parse error | exc={exc}")
             self._set_status(_("libvirt XML parsing error: {exc}").format(exc=exc))
+            logger.debug("SpiceTab._fetch_libvirt_spice_params: sortie")
             return None
 
         if gfx is None:
             self._set_status(_("No SPICE console for {vm}").format(vm=vm_name))
+            logger.debug("SpiceTab._fetch_libvirt_spice_params: sortie")
             return None
 
         # Adresse d'écoute : élément <listen type='address'> prioritaire
@@ -635,6 +668,7 @@ class SpiceTab(Gtk.Box):
 
         if port == "-1" and tls_port == "-1":
             self._set_status(_("SPICE disabled for {vm}").format(vm=vm_name))
+            logger.debug("SpiceTab._fetch_libvirt_spice_params: sortie")
             return None
 
         result = {
@@ -647,6 +681,7 @@ class SpiceTab(Gtk.Box):
             f"SpiceTab._fetch_libvirt_spice_params | vm={vm_name} | host={host_addr} port={result['port']} tls="
             f"{result['tls-port']}",
         )
+        logger.debug("SpiceTab._fetch_libvirt_spice_params: sortie")
         return result
 
     def _connect_native(self):
@@ -658,6 +693,7 @@ class SpiceTab(Gtk.Box):
           (fallback subprocess virt-viewer si libvirt-python absent).
         - ``uri``      : spice://host?port=… → SpiceClientGLib.Session.
         """
+        logger.debug("SpiceTab._connect_native: entrée")
         h = self.host
         spice_mode = (getattr(h, "spice_mode", "uri") or "uri").strip()
 
@@ -668,6 +704,7 @@ class SpiceTab(Gtk.Box):
             )
             cmd = self._build_cmd()
             if cmd is None:
+                logger.debug("SpiceTab._connect_native: sortie")
                 return
             try:
                 self._proc = subprocess.Popen(
@@ -678,11 +715,13 @@ class SpiceTab(Gtk.Box):
             except FileNotFoundError as exc:
                 logger.debug("plugin spice | remote-viewer absent : {}", exc)
                 self._set_status(_("remote-viewer not found"))
+                logger.debug("SpiceTab._connect_native: sortie")
                 return
             self._set_status(_("Connecting…"))
             self._btn_connect.set_sensitive(False)
             self._btn_disconnect.set_sensitive(True)
             threading.Thread(target=self._wait_proc, daemon=True).start()
+            logger.debug("SpiceTab._connect_native: sortie")
             return
 
         # ── Teardown commun (tous les modes natifs) ─────────────────────────
@@ -709,6 +748,7 @@ class SpiceTab(Gtk.Box):
 
             ticket = self._fetch_proxmox_ticket()
             if ticket is None:
+                logger.debug("SpiceTab._connect_native: sortie")
                 return
 
             session.set_property("host", ticket["host"])
@@ -738,6 +778,7 @@ class SpiceTab(Gtk.Box):
             # ── Mode libvirt natif (libvirt-python disponible) ─────────────
             params = self._fetch_libvirt_spice_params()
             if params is None:
+                logger.debug("SpiceTab._connect_native: sortie")
                 return
 
             session.set_property("host", params["host"])
@@ -758,6 +799,7 @@ class SpiceTab(Gtk.Box):
             uri = self._build_spice_uri()
             if uri is None:
                 self._set_status(_("Configuration SPICE invalide"))
+                logger.debug("SpiceTab._connect_native: sortie")
                 return
 
             session.set_property("uri", uri)
@@ -845,6 +887,7 @@ class SpiceTab(Gtk.Box):
         self._btn_connect.set_sensitive(False)
         session.connect()
         app_logger.debug(f"SpiceTab._connect_native | session.connect() lancé | mode={spice_mode}")
+        logger.debug("SpiceTab._connect_native: fin")
 
     def _on_spice_channel_new(self, session, channel):
         """Callback spice-gtk : nouveau canal ouvert dans la session.
@@ -853,12 +896,14 @@ class SpiceTab(Gtk.Box):
             session (SpiceClientGLib.Session): Session SPICE émettrice.
             channel (SpiceClientGLib.Channel): Canal nouvellement créé.
         """
+        logger.debug("SpiceTab._on_spice_channel_new: entrée")
         app_logger.debug(f"SpiceTab._on_spice_channel_new | channel-type={type(channel).__name__}")
         # channel.connect(signal, cb) est ambigu : SpiceClientGLib.Channel.connect()
         # est la methode de connexion du canal au serveur et masque GObject.connect()
         # (meme piege que pour session.connect() plus haut). On passe explicitement
         # par la classe de base GObject.
         GObject.GObject.connect(channel, "channel-event", self._on_spice_channel_event)
+        logger.debug("SpiceTab._on_spice_channel_new: fin")
 
     def _on_spice_channel_event(self, channel, event):
         """Callback spice-gtk : événement sur un canal.
@@ -867,6 +912,7 @@ class SpiceTab(Gtk.Box):
             channel (SpiceClientGLib.Channel): Canal source.
             event (SpiceClientGLib.ChannelEvent): Type d'événement.
         """
+        logger.debug("SpiceTab._on_spice_channel_event: entrée")
         app_logger.debug(f"SpiceTab._on_spice_channel_event | event={event}")
         if event == SpiceClientGLib.ChannelEvent.OPENED:
             GLib.idle_add(self._set_status, _("Connect"))
@@ -883,6 +929,7 @@ class SpiceTab(Gtk.Box):
             GLib.idle_add(self._set_status, _("Session ended"))
             GLib.idle_add(self._btn_connect.set_sensitive, True)
             GLib.idle_add(self._btn_disconnect.set_sensitive, False)
+        logger.debug("SpiceTab._on_spice_channel_event: fin")
 
     def _send_special_keys(self, key_names):
         """Envoie une combinaison de touches (Ctrl+Alt+Suppr, Alt+Tab…) à la session SPICE.
@@ -890,11 +937,14 @@ class SpiceTab(Gtk.Box):
         Args:
             key_names (list[str]): noms de touches Gdk (ex: ["Control_L", "Alt_L", "Delete"]).
         """
+        logger.debug("SpiceTab._send_special_keys: entrée")
         if self._spice_display is None:
+            logger.debug("SpiceTab._send_special_keys: sortie")
             return
         keyvals = [Gdk.keyval_from_name(name) for name in key_names]
         self._spice_display.send_keys(keyvals, SpiceClientGtk.DisplayKeyEvent.PRESS)
         self._spice_display.send_keys(keyvals, SpiceClientGtk.DisplayKeyEvent.RELEASE)
+        logger.debug("SpiceTab._send_special_keys: fin")
 
     def _on_usb_devices_clicked(self, widget):
         """Ouvre une boite de dialogue de redirection des peripheriques USB.
@@ -907,7 +957,9 @@ class SpiceTab(Gtk.Box):
         Args:
             widget (Gtk.Button): Bouton declencheur.
         """
+        logger.debug("SpiceTab._on_usb_devices_clicked: entrée")
         if self._spice_session is None:
+            logger.debug("SpiceTab._on_usb_devices_clicked: sortie")
             return
         dialog = Gtk.Dialog(
             title=_("USB devices — {host}").format(host=self.host.name),
@@ -923,9 +975,11 @@ class SpiceTab(Gtk.Box):
         dialog.show_all()
         run_dialog_sync(dialog)
         dialog.destroy()
+        logger.debug("SpiceTab._on_usb_devices_clicked: fin")
 
     def _disconnect_native(self):
         """Ferme la session spice-gtk en cours et retire le Display du conteneur."""
+        logger.debug("SpiceTab._disconnect_native: entrée")
         self._spice_audio = None
         if self._iso_loop_device:
             umount_iso_temp(self._iso_loop_device)
@@ -946,6 +1000,7 @@ class SpiceTab(Gtk.Box):
         self._set_status(_("Disconnect"))
         self._btn_connect.set_sensitive(True)
         self._btn_disconnect.set_sensitive(False)
+        logger.debug("SpiceTab._disconnect_native: fin")
 
     # ── Fallback legacy : construction de la commande subprocess ────────────
 
@@ -964,6 +1019,7 @@ class SpiceTab(Gtk.Box):
             list[str]: Arguments pour subprocess.Popen, ou None si erreur.
         """
 
+        logger.debug("SpiceTab._build_cmd: entrée")
         pairs = parse_spice_hosts(Path(CONFIG_FILE))
         try:
             HostsUpdater().update(pairs)
@@ -983,6 +1039,7 @@ class SpiceTab(Gtk.Box):
             vmid = (getattr(h, "spice_px_vmid", "") or "").strip()
             if not node_name or not vmid:
                 self._set_status(_("Error: Proxmox node and VMID required"))
+                logger.debug("SpiceTab._build_cmd: sortie")
                 return None
             # L'hôte SSH est le champ host standard (API Proxmox)
             hv_host = h.host
@@ -1006,12 +1063,14 @@ class SpiceTab(Gtk.Box):
             except Exception as exc:
                 app_logger.debug(f"SPICE: SSH error: {exc}")
                 self._set_status(_("SSH error: {exc}").format(exc=exc))
+                logger.debug("SpiceTab._build_cmd: sortie")
                 return None
             try:
                 ticket = json.loads(out)
             except Exception as exc:
                 logger.warning("plugin spice | ticket SPICE non décodable : {}", exc)
                 self._set_status(_("SPICE ticket error: {out}").format(out=out[:80]))
+                logger.debug("SpiceTab._build_cmd: sortie")
                 return None
             vv_lines = [
                 "[virt-viewer]",
@@ -1035,6 +1094,7 @@ class SpiceTab(Gtk.Box):
             # Le contenu du .vv (mot de passe du ticket) n'est jamais journalise.
             app_logger.debug(f"SPICE: fichier .vv ecrit ({len(vv_lines)} lignes)")
             app_logger.debug(f"SPICE: lancement remote-viewer {SPICE_BIN} {vv_path}")
+            logger.debug("SpiceTab._build_cmd: sortie")
             return [SPICE_BIN, vv_path]
 
         # ── Mode libvirt : virt-viewer avec URI qemu+ssh://
@@ -1043,6 +1103,7 @@ class SpiceTab(Gtk.Box):
             vm_name = (getattr(h, "spice_vm_name", "") or "").strip()
             if not libvirt_uri:
                 self._set_status(_("Error: libvirt URI required"))
+                logger.debug("SpiceTab._build_cmd: sortie")
                 return None
             cmd = [SPICE_BIN, "--connect", libvirt_uri]
 
@@ -1051,6 +1112,7 @@ class SpiceTab(Gtk.Box):
             if opts_str:
                 cmd += shlex.split(opts_str)
             app_logger.debug(f"SPICE: libvirt command = {mask_password(cmd)}")
+            logger.debug("SpiceTab._build_cmd: sortie")
             return cmd
 
         # ── Mode URI directe : spice://host:port avec TLS optionnel
@@ -1069,6 +1131,7 @@ class SpiceTab(Gtk.Box):
         if opts_str:
             cmd += shlex.split(opts_str)
         app_logger.debug(f"SPICE: direct URI command = {mask_password(cmd)}")
+        logger.debug("SpiceTab._build_cmd: sortie")
         return cmd
 
     def _on_connect(self, widget):
@@ -1077,17 +1140,21 @@ class SpiceTab(Gtk.Box):
         Args:
             widget (Gtk.Button): Bouton declencheur (peut etre None).
         """
+        logger.debug("SpiceTab._on_connect: entrée")
         if _SPICEGTK_OK:
             self._connect_native()
+            logger.debug("SpiceTab._on_connect: sortie")
             return
 
         # ── Mode fallback subprocess ────────────────────────────────────────
         if self._proc is not None and self._proc.poll() is None:
+            logger.debug("SpiceTab._on_connect: sortie")
             return
         self.host.extra_params = self._entry_opts.get_text().strip()
         cmd = self._build_cmd()
         app_logger.debug(f"SpiceTab._on_connect | fallback cmd={mask_password(cmd)}")
         if cmd is None:
+            logger.debug("SpiceTab._on_connect: sortie")
             return
         try:
             self._proc = subprocess.Popen(
@@ -1098,18 +1165,22 @@ class SpiceTab(Gtk.Box):
         except FileNotFoundError:
             app_logger.warning(f"SpiceTab._on_connect | viewer not found | bin={SPICE_BIN}")
             self._set_status(_("remote-viewer not found"))
+            logger.debug("SpiceTab._on_connect: sortie")
             return
         except Exception as exc:
             app_logger.error(f"SpiceTab._on_connect | launch error | exc={exc}", exception=True)
             self._set_status(_("Error launching viewer"))
+            logger.debug("SpiceTab._on_connect: sortie")
             return
         self._set_status(_("Connecting…"))
         self._btn_connect.set_sensitive(False)
         self._btn_disconnect.set_sensitive(True)
         threading.Thread(target=self._wait_proc, daemon=True).start()
+        logger.debug("SpiceTab._on_connect: fin")
 
     def _wait_proc(self):
         """Attend la fin du processus SPICE en arriere-plan (mode fallback)."""
+        logger.debug("SpiceTab._wait_proc: entrée")
         if self._proc:
             rc = self._proc.wait()
             if rc != 0:
@@ -1119,6 +1190,7 @@ class SpiceTab(Gtk.Box):
         GLib.idle_add(self._btn_connect.set_sensitive, True)
         GLib.idle_add(self._btn_disconnect.set_sensitive, False)
         self._proc = None
+        logger.debug("SpiceTab._wait_proc: fin")
 
     def _on_disconnect(self, widget):
         """Termine la session SPICE (spice-gtk natif ou subprocess fallback).
@@ -1126,8 +1198,10 @@ class SpiceTab(Gtk.Box):
         Args:
             widget (Gtk.Button): Bouton declencheur.
         """
+        logger.debug("SpiceTab._on_disconnect: entrée")
         if _SPICEGTK_OK:
             self._disconnect_native()
+            logger.debug("SpiceTab._on_disconnect: sortie")
             return
 
         if self._proc and self._proc.poll() is None:
@@ -1135,6 +1209,7 @@ class SpiceTab(Gtk.Box):
         self._set_status(_("Disconnect"))
         self._btn_connect.set_sensitive(True)
         self._btn_disconnect.set_sensitive(False)
+        logger.debug("SpiceTab._on_disconnect: fin")
 
     def _set_status(self, text: str) -> None:
         """Met a jour le label de statut.
@@ -1142,12 +1217,16 @@ class SpiceTab(Gtk.Box):
         Args:
             text: Nouveau statut.
         """
+        logger.debug("SpiceTab._set_status: entrée")
         app_logger.debug(f"SpiceTab._set_status | status={text}")
         self._lbl_status.set_text(text)
+        logger.debug("SpiceTab._set_status: fin")
 
     def connect_spice(self):
         """Lance la connexion SPICE automatiquement (appele depuis addTab)."""
+        logger.debug("SpiceTab.connect_spice: entrée")
         self._on_connect(None)
+        logger.debug("SpiceTab.connect_spice: fin")
 
     def build_context_menu(self):
         """Construit le menu contextuel (clic droit sur l'onglet) de cet onglet SPICE.
@@ -1159,11 +1238,14 @@ class SpiceTab(Gtk.Box):
             Gtk.Menu | None: Connect / Disconnect / Peripheriques USB (si
                 autorises) / Touches spéciales, ou None en mode fallback.
         """
+        logger.debug("SpiceTab.build_context_menu: entrée")
         if not _SPICEGTK_OK:
+            logger.debug("SpiceTab.build_context_menu: sortie")
             return None
         extra_items = []
         if self._btn_usb.get_visible():
             extra_items.append((_("USB devices…"), lambda _w: self._on_usb_devices_clicked(None)))
+        logger.debug("SpiceTab.build_context_menu: sortie")
         return build_remote_desktop_context_menu(
             self._btn_connect,
             self._btn_disconnect,
@@ -1183,6 +1265,7 @@ class SpicePlugin(ConnectionPlugin):
 
     def __init__(self) -> None:
         """Initialise les références de widgets du formulaire SPICE (peuplées par ``build_edit_page()``)."""
+        logger.debug("SpicePlugin.__init__: entrée")
         self._radio_uri: Gtk.RadioButton | None = None
         self._radio_libvirt: Gtk.RadioButton | None = None
         self._radio_proxmox: Gtk.RadioButton | None = None
@@ -1200,6 +1283,7 @@ class SpicePlugin(ConnectionPlugin):
         self._chk_share_audio: Gtk.CheckButton | None = None
         self._chk_share_folder: Gtk.CheckButton | None = None
         self._txt_shared_folder_path: Gtk.Entry | None = None
+        logger.debug("SpicePlugin.__init__: fin")
 
     def build_tab(self, host, get_password: Callable[[], str] | None = None) -> Gtk.Widget:
         """Construit l'onglet de session SPICE (délègue à ``SpiceTab``).
@@ -1221,6 +1305,7 @@ class SpicePlugin(ConnectionPlugin):
             Un ``Gtk.Box`` autonome reproduisant ``gridSpiceProps`` (3 modes
             mutuellement exclusifs + options de partage communes).
         """
+        logger.debug("SpicePlugin.build_edit_page: entrée")
         outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         outer.set_margin_start(8)
         outer.set_margin_end(8)
@@ -1244,6 +1329,7 @@ class SpicePlugin(ConnectionPlugin):
         self._radio_proxmox.connect("toggled", self._on_mode_toggled)
 
         def make_grid(*rows):
+            logger.debug("make_grid: entrée")
             g = Gtk.Grid()
             g.set_row_spacing(4)
             g.set_column_spacing(6)
@@ -1254,6 +1340,7 @@ class SpicePlugin(ConnectionPlugin):
                 g.attach(lbl, 0, i, 1, 1)
                 widget.set_hexpand(True)
                 g.attach(widget, 1, i, 1, 1)
+            logger.debug("make_grid: sortie")
             return g
 
         self._txt_tls_port = Gtk.Entry()
@@ -1297,6 +1384,7 @@ class SpicePlugin(ConnectionPlugin):
 
         outer.show_all()
         self._sync_mode_visibility()  # applique l'exclusivité mutuelle initiale (mode "uri" par défaut)
+        logger.debug("SpicePlugin.build_edit_page: sortie")
         return outer
 
     def _on_mode_toggled(self, widget: Gtk.RadioButton) -> None:
@@ -1306,11 +1394,14 @@ class SpicePlugin(ConnectionPlugin):
             widget: Le bouton radio qui vient de changer d'état (ignoré —
                 on relit l'état des trois pour rester simple et robuste).
         """
+        logger.debug("SpicePlugin._on_mode_toggled: entrée")
         if widget.get_active():
             self._sync_mode_visibility()
+        logger.debug("SpicePlugin._on_mode_toggled: fin")
 
     def _sync_mode_visibility(self) -> None:
         """Affiche la sous-grille correspondant au mode actif, masque les deux autres."""
+        logger.debug("SpicePlugin._sync_mode_visibility: entrée")
         is_libvirt = self._radio_libvirt is not None and self._radio_libvirt.get_active()
         is_proxmox = self._radio_proxmox is not None and self._radio_proxmox.get_active()
         is_uri = not is_libvirt and not is_proxmox
@@ -1320,6 +1411,7 @@ class SpicePlugin(ConnectionPlugin):
             self._grid_libvirt.set_visible(is_libvirt)
         if self._grid_proxmox is not None:
             self._grid_proxmox.set_visible(is_proxmox)
+        logger.debug("SpicePlugin._sync_mode_visibility: fin")
 
     def load_host_fields(self, host) -> None:
         """Recharge tous les champs SPICE depuis *host*, y compris le mode actif.
@@ -1327,6 +1419,7 @@ class SpicePlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` source.
         """
+        logger.debug("SpicePlugin.load_host_fields: entrée")
         mode = getattr(host, "spice_mode", "uri") or "uri"
         if mode == "libvirt" and self._radio_libvirt is not None:
             self._radio_libvirt.set_active(True)
@@ -1369,6 +1462,7 @@ class SpicePlugin(ConnectionPlugin):
         logger.debug(
             f"SpicePlugin.load_host_fields | host={getattr(host, 'name', '?')} mode={mode}"
         )
+        logger.debug("SpicePlugin.load_host_fields: fin")
 
     def save_host_fields(self, host) -> None:
         """Reporte tous les champs SPICE dans *host*, y compris le mode actif.
@@ -1376,6 +1470,7 @@ class SpicePlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` à mettre à jour.
         """
+        logger.debug("SpicePlugin.save_host_fields: entrée")
         if self._radio_libvirt is not None and self._radio_libvirt.get_active():
             host.spice_mode = "libvirt"
         elif self._radio_proxmox is not None and self._radio_proxmox.get_active():
@@ -1404,6 +1499,7 @@ class SpicePlugin(ConnectionPlugin):
             self._txt_shared_folder_path.get_text().strip() if self._txt_shared_folder_path else ""
         )
         logger.debug(f"SpicePlugin.save_host_fields | host={getattr(host, 'name', '?')}")
+        logger.debug("SpicePlugin.save_host_fields: fin")
 
     def host_fields(self) -> list[tuple[str, object]]:
         """Champs ``Host`` propres au protocole SPICE."""
