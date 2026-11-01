@@ -15,7 +15,13 @@ from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Vte
 
 from folder_context_menu_core import build_folder_context_menu_layout, should_show_protocol_items
 from gesture_trigger_core import classify_tab_label_click
-from inline_editor_core import classify_editor_button_press, classify_editor_key_press
+from inline_editor_core import (
+    EDITOR_MENU_ACTIONS,
+    classify_editor_button_press,
+    classify_editor_focus_leave,
+    classify_editor_key_press,
+    is_editor_menu_button,
+)
 from popup_menu_core import (
     POPUP_MENU_ACTIONS,
     POPUP_MENU_SECTIONS,
@@ -1695,18 +1701,127 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         Gtk.CellRendererText.__init__(self)
         self._in_editor_menu = False
 
-    def _on_editor_focus_out_event(self, editor, *args):
-        """Gestionnaire de perte de focus de l'editeur.
+    def _on_editor_focus_leave(self, editor):
+        """Perte de focus de l'editeur inline : valide l'edition (#96, option A du 28/10/2026).
+
+        Portage du couple ``focus-out-event``/``populate-popup`` : le focus qui
+        part vers le popover maitrise de l'editeur (:meth:`_open_editor_menu`)
+        ne valide pas ; toute autre perte de focus emet ``edited`` avec le
+        texte en cours. Classification deleguee a
+        ``inline_editor_core.classify_editor_focus_leave()``.
 
         Args:
             editor (CellTextView): Widget d'edition source.
-            *args: Arguments additionnels transmis par le signal
-                ``focus-out-event`` (l'``Gdk.EventFocus``), non utilises.
         """
-        if self._in_editor_menu:
-            return
-        editor.remove_widget()
-        self.emit("editing-canceled")
+        app_logger.debug("MultilineCellRenderer._on_editor_focus_leave() called")
+        outcome = classify_editor_focus_leave(
+            menu_open=self._in_editor_menu, done=getattr(editor, "_done", False)
+        )
+        if outcome == "commit":
+            editor._done = True
+            editor.remove_widget()
+            self.emit("edited", editor.path, editor.get_text())
+        app_logger.debug(f"MultilineCellRenderer._on_editor_focus_leave() returning | {outcome=}")
+
+    def _on_editor_focus_out_event(self, editor, *args):
+        """Gestionnaire GTK3 ``focus-out-event`` (sans ``Gtk.EventControllerFocus``).
+
+        Args:
+            editor (CellTextView): Widget d'edition source.
+            *args: ``Gdk.EventFocus``, non utilise.
+
+        Returns:
+            bool: ``False``, l'evenement se propage.
+        """
+        app_logger.debug("MultilineCellRenderer._on_editor_focus_out_event() called")
+        self._on_editor_focus_leave(editor)
+        app_logger.debug("MultilineCellRenderer._on_editor_focus_out_event() returning | False")
+        return False
+
+    def _connect_editor_focus_leave(self, editor):
+        """Branche la perte de focus : ``Gtk.EventControllerFocus`` (GTK4), sinon ``focus-out-event``.
+
+        ``Gtk.EventControllerFocus`` n'existe qu'a partir de GTK 4.0 ;
+        l'application tourne encore en GTK3, d'ou le repli.
+
+        Args:
+            editor (CellTextView): Editeur a surveiller.
+        """
+        app_logger.debug("MultilineCellRenderer._connect_editor_focus_leave() called")
+        controller_cls = getattr(Gtk, "EventControllerFocus", None)
+        if controller_cls is not None:
+            editor._focus_controller = controller_cls.new()
+            editor._focus_controller.connect(
+                "leave", lambda _c: self._on_editor_focus_leave(editor)
+            )
+            editor.add_controller(editor._focus_controller)
+        else:
+            editor.connect("focus-out-event", self._on_editor_focus_out_event)
+        app_logger.debug(
+            f"MultilineCellRenderer._connect_editor_focus_leave() returning | gtk4={controller_cls is not None}"
+        )
+
+    def _on_editor_popup_menu_key(self, editor):
+        """Touche Menu / Maj+F10 (GTK3) : ouvre le popover maitrise en haut a gauche.
+
+        Args:
+            editor (CellTextView): Editeur porteur.
+
+        Returns:
+            bool: ``True``, le menu natif n'est pas ouvert.
+        """
+        app_logger.debug("MultilineCellRenderer._on_editor_popup_menu_key() called")
+        self._open_editor_menu(editor, 0, 0)
+        app_logger.debug("MultilineCellRenderer._on_editor_popup_menu_key() returning | True")
+        return True
+
+    def _open_editor_menu(self, editor, x, y):
+        """Ouvre le popover maitrise de l'editeur (couper, copier, coller, tout selectionner).
+
+        Remplace le menu contextuel natif et son ``populate-popup`` (#96,
+        decision du 12/10/2026). ``self._in_editor_menu`` est vrai tant que le
+        popover est ouvert, ce qui suspend la validation sur perte de focus.
+        ``Gtk.PopoverMenu.new_from_model()`` (GTK4) ou
+        ``Gtk.Popover.new_from_model()`` (GTK3 >= 3.12).
+
+        Args:
+            editor (CellTextView): Editeur porteur.
+            x (float): Abscisse du clic dans l'editeur.
+            y (float): Ordonnee du clic dans l'editeur.
+        """
+        app_logger.debug(f"MultilineCellRenderer._open_editor_menu() called | x={x!r} y={y!r}")
+        model = Gio.Menu()
+        group = Gio.SimpleActionGroup()
+        for name, label, signal in EDITOR_MENU_ACTIONS:
+            action = Gio.SimpleAction.new(name, None)
+            args = (True,) if signal == "select-all" else ()
+            action.connect(
+                "activate", lambda _a, _p, sig=signal, extra=args: editor.emit(sig, *extra)
+            )
+            group.add_action(action)
+            model.append(label, f"editor.{name}")
+        editor.insert_action_group("editor", group)
+        if hasattr(Gtk.PopoverMenu, "new_from_model"):
+            popover = Gtk.PopoverMenu.new_from_model(model)
+            popover.set_parent(editor)
+        else:
+            popover = Gtk.Popover.new_from_model(editor, model)
+        rect = Gdk.Rectangle()
+        rect.x, rect.y, rect.width, rect.height = int(x), int(y), 1, 1
+        popover.set_pointing_to(rect)
+
+        def on_closed(_popover):
+            """Fermeture du popover : la perte de focus valide de nouveau."""
+            app_logger.debug("MultilineCellRenderer._open_editor_menu.on_closed() called")
+            self._in_editor_menu = False
+            editor.grab_focus()
+            app_logger.debug("MultilineCellRenderer._open_editor_menu.on_closed() returning")
+
+        popover.connect("closed", on_closed)
+        editor._menu_popover = popover
+        self._in_editor_menu = True
+        popover.popup()
+        app_logger.debug("MultilineCellRenderer._open_editor_menu() returning")
 
     def _on_editor_key_pressed(self, controller, keyval, keycode, state):
         """Gestionnaire de touche dans l'editeur inline (``Gtk.EventControllerKey``).
@@ -1744,36 +1859,15 @@ class MultilineCellRenderer(Gtk.CellRendererText):
             escape_keyval=Gdk.KEY_Escape,
         )
         if outcome == "commit":
+            editor._done = True
             editor.remove_widget()
             self.emit("edited", editor.path, editor.get_text())
         elif outcome == "cancel":
+            editor._done = True
             editor.remove_widget()
             self.emit("editing-canceled")
         app_logger.debug(f"MultilineCellRenderer._on_editor_key_pressed() returning | {outcome=}")
         return False
-
-    def _on_editor_populate_popup(self, editor, menu):
-        """Gestionnaire de remplissage du menu contextuel de l'editeur.
-
-        Args:
-            editor (CellTextView): Widget d'edition source.
-            menu (Gtk.Menu): Menu contextuel a peupler.
-        """
-        self._in_editor_menu = True
-
-        def on_menu_unmap(menu, self):
-            """Gestionnaire de fermeture du menu contextuel.
-
-            Args:
-                menu (Gtk.Menu): Menu ferme (source du signal ``unmap``).
-                self (MultilineCellRenderer): Instance du renderer, passee
-                    en ``user_data`` par ``menu.connect("unmap", ...,
-                    self)`` — masque volontairement le ``self`` de la
-                    methode englobante, non utilise ici.
-            """
-            self._in_editor_menu = False
-
-        menu.connect("unmap", on_menu_unmap, self)
 
     def _on_editor_button_pressed(self, gesture, n_press, x, y):
         """Gestionnaire de clic souris dans l'editeur inline (``Gtk.GestureMultiPress``).
@@ -1810,6 +1904,9 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         outcome = classify_editor_button_press(n_press=n_press)
         if outcome == "claim":
             gesture.set_state(Gtk.EventSequenceState.CLAIMED)
+        # Clic droit : popover maitrise a la place du menu natif (#96).
+        if is_editor_menu_button(gesture.get_current_button()):
+            self._open_editor_menu(gesture.get_widget(), x, y)
         app_logger.debug(
             f"MultilineCellRenderer._on_editor_button_pressed() returning | {outcome=}"
         )
@@ -1845,7 +1942,9 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         editor.set_size_request(cell_area.width, cell_area.height)
         editor.set_border_width(min(self.props.xpad, self.props.ypad))
         editor.path = path
-        editor.connect("focus-out-event", self._on_editor_focus_out_event)
+        # focus-out-event -> Gtk.EventControllerFocus/leave en GTK4 (#96) : la
+        # perte de focus valide l'edition, sauf popover de l'editeur ouvert.
+        self._connect_editor_focus_leave(editor)
         # key-press-event -> Gtk.EventControllerKey/key-pressed, porte cette
         # session (docs/gtk4-migration.md §3.6-undecies). Gtk.EventControllerKey
         # est la meme classe en GTK3 (>= 3.24) et en GTK4 ; seule sa
@@ -1856,7 +1955,12 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         # pour eviter que PyGObject ne libere le wrapper Python prematurement.
         editor._key_controller = Gtk.EventControllerKey.new(editor)
         editor._key_controller.connect("key-pressed", self._on_editor_key_pressed)
-        editor.connect("populate-popup", self._on_editor_populate_popup)
+        # populate-popup supprime (#96) : le clic droit ouvre le popover maitrise
+        # de l'editeur (_open_editor_menu), dont ouverture et fermeture sont connues.
+        # Touche Menu / Maj+F10 (signal GTK3 "popup-menu") : meme popover, le menu
+        # natif n'est plus jamais ouvert. GTK4 n'a plus ce signal (action menu.popup).
+        if GObject.signal_lookup("popup-menu", Gtk.TextView):
+            editor.connect("popup-menu", self._on_editor_popup_menu_key)
         # button-press-event -> Gtk.GestureMultiPress/pressed, porte cette
         # session (docs/gtk4-migration.md §3.6-terdecies), meme principe que
         # key-press-event en session-43. set_button(0) : tous boutons, comme
