@@ -39,12 +39,14 @@ class TelnetTab(Gtk.Box):
         Args:
             host: Instance ``Host`` avec ``protocol == "telnet"``.
         """
+        logger.debug("TelnetTab.__init__: entrée")
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         self.host = host
         self.terminal = self._build_terminal(host)
         scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, self.terminal.get_vadjustment())
         self.pack_start(self.terminal, True, True, 0)
         self.pack_start(scrollbar, False, False, 0)
+        logger.debug("TelnetTab.__init__: fin")
 
     def _build_terminal(self, host) -> Vte.Terminal:
         """Construit et configure le ``Vte.Terminal`` (couleurs, police, scrollback).
@@ -55,6 +57,7 @@ class TelnetTab(Gtk.Box):
         Returns:
             Le ``Vte.Terminal`` configuré (pas encore de commande lancée).
         """
+        logger.debug("TelnetTab._build_terminal: entrée")
         from gnome_connection_manager import conf, parse_color_rgba, wMain  # noqa: PLC0415
 
         v = Vte.Terminal()
@@ -102,6 +105,7 @@ class TelnetTab(Gtk.Box):
 
         v.set_backspace_binding(host.backspace_key)
         v.set_delete_binding(host.delete_key)
+        logger.debug("TelnetTab._build_terminal: sortie")
         return v
 
     def connect_telnet(self) -> None:
@@ -112,6 +116,7 @@ class TelnetTab(Gtk.Box):
         n'est renseigné (pas d'auto-authentification possible), sinon
         ``ssh.expect`` pour saisir le mot de passe automatiquement.
         """
+        logger.debug("TelnetTab.connect_telnet: entrée")
         from gnome_connection_manager import SSH_COMMAND, TEL_BIN, wMain  # noqa: PLC0415
 
         host = self.host
@@ -156,6 +161,7 @@ class TelnetTab(Gtk.Box):
             if lines:
                 GLib.timeout_add(basetime, wMain.send_data, v, "\r".join(lines))
         v.queue_draw()
+        logger.debug("TelnetTab.connect_telnet: fin")
 
 
 class TelnetPlugin(ConnectionPlugin):
@@ -189,8 +195,10 @@ class TelnetPlugin(ConnectionPlugin):
             Un ``Gtk.Box`` vide (les champs communs Host/Port/User/Password
             de la coquille Whost suffisent, comme pour IPMI SOL).
         """
+        logger.debug("TelnetPlugin.build_edit_page: entrée")
         box = Gtk.Box()
         box.show()
+        logger.debug("TelnetPlugin.build_edit_page: sortie")
         return box
 
     def load_host_fields(self, host) -> None:
