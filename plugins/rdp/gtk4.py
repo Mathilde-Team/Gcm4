@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Plugin rdp de gcm4 (contrat v1, ``docs/plugins.md``) : bureau RDP sur AsyncRdp.
 
-Remplace ``plugins/plugin_rdp.py`` (GTK3, ``GtkFrdp.Display`` sur
+Remplace ``plugins/plugin_rdp.py`` (GTK3, retiré avec ``gtk-frdp/``, ``GtkFrdp.Display`` sur
 ``Gtk.Socket``/XEmbed, supprimé en GTK4) : #105, #71. La connexion passe
 par `AsyncRdp <https://github.com/Mathilde-Team/AsyncRdp4>`_ (FreeRDP 3 en
 asyncio) et ses deux intégrations GTK4, qui ne sont pas dans la wheel
@@ -19,13 +19,15 @@ dans la variable d'environnement ``ASYNCRDP_GTK4_DIR``, puis dans le
 
 Écarts avec GTK3, voulus ou en attente :
 
-- la session démarre à l'ouverture de l'hôte : les boutons
-  Connecter/Déconnecter du GTK3 ne sont pas repris, fermer l'onglet
-  déconnecte ;
+- la session démarre à l'ouverture de l'hôte ; le menu contextuel GTK3
+  (Connecter/Déconnecter, « Touches spéciales ») devient un bouton de
+  menu en haut de l'onglet : Déconnecter, Reconnecter et les
+  combinaisons de :data:`core.COMBINAISONS`, envoyées par
+  ``client.keyboard.combo`` (AsyncRdp 0.x avec ``Keyboard.combo``) ;
+  fermer l'onglet déconnecte ;
 - le partage d'une image ISO (montée par ``udisksctl`` en GTK3) est refusé
   par la validation ;
-- le glisser-déposer de fichiers et l'envoi de combinaisons de touches
-  (Ctrl+Alt+Suppr) du menu GTK3 ne sont pas encore repris.
+- le glisser-déposer de fichiers n'est pas encore repris.
 """
 
 from __future__ import annotations
@@ -40,7 +42,7 @@ import gi
 
 gi.require_version("Gtk", "4.0")  # déjà fixé par gcm4 ; déclare le fichier GTK4 (#178)
 
-from gi.repository import Gdk, Gtk  # noqa: E402
+from gi.repository import Gdk, Gio, GLib, Gtk  # noqa: E402
 from loguru import logger  # noqa: E402
 
 from gcm4.core.i18n import _  # noqa: E402
@@ -160,6 +162,30 @@ def options_asyncrdp(module: Any, reglages: core.Reglages) -> Any:
     return resultat
 
 
+#: Préfixe des actions de l'onglet (``rdp.deconnecter``…).
+GROUPE_ACTIONS = "rdp"
+
+
+def construire_menu() -> Gio.Menu:
+    """Menu de l'onglet : Déconnecter, Reconnecter, « Touches spéciales » (#71)."""
+    logger.debug("construire_menu: entrée")
+    menu = Gio.Menu()
+    session = Gio.Menu()
+    session.append(_("Disconnect"), f"{GROUPE_ACTIONS}.deconnecter")
+    session.append(_("Reconnect"), f"{GROUPE_ACTIONS}.reconnecter")
+    menu.append_section(None, session)
+    touches = Gio.Menu()
+    for identifiant, libelle, _noms in core.COMBINAISONS:
+        element = Gio.MenuItem.new(libelle, None)
+        element.set_action_and_target_value(
+            f"{GROUPE_ACTIONS}.touches", GLib.Variant.new_string(identifiant)
+        )
+        touches.append_item(element)
+    menu.append_submenu(_("Special keys"), touches)
+    logger.debug("construire_menu: fait")
+    return menu
+
+
 class RdpOnglet:
     """Onglet RDP : message d'état pendant la connexion, puis le bureau distant."""
 
@@ -192,10 +218,23 @@ class RdpOnglet:
         self.vue.set_vexpand(True)
         self.vue.set_focusable(True)
         self.etat = Gtk.Label(label=_("Connecting to {host}…").format(host=host.host), wrap=True)
-        self.widget = Gtk.Stack()
-        self.widget.add_named(self.etat, "etat")
-        self.widget.add_named(self.vue, "bureau")
-        self.widget.set_visible_child_name("etat")
+        self._mot_de_passe = ""
+        self.pile = Gtk.Stack(hexpand=True, vexpand=True)
+        self.pile.add_named(self.etat, "etat")
+        self.pile.add_named(self.vue, "bureau")
+        self.pile.set_visible_child_name("etat")
+        self.actions = self._actions()
+        self.menu = Gtk.MenuButton(
+            icon_name="input-keyboard-symbolic",
+            menu_model=construire_menu(),
+            tooltip_text=_("Remote desktop"),
+            halign=Gtk.Align.END,
+        )
+        self.menu.add_css_class("flat")
+        self.widget = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.widget.insert_action_group(GROUPE_ACTIONS, self.actions)
+        self.widget.append(self.menu)
+        self.widget.append(self.pile)
         self._session = modules.session(
             view=self.vue,
             gdk_display=Gdk.Display.get_default(),
@@ -203,9 +242,33 @@ class RdpOnglet:
         )
         logger.debug("RdpOnglet.__init__: fait")
 
+    def _actions(self) -> Gio.SimpleActionGroup:
+        """Actions du menu de l'onglet (préfixe :data:`GROUPE_ACTIONS`)."""
+        logger.debug("RdpOnglet._actions: entrée")
+        groupe = Gio.SimpleActionGroup()
+        for nom, rappel in (("deconnecter", self.deconnecter), ("reconnecter", self.reconnecter)):
+            action = Gio.SimpleAction.new(nom, None)
+            action.connect("activate", lambda _a, _p, f=rappel: f())
+            groupe.add_action(action)
+        touches = Gio.SimpleAction.new("touches", GLib.VariantType.new("s"))
+        touches.connect("activate", lambda _a, p: self.envoyer_touches(p.get_string()))
+        groupe.add_action(touches)
+        self._groupe = groupe
+        self._sensibilite(False)
+        logger.debug("RdpOnglet._actions: fait")
+        return groupe
+
+    def _sensibilite(self, connecte: bool) -> None:
+        """Déconnecter et les touches n'ont de sens qu'une fois connecté."""
+        logger.debug("RdpOnglet._sensibilite: {}", connecte)
+        self._groupe.lookup_action("deconnecter").set_enabled(connecte)
+        self._groupe.lookup_action("touches").set_enabled(connecte)
+        logger.debug("RdpOnglet._sensibilite: fait")
+
     def connecter(self, mot_de_passe: str) -> asyncio.Future:
         """Lance la connexion (tâche asyncio sur la boucle GLib)."""
         logger.debug("RdpOnglet.connecter: entrée")
+        self._mot_de_passe = mot_de_passe
         self._tache = asyncio.ensure_future(self._connecter(mot_de_passe))
         logger.debug("RdpOnglet.connecter: tâche lancée")
         return self._tache
@@ -236,7 +299,8 @@ class RdpOnglet:
             await self._session.disconnect()
             logger.debug("RdpOnglet._connecter: onglet déjà fermé")
             return False
-        self.widget.set_visible_child_name("bureau")
+        self.pile.set_visible_child_name("bureau")
+        self._sensibilite(True)
         self.vue.grab_focus()
         logger.debug("RdpOnglet._connecter: connectée")
         return True
@@ -245,10 +309,83 @@ class RdpOnglet:
         """Affiche ``message`` dans l'onglet et en toast."""
         logger.debug("RdpOnglet.echec: entrée")
         self.etat.set_label(message)
-        self.widget.set_visible_child_name("etat")
+        self.pile.set_visible_child_name("etat")
+        self._sensibilite(False)
         if self._notifier is not None:
             self._notifier(message)
         logger.debug("RdpOnglet.echec: fait")
+
+    def deconnecter(self) -> asyncio.Future | None:
+        """Déconnecte sans fermer l'onglet ; Reconnecter relance la session."""
+        logger.debug("RdpOnglet.deconnecter: entrée")
+        if self.ferme:
+            logger.debug("RdpOnglet.deconnecter: onglet fermé")
+            return None
+        if self._tache is not None and not self._tache.done():
+            self._tache.cancel()
+        self._sensibilite(False)
+        self.etat.set_label(_("Disconnected from {host}").format(host=self._reglages.hote))
+        self.pile.set_visible_child_name("etat")
+        self._fermeture = asyncio.ensure_future(self._session.disconnect())
+        logger.debug("RdpOnglet.deconnecter: déconnexion lancée")
+        return self._fermeture
+
+    def reconnecter(self) -> asyncio.Future | None:
+        """Déconnecte puis reconnecte avec le dernier mot de passe saisi."""
+        logger.debug("RdpOnglet.reconnecter: entrée")
+        if self.ferme:
+            logger.debug("RdpOnglet.reconnecter: onglet fermé")
+            return None
+        if self._tache is not None and not self._tache.done():
+            self._tache.cancel()
+        self._sensibilite(False)
+        self.etat.set_label(_("Connecting to {host}…").format(host=self._reglages.hote))
+        self.pile.set_visible_child_name("etat")
+        self._tache = asyncio.ensure_future(self._reconnecter())
+        logger.debug("RdpOnglet.reconnecter: tâche lancée")
+        return self._tache
+
+    async def _reconnecter(self) -> bool:
+        """Attend la déconnexion éventuelle, puis :meth:`_connecter`."""
+        logger.debug("RdpOnglet._reconnecter: entrée")
+        await self._session.disconnect()
+        resultat = await self._connecter(self._mot_de_passe)
+        logger.debug("RdpOnglet._reconnecter: {}", resultat)
+        return resultat
+
+    def envoyer_touches(self, identifiant: str) -> bool:
+        """Envoie la combinaison ``identifiant`` de :data:`core.COMBINAISONS`.
+
+        Rend faux, avec un toast, sans session ou si AsyncRdp ne connaît pas
+        ``Keyboard.combo`` (version antérieure).
+        """
+        logger.debug("RdpOnglet.envoyer_touches: {!r}", identifiant)
+        noms = core.touches(identifiant)
+        client = getattr(self._session, "client", None)
+        clavier = getattr(client, "keyboard", None)
+        combo = getattr(clavier, "combo", None)
+        if combo is None:
+            message = (
+                _("Not connected")
+                if client is None
+                else _("This AsyncRdp version cannot send key combinations")
+            )
+            self._log.warning("touches {} non envoyées : {}", identifiant, message)
+            if self._notifier is not None:
+                self._notifier(message)
+            logger.debug("RdpOnglet.envoyer_touches: indisponible")
+            return False
+        try:
+            combo(*noms)
+        except (ValueError, RuntimeError, OSError) as exc:
+            self._log.warning("touches {} : {}", identifiant, exc)
+            if self._notifier is not None:
+                self._notifier(_("Key combination failed: {error}").format(error=exc))
+            logger.debug("RdpOnglet.envoyer_touches: échec")
+            return False
+        self.vue.grab_focus()
+        logger.debug("RdpOnglet.envoyer_touches: envoyé")
+        return True
 
     def close(self) -> None:
         """Annule une connexion en cours et déconnecte (asynchrone, rien ne bloque)."""

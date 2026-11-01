@@ -163,3 +163,13 @@ def test_reglages_invalides():
     """Options invalides : ValueError avec le message de validation."""
     with pytest.raises(ValueError):
         core.reglages(_hote({"rdp_geometry": "custom"}))
+
+
+def test_combinaisons():
+    """Menu « Touches spéciales » (#71) : identifiants uniques, touches AsyncRdp."""
+    identifiants = [c[0] for c in core.COMBINAISONS]
+    assert len(set(identifiants)) == len(identifiants) == 5
+    assert core.touches("ctrl-alt-suppr") == ("ctrl", "alt", "delete")
+    assert core.touches("impr-ecran") == ("print",)
+    with pytest.raises(KeyError):
+        core.touches("inconnue")

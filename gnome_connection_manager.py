@@ -6195,7 +6195,7 @@ class Whost(GCMBase, Gtk.Dialog):
         # simple placeholder par protocole tient la position dans nbHost
         # jusqu'a ce que new() le remplace par la page construite par le
         # plugin correspondant (cf. self._PLUGIN_TAB_ATTRS, aucune
-        # dependance native n'est obligatoire sauf RDP -> GtkFrdp).
+        # dependance native n'est obligatoire sauf RDP -> AsyncRdp, plugin rdp GTK4).
         # ================================================================
         for _proto in self._PLUGIN_TAB_ATTRS.values():
             setattr(self, _proto, Gtk.Box())

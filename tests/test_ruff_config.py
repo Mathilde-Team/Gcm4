@@ -20,6 +20,7 @@ développement, pas d'exécution).
 
 import os
 import unittest
+from pathlib import Path
 
 import tomllib
 
@@ -54,9 +55,10 @@ class TestRuffExcludesVendoredDirectories(unittest.TestCase):
         """`SSH-Studio/` (code amont vendoré) est exclu du lint ruff."""
         self.assertIn("SSH-Studio", _load_ruff_exclude())
 
-    def test_gtk_frdp_excluded(self):
-        """`gtk-frdp/` (sous-module meson vendoré) est exclu du lint ruff."""
-        self.assertIn("gtk-frdp", _load_ruff_exclude())
+    def test_gtk_frdp_retire(self):
+        """`gtk-frdp/` est retiré (#71, remplacé par AsyncRdp) : plus rien à exclure."""
+        self.assertFalse((Path(__file__).resolve().parents[1] / "gtk-frdp").exists())
+        self.assertNotIn("gtk-frdp", _load_ruff_exclude())
 
     def test_own_source_not_excluded(self):
         """Le code GCM lui-même (plugins/, tests/) reste couvert, pas exclu par erreur."""

@@ -55,10 +55,6 @@ l'équipe reste réutilisable séparément sous GPL-3.0-or-later.
 Code vendorisé (non distribué dans les paquets gcm4)
 ----------------------------------------------------
 
-- gtk-frdp/ (Marek Kasik, GNOME) : COPYING contient la LGPL-3.0 ;
-  gtk-frdp.h et gtk-frdp-version.h.in sont en LGPL-3.0-or-later, les
-  13 autres sources de src/ en GPL-3.0-or-later. L'ensemble de la
-  bibliothèque compilée est donc à traiter comme GPL-3.0-or-later.
 - SSH-Studio/ (BuddySirJava) : LICENSE contient la GPL-3.0, et
   meson.build déclare « GPL-3.0-or-later ».
 

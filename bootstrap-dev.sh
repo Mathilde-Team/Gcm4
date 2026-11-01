@@ -15,7 +15,8 @@
 #      --system-site-packages`, obligatoire pour `import gi`)
 #   3. `uv sync` avec tous les extras (netmiko, paramiko, libvirt, vnc) et
 #      le groupe de dépendances de développement (ruff, black, pytest)
-#   4. (optionnel, --with-rdp) compilation de gtk-frdp/ via meson
+#   4. (optionnel, --with-rdp) AsyncRdp (FreeRDP 3) pour le plugin rdp GTK4 :
+#      clone d'AsyncRdp4 à côté de Gcm4 s'il manque, installation dans le venv
 #   5. (optionnel, --with-snmp) libsnmp-dev + ezsnmp (plugin_snmp_push.py)
 #
 # Usage :
@@ -80,14 +81,9 @@ if [[ "$NO_APT" -eq 0 ]]; then
         fi
         if [[ "$WITH_RDP" -eq 1 ]]; then
             APT_PKGS+=(
-                meson
-                ninja-build
-                valac
-                libgirepository1.0-dev
-                libfuse3-dev
-                libgtk-3-dev
-                gtk-doc-tools
                 freerdp3-dev
+                python3-dev
+                build-essential
             )
         fi
         if [[ "$WITH_SNMP" -eq 1 ]]; then
@@ -161,26 +157,28 @@ else
     warn "Cryptodome indisponible — relancez : uv sync --extra vnc"
 fi
 
-# ── 8. Support RDP optionnel (gtk-frdp) ──────────────────────────────────────
+# ── 8. Support RDP optionnel (AsyncRdp, plugin rdp GTK4) ────────────────────
+# gtk-frdp (GTK3) est abandonné au profit d'AsyncRdp (#71, #105). Le dépôt
+# AsyncRdp4 est cherché à côté de Gcm4 (ASYNCRDP_DIR pour un autre chemin) ;
+# son dossier integrations/gtk4 est donné au plugin par ASYNCRDP_GTK4_DIR
+# ou la clé « integrations » de [plugin rdp] dans gcm4.conf.
 if [[ "$WITH_RDP" -eq 1 ]]; then
-    info "Compilation de gtk-frdp/ (meson) pour activer plugin_rdp"
-    if ! command -v meson >/dev/null 2>&1 || ! command -v valac >/dev/null 2>&1; then
-        fail "meson/valac manquants — relancez avec --with-rdp sans --no-apt, ou installez-les manuellement."
-    else
-        # --prefix=/usr (et non /usr/local, le défaut de meson) : le typelib est
-        # ainsi installé dans /usr/lib/.../girepository-1.0, le chemin que
-        # GObject-Introspection scanne par défaut. Avec /usr/local, l'import
-        # `from gi.repository import GtkFrdp` échoue (ValueError: Namespace
-        # GtkFrdp not available) sauf à exporter GI_TYPELIB_PATH manuellement.
-        rm -rf gtk-frdp/build
-        meson setup --prefix=/usr gtk-frdp/build gtk-frdp
-        ninja -C gtk-frdp/build
-        sudo ninja -C gtk-frdp/build install
-        sudo ldconfig
-        ok "gtk-frdp compilé et installé (relancez l'app pour activer plugin_rdp)"
+    ASYNCRDP_DIR="${ASYNCRDP_DIR:-$(cd .. && pwd)/AsyncRdp4}"
+    if [[ ! -d "$ASYNCRDP_DIR" ]]; then
+        info "git clone https://github.com/Mathilde-Team/AsyncRdp4 $ASYNCRDP_DIR"
+        git clone https://github.com/Mathilde-Team/AsyncRdp4 "$ASYNCRDP_DIR" \
+            || warn "clone d'AsyncRdp4 impossible — plugin rdp indisponible."
+    fi
+    if [[ -d "$ASYNCRDP_DIR" ]]; then
+        info "uv pip install -e $ASYNCRDP_DIR (compile le shim FreeRDP 3)"
+        if uv pip install -e "$ASYNCRDP_DIR"; then
+            ok "AsyncRdp installé — exportez ASYNCRDP_GTK4_DIR=$ASYNCRDP_DIR/integrations/gtk4"
+        else
+            warn "installation d'AsyncRdp échouée (freerdp3-dev présent ?) — plugin rdp indisponible."
+        fi
     fi
 else
-    warn "Support RDP (plugin_rdp / GtkFrdp) non installé — relancez avec --with-rdp pour l'activer."
+    warn "Support RDP (plugin rdp / AsyncRdp) non installé — relancez sans --without-rdp pour l'activer."
 fi
 
 # ── 9. Support SNMP optionnel (ezsnmp, plugin_snmp_push.py) ─────────────────

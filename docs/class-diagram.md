@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-105 modules · 179 classes · 364 fonctions publiques de module.
+104 modules · 177 classes · 365 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -30,7 +30,7 @@ flowchart TD
     g1 -->|2| g2
     g0 -->|2| g1
     g0 -->|1| g2
-    g2 -->|54| g1
+    g2 -->|53| g1
     g2 -->|4| g0
     g2 -->|30| g4
     g2 -->|6| g5
@@ -768,7 +768,6 @@ classDiagram
 | `plugins.plugin_ipmisol` | `plugins/plugin_ipmisol.py` | Plugin de connexion IPMI Serial-over-LAN (console BMC : iLO, iDRAC, IMM…). |
 | `plugins.plugin_local` | `plugins/plugin_local.py` | Plugin de connexion "Local" (shell local, sans hôte distant). |
 | `plugins.plugin_netmiko_push` | `plugins/plugin_netmiko_push.py` | Onglet « Netmiko » (déploiement de configuration en masse) pour GCM. |
-| `plugins.plugin_rdp` | `plugins/plugin_rdp.py` | Plugin de connexion RDP (GtkFrdp.Display embarqué). |
 | `plugins.plugin_serial` | `plugins/plugin_serial.py` | Plugin de connexion série (port local via picocom/minicom/screen). |
 | `plugins.plugin_snmp_push` | `plugins/plugin_snmp_push.py` | Onglet « Push SNMP » (déploiement de configuration en masse par SNMP) pour GCM. |
 | `plugins.plugin_spice` | `plugins/plugin_spice.py` | Plugin de connexion SPICE (SpiceClientGtk.Display natif, ou fallback subprocess). |
@@ -978,23 +977,6 @@ classDiagram
         +activate() None
     }
     BatchPlugin <|-- NetmikoPushBatchPlugin
-    class mod_plugins_plugin_rdp {
-        <<module>>
-        +get_plugin() RdpPlugin
-    }
-    class FreeRdpTab {
-        <<Gtk.Box>>
-        +connect_rdp()
-        +build_context_menu()
-    }
-    class plugins_plugin_rdp_RdpPlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-        +host_fields() list~tuple~str, object~~
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_rdp_RdpPlugin
     class mod_plugins_plugin_serial {
         <<module>>
         +get_plugin() SerialPlugin
@@ -1185,6 +1167,7 @@ classDiagram
         +taille(options) tuple~int, int~
         +suit_onglet(options) bool
         +reglages(host) Reglages
+        +touches(identifiant) tuple~str, ...~
     }
     class Reglages {
         <<dataclass>>
@@ -1202,22 +1185,26 @@ classDiagram
         +charger_asyncrdp(config, environ) AsyncRdp
         +classe_vue(base) type
         +options_asyncrdp(module, reglages) Any
+        +construire_menu() Gio.Menu
         +zone_options(options, changed) Gtk.Widget
     }
     class AsyncRdp
     class RdpOnglet {
         +connecter(mot_de_passe) asyncio.Future
         +echec(message) None
+        +deconnecter() asyncio.Future None
+        +reconnecter() asyncio.Future None
+        +envoyer_touches(identifiant) bool
         +close() None
     }
-    class plugins_rdp_gtk4_RdpPlugin {
+    class RdpPlugin {
         +default_port(protocol) int None
         +default_options(protocol) dict~str, str~
         +validate_options(protocol, options) list
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) RdpOnglet
     }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_rdp_gtk4_RdpPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- RdpPlugin
     class mod_plugins_serial_core {
         <<module>>
         +outil(environ, prefere) str None

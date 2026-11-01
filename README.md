@@ -167,14 +167,11 @@ emplacement (poste partagé, tests, profils multiples) :
 # Obligatoires
 sudo apt install python3 python3-gi gir1.2-vte-2.91 gir1.2-gtk-3.0 expect python3-pycryptodome
 
-# RDP
-sudo apt install meson valac ninja-build pkg-config gobject-introspection libgirepository1.0-dev libgtk-3-dev freerdp3-dev libfuse3-dev
-libfuse3-dev
-git clone https://gitlab.gnome.org/GNOME/gtk-frdp.git
-cd gtk-frdp  # ou freerdp3-x11
-meson setup build --prefix=/usr
-ninja -C build
-sudo ninja -C build install
+# RDP (plugin rdp GTK4, AsyncRdp sur FreeRDP 3 ; gtk-frdp est abandonné, #71)
+sudo apt install freerdp3-dev python3-dev build-essential
+git clone https://github.com/Mathilde-Team/AsyncRdp4.git
+pip install --break-system-packages -e AsyncRdp4
+export ASYNCRDP_GTK4_DIR="$PWD/AsyncRdp4/integrations/gtk4"
 # VNC
 sudo apt install tigervnc-viewer       # ou vinagre, remmina
 
@@ -461,7 +458,7 @@ Gcm4 s'appuie sur deux bibliothèques asynchrones dédiées, développées en pa
 ### AsyncRdp — client RDP asynchrone
 
 - **Dépôt :** [MathildeDec/AsyncRdp4](https://github.com/MathildeDec/AsyncRdp4)
-- **Rôle :** Binding asyncio sur libfreerdp3 via cffi (122 tests), destiné à remplacer GtkFrdp
+- **Rôle :** Binding asyncio sur libfreerdp3 via cffi (122 tests), qui remplace GtkFrdp (plugin rdp GTK4, #105/#71)
 - **Annonce :** [Gcm4 #103](https://github.com/MathildeDec/Gcm4/issues/103)
 - **Liaison plugin :** [Gcm4 #105](https://github.com/MathildeDec/Gcm4/issues/105)
 

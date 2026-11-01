@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-01 20:02+0000\n"
+"POT-Creation-Date: 2026-11-01 20:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -953,8 +953,8 @@ msgstr ""
 
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
 #: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/plugin_ipmisol.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_web.py
 msgid "Waiting…"
 msgstr ""
 
@@ -1330,15 +1330,14 @@ msgstr ""
 msgid "{n} connection(s) imported from VirtualBox."
 msgstr ""
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
-#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
-#: src/gcm4/ui/contexte.py widgets.py
+#: plugins/plugin_ipmisol.py plugins/plugin_serial.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/plugin_web.py src/gcm4/core/menu_arbre.py
+#: src/gcm4/core/preferences.py src/gcm4/ui/contexte.py widgets.py
 msgid "Connect"
 msgstr ""
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py widgets.py
+#: plugins/plugin_ipmisol.py plugins/plugin_serial.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/rdp/gtk4.py widgets.py
 msgid "Disconnect"
 msgstr ""
 
@@ -1346,13 +1345,13 @@ msgstr ""
 msgid "ipmitool introuvable"
 msgstr ""
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/plugin_ipmisol.py plugins/plugin_serial.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/plugin_web.py
 msgid "Connecting…"
 msgstr ""
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
+#: plugins/plugin_ipmisol.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr ""
 
@@ -1682,72 +1681,6 @@ msgstr ""
 msgid "Déploiement Netmiko…"
 msgstr ""
 
-#: plugins/plugin_rdp.py
-#, python-brace-format
-msgid "Error: {msg}"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
-msgid "Authentication failed"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
-msgid "Error: could not mount the ISO"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
-msgid "Fullscreen"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Custom…"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "RDP"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Domain"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Geometry"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Width"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Height"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_web.py plugins/rdp/gtk4.py
-msgid "Ignore certificate errors"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Dynamic resolution"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "RemoteApp"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: plugins/rdp/gtk4.py
-msgid "Share clipboard"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
-msgid "Share folder"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
-msgid "Shared folder path"
-msgstr ""
-
 #: plugins/plugin_serial.py
 msgid "Even"
 msgstr ""
@@ -2072,6 +2005,10 @@ msgid "Configuration SPICE invalide"
 msgstr ""
 
 #: plugins/plugin_spice.py
+msgid "Error: could not mount the ISO"
+msgstr ""
+
+#: plugins/plugin_spice.py
 msgid "Drag and drop a file here to send it to the VM (requires spice-vdagent)"
 msgstr ""
 
@@ -2129,12 +2066,24 @@ msgstr ""
 msgid "VMID"
 msgstr ""
 
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr ""
+
 #: plugins/plugin_spice.py
 msgid "Share USB devices"
 msgstr ""
 
 #: plugins/plugin_spice.py
 msgid "Share audio"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Share folder"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Shared folder path"
 msgstr ""
 
 #: plugins/plugin_ssh.py
@@ -2436,6 +2385,10 @@ msgid ""
 "E.g.: {example}"
 msgstr ""
 
+#: plugins/plugin_vnc.py plugins/sftp/gtk4.py
+msgid "Authentication failed"
+msgstr ""
+
 #: plugins/plugin_vnc.py
 msgid "xfreerdp not found"
 msgstr ""
@@ -2458,6 +2411,10 @@ msgstr ""
 
 #: plugins/plugin_vnc.py
 msgid "View only"
+msgstr ""
+
+#: plugins/plugin_vnc.py
+msgid "Fullscreen"
 msgstr ""
 
 #: plugins/plugin_web.py
@@ -2492,6 +2449,10 @@ msgstr ""
 
 #: plugins/plugin_web.py
 msgid "BMC web console (iLO, iDRAC, IMM…) or any web interface (Proxmox, switch, TrueNAS…)"
+msgstr ""
+
+#: plugins/plugin_web.py plugins/rdp/gtk4.py
+msgid "Ignore certificate errors"
 msgstr ""
 
 #: plugins/plugin_web.py
@@ -2531,13 +2492,45 @@ msgstr ""
 msgid "Invalid custom size"
 msgstr ""
 
+#: plugins/rdp/core.py
+msgid "Ctrl+Alt+Delete"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Ctrl+Escape"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Alt+Tab"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Alt+F4"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Print Screen"
+msgstr ""
+
 #: plugins/rdp/gtk4.py
 msgid "Fit to tab"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
+msgid "Custom…"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
 #, python-brace-format
 msgid "AsyncRdp is not available ({error}). Install asyncrdp and set 'integrations' in the [plugin rdp] section to the integrations/gtk4 folder of AsyncRdp4."
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Reconnect"
+msgstr ""
+
+#: plugins/rdp/gtk4.py widgets.py
+msgid "Special keys"
 msgstr ""
 
 #: plugins/rdp/gtk4.py plugins/sftp/gtk4.py
@@ -2546,12 +2539,50 @@ msgid "Connecting to {host}…"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
+msgid "Remote desktop"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
 #, python-brace-format
 msgid "RDP connection to {host} failed: {error}"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "Disconnected from {host}"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Not connected"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "This AsyncRdp version cannot send key combinations"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "Key combination failed: {error}"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Domain"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Geometry"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
 msgid "Size"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "RemoteApp"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Dynamic resolution"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
@@ -4861,10 +4892,6 @@ msgid ""
 "⚠ You are about to {action} on the <b>root</b> account of {target}.\n"
 "This can affect SSH access to the whole system.\n"
 "<b>Are you sure?</b>"
-msgstr ""
-
-#: widgets.py
-msgid "Special keys"
 msgstr ""
 
 #: widgets.py

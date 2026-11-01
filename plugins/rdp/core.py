@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Partie métier du plugin rdp (sans GTK) — portage #105.
 
-Reprend les options de ``plugins/plugin_rdp.py`` (GTK3, gtk-frdp), sous les
+Reprend les options de l'ancien ``plugins/plugin_rdp.py`` (GTK3, gtk-frdp, retiré par #71), sous les
 mêmes clés INI (``host.protocol_options["rdp"]``), pour que les
 configurations existantes s'ouvrent sans conversion :
 
@@ -277,3 +277,29 @@ def reglages(host: Host) -> Reglages:
         "oui" if resultat.remote_app else "non",
     )
     return resultat
+
+
+#: Combinaisons du menu « Touches spéciales » (#71), comme le menu GTK3 :
+#: (identifiant d'action, libellé, touches nommées d'``asyncrdp.Keyboard``).
+COMBINAISONS: tuple[tuple[str, str, tuple[str, ...]], ...] = (
+    ("ctrl-alt-suppr", _("Ctrl+Alt+Delete"), ("ctrl", "alt", "delete")),
+    ("ctrl-echap", _("Ctrl+Escape"), ("ctrl", "escape")),
+    ("alt-tab", _("Alt+Tab"), ("alt", "tab")),
+    ("alt-f4", _("Alt+F4"), ("alt", "f4")),
+    ("impr-ecran", _("Print Screen"), ("print",)),
+)
+
+
+def touches(identifiant: str) -> tuple[str, ...]:
+    """Touches de la combinaison ``identifiant`` de :data:`COMBINAISONS`.
+
+    Raises:
+        KeyError: identifiant inconnu.
+    """
+    logger.debug("touches: {!r}", identifiant)
+    for ident, _libelle, noms in COMBINAISONS:
+        if ident == identifiant:
+            logger.debug("touches: {}", "+".join(noms))
+            return noms
+    logger.debug("touches: inconnu")
+    raise KeyError(identifiant)

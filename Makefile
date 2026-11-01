@@ -213,7 +213,7 @@ test:
 # session-35 (2026-09-14) : la cible ne couvrait que gnome_connection_manager.py,
 # gcm4_core.py et tests/ — les plugins/, models.py, netmiko_bulk_core.py,
 # utils.py et widgets.py n'étaient jamais vérifiés. Élargi à tout le dépôt
-# (respecte l'exclude de pyproject.toml, dont SSH-Studio/gtk-frdp, vendorisés
+# (respecte l'exclude de pyproject.toml, dont SSH-Studio, vendorisé
 # et hors périmètre GCM).
 # session-36 (2026-09-16) : `ruff check .` passe désormais sans aucune erreur
 # (les 423 erreurs pré-existantes de tests/test_gcm.py, docstrings manquantes,

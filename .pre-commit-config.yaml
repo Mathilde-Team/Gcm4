@@ -12,9 +12,9 @@
 # Répertoires vendorisés/tiers ou générés — jamais reformatés par ces hooks,
 # quelle que soit la convention de style du projet d'origine. Vérifié en
 # testant cette config (2026-08-30) : `--all-files` sans cette exclusion
-# reformate ~40 fichiers de SSH-Studio/ (dépôt tiers importé tel quel) et
-# gtk-frdp/, ce qui n'a rien à faire dans ce dépôt.
-exclude: ^(SSH-Studio|gtk-frdp|rdp|vnc|__pycache__|\.pytest_cache|\.ruff_cache)/
+# reformate ~40 fichiers de SSH-Studio/ (dépôt tiers importé tel quel), ce
+# qui n'a rien à faire dans ce dépôt (gtk-frdp/, retiré par #71, l'était aussi).
+exclude: ^(SSH-Studio|rdp|vnc|__pycache__|\.pytest_cache|\.ruff_cache)/
 
 repos:
   # Ruff : lint + format. Le hook officiel ne s'applique qu'aux fichiers

@@ -11,7 +11,6 @@ plugins/plugin_import_virtualbox.py
 plugins/plugin_ipmisol.py
 plugins/plugin_local.py
 plugins/plugin_netmiko_push.py
-plugins/plugin_rdp.py
 plugins/plugin_serial.py
 plugins/plugin_snmp_push.py
 plugins/plugin_spice.py

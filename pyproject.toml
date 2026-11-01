@@ -46,10 +46,9 @@ Changelog = "https://github.com/MathildeDec/gnome-connection-manager/blob/main/C
 #                  `Cryptodome` importé par le code (pycryptodome n'installe
 #                  parfois que le namespace legacy `Crypto`).
 #
-# NOTE — plugin_rdp.py (GtkFrdp.Display) n'a pas d'extra correspondant : le
-# namespace GObject Introspection "GtkFrdp" provient du sous-projet local
-# gtk-frdp/ (à compiler via meson et installer au niveau système), ce n'est
-# pas un paquet PyPI.
+# NOTE — le plugin rdp (plugins/rdp/, AsyncRdp sur FreeRDP 3) n'a pas d'extra
+# correspondant : asyncrdp s'installe depuis le dépôt AsyncRdp4 (compile un
+# shim C), voir bootstrap-dev.sh. gtk-frdp/ (GTK3) est retiré (#71).
 [project.optional-dependencies]
 netmiko = ["netmiko>=4.2.0"]
 paramiko = ["paramiko>=3.4.0"]
@@ -204,7 +203,6 @@ exclude = [
     # compte d'erreurs `make lint` de 194 (SSH-Studio) + 2 (gtk-frdp) lignes
     # qui ne concernaient pas le dépôt GCM lui-même).
     "SSH-Studio",
-    "gtk-frdp",
 ]
 
 [tool.ruff.lint]
@@ -294,7 +292,7 @@ target-version = ["py310", "py311", "py312", "py313"]
 # ─── Couverture (issue #128, parité Netcross #224/#246) ─────────────────────
 [tool.coverage.run]
 # Code de l'application uniquement : ni les tests, ni les sous-projets
-# vendorisés (SSH-Studio/, gtk-frdp/), ni les outils annexes (tools/,
+# vendorisés (SSH-Studio/), ni les outils annexes (tools/,
 # scripts/). source = ["."] compte aussi, à 0 %, les modules qu'aucun test
 # n'importe : la mesure ne flatte pas la couverture réelle.
 source = [".", "src/gcm4"]
@@ -306,7 +304,6 @@ relative_files = true
 omit = [
     "tests/*",
     "SSH-Studio/*",
-    "gtk-frdp/*",
     "tools/*",
     "scripts/*",
     ".venv/*",

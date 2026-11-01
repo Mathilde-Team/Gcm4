@@ -80,6 +80,7 @@ class FausseSession:
         """Note la vue et la fonction de connexion."""
         self.view, self.connect_fn = view, connect_fn
         self.appels, self.deconnexions = [], 0
+        self.client = None
         FausseSession.instances.append(self)
 
     async def connect(self, host, port, username, password, *, domain=None, options=None):
@@ -89,10 +90,34 @@ class FausseSession:
             raise ConnectionError("authentification refusée")
         if FausseSession.mode == "bloque":
             await asyncio.sleep(3600)
+        self.client = FauxClient()
 
     async def disconnect(self):
         """Déconnexion notée."""
         self.deconnexions += 1
+        self.client = None
+
+
+class FauxClavier:
+    """Doublure de ``asyncrdp.Keyboard`` : note les combinaisons."""
+
+    def __init__(self):
+        """Aucune combinaison."""
+        self.combinaisons = []
+
+    def combo(self, *noms):
+        """Combinaison notée ; ``"panne"`` lève comme une touche inconnue."""
+        if FausseSession.mode == "panne":
+            raise ValueError("touche inconnue")
+        self.combinaisons.append(noms)
+
+
+class FauxClient:
+    """Doublure de ``RdpClient`` (attribut ``keyboard``)."""
+
+    def __init__(self):
+        """Clavier simulé."""
+        self.keyboard = FauxClavier()
 
 
 class Contexte:
@@ -213,7 +238,7 @@ def test_connexion(chargement, boucle_glib, faux_asyncrdp, tmp_path):
         port=3390,
     )
     onglet = plugin.open(hote)
-    assert onglet.widget.get_visible_child_name() == "etat"
+    assert onglet.pile.get_visible_child_name() == "etat"
     assert _finir(boucle_glib, onglet._tache) is True
     session = FausseSession.instances[0]
     hote_, port, utilisateur, mot_de_passe, domaine, options = session.appels[0]
@@ -228,7 +253,7 @@ def test_connexion(chargement, boucle_glib, faux_asyncrdp, tmp_path):
     assert options.drives == [DriveMapping("gcm4", str(tmp_path))]
     assert options.remoteapp == RemoteAppOptions("||notepad")
     assert session.connect_fn is faux_asyncrdp.connect
-    assert onglet.widget.get_visible_child_name() == "bureau"
+    assert onglet.pile.get_visible_child_name() == "bureau"
     # Géométrie fixe sans rdp_dyn_res : la taille distante ne suit pas l'onglet.
     onglet.vue._on_widget_resize(640, 480)
     assert onglet.vue.redimensionnements == []
@@ -255,7 +280,7 @@ def test_echec_affiche_et_notifie(chargement, boucle_glib, faux_asyncrdp):
     FausseSession.mode = "echec"
     onglet = plugin.open(_hote(password="pw"))
     assert _finir(boucle_glib, onglet._tache) is False
-    assert onglet.widget.get_visible_child_name() == "etat"
+    assert onglet.pile.get_visible_child_name() == "etat"
     assert "authentification refusée" in onglet.etat.get_label()
     assert len(contexte.notifications) == 1
 
@@ -317,3 +342,65 @@ def test_zone_options(chargement):
     case.set_active(True)
     assert options["rdp_cert_ignore"] == "True"
     assert changements
+
+
+def _actions(onglet):
+    """Actions actives du groupe ``rdp`` de l'onglet."""
+    return {n for n in onglet.actions.list_actions() if onglet.actions.get_action_enabled(n)}
+
+
+def test_menu_touches_speciales(chargement, boucle_glib, faux_asyncrdp):
+    """Menu de l'onglet (#71) : combinaisons envoyées par ``keyboard.combo``."""
+    from gi.repository import GLib
+
+    plugin, contexte = chargement
+    onglet = plugin.open(_hote(password="pw"))
+    assert _actions(onglet) == {"reconnecter"}
+    _finir(boucle_glib, onglet._tache)
+    assert _actions(onglet) == {"deconnecter", "reconnecter", "touches"}
+    menu = onglet.menu.get_menu_model()
+    assert menu.get_n_items() == 2
+    onglet.actions.activate_action("touches", GLib.Variant.new_string("ctrl-alt-suppr"))
+    assert onglet.envoyer_touches("impr-ecran") is True
+    clavier = FausseSession.instances[0].client.keyboard
+    assert clavier.combinaisons == [("ctrl", "alt", "delete"), ("print",)]
+    FausseSession.mode = "panne"
+    assert onglet.envoyer_touches("alt-f4") is False
+    assert len(contexte.notifications) == 1
+    with pytest.raises(KeyError):
+        onglet.envoyer_touches("inconnue")
+    onglet.close()
+    _finir(boucle_glib, onglet._fermeture)
+
+
+def test_touches_sans_combo(chargement, boucle_glib, faux_asyncrdp):
+    """AsyncRdp sans ``Keyboard.combo`` ou sans session : toast, rien n'est envoyé."""
+    plugin, contexte = chargement
+    onglet = plugin.open(_hote(password="pw"))
+    assert onglet.envoyer_touches("alt-tab") is False
+    assert contexte.notifications == ["Not connected"]
+    _finir(boucle_glib, onglet._tache)
+    FausseSession.instances[0].client.keyboard = object()
+    assert onglet.envoyer_touches("alt-tab") is False
+    assert "cannot send key combinations" in contexte.notifications[1]
+
+
+def test_deconnecter_reconnecter(chargement, boucle_glib, faux_asyncrdp):
+    """Déconnecter garde l'onglet ; Reconnecter reprend le dernier mot de passe."""
+    plugin, _contexte = chargement
+    onglet = plugin.open(_hote(password="pw"))
+    _finir(boucle_glib, onglet._tache)
+    session = FausseSession.instances[0]
+    _finir(boucle_glib, onglet.deconnecter())
+    assert session.deconnexions == 1
+    assert onglet.pile.get_visible_child_name() == "etat"
+    assert "Disconnected" in onglet.etat.get_label()
+    assert _actions(onglet) == {"reconnecter"}
+    assert _finir(boucle_glib, onglet.reconnecter()) is True
+    assert session.deconnexions == 2
+    assert [a[3] for a in session.appels] == ["pw", "pw"]
+    assert onglet.pile.get_visible_child_name() == "bureau"
+    onglet.close()
+    assert onglet.deconnecter() is None
+    assert onglet.reconnecter() is None
+    _finir(boucle_glib, onglet._fermeture)
