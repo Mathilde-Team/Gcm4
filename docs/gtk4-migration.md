@@ -1638,3 +1638,23 @@ XEmbed du code réellement chargé, dépendance actuelle à `GtkFrdp`/GTK3,
 état non porté de `build_remote_desktop_context_menu()`. `docs/architecture.md`
 §2.1 (tableau des protocoles) et §5 (écarts doc/code) mis à jour en
 conséquence. Détail complet de session : `docs/sessions/session-46.md`.
+
+## 3.6-quaterdecies Couple `focus-out-event`/`populate-popup` de `CellTextView` (#96, 01/11/2026)
+
+Décision de Mathilde du 12/10/2026, précisée par l'option A du 28/10/2026 :
+
+- le menu contextuel natif de l'éditeur inline est remplacé par un popover
+  maîtrisé : `Gtk.PopoverMenu.new_from_model()` en GTK4,
+  `Gtk.Popover.new_from_model()` en GTK3. Il propose quatre actions standard
+  (couper, copier, coller, tout sélectionner) ;
+- il s'ouvre au clic droit (`is_editor_menu_button`) et, en GTK3, avec la
+  touche Menu ou Maj+F10 (signal `popup-menu`) ; le menu natif n'est plus
+  ouvert, `populate-popup` est supprimé ;
+- la perte de focus **valide** l'édition (`edited`), sauf pendant que le
+  popover est ouvert ou si l'édition est déjà terminée par Entrée ou Échap
+  (`classify_editor_focus_leave`) ;
+- GTK4 utilise `Gtk.EventControllerFocus` (`leave`). En GTK3, qui n'a pas ce
+  contrôleur, `focus-out-event` reste en repli.
+
+Changement visible : sous GTK3, la perte de focus annulait l'édition ; elle
+la valide désormais.

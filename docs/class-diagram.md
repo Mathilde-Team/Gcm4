@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-105 modules · 179 classes · 362 fonctions publiques de module.
+105 modules · 179 classes · 364 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -117,6 +117,8 @@ classDiagram
         <<module>>
         +classify_editor_key_press(keyval, state, shift_mask, control_mask, return_keyval, kp_enter_keyval, escape_keyval)
         +classify_editor_button_press(n_press)
+        +classify_editor_focus_leave(menu_open, done)
+        +is_editor_menu_button(button)
     }
     class mod_logging_config {
         <<module>>
