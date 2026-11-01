@@ -69,7 +69,7 @@ et c'est à l'autrice de trancher, sur #223 :
 | web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | `WebKit.WebView` 6.0 ; repli vers le navigateur externe (`Gtk.UriLauncher` à partir de GTK 4.10, sinon `Gio.AppInfo`) | Rocky 9 : repli externe seulement |
 | vnc | 701 | `GtkVnc.Display` (gtk-vnc, GTK3 seulement partout) | **fusion avec `plugins/pluginvnc2`** (déjà GTK4, client asyncvnc2), comme prévu par #104 | #104 ; aucune version GTK4 de gtk-vnc dans les distributions |
 | spice | 1424 | `SpiceClientGtk.Display` 3.0 (GTK3 seulement partout) | aucun widget SPICE GTK4. Deux voies : affichage maison sur `SpiceClientGLib` (canal d'affichage vers `Gdk.MemoryTexture`, comme pluginvnc2), ou visionneuse externe (`remote-viewer`) | **choix à faire** (sous-issue au moment du portage) ; spice-gtk absent de Rocky 9 |
-| rdp | 614 | `GtkFrdp.Display` (`Gtk.Socket`/XEmbed, supprimé en GTK4) | `plugins/rdp/gtk4.py` sur AsyncRdp | #71, #105 ; FreeRDP 3 absent de Debian 12 et de Rocky 9 |
+| rdp | 614 | `GtkFrdp.Display` (`Gtk.Socket`/XEmbed, supprimé en GTK4) | **porté** : `plugins/rdp/` sur AsyncRdp (contrat v1, #105) ; mêmes clés INI que GTK3, `RdpSession` et `RdpView` des intégrations GTK4 d'AsyncRdp4, boucle asyncio sur GLib (`gcm4.ui.boucle`). gtk-frdp abandonné (décision du 2026-11-01, #71) | #71 (retrait de gtk-frdp, menu contextuel) ; FreeRDP 3 absent de Debian 12 et de Rocky 9 |
 
 ### Plugins d'import, d'export et de traitement par lots (`BatchPlugin` GTK3)
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:23+0000\n"
+"POT-Creation-Date: 2026-11-01 20:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,13 +22,11 @@ msgstr ""
 msgid "Connection Manager"
 msgstr "Gestionnaire de connexions"
 
-#: data/io.github.MathildeDec.gcm4.desktop
-#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
+#: data/io.github.MathildeDec.gcm4.desktop data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
 msgid "Gnome Connection Manager"
 msgstr "Gnome Connection Manager"
 
-#: data/io.github.MathildeDec.gcm4.desktop
-#: data/io.github.MathildeDec.gcm4.metainfo.xml
+#: data/io.github.MathildeDec.gcm4.desktop data/io.github.MathildeDec.gcm4.metainfo.xml
 msgid "Organize your hosts and open their connections in tabs"
 msgstr "Organisez vos hôtes et ouvrez leurs connexions dans des onglets"
 
@@ -44,8 +42,7 @@ msgstr "gcm4 (mode debug)"
 msgid "Connection protocols provided by plugins"
 msgstr "Protocoles de connexion fournis par des extensions"
 
-#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
-#: src/gcm4/ui/host_dialog.py
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py src/gcm4/ui/host_dialog.py
 msgid "Edit Host"
 msgstr "Modifier l'hôte"
 
@@ -73,8 +70,7 @@ msgstr "Dernière version de l'application GTK3 ; la base GTK4 n'est pas encore 
 msgid "Open tabs restored at the next start"
 msgstr "Onglets ouverts restaurés au démarrage suivant"
 
-#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
-#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
+#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/preferences.py
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -210,14 +206,7 @@ msgstr "Impossible d'ouvrir le fichier en écriture"
 msgid "Can't open log file for writting"
 msgstr "Impossible d'ouvrir le fichier de journal en écriture"
 
-#: gnome_connection_manager.py plugins/plugin_import_libvirt.py
-#: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
-#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
-#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
-#: src/gcm4/ui/raccourcis.py utils.py widgets.py
+#: gnome_connection_manager.py plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/raccourcis.py utils.py widgets.py
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -245,13 +234,11 @@ msgstr "Boucler entre les onglets lors du passage à l'onglet précédent/suivan
 msgid "Clear selection"
 msgstr "Effacer la sélection"
 
-#: gnome_connection_manager.py src/gcm4/ui/echange.py
-#: src/gcm4/ui/main_window.py ssh_config_editor.py ssh_key_manager_dialog.py
+#: gnome_connection_manager.py src/gcm4/ui/echange.py src/gcm4/ui/main_window.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Close"
 msgstr "Fermer"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/main_window.py widgets.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py widgets.py
 msgid "Close console"
 msgstr "Fermer la console"
 
@@ -367,8 +354,7 @@ msgstr "Voulez-vous vraiment supprimer l'hôte"
 msgid "Dynamic title"
 msgstr "Titre dynamique"
 
-#: gnome_connection_manager.py src/gcm4/core/menu.py
-#: src/gcm4/core/menu_arbre.py widgets.py
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/core/menu_arbre.py widgets.py
 msgid "Edit"
 msgstr "Modifier"
 
@@ -462,10 +448,7 @@ msgstr ""
 msgid "General"
 msgstr "Général"
 
-#: gnome_connection_manager.py plugins/plugin_import_libvirt.py
-#: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/menu_arbre.py
+#: gnome_connection_manager.py plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Groupe"
 
@@ -489,8 +472,7 @@ msgstr "Groupe"
 msgid "Help"
 msgstr "Aide"
 
-#: gnome_connection_manager.py plugins/plugin_ssh.py src/gcm4/ui/host_dialog.py
-#: ssh_config_editor.py ssh_key_manager_dialog.py
+#: gnome_connection_manager.py plugins/plugin_ssh.py src/gcm4/ui/host_dialog.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Host"
 msgstr "Hôte"
 
@@ -575,8 +557,7 @@ msgstr "Chemin des journaux"
 msgid "Menu"
 msgstr "Menu"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-#: ssh_key_manager_dialog.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_key_manager_dialog.py
 msgid "Name"
 msgstr "Nom"
 
@@ -616,8 +597,7 @@ msgstr ""
 msgid "No open consoles"
 msgstr "Aucune console ouverte"
 
-#: gnome_connection_manager.py plugins/plugin_netmiko_push.py
-#: plugins/plugin_snmp_push.py plugins/plugin_spice.py widgets.py
+#: gnome_connection_manager.py plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py plugins/plugin_spice.py widgets.py
 msgid "OK"
 msgstr "OK"
 
@@ -625,8 +605,7 @@ msgstr "OK"
 msgid "Only on clean exit"
 msgstr "Uniquement en cas de sortie propre"
 
-#: gnome_connection_manager.py plugins/plugin_import_putty.py
-#: src/gcm4/ui/mises_a_jour.py src/gcm4/ui/preferences.py utils.py
+#: gnome_connection_manager.py plugins/plugin_import_putty.py src/gcm4/ui/mises_a_jour.py src/gcm4/ui/preferences.py utils.py
 msgid "Open"
 msgstr "Ouvrir"
 
@@ -650,8 +629,7 @@ msgstr ""
 msgid "Parity"
 msgstr "Parité"
 
-#: gnome_connection_manager.py src/gcm4/ui/contexte.py
-#: src/gcm4/ui/host_dialog.py
+#: gnome_connection_manager.py src/gcm4/ui/contexte.py src/gcm4/ui/host_dialog.py
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -663,8 +641,7 @@ msgstr "Coller"
 msgid "Paste on right click"
 msgstr "Coller au clic droit"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
+#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py src/gcm4/ui/menu_arbre.py ssh_config_editor.py
 msgid "Port"
 msgstr "Port"
 
@@ -680,8 +657,7 @@ msgstr "Clé privée"
 msgid "Project's Homepage"
 msgstr "Page d'accueil du projet"
 
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/zone_notification.py
+#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py src/gcm4/ui/zone_notification.py
 msgid "Quit"
 msgstr "Quitter"
 
@@ -837,8 +813,7 @@ msgstr "Pour créer des sous-groupes, utilisez le format groupe1/groupe2/groupe3
 msgid "Transparency"
 msgstr "Transparence"
 
-#: gnome_connection_manager.py key_picker_dialog.py plugins/plugin_ssh.py
-#: ssh_config_editor.py ssh_key_manager_dialog.py
+#: gnome_connection_manager.py key_picker_dialog.py plugins/plugin_ssh.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "Type"
 
@@ -961,32 +936,24 @@ msgstr ""
 msgid "⚙ Generate…"
 msgstr ""
 
-#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "{program} introuvable"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
 msgid "1. Configuration"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
 msgid "2. Suivi"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
 msgid "3. Résultats"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "<b>Connection types to import:</b>"
 msgstr "<b>Types de connexion à importer :</b>"
 
@@ -994,13 +961,11 @@ msgstr "<b>Types de connexion à importer :</b>"
 msgid "<i>Applies only to the Libvirt import plugin. Can still be overridden per import run.</i>"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py plugins/plugin_ssh.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py plugins/plugin_ssh.py
 msgid "Add"
 msgstr "Ajouter"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "Default SSH user (VMs):"
 msgstr "Utilisateur SSH par défaut (VMs) :"
 
@@ -1020,8 +985,7 @@ msgstr "Utilisateur SSH de l'hyperviseur :"
 msgid "Hypervisors (virt-manager / dconf):"
 msgstr "Hyperviseurs (virt-manager / dconf) :"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "IP / Host"
 msgstr "IP / Hôte"
 
@@ -1029,8 +993,7 @@ msgstr "IP / Hôte"
 msgid "Import from libvirt"
 msgstr "Importer depuis libvirt"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "Imported"
 msgstr "Importé"
 
@@ -1054,33 +1017,27 @@ msgstr ""
 msgid "No URI selected."
 msgstr "Aucune URI sélectionnée."
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "No connection to import (all already exist or none selected)."
 msgstr "Aucune connexion à importer (toutes existent déjà ou aucune sélectionnée)."
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "No connection type selected."
 msgstr "Aucun type de connexion sélectionné."
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "No host imported."
 msgstr "Aucun hôte importé."
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "No new host (duplicates ignored)."
 msgstr "Aucun nouvel hôte (doublons ignorés)."
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "Overwrite existing connections with the same name and protocol"
 msgstr "Écraser les connexions existantes ayant le même nom et protocole"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "Proto"
 msgstr "Proto"
 
@@ -1096,31 +1053,26 @@ msgstr "SPICE  (virt-viewer --connect qemu+ssh://... vm - le tunnel SSH est gér
 msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
 msgstr "SSH  (ProxyJump -J via l'hyperviseur si l'IP de la VM est connue, sinon shell de l'hyperviseur + -t ssh user@vm)"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 #, python-brace-format
 msgid "Scan failed: {exc}"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "State"
 msgstr "État"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 #, python-brace-format
 msgid "Target added automatically: {pending_uri}"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 #, python-brace-format
 msgid "Target added: {uri}"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 #, python-brace-format
 msgid "Target already present: {uri}"
 msgstr ""
@@ -1129,9 +1081,7 @@ msgstr ""
 msgid "Used as default user in the Libvirt import dialog."
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py plugins/plugin_spice.py
 msgid "VM name"
 msgstr "Nom de la VM"
 
@@ -1141,10 +1091,7 @@ msgstr "Nom de la VM"
 msgid "VNC  (probe port 5900 from hypervisor via nc/nmap - skipped if port is closed)"
 msgstr "RDP  (sonde le port 3389 depuis l'hyperviseur via nc/nmap - ignoré si le port est fermé)"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
 msgid "Waiting…"
 msgstr "En attente…"
 
@@ -1154,33 +1101,27 @@ msgstr "En attente…"
 msgid "{n} connection(s) imported from libvirt."
 msgstr "Importer depuis libvirt"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "✓ Check all"
 msgstr "✓ Tout cocher"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "✓ Imported"
 msgstr "✓ Importé"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "✕  Close"
 msgstr "✕  Fermer"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "✗ Uncheck all"
 msgstr "✗ Tout décocher"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "⬇  Import selected"
 msgstr "⬇  Importer la sélection"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 msgid "🔄  Rescan"
 msgstr "🔄  Rescanner"
 
@@ -1448,20 +1389,15 @@ msgstr "Importer depuis libvirt"
 msgid "🔍  Scan VirtualBox hosts"
 msgstr "🔍  Scanner les hôtes Proxmox"
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
-#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
-#: src/gcm4/ui/contexte.py widgets.py
+#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py src/gcm4/ui/contexte.py widgets.py
 msgid "Connect"
 msgstr "Connecter"
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
 msgid "Connecting…"
 msgstr "Connexion…"
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py widgets.py
+#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py widgets.py
 msgid "Disconnect"
 msgstr "Déconnecter"
 
@@ -1469,8 +1405,7 @@ msgstr "Déconnecter"
 msgid "IPMI (SOL)"
 msgstr ""
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
+#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "Session terminée"
 
@@ -1812,19 +1747,17 @@ msgstr ""
 msgid "Authentication failed"
 msgstr "Échec de l'authentification"
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "Custom…"
-msgstr ""
+msgstr "Personnalisée…"
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "Domain"
-msgstr ""
+msgstr "Domaine"
 
-#: plugins/plugin_rdp.py
-#, fuzzy
-#| msgid "Dynamic title"
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "Dynamic resolution"
-msgstr "Titre dynamique"
+msgstr "Résolution dynamique"
 
 #: plugins/plugin_rdp.py plugins/plugin_spice.py
 msgid "Error: could not mount the ISO"
@@ -1839,39 +1772,37 @@ msgstr ""
 msgid "Fullscreen"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "Geometry"
-msgstr ""
+msgstr "Géométrie"
 
 #: plugins/plugin_rdp.py
 msgid "Height"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_web.py
+#: plugins/plugin_rdp.py plugins/plugin_web.py plugins/rdp/gtk4.py
 msgid "Ignore certificate errors"
-msgstr ""
+msgstr "Ignorer les erreurs de certificat"
 
 #: plugins/plugin_rdp.py
 msgid "RDP"
 msgstr ""
 
-#: plugins/plugin_rdp.py
-#, fuzzy
-#| msgid "Remote"
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "RemoteApp"
-msgstr "Distant"
+msgstr "RemoteApp"
 
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
 msgid "Share clipboard"
-msgstr ""
+msgstr "Partager le presse-papiers"
 
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Partager un dossier"
 
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Chemin du dossier partagé"
 
 #: plugins/plugin_rdp.py
 msgid "Width"
@@ -2527,8 +2458,7 @@ msgstr "Port distant"
 msgid "Remote path"
 msgstr "Hôte distant"
 
-#: plugins/plugin_ssh.py src/gcm4/core/menu_arbre.py
-#: src/gcm4/core/preferences.py src/gcm4/ui/menu_arbre.py widgets.py
+#: plugins/plugin_ssh.py src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py src/gcm4/ui/menu_arbre.py widgets.py
 msgid "Remove"
 msgstr "Supprimer"
 
@@ -2688,6 +2618,62 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/rdp/core.py
+msgid "Choose the folder to share"
+msgstr "Choisissez le dossier à partager"
+
+#: plugins/rdp/core.py
+#, python-brace-format
+msgid "Enter a size between {min} and {max} pixels"
+msgstr "Saisissez une taille comprise entre {min} et {max} pixels"
+
+#: plugins/rdp/core.py
+msgid "Invalid custom size"
+msgstr "Taille personnalisée invalide"
+
+#: plugins/rdp/core.py
+msgid "Sharing an ISO image is not supported yet"
+msgstr "Le partage d'une image ISO n'est pas encore pris en charge"
+
+#: plugins/rdp/core.py
+msgid "This folder does not exist"
+msgstr "Ce dossier n'existe pas"
+
+#: plugins/rdp/core.py
+msgid "Unknown geometry"
+msgstr "Géométrie inconnue"
+
+#: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "AsyncRdp is not available ({error}). Install asyncrdp and set 'integrations' in the [plugin rdp] section to the integrations/gtk4 folder of AsyncRdp4."
+msgstr "AsyncRdp n'est pas disponible ({error}). Installez asyncrdp et indiquez dans la clé « integrations » de la section [plugin rdp] le dossier integrations/gtk4 d'AsyncRdp4."
+
+#: plugins/rdp/gtk4.py plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Connecting to {host}…"
+msgstr "Connexion à {host}…"
+
+#: plugins/rdp/gtk4.py
+msgid "Connection cancelled"
+msgstr "Connexion annulée"
+
+#: plugins/rdp/gtk4.py
+msgid "Fit to tab"
+msgstr "Adapter à l'onglet"
+
+#: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "RDP connection to {host} failed: {error}"
+msgstr "Échec de la connexion RDP à {host} : {error}"
+
+#: plugins/rdp/gtk4.py
+msgid "RDP needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
+msgstr "RDP a besoin d'asyncio dans la boucle GTK (PyGObject 3.50 ou plus récent)"
+
+#: plugins/rdp/gtk4.py
+msgid "Size"
+msgstr "Taille"
+
 #: plugins/sftp/core.py
 msgid "B"
 msgstr "o"
@@ -2715,11 +2701,6 @@ msgstr "Authentification annulée."
 #: plugins/sftp/gtk4.py
 msgid "Busy, try again when the current operation is finished"
 msgstr "Occupé, réessayez à la fin de l'opération en cours"
-
-#: plugins/sftp/gtk4.py
-#, python-brace-format
-msgid "Connecting to {host}…"
-msgstr "Connexion à {host}…"
 
 #: plugins/sftp/gtk4.py
 #, python-brace-format
@@ -2903,7 +2884,6 @@ msgstr "gcm4 : impossible de copier la configuration {old} vers {new} ({error}).
 msgid "A stored password is corrupted."
 msgstr "Un mot de passe enregistré est corrompu."
 
-#
 #: src/gcm4/core/chiffrement.py
 msgid "Incorrect master password."
 msgstr "Mot de passe maître incorrect."
@@ -2931,7 +2911,6 @@ msgstr "La clé de chiffrement %s est protégée par un mot de passe maître."
 msgid "The encryption key is already protected by a master password."
 msgstr "La clé de chiffrement est déjà protégée par un mot de passe maître."
 
-#
 #: src/gcm4/core/chiffrement.py
 msgid "The encryption key is not protected by a master password."
 msgstr "La clé de chiffrement n'est pas protégée par un mot de passe maître."
@@ -3533,7 +3512,6 @@ msgstr "Non"
 msgid "Version {version} is available"
 msgstr "La version {version} est disponible"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Change the master password"
 msgstr "Changer le mot de passe maître"
@@ -3542,37 +3520,30 @@ msgstr "Changer le mot de passe maître"
 msgid "Change…"
 msgstr "Changer…"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm"
 msgstr "Confirmer"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm the new master password"
 msgstr "Confirmer le nouveau mot de passe maître"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Current master password"
 msgstr "Mot de passe maître actuel"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable the master password"
 msgstr "Désactiver le mot de passe maître"
 
-#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py
-#: src/gcm4/ui/raccourcis.py
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/preferences.py src/gcm4/ui/raccourcis.py
 msgid "Disabled"
 msgstr "Désactivé"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable…"
 msgstr "Désactiver…"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Enable the master password"
 msgstr "Activer le mot de passe maître"
@@ -3597,12 +3568,10 @@ msgstr "Saisissez le mot de passe maître pour déverrouiller les mots de passe 
 msgid "Enter the recovery code, then choose a new master password."
 msgstr "Saisissez le code de recouvrement, puis choisissez un nouveau mot de passe maître."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password"
 msgstr "Mot de passe oublié"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password?"
 msgstr "Mot de passe oublié ?"
@@ -3611,27 +3580,22 @@ msgstr "Mot de passe oublié ?"
 msgid "I have written it down"
 msgstr "Je l'ai noté"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password"
 msgstr "Mot de passe maître"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password changed."
 msgstr "Mot de passe maître changé."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password disabled."
 msgstr "Mot de passe maître désactivé."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password enabled."
 msgstr "Mot de passe maître activé."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "New master password"
 msgstr "Nouveau mot de passe maître"
@@ -3652,7 +3616,6 @@ msgstr "Nouveau code de recouvrement…"
 msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
 msgstr "Facultatif. Protège la clé qui chiffre les mots de passe enregistrés : il sera demandé au démarrage. Un code de recouvrement est affiché une seule fois à l'activation."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Passwords locked"
 msgstr "Mots de passe verrouillés"
@@ -3661,7 +3624,6 @@ msgstr "Mots de passe verrouillés"
 msgid "Recovery code"
 msgstr "Code de recouvrement"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Status"
 msgstr "État"
@@ -3686,7 +3648,6 @@ msgstr "Le code de recouvrement reste valable."
 msgid "The two passwords do not match."
 msgstr "Les deux mots de passe ne correspondent pas."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Unavailable: the configuration is not loaded."
 msgstr "Indisponible : la configuration n'est pas chargée."
@@ -5157,7 +5118,6 @@ msgid "Unsplit all consoles"
 msgstr "Réunifier toutes les consoles"
 
 #, fuzzy, python-brace-format
-#~| msgid "Template name"
 #~ msgid "CSV import error: {exc}"
 #~ msgstr "Nom du modèle"
 
@@ -5197,22 +5157,18 @@ msgstr "Réunifier toutes les consoles"
 #~ msgstr "Arguments supplémentaires à passer à la ligne de commande"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from CSV"
 #~ msgstr "Importer depuis libvirt"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from CSV…"
 #~ msgstr "Importer depuis libvirt"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from JSON"
 #~ msgstr "Importer depuis libvirt"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from JSON…"
 #~ msgstr "Importer depuis libvirt"
 

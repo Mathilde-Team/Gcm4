@@ -198,6 +198,35 @@ Seuls les plugins l'importent, jamais la base (vérifié par
 #223), gcm4 démarre et le plugin est signalé en erreur dans Préférences >
 Extensions.
 
+## Plugins asyncio
+
+La base lance `Gtk.Application.run` avec une boucle asyncio branchée sur la
+boucle GLib (`gcm4.ui.boucle.executer`, `gi.events.GLibEventLoopPolicy`,
+PyGObject 3.50 ou plus récent, #105). Un plugin peut donc lancer une
+coroutine depuis n'importe quel callback GTK, y compris depuis `open` :
+
+```python
+from gcm4.ui import boucle
+
+def open(self, host):
+    if not boucle.asyncio_disponible():
+        raise RuntimeError(_("asyncio is not running"))
+    session = MaSession(host)
+    session.tache = asyncio.ensure_future(session.connecter())
+    return session
+```
+
+- Ne jamais appeler `asyncio.run` ni `loop.run_until_complete` depuis un
+  callback : la boucle tourne déjà, c'est GLib qui la fait avancer.
+- `close()` reste synchrone : annuler la tâche en cours et lancer la
+  déconnexion avec `asyncio.ensure_future`, sans l'attendre.
+- La politique doit être en place **avant** `run` ; l'installer depuis un
+  plugin, application lancée, reste sans effet.
+- Sans `gi.events` (PyGObject trop ancien), `asyncio_disponible()` rend
+  `False` : le plugin lève une exception dans `open`, la base l'affiche.
+
+Exemple : le plugin rdp (`plugins/rdp/gtk4.py`, AsyncRdp).
+
 ## Règles
 
 - **Mot de passe** : ne jamais écrire `host.password` dans le journal. Il est
