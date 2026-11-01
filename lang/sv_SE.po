@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:23+0000\n"
+"POT-Creation-Date: 2026-11-01 20:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1812,15 +1812,15 @@ msgstr ""
 msgid "Authentication failed"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "Custom…"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "Domain"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 #, fuzzy
 #| msgid "Dynamic title"
 msgid "Dynamic resolution"
@@ -1839,7 +1839,7 @@ msgstr ""
 msgid "Fullscreen"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "Geometry"
 msgstr ""
 
@@ -1847,7 +1847,7 @@ msgstr ""
 msgid "Height"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_web.py
+#: plugins/plugin_rdp.py plugins/plugin_web.py plugins/rdp/gtk4.py
 msgid "Ignore certificate errors"
 msgstr ""
 
@@ -1855,21 +1855,22 @@ msgstr ""
 msgid "RDP"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 #, fuzzy
 #| msgid "Remote"
 msgid "RemoteApp"
 msgstr "Fjärr"
 
 #: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/rdp/gtk4.py
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
 msgid "Share folder"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
 msgid "Shared folder path"
 msgstr ""
 
@@ -2688,6 +2689,69 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/rdp/core.py
+msgid "Choose the folder to share"
+msgstr ""
+
+#: plugins/rdp/core.py
+#, fuzzy, python-brace-format
+#| msgid "Port must be a number between {min} and {max}."
+msgid "Enter a size between {min} and {max} pixels"
+msgstr "Porten måste vara ett tal mellan {min} och {max}."
+
+#: plugins/rdp/core.py
+#, fuzzy
+#| msgid "Invalid file"
+msgid "Invalid custom size"
+msgstr "Ogiltig fil"
+
+#: plugins/rdp/core.py
+msgid "Sharing an ISO image is not supported yet"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "This folder does not exist"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Unknown geometry"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "AsyncRdp is not available ({error}). Install asyncrdp and set 'integrations' in the [plugin rdp] section to the integrations/gtk4 folder of AsyncRdp4."
+msgstr ""
+
+#: plugins/rdp/gtk4.py plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Connecting…"
+msgid "Connecting to {host}…"
+msgstr "Ansluter…"
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Connecting…"
+msgid "Connection cancelled"
+msgstr "Ansluter…"
+
+#: plugins/rdp/gtk4.py
+msgid "Fit to tab"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Initialization failed: {error}"
+msgid "RDP connection to {host} failed: {error}"
+msgstr "Initieringen misslyckades: {error}"
+
+#: plugins/rdp/gtk4.py
+msgid "RDP needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Size"
+msgstr ""
+
 #: plugins/sftp/core.py
 msgid "B"
 msgstr ""
@@ -2715,12 +2779,6 @@ msgstr ""
 #: plugins/sftp/gtk4.py
 msgid "Busy, try again when the current operation is finished"
 msgstr ""
-
-#: plugins/sftp/gtk4.py
-#, fuzzy, python-brace-format
-#| msgid "Connecting…"
-msgid "Connecting to {host}…"
-msgstr "Ansluter…"
 
 #: plugins/sftp/gtk4.py
 #, fuzzy, python-brace-format
