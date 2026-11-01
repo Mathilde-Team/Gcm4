@@ -143,6 +143,7 @@ def build_remote_desktop_context_menu(
     Returns:
         Gtk.Menu: menu pret a afficher via popup().
     """
+    logger.debug("build_remote_desktop_context_menu: entrée")
     menu = Gtk.Menu()
 
     item_connect = Gtk.MenuItem(label=_("Connect"))
@@ -172,6 +173,7 @@ def build_remote_desktop_context_menu(
     menu.append(keys_item)
 
     menu.show_all()
+    logger.debug("build_remote_desktop_context_menu: sortie")
     return menu
 
 
@@ -189,10 +191,12 @@ def mount_iso_temp(iso_path):
     Returns:
         tuple[str, str] | None: (mountpoint, loop_device) si succès, sinon None.
     """
+    logger.debug("mount_iso_temp: entrée")
     if not shutil.which("udisksctl"):
         app_logger.warning(
             f"mount_iso_temp | udisksctl introuvable, impossible de monter {iso_path}"
         )
+        logger.debug("mount_iso_temp: sortie")
         return None
     try:
         out = subprocess.run(
@@ -212,10 +216,13 @@ def mount_iso_temp(iso_path):
         # Sortie typique : "Mounted /dev/loop0 at /run/media/user/LABEL."
         mountpoint = out.split(" at ")[-1].rstrip(".").strip()
         app_logger.debug(f"mount_iso_temp | {iso_path} monte sur {mountpoint} ({loop_device})")
+        logger.debug("mount_iso_temp: sortie")
         return mountpoint, loop_device
     except (subprocess.CalledProcessError, IndexError) as exc:
         app_logger.error(f"mount_iso_temp | echec montage {iso_path} : {exc}")
+        logger.debug("mount_iso_temp: sortie")
         return None
+    logger.debug("mount_iso_temp: fin")
 
 
 def umount_iso_temp(loop_device):
@@ -224,7 +231,9 @@ def umount_iso_temp(loop_device):
     Args:
         loop_device (str): Chemin du périphérique loop (ex: /dev/loop0).
     """
+    logger.debug("umount_iso_temp: entrée")
     if not loop_device:
+        logger.debug("umount_iso_temp: sortie")
         return
     try:
         subprocess.run(
@@ -240,6 +249,7 @@ def umount_iso_temp(loop_device):
         app_logger.debug(f"umount_iso_temp | {loop_device} demonte et libere")
     except Exception as exc:
         app_logger.warning(f"umount_iso_temp | erreur lors du demontage de {loop_device} : {exc}")
+    logger.debug("umount_iso_temp: fin")
 
 
 def vte_run(terminal, command, arg=None, extra_env=None):
@@ -256,6 +266,7 @@ def vte_run(terminal, command, arg=None, extra_env=None):
             (ex: mot de passe transmis via env plutot que ligne de commande,
             pour ne pas apparaitre dans `ps aux`). Defaults to None.
     """
+    logger.debug("vte_run: entrée")
     term_type = getattr(getattr(terminal, "host", None), "term", None) or "xterm"
     # fix #89: transmettre SSH_AUTH_SOCK et vars essentielles au processus VTE
     envv = ["PATH=%s" % os.getenv("PATH"), "TERM=%s" % term_type]
@@ -311,6 +322,7 @@ def vte_run(terminal, command, arg=None, extra_env=None):
             None,
             None,
         )
+    logger.debug("vte_run: fin")
 
 
 class ManagementTabLabel(Gtk.Box):
@@ -331,6 +343,7 @@ class ManagementTabLabel(Gtk.Box):
             on_close (callable): Appele (sans argument) quand l'utilisateur
                 clique sur le bouton de fermeture.
         """
+        logger.debug("ManagementTabLabel.__init__: entrée")
         Gtk.Box.__init__(
             self, orientation=Gtk.Orientation.HORIZONTAL, homogeneous=False, spacing=4
         )
@@ -350,6 +363,7 @@ class ManagementTabLabel(Gtk.Box):
         close_btn.show_all()
 
         self.show()
+        logger.debug("ManagementTabLabel.__init__: fin")
 
     def get_text(self):
         """Retourne le texte de l'etiquette de l'onglet.
@@ -378,7 +392,9 @@ class _LogActionShim:
             action (Gio.SimpleAction): Action a etat booleen ("log") portee
                 par le ``Gio.SimpleActionGroup`` de :class:`TabContextMenu`.
         """
+        logger.debug("_LogActionShim.__init__: entrée")
         self._action = action
+        logger.debug("_LogActionShim.__init__: fin")
 
     def get_active(self):
         """Retourne l'etat courant de la case a cocher simulee.
@@ -394,7 +410,9 @@ class _LogActionShim:
         Args:
             value (bool): Nouvel etat a appliquer a l'action.
         """
+        logger.debug("_LogActionShim.set_active: entrée")
         self._action.set_state(GLib.Variant.new_boolean(bool(value)))
+        logger.debug("_LogActionShim.set_active: fin")
 
 
 class TabContextMenu:
@@ -1190,6 +1208,7 @@ class NotebookTabLabel(Gtk.Box):
                 d'hôte (division de notebook, qui reporte la valeur de
                 l'onglet d'origine, comme pour host_auto_close_tab).
         """
+        logger.debug("NotebookTabLabel.__init__: entrée")
         Gtk.Box.__init__(
             self, orientation=Gtk.Orientation.HORIZONTAL, homogeneous=False, spacing=0
         )
@@ -1256,6 +1275,7 @@ class NotebookTabLabel(Gtk.Box):
             Gdk.EventMask.SCROLL_MASK | Gdk.EventMask.SMOOTH_SCROLL_MASK
         )  # let the scroll-event pass through
         self.show()
+        logger.debug("NotebookTabLabel.__init__: fin")
 
     def set_selected(self, sel):
         """Marque ou demarque l'onglet comme selectionne visuellement.
@@ -1263,11 +1283,13 @@ class NotebookTabLabel(Gtk.Box):
         Args:
             sel (bool): True pour marquer comme selectionne.
         """
+        logger.debug("NotebookTabLabel.set_selected: entrée")
         if sel:
             self.get_style_context().add_class("selected")
         else:
             self.get_style_context().remove_class("selected")
         self.queue_draw()  # fix #67: forcer le redraw immédiat du label d'onglet
+        logger.debug("NotebookTabLabel.set_selected: fin")
 
     def on_close_tab(self, widget, notebook, *args):
         """Gestionnaire du bouton fermeture d'onglet.
@@ -1279,6 +1301,7 @@ class NotebookTabLabel(Gtk.Box):
             *args: Arguments additionnels ignores, tolerance de signature
                 pour l'appel direct (hors signal ``clicked``).
         """
+        logger.debug("NotebookTabLabel.on_close_tab: entrée")
         from gnome_connection_manager import _, conf, msgconfirm
 
         if (
@@ -1286,9 +1309,11 @@ class NotebookTabLabel(Gtk.Box):
             and msgconfirm("%s [%s]?" % (_("Close console"), self.label.get_text().strip()))
             != Gtk.ResponseType.OK
         ):
+            logger.debug("NotebookTabLabel.on_close_tab: sortie")
             return True
 
         self.close_tab(widget)
+        logger.debug("NotebookTabLabel.on_close_tab: fin")
 
     def close_tab(self, widget):
         """Ferme l'onglet associe au terminal.
@@ -1296,6 +1321,7 @@ class NotebookTabLabel(Gtk.Box):
         Args:
             widget: Parametre widget.
         """
+        logger.debug("NotebookTabLabel.close_tab: entrée")
         notebook = self.widget_.get_parent()
         page = notebook.page_num(self.widget_)
         if page >= 0:
@@ -1303,6 +1329,7 @@ class NotebookTabLabel(Gtk.Box):
             notebook.remove_page(page)
             notebook.is_closed = False
             self.widget_.destroy()
+        logger.debug("NotebookTabLabel.close_tab: fin")
 
     def mark_tab_as_closed(self):
         """Marque visuellement l'onglet comme connexion fermee.
@@ -1326,6 +1353,7 @@ class NotebookTabLabel(Gtk.Box):
         (SSH/telnet/local/serial/ipmi) uniquement — pas RDP/VNC/SPICE, même
         limitation que la notification de déconnexion.
         """
+        logger.debug("NotebookTabLabel.mark_tab_as_closed: entrée")
         from gnome_connection_manager import (
             _launch_hook_command,
             app_logger,
@@ -1355,12 +1383,14 @@ class NotebookTabLabel(Gtk.Box):
                     app_logger.debug(
                         "NotebookTabLabel.mark_tab_as_closed() returning | pas de notebook parent"
                     )
+                    logger.debug("NotebookTabLabel.mark_tab_as_closed: sortie")
                     return
                 terminal = parent_nb.get_nth_page(parent_nb.page_num(self.widget_)).get_child()
                 if terminal.get_child_exit_status() != 0:
                     app_logger.debug(
                         "NotebookTabLabel.mark_tab_as_closed() returning | sortie non propre, mode=2"
                     )
+                    logger.debug("NotebookTabLabel.mark_tab_as_closed: sortie")
                     return
             app_logger.debug(
                 f"NotebookTabLabel.mark_tab_as_closed() returning | fermeture de l'onglet, mode={mode}"
@@ -1370,6 +1400,7 @@ class NotebookTabLabel(Gtk.Box):
             app_logger.debug(
                 "NotebookTabLabel.mark_tab_as_closed() returning | mode=0 (jamais), onglet conservé"
             )
+        logger.debug("NotebookTabLabel.mark_tab_as_closed: fin")
 
     def effective_auto_close_tab(self):
         """Résout le mode de fermeture automatique applicable à cet onglet.
@@ -1382,15 +1413,19 @@ class NotebookTabLabel(Gtk.Box):
         Returns:
             int: 0 (jamais), 1 (toujours) ou 2 (seulement en sortie propre).
         """
+        logger.debug("NotebookTabLabel.effective_auto_close_tab: entrée")
         from gcm4_core import resolve_auto_close_tab
         from gnome_connection_manager import conf
 
+        logger.debug("NotebookTabLabel.effective_auto_close_tab: sortie")
         return resolve_auto_close_tab(self.host_auto_close_tab, conf.AUTO_CLOSE_TAB)
 
     def mark_tab_as_active(self):
         """Marque visuellement l'onglet comme connexion active."""
+        logger.debug("NotebookTabLabel.mark_tab_as_active: entrée")
         self.label.set_markup("%s" % (self.label.get_text()))
         self.is_active = True
+        logger.debug("NotebookTabLabel.mark_tab_as_active: fin")
 
     def get_text(self):
         """Retourne le texte de l'etiquette de l'onglet.
@@ -1411,11 +1446,14 @@ class NotebookTabLabel(Gtk.Box):
             Gtk.Widget | None: le widget d'onglet bureau distant, ou None si
                 cet onglet n'en est pas un (terminal SSH classique, etc.).
         """
+        logger.debug("NotebookTabLabel._get_remote_desktop_widget: entrée")
         widget_ = self.widget_
         if isinstance(widget_, Gtk.ScrolledWindow):
             widget_ = widget_.get_child()
         if hasattr(widget_, "build_context_menu"):
+            logger.debug("NotebookTabLabel._get_remote_desktop_widget: sortie")
             return widget_
+        logger.debug("NotebookTabLabel._get_remote_desktop_widget: sortie")
         return None
 
     def on_label_pressed(self, gesture, n_press, x, y):
@@ -1458,6 +1496,7 @@ class NotebookTabLabel(Gtk.Box):
             x (float): Coordonnee X du clic, relative a ``self.eb``.
             y (float): Coordonnee Y du clic, relative a ``self.eb``.
         """
+        logger.debug("NotebookTabLabel.on_label_pressed: entrée")
         from gnome_connection_manager import conf
 
         button = gesture.get_current_button()
@@ -1468,6 +1507,7 @@ class NotebookTabLabel(Gtk.Box):
         outcome = classify_tab_label_click(button=button, n_press=n_press)
         if outcome == "propagate":
             app_logger.debug("NotebookTabLabel.on_label_pressed() returning | outcome='propagate'")
+            logger.debug("NotebookTabLabel.on_label_pressed: sortie")
             return
 
         if outcome == "open-menu":
@@ -1493,6 +1533,7 @@ class NotebookTabLabel(Gtk.Box):
                         "NotebookTabLabel.on_label_pressed() returning | "
                         "outcome='open-menu' (bureau distant)"
                     )
+                    logger.debug("NotebookTabLabel.on_label_pressed: sortie")
                     return
             self.popup.label = self.label
 
@@ -1509,6 +1550,7 @@ class NotebookTabLabel(Gtk.Box):
             self.popup.popup_at(self.eb, x, y)
             gesture.set_state(Gtk.EventSequenceState.CLAIMED)
             app_logger.debug("NotebookTabLabel.on_label_pressed() returning | outcome='open-menu'")
+            logger.debug("NotebookTabLabel.on_label_pressed: sortie")
             return
 
         # outcome == "close-tab"
@@ -1523,9 +1565,11 @@ class NotebookTabLabel(Gtk.Box):
             app_logger.debug(
                 "NotebookTabLabel.on_label_pressed() returning | outcome='close-tab' (annule)"
             )
+            logger.debug("NotebookTabLabel.on_label_pressed: sortie")
             return
         self.close_tab(self.widget_)
         app_logger.debug("NotebookTabLabel.on_label_pressed() returning | outcome='close-tab'")
+        logger.debug("NotebookTabLabel.on_label_pressed: fin")
 
 
 class EntryDialog(Gtk.Dialog):
@@ -1541,6 +1585,7 @@ class EntryDialog(Gtk.Dialog):
             modal: Parametre modal.
             mask: Parametre mask.
         """
+        logger.debug("EntryDialog.__init__: entrée")
         Gtk.Dialog.__init__(self)
         self.set_title(title)
         self.connect("destroy", self.quit)
@@ -1575,6 +1620,7 @@ class EntryDialog(Gtk.Dialog):
         self.action_area.pack_start(button, True, True, 0)
         button.show()
         self.ret = None
+        logger.debug("EntryDialog.__init__: fin")
 
     def quit(self, w=None, event=None):
         """Ferme la boite de dialogue.
@@ -1586,8 +1632,10 @@ class EntryDialog(Gtk.Dialog):
                 signal en fournissant un (ex. ``delete-event``), ``None``
                 sinon.
         """
+        logger.debug("EntryDialog.quit: entrée")
         self.hide()
         self.destroy()
+        logger.debug("EntryDialog.quit: fin")
 
     def click(self, button):
         """Valide la saisie et ferme la boite de dialogue.
@@ -1596,8 +1644,10 @@ class EntryDialog(Gtk.Dialog):
             button (Gtk.Widget): Widget declencheur (bouton OK ou
                 ``Gtk.Entry`` sur activation).
         """
+        logger.debug("EntryDialog.click: entrée")
         self.value = self.entry.get_text()
         self.response(Gtk.ResponseType.OK)
+        logger.debug("EntryDialog.click: fin")
 
 
 def inputbox(title, text, default="", password=False, parent=None, icon_path=None):
@@ -1625,6 +1675,7 @@ def inputbox(title, text, default="", password=False, parent=None, icon_path=Non
     Returns:
         str or None: Texte saisi, ou None si annulé.
     """
+    logger.debug("inputbox: entrée")
     dlg = EntryDialog(title, text, default, mask=password)
     if icon_path:
         try:
@@ -1636,6 +1687,7 @@ def inputbox(title, text, default="", password=False, parent=None, icon_path=Non
     else:
         response = None
     dlg.destroy()
+    logger.debug("inputbox: sortie")
     return response
 
 
@@ -1656,7 +1708,9 @@ class CellTextView(Gtk.TextView, Gtk.CellEditable):
 
     def do_editing_done(self, *args):
         """Signale la fin de l'edition en ligne."""
+        logger.debug("CellTextView.do_editing_done: entrée")
         self.remove_widget()
+        logger.debug("CellTextView.do_editing_done: fin")
 
     def do_remove_widget(self, *args):
         """Supprime le widget d'edition en ligne."""
@@ -1678,8 +1732,10 @@ class CellTextView(Gtk.TextView, Gtk.CellEditable):
         Returns:
             str: Texte de l'onglet.
         """
+        logger.debug("CellTextView.get_text: entrée")
         text_buffer = self.get_buffer()
         bounds = text_buffer.get_bounds()
+        logger.debug("CellTextView.get_text: sortie")
         return text_buffer.get_text(*bounds, include_hidden_chars=True)
 
     def set_text(self, text):
@@ -1688,7 +1744,9 @@ class CellTextView(Gtk.TextView, Gtk.CellEditable):
         Args:
             text (str): Texte a afficher.
         """
+        logger.debug("CellTextView.set_text: entrée")
         self.get_buffer().set_text(text)
+        logger.debug("CellTextView.set_text: fin")
 
 
 class MultilineCellRenderer(Gtk.CellRendererText):
@@ -1698,8 +1756,10 @@ class MultilineCellRenderer(Gtk.CellRendererText):
 
     def __init__(self):
         """Initialise l'instance."""
+        logger.debug("MultilineCellRenderer.__init__: entrée")
         Gtk.CellRendererText.__init__(self)
         self._in_editor_menu = False
+        logger.debug("MultilineCellRenderer.__init__: fin")
 
     def _on_editor_focus_leave(self, editor):
         """Perte de focus de l'editeur inline : valide l'edition (#96, option A du 28/10/2026).
@@ -1713,7 +1773,7 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         Args:
             editor (CellTextView): Widget d'edition source.
         """
-        app_logger.debug("MultilineCellRenderer._on_editor_focus_leave() called")
+        logger.debug("MultilineCellRenderer._on_editor_focus_leave: entrée")
         outcome = classify_editor_focus_leave(
             menu_open=self._in_editor_menu, done=getattr(editor, "_done", False)
         )
@@ -1721,7 +1781,7 @@ class MultilineCellRenderer(Gtk.CellRendererText):
             editor._done = True
             editor.remove_widget()
             self.emit("edited", editor.path, editor.get_text())
-        app_logger.debug(f"MultilineCellRenderer._on_editor_focus_leave() returning | {outcome=}")
+        logger.debug("MultilineCellRenderer._on_editor_focus_leave: sortie {}", outcome)
 
     def _on_editor_focus_out_event(self, editor, *args):
         """Gestionnaire GTK3 ``focus-out-event`` (sans ``Gtk.EventControllerFocus``).
@@ -1733,9 +1793,9 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         Returns:
             bool: ``False``, l'evenement se propage.
         """
-        app_logger.debug("MultilineCellRenderer._on_editor_focus_out_event() called")
+        logger.debug("MultilineCellRenderer._on_editor_focus_out_event: entrée")
         self._on_editor_focus_leave(editor)
-        app_logger.debug("MultilineCellRenderer._on_editor_focus_out_event() returning | False")
+        logger.debug("MultilineCellRenderer._on_editor_focus_out_event: sortie False")
         return False
 
     def _connect_editor_focus_leave(self, editor):
@@ -1747,7 +1807,7 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         Args:
             editor (CellTextView): Editeur a surveiller.
         """
-        app_logger.debug("MultilineCellRenderer._connect_editor_focus_leave() called")
+        logger.debug("MultilineCellRenderer._connect_editor_focus_leave: entrée")
         controller_cls = getattr(Gtk, "EventControllerFocus", None)
         if controller_cls is not None:
             editor._focus_controller = controller_cls.new()
@@ -1757,8 +1817,9 @@ class MultilineCellRenderer(Gtk.CellRendererText):
             editor.add_controller(editor._focus_controller)
         else:
             editor.connect("focus-out-event", self._on_editor_focus_out_event)
-        app_logger.debug(
-            f"MultilineCellRenderer._connect_editor_focus_leave() returning | gtk4={controller_cls is not None}"
+        logger.debug(
+            "MultilineCellRenderer._connect_editor_focus_leave: sortie gtk4={}",
+            controller_cls is not None,
         )
 
     def _on_editor_popup_menu_key(self, editor):
@@ -1770,9 +1831,9 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         Returns:
             bool: ``True``, le menu natif n'est pas ouvert.
         """
-        app_logger.debug("MultilineCellRenderer._on_editor_popup_menu_key() called")
+        logger.debug("MultilineCellRenderer._on_editor_popup_menu_key: entrée")
         self._open_editor_menu(editor, 0, 0)
-        app_logger.debug("MultilineCellRenderer._on_editor_popup_menu_key() returning | True")
+        logger.debug("MultilineCellRenderer._on_editor_popup_menu_key: sortie True")
         return True
 
     def _open_editor_menu(self, editor, x, y):
@@ -1789,7 +1850,7 @@ class MultilineCellRenderer(Gtk.CellRendererText):
             x (float): Abscisse du clic dans l'editeur.
             y (float): Ordonnee du clic dans l'editeur.
         """
-        app_logger.debug(f"MultilineCellRenderer._open_editor_menu() called | x={x!r} y={y!r}")
+        logger.debug("MultilineCellRenderer._open_editor_menu: entrée x={!r} y={!r}", x, y)
         model = Gio.Menu()
         group = Gio.SimpleActionGroup()
         for name, label, signal in EDITOR_MENU_ACTIONS:
@@ -1812,16 +1873,16 @@ class MultilineCellRenderer(Gtk.CellRendererText):
 
         def on_closed(_popover):
             """Fermeture du popover : la perte de focus valide de nouveau."""
-            app_logger.debug("MultilineCellRenderer._open_editor_menu.on_closed() called")
+            logger.debug("MultilineCellRenderer._open_editor_menu.on_closed: entrée")
             self._in_editor_menu = False
             editor.grab_focus()
-            app_logger.debug("MultilineCellRenderer._open_editor_menu.on_closed() returning")
+            logger.debug("MultilineCellRenderer._open_editor_menu.on_closed: sortie")
 
         popover.connect("closed", on_closed)
         editor._menu_popover = popover
         self._in_editor_menu = True
         popover.popup()
-        app_logger.debug("MultilineCellRenderer._open_editor_menu() returning")
+        logger.debug("MultilineCellRenderer._open_editor_menu: sortie")
 
     def _on_editor_key_pressed(self, controller, keyval, keycode, state):
         """Gestionnaire de touche dans l'editeur inline (``Gtk.EventControllerKey``).
@@ -1934,6 +1995,7 @@ class MultilineCellRenderer(Gtk.CellRendererText):
             CellTextView: L'editeur en ligne pret a recevoir le focus,
             deja connecte a ses gestionnaires de fin d'edition/annulation.
         """
+        logger.debug("MultilineCellRenderer.do_start_editing: entrée")
         from gnome_connection_manager import set_widget_font
 
         editor = CellTextView()
@@ -1973,4 +2035,5 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         editor._button_gesture.set_button(0)
         editor._button_gesture.connect("pressed", self._on_editor_button_pressed)
         editor.show()
+        logger.debug("MultilineCellRenderer.do_start_editing: sortie")
         return editor
