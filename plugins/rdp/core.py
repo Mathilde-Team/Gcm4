@@ -122,6 +122,7 @@ def _entier(texte: str) -> int | None:
     try:
         resultat: int | None = int(texte.strip())
     except ValueError:
+        logger.debug("_entier: {!r} n'est pas un entier", texte)
         resultat = None
     logger.debug("_entier: {}", resultat)
     return resultat
@@ -193,7 +194,7 @@ def taille(options: Mapping[str, str]) -> tuple[int, int]:
     else:
         logger.debug("taille: géométrie inconnue")
         raise ValueError(_("Unknown geometry"))
-    logger.debug("taille: {}x{}", *resultat)
+    logger.debug("taille: {}x{}", resultat[0], resultat[1])
     return resultat
 
 
