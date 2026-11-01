@@ -111,12 +111,14 @@ def open_netmiko_tab(wmain) -> NetmikoTab:
             ``Gtk.Notebook`` où ``addTab()`` ouvre normalement les sessions —
             et ``.window``).
     """
+    logger.debug("open_netmiko_tab: entrée")
     existing = getattr(wmain, "_netmiko_tab", None)
     notebook = wmain.nbConsole
     if existing is not None:
         page_num = notebook.page_num(existing.get_root_widget())
         if page_num != -1:
             notebook.set_current_page(page_num)
+            logger.debug("open_netmiko_tab: sortie")
             return existing
         # L'onglet a été fermé entretemps : on oublie la référence périmée.
         wmain._netmiko_tab = None
@@ -129,6 +131,7 @@ def open_netmiko_tab(wmain) -> NetmikoTab:
     notebook.set_tab_reorderable(root, True)
     notebook.set_current_page(notebook.get_n_pages() - 1)
     wmain._netmiko_tab = tab
+    logger.debug("open_netmiko_tab: sortie")
     return tab
 
 
@@ -143,6 +146,7 @@ def _build_closable_tab_label(
     petit label autonome est utilisé ici. À remplacer par ``NotebookTabLabel``
     si vous préférez l'habillage standard (glisser-déposer, menu contextuel...).
     """
+    logger.debug("_build_closable_tab_label: entrée")
     box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
     box.pack_start(Gtk.Label(label=text), False, False, 0)
     btn = Gtk.Button()
@@ -150,13 +154,16 @@ def _build_closable_tab_label(
     btn.add(Gtk.Image.new_from_icon_name("window-close-symbolic", Gtk.IconSize.MENU))
 
     def _on_close(_b):
+        logger.debug("_on_close: entrée")
         page_num = notebook.page_num(page_widget)
         if page_num != -1:
             notebook.remove_page(page_num)
+        logger.debug("_on_close: fin")
 
     btn.connect("clicked", _on_close)
     box.pack_start(btn, False, False, 0)
     box.show_all()
+    logger.debug("_build_closable_tab_label: sortie")
     return box
 
 
@@ -174,6 +181,7 @@ class NetmikoTab:
                 (``profiles.ini``). Le dossier personnel de l'utilisateur
                 si omis.
         """
+        logger.debug("NetmikoTab.__init__: entrée")
         self.parent_window = parent_window
         self.default_dir = default_dir or str(Path.home())
 
@@ -191,6 +199,7 @@ class NetmikoTab:
         self._current_vendor_for_editor: str | None = None
 
         self._build_ui()
+        logger.debug("NetmikoTab.__init__: fin")
 
     def get_root_widget(self) -> Gtk.Widget:
         """Retourne le widget racine de l'onglet, à insérer dans le notebook hôte.
@@ -205,6 +214,7 @@ class NetmikoTab:
     # ══════════════════════════════════════════════════════════════════
 
     def _build_ui(self):
+        logger.debug("NetmikoTab._build_ui: entrée")
         outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         outer.set_margin_start(10)
         outer.set_margin_end(10)
@@ -221,12 +231,14 @@ class NetmikoTab:
         self.stack.add_titled(self._build_config_page(), "config", _("1. Configuration"))
         self.stack.add_titled(self._build_monitor_page(), "monitor", _("2. Suivi"))
         self.stack.add_titled(self._build_results_page(), "results", _("3. Résultats"))
+        logger.debug("NetmikoTab._build_ui: fin")
 
     # ══════════════════════════════════════════════════════════════════
     # Phase 1 : Configuration
     # ══════════════════════════════════════════════════════════════════
 
     def _build_config_page(self) -> Gtk.Widget:
+        logger.debug("NetmikoTab._build_config_page: entrée")
         page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
 
         # ── Fichiers d'entrée ────────────────────────────────────────────
@@ -308,9 +320,11 @@ class NetmikoTab:
         btn_launch.connect("clicked", self._on_launch)
         opts.pack_end(btn_launch, False, False, 0)
 
+        logger.debug("NetmikoTab._build_config_page: sortie")
         return page
 
     def _make_chooser_row(self, grid, row_idx, label_text) -> Gtk.FileChooserButton:
+        logger.debug("NetmikoTab._make_chooser_row: entrée")
         lbl = Gtk.Label(label=label_text)
         lbl.set_xalign(0)
         grid.attach(lbl, 0, row_idx, 1, 1)
@@ -323,11 +337,13 @@ class NetmikoTab:
             )
         chooser.set_hexpand(True)
         grid.attach(chooser, 1, row_idx, 1, 1)
+        logger.debug("NetmikoTab._make_chooser_row: sortie")
         return chooser
 
     # ── Éditeur de profils (constructeur → device_type en cascade) ──────
 
     def _build_profile_editor(self) -> Gtk.Widget:
+        logger.debug("NetmikoTab._build_profile_editor: entrée")
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
         # Liste des profils existants
@@ -383,11 +399,13 @@ class NetmikoTab:
         form.set_hexpand(True)
 
         def add_field(row, label_text, widget):
+            logger.debug("add_field: entrée")
             lbl = Gtk.Label(label=label_text)
             lbl.set_xalign(0)
             form.attach(lbl, 0, row, 1, 1)
             widget.set_hexpand(True)
             form.attach(widget, 1, row, 1, 1)
+            logger.debug("add_field: fin")
 
         self._f_name = Gtk.Entry()
         add_field(0, _("Nom du profil (= colonne 'type'/'profile' du CSV) :"), self._f_name)
@@ -443,45 +461,59 @@ class NetmikoTab:
         form.attach(btn_row, 0, 10, 2, 1)
 
         hbox.pack_start(form, True, True, 0)
+        logger.debug("NetmikoTab._build_profile_editor: sortie")
         return hbox
 
     def _on_toggle_show_pw(self, chk):
+        logger.debug("NetmikoTab._on_toggle_show_pw: entrée")
         show = chk.get_active()
         self._f_password.set_visibility(show)
         self._f_secret.set_visibility(show)
+        logger.debug("NetmikoTab._on_toggle_show_pw: fin")
 
     def _on_vendor_changed(self, combo):
+        logger.debug("NetmikoTab._on_vendor_changed: entrée")
         vendor = combo.get_active_id()
         self._f_device_type.remove_all()
         if not vendor:
+            logger.debug("NetmikoTab._on_vendor_changed: sortie")
             return
         for device_type, label in VENDOR_DEVICE_TYPES.get(vendor, []):
             self._f_device_type.append(device_type, f"{device_type} — {label}")
         if VENDOR_DEVICE_TYPES.get(vendor):
             self._f_device_type.set_active(0)
+        logger.debug("NetmikoTab._on_vendor_changed: fin")
 
     def _refresh_profile_list(self):
+        logger.debug("NetmikoTab._refresh_profile_list: entrée")
         self._profile_store.clear()
         for p in self.profiles.all():
             self._profile_store.append([p.name, p.vendor, p.device_type, p.username, 0])
+        logger.debug("NetmikoTab._refresh_profile_list: fin")
 
     def _on_profiles_file_chosen(self, chooser):
+        logger.debug("NetmikoTab._on_profiles_file_chosen: entrée")
         path = chooser.get_filename()
         if not path:
+            logger.debug("NetmikoTab._on_profiles_file_chosen: sortie")
             return
         if not Path(path).exists():
             ProfileStore.write_template(path)
         self.profiles = ProfileStore(path)
         self._refresh_profile_list()
         self._lbl_config_status.set_text(_("Profils chargés depuis {p}").format(p=path))
+        logger.debug("NetmikoTab._on_profiles_file_chosen: fin")
 
     def _on_profile_selected(self, selection):
+        logger.debug("NetmikoTab._on_profile_selected: entrée")
         model, it = selection.get_selected()
         if it is None:
+            logger.debug("NetmikoTab._on_profile_selected: sortie")
             return
         name = model[it][P_NAME]
         p = self.profiles.get(name)
         if p is None:
+            logger.debug("NetmikoTab._on_profile_selected: sortie")
             return
         self._f_name.set_text(p.name)
         if p.vendor:
@@ -493,8 +525,10 @@ class NetmikoTab:
         self._f_port.set_value(p.port)
         self._f_timeout.set_value(p.timeout)
         self._f_save_cmd.set_text(p.save_command)
+        logger.debug("NetmikoTab._on_profile_selected: fin")
 
     def _on_profile_new(self, _btn):
+        logger.debug("NetmikoTab._on_profile_new: entrée")
         self._f_name.set_text("")
         self._f_vendor.set_active(-1)
         self._f_device_type.remove_all()
@@ -505,24 +539,31 @@ class NetmikoTab:
         self._f_timeout.set_value(10)
         self._f_save_cmd.set_text("")
         self._f_name.grab_focus()
+        logger.debug("NetmikoTab._on_profile_new: fin")
 
     def _on_profile_delete(self, _btn):
+        logger.debug("NetmikoTab._on_profile_delete: entrée")
         selection = self._profile_tv.get_selection()
         model, it = selection.get_selected()
         if it is None:
+            logger.debug("NetmikoTab._on_profile_delete: sortie")
             return
         name = model[it][P_NAME]
         self.profiles.delete(name)
         self._refresh_profile_list()
+        logger.debug("NetmikoTab._on_profile_delete: fin")
 
     def _on_profile_apply(self, _btn):
+        logger.debug("NetmikoTab._on_profile_apply: entrée")
         name = self._f_name.get_text().strip()
         if not name:
             self._lbl_config_status.set_text(_("Le profil doit avoir un nom."))
+            logger.debug("NetmikoTab._on_profile_apply: sortie")
             return
         device_type = self._f_device_type.get_active_id() or ""
         if not device_type:
             self._lbl_config_status.set_text(_("Choisissez un constructeur et un modèle."))
+            logger.debug("NetmikoTab._on_profile_apply: sortie")
             return
         profile = DeviceProfile(
             name=name,
@@ -538,10 +579,13 @@ class NetmikoTab:
         self.profiles.set(profile)
         self._refresh_profile_list()
         self._lbl_config_status.set_text(_("Profil '{n}' mis à jour (en mémoire).").format(n=name))
+        logger.debug("NetmikoTab._on_profile_apply: fin")
 
     def _on_profiles_save_file(self, _btn):
+        logger.debug("NetmikoTab._on_profiles_save_file: entrée")
         if not self.profiles.path or str(self.profiles.path) in ("", "."):
             self._lbl_config_status.set_text(_("Choisissez d'abord un fichier profiles.ini."))
+            logger.debug("NetmikoTab._on_profiles_save_file: sortie")
             return
         try:
             self.profiles.save()
@@ -551,14 +595,17 @@ class NetmikoTab:
         except Exception as exc:  # noqa: BLE001
             logger.warning("netmiko push | écriture des profils impossible : {}", exc)
             self._lbl_config_status.set_text(_("Erreur d'écriture : {e}").format(e=exc))
+        logger.debug("NetmikoTab._on_profiles_save_file: fin")
 
     # ── Inventaire ────────────────────────────────────────────────────────
 
     def _on_load_inventory(self, _btn):
+        logger.debug("NetmikoTab._on_load_inventory: entrée")
         csv_path = self._chooser_csv.get_filename()
         tpl_path = self._chooser_tpl.get_filename()
         if not csv_path or not tpl_path:
             self._lbl_config_status.set_text(_("Choisissez l'inventaire CSV et le gabarit."))
+            logger.debug("NetmikoTab._on_load_inventory: sortie")
             return
         try:
             self.rows = load_inventory(csv_path)
@@ -566,6 +613,7 @@ class NetmikoTab:
         except Exception as exc:  # noqa: BLE001
             logger.warning("netmiko push | chargement de l'inventaire impossible : {}", exc)
             self._lbl_config_status.set_text(_("Erreur de chargement : {e}").format(e=exc))
+            logger.debug("NetmikoTab._on_load_inventory: sortie")
             return
 
         self._inv_store.clear()
@@ -577,13 +625,18 @@ class NetmikoTab:
         self._lbl_config_status.set_text(
             _("{n} hôte(s) chargé(s) depuis {csv}.").format(n=len(self.rows), csv=csv_path)
         )
+        logger.debug("NetmikoTab._on_load_inventory: fin")
 
     def _on_row_toggled(self, _cell, path):
+        logger.debug("NetmikoTab._on_row_toggled: entrée")
         self._inv_store[path][C_SEL] = not self._inv_store[path][C_SEL]
+        logger.debug("NetmikoTab._on_row_toggled: fin")
 
     def _on_inventory_selection_changed(self, selection):
+        logger.debug("NetmikoTab._on_inventory_selection_changed: entrée")
         model, it = selection.get_selected()
         if it is None:
+            logger.debug("NetmikoTab._on_inventory_selection_changed: sortie")
             return
         idx = model[it][C_IDX]
         row = self.rows[idx]
@@ -596,17 +649,22 @@ class NetmikoTab:
         else:
             self._lbl_preview_warn.set_text("")
         self._preview_buffer.set_text(render_template(self.template_text, context))
+        logger.debug("NetmikoTab._on_inventory_selection_changed: fin")
 
     def _selected_rows(self) -> list[InventoryRow]:
+        logger.debug("NetmikoTab._selected_rows: entrée")
         out = []
         for r in self._inv_store:
             if r[C_SEL]:
                 out.append(self.rows[r[C_IDX]])
+        logger.debug("NetmikoTab._selected_rows: sortie")
         return out
 
     def _on_validate(self, _btn):
+        logger.debug("NetmikoTab._on_validate: entrée")
         if not self.rows:
             self._lbl_config_status.set_text(_("Chargez d'abord un inventaire."))
+            logger.debug("NetmikoTab._on_validate: sortie")
             return
         n_ok = 0
         n_err = 0
@@ -626,12 +684,14 @@ class NetmikoTab:
         self._lbl_config_status.set_text(
             _("Validation : {ok} prêt(s), {err} en erreur.").format(ok=n_ok, err=n_err)
         )
+        logger.debug("NetmikoTab._on_validate: fin")
 
     # ══════════════════════════════════════════════════════════════════
     # Phase 2 : Suivi
     # ══════════════════════════════════════════════════════════════════
 
     def _build_monitor_page(self) -> Gtk.Widget:
+        logger.debug("NetmikoTab._build_monitor_page: entrée")
         page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
 
         self._progress = Gtk.ProgressBar()
@@ -683,17 +743,22 @@ class NetmikoTab:
         btn_row.pack_end(self._btn_goto_results, False, False, 0)
         page.pack_start(btn_row, False, False, 0)
 
+        logger.debug("NetmikoTab._build_monitor_page: sortie")
         return page
 
     def _on_launch(self, _btn):
+        logger.debug("NetmikoTab._on_launch: entrée")
         if self._running:
+            logger.debug("NetmikoTab._on_launch: sortie")
             return
         if not self.rows:
             self._lbl_config_status.set_text(_("Chargez d'abord un inventaire."))
+            logger.debug("NetmikoTab._on_launch: sortie")
             return
         selected = self._selected_rows()
         if not selected:
             self._lbl_config_status.set_text(_("Aucune ligne cochée."))
+            logger.debug("NetmikoTab._on_launch: sortie")
             return
 
         self._log_dir = (
@@ -738,12 +803,17 @@ class NetmikoTab:
         save = self._chk_save.get_active()
 
         def on_row_start(row: InventoryRow):
+            logger.debug("on_row_start: entrée")
             GLib.idle_add(self._set_monitor_status, row.line_no, _STATUS_LABELS["running"], "", "")
+            logger.debug("on_row_start: fin")
 
         def on_row_done(result: PushResult):
+            logger.debug("on_row_done: entrée")
             GLib.idle_add(self._handle_row_done, result)
+            logger.debug("on_row_done: fin")
 
         def worker():
+            logger.debug("worker: entrée")
             try:
                 run_bulk_push(
                     selected,
@@ -758,23 +828,31 @@ class NetmikoTab:
                 )
             finally:
                 GLib.idle_add(self._on_run_finished)
+            logger.debug("worker: fin")
 
         threading.Thread(target=worker, daemon=True).start()
+        logger.debug("NetmikoTab._on_launch: fin")
 
     def _on_cancel_run(self, _btn):
+        logger.debug("NetmikoTab._on_cancel_run: entrée")
         self._cancel_event.set()
         self._btn_cancel_run.set_sensitive(False)
+        logger.debug("NetmikoTab._on_cancel_run: fin")
 
     def _set_monitor_status(self, line_no, status_text, detail, duration_text):
+        logger.debug("NetmikoTab._set_monitor_status: entrée")
         it = self._monitor_store_by_line.get(line_no)
         if it is None:
+            logger.debug("NetmikoTab._set_monitor_status: sortie")
             return False
         self._monitor_store[it][R_STATUS] = status_text
         self._monitor_store[it][R_DETAIL] = detail
         self._monitor_store[it][R_DURATION] = duration_text
+        logger.debug("NetmikoTab._set_monitor_status: sortie")
         return False
 
     def _handle_row_done(self, result: PushResult):
+        logger.debug("NetmikoTab._handle_row_done: entrée")
         self._results_by_line[result.row.line_no] = result
         detail = result.error or ("; ".join(result.config_errors) if result.config_errors else "")
         self._set_monitor_status(
@@ -787,9 +865,11 @@ class NetmikoTab:
         self._progress.set_fraction(self._done_count / max(1, self._total_to_run))
         self._progress.set_text(_("{d} / {n}").format(d=self._done_count, n=self._total_to_run))
         self._update_counts()
+        logger.debug("NetmikoTab._handle_row_done: sortie")
         return False
 
     def _update_counts(self):
+        logger.debug("NetmikoTab._update_counts: entrée")
         counts = {STATUS_OK: 0, STATUS_REJECTED: 0, STATUS_FAILED: 0}
         for r in self._results_by_line.values():
             if r.status in counts:
@@ -799,12 +879,15 @@ class NetmikoTab:
         self._lbl_count_rejected.set_text(_("Rejetés : {n}").format(n=counts[STATUS_REJECTED]))
         self._lbl_count_failed.set_text(_("Échecs : {n}").format(n=counts[STATUS_FAILED]))
         self._lbl_count_pending.set_text(_("En attente : {n}").format(n=pending))
+        logger.debug("NetmikoTab._update_counts: fin")
 
     def _on_run_finished(self):
+        logger.debug("NetmikoTab._on_run_finished: entrée")
         self._running = False
         self._btn_cancel_run.set_sensitive(False)
         self._btn_goto_results.set_sensitive(True)
         self._populate_results()
+        logger.debug("NetmikoTab._on_run_finished: sortie")
         return False
 
     # ══════════════════════════════════════════════════════════════════
@@ -812,6 +895,7 @@ class NetmikoTab:
     # ══════════════════════════════════════════════════════════════════
 
     def _build_results_page(self) -> Gtk.Widget:
+        logger.debug("NetmikoTab._build_results_page: entrée")
         page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
 
         self._lbl_summary = Gtk.Label(label=_("Aucune exécution pour le moment."))
@@ -854,9 +938,11 @@ class NetmikoTab:
         btn_row.pack_end(btn_new, False, False, 0)
         page.pack_start(btn_row, False, False, 0)
 
+        logger.debug("NetmikoTab._build_results_page: sortie")
         return page
 
     def _populate_results(self):
+        logger.debug("NetmikoTab._populate_results: entrée")
         self._results_store.clear()
         results = sorted(self._results_by_line.values(), key=lambda r: r.row.line_no)
         summary = summarize_results(results)
@@ -877,14 +963,18 @@ class NetmikoTab:
                     r.row.line_no,
                 ]
             )
+        logger.debug("NetmikoTab._populate_results: fin")
 
     def _on_result_selected(self, selection):
+        logger.debug("NetmikoTab._on_result_selected: entrée")
         model, it = selection.get_selected()
         if it is None:
+            logger.debug("NetmikoTab._on_result_selected: sortie")
             return
         log_path = model[it][RES_LOGPATH]
         if not log_path:
             self._log_buffer.set_text("")
+            logger.debug("NetmikoTab._on_result_selected: sortie")
             return
         try:
             content = Path(log_path).read_text(encoding="utf-8")
@@ -892,14 +982,18 @@ class NetmikoTab:
             logger.debug("netmiko push | journal {} illisible : {}", log_path, exc)
             content = _("Impossible de lire le journal : {e}").format(e=exc)
         self._log_buffer.set_text(content)
+        logger.debug("NetmikoTab._on_result_selected: fin")
 
     def _on_open_log_dir(self, _btn):
+        logger.debug("NetmikoTab._on_open_log_dir: entrée")
         if self._log_dir is None:
+            logger.debug("NetmikoTab._on_open_log_dir: sortie")
             return
         try:
             subprocess.Popen(["xdg-open", str(self._log_dir)])
         except Exception as exc:  # noqa: BLE001
             logger.debug(f"xdg-open a échoué : {exc}")
+        logger.debug("NetmikoTab._on_open_log_dir: fin")
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -928,12 +1022,14 @@ class NetmikoPushBatchPlugin(BatchPlugin):
         explicitement plutôt que de planter plus loin avec un
         ``AttributeError`` peu clair.
         """
+        logger.debug("NetmikoPushBatchPlugin.activate: entrée")
         if self.app is None:
             raise RuntimeError(
                 "NetmikoPushBatchPlugin.activate() appelé sans app liée "
                 "(BatchPluginRegistry.bind_app() n'a pas été appelé)"
             )
         open_netmiko_tab(self.app)
+        logger.debug("NetmikoPushBatchPlugin.activate: fin")
 
 
 def get_batch_plugin() -> NetmikoPushBatchPlugin:
