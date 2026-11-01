@@ -45,11 +45,9 @@ SECRET_NAMES = re.compile(
 )
 
 # Fichier -> nombre d'``except`` sans appel de journal (état de l'issue #171).
-# Restent : ssh_key_manager_dialog (les deux fichiers racine SSH
+# Restent : les deux fichiers racine SSH
 # supprimés par le portage GTK4 (#97/#180) — lot du 26/10/2026 (issue #294).
-EXCEPT_SANS_JOURNAL = {
-    "ssh_key_manager_dialog.py": 17,
-}
+EXCEPT_SANS_JOURNAL = {}
 
 # Modules qui définissent des fonctions sans logger de module.
 MODULES_SANS_LOGGER: set[str] = set()
