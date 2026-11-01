@@ -76,7 +76,9 @@ class LibvirtPrefsTab:
         Args:
             notebook: Widget Gtk.Notebook auquel ajouter l'onglet.
         """
+        logger.debug("LibvirtPrefsTab.__init__: entrée")
         self._build(notebook)
+        logger.debug("LibvirtPrefsTab.__init__: fin")
 
     def _build(self, notebook):
         """Construit l'interface de l'onglet.
@@ -84,6 +86,7 @@ class LibvirtPrefsTab:
         Args:
             notebook: Widget Gtk.Notebook récepteur.
         """
+        logger.debug("LibvirtPrefsTab._build: entrée")
         from utils import conf
 
         outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
@@ -116,6 +119,7 @@ class LibvirtPrefsTab:
         notebook.append_page(outer, Gtk.Label(label=_("Libvirt")))
         outer.show_all()
         notebook.show_all()
+        logger.debug("LibvirtPrefsTab._build: fin")
 
     def apply(self):
         """Valide et enregistre les préférences dans la configuration.
@@ -123,9 +127,11 @@ class LibvirtPrefsTab:
         Returns:
             None: Les valeurs sont sauvegardées dans conf.LIBVIRT_DEFAULT_USER.
         """
+        logger.debug("LibvirtPrefsTab.apply: entrée")
         from utils import conf
 
         conf.LIBVIRT_DEFAULT_USER = (self._entry_user.get_text() or "").strip() or "root"
+        logger.debug("LibvirtPrefsTab.apply: fin")
 
 
 def build_preferences_tab(notebook):
@@ -163,11 +169,13 @@ def _libvirt_fetch_hosts(uris, ssh_user, log_fn, progress_fn, proto_filter=None)
     Returns:
         list[dict]: Hôtes prêts à importer dans GCM.
     """
+    logger.debug("_libvirt_fetch_hosts: entrée")
     if not hv_common.PARAMIKO_OK:
         log_fn(
             "ERREUR : paramiko non installé → "
             + hv_common.dep_install_hint("python3-paramiko", "python3-paramiko", "python-paramiko")
         )
+        logger.debug("_libvirt_fetch_hosts: sortie")
         return []
     if proto_filter is None:
         proto_filter = {"ssh", "spice", "rdp"}
@@ -412,6 +420,7 @@ def _libvirt_fetch_hosts(uris, ssh_user, log_fn, progress_fn, proto_filter=None)
         finally:
             client.close()
         progress_fn((idx + 1) / total, f"{idx + 1}/{total} hyperviseurs traités")
+    logger.debug("_libvirt_fetch_hosts: sortie")
     return results
 
 
@@ -452,12 +461,14 @@ class LibvirtImportDialog(GCMBase):
                 automatiquement (utilisé quand l'écran sera embarqué comme
                 onglet épinglé, cf. ``Wmain.open_management_tab``).
         """
+        logger.debug("LibvirtImportDialog.__init__: entrée")
         self.parent = parent_window
         self.on_done = on_done_callback
         self.default_user = default_user
         self._discovered = []
         GCMBase.__init__(self, path=None, parent=parent_window, show=show)
         self._build_ui(show=show)
+        logger.debug("LibvirtImportDialog.__init__: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Construction de l'UI
@@ -472,6 +483,7 @@ class LibvirtImportDialog(GCMBase):
         Args:
             show: Si True, affiche le dialogue après construction.
         """
+        logger.debug("LibvirtImportDialog._build_ui: entrée")
         dlg = Gtk.Dialog(
             title=_("Import from libvirt"),
             transient_for=self.parent,
@@ -762,6 +774,7 @@ class LibvirtImportDialog(GCMBase):
             dlg.show_all()
         self._stack.set_visible_child_name("config")
         self._populate_uris()
+        logger.debug("LibvirtImportDialog._build_ui: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Peuplement des URIs
@@ -776,6 +789,7 @@ class LibvirtImportDialog(GCMBase):
         Returns:
             None: Met à jour `self._uri_store` en place.
         """
+        logger.debug("LibvirtImportDialog._populate_uris: entrée")
         uris = hv_common.libvirt_get_uris_from_dconf()
         if not uris:
             self._log(
@@ -784,9 +798,11 @@ class LibvirtImportDialog(GCMBase):
                 )
             )
             self._uri_store.append([True, "qemu+ssh://root@hyperviseur/system"])
+            logger.debug("LibvirtImportDialog._populate_uris: sortie")
             return
         for uri in uris:
             self._uri_store.append([True, uri])
+        logger.debug("LibvirtImportDialog._populate_uris: fin")
 
     def _normalize_manual_uri(self, raw_target):
         """Convertit une saisie libre en URI qemu+ssh://.../system.
@@ -797,10 +813,13 @@ class LibvirtImportDialog(GCMBase):
         Returns:
             str: URI normalisée, ou chaîne vide si entrée invalide.
         """
+        logger.debug("LibvirtImportDialog._normalize_manual_uri: entrée")
         raw = (raw_target or "").strip()
         if not raw:
+            logger.debug("LibvirtImportDialog._normalize_manual_uri: sortie")
             return ""
         if "://" in raw:
+            logger.debug("LibvirtImportDialog._normalize_manual_uri: sortie")
             return raw
 
         if "@" in raw:
@@ -818,9 +837,12 @@ class LibvirtImportDialog(GCMBase):
 
         host = host.strip()
         if not host:
+            logger.debug("LibvirtImportDialog._normalize_manual_uri: sortie")
             return ""
         if port is None or port == 22:
+            logger.debug("LibvirtImportDialog._normalize_manual_uri: sortie")
             return f"qemu+ssh://{user}@{host}/system"
+        logger.debug("LibvirtImportDialog._normalize_manual_uri: sortie")
         return f"qemu+ssh://{user}@{host}:{port}/system"
 
     def _on_add_manual_uri(self, widget):
@@ -832,18 +854,22 @@ class LibvirtImportDialog(GCMBase):
         Returns:
             None: Met à jour la liste des URI et le log UI.
         """
+        logger.debug("LibvirtImportDialog._on_add_manual_uri: entrée")
         uri = self._normalize_manual_uri(self._entry_manual_uri.get_text())
         if not uri:
             self._log(_("Invalid libvirt target."))
+            logger.debug("LibvirtImportDialog._on_add_manual_uri: sortie")
             return
         existing = [row[1] for row in self._uri_store]
         if uri in existing:
             self._log(_("Target already present: {uri}").format(uri=uri))
             self._entry_manual_uri.set_text("")
+            logger.debug("LibvirtImportDialog._on_add_manual_uri: sortie")
             return
         self._uri_store.append([True, uri])
         self._log(_("Target added: {uri}").format(uri=uri))
         self._entry_manual_uri.set_text("")
+        logger.debug("LibvirtImportDialog._on_add_manual_uri: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Helpers log / progress
@@ -859,13 +885,18 @@ class LibvirtImportDialog(GCMBase):
             None: Planifie l'ajout du message dans le thread GTK.
         """
 
+        logger.debug("LibvirtImportDialog._log: entrée")
+
         def _do():
+            logger.debug("_do: entrée")
             buf = self._log_buf
             buf.insert(buf.get_end_iter(), msg + "\n")
             self._log_view.scroll_mark_onscreen(buf.get_insert())
+            logger.debug("_do: sortie")
             return False
 
         GLib.idle_add(_do)
+        logger.debug("LibvirtImportDialog._log: fin")
 
     def _set_progress(self, frac, text):
         """Met à jour la barre de progression du scan.
@@ -878,12 +909,17 @@ class LibvirtImportDialog(GCMBase):
             None: Planifie la mise à jour de la progress bar.
         """
 
+        logger.debug("LibvirtImportDialog._set_progress: entrée")
+
         def _do():
+            logger.debug("_do: entrée")
             self._progress.set_fraction(frac)
             self._progress.set_text(text)
+            logger.debug("_do: sortie")
             return False
 
         GLib.idle_add(_do)
+        logger.debug("LibvirtImportDialog._set_progress: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # URI toggle
@@ -899,7 +935,9 @@ class LibvirtImportDialog(GCMBase):
         Returns:
             None: Inverse l'état de sélection de la ligne.
         """
+        logger.debug("LibvirtImportDialog._on_uri_toggled: entrée")
         self._uri_store[path][0] = not self._uri_store[path][0]
+        logger.debug("LibvirtImportDialog._on_uri_toggled: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Phase 1 → Scan
@@ -917,6 +955,7 @@ class LibvirtImportDialog(GCMBase):
         Returns:
             None: Démarre un thread de scan et met à jour l'UI.
         """
+        logger.debug("LibvirtImportDialog._on_scan_clicked: entrée")
         self._btn_scan.set_sensitive(False)
         self._stack.set_visible_child_name("monitor")
         logger.debug("LibvirtImportDialog._on_scan_clicked | scan started")
@@ -936,6 +975,7 @@ class LibvirtImportDialog(GCMBase):
         if not uris:
             self._log(_("No URI selected."))
             self._btn_scan.set_sensitive(True)
+            logger.debug("LibvirtImportDialog._on_scan_clicked: sortie")
             return
         user = self._entry_user.get_text().strip() or "root"
         proto_filter = set()
@@ -950,9 +990,11 @@ class LibvirtImportDialog(GCMBase):
         if not proto_filter:
             self._log(_("No connection type selected."))
             self._btn_scan.set_sensitive(True)
+            logger.debug("LibvirtImportDialog._on_scan_clicked: sortie")
             return
 
         def worker():
+            logger.debug("worker: entrée")
             try:
                 results = _libvirt_fetch_hosts(
                     uris, user, self._log, self._set_progress, proto_filter
@@ -962,8 +1004,10 @@ class LibvirtImportDialog(GCMBase):
                 self._log(_("Scan failed: {exc}").format(exc=exc))
                 results = []
             GLib.idle_add(self._show_preview, results)
+            logger.debug("worker: fin")
 
         threading.Thread(target=worker, daemon=True).start()
+        logger.debug("LibvirtImportDialog._on_scan_clicked: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Phase 2 → Tableau de prévisualisation
@@ -971,8 +1015,11 @@ class LibvirtImportDialog(GCMBase):
 
     def _host_exists(self, name, grp):
         """Vérifie si un hôte avec ce nom existe déjà dans le groupe GCM."""
+        logger.debug("LibvirtImportDialog._host_exists: entrée")
         if grp in groups:
+            logger.debug("LibvirtImportDialog._host_exists: sortie")
             return any(h.name == name for h in groups[grp])
+        logger.debug("LibvirtImportDialog._host_exists: sortie")
         return False
 
     def _show_preview(self, host_dicts):
@@ -984,6 +1031,7 @@ class LibvirtImportDialog(GCMBase):
         Returns:
             None: Remplit la grille de prévisualisation et met à jour le résumé.
         """
+        logger.debug("LibvirtImportDialog._show_preview: entrée")
         self._discovered = host_dicts
         self._preview_store.clear()
 
@@ -1042,6 +1090,7 @@ class LibvirtImportDialog(GCMBase):
         # Agrandir le dialogue pour afficher le tableau
         if not self.is_tab:
             self._dlg.resize(820, 900)
+        logger.debug("LibvirtImportDialog._show_preview: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Sélection globale
@@ -1057,7 +1106,9 @@ class LibvirtImportDialog(GCMBase):
         Returns:
             None: Inverse l'état coché de la ligne.
         """
+        logger.debug("LibvirtImportDialog._on_preview_toggled: entrée")
         self._preview_store[path][self._COL_SEL] = not self._preview_store[path][self._COL_SEL]
+        logger.debug("LibvirtImportDialog._on_preview_toggled: fin")
 
     def _select_all(self, value):
         """Coche ou décoche toutes les lignes de prévisualisation.
@@ -1068,8 +1119,10 @@ class LibvirtImportDialog(GCMBase):
         Returns:
             None: Applique l'état à toutes les lignes.
         """
+        logger.debug("LibvirtImportDialog._select_all: entrée")
         for row in self._preview_store:
             row[self._COL_SEL] = value
+        logger.debug("LibvirtImportDialog._select_all: fin")
 
     # ──────────────────────────────────────────────────────────────────────────
     # Import final
@@ -1084,6 +1137,7 @@ class LibvirtImportDialog(GCMBase):
         Returns:
             None: Déclenche l'import et met à jour l'UI.
         """
+        logger.debug("LibvirtImportDialog._on_import_clicked: entrée")
         self._btn_import.set_sensitive(False)
         overwrite = self._chk_overwrite.get_active()
         to_import = []
@@ -1099,6 +1153,7 @@ class LibvirtImportDialog(GCMBase):
         if not to_import:
             self._log(_("No connection to import (all already exist or none selected)."))
             self._btn_import.set_sensitive(True)
+            logger.debug("LibvirtImportDialog._on_import_clicked: sortie")
             return
 
         self.on_done(to_import)
@@ -1106,6 +1161,7 @@ class LibvirtImportDialog(GCMBase):
         self._btn_import.set_label(_("✓ Imported"))
         n = len(to_import)
         self._lbl_summary.set_markup(f"<b>{n}</b> connexion(s) importée(s) avec succès.")
+        logger.debug("LibvirtImportDialog._on_import_clicked: fin")
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -1138,6 +1194,7 @@ class LibvirtImportBatchPlugin(BatchPlugin):
         Raises:
             RuntimeError: Si l'application n'est pas liée au plugin.
         """
+        logger.debug("LibvirtImportBatchPlugin.activate: entrée")
         if self.app is None:
             raise RuntimeError(
                 "LibvirtImportBatchPlugin.activate() appelé sans app liée "
@@ -1149,8 +1206,10 @@ class LibvirtImportBatchPlugin(BatchPlugin):
         default_user = conf.__dict__.get("LIBVIRT_DEFAULT_USER", "root")
 
         def on_done(host_dicts):
+            logger.debug("on_done: entrée")
             if not host_dicts:
                 msgbox(_("No host imported."), parent=app.window)
+                logger.debug("on_done: sortie")
                 return
             n = app._import_done(host_dicts, default_group="LIBVIRT")
             if n:
@@ -1159,12 +1218,14 @@ class LibvirtImportBatchPlugin(BatchPlugin):
                 )
             else:
                 msgbox(_("No new host (duplicates ignored)."), parent=app.window)
+            logger.debug("on_done: fin")
 
         app.open_management_tab(
             "libvirt-import",
             _("Import from libvirt"),
             lambda: LibvirtImportDialog(app.window, on_done, default_user, show=False),
         )
+        logger.debug("LibvirtImportBatchPlugin.activate: fin")
 
 
 def get_batch_plugin() -> LibvirtImportBatchPlugin:
