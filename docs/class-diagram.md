@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-103 modules · 193 classes · 360 fonctions publiques de module.
+101 modules · 175 classes · 350 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -26,7 +26,7 @@ flowchart TD
     g3["gcm4"]
     g4["gcm4.core"]
     g5["gcm4.ui"]
-    g1 -->|27| g0
+    g1 -->|13| g0
     g1 -->|2| g2
     g0 -->|2| g1
     g0 -->|1| g2
@@ -355,8 +355,6 @@ classDiagram
 | `ssh_key_manager_dialog` | `ssh_key_manager_dialog.py` | Gestionnaire de clés SSH : liste, génération, import, suppression, copie. |
 | `urlregex` | `urlregex.py` | Expressions régulières PCRE2 utilisées par GCM pour la détection d'URLs. |
 | `utils` | `utils.py` | Utilitaires généraux et classe de base GTK pour l'application GCM. |
-| `widgets` | `widgets.py` | Widgets GTK personnalisés pour l'interface GCM. |
-| `widgets` | `widgets.py` | Widgets GTK personnalisés pour l'interface GCM. |
 | `widgets` | `widgets.py` | Widgets GTK personnalisés pour l'interface GCM. |
 
 ```mermaid
@@ -700,29 +698,29 @@ classDiagram
         +vte_run(terminal, command, arg, extra_env)
         +inputbox(title, text, default, password, parent, icon_path)
     }
-    class widgets_ManagementTabLabel {
+    class ManagementTabLabel {
         <<Gtk.Box>>
         +get_text()
     }
-    class widgets__LogActionShim {
+    class _LogActionShim {
         +get_active()
         +set_active(value)
     }
-    class widgets_TabContextMenu {
+    class TabContextMenu {
         +rebuild(is_active, multi_pane, log_active)
         +popup_at(relative_to, x, y)
     }
-    class widgets_FolderContextMenu {
+    class FolderContextMenu {
         +rebuild(click_target)
         +popup_at(relative_to, x, y)
     }
-    class widgets_PopupMenu {
+    class PopupMenu {
         +rebuild(has_selection, multi_pane, has_split_notebook, log_active)
         +populate_commands(commands)
         +popup_at(relative_to, x, y)
         +popup_commands_at(relative_to)
     }
-    class widgets_NotebookTabLabel {
+    class NotebookTabLabel {
         <<Gtk.Box>>
         +set_selected(sel)
         +on_close_tab(widget, notebook, *args)
@@ -733,12 +731,12 @@ classDiagram
         +get_text()
         +on_label_pressed(gesture, n_press, x, y)
     }
-    class widgets_EntryDialog {
+    class EntryDialog {
         <<Gtk.Dialog>>
         +quit(w, event)
         +click(button)
     }
-    class widgets_CellTextView {
+    class CellTextView {
         <<Gtk.TextView, Gtk.CellEditable>>
         +do_editing_done(*args)
         +do_remove_widget(*args)
@@ -746,123 +744,7 @@ classDiagram
         +get_text()
         +set_text(text)
     }
-    class widgets_MultilineCellRenderer {
-        <<Gtk.CellRendererText>>
-        +do_start_editing(event, widget, path, bg_area, cell_area, flags)
-    }
-    class mod_widgets {
-        <<module>>
-        +build_remote_desktop_context_menu(btn_connect, btn_disconnect, send_special_keys_fn, extra_items)
-        +mount_iso_temp(iso_path)
-        +umount_iso_temp(loop_device)
-        +vte_run(terminal, command, arg, extra_env)
-        +inputbox(title, text, default, password, parent, icon_path)
-    }
-    class widgets_ManagementTabLabel {
-        <<Gtk.Box>>
-        +get_text()
-    }
-    class widgets__LogActionShim {
-        +get_active()
-        +set_active(value)
-    }
-    class widgets_TabContextMenu {
-        +rebuild(is_active, multi_pane, log_active)
-        +popup_at(relative_to, x, y)
-    }
-    class widgets_FolderContextMenu {
-        +rebuild(click_target)
-        +popup_at(relative_to, x, y)
-    }
-    class widgets_PopupMenu {
-        +rebuild(has_selection, multi_pane, has_split_notebook, log_active)
-        +populate_commands(commands)
-        +popup_at(relative_to, x, y)
-        +popup_commands_at(relative_to)
-    }
-    class widgets_NotebookTabLabel {
-        <<Gtk.Box>>
-        +set_selected(sel)
-        +on_close_tab(widget, notebook, *args)
-        +close_tab(widget)
-        +mark_tab_as_closed()
-        +effective_auto_close_tab()
-        +mark_tab_as_active()
-        +get_text()
-        +on_label_pressed(gesture, n_press, x, y)
-    }
-    class widgets_EntryDialog {
-        <<Gtk.Dialog>>
-        +quit(w, event)
-        +click(button)
-    }
-    class widgets_CellTextView {
-        <<Gtk.TextView, Gtk.CellEditable>>
-        +do_editing_done(*args)
-        +do_remove_widget(*args)
-        +do_start_editing(*args)
-        +get_text()
-        +set_text(text)
-    }
-    class widgets_MultilineCellRenderer {
-        <<Gtk.CellRendererText>>
-        +do_start_editing(event, widget, path, bg_area, cell_area, flags)
-    }
-    class mod_widgets {
-        <<module>>
-        +build_remote_desktop_context_menu(btn_connect, btn_disconnect, send_special_keys_fn, extra_items)
-        +mount_iso_temp(iso_path)
-        +umount_iso_temp(loop_device)
-        +vte_run(terminal, command, arg, extra_env)
-        +inputbox(title, text, default, password, parent, icon_path)
-    }
-    class widgets_ManagementTabLabel {
-        <<Gtk.Box>>
-        +get_text()
-    }
-    class widgets__LogActionShim {
-        +get_active()
-        +set_active(value)
-    }
-    class widgets_TabContextMenu {
-        +rebuild(is_active, multi_pane, log_active)
-        +popup_at(relative_to, x, y)
-    }
-    class widgets_FolderContextMenu {
-        +rebuild(click_target)
-        +popup_at(relative_to, x, y)
-    }
-    class widgets_PopupMenu {
-        +rebuild(has_selection, multi_pane, has_split_notebook, log_active)
-        +populate_commands(commands)
-        +popup_at(relative_to, x, y)
-        +popup_commands_at(relative_to)
-    }
-    class widgets_NotebookTabLabel {
-        <<Gtk.Box>>
-        +set_selected(sel)
-        +on_close_tab(widget, notebook, *args)
-        +close_tab(widget)
-        +mark_tab_as_closed()
-        +effective_auto_close_tab()
-        +mark_tab_as_active()
-        +get_text()
-        +on_label_pressed(gesture, n_press, x, y)
-    }
-    class widgets_EntryDialog {
-        <<Gtk.Dialog>>
-        +quit(w, event)
-        +click(button)
-    }
-    class widgets_CellTextView {
-        <<Gtk.TextView, Gtk.CellEditable>>
-        +do_editing_done(*args)
-        +do_remove_widget(*args)
-        +do_start_editing(*args)
-        +get_text()
-        +set_text(text)
-    }
-    class widgets_MultilineCellRenderer {
+    class MultilineCellRenderer {
         <<Gtk.CellRendererText>>
         +do_start_editing(event, widget, path, bg_area, cell_area, flags)
     }
