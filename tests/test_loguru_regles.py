@@ -45,10 +45,9 @@ SECRET_NAMES = re.compile(
 )
 
 # Fichier -> nombre d'``except`` sans appel de journal (état de l'issue #171).
-# Restent : pluginvnc2 (paquet séparé), et les deux fichiers racine SSH
+# Restent : ssh_key_manager_dialog (les deux fichiers racine SSH
 # supprimés par le portage GTK4 (#97/#180) — lot du 26/10/2026 (issue #294).
 EXCEPT_SANS_JOURNAL = {
-    "plugins/pluginvnc2/vnc_tab.py": 14,
     "ssh_key_manager_dialog.py": 17,
 }
 
