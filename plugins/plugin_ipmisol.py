@@ -53,12 +53,15 @@ class IpmiSolTab(Gtk.Box):
 
     def __init__(self, host):
         """Initialise le panneau IPMI/SOL."""
+        logger.debug("IpmiSolTab.__init__: entrée")
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.host = host
         self._build_ui()
+        logger.debug("IpmiSolTab.__init__: fin")
 
     def _build_ui(self):
         """Construit la barre d'outils + le terminal VTE embarqué."""
+        logger.debug("IpmiSolTab._build_ui: entrée")
         h = self.host
         port = getattr(h, "port", "623") or "623"
 
@@ -101,6 +104,7 @@ class IpmiSolTab(Gtk.Box):
         self.pack_start(sw, True, True, 0)
 
         self.show_all()
+        logger.debug("IpmiSolTab._build_ui: fin")
 
     def _ipmitool_base_args(self):
         """Construit les arguments ipmitool communs (hôte, interface, options).
@@ -108,6 +112,7 @@ class IpmiSolTab(Gtk.Box):
         Returns:
             list[str]: Arguments (sans le sous-commande 'sol activate/deactivate').
         """
+        logger.debug("IpmiSolTab._ipmitool_base_args: entrée")
         h = self.host
         port = str(getattr(h, "port", "623") or "623")
         args = [
@@ -125,12 +130,15 @@ class IpmiSolTab(Gtk.Box):
         extra = (getattr(h, "extra_params", "") or "").strip()
         if extra:
             args += shlex.split(extra)
+        logger.debug("IpmiSolTab._ipmitool_base_args: sortie")
         return args
 
     def _on_connect(self, widget):
         """Lance `ipmitool sol activate` dans le terminal VTE."""
+        logger.debug("IpmiSolTab._on_connect: entrée")
         if not IPMITOOL_BIN:
             self._lbl_status.set_text(_("ipmitool introuvable"))
+            logger.debug("IpmiSolTab._on_connect: sortie")
             return
         cmd = self._ipmitool_base_args() + ["sol", "activate"]
         self._lbl_status.set_text(_("Connecting…"))
@@ -139,9 +147,11 @@ class IpmiSolTab(Gtk.Box):
         vte_run(
             self._terminal, cmd[0], cmd[1:], extra_env={"IPMI_PASSWORD": self.host.password or ""}
         )
+        logger.debug("IpmiSolTab._on_connect: fin")
 
     def _on_disconnect(self, widget):
         """Termine la session SOL (SIGTERM + sol deactivate explicite)."""
+        logger.debug("IpmiSolTab._on_disconnect: entrée")
         try:
             pid = self._terminal.get_pty().get_fd()
             if pid and pid > 0:
@@ -154,13 +164,16 @@ class IpmiSolTab(Gtk.Box):
         self._lbl_status.set_text(_("Disconnect"))
         self._btn_connect.set_sensitive(True)
         self._btn_disconnect.set_sensitive(False)
+        logger.debug("IpmiSolTab._on_disconnect: fin")
 
     def _on_child_exited(self, terminal, status):
         """Callback VTE : le process ipmitool s'est terminé (normal ou erreur)."""
+        logger.debug("IpmiSolTab._on_child_exited: entrée")
         GLib.idle_add(self._lbl_status.set_text, _("Session ended"))
         GLib.idle_add(self._btn_connect.set_sensitive, True)
         GLib.idle_add(self._btn_disconnect.set_sensitive, False)
         self._deactivate_sol()
+        logger.debug("IpmiSolTab._on_child_exited: fin")
 
     def _deactivate_sol(self):
         """Envoie `sol deactivate` pour libérer explicitement la session côté BMC.
@@ -169,7 +182,9 @@ class IpmiSolTab(Gtk.Box):
         GCM quitté...) reste verrouillée sur certains BMC (iLO/iDRAC/IMM)
         jusqu'à expiration d'un timeout, empêchant toute reconnexion.
         """
+        logger.debug("IpmiSolTab._deactivate_sol: entrée")
         if not IPMITOOL_BIN:
+            logger.debug("IpmiSolTab._deactivate_sol: sortie")
             return
         cmd = self._ipmitool_base_args() + ["sol", "deactivate"]
         try:
@@ -182,10 +197,13 @@ class IpmiSolTab(Gtk.Box):
             )
         except Exception as exc:
             app_logger.warning(f"IPMI/SOL | échec deactivate pour host {self.host.name} : {exc}")
+        logger.debug("IpmiSolTab._deactivate_sol: fin")
 
     def connect_ipmi(self):
         """Démarre la session SOL automatiquement (appelé depuis addTab)."""
+        logger.debug("IpmiSolTab.connect_ipmi: entrée")
         self._on_connect(None)
+        logger.debug("IpmiSolTab.connect_ipmi: fin")
 
 
 class IpmiSolPlugin(ConnectionPlugin):
@@ -219,8 +237,10 @@ class IpmiSolPlugin(ConnectionPlugin):
             Un ``Gtk.Box`` vide (les champs communs Host/Port/User/Password
             de la coquille Whost suffisent).
         """
+        logger.debug("IpmiSolPlugin.build_edit_page: entrée")
         box = Gtk.Box()
         box.show()
+        logger.debug("IpmiSolPlugin.build_edit_page: sortie")
         return box
 
     def load_host_fields(self, host) -> None:
