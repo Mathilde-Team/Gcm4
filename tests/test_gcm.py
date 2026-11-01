@@ -632,10 +632,6 @@ def _make_gi_stub():
     gio.File = MagicMock()
     gi.repository.Gio = gio
 
-    # GtkFrdp : bibliothèque RDP embarquée de plugins/plugin_rdp.py
-    gtkfrdp = types.ModuleType("GtkFrdp")
-    gtkfrdp.Display = MagicMock()
-    gi.repository.GtkFrdp = gtkfrdp
 
     # GLib
     glib = types.ModuleType("GLib")
@@ -664,7 +660,6 @@ sys.modules["gi.repository.GObject"] = _gi.repository.GObject
 sys.modules["gi.repository.GLib"] = _gi.repository.GLib
 sys.modules["gi.repository.GdkPixbuf"] = _gi.repository.GdkPixbuf
 sys.modules["gi.repository.Gio"] = _gi.repository.Gio
-sys.modules["gi.repository.GtkFrdp"] = _gi.repository.GtkFrdp
 
 # Cryptodome (extra `vnc`, absent d'un `uv sync` simple comme en CI) : seul
 # DES sert à plugin_vnc pour chiffrer le mot de passe VNC.
@@ -696,7 +691,6 @@ with patch("os.system", return_value=0):
 import plugin_import_libvirt  # noqa: E402
 import plugin_import_proxmox  # noqa: E402
 import plugin_local  # noqa: E402
-import plugin_rdp  # noqa: E402
 import plugin_serial  # noqa: E402
 import plugin_spice  # noqa: E402
 import plugin_ssh  # noqa: E402
@@ -2234,10 +2228,6 @@ class TestPluginDefaultPorts(unittest.TestCase):
     def test_telnet(self):
         """Telnet : port 23."""
         self.assertEqual(self._port(plugin_telnet), 23)
-
-    def test_rdp(self):
-        """RDP : port 3389."""
-        self.assertEqual(self._port(plugin_rdp), 3389)
 
     def test_vnc(self):
         """VNC : port 5900."""

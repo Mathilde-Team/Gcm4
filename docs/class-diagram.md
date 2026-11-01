@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-101 modules · 175 classes · 350 fonctions publiques de module.
+104 modules · 177 classes · 365 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -30,10 +30,10 @@ flowchart TD
     g1 -->|2| g2
     g0 -->|2| g1
     g0 -->|1| g2
-    g2 -->|54| g1
+    g2 -->|53| g1
     g2 -->|4| g0
-    g2 -->|24| g4
-    g2 -->|5| g5
+    g2 -->|30| g4
+    g2 -->|6| g5
     g3 -->|2| g0
     g3 -->|2| g4
     g3 -->|1| g5
@@ -768,7 +768,6 @@ classDiagram
 | `plugins.plugin_ipmisol` | `plugins/plugin_ipmisol.py` | Plugin de connexion IPMI Serial-over-LAN (console BMC : iLO, iDRAC, IMM…). |
 | `plugins.plugin_local` | `plugins/plugin_local.py` | Plugin de connexion "Local" (shell local, sans hôte distant). |
 | `plugins.plugin_netmiko_push` | `plugins/plugin_netmiko_push.py` | Onglet « Netmiko » (déploiement de configuration en masse) pour GCM. |
-| `plugins.plugin_rdp` | `plugins/plugin_rdp.py` | Plugin de connexion RDP (GtkFrdp.Display embarqué). |
 | `plugins.plugin_serial` | `plugins/plugin_serial.py` | Plugin de connexion série (port local via picocom/minicom/screen). |
 | `plugins.plugin_snmp_push` | `plugins/plugin_snmp_push.py` | Onglet « Push SNMP » (déploiement de configuration en masse par SNMP) pour GCM. |
 | `plugins.plugin_spice` | `plugins/plugin_spice.py` | Plugin de connexion SPICE (SpiceClientGtk.Display natif, ou fallback subprocess). |
@@ -777,6 +776,9 @@ classDiagram
 | `plugins.plugin_vnc` | `plugins/plugin_vnc.py` | Plugin de connexion VNC (GtkVnc.Display natif, ou fallback subprocess). |
 | `plugins.plugin_web` | `plugins/plugin_web.py` | Plugin de connexion Web (console BMC HTML5 : iLO/iDRAC/IMM, ou toute URL). |
 | `plugins.pluginvnc2.vnc_tab` | `plugins/pluginvnc2/vnc_tab.py` | vnc_tab.py — Onglet VNC complet pour gnome-connection-manager (fork GTK4) |
+| `plugins.rdp` | `plugins/rdp/__init__.py` | Plugin rdp : bureau à distance RDP sur AsyncRdp (FreeRDP 3), sans gtk-frdp. |
+| `plugins.rdp.core` | `plugins/rdp/core.py` | Partie métier du plugin rdp (sans GTK) — portage #105. |
+| `plugins.rdp.gtk4` | `plugins/rdp/gtk4.py` | Plugin rdp de gcm4 (contrat v1, ``docs/plugins.md``) : bureau RDP sur AsyncRdp. |
 | `plugins.serial` | `plugins/serial/__init__.py` | Plugin serial : port série local (picocom, minicom, screen) dans un terminal. |
 | `plugins.serial.core` | `plugins/serial/core.py` | Partie métier du plugin serial (sans GTK) — portage #179. |
 | `plugins.serial.gtk4` | `plugins/serial/gtk4.py` | Plugin serial de gcm4 (contrat v1, ``docs/plugins.md``) : port série dans un terminal VTE GTK4. |
@@ -975,23 +977,6 @@ classDiagram
         +activate() None
     }
     BatchPlugin <|-- NetmikoPushBatchPlugin
-    class mod_plugins_plugin_rdp {
-        <<module>>
-        +get_plugin() RdpPlugin
-    }
-    class FreeRdpTab {
-        <<Gtk.Box>>
-        +connect_rdp()
-        +build_context_menu()
-    }
-    class RdpPlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-        +host_fields() list~tuple~str, object~~
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- RdpPlugin
     class mod_plugins_plugin_serial {
         <<module>>
         +get_plugin() SerialPlugin
@@ -1172,6 +1157,54 @@ classDiagram
         <<Gtk.Box>>
         +close()
     }
+    class mod_plugins_rdp_core {
+        <<module>>
+        +booleen(valeur) bool
+        +texte_booleen(valeur) str
+        +options_defaut() dict~str, str~
+        +port(host) int
+        +valider(options) list~FieldError~
+        +taille(options) tuple~int, int~
+        +suit_onglet(options) bool
+        +reglages(host) Reglages
+        +touches(identifiant) tuple~str, ...~
+    }
+    class Reglages {
+        <<dataclass>>
+        +str hote
+        +int port
+        +str utilisateur
+        +str None domaine
+        +dict~str, object~ options
+        +tuple~str, str~ None dossier
+        +str None remote_app
+        +bool suit_onglet
+    }
+    class mod_plugins_rdp_gtk4 {
+        <<module>>
+        +charger_asyncrdp(config, environ) AsyncRdp
+        +classe_vue(base) type
+        +options_asyncrdp(module, reglages) Any
+        +construire_menu() Gio.Menu
+        +zone_options(options, changed) Gtk.Widget
+    }
+    class AsyncRdp
+    class RdpOnglet {
+        +connecter(mot_de_passe) asyncio.Future
+        +echec(message) None
+        +deconnecter() asyncio.Future None
+        +reconnecter() asyncio.Future None
+        +envoyer_touches(identifiant) bool
+        +close() None
+    }
+    class RdpPlugin {
+        +default_port(protocol) int None
+        +default_options(protocol) dict~str, str~
+        +validate_options(protocol, options) list
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) RdpOnglet
+    }
+    plugins_plugin_base_ConnectionPlugin <|-- RdpPlugin
     class mod_plugins_serial_core {
         <<module>>
         +outil(environ, prefere) str None
@@ -1865,6 +1898,7 @@ classDiagram
 | `gcm4.ui` | `src/gcm4/ui/__init__.py` | Interface GTK4 de gcm4 : seul endroit autorisé à importer ``gi``. |
 | `gcm4.ui.aide` | `src/gcm4/ui/aide.py` | Menu Aide de gcm4 (#86) : guide utilisateur et fenêtre des raccourcis. |
 | `gcm4.ui.application` | `src/gcm4/ui/application.py` | Application libadwaita de gcm4 : instance unique, actions, À propos (#133, #134). |
+| `gcm4.ui.boucle` | `src/gcm4/ui/boucle.py` | Boucle asyncio branchée sur la boucle GLib de l'application (#105). |
 | `gcm4.ui.contexte` | `src/gcm4/ui/contexte.py` | Contexte injecté dans chaque plugin (contrat v1, ``docs/plugins.md``, #151). |
 | `gcm4.ui.couleurs` | `src/gcm4/ui/couleurs.py` | Conversions de couleurs partagées par l'interface GTK4. |
 | `gcm4.ui.dialogues` | `src/gcm4/ui/dialogues.py` | Dialogues de confirmation et de saisie, compatibles libadwaita 1.2 à 1.9. |
@@ -1904,6 +1938,11 @@ classDiagram
         +basculer_fenetre() None
         +appliquer_zone_notification(active) None
         +boite_a_propos() Gtk.Widget
+    }
+    class mod_gcm4_ui_boucle {
+        <<module>>
+        +executer(lancer) int
+        +asyncio_disponible() bool
     }
     class ContexteApplication {
         +config() Mapping~str, str~

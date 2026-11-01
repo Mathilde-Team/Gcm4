@@ -92,7 +92,7 @@ class TestLicenseEtNotice(unittest.TestCase):
     def test_notice_documente_le_code_vendorise(self):
         """Code vendorisé et dépendances optionnelles documentés."""
         notice = _lire("NOTICE")
-        for depot in ("gtk-frdp/", "SSH-Studio/", "pyAES.py"):
+        for depot in ("SSH-Studio/", "pyAES.py"):
             self.assertIn(depot, notice)
         for extra in ("netmiko", "paramiko", "libvirt-python", "pycryptodomex", "loguru"):
             self.assertIn(extra, notice)

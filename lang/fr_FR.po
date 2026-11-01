@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:23+0000\n"
+"POT-Creation-Date: 2026-11-01 20:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1143,8 +1143,8 @@ msgstr "RDP  (sonde le port 3389 depuis l'hyperviseur via nc/nmap - ignoré si l
 
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
 #: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/plugin_ipmisol.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_web.py
 msgid "Waiting…"
 msgstr "En attente…"
 
@@ -1448,20 +1448,19 @@ msgstr "Importer depuis libvirt"
 msgid "🔍  Scan VirtualBox hosts"
 msgstr "🔍  Scanner les hôtes Proxmox"
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
-#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
-#: src/gcm4/ui/contexte.py widgets.py
+#: plugins/plugin_ipmisol.py plugins/plugin_serial.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/plugin_web.py src/gcm4/core/menu_arbre.py
+#: src/gcm4/core/preferences.py src/gcm4/ui/contexte.py widgets.py
 msgid "Connect"
 msgstr "Connecter"
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/plugin_ipmisol.py plugins/plugin_serial.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/plugin_web.py
 msgid "Connecting…"
 msgstr "Connexion…"
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py widgets.py
+#: plugins/plugin_ipmisol.py plugins/plugin_serial.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/rdp/gtk4.py widgets.py
 msgid "Disconnect"
 msgstr "Déconnecter"
 
@@ -1469,8 +1468,8 @@ msgstr "Déconnecter"
 msgid "IPMI (SOL)"
 msgstr ""
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
+#: plugins/plugin_ipmisol.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "Session terminée"
 
@@ -1808,75 +1807,6 @@ msgstr ""
 msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
-msgid "Authentication failed"
-msgstr "Échec de l'authentification"
-
-#: plugins/plugin_rdp.py
-msgid "Custom…"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Domain"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-#, fuzzy
-#| msgid "Dynamic title"
-msgid "Dynamic resolution"
-msgstr "Titre dynamique"
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
-msgid "Error: could not mount the ISO"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-#, python-brace-format
-msgid "Error: {msg}"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
-msgid "Fullscreen"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Geometry"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Height"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_web.py
-msgid "Ignore certificate errors"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "RDP"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-#, fuzzy
-#| msgid "Remote"
-msgid "RemoteApp"
-msgstr "Distant"
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
-msgid "Share clipboard"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
-msgid "Share folder"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
-msgid "Shared folder path"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Width"
-msgstr ""
-
 #: plugins/plugin_serial.py
 msgid ""
 "Additional raw options passed to the binary\n"
@@ -2191,6 +2121,10 @@ msgid "Error: VM name required"
 msgstr ""
 
 #: plugins/plugin_spice.py
+msgid "Error: could not mount the ISO"
+msgstr ""
+
+#: plugins/plugin_spice.py
 msgid "Error: libvirt URI required"
 msgstr ""
 
@@ -2233,6 +2167,18 @@ msgstr ""
 #: plugins/plugin_spice.py
 msgid "Share audio"
 msgstr ""
+
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr "Partager le presse-papiers"
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Share folder"
+msgstr "Partager un dossier"
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Shared folder path"
+msgstr "Chemin du dossier partagé"
 
 #: plugins/plugin_spice.py
 #, fuzzy
@@ -2618,9 +2564,17 @@ msgid ""
 "E.g.: {example}"
 msgstr ""
 
+#: plugins/plugin_vnc.py plugins/sftp/gtk4.py
+msgid "Authentication failed"
+msgstr "Échec de l'authentification"
+
 #: plugins/plugin_vnc.py src/gcm4/ui/host_dialog.py
 msgid "Display"
 msgstr "Affichage"
+
+#: plugins/plugin_vnc.py
+msgid "Fullscreen"
+msgstr ""
 
 #: plugins/plugin_vnc.py
 msgid "VNC"
@@ -2653,6 +2607,10 @@ msgstr ""
 #: plugins/plugin_web.py
 msgid "Error: could not open the URL"
 msgstr ""
+
+#: plugins/plugin_web.py plugins/rdp/gtk4.py
+msgid "Ignore certificate errors"
+msgstr "Ignorer les erreurs de certificat"
 
 #: plugins/plugin_web.py
 msgid "Opened in the system browser"
@@ -2688,6 +2646,135 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/rdp/core.py
+msgid "Alt+F4"
+msgstr "Alt+F4"
+
+#: plugins/rdp/core.py
+msgid "Alt+Tab"
+msgstr "Alt+Tab"
+
+#: plugins/rdp/core.py
+msgid "Choose the folder to share"
+msgstr "Choisissez le dossier à partager"
+
+#: plugins/rdp/core.py
+msgid "Ctrl+Alt+Delete"
+msgstr "Ctrl+Alt+Suppr"
+
+#: plugins/rdp/core.py
+msgid "Ctrl+Escape"
+msgstr "Ctrl+Échap"
+
+#: plugins/rdp/core.py
+#, python-brace-format
+msgid "Enter a size between {min} and {max} pixels"
+msgstr "Saisissez une taille comprise entre {min} et {max} pixels"
+
+#: plugins/rdp/core.py
+msgid "Invalid custom size"
+msgstr "Taille personnalisée invalide"
+
+#: plugins/rdp/core.py
+msgid "Print Screen"
+msgstr "Impr. écran"
+
+#: plugins/rdp/core.py
+msgid "Sharing an ISO image is not supported yet"
+msgstr "Le partage d'une image ISO n'est pas encore pris en charge"
+
+#: plugins/rdp/core.py
+msgid "This folder does not exist"
+msgstr "Ce dossier n'existe pas"
+
+#: plugins/rdp/core.py
+msgid "Unknown geometry"
+msgstr "Géométrie inconnue"
+
+#: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "AsyncRdp is not available ({error}). Install asyncrdp and set 'integrations' in the [plugin rdp] section to the integrations/gtk4 folder of AsyncRdp4."
+msgstr "AsyncRdp n'est pas disponible ({error}). Installez asyncrdp et indiquez dans la clé « integrations » de la section [plugin rdp] le dossier integrations/gtk4 d'AsyncRdp4."
+
+#: plugins/rdp/gtk4.py plugins/sftp/gtk4.py
+#, python-brace-format
+msgid "Connecting to {host}…"
+msgstr "Connexion à {host}…"
+
+#: plugins/rdp/gtk4.py
+msgid "Connection cancelled"
+msgstr "Connexion annulée"
+
+#: plugins/rdp/gtk4.py
+msgid "Custom…"
+msgstr "Personnalisée…"
+
+#: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "Disconnected from {host}"
+msgstr "Déconnecté de {host}"
+
+#: plugins/rdp/gtk4.py
+msgid "Domain"
+msgstr "Domaine"
+
+#: plugins/rdp/gtk4.py
+msgid "Dynamic resolution"
+msgstr "Résolution dynamique"
+
+#: plugins/rdp/gtk4.py
+msgid "Fit to tab"
+msgstr "Adapter à l'onglet"
+
+#: plugins/rdp/gtk4.py
+msgid "Geometry"
+msgstr "Géométrie"
+
+#: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "Key combination failed: {error}"
+msgstr "Échec de la combinaison de touches : {error}"
+
+#: plugins/rdp/gtk4.py
+#
+msgid "Not connected"
+msgstr "Non connecté"
+
+#: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "RDP connection to {host} failed: {error}"
+msgstr "Échec de la connexion RDP à {host} : {error}"
+
+#: plugins/rdp/gtk4.py
+msgid "RDP needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
+msgstr "RDP a besoin d'asyncio dans la boucle GTK (PyGObject 3.50 ou plus récent)"
+
+#: plugins/rdp/gtk4.py
+#
+msgid "Reconnect"
+msgstr "Reconnecter"
+
+#: plugins/rdp/gtk4.py
+#
+msgid "Remote desktop"
+msgstr "Bureau à distance"
+
+#: plugins/rdp/gtk4.py
+msgid "RemoteApp"
+msgstr "RemoteApp"
+
+#: plugins/rdp/gtk4.py
+msgid "Size"
+msgstr "Taille"
+
+#: plugins/rdp/gtk4.py widgets.py
+msgid "Special keys"
+msgstr "Touches spéciales"
+
+#: plugins/rdp/gtk4.py
+msgid "This AsyncRdp version cannot send key combinations"
+msgstr "Cette version d'AsyncRdp ne sait pas envoyer de combinaisons de touches"
+
 #: plugins/sftp/core.py
 msgid "B"
 msgstr "o"
@@ -2715,11 +2802,6 @@ msgstr "Authentification annulée."
 #: plugins/sftp/gtk4.py
 msgid "Busy, try again when the current operation is finished"
 msgstr "Occupé, réessayez à la fin de l'opération en cours"
-
-#: plugins/sftp/gtk4.py
-#, python-brace-format
-msgid "Connecting to {host}…"
-msgstr "Connexion à {host}…"
 
 #: plugins/sftp/gtk4.py
 #, python-brace-format
@@ -2903,7 +2985,6 @@ msgstr "gcm4 : impossible de copier la configuration {old} vers {new} ({error}).
 msgid "A stored password is corrupted."
 msgstr "Un mot de passe enregistré est corrompu."
 
-#
 #: src/gcm4/core/chiffrement.py
 msgid "Incorrect master password."
 msgstr "Mot de passe maître incorrect."
@@ -2931,7 +3012,6 @@ msgstr "La clé de chiffrement %s est protégée par un mot de passe maître."
 msgid "The encryption key is already protected by a master password."
 msgstr "La clé de chiffrement est déjà protégée par un mot de passe maître."
 
-#
 #: src/gcm4/core/chiffrement.py
 msgid "The encryption key is not protected by a master password."
 msgstr "La clé de chiffrement n'est pas protégée par un mot de passe maître."
@@ -3533,7 +3613,6 @@ msgstr "Non"
 msgid "Version {version} is available"
 msgstr "La version {version} est disponible"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Change the master password"
 msgstr "Changer le mot de passe maître"
@@ -3542,22 +3621,18 @@ msgstr "Changer le mot de passe maître"
 msgid "Change…"
 msgstr "Changer…"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm"
 msgstr "Confirmer"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm the new master password"
 msgstr "Confirmer le nouveau mot de passe maître"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Current master password"
 msgstr "Mot de passe maître actuel"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable the master password"
 msgstr "Désactiver le mot de passe maître"
@@ -3567,12 +3642,10 @@ msgstr "Désactiver le mot de passe maître"
 msgid "Disabled"
 msgstr "Désactivé"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable…"
 msgstr "Désactiver…"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Enable the master password"
 msgstr "Activer le mot de passe maître"
@@ -3597,12 +3670,10 @@ msgstr "Saisissez le mot de passe maître pour déverrouiller les mots de passe 
 msgid "Enter the recovery code, then choose a new master password."
 msgstr "Saisissez le code de recouvrement, puis choisissez un nouveau mot de passe maître."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password"
 msgstr "Mot de passe oublié"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password?"
 msgstr "Mot de passe oublié ?"
@@ -3611,27 +3682,22 @@ msgstr "Mot de passe oublié ?"
 msgid "I have written it down"
 msgstr "Je l'ai noté"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password"
 msgstr "Mot de passe maître"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password changed."
 msgstr "Mot de passe maître changé."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password disabled."
 msgstr "Mot de passe maître désactivé."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password enabled."
 msgstr "Mot de passe maître activé."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "New master password"
 msgstr "Nouveau mot de passe maître"
@@ -3652,7 +3718,6 @@ msgstr "Nouveau code de recouvrement…"
 msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
 msgstr "Facultatif. Protège la clé qui chiffre les mots de passe enregistrés : il sera demandé au démarrage. Un code de recouvrement est affiché une seule fois à l'activation."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Passwords locked"
 msgstr "Mots de passe verrouillés"
@@ -3661,7 +3726,6 @@ msgstr "Mots de passe verrouillés"
 msgid "Recovery code"
 msgstr "Code de recouvrement"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Status"
 msgstr "État"
@@ -3686,7 +3750,6 @@ msgstr "Le code de recouvrement reste valable."
 msgid "The two passwords do not match."
 msgstr "Les deux mots de passe ne correspondent pas."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Unavailable: the configuration is not loaded."
 msgstr "Indisponible : la configuration n'est pas chargée."
@@ -5141,10 +5204,6 @@ msgid "Save buffer to file"
 msgstr "Enregistrer le buffer dans un fichier"
 
 #: widgets.py
-msgid "Special keys"
-msgstr ""
-
-#: widgets.py
 msgid "Split H"
 msgstr "Diviser H"
 
@@ -5157,7 +5216,6 @@ msgid "Unsplit all consoles"
 msgstr "Réunifier toutes les consoles"
 
 #, fuzzy, python-brace-format
-#~| msgid "Template name"
 #~ msgid "CSV import error: {exc}"
 #~ msgstr "Nom du modèle"
 
@@ -5197,22 +5255,18 @@ msgstr "Réunifier toutes les consoles"
 #~ msgstr "Arguments supplémentaires à passer à la ligne de commande"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from CSV"
 #~ msgstr "Importer depuis libvirt"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from CSV…"
 #~ msgstr "Importer depuis libvirt"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from JSON"
 #~ msgstr "Importer depuis libvirt"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from JSON…"
 #~ msgstr "Importer depuis libvirt"
 

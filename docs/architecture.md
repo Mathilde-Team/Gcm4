@@ -25,7 +25,7 @@
 | `tools/` | Scripts CLI autonomes : `libvirt_inventory.py` (v4), `ssh_deploy.py`, `validate_po.py`, `validate_xml_json.py` | `virsh`, `paramiko` |
 | `pyAES.py` / `urlregex.py` | AES-256/OFB pur Python (mots de passe) / regex PCRE2 (URL/e-mail terminal) | — |
 | `tests/test_gcm.py` | 492 fonctions de test (56 classes), `unittest` + `mock` | `pytest` |
-| Dépendances vendorisées | `gtk-frdp/` (RDP embarqué natif, meson), `SSH-Studio/` (référence portage SSH), `vnc/`, `rdp/` (cibles Docker de test) | `meson`/`ninja` |
+| Dépendances vendorisées | `SSH-Studio/` (référence portage SSH), `vnc/`, `rdp/` (cibles Docker de test) | `meson`/`ninja` |
 
 ## 2. Fonctionnalités par module
 
@@ -38,7 +38,7 @@ Chaque protocole est découvert automatiquement par `PluginRegistry.autoload()`.
 | Protocole | Plugin | État |
 |---|---|---|
 | SSH | `plugin_ssh.py` | ✅ Terminal VTE, agent, tunnels, cluster ; encapsule `SSHConfigParser`/`SSHKeyManagerDialog`/`KeyPickerDialog` |
-| RDP | `plugin_rdp.py` | ✅ `GtkFrdp.Display` natif (widget `GtkDrawingArea`, aucun repli `Gtk.Socket`/XEmbed dans le code chargé — corrigé session-46, voir §5 point 8) |
+| RDP | `plugins/rdp/` (GTK4) | ✅ AsyncRdp (FreeRDP 3, asyncio sur GLib) ; `plugin_rdp.py` et `gtk-frdp/` (GTK3) retirés par #71 |
 | VNC | `plugin_vnc.py` | ✅ Widget natif `GtkVnc.Display` si `gtk-vnc` dispo, sinon vncviewer/vinagre/remmina |
 | SPICE | `plugin_spice.py` | ✅ Widget natif `SpiceClientGtk.Display`, mode libvirt natif si `libvirt-python` dispo, sinon remote-viewer/virt-viewer |
 | Série RS-232/485 | `plugin_serial.py` | ✅ picocom/minicom/screen, 11 templates constructeurs |
@@ -634,7 +634,7 @@ plugins/                         découverts par autoload() (cf. plugin_base.py)
 │                                  propre version GTK — voir gtk4-migration.md §3.6.
 ├── plugin_ssh.py                  → SSHConfigParser/SSHKeyManagerDialog/
 │                                    KeyPickerDialog ; manage_ssh_keys()
-├── plugin_vnc.py / plugin_spice.py / plugin_rdp.py / plugin_serial.py
+├── plugin_vnc.py / plugin_spice.py / plugin_serial.py
 ├── plugin_telnet.py / plugin_local.py
 ├── plugin_ipmisol.py              console BMC SOL (pas de page d'édition dédiée,
 │                                   utilise seulement les champs communs de Whost)
@@ -757,9 +757,6 @@ tests/test_gcm4_rename_inventory.py   nouveau (session-30, 2026-09-10), 7
 
 Dépendances vendorisées en local (code source seulement, pas d'historique git ni
 de build compilé après ménage) :
-  gtk-frdp/    sous-projet meson GNOME, fournit le typelib GtkFrdp pour le RDP
-               embarqué natif (voir README § Installation pour la procédure de
-               build : meson setup / ninja / ninja install)
   SSH-Studio/  code source de référence ayant servi de base au portage GTK3
   vnc/, rdp/   environnements Docker de test (cibles VNC/RDP factices)
 ```

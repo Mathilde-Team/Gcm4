@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:23+0000\n"
+"POT-Creation-Date: 2026-11-01 20:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1143,8 +1143,8 @@ msgstr "RDP  (בדיקת פורט 3389 מההיפרוויזר באמצעות nc/
 
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
 #: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/plugin_ipmisol.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_web.py
 msgid "Waiting…"
 msgstr "מתבצע…"
 
@@ -1448,20 +1448,19 @@ msgstr "ייבא מ-libvirt"
 msgid "🔍  Scan VirtualBox hosts"
 msgstr "🔍  סרוק מארחי Proxmox"
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
-#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
-#: src/gcm4/ui/contexte.py widgets.py
+#: plugins/plugin_ipmisol.py plugins/plugin_serial.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/plugin_web.py src/gcm4/core/menu_arbre.py
+#: src/gcm4/core/preferences.py src/gcm4/ui/contexte.py widgets.py
 msgid "Connect"
 msgstr "התחבר"
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/plugin_ipmisol.py plugins/plugin_serial.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/plugin_web.py
 msgid "Connecting…"
 msgstr "מתחבר…"
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py widgets.py
+#: plugins/plugin_ipmisol.py plugins/plugin_serial.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/rdp/gtk4.py widgets.py
 msgid "Disconnect"
 msgstr "התנתק"
 
@@ -1469,8 +1468,8 @@ msgstr "התנתק"
 msgid "IPMI (SOL)"
 msgstr ""
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
+#: plugins/plugin_ipmisol.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "הסשן הסתיים"
 
@@ -1808,75 +1807,6 @@ msgstr ""
 msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
-msgid "Authentication failed"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Custom…"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Domain"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-#, fuzzy
-#| msgid "Dynamic title"
-msgid "Dynamic resolution"
-msgstr "כותרת דינמית"
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
-msgid "Error: could not mount the ISO"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-#, python-brace-format
-msgid "Error: {msg}"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
-msgid "Fullscreen"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Geometry"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Height"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_web.py
-msgid "Ignore certificate errors"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "RDP"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-#, fuzzy
-#| msgid "Remote"
-msgid "RemoteApp"
-msgstr "מרוחק"
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
-msgid "Share clipboard"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
-msgid "Share folder"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
-msgid "Shared folder path"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Width"
-msgstr ""
-
 #: plugins/plugin_serial.py
 msgid ""
 "Additional raw options passed to the binary\n"
@@ -2191,6 +2121,10 @@ msgid "Error: VM name required"
 msgstr ""
 
 #: plugins/plugin_spice.py
+msgid "Error: could not mount the ISO"
+msgstr ""
+
+#: plugins/plugin_spice.py
 msgid "Error: libvirt URI required"
 msgstr ""
 
@@ -2232,6 +2166,18 @@ msgstr ""
 
 #: plugins/plugin_spice.py
 msgid "Share audio"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Share folder"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Shared folder path"
 msgstr ""
 
 #: plugins/plugin_spice.py
@@ -2618,9 +2564,17 @@ msgid ""
 "E.g.: {example}"
 msgstr ""
 
+#: plugins/plugin_vnc.py plugins/sftp/gtk4.py
+msgid "Authentication failed"
+msgstr ""
+
 #: plugins/plugin_vnc.py src/gcm4/ui/host_dialog.py
 msgid "Display"
 msgstr "תצוגה"
+
+#: plugins/plugin_vnc.py
+msgid "Fullscreen"
+msgstr ""
 
 #: plugins/plugin_vnc.py
 msgid "VNC"
@@ -2652,6 +2606,10 @@ msgstr ""
 
 #: plugins/plugin_web.py
 msgid "Error: could not open the URL"
+msgstr ""
+
+#: plugins/plugin_web.py plugins/rdp/gtk4.py
+msgid "Ignore certificate errors"
 msgstr ""
 
 #: plugins/plugin_web.py
@@ -2688,6 +2646,151 @@ msgid ""
 "The web console will open in the system browser."
 msgstr ""
 
+#: plugins/rdp/core.py
+msgid "Alt+F4"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Alt+Tab"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Choose the folder to share"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Ctrl+Alt+Delete"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Ctrl+Escape"
+msgstr ""
+
+#: plugins/rdp/core.py
+#, fuzzy, python-brace-format
+#| msgid "Port must be a number between {min} and {max}."
+msgid "Enter a size between {min} and {max} pixels"
+msgstr "הפתחה חייבת להיות מספר בין {min} ל־{max}."
+
+#: plugins/rdp/core.py
+#, fuzzy
+#| msgid "Invalid file"
+msgid "Invalid custom size"
+msgstr "קובץ לא חוקי"
+
+#: plugins/rdp/core.py
+msgid "Print Screen"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Sharing an ISO image is not supported yet"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "This folder does not exist"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Unknown geometry"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "AsyncRdp is not available ({error}). Install asyncrdp and set 'integrations' in the [plugin rdp] section to the integrations/gtk4 folder of AsyncRdp4."
+msgstr ""
+
+#: plugins/rdp/gtk4.py plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Connecting…"
+msgid "Connecting to {host}…"
+msgstr "מתחבר…"
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Connecting…"
+msgid "Connection cancelled"
+msgstr "מתחבר…"
+
+#: plugins/rdp/gtk4.py
+msgid "Custom…"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Reconnect to host"
+msgid "Disconnected from {host}"
+msgstr "התחבר מחדש למארח"
+
+#: plugins/rdp/gtk4.py
+msgid "Domain"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Dynamic title"
+msgid "Dynamic resolution"
+msgstr "כותרת דינמית"
+
+#: plugins/rdp/gtk4.py
+msgid "Fit to tab"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Geometry"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Initialization failed: {error}"
+msgid "Key combination failed: {error}"
+msgstr "האתחול נכשל: {error}"
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Disconnect"
+msgid "Not connected"
+msgstr "התנתק"
+
+#: plugins/rdp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Initialization failed: {error}"
+msgid "RDP connection to {host} failed: {error}"
+msgstr "האתחול נכשל: {error}"
+
+#: plugins/rdp/gtk4.py
+msgid "RDP needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Connect"
+msgid "Reconnect"
+msgstr "התחבר"
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Remote Host"
+msgid "Remote desktop"
+msgstr "מארח מרוחק"
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Remote"
+msgid "RemoteApp"
+msgstr "מרוחק"
+
+#: plugins/rdp/gtk4.py
+msgid "Size"
+msgstr ""
+
+#: plugins/rdp/gtk4.py widgets.py
+msgid "Special keys"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "This AsyncRdp version cannot send key combinations"
+msgstr ""
+
 #: plugins/sftp/core.py
 msgid "B"
 msgstr ""
@@ -2715,12 +2818,6 @@ msgstr ""
 #: plugins/sftp/gtk4.py
 msgid "Busy, try again when the current operation is finished"
 msgstr ""
-
-#: plugins/sftp/gtk4.py
-#, fuzzy, python-brace-format
-#| msgid "Connecting…"
-msgid "Connecting to {host}…"
-msgstr "מתחבר…"
 
 #: plugins/sftp/gtk4.py
 #, fuzzy, python-brace-format
@@ -5161,10 +5258,6 @@ msgstr "אפס מסוף"
 #: widgets.py
 msgid "Save buffer to file"
 msgstr "שמור מאגר לקובץ"
-
-#: widgets.py
-msgid "Special keys"
-msgstr ""
 
 #: widgets.py
 msgid "Split H"
