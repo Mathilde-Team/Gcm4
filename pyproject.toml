@@ -333,9 +333,11 @@ skip_covered = false
 # Palier 6 de #293 (31/10/2026) : 53,9 % sur dev + tests de
 # plugins/ssh/core.py (45,5 % → 87,7 % en mesure combinée :
 # migration/import ssh_config, pkexec, backups, CLI), soit 53.
+# Palier 7 de #293 (03/11/2026) : 54,2 % en mesure combinée avec les
+# tests de collecte libvirt (#384) et Proxmox (#385), soit 54.
 # Relever ce chiffre quand la base monte, ne jamais le baisser
 # pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
-fail_under = 53
+fail_under = 54
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",

@@ -19,8 +19,10 @@ sys.path.insert(
     0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "plugins")
 )
 
-import plugin_import_libvirt as lv  # noqa: E402
 import test_gcm  # noqa: E402, F401  (pose les doublures gi/Gtk avant l'import du plugin)
+
+# isort: split
+import plugin_import_libvirt as lv  # noqa: E402
 from doublures_ssh import Hyperviseur  # noqa: E402
 
 
