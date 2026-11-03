@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import re
 import threading
+from urllib.parse import urlparse
 
 import gi
 from loguru import logger
