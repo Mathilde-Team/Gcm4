@@ -453,21 +453,21 @@ Gcm4 s'appuie sur deux bibliothèques asynchrones dédiées, développées en pa
 
 ### AsyncVnc2 — client VNC asynchrone
 
-- **Dépôt :** [MathildeDec/AsyncVnc4](https://github.com/MathildeDec/AsyncVnc4)
+- **Dépôt :** [Mathilde-Team/AsyncVnc4](https://github.com/Mathilde-Team/AsyncVnc4)
 - **Rôle :** Client RFB/VNC pur Python (23 patches, 50 tests), consommé par le plugin `pluginvnc2`
-- **Annonce :** [Gcm4 #102](https://github.com/MathildeDec/Gcm4/issues/102)
-- **Liaison plugin :** [Gcm4 #104](https://github.com/MathildeDec/Gcm4/issues/104)
+- **Annonce :** [Gcm4 #102](https://github.com/Mathilde-Team/Gcm4/issues/102)
+- **Liaison plugin :** [Gcm4 #104](https://github.com/Mathilde-Team/Gcm4/issues/104)
 
 ### AsyncRdp — client RDP asynchrone
 
-- **Dépôt :** [MathildeDec/AsyncRdp4](https://github.com/MathildeDec/AsyncRdp4)
+- **Dépôt :** [Mathilde-Team/AsyncRdp4](https://github.com/Mathilde-Team/AsyncRdp4)
 - **Rôle :** Binding asyncio sur libfreerdp3 via cffi (122 tests), destiné à remplacer GtkFrdp
-- **Annonce :** [Gcm4 #103](https://github.com/MathildeDec/Gcm4/issues/103)
-- **Liaison plugin :** [Gcm4 #105](https://github.com/MathildeDec/Gcm4/issues/105)
+- **Annonce :** [Gcm4 #103](https://github.com/Mathilde-Team/Gcm4/issues/103)
+- **Liaison plugin :** [Gcm4 #105](https://github.com/Mathilde-Team/Gcm4/issues/105)
 
 ### Roadmap d'intégration
 
-La roadmap coordonnée des trois dépôts est dans [Gcm4 #106](https://github.com/MathildeDec/Gcm4/issues/106), avec un tableau de bord dans [Gcm4 #107](https://github.com/MathildeDec/Gcm4/issues/107).
+La roadmap coordonnée des trois dépôts est dans [Gcm4 #106](https://github.com/Mathilde-Team/Gcm4/issues/106), avec un tableau de bord dans [Gcm4 #107](https://github.com/Mathilde-Team/Gcm4/issues/107).
 
 | Phase | Objectif | Issues clés |
 |-------|----------|-------------|
