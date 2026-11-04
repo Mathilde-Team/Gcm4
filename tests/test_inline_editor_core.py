@@ -150,3 +150,62 @@ class TestClassifyEditorButtonPress(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestFocusLeave(unittest.TestCase):
+    """#96 : la perte de focus valide l'édition, sauf popover ouvert ou édition terminée."""
+
+    def test_commit_par_defaut(self):
+        """Hors popover, la perte de focus valide."""
+
+        from inline_editor_core import classify_editor_focus_leave
+
+        self.assertEqual(classify_editor_focus_leave(menu_open=False, done=False), "commit")
+
+    def test_ignore_pendant_le_popover(self):
+        """Popover ouvert : pas de validation."""
+
+        from inline_editor_core import classify_editor_focus_leave
+
+        self.assertEqual(classify_editor_focus_leave(menu_open=True, done=False), "ignore")
+
+    def test_ignore_apres_entree_ou_echap(self):
+        """Édition déjà terminée : rien à refaire."""
+
+        from inline_editor_core import classify_editor_focus_leave
+
+        self.assertEqual(classify_editor_focus_leave(menu_open=False, done=True), "ignore")
+
+    def test_issues_dans_la_liste(self):
+        """Liste des issues possibles."""
+
+        from inline_editor_core import EDITOR_FOCUS_LEAVE_OUTCOMES
+
+        self.assertEqual(EDITOR_FOCUS_LEAVE_OUTCOMES, ("commit", "ignore"))
+
+
+class TestEditorMenu(unittest.TestCase):
+    """#96 : popover maîtrisé, quatre actions standard, ouvert au clic droit."""
+
+    def test_quatre_actions_standard(self):
+        """Couper, copier, coller, tout sélectionner."""
+
+        from inline_editor_core import EDITOR_MENU_ACTIONS
+
+        self.assertEqual(
+            [a[0] for a in EDITOR_MENU_ACTIONS], ["cut", "copy", "paste", "select-all"]
+        )
+        self.assertEqual(
+            [a[2] for a in EDITOR_MENU_ACTIONS],
+            ["cut-clipboard", "copy-clipboard", "paste-clipboard", "select-all"],
+        )
+
+    def test_clic_droit_seulement(self):
+        """Seul le bouton 3 ouvre le popover."""
+
+        from inline_editor_core import is_editor_menu_button
+
+        self.assertTrue(is_editor_menu_button(3))
+        for b in (0, 1, 2, 8):
+            with self.subTest(button=b):
+                self.assertFalse(is_editor_menu_button(b))

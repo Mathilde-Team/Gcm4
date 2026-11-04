@@ -95,9 +95,12 @@ def _read(path: str) -> str:
 # session-43, `button-press-event` porté cette session, tous deux retirés
 # de cette table — voir test_key_pressed_controller_is_wired et
 # test_button_gesture_is_wired ci-dessous).
+# Depuis #96 : `populate-popup` n'est plus connecté (popover maîtrisé) ; `focus-out-event`
+# ne subsiste qu'en repli GTK3 dans `_connect_editor_focus_leave` (pas de
+# `Gtk.EventControllerFocus` avant GTK 4.0).
 EXPECTED_INLINE_EDITOR_SIGNALS = {
     'editor.connect("focus-out-event", self._on_editor_focus_out_event)': 1,
-    'editor.connect("populate-popup", self._on_editor_populate_popup)': 1,
+    'editor.connect("populate-popup",': 0,
 }
 
 
@@ -200,6 +203,25 @@ class TestInlineEditorSignalBaseline(unittest.TestCase):
                     f"{needle!r} attendu dans widgets.py (portage session-44 de "
                     "button-press-event, docs/gtk4-migration.md §3.6-terdecies).",
                 )
+
+    def test_focus_leave_and_popover_are_wired(self):
+        """#96 : `Gtk.EventControllerFocus`/`leave` (GTK4) et popover maîtrisé au clic droit."""
+        source = _read(WIDGETS_FILE)
+        for needle in (
+            'controller_cls = getattr(Gtk, "EventControllerFocus", None)',
+            "editor._focus_controller.connect(",
+            '"leave", lambda _c: self._on_editor_focus_leave(editor)',
+            "editor.add_controller(editor._focus_controller)",
+            "self._connect_editor_focus_leave(editor)",
+            "classify_editor_focus_leave(",
+            "Gtk.PopoverMenu.new_from_model(model)",
+            "Gtk.Popover.new_from_model(editor, model)",
+            'popover.connect("closed", on_closed)',
+            "if is_editor_menu_button(gesture.get_current_button()):",
+        ):
+            with self.subTest(needle=needle):
+                self.assertIn(needle, source, f"{needle!r} attendu dans widgets.py (#96).")
+        self.assertNotIn("def _on_editor_populate_popup", source)
 
     def test_editor_widget_is_not_a_gtk_entry(self):
         """`CellTextView` est une sous-classe de `Gtk.TextView`, pas de `Gtk.Entry`.

@@ -161,3 +161,56 @@ def classify_editor_button_press(*, n_press):
     logger.debug("classify_editor_button_press: entrée")
     logger.debug("classify_editor_button_press: sortie")
     return "claim"
+
+
+# --- Couple focus-out-event / populate-popup (#96, décision du 12/10/2026, option A du 28/10) ---
+#
+# Le menu contextuel natif est remplacé par un `Gtk.PopoverMenu` maîtrisé (four actions
+# standard). Son ouverture et sa fermeture sont donc connues, et `populate-popup` disparaît.
+# La perte de focus VALIDE l'édition (`edited`), sauf pendant que ce popover est ouvert.
+
+EDITOR_FOCUS_LEAVE_OUTCOMES = ("commit", "ignore")
+
+#: Actions du popover de l'éditeur : (nom d'action, libellé, signal `Gtk.TextView` émis).
+EDITOR_MENU_ACTIONS = (
+    ("cut", "Couper", "cut-clipboard"),
+    ("copy", "Copier", "copy-clipboard"),
+    ("paste", "Coller", "paste-clipboard"),
+    ("select-all", "Tout sélectionner", "select-all"),
+)
+
+#: Bouton souris ouvrant le popover de l'éditeur (clic droit).
+EDITOR_MENU_BUTTON = 3
+
+
+def classify_editor_focus_leave(*, menu_open, done):
+    """Classifie une perte de focus de l'éditeur inline `CellTextView` (#96).
+
+    Args:
+        menu_open (bool): Le popover maîtrisé de l'éditeur est ouvert : le focus
+            part vers lui, l'édition continue.
+        done (bool): L'édition est déjà terminée (Entrée ou Échap) : rien à refaire.
+
+    Returns:
+        str: ``"ignore"`` si le popover est ouvert ou l'édition terminée, sinon
+        ``"commit"`` (option A du 28/10/2026 : la perte de focus valide).
+    """
+    logger.debug("classify_editor_focus_leave: entrée")
+    outcome = "ignore" if menu_open or done else "commit"
+    logger.debug("classify_editor_focus_leave: sortie")
+    return outcome
+
+
+def is_editor_menu_button(button):
+    """Indique si le bouton souris ouvre le popover de l'éditeur (clic droit).
+
+    Args:
+        button (int): Numéro de bouton (``Gtk.GestureSingle.get_current_button()``).
+
+    Returns:
+        bool: ``True`` pour le bouton 3.
+    """
+    logger.debug("is_editor_menu_button: entrée")
+    result = button == EDITOR_MENU_BUTTON
+    logger.debug("is_editor_menu_button: sortie")
+    return result

@@ -66,6 +66,7 @@ CORE_MODULES = (
     "netmiko_bulk_core",
     "popup_menu_core",
     "putty_import_core",
+    "remote_desktop_menu_core",
     "snmp_bulk_core",
     "tab_context_menu_core",
 )

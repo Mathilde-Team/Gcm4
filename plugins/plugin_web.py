@@ -63,6 +63,7 @@ class WebTab(Gtk.Box):
 
     def __init__(self, host):
         """Initialise le panneau Web."""
+        logger.debug("WebTab.__init__: entrée")
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.host = host
         self._webview = None
@@ -71,9 +72,11 @@ class WebTab(Gtk.Box):
         self.set_margin_top(16)
         self.set_margin_bottom(16)
         self._build_ui()
+        logger.debug("WebTab.__init__: fin")
 
     def _build_ui(self):
         """Construit la barre d'outils + le WebView natif ou le repli navigateur."""
+        logger.debug("WebTab._build_ui: entrée")
         h = self.host
         url = (getattr(h, "web_url", "") or "").strip()
 
@@ -122,12 +125,15 @@ class WebTab(Gtk.Box):
             self.pack_start(fallback_box, True, True, 0)
 
         self.show_all()
+        logger.debug("WebTab._build_ui: fin")
 
     def _on_connect(self, widget):
         """Charge l'URL configurée (WebView natif) ou l'ouvre dans le navigateur."""
+        logger.debug("WebTab._on_connect: entrée")
         url = (getattr(self.host, "web_url", "") or "").strip()
         if not url:
             self._set_status(_("Error: URL not configured"))
+            logger.debug("WebTab._on_connect: sortie")
             return
         app_logger.debug(f"WebTab | ouverture de {url}")
         if self._webview is not None:
@@ -140,6 +146,7 @@ class WebTab(Gtk.Box):
             except Exception as exc:
                 app_logger.error(f"WebTab | échec ouverture navigateur : {exc}")
                 self._set_status(_("Error: could not open the URL"))
+        logger.debug("WebTab._on_connect: fin")
 
     def _set_status(self, text):
         """Met à jour le label de statut.
@@ -147,11 +154,15 @@ class WebTab(Gtk.Box):
         Args:
             text (str): Nouveau statut.
         """
+        logger.debug("WebTab._set_status: entrée")
         self._lbl_status.set_text(text)
+        logger.debug("WebTab._set_status: fin")
 
     def connect_web(self):
         """Charge la console web automatiquement (appelé depuis addTab)."""
+        logger.debug("WebTab.connect_web: entrée")
         self._on_connect(None)
+        logger.debug("WebTab.connect_web: fin")
 
 
 class WebPlugin(ConnectionPlugin):
@@ -165,9 +176,11 @@ class WebPlugin(ConnectionPlugin):
 
     def __init__(self) -> None:
         """Initialise les références de widgets du formulaire Web (peuplées par ``build_edit_page()``)."""
+        logger.debug("WebPlugin.__init__: entrée")
         self._txt_url: Gtk.Entry | None = None
         self._chk_ignore_cert: Gtk.CheckButton | None = None
         self._error_label: Gtk.Label | None = None
+        logger.debug("WebPlugin.__init__: fin")
 
     def build_tab(self, host, get_password: Callable[[], str] | None = None) -> Gtk.Widget:
         """Construit l'onglet de session Web (délègue entièrement à ``WebTab``).
@@ -193,6 +206,7 @@ class WebPlugin(ConnectionPlugin):
             Un ``Gtk.Grid`` autonome, prêt à être inséré dans le notebook du
             dialogue Edit Host.
         """
+        logger.debug("WebPlugin.build_edit_page: entrée")
         grid = Gtk.Grid()
         grid.set_row_homogeneous(True)
         grid.set_row_spacing(4)
@@ -234,6 +248,7 @@ class WebPlugin(ConnectionPlugin):
 
         grid.show_all()
         self._error_label.hide()  # show_all() masqué immédiatement après (cf. point C — pattern correct)
+        logger.debug("WebPlugin.build_edit_page: sortie")
         return grid
 
     def load_host_fields(self, host) -> None:
@@ -242,6 +257,7 @@ class WebPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` source.
         """
+        logger.debug("WebPlugin.load_host_fields: entrée")
         if self._txt_url is not None:
             self._txt_url.set_text(getattr(host, "web_url", "") or "")
         if self._chk_ignore_cert is not None:
@@ -251,6 +267,7 @@ class WebPlugin(ConnectionPlugin):
         logger.debug(
             f"WebPlugin.load_host_fields | host={host.name} url={getattr(host, 'web_url', '')}"
         )
+        logger.debug("WebPlugin.load_host_fields: fin")
 
     def save_host_fields(self, host) -> None:
         """Reporte URL + case à cocher dans *host*.
@@ -258,6 +275,7 @@ class WebPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` à mettre à jour.
         """
+        logger.debug("WebPlugin.save_host_fields: entrée")
         if self._txt_url is not None:
             host.web_url = self._txt_url.get_text().strip()
         if self._chk_ignore_cert is not None:
@@ -265,6 +283,7 @@ class WebPlugin(ConnectionPlugin):
         logger.debug(
             f"WebPlugin.save_host_fields | host={getattr(host, 'name', '?')} url={getattr(host, 'web_url', '')}"
         )
+        logger.debug("WebPlugin.save_host_fields: fin")
 
     def host_fields(self) -> list[tuple[str, object]]:
         """Champs ``Host`` propres au protocole Web."""
@@ -279,6 +298,7 @@ class WebPlugin(ConnectionPlugin):
         Returns:
             Liste d'erreurs (vide si l'URL est renseignée).
         """
+        logger.debug("WebPlugin.validate: entrée")
         errors: list[str] = []
         url = self._txt_url.get_text().strip() if self._txt_url is not None else ""
         if not url:
@@ -288,6 +308,7 @@ class WebPlugin(ConnectionPlugin):
                 self._error_label.show()
         elif self._error_label is not None:
             self._error_label.hide()
+        logger.debug("WebPlugin.validate: sortie")
         return errors
 
 

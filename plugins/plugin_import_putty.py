@@ -56,6 +56,7 @@ class PuttyImportBatchPlugin(BatchPlugin):
         Raises:
             RuntimeError: Si app n'est pas liée (erreur de configuration).
         """
+        logger.debug("PuttyImportBatchPlugin.activate: entrée")
         if self.app is None:
             raise RuntimeError(
                 "PuttyImportBatchPlugin.activate() appelé sans app liée "
@@ -78,6 +79,7 @@ class PuttyImportBatchPlugin(BatchPlugin):
         dlg.destroy()
         if not folder:
             logger.debug("PuttyImportBatchPlugin.activate | cancelled")
+            logger.debug("PuttyImportBatchPlugin.activate: sortie")
             return
 
         try:
@@ -88,6 +90,7 @@ class PuttyImportBatchPlugin(BatchPlugin):
         except Exception as exc:  # noqa: BLE001
             logger.exception(f"PuttyImportBatchPlugin.activate | PuTTY import error: {exc}")
             msgbox(_("PuTTY import error: {exc}").format(exc=exc), parent=app.window)
+            logger.debug("PuttyImportBatchPlugin.activate: sortie")
             return
 
         if not hosts:
@@ -95,6 +98,7 @@ class PuttyImportBatchPlugin(BatchPlugin):
                 f"PuttyImportBatchPlugin.activate | nothing importable, skipped={len(skipped)}"
             )
             msgbox(_("No importable SSH/Telnet session found in this folder."), parent=app.window)
+            logger.debug("PuttyImportBatchPlugin.activate: sortie")
             return
 
         n = app._import_hosts_from_list(hosts)
@@ -107,6 +111,7 @@ class PuttyImportBatchPlugin(BatchPlugin):
                 "{count} session(s) ignored (unsupported protocol or missing host)."
             ).format(count=len(skipped))
         msgbox(message, parent=app.window)
+        logger.debug("PuttyImportBatchPlugin.activate: fin")
 
 
 def get_batch_plugin() -> PuttyImportBatchPlugin:

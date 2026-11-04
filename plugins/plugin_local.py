@@ -38,12 +38,14 @@ class LocalTab(Gtk.Box):
             host: Instance ``Host`` avec ``protocol == "local"`` (ou
                 ``host.host`` vide).
         """
+        logger.debug("LocalTab.__init__: entrée")
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         self.host = host
         self.terminal = self._build_terminal(host)
         scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, self.terminal.get_vadjustment())
         self.pack_start(self.terminal, True, True, 0)
         self.pack_start(scrollbar, False, False, 0)
+        logger.debug("LocalTab.__init__: fin")
 
     def _build_terminal(self, host) -> Vte.Terminal:
         """Construit et configure le ``Vte.Terminal`` (couleurs, police, scrollback).
@@ -54,6 +56,7 @@ class LocalTab(Gtk.Box):
         Returns:
             Le ``Vte.Terminal`` configuré (pas encore de commande lancée).
         """
+        logger.debug("LocalTab._build_terminal: entrée")
         from gnome_connection_manager import conf, parse_color_rgba, wMain  # noqa: PLC0415
 
         v = Vte.Terminal()
@@ -101,10 +104,12 @@ class LocalTab(Gtk.Box):
 
         v.set_backspace_binding(host.backspace_key)
         v.set_delete_binding(host.delete_key)
+        logger.debug("LocalTab._build_terminal: sortie")
         return v
 
     def connect_local(self) -> None:
         """Lance ``$SHELL`` dans le terminal (aucune commande à construire)."""
+        logger.debug("LocalTab.connect_local: entrée")
         from gnome_connection_manager import SHELL, wMain  # noqa: PLC0415
 
         host = self.host
@@ -133,6 +138,7 @@ class LocalTab(Gtk.Box):
             if lines:
                 GLib.timeout_add(basetime, wMain.send_data, v, "\r".join(lines))
         v.queue_draw()
+        logger.debug("LocalTab.connect_local: fin")
 
 
 class LocalPlugin(ConnectionPlugin):
@@ -165,8 +171,10 @@ class LocalPlugin(ConnectionPlugin):
         Returns:
             Un ``Gtk.Box`` vide.
         """
+        logger.debug("LocalPlugin.build_edit_page: entrée")
         box = Gtk.Box()
         box.show()
+        logger.debug("LocalPlugin.build_edit_page: sortie")
         return box
 
     def load_host_fields(self, host) -> None:

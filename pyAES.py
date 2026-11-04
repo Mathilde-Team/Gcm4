@@ -837,8 +837,10 @@ def shiftRows(state):
     None
         Modifies the state array in-place.
     """
+    logger.debug("shiftRows: entrée")
     for i in range(4):
         state[i * 4 : i * 4 + 4] = rotate(state[i * 4 : i * 4 + 4], i)
+    logger.debug("shiftRows: fin")
 
 
 def shiftRowsInv(state):
@@ -857,8 +859,10 @@ def shiftRowsInv(state):
     None
         Modifies the state array in-place.
     """
+    logger.debug("shiftRowsInv: entrée")
     for i in range(4):
         state[i * 4 : i * 4 + 4] = rotate(state[i * 4 : i * 4 + 4], -i)
+    logger.debug("shiftRowsInv: fin")
 
 
 def keyScheduleCore(word, i):
@@ -880,6 +884,7 @@ def keyScheduleCore(word, i):
         The transformed 4-byte word.
     """
     # rotate word 1 byte to the left
+    logger.debug("keyScheduleCore: entrée")
     word = rotate(word, 1)
     newWord = []
     # apply sbox substitution on all bytes of word
@@ -887,6 +892,7 @@ def keyScheduleCore(word, i):
         newWord.append(sbox[byte])
     # XOR the output of the rcon[i] transformation with the first part of the word
     newWord[0] = newWord[0] ^ rcon[i]
+    logger.debug("keyScheduleCore: sortie")
     return newWord
 
 
@@ -968,8 +974,10 @@ def subBytes(state):
     None
         Modifies the state array in-place.
     """
+    logger.debug("subBytes: entrée")
     for i in range(len(state)):
         state[i] = sbox[state[i]]
+    logger.debug("subBytes: fin")
 
 
 def subBytesInv(state):
@@ -988,8 +996,10 @@ def subBytesInv(state):
     None
         Modifies the state array in-place.
     """
+    logger.debug("subBytesInv: entrée")
     for i in range(len(state)):
         state[i] = sboxInv[state[i]]
+    logger.debug("subBytesInv: fin")
 
 
 def addRoundKey(state, roundKey):
@@ -1002,8 +1012,10 @@ def addRoundKey(state, roundKey):
         state: A 16-byte state array to transform in-place.
         roundKey: A 16-byte round key to XOR with the state.
     """
+    logger.debug("addRoundKey: entrée")
     for i in range(len(state)):
         state[i] = state[i] ^ roundKey[i]
+    logger.debug("addRoundKey: fin")
 
 
 def galoisMult(a, b):
@@ -1019,6 +1031,7 @@ def galoisMult(a, b):
     Returns:
         The result of multiplication in GF(2^8).
     """
+    logger.debug("galoisMult: entrée")
     p = 0
     hiBitSet = 0
     for _ in range(8):
@@ -1029,6 +1042,7 @@ def galoisMult(a, b):
         if hiBitSet == 0x80:
             a ^= 0x1B
         b >>= 1
+    logger.debug("galoisMult: sortie")
     return p % 256
 
 
@@ -1041,6 +1055,7 @@ def mixColumn(column):
     Args:
         column: A 4-byte column to transform in-place.
     """
+    logger.debug("mixColumn: entrée")
     temp = copy(column)
     column[0] = (
         galoisMult(temp[0], 2)
@@ -1066,6 +1081,7 @@ def mixColumn(column):
         ^ galoisMult(temp[1], 1)
         ^ galoisMult(temp[0], 3)
     )
+    logger.debug("mixColumn: fin")
 
 
 def mixColumnInv(column):
@@ -1077,6 +1093,7 @@ def mixColumnInv(column):
     Args:
         column: A 4-byte column to transform in-place.
     """
+    logger.debug("mixColumnInv: entrée")
     temp = copy(column)
     column[0] = (
         galoisMult(temp[0], 14)
@@ -1102,6 +1119,7 @@ def mixColumnInv(column):
         ^ galoisMult(temp[1], 13)
         ^ galoisMult(temp[0], 11)
     )
+    logger.debug("mixColumnInv: fin")
 
 
 def mixColumns(state):
@@ -1113,6 +1131,7 @@ def mixColumns(state):
     Args:
         state: A 16-byte state array to transform in-place.
     """
+    logger.debug("mixColumns: entrée")
     for i in range(4):
         column = []
         # create the column by taking the same item out of each "virtual" row
@@ -1123,6 +1142,7 @@ def mixColumns(state):
         # transfer the new values back into the state table
         for j in range(4):
             state[j * 4 + i] = column[j]
+    logger.debug("mixColumns: fin")
 
 
 def mixColumnsInv(state):
@@ -1134,6 +1154,7 @@ def mixColumnsInv(state):
     Args:
         state: A 16-byte state array to transform in-place.
     """
+    logger.debug("mixColumnsInv: entrée")
     for i in range(4):
         column = []
         # create the column by taking the same item out of each "virtual" row
@@ -1144,6 +1165,7 @@ def mixColumnsInv(state):
         # transfer the new values back into the state table
         for j in range(4):
             state[j * 4 + i] = column[j]
+    logger.debug("mixColumnsInv: fin")
 
 
 def aesRound(state, roundKey):
@@ -1156,10 +1178,12 @@ def aesRound(state, roundKey):
         state: A 16-byte state array to transform in-place.
         roundKey: A 16-byte round key for the AddRoundKey transformation.
     """
+    logger.debug("aesRound: entrée")
     subBytes(state)
     shiftRows(state)
     mixColumns(state)
     addRoundKey(state, roundKey)
+    logger.debug("aesRound: fin")
 
 
 def aesRoundInv(state, roundKey):
@@ -1180,10 +1204,12 @@ def aesRoundInv(state, roundKey):
     None
         Modifies the state array in-place.
     """
+    logger.debug("aesRoundInv: entrée")
     addRoundKey(state, roundKey)
     mixColumnsInv(state)
     shiftRowsInv(state)
     subBytesInv(state)
+    logger.debug("aesRoundInv: fin")
 
 
 def createRoundKey(expandedKey, n):

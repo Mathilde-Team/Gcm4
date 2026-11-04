@@ -78,7 +78,9 @@ def _attach_debug_tracing(plugin_obj: object, scope: str) -> None:
         plugin_obj: Instance de plugin a instrumenter.
         scope: Prefixe de trace (``ConnectionPlugin`` ou ``BatchPlugin``).
     """
+    logger.debug("_attach_debug_tracing: entrée")
     if getattr(plugin_obj, "_gcm_debug_tracing_attached", False):
+        logger.debug("_attach_debug_tracing: sortie")
         return
 
     cls_name = type(plugin_obj).__name__
@@ -109,6 +111,7 @@ def _attach_debug_tracing(plugin_obj: object, scope: str) -> None:
             continue
 
     setattr(plugin_obj, "_gcm_debug_tracing_attached", True)  # noqa: B010 (attribut dynamique)
+    logger.debug("_attach_debug_tracing: fin")
 
 
 def _discover_plugin_modules(directory: Path, package: str | None, self_module_name: str):
@@ -134,6 +137,7 @@ def _discover_plugin_modules(directory: Path, package: str | None, self_module_n
         comme echec (les deux registres le font, l'import etant ambigu
         quant a la famille de plugin visee).
     """
+    logger.debug("_discover_plugin_modules: entrée")
     for module_path in sorted(directory.glob(f"{PLUGIN_MODULE_PREFIX}*.py")):
         module_name = module_path.stem
         if module_name == self_module_name:
@@ -148,6 +152,7 @@ def _discover_plugin_modules(directory: Path, package: str | None, self_module_n
             continue
 
         yield module_name, full_name, module, None
+    logger.debug("_discover_plugin_modules: fin")
 
 
 class ConnectionPlugin(ABC):
@@ -346,7 +351,9 @@ class PluginRegistry:
 
     def __init__(self) -> None:
         """Initialise un registre vide, sans plugin enregistré."""
+        logger.debug("PluginRegistry.__init__: entrée")
         self._plugins: dict[str, ConnectionPlugin] = {}
+        logger.debug("PluginRegistry.__init__: fin")
 
     def register(self, plugin: ConnectionPlugin) -> None:
         """Enregistre un plugin sous son ``protocol_id``.
@@ -357,6 +364,7 @@ class PluginRegistry:
         Raises:
             ValueError: Si ``protocol_id`` est vide ou déjà enregistré.
         """
+        logger.debug("PluginRegistry.register: entrée")
         if not plugin.protocol_id:
             raise ValueError(f"protocol_id manquant sur {type(plugin).__name__}")
         if plugin.protocol_id in self._plugins:
@@ -366,6 +374,7 @@ class PluginRegistry:
         logger.debug(
             f"PluginRegistry.register | protocol_id={plugin.protocol_id} class={type(plugin).__name__}"
         )
+        logger.debug("PluginRegistry.register: fin")
 
     def get(self, protocol_id: str) -> ConnectionPlugin | None:
         """Retourne le plugin enregistré pour *protocol_id*, ou ``None``.
@@ -405,8 +414,10 @@ class PluginRegistry:
             app: Instance ``Wmain`` (ou tout objet jouant ce rôle, utile pour
                 les tests) à exposer aux plugins via ``self.app``.
         """
+        logger.debug("PluginRegistry.bind_app: entrée")
         for plugin in self._plugins.values():
             plugin.app = app
+        logger.debug("PluginRegistry.bind_app: fin")
 
     def protocol_ids(self) -> list[str]:
         """Retourne la liste des ``protocol_id`` enregistrés."""
@@ -426,9 +437,11 @@ class PluginRegistry:
             Liste de tuples ``(nom_attribut, valeur_par_defaut)``, tous
             plugins confondus.
         """
+        logger.debug("PluginRegistry.all_host_fields: entrée")
         fields: list[tuple[str, object]] = []
         for plugin in self.all_sorted():
             fields.extend(plugin.host_fields())
+        logger.debug("PluginRegistry.all_host_fields: sortie")
         return fields
 
     def __contains__(self, protocol_id: str) -> bool:
@@ -484,6 +497,7 @@ class PluginRegistry:
             La liste des ``protocol_id`` nouvellement enregistres, dans
             l'ordre alphabetique des fichiers decouverts.
         """
+        logger.debug("PluginRegistry.autoload: entrée")
         if directory is None:
             directory = Path(__file__).resolve().parent
         else:
@@ -532,6 +546,7 @@ class PluginRegistry:
                     continue
                 loaded.append(plugin.protocol_id)
 
+        logger.debug("PluginRegistry.autoload: sortie")
         return loaded
 
 
@@ -599,6 +614,7 @@ class BatchPluginRegistry:
 
     def __init__(self) -> None:
         """Initialise un registre de ``BatchPlugin`` vide, sans erreur de chargement."""
+        logger.debug("BatchPluginRegistry.__init__: entrée")
         self._plugins: dict[str, BatchPlugin] = {}
         #: ``{nom_de_module: cause}`` rempli par ``autoload()`` à chaque
         #: échec réel (import, appel du point d'entrée, enregistrement en
@@ -607,6 +623,7 @@ class BatchPluginRegistry:
         #: visiblement l'utilisateur avec la cause précise, en plus du
         #: warning déjà journalisé par ``autoload()`` lui-même.
         self.load_errors: dict[str, str] = {}
+        logger.debug("BatchPluginRegistry.__init__: fin")
 
     def register(self, plugin: BatchPlugin) -> None:
         """Enregistre un plugin sous son ``tool_id``.
@@ -617,6 +634,7 @@ class BatchPluginRegistry:
         Raises:
             ValueError: Si ``tool_id`` est vide ou deja enregistre.
         """
+        logger.debug("BatchPluginRegistry.register: entrée")
         if not plugin.tool_id:
             raise ValueError(f"tool_id manquant sur {type(plugin).__name__}")
         if plugin.tool_id in self._plugins:
@@ -626,6 +644,7 @@ class BatchPluginRegistry:
         logger.debug(
             f"BatchPluginRegistry.register | tool_id={plugin.tool_id} class={type(plugin).__name__}"
         )
+        logger.debug("BatchPluginRegistry.register: fin")
 
     def get(self, tool_id: str) -> BatchPlugin | None:
         """Retourne le plugin enregistre pour *tool_id*, ou ``None``."""
@@ -642,8 +661,10 @@ class BatchPluginRegistry:
         ``Wmain`` en cours d'execution (meme role que
         ``PluginRegistry.bind_app``).
         """
+        logger.debug("BatchPluginRegistry.bind_app: entrée")
         for plugin in self._plugins.values():
             plugin.app = app
+        logger.debug("BatchPluginRegistry.bind_app: fin")
 
     def tool_ids(self) -> list[str]:
         """Retourne la liste des ``tool_id`` enregistres."""
@@ -696,6 +717,7 @@ class BatchPluginRegistry:
         Returns:
             La liste des ``tool_id`` nouvellement enregistres.
         """
+        logger.debug("BatchPluginRegistry.autoload: entrée")
         if directory is None:
             directory = Path(__file__).resolve().parent
         else:
@@ -743,4 +765,5 @@ class BatchPluginRegistry:
                     continue
                 loaded.append(plugin.tool_id)
 
+        logger.debug("BatchPluginRegistry.autoload: sortie")
         return loaded

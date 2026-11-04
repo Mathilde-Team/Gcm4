@@ -15,12 +15,23 @@ from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Vte
 
 from folder_context_menu_core import build_folder_context_menu_layout, should_show_protocol_items
 from gesture_trigger_core import classify_tab_label_click
-from inline_editor_core import classify_editor_button_press, classify_editor_key_press
+from inline_editor_core import (
+    EDITOR_MENU_ACTIONS,
+    classify_editor_button_press,
+    classify_editor_focus_leave,
+    classify_editor_key_press,
+    is_editor_menu_button,
+)
 from popup_menu_core import (
     POPUP_MENU_ACTIONS,
     POPUP_MENU_SECTIONS,
     compute_enabled_actions,
     format_command_label,
+)
+from remote_desktop_menu_core import (
+    REMOTE_DESKTOP_SPECIAL_KEY_COMBOS,
+    build_remote_desktop_menu_layout,
+    compute_remote_desktop_enabled_actions,
 )
 from tab_context_menu_core import build_tab_context_menu_layout
 from utils import conf, run_dialog_sync
@@ -102,16 +113,152 @@ TERMINAL_V048 = "spawn_async" in Vte.Terminal.__dict__
 # Détection du binaire serial disponible (picocom > minicom > screen)
 RDP_BIN = shutil.which("xfreerdp") or shutil.which("xfreerdp3") or "xfreerdp"
 
-# Combinaisons de touches usuellement interceptées par le gestionnaire de
-# fenêtres local avant d'atteindre un widget d'affichage distant embarqué
-# (RDP/VNC/SPICE). Noms de touches Gdk (cf. gdk_keyval_from_name).
-_SPECIAL_KEY_COMBOS = [
-    ("Ctrl+Alt+Suppr", ("Control_L", "Alt_L", "Delete")),
-    ("Ctrl+Échap", ("Control_L", "Escape")),
-    ("Alt+Tab", ("Alt_L", "Tab")),
-    ("Alt+F4", ("Alt_L", "F4")),
-    ("Impr. écran", ("Print",)),
-]
+# Combinaisons de touches spéciales du menu bureau distant : déplacées en
+# session-53 vers remote_desktop_menu_core.REMOTE_DESKTOP_SPECIAL_KEY_COMBOS
+# (import ci-dessous), même principe que les autres menus contextuels
+# (tab_context_menu_core, folder_context_menu_core, popup_menu_core).
+
+
+class RemoteDesktopContextMenu:
+    """Menu contextuel d'un onglet bureau distant (RDP/VNC/SPICE), sur ``Gio.Menu``.
+
+    Remplace le ``Gtk.Menu`` classique que construisait
+    ``build_remote_desktop_context_menu()`` depuis les sessions 28-46 (le
+    « constructeur générique RDP/VNC/SPICE » de l'audit session-29,
+    cité à tort comme porté dans le résumé session-33 de ``CLAUDE.md``)
+    par le trio ``Gio.Menu``/``Gio.SimpleActionGroup``/``Gtk.Popover``,
+    même principe que :class:`TabContextMenu` (session-31),
+    :class:`FolderContextMenu` (session-32) et :class:`PopupMenu`
+    (session-33) : quatrième et dernier des menus contextuels
+    applicatifs de l'audit session-29 à être porté (voir
+    ``docs/gtk4-migration.md`` §3.8 et la session-53).
+
+    ``Gio.Menu``/``Gio.SimpleAction`` existent depuis GTK 3.4 et
+    ``Gtk.Popover.new_from_model()`` depuis GTK 3.12 : ce portage
+    fonctionne dès maintenant sous GTK3 (les plugins RDP/VNC/SPICE
+    actuels) et sera repris tel quel lors du passage effectif à GTK4 —
+    comme les trois précédents.
+
+    Deux différences de mécanisme assumées et documentées :
+
+    - la sensibilité Connect/Disconnect n'est plus lue sur des
+      ``Gtk.MenuItem`` individuels mais reportée sur les
+      ``Gio.SimpleAction`` (``set_enabled``) au moment de la
+      construction : le menu est reconstruit à chaque clic droit
+      (``build_context_menu()`` des plugins), donc l'état lu est le
+      même qu'avant ;
+    - les entrées ``extra_items`` reçoivent l'action en premier
+      argument du callback (et non plus le ``Gtk.MenuItem``) : les
+      callbacks existants ignorent cet argument (``lambda _w: ...``),
+      aucun appelant n'est impacté.
+    """
+
+    #: Préfixe des actions dans le Gio.SimpleActionGroup.
+    ACTION_GROUP_PREFIX = "rdmenu"
+
+    def __init__(self, btn_connect, btn_disconnect, send_special_keys_fn, extra_items=None):
+        """Initialise le menu à partir des mêmes entrées que l'ancien constructeur.
+
+        Args:
+            btn_connect (Gtk.Button): bouton « Connect » existant (conservé
+                pour son état de sensibilité et son gestionnaire « clicked »,
+                mais non empaqueté dans la barre d'outils).
+            btn_disconnect (Gtk.Button): bouton « Disconnect » existant (idem).
+            send_special_keys_fn (callable): fonction(list[str]) d'envoi d'une
+                combinaison de touches à la session distante.
+            extra_items (list[tuple[str, callable]], optional): entrées
+                supplémentaires (libellé, callback) insérées après
+                Connect/Disconnect (ex: périphériques USB pour SPICE).
+        """
+        logger.debug("RemoteDesktopContextMenu.__init__: entrée")
+        app_logger.debug(
+            f"RemoteDesktopContextMenu.__init__() called | extra_items={len(extra_items or [])}"
+        )
+        self.model = Gio.Menu()
+        self.actions = Gio.SimpleActionGroup()
+
+        # Disposition verrouillée par remote_desktop_menu_core (même
+        # principe que TabContextMenu/FolderContextMenu/PopupMenu) :
+        # section principale puis sous-menu « Special keys ».
+        main_actions, special_key_actions = build_remote_desktop_menu_layout(extra_items)
+        app_logger.debug(
+            f"RemoteDesktopContextMenu.__init__() | main_actions={main_actions} "
+            f"special_key_actions={special_key_actions}"
+        )
+        enabled = compute_remote_desktop_enabled_actions(
+            btn_connect.get_sensitive(), btn_disconnect.get_sensitive()
+        )
+
+        section = Gio.Menu()
+        act_connect = Gio.SimpleAction.new("connect", None)
+        act_connect.set_enabled(enabled["connect"])
+        act_connect.connect("activate", lambda _a, _p: btn_connect.clicked())
+        self.actions.add_action(act_connect)
+        section.append(_("Connect"), f"{self.ACTION_GROUP_PREFIX}.connect")
+
+        act_disconnect = Gio.SimpleAction.new("disconnect", None)
+        act_disconnect.set_enabled(enabled["disconnect"])
+        act_disconnect.connect("activate", lambda _a, _p: btn_disconnect.clicked())
+        self.actions.add_action(act_disconnect)
+        section.append(_("Disconnect"), f"{self.ACTION_GROUP_PREFIX}.disconnect")
+
+        for i, (label, callback) in enumerate(extra_items or []):
+            nom = f"extra{i}"
+            action = Gio.SimpleAction.new(nom, None)
+            action.connect("activate", lambda _a, _p, cb=callback: cb(_a))
+            self.actions.add_action(action)
+            section.append(label, f"{self.ACTION_GROUP_PREFIX}.{nom}")
+
+        self.model.append_section(None, section)
+
+        keys_model = Gio.Menu()
+        for nom, (key_label, keys) in zip(
+            special_key_actions, REMOTE_DESKTOP_SPECIAL_KEY_COMBOS, strict=True
+        ):
+            action = Gio.SimpleAction.new(nom, None)
+            action.connect("activate", lambda _a, _p, k=keys: send_special_keys_fn(list(k)))
+            self.actions.add_action(action)
+            keys_model.append(key_label, f"{self.ACTION_GROUP_PREFIX}.{nom}")
+        keys_item = Gio.MenuItem.new(_("Special keys"), None)
+        keys_item.set_submenu(keys_model)
+        self.model.append_item(keys_item)
+
+        self.popover = Gtk.Popover.new_from_model(None, self.model)
+        self.popover.set_position(Gtk.PositionType.BOTTOM)
+        self.popover.insert_action_group(self.ACTION_GROUP_PREFIX, self.actions)
+        logger.debug("RemoteDesktopContextMenu.__init__: sortie")
+
+    def popup_at(self, relative_to, x, y):
+        """Affiche le popover positionné sur le point de clic.
+
+        Remplace l'ancien appel à la signature ``Gtk.Menu.popup()`` à six
+        arguments positionnels (déjà dépréciée en GTK3 et supprimée en
+        GTK4 avec ``Gtk.Menu`` lui-même) par
+        ``Gtk.Popover.set_pointing_to()`` + ``popup()``, disponibles à
+        l'identique en GTK3 comme en GTK4 — même principe que
+        :meth:`TabContextMenu.popup_at`.
+
+        Args:
+            relative_to (Gtk.Widget): Widget sur lequel positionner le
+                popover (le ``Gtk.EventBox`` de l'onglet cliqué,
+                ``self.eb``).
+            x (float): Coordonnée X du clic, relative à ``relative_to``.
+            y (float): Coordonnée Y du clic, relative à ``relative_to``.
+        """
+        logger.debug("RemoteDesktopContextMenu.popup_at: entrée")
+        app_logger.debug(
+            f"RemoteDesktopContextMenu.popup_at() called | relative_to={relative_to!r} x={x!r} y={y!r}"
+        )
+        self.popover.set_relative_to(relative_to)
+        rect = Gdk.Rectangle()
+        rect.x = int(x)
+        rect.y = int(y)
+        rect.width = 1
+        rect.height = 1
+        self.popover.set_pointing_to(rect)
+        self.popover.popup()
+        app_logger.debug("RemoteDesktopContextMenu.popup_at() returning")
+        logger.debug("RemoteDesktopContextMenu.popup_at: sortie")
 
 
 def build_remote_desktop_context_menu(
@@ -122,6 +269,9 @@ def build_remote_desktop_context_menu(
     Reutilise pour le clic droit sur l'onglet/titre des onglets RDP/VNC/SPICE,
     a la place des boutons auparavant affiches dans la barre d'outils de
     l'onglet, pour s'harmoniser avec le menu contextuel des autres onglets.
+    Depuis la session-53, délègue à :class:`RemoteDesktopContextMenu`
+    (``Gio.Menu``/``Gtk.Popover``, GTK4-ready) — la signature est
+    inchangée pour les trois plugins consommateurs.
 
     Args:
         btn_connect (Gtk.Button): bouton "Connect" existant (conserve pour
@@ -131,42 +281,14 @@ def build_remote_desktop_context_menu(
         send_special_keys_fn (callable): fonction(list[str]) d'envoi d'une
             combinaison de touches a la session distante.
         extra_items (list[tuple[str, callable]], optional): entrees
-            supplementaires (libelle, callback(widget)) inserees apres
+            supplementaires (libelle, callback) inserees apres
             Connect/Disconnect (ex: peripheriques USB pour SPICE).
 
     Returns:
-        Gtk.Menu: menu pret a afficher via popup().
+        RemoteDesktopContextMenu: menu prêt à afficher via popup_at().
     """
     logger.debug("build_remote_desktop_context_menu: entrée")
-    menu = Gtk.Menu()
-
-    item_connect = Gtk.MenuItem(label=_("Connect"))
-    item_connect.set_sensitive(btn_connect.get_sensitive())
-    item_connect.connect("activate", lambda _w: btn_connect.clicked())
-    menu.append(item_connect)
-
-    item_disconnect = Gtk.MenuItem(label=_("Disconnect"))
-    item_disconnect.set_sensitive(btn_disconnect.get_sensitive())
-    item_disconnect.connect("activate", lambda _w: btn_disconnect.clicked())
-    menu.append(item_disconnect)
-
-    for label, callback in extra_items or []:
-        item = Gtk.MenuItem(label=label)
-        item.connect("activate", callback)
-        menu.append(item)
-
-    menu.append(Gtk.SeparatorMenuItem())
-
-    keys_item = Gtk.MenuItem(label=_("Special keys"))
-    keys_submenu = Gtk.Menu()
-    for key_label, keys in _SPECIAL_KEY_COMBOS:
-        key_item = Gtk.MenuItem(label=key_label)
-        key_item.connect("activate", lambda _w, k=keys: send_special_keys_fn(list(k)))
-        keys_submenu.append(key_item)
-    keys_item.set_submenu(keys_submenu)
-    menu.append(keys_item)
-
-    menu.show_all()
+    menu = RemoteDesktopContextMenu(btn_connect, btn_disconnect, send_special_keys_fn, extra_items)
     logger.debug("build_remote_desktop_context_menu: sortie")
     return menu
 
@@ -1509,19 +1631,12 @@ class NotebookTabLabel(Gtk.Box):
             if remote_widget is not None:
                 remote_menu = remote_widget.build_context_menu()
                 if remote_menu is not None:
-                    # Menu Gtk.Menu legacy (bureau distant RDP/VNC/SPICE),
-                    # pas encore porte vers Gio.Menu : sa signature
-                    # .popup() a six arguments positionnels attend encore
-                    # un numero de bouton et un horodatage. Le bouton vient
-                    # de gesture.get_current_button() (deja calcule
-                    # ci-dessus) ; pour l'horodatage,
-                    # Gtk.get_current_event_time() (idiome deja utilise
-                    # ailleurs dans ce depot, voir Wmain.on_terminal_pressed
-                    # pour Gtk.show_uri()) evite de dependre de la
-                    # disponibilite/forme exacte de
-                    # gesture.get_last_event(None) alors qu'aucun des deux
-                    # champs necessaires ici (bouton, temps) ne le requiert.
-                    remote_menu.popup(None, None, None, None, button, Gtk.get_current_event_time())
+                    # Menu bureau distant (RDP/VNC/SPICE), porte en
+                    # session-53 vers Gio.Menu/Gtk.Popover (classe
+                    # RemoteDesktopContextMenu) : meme declencheur popup_at()
+                    # x/y que les autres menus contextuels, plus aucune
+                    # signature Gtk.Menu.popup() a six arguments.
+                    remote_menu.popup_at(self.eb, x, y)
                     gesture.set_state(Gtk.EventSequenceState.CLAIMED)
                     app_logger.debug(
                         "NotebookTabLabel.on_label_pressed() returning | "
@@ -1755,21 +1870,128 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         self._in_editor_menu = False
         logger.debug("MultilineCellRenderer.__init__: fin")
 
-    def _on_editor_focus_out_event(self, editor, *args):
-        """Gestionnaire de perte de focus de l'editeur.
+    def _on_editor_focus_leave(self, editor):
+        """Perte de focus de l'editeur inline : valide l'edition (#96, option A du 28/10/2026).
+
+        Portage du couple ``focus-out-event``/``populate-popup`` : le focus qui
+        part vers le popover maitrise de l'editeur (:meth:`_open_editor_menu`)
+        ne valide pas ; toute autre perte de focus emet ``edited`` avec le
+        texte en cours. Classification deleguee a
+        ``inline_editor_core.classify_editor_focus_leave()``.
 
         Args:
             editor (CellTextView): Widget d'edition source.
-            *args: Arguments additionnels transmis par le signal
-                ``focus-out-event`` (l'``Gdk.EventFocus``), non utilises.
+        """
+        logger.debug("MultilineCellRenderer._on_editor_focus_leave: entrée")
+        outcome = classify_editor_focus_leave(
+            menu_open=self._in_editor_menu, done=getattr(editor, "_done", False)
+        )
+        if outcome == "commit":
+            editor._done = True
+            editor.remove_widget()
+            self.emit("edited", editor.path, editor.get_text())
+        logger.debug("MultilineCellRenderer._on_editor_focus_leave: sortie {}", outcome)
+
+    def _on_editor_focus_out_event(self, editor, *args):
+        """Gestionnaire GTK3 ``focus-out-event`` (sans ``Gtk.EventControllerFocus``).
+
+        Args:
+            editor (CellTextView): Widget d'edition source.
+            *args: ``Gdk.EventFocus``, non utilise.
+
+        Returns:
+            bool: ``False``, l'evenement se propage.
         """
         logger.debug("MultilineCellRenderer._on_editor_focus_out_event: entrée")
-        if self._in_editor_menu:
-            logger.debug("MultilineCellRenderer._on_editor_focus_out_event: sortie")
-            return
-        editor.remove_widget()
-        self.emit("editing-canceled")
-        logger.debug("MultilineCellRenderer._on_editor_focus_out_event: fin")
+        self._on_editor_focus_leave(editor)
+        logger.debug("MultilineCellRenderer._on_editor_focus_out_event: sortie False")
+        return False
+
+    def _connect_editor_focus_leave(self, editor):
+        """Branche la perte de focus : ``Gtk.EventControllerFocus`` (GTK4), sinon ``focus-out-event``.
+
+        ``Gtk.EventControllerFocus`` n'existe qu'a partir de GTK 4.0 ;
+        l'application tourne encore en GTK3, d'ou le repli.
+
+        Args:
+            editor (CellTextView): Editeur a surveiller.
+        """
+        logger.debug("MultilineCellRenderer._connect_editor_focus_leave: entrée")
+        controller_cls = getattr(Gtk, "EventControllerFocus", None)
+        if controller_cls is not None:
+            editor._focus_controller = controller_cls.new()
+            editor._focus_controller.connect(
+                "leave", lambda _c: self._on_editor_focus_leave(editor)
+            )
+            editor.add_controller(editor._focus_controller)
+        else:
+            editor.connect("focus-out-event", self._on_editor_focus_out_event)
+        logger.debug(
+            "MultilineCellRenderer._connect_editor_focus_leave: sortie gtk4={}",
+            controller_cls is not None,
+        )
+
+    def _on_editor_popup_menu_key(self, editor):
+        """Touche Menu / Maj+F10 (GTK3) : ouvre le popover maitrise en haut a gauche.
+
+        Args:
+            editor (CellTextView): Editeur porteur.
+
+        Returns:
+            bool: ``True``, le menu natif n'est pas ouvert.
+        """
+        logger.debug("MultilineCellRenderer._on_editor_popup_menu_key: entrée")
+        self._open_editor_menu(editor, 0, 0)
+        logger.debug("MultilineCellRenderer._on_editor_popup_menu_key: sortie True")
+        return True
+
+    def _open_editor_menu(self, editor, x, y):
+        """Ouvre le popover maitrise de l'editeur (couper, copier, coller, tout selectionner).
+
+        Remplace le menu contextuel natif et son ``populate-popup`` (#96,
+        decision du 12/10/2026). ``self._in_editor_menu`` est vrai tant que le
+        popover est ouvert, ce qui suspend la validation sur perte de focus.
+        ``Gtk.PopoverMenu.new_from_model()`` (GTK4) ou
+        ``Gtk.Popover.new_from_model()`` (GTK3 >= 3.12).
+
+        Args:
+            editor (CellTextView): Editeur porteur.
+            x (float): Abscisse du clic dans l'editeur.
+            y (float): Ordonnee du clic dans l'editeur.
+        """
+        logger.debug("MultilineCellRenderer._open_editor_menu: entrée x={!r} y={!r}", x, y)
+        model = Gio.Menu()
+        group = Gio.SimpleActionGroup()
+        for name, label, signal in EDITOR_MENU_ACTIONS:
+            action = Gio.SimpleAction.new(name, None)
+            args = (True,) if signal == "select-all" else ()
+            action.connect(
+                "activate", lambda _a, _p, sig=signal, extra=args: editor.emit(sig, *extra)
+            )
+            group.add_action(action)
+            model.append(label, f"editor.{name}")
+        editor.insert_action_group("editor", group)
+        if hasattr(Gtk.PopoverMenu, "new_from_model"):
+            popover = Gtk.PopoverMenu.new_from_model(model)
+            popover.set_parent(editor)
+        else:
+            popover = Gtk.Popover.new_from_model(editor, model)
+        rect = Gdk.Rectangle()
+        rect.x, rect.y, rect.width, rect.height = int(x), int(y), 1, 1
+        popover.set_pointing_to(rect)
+
+        def on_closed(_popover):
+            """Fermeture du popover : la perte de focus valide de nouveau."""
+            logger.debug("MultilineCellRenderer._open_editor_menu.on_closed: entrée")
+            self._in_editor_menu = False
+            editor.grab_focus()
+            logger.debug("MultilineCellRenderer._open_editor_menu.on_closed: sortie")
+
+        popover.connect("closed", on_closed)
+        editor._menu_popover = popover
+        self._in_editor_menu = True
+        popover.popup()
+        logger.debug("MultilineCellRenderer._open_editor_menu: sortie")
 
     def _on_editor_key_pressed(self, controller, keyval, keycode, state):
         """Gestionnaire de touche dans l'editeur inline (``Gtk.EventControllerKey``).
@@ -1807,40 +2029,15 @@ class MultilineCellRenderer(Gtk.CellRendererText):
             escape_keyval=Gdk.KEY_Escape,
         )
         if outcome == "commit":
+            editor._done = True
             editor.remove_widget()
             self.emit("edited", editor.path, editor.get_text())
         elif outcome == "cancel":
+            editor._done = True
             editor.remove_widget()
             self.emit("editing-canceled")
         app_logger.debug(f"MultilineCellRenderer._on_editor_key_pressed() returning | {outcome=}")
         return False
-
-    def _on_editor_populate_popup(self, editor, menu):
-        """Gestionnaire de remplissage du menu contextuel de l'editeur.
-
-        Args:
-            editor (CellTextView): Widget d'edition source.
-            menu (Gtk.Menu): Menu contextuel a peupler.
-        """
-        logger.debug("MultilineCellRenderer._on_editor_populate_popup: entrée")
-        self._in_editor_menu = True
-
-        def on_menu_unmap(menu, self):
-            """Gestionnaire de fermeture du menu contextuel.
-
-            Args:
-                menu (Gtk.Menu): Menu ferme (source du signal ``unmap``).
-                self (MultilineCellRenderer): Instance du renderer, passee
-                    en ``user_data`` par ``menu.connect("unmap", ...,
-                    self)`` — masque volontairement le ``self`` de la
-                    methode englobante, non utilise ici.
-            """
-            logger.debug("on_menu_unmap: entrée")
-            self._in_editor_menu = False
-            logger.debug("on_menu_unmap: fin")
-
-        menu.connect("unmap", on_menu_unmap, self)
-        logger.debug("MultilineCellRenderer._on_editor_populate_popup: fin")
 
     def _on_editor_button_pressed(self, gesture, n_press, x, y):
         """Gestionnaire de clic souris dans l'editeur inline (``Gtk.GestureMultiPress``).
@@ -1877,6 +2074,9 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         outcome = classify_editor_button_press(n_press=n_press)
         if outcome == "claim":
             gesture.set_state(Gtk.EventSequenceState.CLAIMED)
+        # Clic droit : popover maitrise a la place du menu natif (#96).
+        if is_editor_menu_button(gesture.get_current_button()):
+            self._open_editor_menu(gesture.get_widget(), x, y)
         app_logger.debug(
             f"MultilineCellRenderer._on_editor_button_pressed() returning | {outcome=}"
         )
@@ -1913,7 +2113,9 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         editor.set_size_request(cell_area.width, cell_area.height)
         editor.set_border_width(min(self.props.xpad, self.props.ypad))
         editor.path = path
-        editor.connect("focus-out-event", self._on_editor_focus_out_event)
+        # focus-out-event -> Gtk.EventControllerFocus/leave en GTK4 (#96) : la
+        # perte de focus valide l'edition, sauf popover de l'editeur ouvert.
+        self._connect_editor_focus_leave(editor)
         # key-press-event -> Gtk.EventControllerKey/key-pressed, porte cette
         # session (docs/gtk4-migration.md §3.6-undecies). Gtk.EventControllerKey
         # est la meme classe en GTK3 (>= 3.24) et en GTK4 ; seule sa
@@ -1924,7 +2126,12 @@ class MultilineCellRenderer(Gtk.CellRendererText):
         # pour eviter que PyGObject ne libere le wrapper Python prematurement.
         editor._key_controller = Gtk.EventControllerKey.new(editor)
         editor._key_controller.connect("key-pressed", self._on_editor_key_pressed)
-        editor.connect("populate-popup", self._on_editor_populate_popup)
+        # populate-popup supprime (#96) : le clic droit ouvre le popover maitrise
+        # de l'editeur (_open_editor_menu), dont ouverture et fermeture sont connues.
+        # Touche Menu / Maj+F10 (signal GTK3 "popup-menu") : meme popover, le menu
+        # natif n'est plus jamais ouvert. GTK4 n'a plus ce signal (action menu.popup).
+        if GObject.signal_lookup("popup-menu", Gtk.TextView):
+            editor.connect("popup-menu", self._on_editor_popup_menu_key)
         # button-press-event -> Gtk.GestureMultiPress/pressed, porte cette
         # session (docs/gtk4-migration.md §3.6-terdecies), meme principe que
         # key-press-event en session-43. set_button(0) : tous boutons, comme

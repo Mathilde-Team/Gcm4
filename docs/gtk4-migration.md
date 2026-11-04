@@ -1638,3 +1638,59 @@ XEmbed du code réellement chargé, dépendance actuelle à `GtkFrdp`/GTK3,
 état non porté de `build_remote_desktop_context_menu()`. `docs/architecture.md`
 §2.1 (tableau des protocoles) et §5 (écarts doc/code) mis à jour en
 conséquence. Détail complet de session : `docs/sessions/session-46.md`.
+
+### 3.8.6 Portage effectif du menu contextuel RDP/VNC/SPICE (session-53, 04/11/2026)
+
+Le dernier des quatre menus contextuels applicatifs resté en `Gtk.Menu`
+classique (§3.8.4) est porté : `widgets.build_remote_desktop_context_menu()`
+délègue désormais à la nouvelle classe `widgets.RemoteDesktopContextMenu`
+(`Gio.Menu`/`Gio.SimpleActionGroup`/`Gtk.Popover`, même trio que
+`TabContextMenu`/`FolderContextMenu`/`PopupMenu`), la logique pure
+(disposition, sensibilité, combinaisons de touches spéciales) étant
+extraite dans `remote_desktop_menu_core.py` testable sans stub GTK —
+même principe que les trois modules `*_core.py` précédents.
+
+Portée volontairement identique aux sessions 31-33 : le *contenu* du menu
+change de mécanisme, la signature du constructeur ne change pas (les trois
+plugins RDP/VNC/SPICE appellent toujours `build_context_menu()` → le
+même builder). Le *déclenchement* était déjà porté depuis la session-41
+(`NotebookTabLabel.on_label_pressed`, `Gtk.GestureMultiPress`) : l'appel
+`remote_menu.popup(None, None, None, None, button, Gtk.get_current_event_time())`
+devient `remote_menu.popup_at(self.eb, x, y)`, supprimant la dernière
+occurrence de la signature legacy à six arguments comptée par
+`tests/test_gtk4_context_menus_baseline.py`. Deux différences de
+mécanisme assumées et documentées dans la docstring de la classe :
+sensibilité reportée sur les `Gio.SimpleAction` (menu reconstruit à
+chaque clic droit, même état lu), callbacks `extra_items` recevant
+l'action en argument (les callbacks existants l'ignorent).
+
+Baselines inversées dans le même mouvement (l'échec attendu après un
+portage délibéré, pas une régression) : `test_gtk4_rdp_baseline.py`
+(`TestRemoteDesktopContextMenuStillLegacy` → `TestRemoteDesktopContextMenuPorted`,
+compteur `Gtk.Menu()` 2 → 0) et `test_gtk4_context_menus_baseline.py`
+(compteurs `WIDGETS_FILE` 2 → 0 et 1 → 0, note de mise à jour session-53).
+Nouveaux tests : `tests/test_remote_desktop_menu_core.py` (15 tests /
+36 sous-tests, logique pure). La question `gtk-frdp` GTK4 (§3.8.5)
+reste ouverte et hors périmètre de ce portage, qui ne touche qu'aux
+menus — le chantier asyncrdp (#105) est suivi séparément. Détail
+complet de session : `docs/sessions/session-53.md`.
+
+## 3.6-quaterdecies Couple `focus-out-event`/`populate-popup` de `CellTextView` (#96, 01/11/2026)
+
+Décision de Mathilde du 12/10/2026, précisée par l'option A du 28/10/2026 :
+
+- le menu contextuel natif de l'éditeur inline est remplacé par un popover
+  maîtrisé : `Gtk.PopoverMenu.new_from_model()` en GTK4,
+  `Gtk.Popover.new_from_model()` en GTK3. Il propose quatre actions standard
+  (couper, copier, coller, tout sélectionner) ;
+- il s'ouvre au clic droit (`is_editor_menu_button`) et, en GTK3, avec la
+  touche Menu ou Maj+F10 (signal `popup-menu`) ; le menu natif n'est plus
+  ouvert, `populate-popup` est supprimé ;
+- la perte de focus **valide** l'édition (`edited`), sauf pendant que le
+  popover est ouvert ou si l'édition est déjà terminée par Entrée ou Échap
+  (`classify_editor_focus_leave`) ;
+- GTK4 utilise `Gtk.EventControllerFocus` (`leave`). En GTK3, qui n'a pas ce
+  contrôleur, `focus-out-event` reste en repli.
+
+Changement visible : sous GTK3, la perte de focus annulait l'édition ; elle
+la valide désormais.
