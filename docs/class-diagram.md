@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-101 modules · 175 classes · 350 fonctions publiques de module.
+102 modules · 176 classes · 352 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -26,7 +26,7 @@ flowchart TD
     g3["gcm4"]
     g4["gcm4.core"]
     g5["gcm4.ui"]
-    g1 -->|13| g0
+    g1 -->|14| g0
     g1 -->|2| g2
     g0 -->|2| g1
     g0 -->|1| g2
@@ -58,6 +58,7 @@ flowchart TD
 | `netmiko_bulk_core` | `netmiko_bulk_core.py` | Cœur métier (sans GTK) du plugin de déploiement de configuration en masse via Netmiko pour GCM. |
 | `popup_menu_core` | `popup_menu_core.py` | Logique metier pure du menu contextuel du terminal (zero import Gtk/Gio/Vte). |
 | `putty_import_core` | `putty_import_core.py` | Cœur métier (sans GTK) de l'import de sessions PuTTY pour GCM. |
+| `remote_desktop_menu_core` | `remote_desktop_menu_core.py` | Logique métier pure du menu contextuel bureau distant (zéro import Gtk/Gio). |
 | `snmp_bulk_core` | `snmp_bulk_core.py` | Cœur métier (sans GTK) du déploiement SNMP pour GCM. |
 | `tab_context_menu_core` | `tab_context_menu_core.py` | Logique metier pure du menu contextuel des onglets (zero import Gtk/Gio/Vte). |
 
@@ -240,6 +241,11 @@ classDiagram
         +parse_putty_session_file(path) dict~str, str~
         +putty_session_to_row(session_name, raw) tuple~dict~str, str~ None, str None~
         +scan_putty_sessions(directory) tuple~list~dict~str, str~~, list~str~~
+    }
+    class mod_remote_desktop_menu_core {
+        <<module>>
+        +build_remote_desktop_menu_layout(extra_items)
+        +compute_remote_desktop_enabled_actions(connect_sensitive, disconnect_sensitive)
     }
     class mod_snmp_bulk_core {
         <<module>>
@@ -697,6 +703,9 @@ classDiagram
         +umount_iso_temp(loop_device)
         +vte_run(terminal, command, arg, extra_env)
         +inputbox(title, text, default, password, parent, icon_path)
+    }
+    class RemoteDesktopContextMenu {
+        +popup_at(relative_to, x, y)
     }
     class ManagementTabLabel {
         <<Gtk.Box>>

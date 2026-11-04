@@ -28,6 +28,11 @@ from popup_menu_core import (
     compute_enabled_actions,
     format_command_label,
 )
+from remote_desktop_menu_core import (
+    REMOTE_DESKTOP_SPECIAL_KEY_COMBOS,
+    build_remote_desktop_menu_layout,
+    compute_remote_desktop_enabled_actions,
+)
 from tab_context_menu_core import build_tab_context_menu_layout
 from utils import conf, run_dialog_sync
 
@@ -108,16 +113,152 @@ TERMINAL_V048 = "spawn_async" in Vte.Terminal.__dict__
 # Détection du binaire serial disponible (picocom > minicom > screen)
 RDP_BIN = shutil.which("xfreerdp") or shutil.which("xfreerdp3") or "xfreerdp"
 
-# Combinaisons de touches usuellement interceptées par le gestionnaire de
-# fenêtres local avant d'atteindre un widget d'affichage distant embarqué
-# (RDP/VNC/SPICE). Noms de touches Gdk (cf. gdk_keyval_from_name).
-_SPECIAL_KEY_COMBOS = [
-    ("Ctrl+Alt+Suppr", ("Control_L", "Alt_L", "Delete")),
-    ("Ctrl+Échap", ("Control_L", "Escape")),
-    ("Alt+Tab", ("Alt_L", "Tab")),
-    ("Alt+F4", ("Alt_L", "F4")),
-    ("Impr. écran", ("Print",)),
-]
+# Combinaisons de touches spéciales du menu bureau distant : déplacées en
+# session-53 vers remote_desktop_menu_core.REMOTE_DESKTOP_SPECIAL_KEY_COMBOS
+# (import ci-dessous), même principe que les autres menus contextuels
+# (tab_context_menu_core, folder_context_menu_core, popup_menu_core).
+
+
+class RemoteDesktopContextMenu:
+    """Menu contextuel d'un onglet bureau distant (RDP/VNC/SPICE), sur ``Gio.Menu``.
+
+    Remplace le ``Gtk.Menu`` classique que construisait
+    ``build_remote_desktop_context_menu()`` depuis les sessions 28-46 (le
+    « constructeur générique RDP/VNC/SPICE » de l'audit session-29,
+    cité à tort comme porté dans le résumé session-33 de ``CLAUDE.md``)
+    par le trio ``Gio.Menu``/``Gio.SimpleActionGroup``/``Gtk.Popover``,
+    même principe que :class:`TabContextMenu` (session-31),
+    :class:`FolderContextMenu` (session-32) et :class:`PopupMenu`
+    (session-33) : quatrième et dernier des menus contextuels
+    applicatifs de l'audit session-29 à être porté (voir
+    ``docs/gtk4-migration.md`` §3.8 et la session-53).
+
+    ``Gio.Menu``/``Gio.SimpleAction`` existent depuis GTK 3.4 et
+    ``Gtk.Popover.new_from_model()`` depuis GTK 3.12 : ce portage
+    fonctionne dès maintenant sous GTK3 (les plugins RDP/VNC/SPICE
+    actuels) et sera repris tel quel lors du passage effectif à GTK4 —
+    comme les trois précédents.
+
+    Deux différences de mécanisme assumées et documentées :
+
+    - la sensibilité Connect/Disconnect n'est plus lue sur des
+      ``Gtk.MenuItem`` individuels mais reportée sur les
+      ``Gio.SimpleAction`` (``set_enabled``) au moment de la
+      construction : le menu est reconstruit à chaque clic droit
+      (``build_context_menu()`` des plugins), donc l'état lu est le
+      même qu'avant ;
+    - les entrées ``extra_items`` reçoivent l'action en premier
+      argument du callback (et non plus le ``Gtk.MenuItem``) : les
+      callbacks existants ignorent cet argument (``lambda _w: ...``),
+      aucun appelant n'est impacté.
+    """
+
+    #: Préfixe des actions dans le Gio.SimpleActionGroup.
+    ACTION_GROUP_PREFIX = "rdmenu"
+
+    def __init__(self, btn_connect, btn_disconnect, send_special_keys_fn, extra_items=None):
+        """Initialise le menu à partir des mêmes entrées que l'ancien constructeur.
+
+        Args:
+            btn_connect (Gtk.Button): bouton « Connect » existant (conservé
+                pour son état de sensibilité et son gestionnaire « clicked »,
+                mais non empaqueté dans la barre d'outils).
+            btn_disconnect (Gtk.Button): bouton « Disconnect » existant (idem).
+            send_special_keys_fn (callable): fonction(list[str]) d'envoi d'une
+                combinaison de touches à la session distante.
+            extra_items (list[tuple[str, callable]], optional): entrées
+                supplémentaires (libellé, callback) insérées après
+                Connect/Disconnect (ex: périphériques USB pour SPICE).
+        """
+        logger.debug("RemoteDesktopContextMenu.__init__: entrée")
+        app_logger.debug(
+            f"RemoteDesktopContextMenu.__init__() called | extra_items={len(extra_items or [])}"
+        )
+        self.model = Gio.Menu()
+        self.actions = Gio.SimpleActionGroup()
+
+        # Disposition verrouillée par remote_desktop_menu_core (même
+        # principe que TabContextMenu/FolderContextMenu/PopupMenu) :
+        # section principale puis sous-menu « Special keys ».
+        main_actions, special_key_actions = build_remote_desktop_menu_layout(extra_items)
+        app_logger.debug(
+            f"RemoteDesktopContextMenu.__init__() | main_actions={main_actions} "
+            f"special_key_actions={special_key_actions}"
+        )
+        enabled = compute_remote_desktop_enabled_actions(
+            btn_connect.get_sensitive(), btn_disconnect.get_sensitive()
+        )
+
+        section = Gio.Menu()
+        act_connect = Gio.SimpleAction.new("connect", None)
+        act_connect.set_enabled(enabled["connect"])
+        act_connect.connect("activate", lambda _a, _p: btn_connect.clicked())
+        self.actions.add_action(act_connect)
+        section.append(_("Connect"), f"{self.ACTION_GROUP_PREFIX}.connect")
+
+        act_disconnect = Gio.SimpleAction.new("disconnect", None)
+        act_disconnect.set_enabled(enabled["disconnect"])
+        act_disconnect.connect("activate", lambda _a, _p: btn_disconnect.clicked())
+        self.actions.add_action(act_disconnect)
+        section.append(_("Disconnect"), f"{self.ACTION_GROUP_PREFIX}.disconnect")
+
+        for i, (label, callback) in enumerate(extra_items or []):
+            nom = f"extra{i}"
+            action = Gio.SimpleAction.new(nom, None)
+            action.connect("activate", lambda _a, _p, cb=callback: cb(_a))
+            self.actions.add_action(action)
+            section.append(label, f"{self.ACTION_GROUP_PREFIX}.{nom}")
+
+        self.model.append_section(None, section)
+
+        keys_model = Gio.Menu()
+        for nom, (key_label, keys) in zip(
+            special_key_actions, REMOTE_DESKTOP_SPECIAL_KEY_COMBOS, strict=True
+        ):
+            action = Gio.SimpleAction.new(nom, None)
+            action.connect("activate", lambda _a, _p, k=keys: send_special_keys_fn(list(k)))
+            self.actions.add_action(action)
+            keys_model.append(key_label, f"{self.ACTION_GROUP_PREFIX}.{nom}")
+        keys_item = Gio.MenuItem.new(_("Special keys"), None)
+        keys_item.set_submenu(keys_model)
+        self.model.append_item(keys_item)
+
+        self.popover = Gtk.Popover.new_from_model(None, self.model)
+        self.popover.set_position(Gtk.PositionType.BOTTOM)
+        self.popover.insert_action_group(self.ACTION_GROUP_PREFIX, self.actions)
+        logger.debug("RemoteDesktopContextMenu.__init__: sortie")
+
+    def popup_at(self, relative_to, x, y):
+        """Affiche le popover positionné sur le point de clic.
+
+        Remplace l'ancien appel à la signature ``Gtk.Menu.popup()`` à six
+        arguments positionnels (déjà dépréciée en GTK3 et supprimée en
+        GTK4 avec ``Gtk.Menu`` lui-même) par
+        ``Gtk.Popover.set_pointing_to()`` + ``popup()``, disponibles à
+        l'identique en GTK3 comme en GTK4 — même principe que
+        :meth:`TabContextMenu.popup_at`.
+
+        Args:
+            relative_to (Gtk.Widget): Widget sur lequel positionner le
+                popover (le ``Gtk.EventBox`` de l'onglet cliqué,
+                ``self.eb``).
+            x (float): Coordonnée X du clic, relative à ``relative_to``.
+            y (float): Coordonnée Y du clic, relative à ``relative_to``.
+        """
+        logger.debug("RemoteDesktopContextMenu.popup_at: entrée")
+        app_logger.debug(
+            f"RemoteDesktopContextMenu.popup_at() called | relative_to={relative_to!r} x={x!r} y={y!r}"
+        )
+        self.popover.set_relative_to(relative_to)
+        rect = Gdk.Rectangle()
+        rect.x = int(x)
+        rect.y = int(y)
+        rect.width = 1
+        rect.height = 1
+        self.popover.set_pointing_to(rect)
+        self.popover.popup()
+        app_logger.debug("RemoteDesktopContextMenu.popup_at() returning")
+        logger.debug("RemoteDesktopContextMenu.popup_at: sortie")
 
 
 def build_remote_desktop_context_menu(
@@ -128,6 +269,9 @@ def build_remote_desktop_context_menu(
     Reutilise pour le clic droit sur l'onglet/titre des onglets RDP/VNC/SPICE,
     a la place des boutons auparavant affiches dans la barre d'outils de
     l'onglet, pour s'harmoniser avec le menu contextuel des autres onglets.
+    Depuis la session-53, délègue à :class:`RemoteDesktopContextMenu`
+    (``Gio.Menu``/``Gtk.Popover``, GTK4-ready) — la signature est
+    inchangée pour les trois plugins consommateurs.
 
     Args:
         btn_connect (Gtk.Button): bouton "Connect" existant (conserve pour
@@ -137,42 +281,14 @@ def build_remote_desktop_context_menu(
         send_special_keys_fn (callable): fonction(list[str]) d'envoi d'une
             combinaison de touches a la session distante.
         extra_items (list[tuple[str, callable]], optional): entrees
-            supplementaires (libelle, callback(widget)) inserees apres
+            supplementaires (libelle, callback) inserees apres
             Connect/Disconnect (ex: peripheriques USB pour SPICE).
 
     Returns:
-        Gtk.Menu: menu pret a afficher via popup().
+        RemoteDesktopContextMenu: menu prêt à afficher via popup_at().
     """
     logger.debug("build_remote_desktop_context_menu: entrée")
-    menu = Gtk.Menu()
-
-    item_connect = Gtk.MenuItem(label=_("Connect"))
-    item_connect.set_sensitive(btn_connect.get_sensitive())
-    item_connect.connect("activate", lambda _w: btn_connect.clicked())
-    menu.append(item_connect)
-
-    item_disconnect = Gtk.MenuItem(label=_("Disconnect"))
-    item_disconnect.set_sensitive(btn_disconnect.get_sensitive())
-    item_disconnect.connect("activate", lambda _w: btn_disconnect.clicked())
-    menu.append(item_disconnect)
-
-    for label, callback in extra_items or []:
-        item = Gtk.MenuItem(label=label)
-        item.connect("activate", callback)
-        menu.append(item)
-
-    menu.append(Gtk.SeparatorMenuItem())
-
-    keys_item = Gtk.MenuItem(label=_("Special keys"))
-    keys_submenu = Gtk.Menu()
-    for key_label, keys in _SPECIAL_KEY_COMBOS:
-        key_item = Gtk.MenuItem(label=key_label)
-        key_item.connect("activate", lambda _w, k=keys: send_special_keys_fn(list(k)))
-        keys_submenu.append(key_item)
-    keys_item.set_submenu(keys_submenu)
-    menu.append(keys_item)
-
-    menu.show_all()
+    menu = RemoteDesktopContextMenu(btn_connect, btn_disconnect, send_special_keys_fn, extra_items)
     logger.debug("build_remote_desktop_context_menu: sortie")
     return menu
 
@@ -1515,19 +1631,12 @@ class NotebookTabLabel(Gtk.Box):
             if remote_widget is not None:
                 remote_menu = remote_widget.build_context_menu()
                 if remote_menu is not None:
-                    # Menu Gtk.Menu legacy (bureau distant RDP/VNC/SPICE),
-                    # pas encore porte vers Gio.Menu : sa signature
-                    # .popup() a six arguments positionnels attend encore
-                    # un numero de bouton et un horodatage. Le bouton vient
-                    # de gesture.get_current_button() (deja calcule
-                    # ci-dessus) ; pour l'horodatage,
-                    # Gtk.get_current_event_time() (idiome deja utilise
-                    # ailleurs dans ce depot, voir Wmain.on_terminal_pressed
-                    # pour Gtk.show_uri()) evite de dependre de la
-                    # disponibilite/forme exacte de
-                    # gesture.get_last_event(None) alors qu'aucun des deux
-                    # champs necessaires ici (bouton, temps) ne le requiert.
-                    remote_menu.popup(None, None, None, None, button, Gtk.get_current_event_time())
+                    # Menu bureau distant (RDP/VNC/SPICE), porte en
+                    # session-53 vers Gio.Menu/Gtk.Popover (classe
+                    # RemoteDesktopContextMenu) : meme declencheur popup_at()
+                    # x/y que les autres menus contextuels, plus aucune
+                    # signature Gtk.Menu.popup() a six arguments.
+                    remote_menu.popup_at(self.eb, x, y)
                     gesture.set_state(Gtk.EventSequenceState.CLAIMED)
                     app_logger.debug(
                         "NotebookTabLabel.on_label_pressed() returning | "
