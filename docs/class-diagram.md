@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-101 modules · 175 classes · 350 fonctions publiques de module.
+101 modules · 176 classes · 350 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -697,6 +697,9 @@ classDiagram
         +umount_iso_temp(loop_device)
         +vte_run(terminal, command, arg, extra_env)
         +inputbox(title, text, default, password, parent, icon_path)
+    }
+    class RemoteDesktopContextMenu {
+        +popup_at(relative_to, x, y)
     }
     class ManagementTabLabel {
         <<Gtk.Box>>
