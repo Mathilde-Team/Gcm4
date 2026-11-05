@@ -111,7 +111,10 @@ def ouvrir(module, dossier):
 
     yield fabrique
     for fenetre in ouverts:
-        fenetre.destroy()
+        # Une fenêtre déjà fermée par le test est détruite : la détruire une
+        # seconde fois fait planter GTK 4.8 (Debian 12).
+        if not fenetre.ferme:
+            fenetre.close()
     _attendre(lambda: False, 0.05)
 
 
