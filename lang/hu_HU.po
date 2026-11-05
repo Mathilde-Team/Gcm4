@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-05 06:41+0000\n"
+"POT-Creation-Date: 2026-11-05 06:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -185,7 +185,7 @@ msgstr "Átviteli sebesség (baud)"
 msgid "Before connecting"
 msgstr "Kapcsolódás előtt"
 
-#: gnome_connection_manager.py ssh_config_editor.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Browse existing SSH keys in ~/.ssh/"
 msgstr ""
 
@@ -245,7 +245,7 @@ msgstr "Körkörös navigáció a lapok között az előző/következő lapra l�
 msgid "Clear selection"
 msgstr "Kijelölés törlése"
 
-#: gnome_connection_manager.py src/gcm4/ui/echange.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py src/gcm4/ui/echange.py
 #: src/gcm4/ui/main_window.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Close"
 msgstr "Bezárás"
@@ -630,7 +630,7 @@ msgstr "Csak tiszta kilépéskor"
 msgid "Open"
 msgstr "Megnyitás"
 
-#: gnome_connection_manager.py ssh_config_editor.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Open SSH Key Manager (generate / import / delete)"
 msgstr ""
 
@@ -901,11 +901,11 @@ msgstr ""
 msgid "− Remove"
 msgstr "− Eltávolítás"
 
-#: gnome_connection_manager.py ssh_config_editor.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "⚙"
 msgstr ""
 
-#: gnome_connection_manager.py ssh_config_editor.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "🔑 Pick…"
 msgstr ""
 
@@ -2328,7 +2328,7 @@ msgstr "Tömörítés"
 msgid "Connections will be added to the « ssh_config » group, with name = host = SSH alias."
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Dynamic"
 msgstr "Dinamikus"
 
@@ -2390,17 +2390,17 @@ msgstr "Importálás libvirtből"
 msgid "Keep alive (seconds)"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Local"
 msgstr "Helyi"
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 #, fuzzy
 #| msgid "Local"
 msgid "Local (-L)"
 msgstr "Helyi"
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Local Port"
 msgstr "Helyi port"
 
@@ -2408,13 +2408,13 @@ msgstr "Helyi port"
 msgid "Local mount point"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 #, fuzzy
 #| msgid "localhost"
 msgid "Local target host"
 msgstr "localhost"
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 #, fuzzy
 #| msgid "Local Port"
 msgid "Local target port"
@@ -2478,7 +2478,7 @@ msgstr ""
 msgid "Personal (me)"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Personal (~/.ssh/config)"
 msgstr ""
 
@@ -2497,25 +2497,25 @@ msgstr "Port továbbítás"
 msgid "QUIET / ERROR / INFO / VERBOSE / DEBUG…"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Remote"
 msgstr "Távoli"
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 #, fuzzy
 #| msgid "Remote"
 msgid "Remote (-R)"
 msgstr "Távoli"
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Remote Host"
 msgstr "Távoli hoszt"
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Remote Port"
 msgstr "Távoli port"
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 #, fuzzy
 #| msgid "Remote Port"
 msgid "Remote listen port"
@@ -2603,11 +2603,11 @@ msgstr ""
 msgid "yes / no / ask / auto"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "yes / no / ask / confirm"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "yes / no / force / auto"
 msgstr ""
 
@@ -2912,9 +2912,269 @@ msgstr ""
 msgid "{path}: {count} items"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, fuzzy, python-brace-format
+#| msgid "Ended (code {rc})"
+msgid ""
+"\n"
+"Exit code: {rc}"
+msgstr "Befejeződött (kód: {rc})"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid ""
+"\n"
+"[Error: {exc}]"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid ""
+"\n"
+"[Timeout after 10 s]"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "(no output)\n"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, fuzzy
+#| msgid "Add new host"
+msgid "Add a new empty host"
+msgstr "Új hoszt hozzáadása"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Alias(es)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "At least one alias is required"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid "Copied: {cmd}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, fuzzy
+#| msgid "Copy selection to clipboard"
+msgid "Copy full ssh command to clipboard"
+msgstr "Kijelölés vágólapra másolása"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Copy ssh cmd"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Diff (original → current):"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, fuzzy
+#| msgid "Dynamic"
+msgid "Dynamic (SOCKS)"
+msgstr "Dinamikus"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Edit SSH config (personal + shared)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Edit raw ssh_config — changes here override the Visual tab on Save."
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Enter remote host"
+msgstr "Adja meg a távoli hosztot"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, fuzzy
+#| msgid "_File"
+msgid "File:"
+msgstr "_Fájl"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Filter hosts…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Multiple values possible: separate them with commas (one line per value in the file)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "No changes."
+msgstr ""
+
 #: plugins/ssh/gtk4.py
 msgid "Permissions too open: ssh will refuse this key"
 msgstr "Túl tág jogosultságok: az ssh elutasítja ezt a kulcsot"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Port must be an integer between 1 and 65535"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Properties"
+msgstr "Tulajdonságok"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "QUIET/ERROR/INFO/VERBOSE/DEBUG"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Raw / Diff"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Redirection de port"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, fuzzy
+#| msgid "Remote Host"
+msgid "Remove host?"
+msgstr "Távoli hoszt"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Remove selected host"
+msgstr "Kijelölt hoszt eltávolítása"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid "Remove «{alias}» from {path}?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid ""
+"Running: {cmd}\n"
+"\n"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Shared — bastion, all users (/etc/ssh/ssh_config.d/config_gcm.conf)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, fuzzy
+#| msgid "No connection type selected."
+msgid "Test SSH connection to selected host"
+msgstr "Nincs kiválasztott kapcsolattípus."
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid "Test connection — {alias}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Visual"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "auto / yes / no"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 10"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 10m"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 192.168.1.10 ou example.com"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 22"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 3"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 60"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : root"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : ssh -W %h:%p bastion, ou corkscrew proxy 8080 %h %p"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : tmux attach || tmux new"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : user@bastion.example.com, user@server1.example.com"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : web1 ou web1 web1.example.com"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : ~/.ssh/id_ed25519, ~/.ssh/id_rsa"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : ~/.ssh/known_hosts"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "yes / no / ask / accept-new"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "yes ou no"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid "{path} does not exist yet — it will be created when saving."
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "← Select or create a host"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "⚡ Test"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, fuzzy
+#| msgid "Cancel"
+msgid "✕ Cancel"
+msgstr "Mégse"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, fuzzy
+#| msgid "− Remove"
+msgid "✕ Remove"
+msgstr "− Eltávolítás"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "⟳ Refresh diff"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "+ Add"
+msgid "＋ Add"
+msgstr "+ Hozzáadás"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, fuzzy
+#| msgid "Save"
+msgid "💾 Save"
+msgstr "Mentés"
 
 #: src/gcm4/app.py
 msgid "The old configuration is intact: fix the problem (permissions, disk space), then start gcm4 again."
@@ -3937,46 +4197,7 @@ msgid "Show window"
 msgstr "Ablak megjelenítése"
 
 #: ssh_config_editor.py
-#, fuzzy, python-brace-format
-#| msgid "Ended (code {rc})"
-msgid ""
-"\n"
-"Exit code: {rc}"
-msgstr "Befejeződött (kód: {rc})"
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid ""
-"\n"
-"[Error: {exc}]"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid ""
-"\n"
-"[Timeout after 10 s]"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "(no output)\n"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Add new host"
-msgid "Add a new empty host"
-msgstr "Új hoszt hozzáadása"
-
-#: ssh_config_editor.py
 msgid "AddKeysToAgent"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Alias(es)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "At least one alias is required"
 msgstr ""
 
 #: ssh_config_editor.py
@@ -3997,53 +4218,6 @@ msgstr "Klaszter"
 
 #: ssh_config_editor.py
 msgid "ControlPersist"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "Copied: {cmd}"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Copy selection to clipboard"
-msgid "Copy full ssh command to clipboard"
-msgstr "Kijelölés vágólapra másolása"
-
-#: ssh_config_editor.py
-msgid "Copy ssh cmd"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Diff (original → current):"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Dynamic"
-msgid "Dynamic (SOCKS)"
-msgstr "Dinamikus"
-
-#: ssh_config_editor.py
-msgid "Edit SSH config (personal + shared)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Edit raw ssh_config — changes here override the Visual tab on Save."
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Enter remote host"
-msgstr "Adja meg a távoli hosztot"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "_File"
-msgid "File:"
-msgstr "_Fájl"
-
-#: ssh_config_editor.py
-msgid "Filter hosts…"
 msgstr ""
 
 #: ssh_config_editor.py
@@ -4071,24 +4245,8 @@ msgid "LogLevel"
 msgstr ""
 
 #: ssh_config_editor.py
-msgid "Multiple values possible: separate them with commas (one line per value in the file)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "No changes."
-msgstr ""
-
-#: ssh_config_editor.py
 msgid "PasswordAuthentication"
 msgstr ""
-
-#: ssh_config_editor.py
-msgid "Port must be an integer between 1 and 65535"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Properties"
-msgstr "Tulajdonságok"
 
 #: ssh_config_editor.py
 #, fuzzy
@@ -4105,47 +4263,13 @@ msgid "PubkeyAuthentication"
 msgstr ""
 
 #: ssh_config_editor.py
-msgid "QUIET/ERROR/INFO/VERBOSE/DEBUG"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Raw / Diff"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Redirection de port"
-msgstr ""
-
-#: ssh_config_editor.py
 #, fuzzy
 #| msgid "Command"
 msgid "RemoteCommand"
 msgstr "Parancs"
 
 #: ssh_config_editor.py
-#, fuzzy
-#| msgid "Remote Host"
-msgid "Remove host?"
-msgstr "Távoli hoszt"
-
-#: ssh_config_editor.py
-msgid "Remove selected host"
-msgstr "Kijelölt hoszt eltávolítása"
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "Remove «{alias}» from {path}?"
-msgstr ""
-
-#: ssh_config_editor.py
 msgid "RequestTTY"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid ""
-"Running: {cmd}\n"
-"\n"
 msgstr ""
 
 #: ssh_config_editor.py
@@ -4157,136 +4281,12 @@ msgid "ServerAliveInterval"
 msgstr ""
 
 #: ssh_config_editor.py
-msgid "Shared — bastion, all users (/etc/ssh/ssh_config.d/config_gcm.conf)"
-msgstr ""
-
-#: ssh_config_editor.py
 msgid "StrictHostKeyChecking"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "No connection type selected."
-msgid "Test SSH connection to selected host"
-msgstr "Nincs kiválasztott kapcsolattípus."
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "Test connection — {alias}"
 msgstr ""
 
 #: ssh_config_editor.py
 msgid "UserKnownHostsFile"
 msgstr ""
-
-#: ssh_config_editor.py
-msgid "Visual"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "auto / yes / no"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 10"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 10m"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 192.168.1.10 ou example.com"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 22"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 3"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 60"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : root"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : ssh -W %h:%p bastion, ou corkscrew proxy 8080 %h %p"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : tmux attach || tmux new"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : user@bastion.example.com, user@server1.example.com"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : web1 ou web1 web1.example.com"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : ~/.ssh/id_ed25519, ~/.ssh/id_rsa"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : ~/.ssh/known_hosts"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "yes / no / ask / accept-new"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "yes ou no"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "{path} does not exist yet — it will be created when saving."
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "← Select or create a host"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "⚡ Test"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Cancel"
-msgid "✕ Cancel"
-msgstr "Mégse"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "− Remove"
-msgid "✕ Remove"
-msgstr "− Eltávolítás"
-
-#: ssh_config_editor.py
-msgid "⟳ Refresh diff"
-msgstr ""
-
-#: ssh_config_editor.py ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "+ Add"
-msgid "＋ Add"
-msgstr "+ Hozzáadás"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Save"
-msgid "💾 Save"
-msgstr "Mentés"
 
 #: ssh_key_manager_dialog.py
 msgid "#"

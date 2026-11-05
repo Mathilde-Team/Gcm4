@@ -4,11 +4,11 @@
 Contient aujourd'hui :
 
 - ``core.py`` — logique métier (parsing ``~/.ssh/config``, migration/import
-  gcm.conf, liste des clés de ``~/.ssh/``, zéro GTK), fusion de l'ancien
+  gcm.conf, liste des clés de ``~/.ssh/``, formulaire de l'éditeur, zéro GTK), fusion de l'ancien
   ``ssh_config_parser.py`` + ``ssh_migrate_gcm.py`` (session-26).
 - ``gtk4.py`` — outils SSH GTK4 de gcm4 (#97), en cours de portage depuis
-  les fichiers historiques de la racine (``key_picker_dialog.py`` : fait ;
-  ``ssh_config_editor.py``, ``ssh_key_manager_dialog.py`` : à venir), qui
+  les fichiers historiques de la racine (``key_picker_dialog.py`` et
+  ``ssh_config_editor.py`` : faits ; ``ssh_key_manager_dialog.py`` : à venir), qui
   restent en place pour l'application GTK3 (``plugins/plugin_ssh.py``)
   jusqu'à #180. Sans ``PLUGIN`` tant que la session SSH n'est pas portée
   (#396) : le dossier apparaît en erreur de chargement dans gcm4.
