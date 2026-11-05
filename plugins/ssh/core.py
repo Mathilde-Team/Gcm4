@@ -86,6 +86,12 @@ __all__ = [
     "migrate_ssh_hosts",
     "import_ssh_config",
     "main",
+    # sélecteur de clé (#97)
+    "CleSsh",
+    "lister_cles",
+    "empreinte_cle",
+    "permissions_cle",
+    "chemin_prive",
 ]
 
 
@@ -1680,6 +1686,139 @@ def import_ssh_config(
 # ``_cp_getbool``/``_MANAGED_DESCRIPTION`` ci-dessus restant partagés entre
 # les deux. Voir docs/sessions/session-23.md pour le détail.
 # ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# Clés de ~/.ssh/ (sélecteur de clé GTK4, #97)
+# ---------------------------------------------------------------------------
+
+#: Fichiers de ``~/.ssh/`` qui ne sont jamais des clés.
+NOMS_EXCLUS: frozenset[str] = frozenset(
+    {"config", "known_hosts", "authorized_keys", "environment"}
+)
+
+
+@dataclass(frozen=True)
+class CleSsh:
+    """Une clé de ``~/.ssh/`` telle que la liste le sélecteur de clé.
+
+    Attributes:
+        nom: Nom affiché (nom du fichier).
+        chemin: Fichier listé : la clé privée, ou la clé publique orpheline.
+        publique: Clé publique associée (``<nom>.pub``) ou ``None``.
+        empreinte: Empreinte abrégée (``ssh-keygen -lf``) ou chaîne vide.
+        permissions: Mode octal (``"600"``) ou ``"?"`` si illisible.
+        permissions_ok: ``True`` si personne d'autre que le propriétaire n'y accède.
+    """
+
+    nom: str
+    chemin: Path
+    publique: Path | None
+    empreinte: str
+    permissions: str
+    permissions_ok: bool
+
+    @property
+    def est_publique(self) -> bool:
+        """Clé publique orpheline (aucune clé privée à côté)."""
+        return self.chemin.suffix == ".pub"
+
+
+def empreinte_cle(chemin: Path) -> str:
+    """Empreinte abrégée (32 caractères) via ``ssh-keygen -lf``, ou ``""``.
+
+    Args:
+        chemin: Fichier de clé (publique de préférence).
+
+    Returns:
+        L'empreinte, ou une chaîne vide si ``ssh-keygen`` échoue ou manque.
+    """
+    logger.debug("empreinte_cle: entrée | {}", chemin)
+    try:
+        resultat = subprocess.run(
+            ["ssh-keygen", "-lf", str(chemin)],
+            capture_output=True,
+            text=True,
+            timeout=3,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        logger.warning("empreinte_cle: ssh-keygen indisponible pour {} : {}", chemin, exc)
+        return ""
+    morceaux = resultat.stdout.strip().split()
+    if resultat.returncode != 0 or len(morceaux) < 2:
+        logger.debug("empreinte_cle: sortie | rc={} -> vide", resultat.returncode)
+        return ""
+    logger.debug("empreinte_cle: sortie | empreinte lue")
+    return morceaux[1][:32]
+
+
+def permissions_cle(chemin: Path) -> tuple[str, bool]:
+    """Mode octal d'une clé et son innocuité (aucun accès groupe ni autres).
+
+    Args:
+        chemin: Fichier de clé.
+
+    Returns:
+        ``("600", True)``, ``("644", False)``… ou ``("?", False)`` si illisible.
+    """
+    logger.debug("permissions_cle: entrée | {}", chemin)
+    try:
+        mode = chemin.stat().st_mode
+    except OSError as exc:
+        logger.warning("permissions_cle: {} illisible : {}", chemin, exc)
+        return ("?", False)
+    ok = not mode & (stat.S_IRWXG | stat.S_IRWXO)
+    texte = f"{stat.S_IMODE(mode):03o}"
+    logger.debug("permissions_cle: sortie | {} ok={}", texte, ok)
+    return (texte, ok)
+
+
+def lister_cles(dossier: Path | None = None) -> list[CleSsh]:
+    """Clés de ``dossier`` (``~/.ssh/`` par défaut), triées par nom.
+
+    Une clé privée est listée avec sa publique ``<nom>.pub`` si elle existe ;
+    une publique sans privée est listée seule. Les fichiers cachés et ceux de
+    :data:`NOMS_EXCLUS` sont ignorés.
+
+    Args:
+        dossier: Dossier à parcourir.
+
+    Returns:
+        Les clés trouvées ; liste vide si le dossier n'existe pas.
+    """
+    logger.debug("lister_cles: entrée | {}", dossier)
+    dossier = dossier if dossier is not None else Path.home() / ".ssh"
+    if not dossier.is_dir():
+        logger.debug("lister_cles: sortie | {} absent -> []", dossier)
+        return []
+    cles: list[CleSsh] = []
+    for chemin in sorted(dossier.iterdir()):
+        nom = chemin.name
+        if not chemin.is_file() or nom in NOMS_EXCLUS or nom.startswith("."):
+            continue
+        if nom.endswith(".pub"):
+            if chemin.with_suffix("").exists():
+                continue  # listée avec sa clé privée
+            publique: Path | None = None
+        else:
+            candidate = chemin.with_name(nom + ".pub")
+            publique = candidate if candidate.exists() else None
+        texte, ok = permissions_cle(chemin)
+        cles.append(CleSsh(nom, chemin, publique, empreinte_cle(publique or chemin), texte, ok))
+    logger.debug("lister_cles: sortie | {} clé(s)", len(cles))
+    return cles
+
+
+def chemin_prive(cle: CleSsh) -> str:
+    """Chemin de clé privée à mettre dans ``IdentityFile``.
+
+    Pour une publique orpheline, le chemin sans ``.pub`` (convention ssh).
+    """
+    logger.debug("chemin_prive: entrée | {}", cle.nom)
+    chemin = cle.chemin.with_suffix("") if cle.est_publique else cle.chemin
+    logger.debug("chemin_prive: sortie | {}", chemin)
+    return str(chemin)
 
 
 # ---------------------------------------------------------------------------

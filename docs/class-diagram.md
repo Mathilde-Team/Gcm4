@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-105 modules · 178 classes · 359 fonctions publiques de module.
+106 modules · 181 classes · 363 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -32,7 +32,7 @@ flowchart TD
     g0 -->|1| g2
     g2 -->|54| g1
     g2 -->|4| g0
-    g2 -->|30| g4
+    g2 -->|31| g4
     g2 -->|5| g5
     g3 -->|2| g0
     g3 -->|2| g4
@@ -568,7 +568,7 @@ classDiagram
         +libvirt_nmap_scan(client, run_fn, log_fn)
         +check_port_open(client, run_fn, ip, port, timeout)
     }
-    class KeyPickerDialog {
+    class key_picker_dialog_KeyPickerDialog {
         <<Gtk.Dialog>>
         -dict __gsignals__
     }
@@ -793,6 +793,7 @@ classDiagram
 | `plugins.sftp.gtk4` | `plugins/sftp/gtk4.py` | Plugin SFTP de gcm4 (contrat v1, ``docs/plugins.md``) : navigateur de fichiers distant (#75). |
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
 | `plugins.ssh.core` | `plugins/ssh/core.py` | Logique métier SSH de gcm4, zéro dépendance GTK — parsing de ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf. |
+| `plugins.ssh.gtk4` | `plugins/ssh/gtk4.py` | Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, et à venir éditeur de ``~/.ssh/config`` et gestionnaire de clés. |
 | `plugins.telnet.core` | `plugins/telnet/core.py` | Logique du plugin telnet, sans GTK : commande et délai des commandes après connexion. |
 | `plugins.telnet.gtk4` | `plugins/telnet/gtk4.py` | Plugin telnet de gcm4 (contrat v1, ``docs/plugins.md``) : terminal VTE GTK4. |
 | `plugins.web` | `plugins/web/__init__.py` | Plugin web : console HTML5 (iLO, iDRAC, IMM…) ou toute interface web dans un onglet. |
@@ -1282,6 +1283,10 @@ classDiagram
         +backup_file(path, shared) Path None
         +migrate_ssh_hosts(gcm_conf, ssh_config, dry_run, only_names) dict~str, list~str~~
         +import_ssh_config(source, gcm_conf, dry_run) dict~str, list~str~~
+        +empreinte_cle(chemin) str
+        +permissions_cle(chemin) tuple~str, bool~
+        +lister_cles(dossier) list~CleSsh~
+        +chemin_prive(cle) str
         +main(argv) int
     }
     class SSHOption {
@@ -1322,6 +1327,24 @@ classDiagram
         +parse() SSHConfig
         +write(backup) None
         +validate() list~str~
+    }
+    class CleSsh {
+        <<dataclass>>
+        +str nom
+        +Path chemin
+        +Path None publique
+        +str empreinte
+        +str permissions
+        +bool permissions_ok
+        +est_publique() bool
+    }
+    class LigneCle {
+        <<Gtk.ListBoxRow>>
+    }
+    class plugins_ssh_gtk4_KeyPickerDialog {
+        <<Gtk.Window>>
+        +charger() None
+        +lignes() list~LigneCle~
     }
     class mod_plugins_telnet_core {
         <<module>>
