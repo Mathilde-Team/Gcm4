@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-102 modules · 176 classes · 352 fonctions publiques de module.
+103 modules · 184 classes · 366 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -32,8 +32,8 @@ flowchart TD
     g0 -->|1| g2
     g2 -->|54| g1
     g2 -->|4| g0
-    g2 -->|24| g4
-    g2 -->|5| g5
+    g2 -->|25| g4
+    g2 -->|6| g5
     g3 -->|2| g0
     g3 -->|2| g4
     g3 -->|1| g5
@@ -568,7 +568,7 @@ classDiagram
         +libvirt_nmap_scan(client, run_fn, log_fn)
         +check_port_open(client, run_fn, ip, port, timeout)
     }
-    class KeyPickerDialog {
+    class key_picker_dialog_KeyPickerDialog {
         <<Gtk.Dialog>>
         -dict __gsignals__
     }
@@ -793,6 +793,7 @@ classDiagram
 | `plugins.sftp.gtk4` | `plugins/sftp/gtk4.py` | Plugin SFTP de gcm4 (contrat v1, ``docs/plugins.md``) : navigateur de fichiers distant (#75). |
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
 | `plugins.ssh.core` | `plugins/ssh/core.py` | Logique métier SSH de gcm4, zéro dépendance GTK — parsing de ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf. |
+| `plugins.ssh.gtk4` | `plugins/ssh/gtk4.py` | Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, éditeur de ``~/.ssh/config`` (personnel + partagé), et à venir gestionnaire de clés. |
 | `plugins.telnet.core` | `plugins/telnet/core.py` | Logique du plugin telnet, sans GTK : commande et délai des commandes après connexion. |
 | `plugins.telnet.gtk4` | `plugins/telnet/gtk4.py` | Plugin telnet de gcm4 (contrat v1, ``docs/plugins.md``) : terminal VTE GTK4. |
 
@@ -1279,6 +1280,20 @@ classDiagram
         +backup_file(path, shared) Path None
         +migrate_ssh_hosts(gcm_conf, ssh_config, dry_run, only_names) dict~str, list~str~~
         +import_ssh_config(source, gcm_conf, dry_run) dict~str, list~str~~
+        +empreinte_cle(chemin) str
+        +permissions_cle(chemin) tuple~str, bool~
+        +lister_cles(dossier) list~CleSsh~
+        +chemin_prive(cle) str
+        +redirections_de(hote) list~Redirection~
+        +appliquer_redirections(hote, redirections) None
+        +nouvelle_redirection(type_, local, hote, distant) Redirection
+        +valeurs_formulaire(hote) dict~str, str~
+        +erreurs_formulaire(valeurs) dict~str, str~
+        +appliquer_formulaire(hote, valeurs) dict~str, str~
+        +commande_ssh(hote) str
+        +commande_test(alias) list~str~
+        +lignes_diff(original, courant) list~str~
+        +config_depuis_texte(texte) SSHConfig
         +main(argv) int
     }
     class SSHOption {
@@ -1319,6 +1334,58 @@ classDiagram
         +parse() SSHConfig
         +write(backup) None
         +validate() list~str~
+    }
+    class CleSsh {
+        <<dataclass>>
+        +str nom
+        +Path chemin
+        +Path None publique
+        +str empreinte
+        +str permissions
+        +bool permissions_ok
+        +est_publique() bool
+    }
+    class Redirection {
+        <<dataclass>>
+        +str type
+        +str local
+        +str hote
+        +str distant
+        +str brut
+    }
+    class LigneCle {
+        <<Gtk.ListBoxRow>>
+    }
+    class plugins_ssh_gtk4_KeyPickerDialog {
+        <<Gtk.Window>>
+        +charger() None
+        +lignes() list~LigneCle~
+    }
+    class LigneHote {
+        <<Gtk.ListBoxRow>>
+    }
+    class LigneRedirection {
+        <<Gtk.ListBoxRow>>
+    }
+    class SshConfigEditor {
+        <<Gtk.Window>>
+        +lignes() list~LigneHote~
+        +remplir_liste() None
+        +charger_hote(hote, cible) None
+        +valeurs() dict~str, str~
+        +appliquer_formulaire() bool
+        +synchroniser_brut() None
+        +synchroniser_modele() bool
+        +rafraichir_diff() None
+        +montrer_erreurs(erreurs) None
+        +valider() list~str~
+        +enregistrer() bool
+        +notifier(message) None
+    }
+    class SshTestDialog {
+        <<Gtk.Window>>
+        +ajouter(texte) None
+        +contenu() str
     }
     class mod_plugins_telnet_core {
         <<module>>
