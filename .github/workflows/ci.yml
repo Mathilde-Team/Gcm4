@@ -306,11 +306,14 @@ jobs:
       - name: GTK4, introspection, Xvfb
         # VTE GTK4 et expect : plugin telnet (tests/gtk4/test_plugin_telnet.py,
         # vrai terminal et vrai script expect, telnet simulé).
+        # WebKitGTK 6.0 : plugin web (#397, tests/gtk4/test_plugin_web_webkit.py,
+        # vraie page HTTP et HTTPS locale).
         run: |
           DEBIAN_FRONTEND=noninteractive apt-get update -qq
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
             git ca-certificates python3 python3-venv python3-gi \
-            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 expect xvfb xauth dbus-daemon
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 \
+            expect xvfb xauth dbus-daemon
 
       - name: Checkout du dépôt
         uses: actions/checkout@v7
@@ -397,9 +400,10 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt-get update -qq
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
             git ca-certificates python3 python3-venv python3-gi \
-            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 expect xvfb xauth
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 expect xvfb xauth
           dpkg-query -W -f='- ${Package} ${Version}\n' python3 python3-gi \
-            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 expect | tee -a "$GITHUB_STEP_SUMMARY"
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 expect \
+            | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Checkout du dépôt
         uses: actions/checkout@v7
@@ -521,6 +525,7 @@ jobs:
             --ignore=tests/gtk4/test_plugin_local.py \
             --ignore=tests/gtk4/test_plugin_serial.py \
             --ignore=tests/gtk4/test_plugin_ipmisol.py \
+            --ignore=tests/gtk4/test_plugin_web_webkit.py \
             --ignore=tests/gtk4/test_host_dialog_local.py | tee /tmp/rocky9.txt
           # test_plugin_local.py, test_plugin_serial.py,
           # test_plugin_ipmisol.py et
@@ -528,7 +533,9 @@ jobs:
           # test_plugin_telnet.py : VTE GTK4 (Vte-3.91) n'existe pas sur
           # Rocky 9 (#223), le module gcm4.ui.terminal n'y est pas
           # importable ; couvert par le job GTK4 (ubuntu:26.04, VTE
-          # installé).
+          # installé). test_plugin_web_webkit.py : WebKitGTK 6.0 n'est pas
+          # dans les dépôts de base de Rocky 9 ; le repli navigateur du
+          # plugin web y reste testé (test_plugin_web.py, #397).
           sautes=$(grep -c '^SKIPPED' /tmp/rocky9.txt || true)
           echo "### Tests gcm4 sautés sur Rocky 9 : ${sautes}" >> "$GITHUB_STEP_SUMMARY"
           if [ "${sautes}" != "0" ]; then
