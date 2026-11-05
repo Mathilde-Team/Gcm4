@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-103 modules · 184 classes · 366 fonctions publiques de module.
+103 modules · 192 classes · 393 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -1294,6 +1294,33 @@ classDiagram
         +commande_test(alias) list~str~
         +lignes_diff(original, courant) list~str~
         +config_depuis_texte(texte) SSHConfig
+        +commentaire_par_defaut() str
+        +empreinte_et_type(chemin) tuple~str, str~
+        +date_creation(chemin) datetime None
+        +info_certificat(chemin) InfoCertificat
+        +details_cle(cle) DetailsCle
+        +empreinte_ligne(type_, base64_cle) str
+        +lire_known_hosts(texte) list~EntreeKnownHosts~
+        +lire_authorized_keys(texte) list~EntreeAuthorizedKeys~
+        +est_ligne_cle_publique(ligne) bool
+        +retirer_ligne(texte, brut) str None
+        +basculer_ligne(texte, numero, brut) str None
+        +ajouter_ligne(texte, ligne) str
+        +hotes_ssh_config(chemin) list~str~
+        +analyser_cible(texte) CibleSsh None
+        +tester_known_hosts(texte, hotes) list~tuple~str, bool, str~~
+        +nom_libre(dossier, nom) Path
+        +generer_cle(chemin, type_, taille, commentaire, phrase) None
+        +signer_cle(publique, ca, identite, principaux, validite) Path
+        +changer_phrase(chemin, ancienne, nouvelle) None
+        +cle_dans_agent(publique) bool
+        +ajouter_agent(chemin) None
+        +retirer_agent(publique) None
+        +importer_paire(source, dossier, exiger_publique) Path
+        +renommer_cle(cle, nouveau) None
+        +supprimer_cle(cle) None
+        +lire_config_ca(chemin) Path None
+        +ecrire_config_ca(chemin, ca) bool
         +main(argv) int
     }
     class SSHOption {
@@ -1352,6 +1379,62 @@ classDiagram
         +str hote
         +str distant
         +str brut
+    }
+    class ErreurCle {
+        <<Exception>>
+    }
+    class InfoCertificat {
+        <<dataclass>>
+        +str None fin
+        +bool expire
+        +str None ca
+    }
+    class DetailsCle {
+        <<dataclass>>
+        +str type
+        +str empreinte
+        +datetime None creation
+        +InfoCertificat None certificat
+    }
+    class EntreeKnownHosts {
+        <<dataclass>>
+        +int ligne
+        +str brut
+        +str marqueur
+        +str hotes
+        +bool hache
+        +str type
+        +str empreinte
+        +str commentaire
+    }
+    class EntreeAuthorizedKeys {
+        <<dataclass>>
+        +int ligne
+        +str brut
+        +bool active
+        +str options
+        +str type
+        +str empreinte
+        +str commentaire
+    }
+    class CibleSsh {
+        <<dataclass>>
+        +str utilisateur
+        +str hote
+        +int port
+        +affichage() str
+        +commande(distante) list~str~
+    }
+    class FichiersLocaux {
+        +utilisateur() str
+        +lire(nom) str None
+        +ecrire(nom, texte, mode) bool
+    }
+    class FichiersDistants {
+        +utilisateur() str
+        +tester() str None
+        +lire(nom) str None
+        +ecrire(nom, texte, mode) bool
     }
     class LigneCle {
         <<Gtk.ListBoxRow>>
