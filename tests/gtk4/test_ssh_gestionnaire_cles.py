@@ -886,6 +886,8 @@ def test_tester_known_hosts(module, ouvrir, dossier):
         ("hote2", False),
     ]
     assert "1/2" in resultats.get_title()
+    fenetre.close()  # dialogue encore affiché : détruit avant la fenêtre (GTK 4.8)
+    assert not resultats.get_visible() and fenetre.dialogue is None
 
 
 def test_hotes_candidats(module, ouvrir, dossier):

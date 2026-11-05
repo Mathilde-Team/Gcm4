@@ -2165,9 +2165,17 @@ class SshKeyManager(Gtk.Window):
         logger.debug("en_fond: sortie")
 
     def _on_fermeture(self, _fenetre: Gtk.Window) -> bool:
-        """Les travaux encore en cours n'afficheront plus rien."""
+        """Les travaux encore en cours n'afficheront plus rien ; le dialogue ouvert est fermé.
+
+        Le dialogue est détruit avant la fenêtre : laissé à
+        ``destroy_with_parent``, un dialogue encore affiché (résultats du test
+        de ``known_hosts``…) fait planter GTK 4.8 (Debian 12).
+        """
         logger.debug("_on_fermeture: entrée | {} travail(aux)", self.travaux)
         self.ferme = True
+        dialogue, self.dialogue = self.dialogue, None
+        if isinstance(dialogue, Gtk.Window) and dialogue.get_visible():
+            dialogue.destroy()
         logger.debug("_on_fermeture: sortie")
         return False
 
