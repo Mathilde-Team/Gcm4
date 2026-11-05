@@ -198,6 +198,17 @@ Seuls les plugins l'importent, jamais la base (vérifié par
 #223), gcm4 démarre et le plugin est signalé en erreur dans Préférences >
 Extensions.
 
+## Plugins sans terminal
+
+Le plugin sftp (#75) et le plugin web (#397) construisent leur propre
+onglet : leur session est une boîte GTK (`widget`) avec une barre d'outils.
+Le plugin web montre le modèle d'une **dépendance facultative** : WebKitGTK
+6.0 n'est importé qu'à l'ouverture d'un onglet (`charger_webkit()`), jamais
+au chargement du plugin. Là où le paquet `gir1.2-webkit-6.0` manque, le
+plugin se charge quand même et l'onglet ouvre l'URL dans le navigateur par
+défaut. Il déclare aussi `requires_address` à `False` : l'adresse est dans
+l'option `web_url`.
+
 ## Règles
 
 - **Mot de passe** : ne jamais écrire `host.password` dans le journal. Il est
