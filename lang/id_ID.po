@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:23+0000\n"
+"POT-Creation-Date: 2026-11-05 06:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -909,7 +909,7 @@ msgstr ""
 msgid "🔑 Pick…"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid ""
 "<i>No SSH key found in ~/.ssh/.\n"
 "Click <b>Generate…</b> to create one.</i>"
@@ -925,7 +925,7 @@ msgstr ""
 msgid "Key name"
 msgstr "Nama VM"
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "Keys found in <b>~/.ssh/</b> — select one (or several with Ctrl/Shift-click) then click <i>Use</i>:"
 msgstr ""
 
@@ -933,31 +933,31 @@ msgstr ""
 msgid "Permissions"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "Select SSH Key"
 msgstr ""
 
-#: key_picker_dialog.py ssh_key_manager_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py ssh_key_manager_dialog.py
 #, fuzzy
 #| msgid "Cancel"
 msgid "_Cancel"
 msgstr "Batal"
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "_Use"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Private key"
 msgid "private"
 msgstr "Kunci privat"
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "public"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "⚙ Generate…"
 msgstr ""
 
@@ -2911,6 +2911,10 @@ msgstr ""
 #, python-brace-format
 msgid "{path}: {count} items"
 msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Permissions too open: ssh will refuse this key"
+msgstr "Izin terlalu terbuka: ssh akan menolak kunci ini"
 
 #: src/gcm4/app.py
 msgid "The old configuration is intact: fix the problem (permissions, disk space), then start gcm4 again."
