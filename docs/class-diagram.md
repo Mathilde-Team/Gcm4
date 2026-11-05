@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-102 modules · 176 classes · 352 fonctions publiques de module.
+105 modules · 178 classes · 359 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -32,7 +32,7 @@ flowchart TD
     g0 -->|1| g2
     g2 -->|54| g1
     g2 -->|4| g0
-    g2 -->|24| g4
+    g2 -->|30| g4
     g2 -->|5| g5
     g3 -->|2| g0
     g3 -->|2| g4
@@ -795,6 +795,9 @@ classDiagram
 | `plugins.ssh.core` | `plugins/ssh/core.py` | Logique métier SSH de gcm4, zéro dépendance GTK — parsing de ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf. |
 | `plugins.telnet.core` | `plugins/telnet/core.py` | Logique du plugin telnet, sans GTK : commande et délai des commandes après connexion. |
 | `plugins.telnet.gtk4` | `plugins/telnet/gtk4.py` | Plugin telnet de gcm4 (contrat v1, ``docs/plugins.md``) : terminal VTE GTK4. |
+| `plugins.web` | `plugins/web/__init__.py` | Plugin web : console HTML5 (iLO, iDRAC, IMM…) ou toute interface web dans un onglet. |
+| `plugins.web.core` | `plugins/web/core.py` | Partie métier du plugin web (sans GTK) — portage #179, #397. |
+| `plugins.web.gtk4` | `plugins/web/gtk4.py` | Plugin web de gcm4 (contrat v1, ``docs/plugins.md``) : console web dans un onglet (#397). |
 
 ```mermaid
 classDiagram
@@ -1117,7 +1120,7 @@ classDiagram
         <<Gtk.Box>>
         +connect_web()
     }
-    class WebPlugin {
+    class plugins_plugin_web_WebPlugin {
         +build_tab(host, get_password) Gtk.Widget
         +build_edit_page() Gtk.Widget
         +load_host_fields(host) None
@@ -1125,7 +1128,7 @@ classDiagram
         +host_fields() list~tuple~str, object~~
         +validate() list~str~
     }
-    plugins_plugin_base_ConnectionPlugin <|-- WebPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_web_WebPlugin
     class mod_plugins_pluginvnc2_vnc_tab {
         <<module>>
         +build_vnc_tab_label(tab) Gtk.Box
@@ -1334,6 +1337,33 @@ classDiagram
         +open(host) TelnetSession
     }
     plugins_plugin_base_ConnectionPlugin <|-- plugins_telnet_gtk4_TelnetPlugin
+    class mod_plugins_web_core {
+        <<module>>
+        +options_defaut() dict~str, str~
+        +ecrire_booleen(valeur) str
+        +ignorer_certificat(options) bool
+        +url(options) str
+        +decouper(adresse) tuple~str, str~
+        +valider(options) list~FieldError~
+    }
+    class mod_plugins_web_gtk4 {
+        <<module>>
+        +charger_webkit() Any None
+    }
+    class SessionWeb {
+        +charger() None
+        +ouvrir_navigateur() bool
+        +close() None
+    }
+    class plugins_web_gtk4_WebPlugin {
+        +default_port(protocol) int None
+        +requires_address(protocol) bool
+        +default_options(protocol) dict~str, str~
+        +validate_options(protocol, options) list~FieldError~
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) SessionWeb
+    }
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_web_gtk4_WebPlugin
 ```
 
 ## gcm4

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:23+0000\n"
+"POT-Creation-Date: 2026-11-05 06:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -954,7 +954,7 @@ msgstr ""
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
 #: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/plugin_vnc.py plugins/plugin_web.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr ""
 
@@ -1348,6 +1348,7 @@ msgstr ""
 
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
 #: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/web/gtk4.py
 msgid "Connecting…"
 msgstr ""
 
@@ -1682,7 +1683,7 @@ msgstr ""
 msgid "Déploiement Netmiko…"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/web/gtk4.py
 #, python-brace-format
 msgid "Error: {msg}"
 msgstr ""
@@ -1723,7 +1724,7 @@ msgstr ""
 msgid "Height"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_web.py
+#: plugins/plugin_rdp.py plugins/plugin_web.py plugins/web/gtk4.py
 msgid "Ignore certificate errors"
 msgstr ""
 
@@ -2473,27 +2474,27 @@ msgstr ""
 msgid "Error: URL not configured"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "Opened in the system browser"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "Error: could not open the URL"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "Web"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "URL"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "BMC web console (iLO, iDRAC, IMM…) or any web interface (Proxmox, switch, TrueNAS…)"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "Useful for self-signed certificates on BMC interfaces"
 msgstr ""
 
@@ -2501,7 +2502,7 @@ msgstr ""
 msgid "URL is required for a Web connection."
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/core.py
 msgid "URL is required."
 msgstr ""
 
@@ -2525,7 +2526,7 @@ msgstr ""
 msgid "Parent folder"
 msgstr ""
 
-#: plugins/sftp/gtk4.py
+#: plugins/sftp/gtk4.py plugins/web/gtk4.py
 msgid "Refresh"
 msgstr ""
 
@@ -2703,6 +2704,28 @@ msgstr ""
 
 #: plugins/sftp/gtk4.py
 msgid "No address"
+msgstr ""
+
+#: plugins/web/core.py
+msgid "The URL must start with http:// or https://"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Open in the system browser"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid ""
+"WebKitGTK 6.0 unavailable (gir1.2-webkit-6.0 package missing).\n"
+"The web console opens in the system browser."
+msgstr ""
+
+#: plugins/web/gtk4.py src/gcm4/ui/preferences.py
+msgid "Loaded"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Certificate"
 msgstr ""
 
 #: src/gcm4/app.py
@@ -3619,10 +3642,6 @@ msgstr ""
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
-msgstr ""
-
-#: src/gcm4/ui/preferences.py
-msgid "Loaded"
 msgstr ""
 
 #: src/gcm4/ui/preferences.py
