@@ -24,7 +24,7 @@ jobs:
         run: |
           echo "## Vérification des fichiers de suivi" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          for f in docs/roadmap.md docs/issues-summary.md docs/features-backlog.md; do
+          for f in docs/roadmap.md docs/features-backlog.md; do
             if [ -f "$f" ]; then
               echo "✅ \`$f\` présent" >> "$GITHUB_STEP_SUMMARY"
             else
@@ -36,48 +36,31 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const { data: openIssues } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              per_page: 100
-            });
-
-            const { data: closedIssues } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'closed',
-              per_page: 100
-            });
-
-            // Détecter les labels de priorité présents
-            const priorityLabels = ['P0-fondations', 'P1-différenciation', 'P2-exploitation', 'P3-applicatif', 'P4-admin', 'haute', 'moyenne', 'faible', 'bloqué', 'décision-produit'];
-            const priorityCounts = {};
-            for (const label of priorityLabels) {
-              priorityCounts[label] = openIssues.filter(i => i.labels.some(l => l.name === label)).length;
-            }
-
-            const diffLabels = ['diff-1-faible', 'diff-2-moyenne', 'diff-3-notable', 'diff-4-elevee', 'diff-5-expert'];
-            const diffCounts = {};
-            for (const label of diffLabels) {
-              diffCounts[label] = openIssues.filter(i => i.labels.some(l => l.name === label)).length;
-            }
-
-            const noPriority = openIssues.filter(i =>
-              !i.labels.some(l => priorityLabels.includes(l.name))
-            );
+            // #107 : toutes les pages (github.paginate, pas seulement les 100
+            // premiers résultats) et sans les PR, que l'API issues renvoie aussi.
+            const depot = { owner: context.repo.owner, repo: context.repo.repo, per_page: 100 };
+            const sansPR = (liste) => liste.filter(i => !i.pull_request);
+            const openIssues = sansPR(await github.paginate(github.rest.issues.listForRepo, { ...depot, state: 'open' }));
+            const closedIssues = sansPR(await github.paginate(github.rest.issues.listForRepo, { ...depot, state: 'closed' }));
 
             let prs = [];
             try {
-              const prResult = await github.rest.pulls.list({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                state: 'open'
-              });
-              prs = prResult.data;
+              prs = await github.paginate(github.rest.pulls.list, { ...depot, state: 'open' });
             } catch (e) {
-              // ignore
+              core.warning(`Liste des PR ouvertes indisponible : ${e.message}`);
             }
+
+            // Libellés réellement définis dans le dépôt (#107).
+            const familles = [
+              ['Priorité', ['P0-critique', 'P1-haute', 'P2-moyenne', 'P3-faible', 'P4-bloquée']],
+              ['Importance', ['haute', 'moyenne', 'faible']],
+              ['Dépôt suivi', ['track-gcm4', 'track-vnc', 'track-rdp']],
+              ['État', ['bloqué', 'décision-produit', 'question', 'HUMAIN']],
+            ];
+            const aLabel = (issue, nom) => issue.labels.some(l => (typeof l === 'string' ? l : l.name) === nom);
+            const compter = (nom) => openIssues.filter(i => aLabel(i, nom)).length;
+            const priorites = familles[0][1];
+            const noPriority = openIssues.filter(i => !priorites.some(p => aLabel(i, p)));
 
             const lines = [];
             lines.push(`## Rapport d'avancement — ${context.repo.owner}/${context.repo.repo}`);
@@ -94,29 +77,18 @@ jobs:
             lines.push(`| PRs ouvertes | ${prs.length} |`);
             lines.push('');
 
-            // Section priorité
-            const activePriorities = priorityLabels.filter(l => priorityCounts[l] > 0);
-            if (activePriorities.length > 0) {
-              lines.push('### Issues ouvertes par priorité');
+            for (const [titre, noms] of familles) {
+              const actifs = noms.filter(n => compter(n) > 0);
+              if (actifs.length === 0) continue;
+              lines.push(`### Issues ouvertes — ${titre}`);
               lines.push('');
-              lines.push('| Priorité | Nombre |');
+              lines.push(`| ${titre} | Nombre |`);
               lines.push('|----------|--------|');
-              for (const l of activePriorities) {
-                lines.push(`| ${l} | ${priorityCounts[l]} |`);
+              for (const n of actifs) {
+                lines.push(`| ${n} | ${compter(n)} |`);
               }
-              lines.push(`| Sans priorité | ${noPriority.length} |`);
-              lines.push('');
-            }
-
-            // Section difficulté
-            const activeDiffs = diffLabels.filter(l => diffCounts[l] > 0);
-            if (activeDiffs.length > 0) {
-              lines.push('### Issues ouvertes par difficulté');
-              lines.push('');
-              lines.push('| Difficulté | Nombre |');
-              lines.push('|------------|--------|');
-              for (const l of activeDiffs) {
-                lines.push(`| ${l} | ${diffCounts[l]} |`);
+              if (titre === 'Priorité') {
+                lines.push(`| Sans priorité | ${noPriority.length} |`);
               }
               lines.push('');
             }
