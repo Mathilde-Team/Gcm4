@@ -106,6 +106,43 @@ __all__ = [
     "commande_test",
     "lignes_diff",
     "config_depuis_texte",
+    # gestionnaire de clés (#97)
+    "TYPES_CLE_PUBLIQUE",
+    "ErreurCle",
+    "InfoCertificat",
+    "DetailsCle",
+    "EntreeKnownHosts",
+    "EntreeAuthorizedKeys",
+    "CibleSsh",
+    "FichiersLocaux",
+    "FichiersDistants",
+    "commentaire_par_defaut",
+    "empreinte_et_type",
+    "date_creation",
+    "info_certificat",
+    "details_cle",
+    "empreinte_ligne",
+    "lire_known_hosts",
+    "lire_authorized_keys",
+    "est_ligne_cle_publique",
+    "retirer_ligne",
+    "basculer_ligne",
+    "ajouter_ligne",
+    "hotes_ssh_config",
+    "analyser_cible",
+    "tester_known_hosts",
+    "nom_libre",
+    "generer_cle",
+    "signer_cle",
+    "changer_phrase",
+    "cle_dans_agent",
+    "ajouter_agent",
+    "retirer_agent",
+    "importer_paire",
+    "renommer_cle",
+    "supprimer_cle",
+    "lire_config_ca",
+    "ecrire_config_ca",
 ]
 
 
@@ -1711,6 +1748,10 @@ NOMS_EXCLUS: frozenset[str] = frozenset(
     {"config", "known_hosts", "authorized_keys", "environment"}
 )
 
+#: Préfixes des copies de sauvegarde (``known_hosts.old``, ``config.bak``…),
+#: qui ne sont pas des clés.
+_PREFIXES_EXCLUS: tuple[str, ...] = ("config.", "known_hosts.", "authorized_keys.")
+
 
 @dataclass(frozen=True)
 class CleSsh:
@@ -1809,7 +1850,7 @@ def lister_cles(dossier: Path | None = None) -> list[CleSsh]:
     cles: list[CleSsh] = []
     for chemin in sorted(dossier.iterdir()):
         nom = chemin.name
-        if not chemin.is_file() or nom in NOMS_EXCLUS or nom.startswith("."):
+        if not chemin.is_file() or nom in NOMS_EXCLUS or nom.startswith((".",) + _PREFIXES_EXCLUS):
             continue
         if nom.endswith(".pub"):
             if chemin.with_suffix("").exists():
@@ -2054,6 +2095,817 @@ def config_depuis_texte(texte: str) -> SSHConfig:
         config = analyseur.parse()
     logger.debug("config_depuis_texte: sortie | {} hôte(s)", len(config.hosts))
     return config
+
+
+# ---------------------------------------------------------------------------
+# Gestionnaire de clés (GTK4, #97) : clés, certificats, known_hosts,
+# authorized_keys, cible distante, CA de signature — sans GTK
+# ---------------------------------------------------------------------------
+
+#: Types de clé reconnus dans ``known_hosts`` et ``authorized_keys``.
+TYPES_CLE_PUBLIQUE: tuple[str, ...] = (
+    "ssh-rsa",
+    "ssh-ed25519",
+    "ssh-dss",
+    "ecdsa-sha2-nistp256",
+    "ecdsa-sha2-nistp384",
+    "ecdsa-sha2-nistp521",
+    "sk-ssh-ed25519@openssh.com",
+    "sk-ecdsa-sha2-nistp256@openssh.com",
+)
+
+_CERT_VALIDITE_RE = re.compile(r"Valid: (forever|from (\S+) to (\S+))")
+_CERT_CA_RE = re.compile(r"Signing CA:\s+(\S+)\s+(SHA256:\S+)")
+_CIBLE_RE = re.compile(r"^([^@\s]+)@([^@\s:]+)(?::(\d+))?$")
+_HOST_RE = re.compile(r"^\s*Host\s+(.+)$", re.IGNORECASE)
+
+
+class ErreurCle(Exception):
+    """Échec d'une opération sur les clés.
+
+    Attributes:
+        code: ``"absent"`` (outil introuvable), ``"echec"`` (code retour non
+            nul), ``"delai"`` (délai dépassé), ``"existe"`` (fichier déjà
+            présent), ``"nom"`` (nom invalide), ``"systeme"`` (erreur
+            d'entrée/sortie).
+        detail: Message de l'outil, nom du fichier en conflit, ou erreur système.
+    """
+
+    def __init__(self, code: str, detail: str = "") -> None:
+        """Erreur ``code`` avec son ``detail``."""
+        logger.debug("ErreurCle.__init__: entrée | {}", code)
+        super().__init__(f"{code}: {detail}")
+        self.code = code
+        self.detail = detail
+        logger.debug("ErreurCle.__init__: sortie")
+
+
+def _executer(
+    commande: list[str], delai: float, entree: str | None = None
+) -> subprocess.CompletedProcess:
+    """Lance ``commande`` ; ``ErreurCle`` si elle manque, dépasse ``delai`` ou échoue.
+
+    Les arguments ne sont jamais journalisés (phrases de passe).
+    """
+    logger.debug("_executer: entrée | {}", commande[0])
+    try:
+        resultat = subprocess.run(
+            commande,
+            input=entree,
+            stdin=None if entree is not None else subprocess.DEVNULL,
+            capture_output=True,
+            text=True,
+            timeout=delai,
+            check=False,
+        )
+    except FileNotFoundError as exc:
+        logger.warning("_executer: {} introuvable : {}", commande[0], exc)
+        raise ErreurCle("absent", commande[0]) from exc
+    except subprocess.TimeoutExpired as exc:
+        logger.warning("_executer: {} au-delà de {} s", commande[0], delai)
+        raise ErreurCle("delai", commande[0]) from exc
+    if resultat.returncode != 0:
+        logger.warning(
+            "_executer: {} rc={} : {}", commande[0], resultat.returncode, resultat.stderr.strip()
+        )
+        raise ErreurCle("echec", resultat.stderr.strip())
+    logger.debug("_executer: sortie | rc=0")
+    return resultat
+
+
+def commentaire_par_defaut() -> str:
+    """Commentaire ``utilisateur@machine`` proposé à ``ssh-keygen -C``."""
+    logger.debug("commentaire_par_defaut: entrée")
+    try:
+        utilisateur = getpass.getuser()
+    except (KeyError, OSError) as exc:
+        logger.debug("commentaire_par_defaut: getuser impossible : {}", exc)
+        utilisateur = os.environ.get("USER") or "user"
+    import socket  # noqa: PLC0415 (seul usage)
+
+    commentaire = f"{utilisateur}@{socket.gethostname() or 'localhost'}"
+    logger.debug("commentaire_par_defaut: sortie")
+    return commentaire
+
+
+def empreinte_et_type(chemin: Path) -> tuple[str, str]:
+    """``(empreinte SHA256 complète, type)`` d'un fichier de clé, ou ``("", "")``.
+
+    Le type est celui affiché par ``ssh-keygen -lf`` (``ED25519``, ``RSA``…).
+    """
+    logger.debug("empreinte_et_type: entrée | {}", chemin)
+    try:
+        resultat = _executer(["ssh-keygen", "-lf", str(chemin)], 3)
+    except ErreurCle as exc:
+        logger.debug("empreinte_et_type: sortie | indéterminable ({})", exc.code)
+        return ("", "")
+    morceaux = resultat.stdout.strip().split()
+    empreinte = morceaux[1] if len(morceaux) >= 2 else ""
+    type_ = morceaux[-1].strip("()") if morceaux and morceaux[-1].startswith("(") else ""
+    logger.debug("empreinte_et_type: sortie | {}", type_)
+    return (empreinte, type_)
+
+
+def date_creation(chemin: Path) -> datetime | None:
+    """Date de création (``stat -c %W`` si le système de fichiers la connaît, sinon ctime)."""
+    logger.debug("date_creation: entrée | {}", chemin)
+    try:
+        brut = _executer(["stat", "-c", "%W", str(chemin)], 3).stdout.strip()
+    except ErreurCle as exc:
+        logger.debug("date_creation: stat indisponible ({})", exc.code)
+        brut = ""
+    if brut.isdigit() and int(brut) > 0:
+        logger.debug("date_creation: sortie | naissance")
+        return datetime.fromtimestamp(int(brut))
+    try:
+        date = datetime.fromtimestamp(chemin.stat().st_ctime)
+    except OSError as exc:
+        logger.debug("date_creation: sortie | illisible ({})", exc)
+        return None
+    logger.debug("date_creation: sortie | ctime")
+    return date
+
+
+@dataclass(frozen=True)
+class InfoCertificat:
+    """Validité et CA d'un certificat OpenSSH (``*-cert.pub``).
+
+    Attributes:
+        fin: Fin de validité (``"2027-11-05T10:00:00"``), ``None`` si
+            ``forever``, ``"?"`` si illisible.
+        expire: Fin de validité passée.
+        ca: ``"ED25519 SHA256:…"`` (empreinte abrégée) ou ``None`` si inconnue.
+    """
+
+    fin: str | None
+    expire: bool
+    ca: str | None
+
+
+def info_certificat(chemin: Path) -> InfoCertificat:
+    """Lit un certificat avec ``ssh-keygen -L`` ; ``fin="?"`` s'il est illisible."""
+    logger.debug("info_certificat: entrée | {}", chemin)
+    try:
+        sortie = _executer(["ssh-keygen", "-L", "-f", str(chemin)], 3).stdout
+    except ErreurCle as exc:
+        logger.debug("info_certificat: sortie | illisible ({})", exc.code)
+        return InfoCertificat("?", False, None)
+    ca = _CERT_CA_RE.search(sortie)
+    signataire = f"{ca.group(1)} {ca.group(2)[:24]}" if ca else None
+    validite = _CERT_VALIDITE_RE.search(sortie)
+    if validite is None:
+        logger.debug("info_certificat: sortie | validité absente")
+        return InfoCertificat("?", False, signataire)
+    if validite.group(1) == "forever":
+        logger.debug("info_certificat: sortie | perpétuel")
+        return InfoCertificat(None, False, signataire)
+    fin = validite.group(3)
+    try:
+        expire = datetime.strptime(fin, "%Y-%m-%dT%H:%M:%S") < datetime.now()
+    except ValueError as exc:
+        logger.debug("info_certificat: date {} illisible : {}", fin, exc)
+        expire = False
+    logger.debug("info_certificat: sortie | fin={} expiré={}", fin, expire)
+    return InfoCertificat(fin, expire, signataire)
+
+
+@dataclass(frozen=True)
+class DetailsCle:
+    """Colonnes du gestionnaire de clés en plus de :class:`CleSsh`.
+
+    Attributes:
+        type: ``ED25519``, ``RSA``… ou ``""``.
+        empreinte: Empreinte SHA256 complète ou ``""``.
+        creation: Date de création ou ``None``.
+        certificat: Certificat ``<clé>-cert.pub`` (ou la publique elle-même
+            si c'est un certificat), sinon ``None``.
+    """
+
+    type: str
+    empreinte: str
+    creation: datetime | None
+    certificat: InfoCertificat | None
+
+
+def details_cle(cle: CleSsh) -> DetailsCle:
+    """Type, empreinte complète, date de création et certificat de ``cle``."""
+    logger.debug("details_cle: entrée | {}", cle.nom)
+    empreinte, type_ = empreinte_et_type(cle.chemin)
+    if cle.est_publique:
+        certificat = cle.chemin if cle.nom.endswith("-cert.pub") else None
+    else:
+        candidat = cle.chemin.with_name(cle.nom + "-cert.pub")
+        certificat = candidat if candidat.exists() else None
+    info = info_certificat(certificat) if certificat is not None else None
+    details = DetailsCle(type_, empreinte, date_creation(cle.chemin), info)
+    logger.debug("details_cle: sortie | certificat={}", info is not None)
+    return details
+
+
+def empreinte_ligne(type_: str, base64_cle: str) -> str:
+    """Empreinte ``SHA256:…`` d'une clé publique en base64, calculée sans ``ssh-keygen``.
+
+    Identique à ``ssh-keygen -lf`` ; ``""`` si le base64 est invalide.
+    """
+    logger.debug("empreinte_ligne: entrée | {}", type_)
+    import base64  # noqa: PLC0415
+    import binascii  # noqa: PLC0415
+    import hashlib  # noqa: PLC0415
+
+    try:
+        brut = base64.b64decode(base64_cle, validate=True)
+    except (binascii.Error, ValueError) as exc:
+        logger.debug("empreinte_ligne: sortie | base64 invalide ({})", exc)
+        return ""
+    empreinte = "SHA256:" + base64.b64encode(hashlib.sha256(brut).digest()).decode().rstrip("=")
+    logger.debug("empreinte_ligne: sortie")
+    return empreinte
+
+
+@dataclass(frozen=True)
+class EntreeKnownHosts:
+    """Une ligne utile de ``known_hosts``.
+
+    Attributes:
+        ligne: Numéro de ligne (à partir de 1).
+        brut: Ligne telle qu'écrite (pour la retrouver à la suppression).
+        marqueur: ``@cert-authority``, ``@revoked`` ou ``""``.
+        hotes: Champ des hôtes (vide si haché).
+        hache: Hôtes hachés (``|1|…``).
+        type: Type de clé.
+        empreinte: Empreinte SHA256 ou ``""``.
+        commentaire: Fin de ligne après la clé.
+    """
+
+    ligne: int
+    brut: str
+    marqueur: str
+    hotes: str
+    hache: bool
+    type: str
+    empreinte: str
+    commentaire: str
+
+
+def lire_known_hosts(texte: str) -> list[EntreeKnownHosts]:
+    """Entrées de ``known_hosts`` ; commentaires, lignes vides et incomplètes ignorés."""
+    logger.debug("lire_known_hosts: entrée | {} caractère(s)", len(texte))
+    entrees: list[EntreeKnownHosts] = []
+    for numero, brut in enumerate(texte.splitlines(), start=1):
+        reste = brut.strip()
+        if not reste or reste.startswith("#"):
+            continue
+        marqueur = ""
+        if reste.startswith("@"):
+            marqueur, _sep, reste = reste.partition(" ")
+            reste = reste.strip()
+        morceaux = reste.split(maxsplit=3)
+        if len(morceaux) < 3:
+            continue
+        hotes, type_, base64_cle = morceaux[:3]
+        hache = hotes.startswith("|1|")
+        entrees.append(
+            EntreeKnownHosts(
+                numero,
+                brut,
+                marqueur,
+                "" if hache else hotes,
+                hache,
+                type_,
+                empreinte_ligne(type_, base64_cle),
+                morceaux[3] if len(morceaux) > 3 else "",
+            )
+        )
+    logger.debug("lire_known_hosts: sortie | {} entrée(s)", len(entrees))
+    return entrees
+
+
+@dataclass(frozen=True)
+class EntreeAuthorizedKeys:
+    """Une clé de ``authorized_keys``, active ou désactivée (commentée).
+
+    Attributes:
+        ligne: Numéro de ligne (à partir de 1).
+        brut: Ligne telle qu'écrite.
+        active: ``False`` si la ligne est commentée.
+        options: Options avant le type (``from="…",no-pty``).
+        type: Type de clé.
+        empreinte: Empreinte SHA256 ou ``""``.
+        commentaire: Fin de ligne après la clé.
+    """
+
+    ligne: int
+    brut: str
+    active: bool
+    options: str
+    type: str
+    empreinte: str
+    commentaire: str
+
+
+def lire_authorized_keys(texte: str) -> list[EntreeAuthorizedKeys]:
+    """Clés de ``authorized_keys`` : une ligne commentée contenant une clé est désactivée.
+
+    Analyse par mots : une option contenant une espace entre guillemets
+    (``command="a b"``) est coupée, mais la ligne reste reconnue.
+    """
+    logger.debug("lire_authorized_keys: entrée | {} caractère(s)", len(texte))
+    entrees: list[EntreeAuthorizedKeys] = []
+    for numero, brut in enumerate(texte.splitlines(), start=1):
+        ligne = brut.strip()
+        active = not ligne.startswith("#")
+        if not active:
+            ligne = ligne[1:].strip()
+        mots = ligne.split()
+        rang = next((i for i, mot in enumerate(mots) if mot in TYPES_CLE_PUBLIQUE), None)
+        if rang is None:
+            continue
+        type_ = mots[rang]
+        base64_cle = mots[rang + 1] if len(mots) > rang + 1 else ""
+        entrees.append(
+            EntreeAuthorizedKeys(
+                numero,
+                brut,
+                active,
+                " ".join(mots[:rang]),
+                type_,
+                empreinte_ligne(type_, base64_cle) if base64_cle else "",
+                " ".join(mots[rang + 2 :]),
+            )
+        )
+    logger.debug("lire_authorized_keys: sortie | {} entrée(s)", len(entrees))
+    return entrees
+
+
+def est_ligne_cle_publique(ligne: str) -> bool:
+    """La ligne contient un type de clé connu suivi d'un base64 valide."""
+    logger.debug("est_ligne_cle_publique: entrée")
+    entrees = lire_authorized_keys(ligne.strip())
+    valide = len(entrees) == 1 and entrees[0].active and bool(entrees[0].empreinte)
+    logger.debug("est_ligne_cle_publique: sortie | {}", valide)
+    return valide
+
+
+def _joindre(lignes: list[str]) -> str:
+    """Lignes → texte terminé par un saut de ligne (vide si aucune ligne)."""
+    logger.debug("_joindre: entrée | {}", len(lignes))
+    texte = "\n".join(lignes) + ("\n" if lignes else "")
+    logger.debug("_joindre: sortie")
+    return texte
+
+
+def retirer_ligne(texte: str, brut: str) -> str | None:
+    """Texte sans les lignes égales à ``brut`` ; ``None`` si aucune (fichier modifié entre-temps)."""
+    logger.debug("retirer_ligne: entrée")
+    lignes = texte.splitlines()
+    restantes = [ligne for ligne in lignes if ligne != brut]
+    if len(restantes) == len(lignes):
+        logger.debug("retirer_ligne: sortie | introuvable")
+        return None
+    logger.debug("retirer_ligne: sortie | {} retirée(s)", len(lignes) - len(restantes))
+    return _joindre(restantes)
+
+
+def basculer_ligne(texte: str, numero: int, brut: str) -> str | None:
+    """Commente ou décommente la ligne ``numero`` si elle vaut toujours ``brut``, sinon ``None``."""
+    logger.debug("basculer_ligne: entrée | {}", numero)
+    lignes = texte.splitlines()
+    if not 1 <= numero <= len(lignes) or lignes[numero - 1] != brut:
+        logger.debug("basculer_ligne: sortie | ligne changée")
+        return None
+    ligne = brut.strip()
+    lignes[numero - 1] = ligne[1:].strip() if ligne.startswith("#") else "# " + brut
+    logger.debug("basculer_ligne: sortie")
+    return _joindre(lignes)
+
+
+def ajouter_ligne(texte: str, ligne: str) -> str:
+    """Ajoute ``ligne`` en fin de texte (saut de ligne inséré si besoin)."""
+    logger.debug("ajouter_ligne: entrée")
+    separateur = "\n" if texte and not texte.endswith("\n") else ""
+    resultat = texte + separateur + ligne.strip() + "\n"
+    logger.debug("ajouter_ligne: sortie")
+    return resultat
+
+
+def hotes_ssh_config(chemin: Path) -> list[str]:
+    """Alias concrets des blocs ``Host`` (sans ``*``, ``?``, ``!``), sans doublon."""
+    logger.debug("hotes_ssh_config: entrée | {}", chemin)
+    try:
+        texte = chemin.read_text(encoding="utf-8")
+    except OSError as exc:
+        logger.debug("hotes_ssh_config: sortie | illisible ({})", exc)
+        return []
+    hotes: list[str] = []
+    for ligne in texte.splitlines():
+        trouve = _HOST_RE.match(ligne)
+        for alias in trouve.group(1).split() if trouve else ():
+            if not any(c in alias for c in "*?!") and alias not in hotes:
+                hotes.append(alias)
+    logger.debug("hotes_ssh_config: sortie | {}", len(hotes))
+    return hotes
+
+
+@dataclass(frozen=True)
+class CibleSsh:
+    """Compte distant ``utilisateur@hote[:port]`` dont on gère le ``~/.ssh/``."""
+
+    utilisateur: str
+    hote: str
+    port: int = 22
+
+    @property
+    def affichage(self) -> str:
+        """``utilisateur@hote``, suivi de ``:port`` hors port 22."""
+        logger.debug("CibleSsh.affichage: entrée")
+        suffixe = f":{self.port}" if self.port != 22 else ""
+        logger.debug("CibleSsh.affichage: sortie")
+        return f"{self.utilisateur}@{self.hote}{suffixe}"
+
+    def commande(self, distante: str) -> list[str]:
+        """Commande ssh non interactive exécutant ``distante`` sur la cible."""
+        logger.debug("CibleSsh.commande: entrée | {}", self.affichage)
+        commande = ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=6"]
+        if self.port != 22:
+            commande += ["-p", str(self.port)]
+        commande += [f"{self.utilisateur}@{self.hote}", distante]
+        logger.debug("CibleSsh.commande: sortie")
+        return commande
+
+
+def analyser_cible(texte: str) -> CibleSsh | None:
+    """``"root@h:2222"`` → :class:`CibleSsh` ; ``None`` si la saisie est invalide."""
+    logger.debug("analyser_cible: entrée")
+    trouve = _CIBLE_RE.match(texte.strip())
+    if trouve is None:
+        logger.debug("analyser_cible: sortie | invalide")
+        return None
+    port = int(trouve.group(3)) if trouve.group(3) else 22
+    if not 1 <= port <= 65535:
+        logger.debug("analyser_cible: sortie | port {} invalide", port)
+        return None
+    cible = CibleSsh(trouve.group(1), trouve.group(2), port)
+    logger.debug("analyser_cible: sortie | {}", cible.affichage)
+    return cible
+
+
+class FichiersLocaux:
+    """``known_hosts``/``authorized_keys`` du ``~/.ssh/`` local."""
+
+    distant = False
+
+    def __init__(self, dossier: Path) -> None:
+        """Fichiers de ``dossier``."""
+        logger.debug("FichiersLocaux.__init__: entrée | {}", dossier)
+        self.dossier = dossier
+        logger.debug("FichiersLocaux.__init__: sortie")
+
+    def utilisateur(self) -> str:
+        """Compte qui exécute gcm4 (garde-fou root)."""
+        logger.debug("FichiersLocaux.utilisateur: entrée")
+        try:
+            nom = getpass.getuser()
+        except (KeyError, OSError) as exc:
+            logger.debug("FichiersLocaux.utilisateur: getuser impossible : {}", exc)
+            nom = os.environ.get("USER", "")
+        logger.debug("FichiersLocaux.utilisateur: sortie")
+        return nom
+
+    def lire(self, nom: str) -> str | None:
+        """Contenu de ``nom``, ``None`` s'il est absent ou illisible."""
+        logger.debug("FichiersLocaux.lire: entrée | {}", nom)
+        try:
+            texte = (self.dossier / nom).read_text(encoding="utf-8")
+        except OSError as exc:
+            logger.debug("FichiersLocaux.lire: sortie | {}", exc)
+            return None
+        logger.debug("FichiersLocaux.lire: sortie | {} caractère(s)", len(texte))
+        return texte
+
+    def ecrire(self, nom: str, texte: str, mode: int = 0o600) -> bool:
+        """Remplace ``nom`` par ``texte`` avec les permissions ``mode``."""
+        logger.debug("FichiersLocaux.ecrire: entrée | {}", nom)
+        chemin = self.dossier / nom
+        try:
+            self.dossier.mkdir(mode=0o700, parents=True, exist_ok=True)
+            chemin.write_text(texte, encoding="utf-8")
+            chemin.chmod(mode)
+        except OSError as exc:
+            logger.error("FichiersLocaux.ecrire: {} : {}", chemin, exc)
+            return False
+        logger.info("FichiersLocaux | {} écrit", chemin)
+        logger.debug("FichiersLocaux.ecrire: sortie")
+        return True
+
+
+class FichiersDistants:
+    """``known_hosts``/``authorized_keys`` d'un compte distant, par ssh.
+
+    Ne lit ni n'écrit jamais de clé privée.
+    """
+
+    distant = True
+
+    def __init__(self, cible: CibleSsh) -> None:
+        """Fichiers du compte ``cible``."""
+        logger.debug("FichiersDistants.__init__: entrée | {}", cible.affichage)
+        self.cible = cible
+        logger.debug("FichiersDistants.__init__: sortie")
+
+    def utilisateur(self) -> str:
+        """Compte distant (garde-fou root)."""
+        logger.debug("FichiersDistants.utilisateur: entrée")
+        logger.debug("FichiersDistants.utilisateur: sortie")
+        return self.cible.utilisateur
+
+    def tester(self) -> str | None:
+        """``None`` si la cible répond, sinon l'erreur ssh (``ErreurCle.code`` si vide)."""
+        logger.debug("FichiersDistants.tester: entrée | {}", self.cible.affichage)
+        try:
+            sortie = _executer(self.cible.commande("echo __OK__"), 8).stdout
+        except ErreurCle as exc:
+            logger.debug("FichiersDistants.tester: sortie | {}", exc.code)
+            return exc.detail if exc.code == "echec" and exc.detail else exc.code
+        erreur = None if "__OK__" in sortie else "echec"
+        logger.debug("FichiersDistants.tester: sortie | {}", erreur)
+        return erreur
+
+    def lire(self, nom: str) -> str | None:
+        """Contenu de ``~/.ssh/<nom>`` distant, ``None`` s'il est absent ou injoignable."""
+        logger.debug("FichiersDistants.lire: entrée | {}", nom)
+        try:
+            texte = _executer(self.cible.commande(f"cat ~/.ssh/{shlex.quote(nom)}"), 10).stdout
+        except ErreurCle as exc:
+            logger.debug("FichiersDistants.lire: sortie | {}", exc.code)
+            return None
+        logger.debug("FichiersDistants.lire: sortie | {} caractère(s)", len(texte))
+        return texte
+
+    def ecrire(self, nom: str, texte: str, mode: int = 0o600) -> bool:
+        """Remplace ``~/.ssh/<nom>`` distant : fichier temporaire puis ``mv`` (atomique).
+
+        Le contenu passe en base64 : aucun problème de guillemets côté shell.
+        """
+        logger.debug("FichiersDistants.ecrire: entrée | {}", nom)
+        import base64  # noqa: PLC0415
+
+        contenu = base64.b64encode(texte.encode("utf-8")).decode("ascii")
+        distante = (
+            "mkdir -p ~/.ssh && chmod 700 ~/.ssh && "
+            f'tmp=$(mktemp) && echo {shlex.quote(contenu)} | base64 -d > "$tmp" && '
+            f'chmod {mode:o} "$tmp" && mv "$tmp" ~/.ssh/{shlex.quote(nom)}'
+        )
+        try:
+            _executer(self.cible.commande(distante), 10)
+        except ErreurCle as exc:
+            logger.error("FichiersDistants.ecrire: {} sur {} : {}", nom, self.cible.affichage, exc)
+            return False
+        logger.info("FichiersDistants | {} écrit sur {}", nom, self.cible.affichage)
+        logger.debug("FichiersDistants.ecrire: sortie")
+        return True
+
+
+def tester_known_hosts(texte: str, hotes: list[str]) -> list[tuple[str, bool, str]]:
+    """``ssh-keygen -F`` de chaque hôte dans le ``known_hosts`` ``texte``.
+
+    Returns:
+        ``(hôte, trouvé, ligne trouvée ou erreur)`` par hôte, dans l'ordre.
+    """
+    logger.debug("tester_known_hosts: entrée | {} hôte(s)", len(hotes))
+    resultats: list[tuple[str, bool, str]] = []
+    with tempfile.TemporaryDirectory(prefix="gcm-kh-") as dossier:
+        chemin = Path(dossier) / "known_hosts"
+        chemin.write_text(texte, encoding="utf-8")
+        for hote in hotes:
+            try:
+                sortie = _executer(["ssh-keygen", "-F", hote, "-f", str(chemin)], 3).stdout
+            except ErreurCle as exc:
+                logger.debug("tester_known_hosts: {} absent ({})", hote, exc.code)
+                resultats.append((hote, False, "" if exc.code == "echec" else exc.code))
+                continue
+            resultats.append((hote, True, sortie.strip()))
+    logger.debug("tester_known_hosts: sortie | {} trouvé(s)", sum(r[1] for r in resultats))
+    return resultats
+
+
+def nom_libre(dossier: Path, nom: str) -> Path:
+    """``dossier/nom``, ou ``nom_1``, ``nom_2``… si le fichier existe déjà."""
+    logger.debug("nom_libre: entrée | {}", nom)
+    chemin = dossier / nom
+    rang = 0
+    while chemin.exists() or chemin.with_name(chemin.name + ".pub").exists():
+        rang += 1
+        chemin = dossier / f"{nom}_{rang}"
+    logger.debug("nom_libre: sortie | {}", chemin.name)
+    return chemin
+
+
+def generer_cle(chemin: Path, type_: str, taille: int, commentaire: str, phrase: str) -> None:
+    """``ssh-keygen`` : ``ed25519``, ``ecdsa`` ou ``rsa`` (``taille`` bits).
+
+    Raises:
+        ErreurCle: ``absent``, ``echec`` ou ``delai``.
+    """
+    logger.debug("generer_cle: entrée | {} {}", type_, chemin.name)
+    commande = ["ssh-keygen", "-q", "-t", type_]
+    if type_ == "rsa":
+        commande += ["-b", str(taille)]
+    commande += ["-f", str(chemin), "-N", phrase, "-C", commentaire]
+    chemin.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    _executer(commande, 60)
+    logger.info("generer_cle | {} ({}) créée", chemin, type_)
+    logger.debug("generer_cle: sortie")
+
+
+def signer_cle(publique: Path, ca: Path, identite: str, principaux: str, validite: str) -> Path:
+    """Signe ``publique`` avec la CA ``ca`` ; renvoie le certificat ``<clé>-cert.pub``.
+
+    Une CA protégée par une phrase de passe ne peut pas signer sans
+    terminal : ``ErreurCle("delai")``.
+
+    Raises:
+        ErreurCle: ``absent``, ``echec`` ou ``delai``.
+    """
+    logger.debug("signer_cle: entrée | {} par {}", publique.name, ca.name)
+    commande = ["ssh-keygen", "-s", str(ca), "-I", identite, "-n", principaux]
+    _executer(commande + ["-V", validite, str(publique)], 15, entree="")
+    certificat = publique.with_name(publique.name[: -len(".pub")] + "-cert.pub")
+    logger.info("signer_cle | {} signée par {}", publique, ca)
+    logger.debug("signer_cle: sortie")
+    return certificat
+
+
+def changer_phrase(chemin: Path, ancienne: str, nouvelle: str) -> None:
+    """``ssh-keygen -p`` : remplace la phrase de passe (vide = aucune).
+
+    Raises:
+        ErreurCle: ``absent``, ``echec`` (mauvaise phrase…) ou ``delai``.
+    """
+    logger.debug("changer_phrase: entrée | {}", chemin.name)
+    _executer(["ssh-keygen", "-p", "-f", str(chemin), "-P", ancienne, "-N", nouvelle], 10)
+    logger.info("changer_phrase | phrase de {} changée", chemin)
+    logger.debug("changer_phrase: sortie")
+
+
+def cle_dans_agent(publique: Path) -> bool:
+    """La clé est chargée dans ssh-agent (agent joignable et empreinte listée)."""
+    logger.debug("cle_dans_agent: entrée | {}", publique.name)
+    empreinte, _type = empreinte_et_type(publique)
+    if not empreinte:
+        logger.debug("cle_dans_agent: sortie | empreinte inconnue")
+        return False
+    try:
+        liste = _executer(["ssh-add", "-l"], 5).stdout
+    except ErreurCle as exc:
+        logger.debug("cle_dans_agent: sortie | agent indisponible ({})", exc.code)
+        return False
+    present = empreinte in liste
+    logger.debug("cle_dans_agent: sortie | {}", present)
+    return present
+
+
+def ajouter_agent(chemin: Path) -> None:
+    """``ssh-add`` sans terminal : une clé à phrase de passe échoue.
+
+    Raises:
+        ErreurCle: ``absent``, ``echec`` ou ``delai``.
+    """
+    logger.debug("ajouter_agent: entrée | {}", chemin.name)
+    _executer(["ssh-add", str(chemin)], 10)
+    logger.info("ajouter_agent | {} chargée", chemin)
+    logger.debug("ajouter_agent: sortie")
+
+
+def retirer_agent(publique: Path) -> None:
+    """``ssh-add -d``.
+
+    Raises:
+        ErreurCle: ``absent``, ``echec`` ou ``delai``.
+    """
+    logger.debug("retirer_agent: entrée | {}", publique.name)
+    _executer(["ssh-add", "-d", str(publique)], 5)
+    logger.info("retirer_agent | {} déchargée", publique)
+    logger.debug("retirer_agent: sortie")
+
+
+def importer_paire(source: Path, dossier: Path, exiger_publique: bool = False) -> Path:
+    """Copie une clé privée (et sa ``.pub`` si présente) dans ``dossier``, en 600/644.
+
+    Écrase un fichier de même nom (l'interface demande confirmation avant).
+
+    Args:
+        source: Clé privée à importer.
+        dossier: Destination (``~/.ssh/``).
+        exiger_publique: Refuser une clé sans ``.pub`` (import de CA).
+
+    Raises:
+        ErreurCle: ``nom`` (pas de ``.pub`` exigée), ``systeme`` (copie impossible).
+    """
+    logger.debug("importer_paire: entrée | {}", source.name)
+    publique = source.with_name(source.name + ".pub")
+    if exiger_publique and not publique.exists():
+        logger.debug("importer_paire: sortie | pas de .pub")
+        raise ErreurCle("nom", publique.name)
+    cible = dossier / source.name
+    try:
+        dossier.mkdir(mode=0o700, parents=True, exist_ok=True)
+        shutil.copy2(source, cible)
+        cible.chmod(0o600)
+        if publique.exists():
+            shutil.copy2(publique, cible.with_name(cible.name + ".pub"))
+            cible.with_name(cible.name + ".pub").chmod(0o644)
+    except OSError as exc:
+        logger.error("importer_paire: {} → {} : {}", source, cible, exc)
+        raise ErreurCle("systeme", str(exc)) from exc
+    logger.info("importer_paire | {} → {}", source, cible)
+    logger.debug("importer_paire: sortie")
+    return cible
+
+
+def renommer_cle(cle: CleSsh, nouveau: str) -> None:
+    """Renomme la clé, sa ``.pub`` et son certificat ``-cert.pub`` ensemble.
+
+    Raises:
+        ErreurCle: ``nom`` (séparateur de chemin ou nom vide), ``existe``
+            (``detail`` = fichier en conflit), ``systeme``.
+    """
+    logger.debug("renommer_cle: entrée | {} → {}", cle.nom, nouveau)
+    if not nouveau or "/" in nouveau or "\\" in nouveau or nouveau in (".", ".."):
+        logger.debug("renommer_cle: sortie | nom invalide")
+        raise ErreurCle("nom", nouveau)
+    renommages = [(cle.chemin, cle.chemin.with_name(nouveau))]
+    if not cle.est_publique:
+        for suffixe in (".pub", "-cert.pub"):
+            ancien = cle.chemin.with_name(cle.nom + suffixe)
+            if ancien.exists():
+                renommages.append((ancien, cle.chemin.with_name(nouveau + suffixe)))
+    for _ancien, cible in renommages:
+        if cible.exists():
+            logger.debug("renommer_cle: sortie | {} existe", cible.name)
+            raise ErreurCle("existe", cible.name)
+    try:
+        for ancien, cible in renommages:
+            ancien.rename(cible)
+    except OSError as exc:
+        logger.error("renommer_cle: {} : {}", cle.chemin, exc)
+        raise ErreurCle("systeme", str(exc)) from exc
+    logger.info("renommer_cle | {} → {} ({} fichier(s))", cle.nom, nouveau, len(renommages))
+    logger.debug("renommer_cle: sortie")
+
+
+def supprimer_cle(cle: CleSsh) -> None:
+    """Supprime la clé, sa ``.pub`` et son certificat.
+
+    Raises:
+        ErreurCle: ``systeme``.
+    """
+    logger.debug("supprimer_cle: entrée | {}", cle.nom)
+    fichiers = [cle.chemin]
+    if not cle.est_publique:
+        fichiers += [cle.chemin.with_name(cle.nom + s) for s in (".pub", "-cert.pub")]
+    try:
+        for fichier in fichiers:
+            fichier.unlink(missing_ok=True)
+    except OSError as exc:
+        logger.error("supprimer_cle: {} : {}", cle.chemin, exc)
+        raise ErreurCle("systeme", str(exc)) from exc
+    logger.info("supprimer_cle | {} supprimée", cle.nom)
+    logger.debug("supprimer_cle: sortie")
+
+
+def lire_config_ca(chemin: Path) -> Path | None:
+    """CA désignée (``{"ca_priv": "…"}``) si le fichier et la clé existent, sinon ``None``."""
+    logger.debug("lire_config_ca: entrée | {}", chemin)
+    import json  # noqa: PLC0415
+
+    try:
+        donnees = json.loads(chemin.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        logger.debug("lire_config_ca: sortie | aucune ({})", exc)
+        return None
+    brut = donnees.get("ca_priv", "") if isinstance(donnees, dict) else ""
+    ca = Path(brut) if brut else None
+    if ca is not None and not ca.exists():
+        logger.warning("lire_config_ca: CA {} introuvable, désignation ignorée", ca)
+        ca = None
+    logger.debug("lire_config_ca: sortie | {}", ca)
+    return ca
+
+
+def ecrire_config_ca(chemin: Path, ca: Path | None) -> bool:
+    """Enregistre la CA désignée (``None`` = aucune), en 600."""
+    logger.debug("ecrire_config_ca: entrée | {}", ca)
+    import json  # noqa: PLC0415
+
+    try:
+        chemin.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        chemin.write_text(json.dumps({"ca_priv": str(ca) if ca else ""}), encoding="utf-8")
+        chemin.chmod(0o600)
+    except OSError as exc:
+        logger.error("ecrire_config_ca: {} : {}", chemin, exc)
+        return False
+    logger.debug("ecrire_config_ca: sortie")
+    return True
 
 
 # ---------------------------------------------------------------------------
