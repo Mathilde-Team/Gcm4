@@ -105,7 +105,7 @@ def test_liste_des_deux_fichiers(module, ouvrir):
     assert editeur.pile.get_visible_child_name() == "vide"
     assert not editeur.bouton_retirer.get_sensitive()
     assert not editeur.bandeau.get_reveal_child()
-    assert not editeur.bouton_gestionnaire.get_visible()
+    assert editeur.bouton_gestionnaire.get_visible()  # gestionnaire de clés par défaut
     assert editeur.get_title() == module._("Edit SSH config (personal + shared)")
 
 
@@ -433,3 +433,24 @@ def test_test_commande_introuvable(module, ouvrir, monkeypatch):
     assert test.termine and test.processus is None
     assert "/nexiste/pas" in test.contenu().split("\n\n", 1)[1]
     test.destroy()
+
+
+def test_gestionnaire_de_cles_par_defaut(module, ouvrir, monkeypatch, tmp_path):
+    """« ⚙ » sans rappel fourni : un seul gestionnaire de clés, recréé après fermeture."""
+    monkeypatch.setenv("HOME", str(tmp_path))
+    editeur = ouvrir()
+    editeur.bouton_gestionnaire.emit("clicked")
+    premier = editeur.gestionnaire_cles
+    assert isinstance(premier, module.SshKeyManager)
+    assert premier.get_transient_for() is editeur
+    assert premier.dossier == tmp_path / ".ssh"
+    editeur.ouvrir_gestionnaire()
+    assert editeur.gestionnaire_cles is premier
+    assert _attendre(lambda: premier.travaux == 0)
+    premier.close()
+    assert editeur.gestionnaire_cles is None
+    editeur.ouvrir_gestionnaire()
+    second = editeur.gestionnaire_cles
+    assert second is not None and second is not premier
+    assert _attendre(lambda: second.travaux == 0)
+    second.close()

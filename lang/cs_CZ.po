@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-05 07:03+0000\n"
+"POT-Creation-Date: 2026-11-05 07:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -489,8 +489,8 @@ msgstr "Skupina"
 msgid "Help"
 msgstr "Nápověda"
 
-#: gnome_connection_manager.py plugins/plugin_ssh.py src/gcm4/ui/host_dialog.py
-#: ssh_config_editor.py ssh_key_manager_dialog.py
+#: gnome_connection_manager.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#: src/gcm4/ui/host_dialog.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Host"
 msgstr "Hostitel"
 
@@ -575,7 +575,7 @@ msgstr "Cesta k protokolům"
 msgid "Menu"
 msgstr "Nabídka"
 
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py src/gcm4/ui/host_dialog.py
 #: ssh_key_manager_dialog.py
 msgid "Name"
 msgstr "Název"
@@ -838,7 +838,7 @@ msgid "Transparency"
 msgstr "Průhlednost"
 
 #: gnome_connection_manager.py key_picker_dialog.py plugins/plugin_ssh.py
-#: ssh_config_editor.py ssh_key_manager_dialog.py
+#: plugins/ssh/gtk4.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Type"
 msgstr "Typ"
 
@@ -915,7 +915,7 @@ msgid ""
 "Click <b>Generate…</b> to create one.</i>"
 msgstr ""
 
-#: key_picker_dialog.py ssh_key_manager_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py ssh_key_manager_dialog.py
 msgid "Fingerprint"
 msgstr ""
 
@@ -2537,7 +2537,7 @@ msgstr "Odebrat"
 msgid "SSH"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_key_manager_dialog.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_key_manager_dialog.py
 msgid "SSH Key Manager"
 msgstr ""
 
@@ -2934,8 +2934,41 @@ msgid ""
 "[Timeout after 10 s]"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "#"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "(empty = no passphrase)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "(empty = remove passphrase)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "(empty if none)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "(hashed)"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "(no output)\n"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "(none — keys are generated unsigned)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "A file named {name} already exists"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Add Authorized Key"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
@@ -2944,12 +2977,117 @@ msgstr ""
 msgid "Add a new empty host"
 msgstr "Přidat nového hostitele"
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Add {name} to ssh-agent?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Added to ssh-agent"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Alias(es)"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "At least one alias is required"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Authorized Keys"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "CA deleted: {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "CA deletion failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "CA import failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "CA imported and designated: {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "CA signing failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "CA signing timed out — CA key may require a passphrase (unsupported non-interactively)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy, python-brace-format
+#| msgid "Can't open file for writting"
+msgid "Cannot open file manager: {err}"
+msgstr "Nelze otevřít soubor pro zápis"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Cannot read public key: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Certificate identity:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Change Passphrase — {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Change the passphrase of this private key (ssh-keygen -p)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Check ~/.ssh/config (and GCM hosts, if wired in) against known_hosts"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Choose an existing local key pair as the signing CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Command"
+msgid "Comment"
+msgstr "Příkaz"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Command"
+msgid "Comment:"
+msgstr "Příkaz"
+
+#
+#: plugins/ssh/gtk4.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "Potvrdit"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Confirm new passphrase:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Connected to {t} — Known Hosts / Authorized Keys now read from there"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Connection failed: {err}"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
@@ -2967,8 +3105,40 @@ msgstr "Kopírovat výběr do schránky"
 msgid "Copy ssh cmd"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Copy selection to clipboard"
+msgid "Copy the public key content to clipboard"
+msgstr "Kopírovat výběr do schránky"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Created"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Current passphrase:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Delete failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Designate Signing CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Designated CA: {name}"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Diff (original → current):"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Disable"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
@@ -2985,9 +3155,54 @@ msgstr ""
 msgid "Edit raw ssh_config — changes here override the Visual tab on Save."
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Enabled"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Enter remote host"
 msgstr "Zadejte vzdáleného hostitele"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Entry not found (file may have changed) — refreshing"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Failed to add key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Failed to add to agent (passphrase required?): {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Failed to remove from agent: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Failed to update authorized_keys"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Failed to update known_hosts"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "File changed on disk — refreshing"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Template name"
+msgid "File name:"
+msgstr "Název šablony"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "File {name} already exists in ~/.ssh/ — overwrite?"
+msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 #, fuzzy
@@ -2999,36 +3214,301 @@ msgstr "_Soubor"
 msgid "Filter hosts…"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Fingerprint copied to clipboard"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Found"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Generate SSH Key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Generate a new SSH key pair (ssh-keygen)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Generation failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Hashed"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Import CA Private Key"
+msgstr "Soukromý klíč"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Import Private Key"
+msgstr "Soukromý klíč"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Import an existing private key file into ~/.ssh/"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Import an external CA key pair into ~/.ssh/ and designate it"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Import failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Info (matching known_hosts line)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Invalid name — must not contain a path separator"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Invalid target — expected user@host or user@host:port"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Key added to authorized_keys"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Key deleted: {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Key generated: {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "Key imported: {name}"
+msgstr "Název šablony"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Key signed by CA {ca} (identity={id})"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Key type:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Keys are saved in <b>~/.ssh/</b> with permissions 600."
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Known Hosts"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Known Hosts Test — {n}/{total} found on {target}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Load/unload this key in ssh-agent (ssh-add / ssh-add -d)"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Multiple values possible: separate them with commas (one line per value in the file)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "New name for {name}:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "New passphrase and confirmation do not match"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "New passphrase:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "No CA currently designated"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "No Public key available for selected entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "No authorized_keys entry selected"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "No candidate hosts found in ~/.ssh/config (and no GCM host list wired in)"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "No changes."
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "No fingerprint available for this entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "No URI selected."
+msgid "No key selected"
+msgstr "Není vybráno žádné URI."
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "No connection type selected."
+msgid "No known_hosts entry selected"
+msgstr "Není vybrán žádný typ připojení."
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "No matching .pub file found next to {name} — cannot import as CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "No matching .pub file found next to {name} — cannot use as CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "No URI selected."
+msgid "No private key selected"
+msgstr "Není vybráno žádné URI."
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "No public key available for selected entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "No public key available to identify this key in the agent"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Open ~/.ssh/ in the file manager"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Orphan Public key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Orphan Public keys"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Passphrase change failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Passphrase changed for {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Passphrase:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Paste the full public key line (options, type, base64 key, comment):"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid ""
+"Permanently delete <b>{name}</b> (and its Orphan Public key if present)?\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid ""
+"Permanently delete the CA key pair <b>{name}</b>?\n"
+"Certificates already signed by this CA will no longer be trustable to verify.\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Permanently delete the designated CA key pair"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Permanently delete the selected key"
+msgstr ""
+
 #: plugins/ssh/gtk4.py
 msgid "Permissions too open: ssh will refuse this key"
 msgstr "Příliš volná oprávnění: ssh tento klíč odmítne"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Perms"
+msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Port must be an integer between 1 and 65535"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Principals (comma-separated):"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Private keys"
+msgstr "Soukromý klíč"
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Properties"
 msgstr "Vlastnosti"
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Public Key — {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Public key copied to clipboard"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "QUIET/ERROR/INFO/VERBOSE/DEBUG"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "RSA size:"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Raw / Diff"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Re-enable"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Redirection de port"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Remote target (Known Hosts / Authorized Keys):"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
@@ -3041,9 +3521,50 @@ msgstr "Vzdálený hostitel"
 msgid "Remove selected host"
 msgstr "Odebrat vybraného hostitele"
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid ""
+"Remove this authorized_keys entry?\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid ""
+"Remove this known_hosts entry?\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Remove {name} from ssh-agent?"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 #, python-brace-format
 msgid "Remove «{alias}» from {path}?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Removed from ssh-agent"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Rename tab"
+msgid "Rename Key"
+msgstr "Přejmenovat záložku"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Rename failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Rename this key (and its .pub / certificate, if any)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Renamed {old} to {new}"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
@@ -3053,8 +3574,37 @@ msgid ""
 "\n"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Saved in ~/.ssh/ — leave blank for default name"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Select the private key file, not the .pub file"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Shared — bastion, all users (/etc/ssh/ssh_config.d/config_gcm.conf)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Show the full public key content in a dedicated window"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Sign with designated CA ({name})"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Signed by"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Signing CA:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Switched back to local machine"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
@@ -3068,12 +3618,72 @@ msgstr "Není vybrán žádný typ připojení."
 msgid "Test connection — {alias}"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Testing connection to {t}…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "This does not look like a valid public key line"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "Validity"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Parity:"
+msgid "Validity:"
+msgstr "Parita:"
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Visual"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "_Add"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "_Change"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Close"
+msgid "_Close"
+msgstr "Zavřít"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Rename tab"
+msgid "_Rename"
+msgstr "Přejmenovat záložku"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "add a key to authorized_keys"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "authorized_keys entry removed"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "authorized_keys entry updated"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "authorized_keys not found on {t}"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "auto / yes / no"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "enable/disable an authorized_keys entry"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
@@ -3128,6 +3738,68 @@ msgstr ""
 msgid "ex : ~/.ssh/known_hosts"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Never"
+msgid "forever"
+msgstr "Nikdy"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "known_hosts entry removed"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "known_hosts not found on {t}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "local machine"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "remove a known_hosts entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "remove an authorized_keys entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "ssh-add failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "ssh-add timed out — the key may require a passphrase (no terminal available here)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "ssh-keygen -V syntax, e.g. +52w (1 year), +30d, or 'always:forever'"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "ssh-keygen failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "ssh-keygen not found — install openssh-client"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "unknown CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "until {end}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "user@host or root@host[:port]"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "yes / no / ask / accept-new"
 msgstr ""
@@ -3136,18 +3808,82 @@ msgstr ""
 msgid "yes ou no"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "{action} this authorized_keys entry?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "{n} authorized_keys entries loaded from {t}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "{n} known_hosts entries loaded from {t}"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 #, python-brace-format
 msgid "{path} does not exist yet — it will be created when saving."
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "{priv} private key(s), {pub} Orphan Public key(s) loaded from ~/.ssh/"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "~/.ssh/ not found — no keys loaded"
 msgstr ""
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "← Select or create a host"
 msgstr ""
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "✓ Imported"
+msgid "↑ Import"
+msgstr "✓ Importováno"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "⎘ Copy fingerprint"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "⎘ Copy public key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Copy selection to clipboard"
+msgid "⎘ Copy to clipboard"
+msgstr "Kopírovat výběr do schránky"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "General"
+msgid "⚙ Generate"
+msgstr "Obecné"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, python-brace-format
+msgid ""
+"⚠ You are about to {action} on the <b>root</b> account of {target}.\n"
+"This can affect SSH access to the whole system.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "⚡ Test"
 msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Rename tab"
+msgid "✎ Rename"
+msgstr "Přejmenovat záložku"
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 #, fuzzy
@@ -3161,9 +3897,19 @@ msgstr "Zrušit"
 msgid "✕ Remove"
 msgstr "− Odebrat"
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "⟳ Refresh"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "⟳ Refresh diff"
 msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "✓ Imported"
+msgid "⬆ Import CA"
+msgstr "✓ Importováno"
 
 #: plugins/ssh/gtk4.py ssh_config_editor.py ssh_key_manager_dialog.py
 #, fuzzy
@@ -3171,11 +3917,57 @@ msgstr ""
 msgid "＋ Add"
 msgstr "+ Přidat"
 
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Local"
+msgid "🏠 Local"
+msgstr "Místní"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "👁 View public key"
+msgstr ""
+
 #: plugins/ssh/gtk4.py ssh_config_editor.py
 #, fuzzy
 #| msgid "Save"
 msgid "💾 Save"
 msgstr "Uložit"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "📂 Reveal"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Connect"
+msgid "🔌 Connect"
+msgstr "Připojit"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "🔏 Designate"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "🔑 Agent"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "🔒 Passphrase"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Delete:"
+msgid "🗑 Delete"
+msgstr "Delete:"
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "🗑 Delete CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_key_manager_dialog.py
+msgid "🧪 Test known hosts"
+msgstr ""
 
 #: plugins/web/core.py
 msgid "The URL must start with http:// or https://"
@@ -3853,11 +4645,6 @@ msgstr "Změnit…"
 
 #
 #: src/gcm4/ui/mot_de_passe_maitre.py
-msgid "Confirm"
-msgstr "Potvrdit"
-
-#
-#: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm the new master password"
 msgstr "Potvrdit nové hlavní heslo"
 
@@ -4308,50 +5095,8 @@ msgid "UserKnownHostsFile"
 msgstr ""
 
 #: ssh_key_manager_dialog.py
-msgid "#"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "(empty = no passphrase)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "(empty = remove passphrase)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "(empty if none)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "(hashed)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "(none — keys are generated unsigned)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
 #, python-brace-format
 msgid "A certificate named {name} already exists"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "A file named {name} already exists"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Add Authorized Key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Add {name} to ssh-agent?"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Added to ssh-agent"
 msgstr ""
 
 #: ssh_key_manager_dialog.py
@@ -4359,98 +5104,7 @@ msgid "All files"
 msgstr ""
 
 #: ssh_key_manager_dialog.py
-msgid "Authorized Keys"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "CA deleted: {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "CA deletion failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "CA import failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "CA imported and designated: {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "CA signing failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "CA signing timed out — CA key may require a passphrase (unsupported non-interactively)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy, python-brace-format
-#| msgid "Can't open file for writting"
-msgid "Cannot open file manager: {err}"
-msgstr "Nelze otevřít soubor pro zápis"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Cannot read public key: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Certificate identity:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Change Passphrase — {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Change the passphrase of this private key (ssh-keygen -p)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Check ~/.ssh/config (and GCM hosts, if wired in) against known_hosts"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Choose an existing local key pair as the signing CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
 msgid "Clipboard unavailable — key content logged"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Command"
-msgid "Comment"
-msgstr "Příkaz"
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Command"
-msgid "Comment:"
-msgstr "Příkaz"
-
-#: ssh_key_manager_dialog.py
-msgid "Confirm new passphrase:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Connected to {t} — Known Hosts / Authorized Keys now read from there"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Connection failed: {err}"
 msgstr ""
 
 #: ssh_key_manager_dialog.py
@@ -4463,341 +5117,11 @@ msgid "Copy failed: {err}"
 msgstr ""
 
 #: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Copy selection to clipboard"
-msgid "Copy the public key content to clipboard"
-msgstr "Kopírovat výběr do schránky"
-
-#: ssh_key_manager_dialog.py
-msgid "Created"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Current passphrase:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Delete failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Designate Signing CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Designated CA: {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Disable"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Enabled"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Entry not found (file may have changed) — refreshing"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Failed to add key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Failed to add to agent (passphrase required?): {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Failed to remove from agent: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Failed to update authorized_keys"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Failed to update known_hosts"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "File changed on disk — refreshing"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Template name"
-msgid "File name:"
-msgstr "Název šablony"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "File {name} already exists in ~/.ssh/ — overwrite?"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Fingerprint copied to clipboard"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Found"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Generate SSH Key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Generate a new SSH key pair (ssh-keygen)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Generation failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Hashed"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Private key"
-msgid "Import CA Private Key"
-msgstr "Soukromý klíč"
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Private key"
-msgid "Import Private Key"
-msgstr "Soukromý klíč"
-
-#: ssh_key_manager_dialog.py
-msgid "Import an existing private key file into ~/.ssh/"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Import an external CA key pair into ~/.ssh/ and designate it"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Import failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Info (matching known_hosts line)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Invalid name — must not contain a path separator"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Invalid target — expected user@host or user@host:port"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Key added to authorized_keys"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Key deleted: {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Key generated: {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy, python-brace-format
-#| msgid "Template name"
-msgid "Key imported: {name}"
-msgstr "Název šablony"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Key signed by CA {ca} (identity={id})"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Key type:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Keys are saved in <b>~/.ssh/</b> with permissions 600."
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Known Hosts"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Known Hosts Test — {n}/{total} found on {target}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Load/unload this key in ssh-agent (ssh-add / ssh-add -d)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "New name for {name}:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "New passphrase and confirmation do not match"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "New passphrase:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No CA currently designated"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
 msgid "No CA designated — key generated unsigned"
 msgstr ""
 
 #: ssh_key_manager_dialog.py
-msgid "No Public key available for selected entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No authorized_keys entry selected"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No candidate hosts found in ~/.ssh/config (and no GCM host list wired in)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No fingerprint available for this entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "No URI selected."
-msgid "No key selected"
-msgstr "Není vybráno žádné URI."
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "No connection type selected."
-msgid "No known_hosts entry selected"
-msgstr "Není vybrán žádný typ připojení."
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "No matching .pub file found next to {name} — cannot import as CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "No matching .pub file found next to {name} — cannot use as CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "No URI selected."
-msgid "No private key selected"
-msgstr "Není vybráno žádné URI."
-
-#: ssh_key_manager_dialog.py
-msgid "No public key available for selected entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No public key available to identify this key in the agent"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
 msgid "Nothing to rename"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Open ~/.ssh/ in the file manager"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Orphan Public key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Orphan Public keys"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Passphrase change failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Passphrase changed for {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Passphrase:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Paste the full public key line (options, type, base64 key, comment):"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid ""
-"Permanently delete <b>{name}</b> (and its Orphan Public key if present)?\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid ""
-"Permanently delete the CA key pair <b>{name}</b>?\n"
-"Certificates already signed by this CA will no longer be trustable to verify.\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Permanently delete the designated CA key pair"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Permanently delete the selected key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Perms"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Principals (comma-separated):"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Private key"
-msgid "Private keys"
-msgstr "Soukromý klíč"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Public Key — {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Public key copied to clipboard"
 msgstr ""
 
 #: ssh_key_manager_dialog.py
@@ -4806,125 +5130,10 @@ msgid "Public key file not found: {p}"
 msgstr ""
 
 #: ssh_key_manager_dialog.py
-msgid "RSA size:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Re-enable"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Remote target (Known Hosts / Authorized Keys):"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid ""
-"Remove this authorized_keys entry?\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid ""
-"Remove this known_hosts entry?\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Remove {name} from ssh-agent?"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Removed from ssh-agent"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Rename tab"
-msgid "Rename Key"
-msgstr "Přejmenovat záložku"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Rename failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Rename this key (and its .pub / certificate, if any)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Renamed {old} to {new}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
 #, fuzzy
 #| msgid "No connection type selected."
 msgid "SSH connection failed"
 msgstr "Není vybrán žádný typ připojení."
-
-#: ssh_key_manager_dialog.py
-msgid "Saved in ~/.ssh/ — leave blank for default name"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Select the private key file, not the .pub file"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Show the full public key content in a dedicated window"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Sign with designated CA ({name})"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Signed by"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Signing CA:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Switched back to local machine"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Testing connection to {t}…"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "This does not look like a valid public key line"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Validity"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Parity:"
-msgid "Validity:"
-msgstr "Parita:"
-
-#: ssh_key_manager_dialog.py
-msgid "_Add"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "_Change"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Close"
-msgid "_Close"
-msgstr "Zavřít"
 
 #: ssh_key_manager_dialog.py
 msgid "_Designate"
@@ -4935,215 +5144,6 @@ msgstr ""
 #| msgid "Imported"
 msgid "_Import"
 msgstr "Importováno"
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Rename tab"
-msgid "_Rename"
-msgstr "Přejmenovat záložku"
-
-#: ssh_key_manager_dialog.py
-msgid "add a key to authorized_keys"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "authorized_keys entry removed"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "authorized_keys entry updated"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "authorized_keys not found on {t}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "enable/disable an authorized_keys entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Never"
-msgid "forever"
-msgstr "Nikdy"
-
-#: ssh_key_manager_dialog.py
-msgid "known_hosts entry removed"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "known_hosts not found on {t}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "local machine"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "remove a known_hosts entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "remove an authorized_keys entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "ssh-add failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "ssh-add timed out — the key may require a passphrase (no terminal available here)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "ssh-keygen -V syntax, e.g. +52w (1 year), +30d, or 'always:forever'"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "ssh-keygen failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "ssh-keygen not found — install openssh-client"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "unknown CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "until {end}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "user@host or root@host[:port]"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "{action} this authorized_keys entry?"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "{n} authorized_keys entries loaded from {t}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "{n} known_hosts entries loaded from {t}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "{priv} private key(s), {pub} Orphan Public key(s) loaded from ~/.ssh/"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "~/.ssh/ not found — no keys loaded"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "✓ Imported"
-msgid "↑ Import"
-msgstr "✓ Importováno"
-
-#: ssh_key_manager_dialog.py
-msgid "⎘ Copy fingerprint"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "⎘ Copy public key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Copy selection to clipboard"
-msgid "⎘ Copy to clipboard"
-msgstr "Kopírovat výběr do schránky"
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "General"
-msgid "⚙ Generate"
-msgstr "Obecné"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid ""
-"⚠ You are about to {action} on the <b>root</b> account of {target}.\n"
-"This can affect SSH access to the whole system.\n"
-"<b>Are you sure?</b>"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Rename tab"
-msgid "✎ Rename"
-msgstr "Přejmenovat záložku"
-
-#: ssh_key_manager_dialog.py
-msgid "⟳ Refresh"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "✓ Imported"
-msgid "⬆ Import CA"
-msgstr "✓ Importováno"
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Local"
-msgid "🏠 Local"
-msgstr "Místní"
-
-#: ssh_key_manager_dialog.py
-msgid "👁 View public key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "📂 Reveal"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Connect"
-msgid "🔌 Connect"
-msgstr "Připojit"
-
-#: ssh_key_manager_dialog.py
-msgid "🔏 Designate"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "🔑 Agent"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "🔒 Passphrase"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Delete:"
-msgid "🗑 Delete"
-msgstr "Delete:"
-
-#: ssh_key_manager_dialog.py
-msgid "🗑 Delete CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "🧪 Test known hosts"
-msgstr ""
 
 #: widgets.py
 #, fuzzy, python-format
