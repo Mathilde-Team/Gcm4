@@ -339,9 +339,11 @@ skip_covered = false
 # tests des onglets terminaux local/telnet (100 %) et série (97 %), soit 55.
 # Palier 9 de #293 (04/11/2026) : 58,7 % en mesure combinée avec les
 # tests des dialogues d'import Proxmox et libvirt (#394), soit 58.
+# Palier 10 de #293 (05/11/2026) : 62,1 % en mesure combinée avec les
+# tests de la logique du gestionnaire de clés SSH (#398), soit 62.
 # Relever ce chiffre quand la base monte, ne jamais le baisser
 # pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
-fail_under = 58
+fail_under = 62
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
