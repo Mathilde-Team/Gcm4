@@ -344,9 +344,11 @@ skip_covered = false
 # tests de la logique du gestionnaire de clés SSH (#398), soit 62.
 # Palier 11 de #293 (05/11/2026) : 65,2 % en mesure combinée avec les
 # tests de la logique du plugin SPICE (#403, 24,9 % → 99,4 %), soit 65.
+# Palier 12 de #293 (05/11/2026) : 67,7 % en mesure combinée avec les
+# tests de la logique du plugin VNC (#408, 34,8 % → 100 %), soit 67.
 # Relever ce chiffre quand la base monte, ne jamais le baisser
 # pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
-fail_under = 65
+fail_under = 67
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
