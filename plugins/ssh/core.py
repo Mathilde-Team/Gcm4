@@ -92,6 +92,20 @@ __all__ = [
     "empreinte_cle",
     "permissions_cle",
     "chemin_prive",
+    # éditeur de ~/.ssh/config (#97)
+    "CHAMPS_EDITEUR",
+    "CHAMPS_MULTIPLES",
+    "Redirection",
+    "redirections_de",
+    "appliquer_redirections",
+    "nouvelle_redirection",
+    "erreurs_formulaire",
+    "appliquer_formulaire",
+    "valeurs_formulaire",
+    "commande_ssh",
+    "commande_test",
+    "lignes_diff",
+    "config_depuis_texte",
 ]
 
 
@@ -1819,6 +1833,227 @@ def chemin_prive(cle: CleSsh) -> str:
     chemin = cle.chemin.with_suffix("") if cle.est_publique else cle.chemin
     logger.debug("chemin_prive: sortie | {}", chemin)
     return str(chemin)
+
+
+# ---------------------------------------------------------------------------
+# Éditeur de ~/.ssh/config (GTK4, #97) : logique du formulaire, sans GTK
+# ---------------------------------------------------------------------------
+
+#: Directives du formulaire visuel, dans l'ordre d'affichage (``Host`` = alias).
+CHAMPS_EDITEUR: tuple[str, ...] = (
+    "Host",
+    "HostName",
+    "User",
+    "Port",
+    "IdentityFile",
+    "ProxyJump",
+    "ProxyCommand",
+    "ForwardAgent",
+    "ServerAliveInterval",
+    "ServerAliveCountMax",
+    "Compression",
+    "StrictHostKeyChecking",
+    "UserKnownHostsFile",
+    "ConnectTimeout",
+    "RequestTTY",
+    "RemoteCommand",
+    "ControlMaster",
+    "ControlPersist",
+    "PubkeyAuthentication",
+    "PasswordAuthentication",
+    "IdentitiesOnly",
+    "LogLevel",
+    "AddKeysToAgent",
+)
+
+#: Directives répétables : une valeur par ligne dans le fichier, séparées par
+#: des virgules dans le formulaire.
+CHAMPS_MULTIPLES: frozenset[str] = frozenset({"IdentityFile"})
+
+#: Type de redirection → directive ssh_config.
+_DIRECTIVES_REDIRECTION: dict[str, str] = {
+    "dynamic": "DynamicForward",
+    "local": "LocalForward",
+    "remote": "RemoteForward",
+}
+
+
+@dataclass(frozen=True)
+class Redirection:
+    """Une redirection de port d'un bloc ``Host``.
+
+    Attributes:
+        type: ``"dynamic"``, ``"local"`` ou ``"remote"``.
+        local: Port d'écoute (local, ou distant pour ``remote``).
+        hote: Hôte cible (vide pour ``dynamic``).
+        distant: Port cible (vide pour ``dynamic``).
+        brut: Valeur telle qu'écrite dans le fichier (``"8080 web:80"``).
+    """
+
+    type: str
+    local: str
+    hote: str
+    distant: str
+    brut: str
+
+
+def redirections_de(hote: SSHHost) -> list[Redirection]:
+    """Redirections d'un hôte : ``DynamicForward``, puis ``LocalForward``, puis ``RemoteForward``."""
+    logger.debug("redirections_de: entrée | {}", hote.patterns)
+    resultat: list[Redirection] = []
+    for brut in hote.get_options("DynamicForward"):
+        morceaux = brut.split()
+        resultat.append(Redirection("dynamic", morceaux[0] if morceaux else brut, "", "", brut))
+    for type_, directive in (("local", "LocalForward"), ("remote", "RemoteForward")):
+        for brut in hote.get_options(directive):
+            morceaux = brut.split(None, 1)
+            local = morceaux[0] if morceaux else brut
+            cible = morceaux[1] if len(morceaux) > 1 else ""
+            machine, _sep, port = cible.rpartition(":") if ":" in cible else (cible, "", "")
+            resultat.append(Redirection(type_, local, machine, port, brut))
+    logger.debug("redirections_de: sortie | {}", len(resultat))
+    return resultat
+
+
+def appliquer_redirections(hote: SSHHost, redirections: list[Redirection]) -> None:
+    """Réécrit ``DynamicForward``/``LocalForward``/``RemoteForward`` depuis ``redirections``."""
+    logger.debug("appliquer_redirections: entrée | {}", len(redirections))
+    for type_, directive in _DIRECTIVES_REDIRECTION.items():
+        hote.set_options(directive, [r.brut for r in redirections if r.type == type_])
+    logger.debug("appliquer_redirections: sortie")
+
+
+def nouvelle_redirection(type_: str, local: int, hote: str = "", distant: int = 0) -> Redirection:
+    """Redirection saisie dans le formulaire.
+
+    Args:
+        type_: ``"dynamic"``, ``"local"`` ou ``"remote"``.
+        local: Port d'écoute.
+        hote: Hôte cible (ignoré pour ``dynamic``).
+        distant: Port cible (ignoré pour ``dynamic``).
+
+    Raises:
+        ValueError: hôte cible vide pour ``local``/``remote``.
+    """
+    logger.debug("nouvelle_redirection: entrée | {}", type_)
+    if type_ == "dynamic":
+        logger.debug("nouvelle_redirection: sortie | dynamique")
+        return Redirection("dynamic", str(local), "", "", str(local))
+    hote = hote.strip()
+    if not hote:
+        logger.debug("nouvelle_redirection: sortie | hôte cible manquant")
+        raise ValueError("hôte cible manquant")
+    brut = f"{local} {hote}:{distant}"
+    logger.debug("nouvelle_redirection: sortie | {}", brut)
+    return Redirection(type_, str(local), hote, str(distant), brut)
+
+
+def valeurs_formulaire(hote: SSHHost) -> dict[str, str]:
+    """Valeurs à afficher dans le formulaire pour ``hote`` (une par champ)."""
+    logger.debug("valeurs_formulaire: entrée | {}", hote.patterns)
+    valeurs = {"Host": " ".join(hote.patterns)}
+    for cle in CHAMPS_EDITEUR[1:]:
+        if cle in CHAMPS_MULTIPLES:
+            valeurs[cle] = ", ".join(hote.get_options(cle))
+        else:
+            valeurs[cle] = hote.get_option(cle) or ""
+    logger.debug("valeurs_formulaire: sortie")
+    return valeurs
+
+
+def erreurs_formulaire(valeurs: dict[str, str]) -> dict[str, str]:
+    """Erreurs de saisie par champ : ``{"Host": "alias", "Port": "port"}``.
+
+    Codes : ``"alias"`` (aucun alias), ``"port"`` (pas un entier de 1 à 65535).
+    """
+    logger.debug("erreurs_formulaire: entrée")
+    erreurs: dict[str, str] = {}
+    if not valeurs.get("Host", "").split():
+        erreurs["Host"] = "alias"
+    port = valeurs.get("Port", "").strip()
+    if port and not (port.isdigit() and 1 <= int(port) <= 65535):
+        erreurs["Port"] = "port"
+    logger.debug("erreurs_formulaire: sortie | {}", sorted(erreurs))
+    return erreurs
+
+
+def appliquer_formulaire(hote: SSHHost, valeurs: dict[str, str]) -> dict[str, str]:
+    """Écrit le formulaire dans ``hote`` ; renvoie les erreurs (:func:`erreurs_formulaire`).
+
+    Un champ en erreur (alias vide, port invalide) n'est pas écrit et garde
+    son ancienne valeur ; un champ vide retire la directive.
+    """
+    logger.debug("appliquer_formulaire: entrée | {}", hote.patterns)
+    erreurs = erreurs_formulaire(valeurs)
+    if "Host" not in erreurs:
+        hote.patterns = valeurs["Host"].split()
+    for cle in CHAMPS_EDITEUR[1:]:
+        valeur = valeurs.get(cle, "").strip()
+        if cle in erreurs:
+            continue
+        if cle in CHAMPS_MULTIPLES:
+            hote.set_options(cle, [v.strip() for v in valeur.split(",") if v.strip()])
+        elif valeur:
+            hote.set_option(cle, valeur)
+        else:
+            hote.remove_option(cle)
+    logger.debug("appliquer_formulaire: sortie | {} erreur(s)", len(erreurs))
+    return erreurs
+
+
+def commande_ssh(hote: SSHHost) -> str:
+    """Commande ``ssh -p PORT [USER@]MACHINE`` équivalente au bloc ``hote``."""
+    logger.debug("commande_ssh: entrée | {}", hote.patterns)
+    alias = hote.patterns[0] if hote.patterns else ""
+    machine = hote.get_option("HostName") or alias
+    port = hote.get_option("Port") or "22"
+    utilisateur = hote.get_option("User") or ""
+    cible = f"{utilisateur}@{machine}" if utilisateur else machine
+    logger.debug("commande_ssh: sortie")
+    return f"ssh -p {port} {cible}"
+
+
+def commande_test(alias: str) -> list[str]:
+    """Commande du test de connexion d'un alias (non interactive, 5 s)."""
+    logger.debug("commande_test: entrée | {}", alias)
+    commande = ["ssh", "-o", "ConnectTimeout=5", "-o", "BatchMode=yes", "-v", alias]
+    logger.debug("commande_test: sortie")
+    return commande
+
+
+def lignes_diff(original: list[str], courant: str) -> list[str]:
+    """Diff unifié (2 lignes de contexte) entre le fichier lu et le texte courant."""
+    logger.debug("lignes_diff: entrée | {} ligne(s)", len(original))
+    import difflib  # noqa: PLC0415 (seul usage)
+
+    avant = ("\n".join(original) + "\n").splitlines(keepends=True)
+    diff = list(
+        difflib.unified_diff(
+            avant, courant.splitlines(keepends=True), fromfile="original", tofile="current", n=2
+        )
+    )
+    logger.debug("lignes_diff: sortie | {} ligne(s)", len(diff))
+    return diff
+
+
+def config_depuis_texte(texte: str) -> SSHConfig:
+    """Analyse un texte ``ssh_config`` (onglet Raw) comme s'il était un fichier.
+
+    Le fichier temporaire est créé dans le dossier temporaire de
+    l'utilisateur, jamais à côté de la cible (``/etc/ssh/ssh_config.d/``
+    n'est pas inscriptible).
+
+    Raises:
+        OSError: fichier temporaire impossible à écrire.
+    """
+    logger.debug("config_depuis_texte: entrée | {} caractère(s)", len(texte))
+    with tempfile.TemporaryDirectory(prefix="gcm-ssh-") as dossier:
+        chemin = Path(dossier) / "config"
+        chemin.write_text(texte, encoding="utf-8")
+        analyseur = SSHConfigParser(config_path=chemin)
+        config = analyseur.parse()
+    logger.debug("config_depuis_texte: sortie | {} hôte(s)", len(config.hosts))
+    return config
 
 
 # ---------------------------------------------------------------------------
