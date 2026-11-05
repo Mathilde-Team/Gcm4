@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-106 modules · 194 classes · 400 fonctions publiques de module.
+107 modules · 194 classes · 408 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -32,7 +32,7 @@ flowchart TD
     g0 -->|1| g2
     g2 -->|54| g1
     g2 -->|4| g0
-    g2 -->|31| g4
+    g2 -->|34| g4
     g2 -->|6| g5
     g3 -->|2| g0
     g3 -->|2| g4
@@ -794,6 +794,7 @@ classDiagram
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
 | `plugins.ssh.core` | `plugins/ssh/core.py` | Logique métier SSH de gcm4, zéro dépendance GTK — parsing de ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf. |
 | `plugins.ssh.gtk4` | `plugins/ssh/gtk4.py` | Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, éditeur de ``~/.ssh/config`` (personnel + partagé), et à venir gestionnaire de clés. |
+| `plugins.ssh.session` | `plugins/ssh/session.py` | Logique de la session SSH GTK4, sans GTK (#396, partie 1). |
 | `plugins.telnet.core` | `plugins/telnet/core.py` | Logique du plugin telnet, sans GTK : commande et délai des commandes après connexion. |
 | `plugins.telnet.gtk4` | `plugins/telnet/gtk4.py` | Plugin telnet de gcm4 (contrat v1, ``docs/plugins.md``) : terminal VTE GTK4. |
 | `plugins.web` | `plugins/web/__init__.py` | Plugin web : console HTML5 (iLO, iDRAC, IMM…) ou toute interface web dans un onglet. |
@@ -1472,6 +1473,17 @@ classDiagram
         <<Gtk.Window>>
         +ajouter(texte) None
         +contenu() str
+    }
+    class mod_plugins_ssh_session {
+        <<module>>
+        +booleen(texte) bool
+        +lire_tunnels(brut) list~str~
+        +ecrire_tunnels(tunnels) str
+        +redirection(tunnel) list~str~
+        +arguments(options) list~str~
+        +cle_absente(options) str None
+        +lancement(adresse, port, utilisateur, mot_de_passe, parametres, options, ssh, expect, script) Lancement
+        +etapes(commandes) list~tuple~int, str~~
     }
     class mod_plugins_telnet_core {
         <<module>>
