@@ -66,7 +66,7 @@ et c'est à l'autrice de trancher, sur #223 :
 | local | 192 | `Vte.Terminal` 2.91, shell local | `Vte.Terminal` 3.91 | Rocky 9 sans VTE GTK4 |
 | serial | 689 | `Vte.Terminal` 2.91, `picocom`/`minicom`/`screen` | **porté** : `plugins/serial/` (contrat v1, #179) ; détection des outils et construction de la commande sans GTK (`core.py`), paramètres série dans la zone d'options du protocole (repli du débit sur le champ Port, héritage GTK3) | Rocky 9 sans VTE GTK4 ; `picocom` vient d'EPEL sur Rocky 9 |
 | ipmisol | 246 | `Vte.Terminal` 2.91, `ipmitool sol activate` | **porté** : `plugins/ipmisol/` (contrat v1, #179) ; mot de passe via `IPMI_PASSWORD` (`Lancement.env`), `sol deactivate` à la fermeture | Rocky 9 sans VTE GTK4 |
-| web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | `WebKit.WebView` 6.0 ; repli vers le navigateur externe (`Gtk.UriLauncher` à partir de GTK 4.10, sinon `Gio.AppInfo`) | Rocky 9 : repli externe seulement |
+| web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | **porté** : `plugins/web/` (contrat v1, #397) ; `WebKit.WebView` 6.0 chargé à l'ouverture seulement, certificat refusé accepté pour l'hôte de l'URL seulement (`allow_tls_certificate_for_host`, GTK3 coupait la vérification pour tout le contexte), repli vers le navigateur par défaut par `Gio.AppInfo` (présent dès GTK 4.8, `Gtk.UriLauncher` n'apporterait rien ici) ; mêmes clés `web_url` et `web_ignore_cert` que GTK3 | Rocky 9 : repli externe seulement (tests WebKit écartés, repli testé) |
 | vnc | 701 | `GtkVnc.Display` (gtk-vnc, GTK3 seulement partout) | **fusion avec `plugins/pluginvnc2`** (déjà GTK4, client asyncvnc2), comme prévu par #104 | #104 ; aucune version GTK4 de gtk-vnc dans les distributions |
 | spice | 1424 | `SpiceClientGtk.Display` 3.0 (GTK3 seulement partout) | aucun widget SPICE GTK4. Deux voies : affichage maison sur `SpiceClientGLib` (canal d'affichage vers `Gdk.MemoryTexture`, comme pluginvnc2), ou visionneuse externe (`remote-viewer`) | **choix à faire** (sous-issue au moment du portage) ; spice-gtk absent de Rocky 9 |
 | rdp | 614 | `GtkFrdp.Display` (`Gtk.Socket`/XEmbed, supprimé en GTK4) | `plugins/rdp/gtk4.py` sur AsyncRdp | #71, #105 ; FreeRDP 3 absent de Debian 12 et de Rocky 9 |
@@ -105,7 +105,7 @@ toutes les lignes suivantes.
    réutilisent.
 3. **ssh** (#97, #180) : le plus gros ; il réutilise le terminal des étapes 1
    et 2.
-4. **web**.
+4. **web** (#397) : porté.
 5. **Contrat « outil »**, puis **import_putty**, les imports d'hyperviseurs,
    **netmiko_push**, et **snmp_push** après #74.
 6. **vnc** (fusion pluginvnc2, #104), **rdp** (#71, #105) et **spice** (choix
