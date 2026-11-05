@@ -86,6 +86,26 @@ __all__ = [
     "migrate_ssh_hosts",
     "import_ssh_config",
     "main",
+    # sélecteur de clé (#97)
+    "CleSsh",
+    "lister_cles",
+    "empreinte_cle",
+    "permissions_cle",
+    "chemin_prive",
+    # éditeur de ~/.ssh/config (#97)
+    "CHAMPS_EDITEUR",
+    "CHAMPS_MULTIPLES",
+    "Redirection",
+    "redirections_de",
+    "appliquer_redirections",
+    "nouvelle_redirection",
+    "erreurs_formulaire",
+    "appliquer_formulaire",
+    "valeurs_formulaire",
+    "commande_ssh",
+    "commande_test",
+    "lignes_diff",
+    "config_depuis_texte",
 ]
 
 
@@ -1680,6 +1700,360 @@ def import_ssh_config(
 # ``_cp_getbool``/``_MANAGED_DESCRIPTION`` ci-dessus restant partagés entre
 # les deux. Voir docs/sessions/session-23.md pour le détail.
 # ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# Clés de ~/.ssh/ (sélecteur de clé GTK4, #97)
+# ---------------------------------------------------------------------------
+
+#: Fichiers de ``~/.ssh/`` qui ne sont jamais des clés.
+NOMS_EXCLUS: frozenset[str] = frozenset(
+    {"config", "known_hosts", "authorized_keys", "environment"}
+)
+
+
+@dataclass(frozen=True)
+class CleSsh:
+    """Une clé de ``~/.ssh/`` telle que la liste le sélecteur de clé.
+
+    Attributes:
+        nom: Nom affiché (nom du fichier).
+        chemin: Fichier listé : la clé privée, ou la clé publique orpheline.
+        publique: Clé publique associée (``<nom>.pub``) ou ``None``.
+        empreinte: Empreinte abrégée (``ssh-keygen -lf``) ou chaîne vide.
+        permissions: Mode octal (``"600"``) ou ``"?"`` si illisible.
+        permissions_ok: ``True`` si personne d'autre que le propriétaire n'y accède.
+    """
+
+    nom: str
+    chemin: Path
+    publique: Path | None
+    empreinte: str
+    permissions: str
+    permissions_ok: bool
+
+    @property
+    def est_publique(self) -> bool:
+        """Clé publique orpheline (aucune clé privée à côté)."""
+        return self.chemin.suffix == ".pub"
+
+
+def empreinte_cle(chemin: Path) -> str:
+    """Empreinte abrégée (32 caractères) via ``ssh-keygen -lf``, ou ``""``.
+
+    Args:
+        chemin: Fichier de clé (publique de préférence).
+
+    Returns:
+        L'empreinte, ou une chaîne vide si ``ssh-keygen`` échoue ou manque.
+    """
+    logger.debug("empreinte_cle: entrée | {}", chemin)
+    try:
+        resultat = subprocess.run(
+            ["ssh-keygen", "-lf", str(chemin)],
+            capture_output=True,
+            text=True,
+            timeout=3,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        logger.warning("empreinte_cle: ssh-keygen indisponible pour {} : {}", chemin, exc)
+        return ""
+    morceaux = resultat.stdout.strip().split()
+    if resultat.returncode != 0 or len(morceaux) < 2:
+        logger.debug("empreinte_cle: sortie | rc={} -> vide", resultat.returncode)
+        return ""
+    logger.debug("empreinte_cle: sortie | empreinte lue")
+    return morceaux[1][:32]
+
+
+def permissions_cle(chemin: Path) -> tuple[str, bool]:
+    """Mode octal d'une clé et son innocuité (aucun accès groupe ni autres).
+
+    Args:
+        chemin: Fichier de clé.
+
+    Returns:
+        ``("600", True)``, ``("644", False)``… ou ``("?", False)`` si illisible.
+    """
+    logger.debug("permissions_cle: entrée | {}", chemin)
+    try:
+        mode = chemin.stat().st_mode
+    except OSError as exc:
+        logger.warning("permissions_cle: {} illisible : {}", chemin, exc)
+        return ("?", False)
+    ok = not mode & (stat.S_IRWXG | stat.S_IRWXO)
+    texte = f"{stat.S_IMODE(mode):03o}"
+    logger.debug("permissions_cle: sortie | {} ok={}", texte, ok)
+    return (texte, ok)
+
+
+def lister_cles(dossier: Path | None = None) -> list[CleSsh]:
+    """Clés de ``dossier`` (``~/.ssh/`` par défaut), triées par nom.
+
+    Une clé privée est listée avec sa publique ``<nom>.pub`` si elle existe ;
+    une publique sans privée est listée seule. Les fichiers cachés et ceux de
+    :data:`NOMS_EXCLUS` sont ignorés.
+
+    Args:
+        dossier: Dossier à parcourir.
+
+    Returns:
+        Les clés trouvées ; liste vide si le dossier n'existe pas.
+    """
+    logger.debug("lister_cles: entrée | {}", dossier)
+    dossier = dossier if dossier is not None else Path.home() / ".ssh"
+    if not dossier.is_dir():
+        logger.debug("lister_cles: sortie | {} absent -> []", dossier)
+        return []
+    cles: list[CleSsh] = []
+    for chemin in sorted(dossier.iterdir()):
+        nom = chemin.name
+        if not chemin.is_file() or nom in NOMS_EXCLUS or nom.startswith("."):
+            continue
+        if nom.endswith(".pub"):
+            if chemin.with_suffix("").exists():
+                continue  # listée avec sa clé privée
+            publique: Path | None = None
+        else:
+            candidate = chemin.with_name(nom + ".pub")
+            publique = candidate if candidate.exists() else None
+        texte, ok = permissions_cle(chemin)
+        cles.append(CleSsh(nom, chemin, publique, empreinte_cle(publique or chemin), texte, ok))
+    logger.debug("lister_cles: sortie | {} clé(s)", len(cles))
+    return cles
+
+
+def chemin_prive(cle: CleSsh) -> str:
+    """Chemin de clé privée à mettre dans ``IdentityFile``.
+
+    Pour une publique orpheline, le chemin sans ``.pub`` (convention ssh).
+    """
+    logger.debug("chemin_prive: entrée | {}", cle.nom)
+    chemin = cle.chemin.with_suffix("") if cle.est_publique else cle.chemin
+    logger.debug("chemin_prive: sortie | {}", chemin)
+    return str(chemin)
+
+
+# ---------------------------------------------------------------------------
+# Éditeur de ~/.ssh/config (GTK4, #97) : logique du formulaire, sans GTK
+# ---------------------------------------------------------------------------
+
+#: Directives du formulaire visuel, dans l'ordre d'affichage (``Host`` = alias).
+CHAMPS_EDITEUR: tuple[str, ...] = (
+    "Host",
+    "HostName",
+    "User",
+    "Port",
+    "IdentityFile",
+    "ProxyJump",
+    "ProxyCommand",
+    "ForwardAgent",
+    "ServerAliveInterval",
+    "ServerAliveCountMax",
+    "Compression",
+    "StrictHostKeyChecking",
+    "UserKnownHostsFile",
+    "ConnectTimeout",
+    "RequestTTY",
+    "RemoteCommand",
+    "ControlMaster",
+    "ControlPersist",
+    "PubkeyAuthentication",
+    "PasswordAuthentication",
+    "IdentitiesOnly",
+    "LogLevel",
+    "AddKeysToAgent",
+)
+
+#: Directives répétables : une valeur par ligne dans le fichier, séparées par
+#: des virgules dans le formulaire.
+CHAMPS_MULTIPLES: frozenset[str] = frozenset({"IdentityFile"})
+
+#: Type de redirection → directive ssh_config.
+_DIRECTIVES_REDIRECTION: dict[str, str] = {
+    "dynamic": "DynamicForward",
+    "local": "LocalForward",
+    "remote": "RemoteForward",
+}
+
+
+@dataclass(frozen=True)
+class Redirection:
+    """Une redirection de port d'un bloc ``Host``.
+
+    Attributes:
+        type: ``"dynamic"``, ``"local"`` ou ``"remote"``.
+        local: Port d'écoute (local, ou distant pour ``remote``).
+        hote: Hôte cible (vide pour ``dynamic``).
+        distant: Port cible (vide pour ``dynamic``).
+        brut: Valeur telle qu'écrite dans le fichier (``"8080 web:80"``).
+    """
+
+    type: str
+    local: str
+    hote: str
+    distant: str
+    brut: str
+
+
+def redirections_de(hote: SSHHost) -> list[Redirection]:
+    """Redirections d'un hôte : ``DynamicForward``, puis ``LocalForward``, puis ``RemoteForward``."""
+    logger.debug("redirections_de: entrée | {}", hote.patterns)
+    resultat: list[Redirection] = []
+    for brut in hote.get_options("DynamicForward"):
+        morceaux = brut.split()
+        resultat.append(Redirection("dynamic", morceaux[0] if morceaux else brut, "", "", brut))
+    for type_, directive in (("local", "LocalForward"), ("remote", "RemoteForward")):
+        for brut in hote.get_options(directive):
+            morceaux = brut.split(None, 1)
+            local = morceaux[0] if morceaux else brut
+            cible = morceaux[1] if len(morceaux) > 1 else ""
+            machine, _sep, port = cible.rpartition(":") if ":" in cible else (cible, "", "")
+            resultat.append(Redirection(type_, local, machine, port, brut))
+    logger.debug("redirections_de: sortie | {}", len(resultat))
+    return resultat
+
+
+def appliquer_redirections(hote: SSHHost, redirections: list[Redirection]) -> None:
+    """Réécrit ``DynamicForward``/``LocalForward``/``RemoteForward`` depuis ``redirections``."""
+    logger.debug("appliquer_redirections: entrée | {}", len(redirections))
+    for type_, directive in _DIRECTIVES_REDIRECTION.items():
+        hote.set_options(directive, [r.brut for r in redirections if r.type == type_])
+    logger.debug("appliquer_redirections: sortie")
+
+
+def nouvelle_redirection(type_: str, local: int, hote: str = "", distant: int = 0) -> Redirection:
+    """Redirection saisie dans le formulaire.
+
+    Args:
+        type_: ``"dynamic"``, ``"local"`` ou ``"remote"``.
+        local: Port d'écoute.
+        hote: Hôte cible (ignoré pour ``dynamic``).
+        distant: Port cible (ignoré pour ``dynamic``).
+
+    Raises:
+        ValueError: hôte cible vide pour ``local``/``remote``.
+    """
+    logger.debug("nouvelle_redirection: entrée | {}", type_)
+    if type_ == "dynamic":
+        logger.debug("nouvelle_redirection: sortie | dynamique")
+        return Redirection("dynamic", str(local), "", "", str(local))
+    hote = hote.strip()
+    if not hote:
+        logger.debug("nouvelle_redirection: sortie | hôte cible manquant")
+        raise ValueError("hôte cible manquant")
+    brut = f"{local} {hote}:{distant}"
+    logger.debug("nouvelle_redirection: sortie | {}", brut)
+    return Redirection(type_, str(local), hote, str(distant), brut)
+
+
+def valeurs_formulaire(hote: SSHHost) -> dict[str, str]:
+    """Valeurs à afficher dans le formulaire pour ``hote`` (une par champ)."""
+    logger.debug("valeurs_formulaire: entrée | {}", hote.patterns)
+    valeurs = {"Host": " ".join(hote.patterns)}
+    for cle in CHAMPS_EDITEUR[1:]:
+        if cle in CHAMPS_MULTIPLES:
+            valeurs[cle] = ", ".join(hote.get_options(cle))
+        else:
+            valeurs[cle] = hote.get_option(cle) or ""
+    logger.debug("valeurs_formulaire: sortie")
+    return valeurs
+
+
+def erreurs_formulaire(valeurs: dict[str, str]) -> dict[str, str]:
+    """Erreurs de saisie par champ : ``{"Host": "alias", "Port": "port"}``.
+
+    Codes : ``"alias"`` (aucun alias), ``"port"`` (pas un entier de 1 à 65535).
+    """
+    logger.debug("erreurs_formulaire: entrée")
+    erreurs: dict[str, str] = {}
+    if not valeurs.get("Host", "").split():
+        erreurs["Host"] = "alias"
+    port = valeurs.get("Port", "").strip()
+    if port and not (port.isdigit() and 1 <= int(port) <= 65535):
+        erreurs["Port"] = "port"
+    logger.debug("erreurs_formulaire: sortie | {}", sorted(erreurs))
+    return erreurs
+
+
+def appliquer_formulaire(hote: SSHHost, valeurs: dict[str, str]) -> dict[str, str]:
+    """Écrit le formulaire dans ``hote`` ; renvoie les erreurs (:func:`erreurs_formulaire`).
+
+    Un champ en erreur (alias vide, port invalide) n'est pas écrit et garde
+    son ancienne valeur ; un champ vide retire la directive.
+    """
+    logger.debug("appliquer_formulaire: entrée | {}", hote.patterns)
+    erreurs = erreurs_formulaire(valeurs)
+    if "Host" not in erreurs:
+        hote.patterns = valeurs["Host"].split()
+    for cle in CHAMPS_EDITEUR[1:]:
+        valeur = valeurs.get(cle, "").strip()
+        if cle in erreurs:
+            continue
+        if cle in CHAMPS_MULTIPLES:
+            hote.set_options(cle, [v.strip() for v in valeur.split(",") if v.strip()])
+        elif valeur:
+            hote.set_option(cle, valeur)
+        else:
+            hote.remove_option(cle)
+    logger.debug("appliquer_formulaire: sortie | {} erreur(s)", len(erreurs))
+    return erreurs
+
+
+def commande_ssh(hote: SSHHost) -> str:
+    """Commande ``ssh -p PORT [USER@]MACHINE`` équivalente au bloc ``hote``."""
+    logger.debug("commande_ssh: entrée | {}", hote.patterns)
+    alias = hote.patterns[0] if hote.patterns else ""
+    machine = hote.get_option("HostName") or alias
+    port = hote.get_option("Port") or "22"
+    utilisateur = hote.get_option("User") or ""
+    cible = f"{utilisateur}@{machine}" if utilisateur else machine
+    logger.debug("commande_ssh: sortie")
+    return f"ssh -p {port} {cible}"
+
+
+def commande_test(alias: str) -> list[str]:
+    """Commande du test de connexion d'un alias (non interactive, 5 s)."""
+    logger.debug("commande_test: entrée | {}", alias)
+    commande = ["ssh", "-o", "ConnectTimeout=5", "-o", "BatchMode=yes", "-v", alias]
+    logger.debug("commande_test: sortie")
+    return commande
+
+
+def lignes_diff(original: list[str], courant: str) -> list[str]:
+    """Diff unifié (2 lignes de contexte) entre le fichier lu et le texte courant."""
+    logger.debug("lignes_diff: entrée | {} ligne(s)", len(original))
+    import difflib  # noqa: PLC0415 (seul usage)
+
+    avant = ("\n".join(original) + "\n").splitlines(keepends=True)
+    diff = list(
+        difflib.unified_diff(
+            avant, courant.splitlines(keepends=True), fromfile="original", tofile="current", n=2
+        )
+    )
+    logger.debug("lignes_diff: sortie | {} ligne(s)", len(diff))
+    return diff
+
+
+def config_depuis_texte(texte: str) -> SSHConfig:
+    """Analyse un texte ``ssh_config`` (onglet Raw) comme s'il était un fichier.
+
+    Le fichier temporaire est créé dans le dossier temporaire de
+    l'utilisateur, jamais à côté de la cible (``/etc/ssh/ssh_config.d/``
+    n'est pas inscriptible).
+
+    Raises:
+        OSError: fichier temporaire impossible à écrire.
+    """
+    logger.debug("config_depuis_texte: entrée | {} caractère(s)", len(texte))
+    with tempfile.TemporaryDirectory(prefix="gcm-ssh-") as dossier:
+        chemin = Path(dossier) / "config"
+        chemin.write_text(texte, encoding="utf-8")
+        analyseur = SSHConfigParser(config_path=chemin)
+        config = analyseur.parse()
+    logger.debug("config_depuis_texte: sortie | {} hôte(s)", len(config.hosts))
+    return config
 
 
 # ---------------------------------------------------------------------------

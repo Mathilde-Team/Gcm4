@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-31 23:23+0000\n"
+"POT-Creation-Date: 2026-11-05 06:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,7 +181,7 @@ msgstr ""
 msgid "Before connecting"
 msgstr "Before connecting"
 
-#: gnome_connection_manager.py ssh_config_editor.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Browse existing SSH keys in ~/.ssh/"
 msgstr ""
 
@@ -241,7 +241,7 @@ msgstr "Circle around tabs when going to the previous/next tab"
 msgid "Clear selection"
 msgstr ""
 
-#: gnome_connection_manager.py src/gcm4/ui/echange.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py src/gcm4/ui/echange.py
 #: src/gcm4/ui/main_window.py ssh_config_editor.py ssh_key_manager_dialog.py
 msgid "Close"
 msgstr "Close"
@@ -612,7 +612,7 @@ msgstr "Only on clean exit"
 msgid "Open"
 msgstr "Open"
 
-#: gnome_connection_manager.py ssh_config_editor.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Open SSH Key Manager (generate / import / delete)"
 msgstr ""
 
@@ -879,15 +879,15 @@ msgstr ""
 msgid "− Remove"
 msgstr ""
 
-#: gnome_connection_manager.py ssh_config_editor.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "⚙"
 msgstr ""
 
-#: gnome_connection_manager.py ssh_config_editor.py
+#: gnome_connection_manager.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "🔑 Pick…"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid ""
 "<i>No SSH key found in ~/.ssh/.\n"
 "Click <b>Generate…</b> to create one.</i>"
@@ -901,7 +901,7 @@ msgstr ""
 msgid "Key name"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "Keys found in <b>~/.ssh/</b> — select one (or several with Ctrl/Shift-click) then click <i>Use</i>:"
 msgstr ""
 
@@ -909,27 +909,27 @@ msgstr ""
 msgid "Permissions"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "Select SSH Key"
 msgstr ""
 
-#: key_picker_dialog.py ssh_key_manager_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py ssh_key_manager_dialog.py
 msgid "_Cancel"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "_Use"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "private"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "public"
 msgstr ""
 
-#: key_picker_dialog.py
+#: key_picker_dialog.py plugins/ssh/gtk4.py
 msgid "⚙ Generate…"
 msgstr ""
 
@@ -2215,7 +2215,7 @@ msgstr ""
 msgid "Connections will be added to the « ssh_config » group, with name = host = SSH alias."
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Dynamic"
 msgstr ""
 
@@ -2272,15 +2272,15 @@ msgstr ""
 msgid "Keep alive (seconds)"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Local"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Local (-L)"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Local Port"
 msgstr ""
 
@@ -2288,11 +2288,11 @@ msgstr ""
 msgid "Local mount point"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Local target host"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Local target port"
 msgstr ""
 
@@ -2354,7 +2354,7 @@ msgstr ""
 msgid "Personal (me)"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Personal (~/.ssh/config)"
 msgstr ""
 
@@ -2373,23 +2373,23 @@ msgstr ""
 msgid "QUIET / ERROR / INFO / VERBOSE / DEBUG…"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Remote"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Remote (-R)"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Remote Host"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Remote Port"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "Remote listen port"
 msgstr ""
 
@@ -2471,11 +2471,11 @@ msgstr ""
 msgid "yes / no / ask / auto"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "yes / no / ask / confirm"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
 msgid "yes / no / force / auto"
 msgstr ""
 
@@ -2770,6 +2770,249 @@ msgstr ""
 #: plugins/sftp/gtk4.py
 #, python-brace-format
 msgid "{path}: {count} items"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid ""
+"\n"
+"Exit code: {rc}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid ""
+"\n"
+"[Error: {exc}]"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid ""
+"\n"
+"[Timeout after 10 s]"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "(no output)\n"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Add a new empty host"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Alias(es)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "At least one alias is required"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid "Copied: {cmd}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Copy full ssh command to clipboard"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Copy ssh cmd"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Diff (original → current):"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Dynamic (SOCKS)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Edit SSH config (personal + shared)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Edit raw ssh_config — changes here override the Visual tab on Save."
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Enter remote host"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "File:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Filter hosts…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Multiple values possible: separate them with commas (one line per value in the file)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "No changes."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Permissions too open: ssh will refuse this key"
+msgstr "Permissions too open: ssh will refuse this key"
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Port must be an integer between 1 and 65535"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Properties"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "QUIET/ERROR/INFO/VERBOSE/DEBUG"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Raw / Diff"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Redirection de port"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Remove host?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Remove selected host"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid "Remove «{alias}» from {path}?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid ""
+"Running: {cmd}\n"
+"\n"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Shared — bastion, all users (/etc/ssh/ssh_config.d/config_gcm.conf)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Test SSH connection to selected host"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid "Test connection — {alias}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "Visual"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "auto / yes / no"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 10"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 10m"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 192.168.1.10 ou example.com"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 22"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 3"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : 60"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : root"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : ssh -W %h:%p bastion, ou corkscrew proxy 8080 %h %p"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : tmux attach || tmux new"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : user@bastion.example.com, user@server1.example.com"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : web1 ou web1 web1.example.com"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : ~/.ssh/id_ed25519, ~/.ssh/id_rsa"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "ex : ~/.ssh/known_hosts"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "yes / no / ask / accept-new"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "yes ou no"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+#, python-brace-format
+msgid "{path} does not exist yet — it will be created when saving."
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "← Select or create a host"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "⚡ Test"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "✕ Cancel"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "✕ Remove"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "⟳ Refresh diff"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py ssh_key_manager_dialog.py
+msgid "＋ Add"
+msgstr ""
+
+#: plugins/ssh/gtk4.py ssh_config_editor.py
+msgid "💾 Save"
 msgstr ""
 
 #: src/gcm4/app.py
@@ -3783,43 +4026,7 @@ msgid "Show window"
 msgstr "Show window"
 
 #: ssh_config_editor.py
-#, python-brace-format
-msgid ""
-"\n"
-"Exit code: {rc}"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid ""
-"\n"
-"[Error: {exc}]"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid ""
-"\n"
-"[Timeout after 10 s]"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "(no output)\n"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Add a new empty host"
-msgstr ""
-
-#: ssh_config_editor.py
 msgid "AddKeysToAgent"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Alias(es)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "At least one alias is required"
 msgstr ""
 
 #: ssh_config_editor.py
@@ -3836,47 +4043,6 @@ msgstr ""
 
 #: ssh_config_editor.py
 msgid "ControlPersist"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "Copied: {cmd}"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Copy full ssh command to clipboard"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Copy ssh cmd"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Diff (original → current):"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Dynamic (SOCKS)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Edit SSH config (personal + shared)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Edit raw ssh_config — changes here override the Visual tab on Save."
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Enter remote host"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "File:"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Filter hosts…"
 msgstr ""
 
 #: ssh_config_editor.py
@@ -3900,23 +4066,7 @@ msgid "LogLevel"
 msgstr ""
 
 #: ssh_config_editor.py
-msgid "Multiple values possible: separate them with commas (one line per value in the file)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "No changes."
-msgstr ""
-
-#: ssh_config_editor.py
 msgid "PasswordAuthentication"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Port must be an integer between 1 and 65535"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Properties"
 msgstr ""
 
 #: ssh_config_editor.py
@@ -3932,43 +4082,11 @@ msgid "PubkeyAuthentication"
 msgstr ""
 
 #: ssh_config_editor.py
-msgid "QUIET/ERROR/INFO/VERBOSE/DEBUG"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Raw / Diff"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Redirection de port"
-msgstr ""
-
-#: ssh_config_editor.py
 msgid "RemoteCommand"
 msgstr ""
 
 #: ssh_config_editor.py
-msgid "Remove host?"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Remove selected host"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "Remove «{alias}» from {path}?"
-msgstr ""
-
-#: ssh_config_editor.py
 msgid "RequestTTY"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid ""
-"Running: {cmd}\n"
-"\n"
 msgstr ""
 
 #: ssh_config_editor.py
@@ -3980,125 +4098,11 @@ msgid "ServerAliveInterval"
 msgstr ""
 
 #: ssh_config_editor.py
-msgid "Shared — bastion, all users (/etc/ssh/ssh_config.d/config_gcm.conf)"
-msgstr ""
-
-#: ssh_config_editor.py
 msgid "StrictHostKeyChecking"
 msgstr ""
 
 #: ssh_config_editor.py
-msgid "Test SSH connection to selected host"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "Test connection — {alias}"
-msgstr ""
-
-#: ssh_config_editor.py
 msgid "UserKnownHostsFile"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Visual"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "auto / yes / no"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 10"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 10m"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 192.168.1.10 ou example.com"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 22"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 3"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 60"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : root"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : ssh -W %h:%p bastion, ou corkscrew proxy 8080 %h %p"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : tmux attach || tmux new"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : user@bastion.example.com, user@server1.example.com"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : web1 ou web1 web1.example.com"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : ~/.ssh/id_ed25519, ~/.ssh/id_rsa"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : ~/.ssh/known_hosts"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "yes / no / ask / accept-new"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "yes ou no"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "{path} does not exist yet — it will be created when saving."
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "← Select or create a host"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "⚡ Test"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "✕ Cancel"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "✕ Remove"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "⟳ Refresh diff"
-msgstr ""
-
-#: ssh_config_editor.py ssh_key_manager_dialog.py
-msgid "＋ Add"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "💾 Save"
 msgstr ""
 
 #: ssh_key_manager_dialog.py
