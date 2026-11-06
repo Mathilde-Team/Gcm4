@@ -1224,7 +1224,13 @@ class SshConfigEditorDialog(GCMBase, Gtk.Dialog):
             return
 
         raw_alias, source = model[it][2], model[it][3]
-        host = self._configs[source].get_host(raw_alias)
+        # La colonne 2 contient l'alias JOINT (« web1 web » pour ``Host web1
+        # web``) : ``SSHConfig.get_host`` compare à chaque motif isolé et ne
+        # retrouverait jamais un hôte à plusieurs alias (#415).
+        host = next(
+            (h for h in self._configs[source].hosts if " ".join(h.patterns) == raw_alias),
+            None,
+        )
         if host:
             self._load_host_in_form(host, source)
         logger.debug("_on_host_selected: fin")
@@ -1476,18 +1482,23 @@ class _SshTestDialog(Gtk.Dialog):
         logger.debug("_run_test: entrée | alias={}", self._alias)
         cmd = ["ssh", "-o", "ConnectTimeout=5", "-o", "BatchMode=yes", "-v", self._alias]
         self._append(_("Running: {cmd}\n\n").format(cmd=" ".join(cmd)))
+        # Code de retour de ssh, ou None si ssh n'a pas abouti (délai dépassé,
+        # binaire absent) : le journal de fin ne doit pas dépendre de
+        # ``result``, non défini dans ces deux cas (#414).
+        returncode: int | None = None
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
             output = result.stdout + result.stderr
             self._append(output or _("(no output)\n"))
-            self._append(_("\nExit code: {rc}").format(rc=result.returncode))
+            returncode = result.returncode
+            self._append(_("\nExit code: {rc}").format(rc=returncode))
         except subprocess.TimeoutExpired:
             logger.debug("_run_test: timeout après 10 s | alias={}", self._alias)
             self._append(_("\n[Timeout after 10 s]"))
         except Exception as exc:
             logger.debug("_run_test: erreur | {} | {}", type(exc).__name__, exc)
             self._append(_("\n[Error: {exc}]").format(exc=exc))
-        logger.debug("_run_test: fin | code={}", result.returncode)
+        logger.debug("_run_test: fin | code={}", returncode)
         return False
 
     def _append(self, text: str) -> None:
