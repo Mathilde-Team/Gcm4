@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-106 modules · 194 classes · 400 fonctions publiques de module.
+111 modules · 198 classes · 422 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -32,8 +32,8 @@ flowchart TD
     g0 -->|1| g2
     g2 -->|54| g1
     g2 -->|4| g0
-    g2 -->|31| g4
-    g2 -->|6| g5
+    g2 -->|40| g4
+    g2 -->|7| g5
     g3 -->|2| g0
     g3 -->|2| g4
     g3 -->|1| g5
@@ -786,6 +786,9 @@ classDiagram
 | `plugins.plugin_vnc` | `plugins/plugin_vnc.py` | Plugin de connexion VNC (GtkVnc.Display natif, ou fallback subprocess). |
 | `plugins.plugin_web` | `plugins/plugin_web.py` | Plugin de connexion Web (console BMC HTML5 : iLO/iDRAC/IMM, ou toute URL). |
 | `plugins.pluginvnc2.vnc_tab` | `plugins/pluginvnc2/vnc_tab.py` | vnc_tab.py — Onglet VNC complet pour gnome-connection-manager (fork GTK4) |
+| `plugins.rdp` | `plugins/rdp/__init__.py` | Plugin rdp : bureau à distance RDP sur AsyncRdp (FreeRDP 3), sans gtk-frdp. |
+| `plugins.rdp.core` | `plugins/rdp/core.py` | Partie métier du plugin rdp (sans GTK) — portage #105. |
+| `plugins.rdp.gtk4` | `plugins/rdp/gtk4.py` | Plugin rdp de gcm4 (contrat v1, ``docs/plugins.md``) : bureau RDP sur AsyncRdp. |
 | `plugins.serial` | `plugins/serial/__init__.py` | Plugin serial : port série local (picocom, minicom, screen) dans un terminal. |
 | `plugins.serial.core` | `plugins/serial/core.py` | Partie métier du plugin serial (sans GTK) — portage #179. |
 | `plugins.serial.gtk4` | `plugins/serial/gtk4.py` | Plugin serial de gcm4 (contrat v1, ``docs/plugins.md``) : port série dans un terminal VTE GTK4. |
@@ -794,6 +797,7 @@ classDiagram
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
 | `plugins.ssh.core` | `plugins/ssh/core.py` | Logique métier SSH de gcm4, zéro dépendance GTK — parsing de ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf. |
 | `plugins.ssh.gtk4` | `plugins/ssh/gtk4.py` | Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, éditeur de ``~/.ssh/config`` (personnel + partagé), et à venir gestionnaire de clés. |
+| `plugins.ssh.session` | `plugins/ssh/session.py` | Logique de la session SSH GTK4, sans GTK (#396, partie 1). |
 | `plugins.telnet.core` | `plugins/telnet/core.py` | Logique du plugin telnet, sans GTK : commande et délai des commandes après connexion. |
 | `plugins.telnet.gtk4` | `plugins/telnet/gtk4.py` | Plugin telnet de gcm4 (contrat v1, ``docs/plugins.md``) : terminal VTE GTK4. |
 | `plugins.web` | `plugins/web/__init__.py` | Plugin web : console HTML5 (iLO, iDRAC, IMM…) ou toute interface web dans un onglet. |
@@ -997,14 +1001,14 @@ classDiagram
         +connect_rdp()
         +build_context_menu()
     }
-    class RdpPlugin {
+    class plugins_plugin_rdp_RdpPlugin {
         +build_tab(host, get_password) Gtk.Widget
         +build_edit_page() Gtk.Widget
         +load_host_fields(host) None
         +save_host_fields(host) None
         +host_fields() list~tuple~str, object~~
     }
-    plugins_plugin_base_ConnectionPlugin <|-- RdpPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_rdp_RdpPlugin
     class mod_plugins_plugin_serial {
         <<module>>
         +get_plugin() SerialPlugin
@@ -1185,6 +1189,49 @@ classDiagram
         <<Gtk.Box>>
         +close()
     }
+    class mod_plugins_rdp_core {
+        <<module>>
+        +booleen(valeur) bool
+        +texte_booleen(valeur) str
+        +options_defaut() dict~str, str~
+        +port(host) int
+        +valider(options) list~FieldError~
+        +taille(options) tuple~int, int~
+        +suit_onglet(options) bool
+        +reglages(host) Reglages
+    }
+    class Reglages {
+        <<dataclass>>
+        +str hote
+        +int port
+        +str utilisateur
+        +str None domaine
+        +dict~str, object~ options
+        +tuple~str, str~ None dossier
+        +str None remote_app
+        +bool suit_onglet
+    }
+    class mod_plugins_rdp_gtk4 {
+        <<module>>
+        +charger_asyncrdp(config, environ) AsyncRdp
+        +classe_vue(base) type
+        +options_asyncrdp(module, reglages) Any
+        +zone_options(options, changed) Gtk.Widget
+    }
+    class AsyncRdp
+    class RdpOnglet {
+        +connecter(mot_de_passe) asyncio.Future
+        +echec(message) None
+        +close() None
+    }
+    class plugins_rdp_gtk4_RdpPlugin {
+        +default_port(protocol) int None
+        +default_options(protocol) dict~str, str~
+        +validate_options(protocol, options) list
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) RdpOnglet
+    }
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_rdp_gtk4_RdpPlugin
     class mod_plugins_serial_core {
         <<module>>
         +outil(environ, prefere) str None
@@ -1472,6 +1519,17 @@ classDiagram
         <<Gtk.Window>>
         +ajouter(texte) None
         +contenu() str
+    }
+    class mod_plugins_ssh_session {
+        <<module>>
+        +booleen(texte) bool
+        +lire_tunnels(brut) list~str~
+        +ecrire_tunnels(tunnels) str
+        +redirection(tunnel) list~str~
+        +arguments(options) list~str~
+        +cle_absente(options) str None
+        +lancement(adresse, port, utilisateur, mot_de_passe, parametres, options, ssh, expect, script) Lancement
+        +etapes(commandes) list~tuple~int, str~~
     }
     class mod_plugins_telnet_core {
         <<module>>
@@ -2054,6 +2112,7 @@ classDiagram
 | `gcm4.ui` | `src/gcm4/ui/__init__.py` | Interface GTK4 de gcm4 : seul endroit autorisé à importer ``gi``. |
 | `gcm4.ui.aide` | `src/gcm4/ui/aide.py` | Menu Aide de gcm4 (#86) : guide utilisateur et fenêtre des raccourcis. |
 | `gcm4.ui.application` | `src/gcm4/ui/application.py` | Application libadwaita de gcm4 : instance unique, actions, À propos (#133, #134). |
+| `gcm4.ui.boucle` | `src/gcm4/ui/boucle.py` | Boucle asyncio branchée sur la boucle GLib de l'application (#105). |
 | `gcm4.ui.contexte` | `src/gcm4/ui/contexte.py` | Contexte injecté dans chaque plugin (contrat v1, ``docs/plugins.md``, #151). |
 | `gcm4.ui.couleurs` | `src/gcm4/ui/couleurs.py` | Conversions de couleurs partagées par l'interface GTK4. |
 | `gcm4.ui.dialogues` | `src/gcm4/ui/dialogues.py` | Dialogues de confirmation et de saisie, compatibles libadwaita 1.2 à 1.9. |
@@ -2093,6 +2152,11 @@ classDiagram
         +basculer_fenetre() None
         +appliquer_zone_notification(active) None
         +boite_a_propos() Gtk.Widget
+    }
+    class mod_gcm4_ui_boucle {
+        <<module>>
+        +executer(lancer) int
+        +asyncio_disponible() bool
     }
     class ContexteApplication {
         +config() Mapping~str, str~

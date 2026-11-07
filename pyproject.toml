@@ -164,6 +164,7 @@ files = [
     "tab_context_menu_core.py",
     "plugins/plugin_base.py",
     "plugins/ssh/core.py",
+    "plugins/ssh/session.py",
     "plugins/sftp/core.py",
     "plugins/telnet/core.py",
 ]
