@@ -74,7 +74,7 @@ import os
 import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-WIDGETS_FILE = os.path.join(REPO_ROOT, "widgets.py")
+WIDGETS_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "widgets.py")
 
 
 def _read(path: str) -> str:

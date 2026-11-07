@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Icônes du lanceur gcm4 (#155) aux tailles standard du thème hicolor, à partir
-# de icon.png (128×128) : réduction seulement, jamais d'agrandissement (une
+# de data/icon.png (128×128) : réduction seulement, jamais d'agrandissement (une
 # taille 256 ou 512 demanderait une source vectorielle).
 #
 # Usage : scripts/generer-icones.sh            régénère data/icons/hicolor/
@@ -13,7 +13,7 @@
 set -euo pipefail
 
 RACINE="$(cd "$(dirname "$0")/.." && pwd)"
-SOURCE="$RACINE/icon.png"
+SOURCE="$RACINE/data/icon.png"
 APP_ID="io.github.MathildeDec.gcm4"
 TAILLES=(16 22 24 32 48 64 128)
 DEST="$RACINE/data/icons/hicolor"

@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FILES = [
     ROOT / "plugins" / "plugin_vnc.py",
     ROOT / "plugins" / "plugin_spice.py",
-    ROOT / "gnome_connection_manager.py",
+    ROOT / "GTK3.OLD" / "gnome_connection_manager.py",
 ]
 # Variables qui portent un secret en clair dans ces fichiers.
 SECRET_NAMES = {"pwd", "password", "vv_lines"}
@@ -37,7 +37,7 @@ def _log_calls(path):
 
 def _load_mask_password():
     """mask_password partagée, dans logging_config (sans GTK) depuis l'issue #130."""
-    import logging_config
+    from gcm4.core import journal as logging_config
 
     return logging_config.mask_password
 

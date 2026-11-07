@@ -40,7 +40,7 @@ import os
 import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORE_FILE = os.path.join(REPO_ROOT, "gnome_connection_manager.py")
+CORE_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome_connection_manager.py")
 PLUGINS_DIR = os.path.join(REPO_ROOT, "plugins")
 
 

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Chemins d'erreur et replis de gcm4_core.py.
+"""Chemins d'erreur et replis de src/gcm4/core/metier.py.
 
 Complète les tests existants sur les branches restées sans couverture :
 détection d'OS inconnue, replis de traduction (locale indisponible) et
@@ -12,8 +12,8 @@ import builtins
 import gettext
 import locale
 
-import gcm4_core
-import pyAES
+from gcm4.core import metier as gcm4_core
+from gcm4.core import pyaes as pyAES
 
 # ── dep_install_hint : OS inconnu ──────────────────────────────────────────
 

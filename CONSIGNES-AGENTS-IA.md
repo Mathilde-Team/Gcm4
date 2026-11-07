@@ -2,32 +2,32 @@
 
 > Destiné à tout agent IA (Claude ou autre) travaillant sur les plugins de
 > GNOME Connection Manager, en particulier lors du découpage en dossiers
-> `plugins/<nom>/` (voir `proposition-architecture-plugins-gtk4.md`) où
+> `plugins/<nom>/` (voir `docs/proposition-architecture-plugins-gtk4.md`) où
 > plusieurs agents peuvent travailler en parallèle sur des plugins
 > différents. Ces règles sont **strictes** : un agent qui livre du code ne
 > les respectant pas doit le corriger avant de le considérer terminé, pas
 > après coup sur demande.
 >
 > Contexte : voir `claude.md` et `features.md` pour l'état du projet.
-> `gcm4_core.py` (extrait le 2026-08-30) est la référence vivante de ces
+> `src/gcm4/core/metier.py` (extrait le 2026-08-30) est la référence vivante de ces
 > conventions — en cas de doute sur la forme attendue, s'y référer.
 
 ## 1. Neutralité de protocole (règle d'architecture, pas de style)
 
 Le cœur de l'application (`gnome_connection_manager.py`, et sa partie
-métier extraite dans `gcm4_core.py`) **ne doit contenir aucune donnée ni
+métier extraite dans `src/gcm4/core/metier.py`) **ne doit contenir aucune donnée ni
 logique spécifique à un protocole** (SSH, RDP, VNC, série, telnet,
 SNMP...). Tout ce qui nomme un protocole, un constructeur, ou un format de
 configuration propre à un plugin appartient au plugin, jamais au cœur.
 
 - **Contre-exemple corrigé le 2026-08-30** : les templates série (presets
   Cisco/Huawei/Arduino...) avaient été déplacés par erreur dans
-  `gcm4_core.py` lors de sa création, puis remis dans
+  `src/gcm4/core/metier.py` lors de sa création, puis remis dans
   `gnome_connection_manager.py` après relecture — le protocole série étant
   déjà un plugin (`plugins/plugin_serial.py`), ces données n'ont leur place
   dans aucun des deux fichiers du cœur à terme, seulement dans le plugin.
 - **Bon exemple** : `proto_default_port()`/`all_default_ports()` dans
-  `gcm4_core.py` sont un *mécanisme* générique paramétré par
+  `src/gcm4/core/metier.py` sont un *mécanisme* générique paramétré par
   `plugin_registry` — aucun nom de protocole n'y est écrit en dur.
 - Un agent qui découvre un vestige de protocole dans le cœur en travaillant
   sur autre chose **le signale dans `features.md`/`claude.md`, mais ne le
@@ -35,8 +35,8 @@ configuration propre à un plugin appartient au plugin, jamais au cœur.
   justement sur ce protocole.
 - **Contrats vérifiés en CI (issue #174)** : `tests/test_architecture_imports.py`
   fait échouer toute PR qui fait importer GTK (`gi`) à un module cœur
-  (`*_core.py`, `gcm4_core.py`, `logging_config.py`,
-  `master_password_core.py`, `plugins/*/core.py`), qui fait importer un
+  (`*_core.py`, `src/gcm4/core/metier.py`, `src/gcm4/core/journal.py`,
+  `src/gcm4/core/mot_de_passe.py`, `plugins/*/core.py`), qui fait importer un
   plugin nommé au cœur, ou un plugin par un autre plugin.
   `tools/check_circular_imports.py` tourne aussi dans le job Qualité, et les
   contrats import-linter de `src/gcm4` (`pyproject.toml`) s'activeront
@@ -48,7 +48,7 @@ configuration propre à un plugin appartient au plugin, jamais au cœur.
 Une fonction ne va jamais chercher une donnée dont elle a besoin via un
 singleton global (`wMain`, `utils.conf`, etc.) si cette donnée peut lui
 être passée en paramètre. Voir `proto_default_port(proto, plugin_registry)`
-et `decrypt(passw, string, version)` dans `gcm4_core.py` : réécritures du
+et `decrypt(passw, string, version)` dans `src/gcm4/core/metier.py` : réécritures du
 2026-08-30 qui reçoivent explicitement ce qu'elles utilisaient auparavant
 en lisant un global. Ceci s'applique en particulier à tout code qui doit
 rester importable sans GTK.
@@ -60,7 +60,7 @@ import logger as app_logger`, ou l'instance déjà configurée du module) et
 loggue :
 - **un `debug()` en entrée**, avec les paramètres significatifs (jamais un
   mot de passe ou une clé en clair — indiquer `(masqué)` ou une longueur à
-  la place, voir `get_password()` dans `gcm4_core.py`) ;
+  la place, voir `get_password()` dans `src/gcm4/core/metier.py`) ;
 - **un `debug()` à chaque sortie**, y compris chaque `return` anticipé et
   chaque levée d'exception volontaire (`raise`) — pas seulement un `debug()`
   générique en fin de fonction si plusieurs chemins de sortie existent.
@@ -86,12 +86,12 @@ def exemple(proto: str, plugin_registry) -> str:
     return result
 ```
 
-Référence complète : n'importe quelle fonction de `gcm4_core.py`.
+Référence complète : n'importe quelle fonction de `src/gcm4/core/metier.py`.
 
 Un seul système de journalisation (issue #170) : jamais `import logging`
 (ni repli « si loguru est absent » : loguru est une dépendance
 obligatoire), et les puits (`logger.add`) ne sont configurés que par
-`logging_config.py`, sauf dans la fonction `main()` d'un point d'entrée
+`src/gcm4/core/journal.py`, sauf dans la fonction `main()` d'un point d'entrée
 autonome (`tools/*.py`, `plugins/ssh/core.py`, `scripts/pr_coverage_comment.py`, `scripts/i18n_report.py`, `scripts/audit_debug_sorties.py`, `scripts/generate_class_diagram.py`, `scripts/check_branch_protection.py`).
 `tests/test_loguru_only.py` le vérifie par analyse `ast`.
 
@@ -115,11 +115,11 @@ structure Google, pas qu'elle documente correctement `Args`/`Returns`.
 - `Returns:` décrit la valeur de retour (type + sens). Omis seulement si la
   fonction ne retourne rien de significatif (`-> None`).
 - `Raises:` si la fonction lève une exception volontairement (voir
-  `load_encryption_key()` dans `gcm4_core.py`).
+  `load_encryption_key()` dans `src/gcm4/core/metier.py`).
 - Toute divergence de comportement par rapport à une version antérieure
   (réécriture, correction de bug latent) est documentée **dans la
   docstring elle-même**, pas seulement dans le message de commit — voir
-  `get_password()` dans `gcm4_core.py` pour l'exemple.
+  `get_password()` dans `src/gcm4/core/metier.py` pour l'exemple.
 
 ## 5. Tests automatiques — obligatoires, exécutables sans stub GTK quand c'est possible
 
@@ -190,7 +190,7 @@ tête de fichier, dans un corps de classe, sous un `if`/`try` au niveau
 module) — il ignore délibérément :
 - les imports à l'intérieur d'un corps de fonction/méthode (pattern déjà
   utilisé intentionnellement dans ce dépôt pour casser un cycle logique,
-  voir `models.py` qui importe `gcm4_core` à l'intérieur de ses méthodes) ;
+  voir `models.py` qui importe `gcm4.core.metier` à l'intérieur de ses méthodes) ;
 - les imports sous `if TYPE_CHECKING:` (jamais exécutés à l'exécution
   réelle).
 
@@ -218,7 +218,7 @@ environnements de test (`rdp/`, `vnc/`) sont exclus de tous les hooks
 - Le style de code au sens large (nommage, longueur de fonction...) : géré
   par ruff, pas reformulé ici.
 - Les décisions d'architecture au cas par cas (quel fichier pour quelle
-  logique) : voir `proposition-architecture-plugins-gtk4.md` et
+  logique) : voir `docs/proposition-architecture-plugins-gtk4.md` et
   `features.md` §4 pour le contexte, ce fichier ne couvre que les règles
   transversales de qualité de code.
 - Rien ici n'autorise à ignorer les autres consignes du projet

@@ -44,7 +44,7 @@ from loguru import logger
 
 ROOT = Path(__file__).resolve().parent.parent
 BASELINE = ROOT / "scripts" / "audit_debug_sorties.baseline"
-EXCLUDED = ("SSH-Studio/", "gtk-frdp/", "tests/")
+EXCLUDED = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/", "tests/")
 LOGGER_NAMES = {"logger", "app_logger", "_logger", "log", "_log", "_loguru_logger"}
 LOG_METHODS = {
     "trace",

@@ -1,7 +1,7 @@
 # Journalisation
 
 Gcm4 journalise avec [loguru](https://loguru.readthedocs.io/). La
-configuration est centralisée dans `logging_config.py` (issue #169) : c'est
+configuration est centralisée dans `src/gcm4/core/journal.py` (issue #169) : c'est
 le seul endroit qui pose les sorties (`logger.add`), en dehors du `main()`
 des outils autonomes (issue #170).
 
@@ -26,9 +26,9 @@ Par ordre de priorité :
 3. Sans rien : `INFO`.
 
 ```sh
-./gnome_connection_manager.py --debug
-GCM_LOG_LEVEL=TRACE ./gnome_connection_manager.py --config ~/test-gcm
-GCM_DEBUG=1 GCM_LOG_FILE=/tmp/gcm-debug.log ./gnome_connection_manager.py
+./GTK3.OLD/gnome_connection_manager.py --debug
+GCM_LOG_LEVEL=TRACE ./GTK3.OLD/gnome_connection_manager.py --config ~/test-gcm
+GCM_DEBUG=1 GCM_LOG_FILE=/tmp/gcm-debug.log ./GTK3.OLD/gnome_connection_manager.py
 ```
 
 `--debug` est retiré des arguments avant `--config` et avant la lecture des
@@ -62,7 +62,7 @@ l'application, et sont rangés dans `<dossier de configuration>/logs/` et
 - Les traces ne doivent contenir **aucun secret** : mots de passe d'hôte,
   mots de passe VNC, URI SPICE, fichiers `.vv` Proxmox, clés privées,
   jetons d'API. Pour tracer une valeur, passer par
-  `logging_config.summarize(valeur, nom)` : un nom qui évoque un secret
+  `gcm4.core.journal.summarize(valeur, nom)` : un nom qui évoque un secret
   (`password`, `pwd`, `token`, `key`, `ticket`...) est rendu `***`, les
   chaînes longues et les octets par leur taille, les identifiants d'URL
   masqués.
@@ -81,7 +81,7 @@ Détail dans `CONSIGNES-AGENTS-IA.md` §3.
   loguru est absent » (c'est une dépendance obligatoire). Vérifié par
   `tests/test_loguru_only.py`.
 - Ne pas appeler `logger.add` ni `logger.remove` dans un module : seuls
-  `logging_config.py` et le `main()` d'un outil autonome (`tools/*.py`,
+  `src/gcm4/core/journal.py` et le `main()` d'un outil autonome (`tools/*.py`,
   `plugins/ssh/core.py`, `scripts/pr_coverage_comment.py`, `scripts/i18n_report.py`,
   `scripts/audit_debug_sorties.py`, `scripts/generate_class_diagram.py`,
   `scripts/check_branch_protection.py`) configurent les
@@ -101,7 +101,7 @@ Détail dans `CONSIGNES-AGENTS-IA.md` §3.
   (`from loguru import logger`).
 - Aucune variable de secret (`pwd`, `password`, `passphrase`, `key`,
   `token`...) interpolée telle quelle : journaliser `bool(password)`,
-  `len(pwd)` ou `logging_config.summarize(valeur, nom)`.
+  `len(pwd)` ou `gcm4.core.journal.summarize(valeur, nom)`.
 
 Ces règles sont vérifiées par `tests/test_loguru_regles.py` (analyse AST de
 tout le dépôt, issue #171) et `tests/test_secrets_journal.py`, dans le job

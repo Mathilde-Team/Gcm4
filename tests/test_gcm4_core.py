@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Tests unitaires pour gcm4_core.py.
+"""Tests unitaires pour src/gcm4/core/metier.py.
 
 Contrairement à tests/test_gcm.py (qui doit stubber GTK/VTE pour importer
 gnome_connection_manager.py), ce fichier importe gcm4_core directement —
 aucun stub nécessaire, ce qui est exactement le but de l'extraction du
-2026-08-30 (voir gcm4_core.py, docstring de module).
+2026-08-30 (voir src/gcm4/core/metier.py, docstring de module).
 
 Couvre en priorité le comportement NOUVEAU/MODIFIÉ par l'extraction (pas
 seulement un déplacement des tests existants de test_gcm.py, qui restent
@@ -20,7 +20,7 @@ valides via les alias de compatibilité dans gnome_connection_manager.py) :
 
 Les templates série (_SERIAL_TEMPLATES) ne sont PAS couverts ici : après
 relecture (2026-08-30), ce sont des données spécifiques au protocole série,
-qui n'ont pas leur place dans gcm4_core.py (cœur neutre de protocole) — elles
+qui n'ont pas leur place dans src/gcm4/core/metier.py (cœur neutre de protocole) — elles
 restent dans gnome_connection_manager.py, couvertes par
 tests/test_gcm.py::TestSerialTemplatesSaveLoad.
 """
@@ -30,7 +30,7 @@ import sys
 import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import gcm4_core  # noqa: E402
+from gcm4.core import metier as gcm4_core  # noqa: E402
 
 
 class FakePlugin:
@@ -281,7 +281,7 @@ class TestEncryptionKeyLifecycle(unittest.TestCase):
 
     def test_load_protected_key_raises_and_keeps_key_empty(self):
         """#98 : une clé protégée par mot de passe maître n'est jamais utilisée telle quelle."""
-        import master_password_core
+        from gcm4.core import mot_de_passe as master_password_core
 
         for content in (
             master_password_core.protect_key_file_content("cafe", "pw"),
@@ -404,7 +404,7 @@ class TestMigrateLegacyConfigDir(unittest.TestCase):
                 f.write("incomplete")
             raise OSError("disque plein (simulé)")
 
-        with mock.patch("gcm4_core.shutil.copytree", side_effect=_fake_copytree):
+        with mock.patch("gcm4.core.metier.shutil.copytree", side_effect=_fake_copytree):
             with self.assertRaises(RuntimeError):
                 gcm4_core.migrate_legacy_config_dir(self._old_dir, self._new_dir)
         self.assertFalse(os.path.exists(self._new_dir))

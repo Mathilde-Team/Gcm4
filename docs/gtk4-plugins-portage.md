@@ -69,7 +69,7 @@ et c'est à l'autrice de trancher, sur #223 :
 | web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | **porté** : `plugins/web/` (contrat v1, #397) ; `WebKit.WebView` 6.0 chargé à l'ouverture seulement, certificat refusé accepté pour l'hôte de l'URL seulement (`allow_tls_certificate_for_host`, GTK3 coupait la vérification pour tout le contexte), repli vers le navigateur par défaut par `Gio.AppInfo` (présent dès GTK 4.8, `Gtk.UriLauncher` n'apporterait rien ici) ; mêmes clés `web_url` et `web_ignore_cert` que GTK3 | Rocky 9 : repli externe seulement (tests WebKit écartés, repli testé) |
 | vnc | 701 | `GtkVnc.Display` (gtk-vnc, GTK3 seulement partout) | **fusion avec `plugins/pluginvnc2`** (déjà GTK4, client asyncvnc2), comme prévu par #104 | #104 ; aucune version GTK4 de gtk-vnc dans les distributions |
 | spice | 1424 | `SpiceClientGtk.Display` 3.0 (GTK3 seulement partout) | aucun widget SPICE GTK4. Deux voies : affichage maison sur `SpiceClientGLib` (canal d'affichage vers `Gdk.MemoryTexture`, comme pluginvnc2), ou visionneuse externe (`remote-viewer`) | **choix à faire** (sous-issue au moment du portage) ; spice-gtk absent de Rocky 9 |
-| rdp | 614 | `GtkFrdp.Display` (`Gtk.Socket`/XEmbed, supprimé en GTK4) | `plugins/rdp/gtk4.py` sur AsyncRdp | #71, #105 ; FreeRDP 3 absent de Debian 12 et de Rocky 9 |
+| rdp | 614 | `GtkFrdp.Display` (`Gtk.Socket`/XEmbed, supprimé en GTK4) | **porté** : `plugins/rdp/` sur AsyncRdp (contrat v1, #105) ; mêmes clés INI que GTK3, `RdpSession` et `RdpView` des intégrations GTK4 d'AsyncRdp4, boucle asyncio sur GLib (`gcm4.ui.boucle`). gtk-frdp abandonné (décision du 2026-11-01, #71) | #71 (retrait de gtk-frdp, menu contextuel) ; FreeRDP 3 absent de Debian 12 et de Rocky 9 |
 
 ### Plugins d'import, d'export et de traitement par lots (`BatchPlugin` GTK3)
 
@@ -106,7 +106,11 @@ toutes les lignes suivantes.
 3. **ssh** (#97, #180) : le plus gros ; il réutilise le terminal des étapes 1
    et 2.
 4. **web** (#397) : porté.
-5. **Contrat « outil »**, puis **import_putty**, les imports d'hyperviseurs,
+5. ~~**Contrat « outil »**~~ fait (#73) : `ToolPlugin` dans
+   `gcm4.core.plugins`, sections de menu `outils`/`import`/`export`,
+   validation `incompatibilite_outil()`, sous-menu « Tools » et action
+   `win.outil-<name>` (`gcm4.core.menu.menu_avec_outils`,
+   `docs/plugins.md`). Reste **import_putty**, les imports d'hyperviseurs,
    **netmiko_push**, et **snmp_push** après #74.
 6. **vnc** (fusion pluginvnc2, #104), **rdp** (#71, #105) et **spice** (choix
    de la voie) : ils dépendent de projets ou de décisions extérieurs.

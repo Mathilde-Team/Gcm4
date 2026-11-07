@@ -163,8 +163,8 @@ import os
 import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORE_FILE = os.path.join(REPO_ROOT, "gnome_connection_manager.py")
-WIDGETS_FILE = os.path.join(REPO_ROOT, "widgets.py")
+CORE_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome_connection_manager.py")
+WIDGETS_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "widgets.py")
 
 # Baseline mise à jour à la session-33 (2026-09-11) — popupMenu (et son
 # sous-menu dynamique "Custom commands") porté vers

@@ -4,7 +4,7 @@
 Analyse ``ast`` de tous les fichiers Python du dépôt (hors sous-projets
 SSH-Studio/ et gtk-frdp/, qui ont leur propre outillage) : aucun
 ``import logging`` ni ``from logging import ...``, et aucun appel à
-``logger.add(...)`` en dehors de ``logging_config.py`` et du point d'entrée
+``logger.add(...)`` en dehors de ``src/gcm4/core/journal.py`` et du point d'entrée
 des outils autonomes de ``tools/`` (``_configure_logging``, appelée par
 ``main()`` et jamais à l'import).
 """
@@ -18,13 +18,13 @@ import warnings
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-EXCLUDED_DIRS = ("SSH-Studio/", "gtk-frdp/")
+EXCLUDED_DIRS = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/")
 # Exclusions documentées (docs/journalisation.md) : aucune à ce jour.
 ALLOWED_STDLIB_LOGGING: set[str] = set()
 # Points d'entrée autonomes (lancés hors de l'application) qui configurent
 # leur propre sortie console au démarrage de main(), jamais à l'import.
 ALLOWED_SINK_FILES = {
-    "logging_config.py",
+    "src/gcm4/core/journal.py",
     "tools/libvirt_inventory.py",
     "tools/ssh_deploy.py",
     "plugins/ssh/core.py",  # CLI `python -m plugins.ssh.core`
@@ -95,7 +95,7 @@ class TestLoguruOnly(unittest.TestCase):
         )
 
     def test_puits_ajoutes_a_un_seul_endroit(self):
-        """logger.add() seulement dans logging_config.py et les points d'entrée autonomes."""
+        """logger.add() seulement dans src/gcm4/core/journal.py et les points d'entrée autonomes."""
         fautes = {}
         for f in _python_files():
             if f in ALLOWED_SINK_FILES or f.startswith("tests/"):
@@ -103,7 +103,9 @@ class TestLoguruOnly(unittest.TestCase):
             lines = _sink_additions((ROOT / f).read_text(encoding="utf-8"))
             if lines:
                 fautes[f] = lines
-        self.assertEqual(fautes, {}, "les puits loguru se configurent dans logging_config.py")
+        self.assertEqual(
+            fautes, {}, "les puits loguru se configurent dans src/gcm4/core/journal.py"
+        )
 
     def test_outils_autonomes_configurent_a_l_execution_seulement(self):
         """Les outils de tools/ configurent leur sortie dans main(), pas à l'import."""

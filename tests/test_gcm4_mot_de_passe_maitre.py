@@ -11,9 +11,9 @@ from pathlib import Path
 import pytest
 from loguru import logger
 
-import master_password_core as mpc
 from gcm4.core import chemins
 from gcm4.core import config as config_mod
+from gcm4.core import mot_de_passe as mpc
 from gcm4.core.chiffrement import (
     ChiffrementError,
     ChiffrementGcm,

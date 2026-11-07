@@ -26,7 +26,7 @@ ROOT = Path(__file__).resolve().parent.parent
 LANG_DIR = ROOT / "lang"
 DOMAIN = "gcm-lang"
 # Sous-projets qui ont leur propre outillage (et leurs propres langues).
-SUBPROJECTS = ("SSH-Studio/", "gtk-frdp/", "plugins/pluginvnc2/")
+SUBPROJECTS = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/", "plugins/pluginvnc2/")
 LOCALE_RE = re.compile(r"\b[a-z]{2,3}_[A-Z]{2}\b")
 # Au-delà, un fichier énumère des langues (les docs citent 2 ou 3 exemples).
 MAX_LOCALES_PER_FILE = 4
@@ -148,7 +148,7 @@ class TestCatalogues(unittest.TestCase):
 
     def _traduire(self, language: str, text: str) -> str:
         code = (
-            "import gcm4_core, builtins, sys\n"
+            "from gcm4.core import metier as gcm4_core\nimport builtins, sys\n"
             f"gcm4_core.bindtextdomain({DOMAIN!r}, {str(LANG_DIR)!r})\n"
             "sys.stdout.write(builtins._(sys.argv[1]))\n"
         )
