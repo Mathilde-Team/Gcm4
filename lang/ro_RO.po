@@ -2367,7 +2367,7 @@ msgid "Add"
 msgstr "Adaugă"
 
 #: plugins/import_hyperviseurs/ui.py
-#| msgid "Sessions found: {count}."
+#, python-brace-format
 msgid "Connections found: {count}."
 msgstr "Conexiuni găsite: {count}."
 
