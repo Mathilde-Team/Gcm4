@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-107 modules · 194 classes · 408 fonctions publiques de module.
+107 modules · 196 classes · 408 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -32,8 +32,8 @@ flowchart TD
     g0 -->|1| g2
     g2 -->|54| g1
     g2 -->|4| g0
-    g2 -->|34| g4
-    g2 -->|6| g5
+    g2 -->|37| g4
+    g2 -->|7| g5
     g3 -->|2| g0
     g3 -->|2| g4
     g3 -->|1| g5
@@ -1063,7 +1063,7 @@ classDiagram
         <<Gtk.Box>>
         +connect_ssh() None
     }
-    class SshPlugin {
+    class plugins_plugin_ssh_SshPlugin {
         +build_tab(host, get_password) Gtk.Widget
         +build_edit_page() Gtk.Widget
         +load_host_fields(host) None
@@ -1079,7 +1079,7 @@ classDiagram
         +import_ssh_config_action() None
         +patch_edit_host_dialog(builder, host_section, cp) None
     }
-    plugins_plugin_base_ConnectionPlugin <|-- SshPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_ssh_SshPlugin
     class mod_plugins_plugin_telnet {
         <<module>>
         +get_plugin() TelnetPlugin
@@ -1474,6 +1474,15 @@ classDiagram
         +ajouter(texte) None
         +contenu() str
     }
+    class SshSession {
+        <<SessionTerminal>>
+    }
+    class plugins_ssh_gtk4_SshPlugin {
+        +default_port(protocol) int None
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) SshSession
+    }
+    plugins_plugin_base_ConnectionPlugin <|-- plugins_ssh_gtk4_SshPlugin
     class mod_plugins_ssh_session {
         <<module>>
         +booleen(texte) bool
