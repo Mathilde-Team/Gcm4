@@ -1,12 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Collecte des VMs Proxmox de ``plugin_import_proxmox`` (#293, palier 7).
+"""Collecte des VMs Proxmox de ``plugins/import_proxmox/core.py`` (#293, #439).
 
-``_proxmox_fetch_hosts`` interroge les hyperviseurs par SSH (``qm list``,
+``collecter_hotes`` interroge les hyperviseurs par SSH (``qm list``,
 agent invité, ``qm config``, ARP, nmap) et fabrique les hôtes GCM (SSH
-direct ou via l'hyperviseur, SPICE, RDP, VNC). Ici, les accès SSH de
-``hypervisor_import_common`` sont remplacés par une doublure qui rejoue des
-sorties de commandes : aucun réseau, aucun processus externe, aucun GTK
-(les doublures ``gi`` de ``tests/test_gcm.py`` sont réutilisées).
+direct ou via l'hyperviseur, SPICE, RDP, VNC). Ici, les accès SSH du
+socle partagé ``gcm4_hv`` sont remplacés par une doublure qui rejoue des
+sorties de commandes : aucun réseau, aucun processus externe, aucun GTK.
 """
 
 from __future__ import annotations
@@ -21,11 +20,9 @@ sys.path.insert(
     0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "plugins")
 )
 
-import test_gcm  # noqa: E402, F401  (pose les doublures gi/Gtk avant l'import du plugin)
-
-# isort: split
-import plugin_import_proxmox as pxm  # noqa: E402
 from doublures_ssh import Hyperviseur  # noqa: E402
+
+from plugins.import_proxmox import core as pxm  # noqa: E402
 
 hv = pxm.hv_common
 
@@ -34,7 +31,7 @@ def collecter(uris, proto_filter=None, ssh_user="admin"):
     """Lance la collecte Proxmox et renvoie hôtes, journal, progression."""
     journal: list[str] = []
     progression: list[tuple] = []
-    hotes = pxm._proxmox_fetch_hosts(
+    hotes = pxm.collecter_hotes(
         uris, ssh_user, journal.append, lambda f, t: progression.append((f, t)), proto_filter
     )
     return hotes, journal, progression

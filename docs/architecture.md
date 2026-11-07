@@ -22,13 +22,16 @@
 > `plugins/netmiko_push/core.py`, `plugins/snmp_push/core.py` et
 > `plugins/import_hyperviseurs/core.py` (helpers partagés des quatre imports
 > d'hyperviseurs), importés par `plugins.<dossier>.core`. Sans `gtk4.py`, gcm4
-> ne les prend pas pour des plugins.
+> ne les prend pas pour des plugins. Les quatre imports d'hyperviseurs sont
+> désormais des outils GTK4 complets (#439) : `plugins/import_<libvirt|proxmox|
+> virtualbox|ovirt>/` (contrat v1 outil), interface partagée
+> `plugins/import_hyperviseurs/ui.py` (paquet `gcm4_hv`).
 
 | Module | Rôle | Dépendances externes |
 |---|---|---|
 | `gnome_connection_manager.py` | Cœur applicatif (~7500 lignes) : `Wmain`, `Whost`, `Wconfig`, `Wabout`, `Wcluster` | `PyGObject`, `GTK3`, `VTE` |
 | `plugins/plugin_*.py` (`ConnectionPlugin`) | Un plugin par protocole de connexion, autoload par `PluginRegistry` | selon protocole (voir §2.1) |
-| `plugins/plugin_*.py` (`BatchPlugin`) | Outils de traitement en masse (import/export/push config), autoload par `BatchPluginRegistry` | selon outil (voir §2.2) |
+| `plugins/plugin_*.py` (`BatchPlugin`) | Outils de traitement en masse (import/export/push config), autoload par `BatchPluginRegistry — il ne reste que `plugin_netmiko_push.py` et `plugin_snmp_push.py` (portage #179 en cours) | selon outil (voir §2.2) |
 | `models.py` | `Host` — champs communs + champs par protocole appris dynamiquement (`all_host_fields()`) | — |
 | `widgets.py` / `utils.py` | Widgets GTK custom, `run_dialog_sync()` (palliatif `Gtk.Dialog.run()`, absent en GTK4) | `PyGObject` |
 | `ssh_config_editor.py`, `ssh_key_manager_dialog.py`, `key_picker_dialog.py` | Gestion SSH avancée — UI GTK3, portage de SSH-Studio (GTK4/Adw → GTK3) | `paramiko` (clés) |

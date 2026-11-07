@@ -693,8 +693,8 @@ with patch("os.system", return_value=0):
 
 # Modules vers lesquels le code testé a été déplacé depuis l'écriture de ce
 # fichier (plugins/, plugins/import_hyperviseurs/core.py, widgets.py) -- issue #112.
-import plugin_import_libvirt  # noqa: E402
-import plugin_import_proxmox  # noqa: E402
+# Les imports d'hyperviseurs GTK3 ont été portés en plugins outils (#439) :
+# leur cœur vit désormais dans plugins/import_* (importé comme un paquet).
 import plugin_local  # noqa: E402
 import plugin_rdp  # noqa: E402
 import plugin_serial  # noqa: E402
@@ -705,6 +705,7 @@ import plugin_vnc  # noqa: E402
 
 import widgets  # noqa: E402
 from plugins.import_hyperviseurs import core as hic  # noqa: E402
+from plugins.import_proxmox import core as plugin_import_proxmox  # noqa: E402
 
 # SpiceTab._build_cmd() relit gcm.conf et réécrit /etc/hosts (HostsUpdater) à
 # chaque appel : neutralisé ici, un test ne doit jamais toucher au système.
@@ -3567,63 +3568,6 @@ class TestGetUsername(unittest.TestCase):
             self.assertIsNone(gcm.get_username())
 
 
-# ── Tests LibvirtImportDialog colonnes (v1.3.2) ───────────────────────────────
-
-
-class TestLibvirtImportDialogConstants(unittest.TestCase):
-    """Tests pour les constantes de colonnes de LibvirtImportDialog._COL_*."""
-
-    def test_col_sel_is_zero(self):
-        """Colonne de sélection : indice 0."""
-        self.assertEqual(plugin_import_libvirt.LibvirtImportDialog._COL_SEL, 0)
-
-    def test_col_proto_is_one(self):
-        """Colonne protocole : indice 1."""
-        self.assertEqual(plugin_import_libvirt.LibvirtImportDialog._COL_PROTO, 1)
-
-    def test_col_name_is_two(self):
-        """Colonne nom : indice 2."""
-        self.assertEqual(plugin_import_libvirt.LibvirtImportDialog._COL_NAME, 2)
-
-    def test_col_group_is_three(self):
-        """Colonne groupe : indice 3."""
-        self.assertEqual(plugin_import_libvirt.LibvirtImportDialog._COL_GROUP, 3)
-
-    def test_col_host_is_four(self):
-        """Colonne hôte : indice 4."""
-        self.assertEqual(plugin_import_libvirt.LibvirtImportDialog._COL_HOST, 4)
-
-    def test_col_state_is_five(self):
-        """Colonne état : indice 5."""
-        self.assertEqual(plugin_import_libvirt.LibvirtImportDialog._COL_STATE, 5)
-
-    def test_col_exists_is_six(self):
-        """Colonne « existe déjà » : indice 6."""
-        self.assertEqual(plugin_import_libvirt.LibvirtImportDialog._COL_EXISTS, 6)
-
-    def test_col_idx_is_nine(self):
-        """Colonne indice interne : indice 9."""
-        self.assertEqual(plugin_import_libvirt.LibvirtImportDialog._COL_IDX, 9)
-
-    def test_all_ten_columns_unique(self):
-        """Les dix colonnes ont des indices distincts."""
-        cols = [
-            plugin_import_libvirt.LibvirtImportDialog._COL_SEL,
-            plugin_import_libvirt.LibvirtImportDialog._COL_PROTO,
-            plugin_import_libvirt.LibvirtImportDialog._COL_NAME,
-            plugin_import_libvirt.LibvirtImportDialog._COL_GROUP,
-            plugin_import_libvirt.LibvirtImportDialog._COL_HOST,
-            plugin_import_libvirt.LibvirtImportDialog._COL_STATE,
-            plugin_import_libvirt.LibvirtImportDialog._COL_EXISTS,
-            plugin_import_libvirt.LibvirtImportDialog._COL_EXIST_LBL,
-            plugin_import_libvirt.LibvirtImportDialog._COL_FG,
-            plugin_import_libvirt.LibvirtImportDialog._COL_IDX,
-        ]
-        self.assertEqual(
-            len(cols), len(set(cols)), "Tous les indices de colonnes doivent être uniques"
-        )
-
-
 # ── Tests _serial_templates_save / round-trip (v1.3.2) ───────────────────────
 
 
@@ -3952,7 +3896,7 @@ class TestProxmoxFetchHosts(unittest.TestCase):
     def _fetch(self, proto_filter, **sorties):
         """Lance l'inventaire d'un hyperviseur avec les sorties données."""
         self.sorties = {"qm list": self.QM_LIST, **sorties}
-        return plugin_import_proxmox._proxmox_fetch_hosts(
+        return plugin_import_proxmox.collecter_hotes(
             ["qemu+ssh://root@pve1/system"],
             "admin",
             lambda *_: None,
