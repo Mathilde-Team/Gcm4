@@ -76,9 +76,9 @@ import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SSH_CONFIG_EDITOR = os.path.join(REPO_ROOT, "ssh_config_editor.py")
-SSH_KEY_MANAGER_DIALOG = os.path.join(REPO_ROOT, "ssh_key_manager_dialog.py")
-KEY_PICKER_DIALOG = os.path.join(REPO_ROOT, "key_picker_dialog.py")
+SSH_CONFIG_EDITOR = os.path.join(REPO_ROOT, "GTK3.OLD", "ssh_config_editor.py")
+SSH_KEY_MANAGER_DIALOG = os.path.join(REPO_ROOT, "GTK3.OLD", "ssh_key_manager_dialog.py")
+KEY_PICKER_DIALOG = os.path.join(REPO_ROOT, "GTK3.OLD", "key_picker_dialog.py")
 
 
 def _read(path: str) -> str:

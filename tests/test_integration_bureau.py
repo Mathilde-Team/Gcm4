@@ -154,7 +154,7 @@ class TestIcones(unittest.TestCase):
 
     def test_jamais_agrandie(self):
         """Aucune taille ne dépasse la source icon.png (pas d'agrandissement)."""
-        largeur, hauteur = dimensions_png(ROOT / "icon.png")
+        largeur, hauteur = dimensions_png(ROOT / "data" / "icon.png")
         self.assertLessEqual(max(TAILLES), min(largeur, hauteur))
 
     def test_script_et_tailles_alignes(self):

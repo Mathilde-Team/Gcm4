@@ -26,9 +26,9 @@ Par ordre de priorité :
 3. Sans rien : `INFO`.
 
 ```sh
-./gnome_connection_manager.py --debug
-GCM_LOG_LEVEL=TRACE ./gnome_connection_manager.py --config ~/test-gcm
-GCM_DEBUG=1 GCM_LOG_FILE=/tmp/gcm-debug.log ./gnome_connection_manager.py
+./GTK3.OLD/gnome_connection_manager.py --debug
+GCM_LOG_LEVEL=TRACE ./GTK3.OLD/gnome_connection_manager.py --config ~/test-gcm
+GCM_DEBUG=1 GCM_LOG_FILE=/tmp/gcm-debug.log ./GTK3.OLD/gnome_connection_manager.py
 ```
 
 `--debug` est retiré des arguments avant `--config` et avant la lecture des

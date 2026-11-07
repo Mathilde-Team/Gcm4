@@ -87,7 +87,7 @@ desktop_locale() {
 
 sources() {
     (cd "$ROOT" && git ls-files '*.py' \
-        | grep -vE '^(tests|tools|scripts|SSH-Studio|gtk-frdp)/' | sort -u)
+        | grep -vE '^(tests|tools|scripts|SSH-Studio|GTK3\.OLD/gtk-frdp)/' | sort -u)
 }
 
 generate_pot() {

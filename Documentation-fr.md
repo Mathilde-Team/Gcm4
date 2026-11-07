@@ -71,7 +71,7 @@ PuTTY) et les outils de déploiement de masse (Netmiko, SNMP) suivent le même
 principe via un registre séparé (`BatchPluginRegistry`).
 
 ```
-gnome_connection_manager.py   ← application principale (interface GTK3)
+GTK3.OLD/gnome_connection_manager.py   ← application principale (interface GTK3)
 ├── GCMBase                   ← fenêtre principale, arbre hôtes, onglets
 ├── Host                      ← modèle de données d’une connexion (générique,
 │                                sans champ codé en dur par protocole)
@@ -160,7 +160,7 @@ pip3 install paramiko
 ```bash
 git clone https://github.com/MathildeDec/gnome-connection-manager
 cd gnome-connection-manager
-./gnome_connection_manager.py
+./GTK3.OLD/gnome_connection_manager.py
 ```
 
 ---
@@ -750,8 +750,8 @@ Depuis v1.3.3, GCM suit automatiquement le thème GTK du bureau :
 
 Pour forcer un thème en ligne de commande :
 ```bash
-GTK_THEME=Adwaita:dark ./gnome_connection_manager.py
-GTK_THEME=Yaru        ./gnome_connection_manager.py
+GTK_THEME=Adwaita:dark ./GTK3.OLD/gnome_connection_manager.py
+GTK_THEME=Yaru        ./GTK3.OLD/gnome_connection_manager.py
 ```
 
 ### Police du terminal
@@ -803,9 +803,9 @@ GCM détecte automatiquement la langue via la variable `LANG` du système.
 ### Forcer une langue
 
 ```bash
-LANG=en_US.UTF-8 ./gnome_connection_manager.py
-LANG=de_DE.UTF-8 ./gnome_connection_manager.py
-LANG=ja_JP.UTF-8 ./gnome_connection_manager.py
+LANG=en_US.UTF-8 ./GTK3.OLD/gnome_connection_manager.py
+LANG=de_DE.UTF-8 ./GTK3.OLD/gnome_connection_manager.py
+LANG=ja_JP.UTF-8 ./GTK3.OLD/gnome_connection_manager.py
 ```
 
 ---

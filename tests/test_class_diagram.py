@@ -74,7 +74,9 @@ class TestDiagrammeDeClasses(unittest.TestCase):
             [
                 f
                 for f in files
-                if f.startswith(("tests/", "tools/", "scripts/", "SSH-Studio/", "gtk-frdp/"))
+                if f.startswith(
+                    ("tests/", "tools/", "scripts/", "SSH-Studio/", "GTK3.OLD/gtk-frdp/")
+                )
             ]
         )
 

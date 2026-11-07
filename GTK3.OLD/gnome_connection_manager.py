@@ -74,6 +74,13 @@ if __name__ == "__main__":
 # et pour que PluginRegistry/BatchPluginRegistry.autoload() (qui scanne par
 # defaut le dossier de plugin_base.py) trouve tous les plugins.
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "plugins"))
+# Lancement depuis les sources (#427) : ce fichier vit dans GTK3.OLD/, alors
+# que plugins/, src/gcm4 et les cœurs d'import restent à la racine du dépôt.
+# Paquet installé : tout est dans le même dossier, rien à ajouter.
+_DOSSIER = os.path.dirname(os.path.abspath(__file__))
+if os.path.basename(_DOSSIER) == "GTK3.OLD":
+    _RACINE = os.path.dirname(_DOSSIER)
+    sys.path[:0] = [os.path.join(_RACINE, "plugins"), _RACINE, os.path.join(_RACINE, "src")]
 
 from gcm4.core import journal as logging_config  # noqa: E402
 from gcm4.core import metier as gcm4_core  # noqa: E402

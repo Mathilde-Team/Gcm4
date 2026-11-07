@@ -18,7 +18,7 @@ import warnings
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-EXCLUDED_DIRS = ("SSH-Studio/", "gtk-frdp/")
+EXCLUDED_DIRS = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/")
 # Exclusions documentées (docs/journalisation.md) : aucune à ce jour.
 ALLOWED_STDLIB_LOGGING: set[str] = set()
 # Points d'entrée autonomes (lancés hors de l'application) qui configurent

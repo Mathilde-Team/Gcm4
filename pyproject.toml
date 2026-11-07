@@ -71,7 +71,7 @@ only-include = ["src/gcm4"]
 sources = ["src"]
 # Mode éditable (`uv sync`) : src/ et la racine sur sys.path, sans copie
 # des modules racine (une copie figée masquerait les modifications).
-dev-mode-dirs = ["src", "."]
+dev-mode-dirs = ["src", ".", "GTK3.OLD"]
 
 [dependency-groups]
 dev = [
@@ -117,7 +117,7 @@ forbidden_modules = ["gi", "gcm4.ui"]
 # docs/typage.md) ; ils entreront dans la liste avec la base GTK4.
 [tool.mypy]
 python_version = "3.12"
-mypy_path = "src"
+mypy_path = "src:GTK3.OLD"
 files = [
     # Paquet GTK4 (#133) : tout sauf ui/ (PyGObject sans types, cf. plus haut).
     "src/gcm4/__init__.py",
@@ -152,17 +152,17 @@ files = [
     "src/gcm4/core/window_state.py",
     "src/gcm4/core/metier.py",
     "src/gcm4/core/journal.py",
-    "models.py",
+    "GTK3.OLD/models.py",
     "src/gcm4/core/mot_de_passe.py",
     "src/gcm4/core/pyaes.py",
-    "folder_context_menu_core.py",
-    "gesture_trigger_core.py",
-    "inline_editor_core.py",
+    "GTK3.OLD/folder_context_menu_core.py",
+    "GTK3.OLD/gesture_trigger_core.py",
+    "GTK3.OLD/inline_editor_core.py",
     "netmiko_bulk_core.py",
-    "popup_menu_core.py",
+    "GTK3.OLD/popup_menu_core.py",
     "putty_import_core.py",
     "snmp_bulk_core.py",
-    "tab_context_menu_core.py",
+    "GTK3.OLD/tab_context_menu_core.py",
     "plugins/plugin_base.py",
     "plugins/ssh/core.py",
     "plugins/ssh/session.py",
@@ -178,6 +178,9 @@ warn_unused_configs = true
 
 # ─── Ruff ────────────────────────────────────────────────────────────────────
 [tool.ruff]
+# Racines de résolution des imports first-party (isort) : la racine, src/
+# et GTK3.OLD/ (ancienne application GTK3, #427).
+src = [".", "src", "GTK3.OLD"]
 # Cible Python 3.10+
 target-version = "py310"
 line-length = 99
@@ -206,7 +209,7 @@ exclude = [
     # compte d'erreurs `make lint` de 194 (SSH-Studio) + 2 (gtk-frdp) lignes
     # qui ne concernaient pas le dépôt GCM lui-même).
     "SSH-Studio",
-    "gtk-frdp",
+    "GTK3.OLD/gtk-frdp",
 ]
 
 [tool.ruff.lint]
@@ -278,7 +281,7 @@ force-single-line = false
 known-first-party = ["gnome_connection_manager", "gcm4"]
 
 [tool.ruff.lint.per-file-ignores]
-"urlregex.py" = ["W605"]
+"GTK3.OLD/urlregex.py" = ["W605"]
 
 [tool.ruff.format]
 # Formatage compatible black
@@ -308,7 +311,7 @@ relative_files = true
 omit = [
     "tests/*",
     "SSH-Studio/*",
-    "gtk-frdp/*",
+    "GTK3.OLD/gtk-frdp/*",
     "tools/*",
     "scripts/*",
     ".venv/*",
@@ -367,6 +370,9 @@ exclude_lines = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Ancienne application GTK3 rangée dans GTK3.OLD/ (#427) : ses modules
+# (widgets, utils, gnome_connection_manager...) restent importables par nom.
+pythonpath = ["GTK3.OLD", "."]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]

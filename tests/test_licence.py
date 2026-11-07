@@ -24,20 +24,20 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # Fichiers repris ou dérivés de l'amont : GPL-3.0 seule (avis amont, NOTICE).
 AMONT = {
-    "gnome_connection_manager.py",
-    "widgets.py",
+    "GTK3.OLD/gnome_connection_manager.py",
+    "GTK3.OLD/widgets.py",
     "src/gcm4/core/metier.py",
-    "models.py",
-    "utils.py",
-    "urlregex.py",
-    "ssh.expect",
-    "style.css",
-    "postinst",
+    "GTK3.OLD/models.py",
+    "GTK3.OLD/utils.py",
+    "GTK3.OLD/urlregex.py",
+    "GTK3.OLD/ssh.expect",
+    "GTK3.OLD/style.css",
+    "GTK3.OLD/postinst",
 }
 # Code tiers repris avec sa propre licence.
 TIERS = {"src/gcm4/core/pyaes.py": "MIT"}
 # Sous-projets vendorisés : licence propre, documentée dans NOTICE.
-VENDORISES = ("SSH-Studio/", "gtk-frdp/", "lang/")
+VENDORISES = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/", "lang/")
 SPDX = re.compile(r"SPDX-License-Identifier: (\S+)")
 
 
@@ -86,13 +86,13 @@ class TestLicenseEtNotice(unittest.TestCase):
         """La liste GPL-3.0 seule de NOTICE est celle de AMONT."""
         notice = _lire("NOTICE")
         bloc = notice.split("- GPL-3.0-only :", 1)[1].split("- GPL-3.0-or-later :", 1)[0]
-        listes = set(re.findall(r"[\w./-]+\.(?:py|expect|css)|postinst", bloc))
+        listes = set(re.findall(r"[\w./-]+\.(?:py|expect|css)|[\w./-]*postinst", bloc))
         self.assertEqual(listes, AMONT)
 
     def test_notice_documente_le_code_vendorise(self):
         """Code vendorisé et dépendances optionnelles documentés."""
         notice = _lire("NOTICE")
-        for depot in ("gtk-frdp/", "SSH-Studio/", "src/gcm4/core/pyaes.py"):
+        for depot in ("GTK3.OLD/gtk-frdp/", "SSH-Studio/", "src/gcm4/core/pyaes.py"):
             self.assertIn(depot, notice)
         for extra in ("netmiko", "paramiko", "libvirt-python", "pycryptodomex", "loguru"):
             self.assertIn(extra, notice)

@@ -6,7 +6,8 @@ Analyse statique (module ``ast``) : aucun module de GCM n'est importé, donc ni
 GTK ni VTE ne sont nécessaires. La sortie est déterministe (aucune date ni
 chemin absolu) : le fichier ne change que si le code change.
 
-Périmètre : modules Python suivis par git à la racine, ``plugins/`` et, dès
+Périmètre : modules Python suivis par git à la racine, dans ``GTK3.OLD/``
+(ancienne application GTK3, #427), ``plugins/`` et, dès
 qu'il existe, ``src/gcm4/`` (épopée GTK4). ``tests/``, ``tools/``,
 ``scripts/`` et les sous-projets ``SSH-Studio/``, ``gtk-frdp/`` sont exclus.
 
@@ -15,7 +16,7 @@ Groupes :
 - **Cœur** : modules sans GTK (``*_core.py``, ``src/gcm4/core/metier.py``,
   ``src/gcm4/core/journal.py``, ``src/gcm4/core/mot_de_passe.py``), comme dans
   ``tests/test_architecture_imports.py`` ;
-- **Application GTK** : les autres modules de la racine ;
+- **Application GTK** : les autres modules de la racine et de ``GTK3.OLD/`` ;
 - **Plugins** : ``plugins/`` ;
 - ``gcm4.core``, ``gcm4.ui``… : sous-paquets de ``src/gcm4``.
 
@@ -46,7 +47,7 @@ from loguru import logger
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "docs" / "class-diagram.md"
-EXCLUDED = ("tests/", "tools/", "scripts/", "SSH-Studio/", "gtk-frdp/")
+EXCLUDED = ("tests/", "tools/", "scripts/", "SSH-Studio/", "GTK3.OLD/gtk-frdp/")
 CORE_EXTRA: set[str] = set()  # modules sans GTK passés dans src/gcm4/core (#427)
 GROUP_CORE = "Cœur (sans GTK)"
 GROUP_APP = "Application GTK"

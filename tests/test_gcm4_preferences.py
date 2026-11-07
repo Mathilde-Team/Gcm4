@@ -16,7 +16,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def _options_de_wconfig() -> set[str]:
     """Noms ``conf.X`` utilisés dans la classe GTK3 ``Wconfig``."""
-    arbre = ast.parse((ROOT / "gnome_connection_manager.py").read_text(encoding="utf-8"))
+    arbre = ast.parse(
+        (ROOT / "GTK3.OLD" / "gnome_connection_manager.py").read_text(encoding="utf-8")
+    )
     classe = next(
         n for n in ast.walk(arbre) if isinstance(n, ast.ClassDef) and n.name == "Wconfig"
     )

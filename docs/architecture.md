@@ -10,6 +10,14 @@
 
 ## 1. Vue d'ensemble des modules
 
+> **Disposition (#427, 2026-11)** : l'ancienne application GTK3 et ses
+> modules (`gnome_connection_manager.py`, `widgets.py`, `models.py`,
+> `utils.py`, `urlregex.py`, les dialogues SSH GTK3, les six `*_core.py`
+> des menus, `style.css`, `ssh.expect`, `postinst`, le `.desktop` GTK3 et
+> `gtk-frdp/`) vivent dans `GTK3.OLD/`. Les noms ci-dessous restent valables
+> à ce préfixe près ; le paquet installé garde la disposition à plat dans
+> `/usr/share/gnome-connection-manager/`. Le code GTK4 est dans `src/gcm4/`.
+
 | Module | Rôle | Dépendances externes |
 |---|---|---|
 | `gnome_connection_manager.py` | Cœur applicatif (~7500 lignes) : `Wmain`, `Whost`, `Wconfig`, `Wabout`, `Wcluster` | `PyGObject`, `GTK3`, `VTE` |
@@ -757,7 +765,7 @@ tests/test_gcm4_rename_inventory.py   nouveau (session-30, 2026-09-10), 7
 
 Dépendances vendorisées en local (code source seulement, pas d'historique git ni
 de build compilé après ménage) :
-  gtk-frdp/    sous-projet meson GNOME, fournit le typelib GtkFrdp pour le RDP
+  GTK3.OLD/gtk-frdp/  sous-projet meson GNOME, fournit le typelib GtkFrdp pour le RDP
                embarqué natif (voir README § Installation pour la procédure de
                build : meson setup / ninja / ninja install)
   SSH-Studio/  code source de référence ayant servi de base au portage GTK3

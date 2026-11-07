@@ -45,7 +45,7 @@ import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PLUGIN_SSH_FILE = os.path.join(REPO_ROOT, "plugins", "plugin_ssh.py")
-CORE_FILE = os.path.join(REPO_ROOT, "gnome_connection_manager.py")
+CORE_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome_connection_manager.py")
 
 
 def _read(path: str) -> str:
