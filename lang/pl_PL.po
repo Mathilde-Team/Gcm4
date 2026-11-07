@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-05 07:03+0000\n"
+"POT-Creation-Date: 2026-11-05 07:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2307,15 +2307,15 @@ msgstr ""
 msgid "Agent forwarding (-A)"
 msgstr "Przekazywanie agenta"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "Arbitrary command to reach the target, e.g. via corkscrew or nc"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "Bastion host(s) to hop through, e.g. user@bastion"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "Command to run instead of a shell"
 msgstr ""
 
@@ -2494,7 +2494,7 @@ msgstr ""
 msgid "Port forwarding"
 msgstr "Przekierowanie portów"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "QUIET / ERROR / INFO / VERBOSE / DEBUG…"
 msgstr ""
 
@@ -2554,7 +2554,7 @@ msgstr ""
 msgid "SSHFS"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "Seconds before giving up on the connection"
 msgstr ""
 
@@ -2576,7 +2576,7 @@ msgstr ""
 msgid "X11 forwarding (-X)"
 msgstr "Przekazywanie X11"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "e.g. 10m, or yes"
 msgstr ""
 
@@ -2592,23 +2592,25 @@ msgid ""
 "Make sure ssh_key_manager_dialog.py is in the same directory as gnome_connection_manager.py."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "yes / no"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "yes / no / accept-new"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "yes / no / ask / auto"
 msgstr ""
 
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py plugins/ssh/session.py
+#: ssh_config_editor.py
 msgid "yes / no / ask / confirm"
 msgstr ""
 
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py ssh_config_editor.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py plugins/ssh/session.py
+#: ssh_config_editor.py
 msgid "yes / no / force / auto"
 msgstr ""
 
