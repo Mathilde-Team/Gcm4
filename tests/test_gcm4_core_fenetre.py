@@ -80,9 +80,29 @@ def test_menu_actions_et_raccourcis():
         "win.previous-tab",
         "win.next-tab",
         "app.theme",
+        "app.help",
+        "app.shortcuts",
         "app.about",
     ]
     assert set(menu.RACCOURCIS) <= set(actions)
+
+
+def test_menu_aide():
+    """Aide (#86) : guide (F1) et raccourcis (Ctrl+?) avant « À propos », séparés de lui."""
+    aide = next(sm for sm in menu.MENU_PRINCIPAL if sm.titre == "Help")
+    assert [[e.action for e in section] for section in aide.sections] == [
+        ["app.help", "app.shortcuts"],
+        ["app.about"],
+    ]
+    assert menu.RACCOURCIS["app.help"] == ("F1",)
+    assert menu.RACCOURCIS["app.shortcuts"] == ("<Control>question",)
+    assert menu.GUIDE_UTILISATEUR == (
+        "https://github.com/Mathilde-Team/Gcm4/blob/main/Documentation-fr.md"
+    )
+    # Le guide ouvert est bien celui que docs/guide/utilisateur.md inclut.
+    inclusion = (ROOT / "docs" / "guide" / "utilisateur.md").read_text(encoding="utf-8")
+    assert '"Documentation-fr.md"' in inclusion
+    assert (ROOT / "Documentation-fr.md").is_file()
 
 
 def test_libelles_du_menu_deja_traduits():

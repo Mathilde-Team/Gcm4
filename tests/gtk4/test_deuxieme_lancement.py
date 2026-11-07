@@ -65,7 +65,7 @@ def _principale(app):
 @pytest.fixture
 def instance(tmp_path, monkeypatch, pomper):
     """Instance en cours sur la fixture aes ; journal non reconfiguré."""
-    import logging_config
+    from gcm4.core import journal as logging_config
 
     debug: list[str | None] = []
     monkeypatch.setattr(

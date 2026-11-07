@@ -90,8 +90,10 @@ def parse_po(text: str) -> list[tuple[str, list[str], bool]]:
     current = ""  # dernier mot-clé lu : msgctxt, msgid, msgid_plural, msgstr
 
     def flush() -> None:
+        logger.trace("flush: entrée")
         if entry is not None and entry["msgid"] is not None:
             entries.append((entry["msgid"], entry["msgstr"], entry["fuzzy"]))
+        logger.trace("flush: fin")
 
     for raw in text.splitlines():
         line = raw.strip()
@@ -221,6 +223,7 @@ def main(argv: list[str] | None = None) -> int:
     Returns:
         int: 0, ou 2 si un catalogue manque ou est illisible.
     """
+    logger.debug("main: entrée | argv={} élément(s)", len(argv) if argv is not None else 0)
     parser = argparse.ArgumentParser(description="Taux de traduction par langue (lang/*.po)")
     parser.add_argument("--markdown", action="store_true", help="tableau Markdown")
     parser.add_argument("--lang-dir", type=Path, default=LANG_DIR, help="dossier des catalogues")

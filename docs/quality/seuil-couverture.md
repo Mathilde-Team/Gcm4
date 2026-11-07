@@ -18,7 +18,7 @@ Issue #128, reprise des mécanismes de Netcross (#224, #246).
 
 Le seuil initial `fail_under = 18` (relevé depuis, voir « Palier 1 » ci-dessous) laissait moins de 2 points de marge. Il absorbe une PR qui ajoute du code GTK non testable sans Xvfb, et rien de plus.
 
-État à la mesure de référence : le cœur GTK3 `gnome_connection_manager.py` est à 8 %. `ssh_key_manager_dialog.py`, `ssh_config_editor.py`, `snmp_push_core.py` et `netmiko_bulk_core.py` ne sont importés par aucun test (0 %). Les modules sans GTK (`gcm4_core.py` 85 %, `models.py` 86 %, `master_password_core.py` et `*_menu_core.py` 100 %) tirent la moyenne.
+État à la mesure de référence : le cœur GTK3 `gnome_connection_manager.py` est à 8 %. `ssh_key_manager_dialog.py`, `ssh_config_editor.py`, `snmp_push_core.py` et `netmiko_bulk_core.py` ne sont importés par aucun test (0 %). Les modules sans GTK (`src/gcm4/core/metier.py` 85 %, `models.py` 86 %, `src/gcm4/core/mot_de_passe.py` et `*_menu_core.py` 100 %) tirent la moyenne.
 
 **Règle** : relever le seuil quand la base monte, ne jamais le baisser pour faire passer une PR. Le seuil ne s'applique qu'aux exécutions avec `--cov` (la CI, ou en local `uv run pytest --cov`).
 

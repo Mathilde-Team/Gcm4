@@ -123,6 +123,7 @@ class AppConfig:
     check_updates: bool = True
     disable_hosts_stripes: bool = False
     update_title: bool = False
+    tray_icon: bool = False  # icône de la zone de notification (#83)
     app_title: str = ""
     font: str = ""
     font_color: str = ""

@@ -55,6 +55,8 @@ _DEPUIS_ACCELERATEUR = {
 CLES: dict[str, str] = {
     "app.quit": "gcm4_quit",
     "app.preferences": "gcm4_preferences",
+    "app.help": "gcm4_help",
+    "app.shortcuts": "gcm4_shortcuts",
     "win.toggle-panel": "gcm4_toggle_panel",
     "win.search": "gcm4_search",
     "win.previous-tab": "console_previous",

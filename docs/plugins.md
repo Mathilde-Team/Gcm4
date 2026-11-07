@@ -1,4 +1,9 @@
-# Écrire un plugin de connexion gcm4 (contrat v1)
+# Écrire un plugin gcm4 (contrat v1)
+
+Un plugin gcm4 est soit un **plugin de connexion** (rattaché à un protocole
+et à un hôte, sections ci-dessous), soit un **plugin outil** (section
+« Plugins outils »). Les deux partagent le même mécanisme de découverte et
+le même contexte ; seule la classe de base diffère.
 
 La base gcm4 ne connaît aucun protocole. Ouvrir une connexion SSH, RDP, VNC…
 est le travail d'un **plugin**. Ce document suffit pour en écrire un. La
@@ -197,6 +202,106 @@ Seuls les plugins l'importent, jamais la base (vérifié par
 `tests/test_gcm4_paquet.py`) : là où VTE GTK4 manque (Rocky Linux 9 et 10,
 #223), gcm4 démarre et le plugin est signalé en erreur dans Préférences >
 Extensions.
+
+## Plugins outils
+
+Un **plugin outil** étend le contrat v1 avec `ToolPlugin`
+(`gcm4.core.plugins`) : il n'est rattaché à aucun protocole ni hôte. C'est
+une entrée de menu qui déclenche `activate()` — déploiement de
+configuration en masse, import de sessions PuTTY, inventaire
+d'hyperviseur… Le portage GTK3 des plugins `BatchPlugin` passe par ici
+(`docs/gtk4-plugins-portage.md`, #73).
+
+```python
+# mon_paquet/mon_outil.py
+from gcm4.core.plugins import ToolPlugin, SECTION_OUTILS
+from gcm4.core.i18n import N_
+
+
+class MonOutil(ToolPlugin):
+    name = "mon-outil"  # section INI [plugin mon-outil], action win.outil-mon-outil
+    version = "1.0"
+    menu_label = N_("Deploy my config…")  # msgid, traduit dans le domaine du plugin
+    menu_section = SECTION_OUTILS  # SECTION_IMPORT / SECTION_EXPORT : menu Fichier
+
+    def activate(self):
+        # ouvre son onglet ou son dialogue ; une exception est notifiée,
+        # jamais fatale pour la fenêtre (gcm4.ui.MainWindow._on_outil)
+        self.context.open_tab("mon-outil", self._construire_onglet())
+
+
+PLUGIN = MonOutil
+```
+
+- **Menu** : `menu_section` vaut `SECTION_OUTILS` (défaut) — sous-menu
+  « Tools » ajouté en fin de menu principal, seulement s'il y a au moins un
+  outil — ou `SECTION_IMPORT`/`SECTION_EXPORT` : l'entrée complète alors
+  le menu Fichier, après les imports d'hôtes (`gcm4.core.menu.menu_avec_outils`).
+- **Validation** : `incompatibilite_outil()` vérifie l'héritage, la version
+  du contrat, `name` (minuscules sans espace), `menu_label`, `menu_section`
+  et les méthodes abstraites. Le plugin est ensuite signalé en erreur dans
+  Préférences > Extensions, comme un plugin de connexion.
+- **Import d'hôtes** (#436) : un outil qui importe des hôtes (sessions
+  PuTTY, inventaire d'hyperviseur…) passe par
+  `self.context.import_hosts(hotes, conflit)` — le magasin est complété,
+  `gcm4.conf` enregistré et l'arbre rechargé ; la valeur de retour est le
+  bilan `Rapport` de `gcm4.core.exchange` (mêmes stratégies de conflit que
+  l'import de fichiers, #153). L'échec d'enregistrement lève
+  `ExchangeError` (magasin inchangé) : l'outil la notifie et reste
+  utilisable. Voir `plugins/import_putty/gtk4.py` pour l'exemple complet.
+- **Import d'hyperviseurs** (#439) : les quatre outils (libvirt, Proxmox,
+  VirtualBox, oVirt) partagent un onglet générique (`plugins/import_hyperviseurs/ui.py`,
+  chargé en paquet `gcm4_hv` à identité stable) : configuration
+  (`_construire_parametres()`), journal et progression thread-sûrs
+  (`GLib.idle_add`), prévisualisation cochable en `Gtk.ColumnView`,
+  stratégie de conflit et import via `import_hosts`. Chaque plugin garde
+  sa logique de collecte dans son `core.py` (aucun GTK) : testable sans
+  fenêtre (cf. `tests/test_import_*_collecte.py`).
+- **Réglages** : `build_preferences_page()` (facultatif) rend une page
+  Adwata pour Préférences > Extensions ; `None` : aucune.
+- **Icône** : `icon_name` (facultatif), nom d'icône symbolique GTK de
+  l'entrée de menu.
+
+## Plugins sans terminal
+
+Le plugin sftp (#75) et le plugin web (#397) construisent leur propre
+onglet : leur session est une boîte GTK (`widget`) avec une barre d'outils.
+Le plugin web montre le modèle d'une **dépendance facultative** : WebKitGTK
+6.0 n'est importé qu'à l'ouverture d'un onglet (`charger_webkit()`), jamais
+au chargement du plugin. Là où le paquet `gir1.2-webkit-6.0` manque, le
+plugin se charge quand même et l'onglet ouvre l'URL dans le navigateur par
+défaut. Il déclare aussi `requires_address` à `False` : l'adresse est dans
+l'option `web_url`.
+
+## Plugins asyncio
+
+La base lance `Gtk.Application.run` avec une boucle asyncio branchée sur la
+boucle GLib (`gcm4.ui.boucle.executer`, `gi.events.GLibEventLoopPolicy`,
+PyGObject 3.50 ou plus récent, #105). Un plugin peut donc lancer une
+coroutine depuis n'importe quel callback GTK, y compris depuis `open` :
+
+```python
+from gcm4.ui import boucle
+
+
+def open(self, host):
+    if not boucle.asyncio_disponible():
+        raise RuntimeError(_("asyncio is not running"))
+    session = MaSession(host)
+    session.tache = asyncio.ensure_future(session.connecter())
+    return session
+```
+
+- Ne jamais appeler `asyncio.run` ni `loop.run_until_complete` depuis un
+  callback : la boucle tourne déjà, c'est GLib qui la fait avancer.
+- `close()` reste synchrone : annuler la tâche en cours et lancer la
+  déconnexion avec `asyncio.ensure_future`, sans l'attendre.
+- La politique doit être en place **avant** `run` ; l'installer depuis un
+  plugin, application lancée, reste sans effet.
+- Sans `gi.events` (PyGObject trop ancien), `asyncio_disponible()` rend
+  `False` : le plugin lève une exception dans `open`, la base l'affiche.
+
+Exemple : le plugin rdp (`plugins/rdp/gtk4.py`, AsyncRdp).
 
 ## Règles
 

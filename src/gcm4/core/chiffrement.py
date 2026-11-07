@@ -43,10 +43,10 @@ import secrets
 
 from loguru import logger
 
-import gcm4_core
-import master_password_core as mpc
-import pyAES
 from gcm4.core import chemins
+from gcm4.core import metier as gcm4_core
+from gcm4.core import mot_de_passe as mpc
+from gcm4.core import pyaes as pyAES
 from gcm4.core.config import SECTION_OPTIONS, ConfigError
 from gcm4.core.i18n import _
 

@@ -50,6 +50,7 @@ class FreeRdpTab(Gtk.Box):
             host (Host): Objet Host GCM avec protocol='rdp'.
             get_password_fn (callable): Fonction retournant le mot de passe déchiffré.
         """
+        logger.debug("FreeRdpTab.__init__: entrée")
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.host = host
         self._get_password = get_password_fn
@@ -57,9 +58,11 @@ class FreeRdpTab(Gtk.Box):
         self._frdp_display = None
         self._iso_loop_device = None  # peripherique loop si un ISO est monte
         self._build_ui()
+        logger.debug("FreeRdpTab.__init__: fin")
 
     def _build_ui(self):
         """Construit la barre d'outils + le widget GtkFrdp.Display embarqué."""
+        logger.debug("FreeRdpTab._build_ui: entrée")
         h = self.host
         port = getattr(h, "port", 3389) or 3389
 
@@ -138,12 +141,15 @@ class FreeRdpTab(Gtk.Box):
         self.pack_start(frdp_scrolled, True, True, 0)
 
         self.show_all()
+        logger.debug("FreeRdpTab._build_ui: fin")
 
     def _on_rdp_connected(self, display):
         """Callback gtk-frdp : session RDP pleinement établie."""
+        logger.debug("FreeRdpTab._on_rdp_connected: entrée")
         GLib.idle_add(self._set_status, _("Connect"))
         GLib.idle_add(self._btn_connect.set_sensitive, False)
         GLib.idle_add(self._btn_disconnect.set_sensitive, True)
+        logger.debug("FreeRdpTab._on_rdp_connected: fin")
 
     def _on_rdp_drag_data_received(self, widget, drag_context, x, y, data, info, time):
         """Callback GTK : fichiers deposes sur la fenetre RDP (glisser-deposer).
@@ -157,6 +163,7 @@ class FreeRdpTab(Gtk.Box):
             info (int): Identifiant de cible negocie.
             time (int): Horodatage de l'evenement.
         """
+        logger.debug("FreeRdpTab._on_rdp_drag_data_received: entrée")
         uris = data.get_uris()
         app_logger.debug(
             f"RDP native | drag-data-received pour host {self.host.name} | uris={uris} | rdp_share_clipboard="
@@ -174,6 +181,7 @@ class FreeRdpTab(Gtk.Box):
                     f"RDP native | offer_dropped_files indisponible (gtk-frdp trop ancien ?) : {exc}"
                 )
         Gtk.drag_finish(drag_context, bool(uris), False, time)
+        logger.debug("FreeRdpTab._on_rdp_drag_data_received: fin")
 
     def _send_special_keys(self, key_names):
         """Envoie une combinaison de touches (Ctrl+Alt+Suppr, Alt+Tab…) à la session RDP.
@@ -181,6 +189,7 @@ class FreeRdpTab(Gtk.Box):
         Args:
             key_names (list[str]): noms de touches Gdk (ex: ["Control_L", "Alt_L", "Delete"]).
         """
+        logger.debug("FreeRdpTab._send_special_keys: entrée")
         keyvals = [Gdk.keyval_from_name(name) for name in key_names]
         try:
             self._frdp_display.send_key_combo(keyvals)
@@ -188,15 +197,18 @@ class FreeRdpTab(Gtk.Box):
             app_logger.warning(
                 f"RDP native | send_key_combo indisponible (gtk-frdp trop ancien ?) : {exc}"
             )
+        logger.debug("FreeRdpTab._send_special_keys: fin")
 
     def _on_rdp_disconnected(self, display):
         """Callback gtk-frdp : session terminée (normale ou erreur)."""
+        logger.debug("FreeRdpTab._on_rdp_disconnected: entrée")
         GLib.idle_add(self._set_status, _("Session ended"))
         GLib.idle_add(self._btn_connect.set_sensitive, True)
         GLib.idle_add(self._btn_disconnect.set_sensitive, False)
         if self._iso_loop_device:
             umount_iso_temp(self._iso_loop_device)
             self._iso_loop_device = None
+        logger.debug("FreeRdpTab._on_rdp_disconnected: fin")
 
     def _on_rdp_error(self, display, message):
         """Callback gtk-frdp : erreur de connexion/exécution.
@@ -205,8 +217,10 @@ class FreeRdpTab(Gtk.Box):
             display (GtkFrdp.Display): Widget émetteur.
             message (str): Message d'erreur FreeRDP.
         """
+        logger.debug("FreeRdpTab._on_rdp_error: entrée")
         app_logger.warning(f"RDP native | error for host {self.host.name}: {message}")
         GLib.idle_add(self._set_status, _("Error: {msg}").format(msg=message))
+        logger.debug("FreeRdpTab._on_rdp_error: fin")
 
     def _on_rdp_auth_failure(self, display, message):
         """Callback gtk-frdp : échec d'authentification.
@@ -215,10 +229,12 @@ class FreeRdpTab(Gtk.Box):
             display (GtkFrdp.Display): Widget émetteur.
             message (str): Message d'erreur retourné par le serveur.
         """
+        logger.debug("FreeRdpTab._on_rdp_auth_failure: entrée")
         app_logger.warning(f"RDP native | auth failure for host {self.host.name}: {message}")
         GLib.idle_add(self._set_status, _("Authentication failed"))
         GLib.idle_add(self._btn_connect.set_sensitive, True)
         GLib.idle_add(self._btn_disconnect.set_sensitive, False)
+        logger.debug("FreeRdpTab._on_rdp_auth_failure: fin")
 
     def _on_rdp_needs_authentication(self, display):
         """Callback gtk-frdp : le serveur demande des identifiants.
@@ -229,6 +245,7 @@ class FreeRdpTab(Gtk.Box):
         Args:
             display (GtkFrdp.Display): Widget émetteur.
         """
+        logger.debug("FreeRdpTab._on_rdp_needs_authentication: entrée")
         h = self.host
         user = h.user or ""
         domain = ""
@@ -243,6 +260,7 @@ class FreeRdpTab(Gtk.Box):
         # appel, la connexion reste figée indéfiniment après la négociation
         # (voir priv->awaiting_authentication dans frdp-display.c).
         display.authenticate_finish(user, password, domain)
+        logger.debug("FreeRdpTab._on_rdp_needs_authentication: fin")
 
     def _on_rdp_needs_certificate_verification(
         self, display, host, port, common_name, subject, issuer, fingerprint, flags
@@ -263,11 +281,13 @@ class FreeRdpTab(Gtk.Box):
             fingerprint (str): Empreinte du certificat.
             flags (int): Indicateurs FreeRDP associés.
         """
+        logger.debug("FreeRdpTab._on_rdp_needs_certificate_verification: entrée")
         app_logger.debug(
             f"RDP native | certificate accepted for {host}:{port} (fingerprint={fingerprint})"
         )
         # 1 = accepter pour cette session (voir verify_ex_finish dans gtk-frdp)
         display.certificate_verify_ex_finish(1)
+        logger.debug("FreeRdpTab._on_rdp_needs_certificate_verification: fin")
 
     def _on_connect(self, widget):
         """Lance la connexion RDP via gtk-frdp.
@@ -275,6 +295,7 @@ class FreeRdpTab(Gtk.Box):
         Args:
             widget (Gtk.Button): Bouton déclencheur (peut être None).
         """
+        logger.debug("FreeRdpTab._on_connect: entrée")
         h = self.host
         port = int(getattr(h, "port", 3389) or 3389)
         app_logger.debug(f"RDP native | connect button clicked for host={h.host} port={port}")
@@ -331,6 +352,7 @@ class FreeRdpTab(Gtk.Box):
         app_logger.debug(f"RDP native | open_host host={h.host} port={port}")
         self._set_status(_("Connecting…"))
         self._frdp_display.open_host(h.host, port)
+        logger.debug("FreeRdpTab._on_connect: fin")
 
     def _on_disconnect(self, widget):
         """Termine la session RDP.
@@ -338,15 +360,19 @@ class FreeRdpTab(Gtk.Box):
         Args:
             widget (Gtk.Button): Bouton déclencheur.
         """
+        logger.debug("FreeRdpTab._on_disconnect: entrée")
         app_logger.debug(f"RDP native | disconnect button clicked for host={self.host.host}")
         self._frdp_display.close()
         if self._iso_loop_device:
             umount_iso_temp(self._iso_loop_device)
             self._iso_loop_device = None
+        logger.debug("FreeRdpTab._on_disconnect: fin")
 
     def connect_rdp(self):
         """Lance la connexion RDP automatiquement (appelé depuis addTab)."""
+        logger.debug("FreeRdpTab.connect_rdp: entrée")
         self._on_connect(None)
+        logger.debug("FreeRdpTab.connect_rdp: fin")
 
     def _set_status(self, text):
         """Met à jour le label de statut.
@@ -354,7 +380,9 @@ class FreeRdpTab(Gtk.Box):
         Args:
             text (str): Nouveau statut.
         """
+        logger.debug("FreeRdpTab._set_status: entrée")
         self._lbl_status.set_text(text)
+        logger.debug("FreeRdpTab._set_status: fin")
 
     def build_context_menu(self):
         """Construit le menu contextuel (clic droit sur l'onglet) de cet onglet RDP.
@@ -398,6 +426,7 @@ class RdpPlugin(ConnectionPlugin):
 
     def __init__(self) -> None:
         """Initialise les références de widgets du formulaire RDP (peuplées par ``build_edit_page()``)."""
+        logger.debug("RdpPlugin.__init__: entrée")
         self._txt_domain: Gtk.Entry | None = None
         self._cmb_geometry: Gtk.ComboBoxText | None = None
         self._box_custom_geo: Gtk.Box | None = None
@@ -409,6 +438,7 @@ class RdpPlugin(ConnectionPlugin):
         self._chk_share_clipboard: Gtk.CheckButton | None = None
         self._chk_share_folder: Gtk.CheckButton | None = None
         self._txt_shared_folder_path: Gtk.Entry | None = None
+        logger.debug("RdpPlugin.__init__: fin")
 
     def build_tab(self, host, get_password: Callable[[], str] | None = None) -> Gtk.Widget:
         """Construit l'onglet de session RDP (délègue à ``FreeRdpTab``).
@@ -430,6 +460,7 @@ class RdpPlugin(ConnectionPlugin):
         Returns:
             Un ``Gtk.Grid`` autonome reproduisant ``gridRdpProps``.
         """
+        logger.debug("RdpPlugin.build_edit_page: entrée")
         grid = Gtk.Grid()
         grid.set_row_spacing(4)
         grid.set_column_spacing(6)
@@ -439,6 +470,7 @@ class RdpPlugin(ConnectionPlugin):
         row = 0
 
         def add_row(label_text, widget):
+            logger.debug("add_row: entrée")
             nonlocal row
             lbl = Gtk.Label(label=label_text)
             lbl.set_halign(Gtk.Align.START)
@@ -447,6 +479,7 @@ class RdpPlugin(ConnectionPlugin):
             widget.set_hexpand(True)
             grid.attach(widget, 1, row, 1, 1)
             row += 1
+            logger.debug("add_row: fin")
 
         self._txt_domain = Gtk.Entry()
         add_row(_("Domain"), self._txt_domain)
@@ -501,6 +534,7 @@ class RdpPlugin(ConnectionPlugin):
 
         grid.show_all()
         self._box_custom_geo.hide()  # show_all() ci-dessus masqué juste après (pattern point C)
+        logger.debug("RdpPlugin.build_edit_page: sortie")
         return grid
 
     def _on_geometry_changed(self, cmb: Gtk.ComboBoxText) -> None:
@@ -509,12 +543,14 @@ class RdpPlugin(ConnectionPlugin):
         Args:
             cmb: Combo ``rdpCmbGeometry`` qui vient de changer.
         """
+        logger.debug("RdpPlugin._on_geometry_changed: entrée")
         is_custom = cmb.get_active_id() == "custom"
         if self._box_custom_geo is not None:
             if is_custom:
                 self._box_custom_geo.show()
             else:
                 self._box_custom_geo.hide()
+        logger.debug("RdpPlugin._on_geometry_changed: fin")
 
     def load_host_fields(self, host) -> None:
         """Recharge tous les champs RDP depuis *host*.
@@ -522,6 +558,7 @@ class RdpPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` source.
         """
+        logger.debug("RdpPlugin.load_host_fields: entrée")
         if self._txt_domain is not None:
             self._txt_domain.set_text(getattr(host, "rdp_domain", "") or "")
         geo = getattr(host, "rdp_geometry", "fullscreen") or "fullscreen"
@@ -559,6 +596,7 @@ class RdpPlugin(ConnectionPlugin):
                 getattr(host, "rdp_shared_folder_path", "") or ""
             )
         logger.debug(f"RdpPlugin.load_host_fields | host={getattr(host, 'name', '?')} geo={geo}")
+        logger.debug("RdpPlugin.load_host_fields: fin")
 
     def save_host_fields(self, host) -> None:
         """Reporte tous les champs RDP dans *host*.
@@ -566,6 +604,7 @@ class RdpPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` à mettre à jour.
         """
+        logger.debug("RdpPlugin.save_host_fields: entrée")
         host.rdp_domain = self._txt_domain.get_text().strip() if self._txt_domain else ""
         host.rdp_geometry = (
             self._cmb_geometry.get_active_id() if self._cmb_geometry else "fullscreen"
@@ -589,6 +628,7 @@ class RdpPlugin(ConnectionPlugin):
             self._txt_shared_folder_path.get_text().strip() if self._txt_shared_folder_path else ""
         )
         logger.debug(f"RdpPlugin.save_host_fields | host={getattr(host, 'name', '?')}")
+        logger.debug("RdpPlugin.save_host_fields: fin")
 
     def host_fields(self) -> list[tuple[str, object]]:
         """Champs ``Host`` propres au protocole RDP."""

@@ -33,9 +33,9 @@ Changelog = "https://github.com/MathildeDec/gnome-connection-manager/blob/main/C
 # démarrage de l'app : le chargeur de plugins (plugin_base.PluginRegistry)
 # capture les erreurs d'import et désactive juste le plugin concerné
 # (message "n outil(s)/plugin(s) n'ont pas pu se charger" au démarrage) :
-#   - netmiko    : push de config en masse (netmiko_bulk_core.py, plugin_netmiko_push.py)
+#   - netmiko    : push de config en masse (plugins/netmiko_push/core.py, plugin_netmiko_push.py)
 #   - paramiko   : SPICE via libvirt, dépôt SFTP du push SNMP/inventaire
-#                  (plugin_spice.py, snmp_bulk_core.py, hypervisor_import_common.py,
+#                  (plugin_spice.py, plugins/snmp_push/core.py, plugins/import_hyperviseurs/core.py,
 #                  tools/*.py), plugin sftp de gcm4 (plugins/sftp/, #75)
 #   - libvirt    : import de VM SPICE via libvirt-python (plugin_spice.py)
 #   - vnc        : plugin_vnc.py (import top-level de Cryptodome pour
@@ -67,11 +67,11 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-only-include = ["src/gcm4", "gcm4_core.py", "logging_config.py", "master_password_core.py", "pyAES.py"]
+only-include = ["src/gcm4"]
 sources = ["src"]
 # Mode éditable (`uv sync`) : src/ et la racine sur sys.path, sans copie
 # des modules racine (une copie figée masquerait les modifications).
-dev-mode-dirs = ["src", "."]
+dev-mode-dirs = ["src", ".", "GTK3.OLD"]
 
 [dependency-groups]
 dev = [
@@ -117,7 +117,7 @@ forbidden_modules = ["gi", "gcm4.ui"]
 # docs/typage.md) ; ils entreront dans la liste avec la base GTK4.
 [tool.mypy]
 python_version = "3.12"
-mypy_path = "src"
+mypy_path = "src:GTK3.OLD"
 files = [
     # Paquet GTK4 (#133) : tout sauf ui/ (PyGObject sans types, cf. plus haut).
     "src/gcm4/__init__.py",
@@ -150,20 +150,22 @@ files = [
     "src/gcm4/core/theme.py",
     "src/gcm4/core/validation.py",
     "src/gcm4/core/window_state.py",
-    "gcm4_core.py",
-    "logging_config.py",
-    "models.py",
-    "master_password_core.py",
-    "folder_context_menu_core.py",
-    "gesture_trigger_core.py",
-    "inline_editor_core.py",
-    "netmiko_bulk_core.py",
-    "popup_menu_core.py",
-    "putty_import_core.py",
-    "snmp_bulk_core.py",
-    "tab_context_menu_core.py",
+    "src/gcm4/core/metier.py",
+    "src/gcm4/core/journal.py",
+    "GTK3.OLD/models.py",
+    "src/gcm4/core/mot_de_passe.py",
+    "src/gcm4/core/pyaes.py",
+    "GTK3.OLD/folder_context_menu_core.py",
+    "GTK3.OLD/gesture_trigger_core.py",
+    "GTK3.OLD/inline_editor_core.py",
+    "plugins/netmiko_push/core.py",
+    "GTK3.OLD/popup_menu_core.py",
+    "plugins/import_putty/core.py",
+    "plugins/snmp_push/core.py",
+    "GTK3.OLD/tab_context_menu_core.py",
     "plugins/plugin_base.py",
     "plugins/ssh/core.py",
+    "plugins/ssh/session.py",
     "plugins/sftp/core.py",
     "plugins/telnet/core.py",
 ]
@@ -176,6 +178,9 @@ warn_unused_configs = true
 
 # ─── Ruff ────────────────────────────────────────────────────────────────────
 [tool.ruff]
+# Racines de résolution des imports first-party (isort) : la racine, src/
+# et GTK3.OLD/ (ancienne application GTK3, #427).
+src = [".", "src", "GTK3.OLD"]
 # Cible Python 3.10+
 target-version = "py310"
 line-length = 99
@@ -204,7 +209,7 @@ exclude = [
     # compte d'erreurs `make lint` de 194 (SSH-Studio) + 2 (gtk-frdp) lignes
     # qui ne concernaient pas le dépôt GCM lui-même).
     "SSH-Studio",
-    "gtk-frdp",
+    "GTK3.OLD/gtk-frdp",
 ]
 
 [tool.ruff.lint]
@@ -273,10 +278,10 @@ convention = "google"
 # isort : compatibilité black
 [tool.ruff.lint.isort]
 force-single-line = false
-known-first-party = ["gnome_connection_manager", "gcm4_core"]
+known-first-party = ["gnome_connection_manager", "gcm4"]
 
 [tool.ruff.lint.per-file-ignores]
-"urlregex.py" = ["W605"]
+"GTK3.OLD/urlregex.py" = ["W605"]
 
 [tool.ruff.format]
 # Formatage compatible black
@@ -306,7 +311,7 @@ relative_files = true
 omit = [
     "tests/*",
     "SSH-Studio/*",
-    "gtk-frdp/*",
+    "GTK3.OLD/gtk-frdp/*",
     "tools/*",
     "scripts/*",
     ".venv/*",
@@ -333,9 +338,29 @@ skip_covered = false
 # Palier 6 de #293 (31/10/2026) : 53,9 % sur dev + tests de
 # plugins/ssh/core.py (45,5 % → 87,7 % en mesure combinée :
 # migration/import ssh_config, pkexec, backups, CLI), soit 53.
+# Palier 7 de #293 (03/11/2026) : 54,2 % en mesure combinée avec les
+# tests de collecte libvirt (#384) et Proxmox (#385), soit 54.
+# Palier 8 de #293 (04/11/2026) : ~55,2 % en mesure combinée avec les
+# tests des onglets terminaux local/telnet (100 %) et série (97 %), soit 55.
+# Palier 9 de #293 (04/11/2026) : 58,7 % en mesure combinée avec les
+# tests des dialogues d'import Proxmox et libvirt (#394), soit 58.
+# Palier 10 de #293 (05/11/2026) : 62,1 % en mesure combinée avec les
+# tests de la logique du gestionnaire de clés SSH (#398), soit 62.
+# Palier 11 de #293 (05/11/2026) : 65,2 % en mesure combinée avec les
+# tests de la logique du plugin SPICE (#403, 24,9 % → 99,4 %), soit 65.
+# Palier 12 de #293 (05/11/2026) : 67,7 % en mesure combinée avec les
+# tests de la logique du plugin VNC (#408, 34,8 % → 100 %), soit 67.
+# Palier 13 de #293 (05/11/2026) : 69,3 % en mesure combinée avec les
+# tests de la logique du plugin RDP (#412, 15,1 % → 100 %), soit 69.
+# Palier 14 de #293 (06/11/2026) : 72,5 % en mesure combinée avec les
+# tests de l'éditeur de ~/.ssh/config GTK3 (#416, 0 % → 100 %), soit 72.
+# Palier 15 de #293 (06/11/2026) : 73,3 % en mesure combinée avec les
+# tests du sélecteur de clé SSH GTK3 (#418, 10,6 % → 100 %), soit 73.
+# Palier 17 de #293 (07/11/2026) : 79,6 % en mesure combinée avec les
+# tests des widgets GTK3 (widgets.py 13,7 % → 90,0 %), soit 79.
 # Relever ce chiffre quand la base monte, ne jamais le baisser
 # pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
-fail_under = 53
+fail_under = 79
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
@@ -345,6 +370,9 @@ exclude_lines = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Ancienne application GTK3 rangée dans GTK3.OLD/ (#427) : ses modules
+# (widgets, utils, gnome_connection_manager...) restent importables par nom.
+pythonpath = ["GTK3.OLD", "."]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]

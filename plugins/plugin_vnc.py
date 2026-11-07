@@ -86,6 +86,7 @@ class VncTab(Gtk.Box):
             host (Host): Objet Host GCM avec protocol='vnc'.
             get_password_fn (callable): Fonction retournant le mot de passe dechiffre.
         """
+        logger.debug("VncTab.__init__: entrée")
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.host = host
         self._get_password = get_password_fn
@@ -100,16 +101,20 @@ class VncTab(Gtk.Box):
         self.set_margin_top(16)
         self.set_margin_bottom(16)
         self._build_ui()
+        logger.debug("VncTab.__init__: fin")
 
     def _build_ui(self):
         """Construit l'interface du panneau VNC (gtk-vnc natif ou fallback)."""
+        logger.debug("VncTab._build_ui: entrée")
         if _GTKVNC_OK:
             self._build_ui_native()
         else:
             self._build_ui_legacy()
+        logger.debug("VncTab._build_ui: fin")
 
     def _build_ui_native(self):
         """Construit la barre d'outils + le widget GtkVnc.Display embarque."""
+        logger.debug("VncTab._build_ui_native: entrée")
         h = self.host
         port = getattr(h, "port", "5900") or "5900"
 
@@ -162,9 +167,11 @@ class VncTab(Gtk.Box):
         self.pack_start(self._vnc_display, True, True, 0)
 
         self.show_all()
+        logger.debug("VncTab._build_ui_native: fin")
 
     def _build_ui_legacy(self):
         """Construit l'interface fallback (ancien comportement subprocess)."""
+        logger.debug("VncTab._build_ui_legacy: entrée")
         h = self.host
         port = getattr(h, "port", "5900") or "5900"
         title = Gtk.Label()
@@ -208,6 +215,7 @@ class VncTab(Gtk.Box):
         lbl_bin.set_xalign(0)
         self.pack_start(lbl_bin, False, False, 0)
         self.show_all()
+        logger.debug("VncTab._build_ui_legacy: fin")
 
     # ── Mode natif (gtk-vnc) ─────────────────────────────────────────────
 
@@ -217,6 +225,7 @@ class VncTab(Gtk.Box):
         Returns:
             tuple[str, str]: Adresse et port effectifs sous forme de chaines.
         """
+        logger.debug("VncTab._effective_host_port: entrée")
         h = self.host
         port = str(getattr(h, "port", "5900") or "5900")
         display = (getattr(h, "vnc_display", "") or "").strip()
@@ -225,6 +234,7 @@ class VncTab(Gtk.Box):
                 port = str(5900 + int(display))
             except ValueError as exc:
                 logger.debug("plugin vnc | numéro de display invalide {!r} : {}", display, exc)
+        logger.debug("VncTab._effective_host_port: sortie")
         return h.host, port
 
     def _on_auth_credential(self, display, cred_list):
@@ -234,6 +244,7 @@ class VncTab(Gtk.Box):
             display (GtkVnc.Display): Widget emetteur du signal.
             cred_list (list): Liste de GVnc.ConnectionCredential demandes.
         """
+        logger.debug("VncTab._on_auth_credential: entrée")
         h = self.host
         for i in range(cred_list.n_values):
             cred = cred_list.get_nth(i)
@@ -245,22 +256,29 @@ class VncTab(Gtk.Box):
                 display.set_credential(GVnc.ConnectionCredential.USERNAME, h.user or "")
             elif cred == GVnc.ConnectionCredential.CLIENTNAME:
                 display.set_credential(GVnc.ConnectionCredential.CLIENTNAME, "gcm")
+        logger.debug("VncTab._on_auth_credential: fin")
 
     def _on_vnc_connected(self, display):
         """Callback gtk-vnc : connexion TCP/RFB etablie (avant negociation)."""
+        logger.debug("VncTab._on_vnc_connected: entrée")
         GLib.idle_add(self._set_status, _("Connecting…"))
+        logger.debug("VncTab._on_vnc_connected: fin")
 
     def _on_vnc_initialized(self, display):
         """Callback gtk-vnc : session RFB pleinement initialisee."""
+        logger.debug("VncTab._on_vnc_initialized: entrée")
         GLib.idle_add(self._set_status, _("Connect"))
         GLib.idle_add(self._btn_connect.set_sensitive, False)
         GLib.idle_add(self._btn_disconnect.set_sensitive, True)
+        logger.debug("VncTab._on_vnc_initialized: fin")
 
     def _on_vnc_disconnected(self, display):
         """Callback gtk-vnc : session terminee (normale ou erreur)."""
+        logger.debug("VncTab._on_vnc_disconnected: entrée")
         GLib.idle_add(self._set_status, _("Session ended"))
         GLib.idle_add(self._btn_connect.set_sensitive, True)
         GLib.idle_add(self._btn_disconnect.set_sensitive, False)
+        logger.debug("VncTab._on_vnc_disconnected: fin")
 
     def _on_vnc_auth_failure(self, display, message):
         """Callback gtk-vnc : echec d'authentification RFB.
@@ -269,8 +287,10 @@ class VncTab(Gtk.Box):
             display (GtkVnc.Display): Widget emetteur.
             message (str): Message d'erreur retourne par le serveur.
         """
+        logger.debug("VncTab._on_vnc_auth_failure: entrée")
         app_logger.warning(f"VNC native | auth failure for host {self.host.name}: {message}")
         GLib.idle_add(self._set_status, _("Authentication failed"))
+        logger.debug("VncTab._on_vnc_auth_failure: fin")
 
     def _send_special_keys(self, key_names):
         """Envoie une combinaison de touches (Ctrl+Alt+Suppr, Alt+Tab…) à la session VNC.
@@ -278,6 +298,7 @@ class VncTab(Gtk.Box):
         Args:
             key_names (list[str]): noms de touches Gdk (ex: ["Control_L", "Alt_L", "Delete"]).
         """
+        logger.debug("VncTab._send_special_keys: entrée")
         keyvals = [Gdk.keyval_from_name(name) for name in key_names]
         try:
             self._vnc_display.send_keys_ex(keyvals, GtkVnc.DisplayKeyEvent.PRESS)
@@ -287,6 +308,7 @@ class VncTab(Gtk.Box):
             # "clic" (appui + relachement immediat pour chaque touche).
             logger.debug("plugin vnc | send_keys_ex absent, repli send_keys : {}", exc)
             self._vnc_display.send_keys(keyvals)
+        logger.debug("VncTab._send_special_keys: fin")
 
     def _on_vnc_server_cut_text(self, display, text):
         """Callback gtk-vnc : le serveur VNC pousse son presse-papiers (copier distant).
@@ -298,20 +320,25 @@ class VncTab(Gtk.Box):
             display (GtkVnc.Display): Widget emetteur.
             text (str): Texte pousse par le serveur.
         """
+        logger.debug("VncTab._on_vnc_server_cut_text: entrée")
         if not getattr(self.host, "vnc_share_clipboard", True):
+            logger.debug("VncTab._on_vnc_server_cut_text: sortie")
             return
         try:
             content = text if isinstance(text, str) else text.decode("utf-8", "replace")
         except Exception as exc:
             logger.debug("plugin vnc | presse-papiers distant illisible : {}", exc)
+            logger.debug("VncTab._on_vnc_server_cut_text: sortie")
             return
         if not content:
+            logger.debug("VncTab._on_vnc_server_cut_text: sortie")
             return
         app_logger.debug(
             f"VNC native | server-cut-text ({len(content)} car.) pour host {self.host.name}"
         )
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(content, -1)
+        logger.debug("VncTab._on_vnc_server_cut_text: fin")
 
     def _on_vnc_focus_in(self, display, event):
         """Pousse le presse-papiers local vers le serveur VNC (copier local -> distant).
@@ -328,12 +355,15 @@ class VncTab(Gtk.Box):
         Returns:
             bool: False pour laisser GTK poursuivre le traitement normal du focus.
         """
+        logger.debug("VncTab._on_vnc_focus_in: entrée")
         if not getattr(self.host, "vnc_share_clipboard", True):
+            logger.debug("VncTab._on_vnc_focus_in: sortie")
             return False
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         text = clipboard.wait_for_text()
         if text:
             display.client_cut_text(text)
+        logger.debug("VncTab._on_vnc_focus_in: sortie")
         return False
 
     # ── Fallback legacy (subprocess) ────────────────────────────────────
@@ -344,6 +374,7 @@ class VncTab(Gtk.Box):
         Returns:
             tuple[list[str], str]: (arguments Popen, mot de passe en clair).
         """
+        logger.debug("VncTab._build_cmd: entrée")
         h = self.host
         port = str(getattr(h, "port", "5900+") or "5900")
         pwd = self._get_password() or ""
@@ -406,6 +437,7 @@ class VncTab(Gtk.Box):
             cmd += shlex.split(opts_str)
 
         app_logger.debug(f"VNC command built for host {h.name}: {cmd}")
+        logger.debug("VncTab._build_cmd: sortie")
         return cmd, pwd
 
     def make_vnc_passwd(self, password: str, path: str) -> None:
@@ -416,6 +448,7 @@ class VncTab(Gtk.Box):
             path: Chemin de destination du fichier passwd.
         """
         # Clé fixe RFB, bits inversés par octet
+        logger.debug("VncTab.make_vnc_passwd: entrée")
         key = bytes([self.reverse_bits(b) for b in [23, 82, 107, 6, 35, 78, 88, 7]])
         # Pad/tronque à 8 octets
         pwd_bytes = password[:8].encode("ascii").ljust(8, b"\x00")
@@ -426,6 +459,7 @@ class VncTab(Gtk.Box):
         with open(path, "wb") as f:
             f.write(encrypted)
         os.chmod(path, 0o600)
+        logger.debug("VncTab.make_vnc_passwd: fin")
 
     def reverse_bits(self, b: int) -> int:
         """Inverse l'ordre des bits d'un octet (obfuscation DES du protocole RFB/VNC).
@@ -441,6 +475,7 @@ class VncTab(Gtk.Box):
 
     def _remove_passwd_file(self):
         """Supprime le fichier passwd RFB de la connexion precedente, s'il existe."""
+        logger.debug("VncTab._remove_passwd_file: entrée")
         path = getattr(self, "_passwd_path", None)
         self._passwd_path = None
         if path:
@@ -448,9 +483,11 @@ class VncTab(Gtk.Box):
                 os.remove(path)
             except OSError as exc:
                 app_logger.debug(f"VNC passwd file already removed: {exc}")
+        logger.debug("VncTab._remove_passwd_file: fin")
 
     def _wait_proc(self):
         """Attend la fin du processus VNC en arriere-plan (mode fallback)."""
+        logger.debug("VncTab._wait_proc: entrée")
         if self._proc:
             rc = self._proc.wait()
             self._remove_passwd_file()
@@ -461,6 +498,7 @@ class VncTab(Gtk.Box):
         GLib.idle_add(self._btn_connect.set_sensitive, True)
         GLib.idle_add(self._btn_disconnect.set_sensitive, False)
         self._proc = None
+        logger.debug("VncTab._wait_proc: fin")
 
     # ── API commune (point d'entree partage natif / fallback) ──────────
 
@@ -470,14 +508,17 @@ class VncTab(Gtk.Box):
         Args:
             widget (Gtk.Button): Bouton declencheur (peut etre None).
         """
+        logger.debug("VncTab._on_connect: entrée")
         if _GTKVNC_OK:
             host_addr, port = self._effective_host_port()
             app_logger.debug(f"VNC native | open_host host={host_addr} port={port}")
             self._set_status(_("Connecting…"))
             self._vnc_display.open_host(host_addr, port)
+            logger.debug("VncTab._on_connect: sortie")
             return
 
         if self._proc is not None and self._proc.poll() is None:
+            logger.debug("VncTab._on_connect: sortie")
             return
         self.host.extra_params = self._entry_opts.get_text().strip()
         cmd, pwd = self._build_cmd()
@@ -503,11 +544,13 @@ class VncTab(Gtk.Box):
             logger.debug("plugin vnc | viewer absent : {}", exc)
             self._remove_passwd_file()  # viewer absent : _wait_proc ne tournera pas
             self._set_status(_("xfreerdp not found"))
+            logger.debug("VncTab._on_connect: sortie")
             return
         self._set_status(_("Connecting…"))
         self._btn_connect.set_sensitive(False)
         self._btn_disconnect.set_sensitive(True)
         threading.Thread(target=self._wait_proc, daemon=True).start()
+        logger.debug("VncTab._on_connect: fin")
 
     def _on_disconnect(self, widget):
         """Termine la session VNC (gtk-vnc natif ou subprocess fallback).
@@ -515,8 +558,10 @@ class VncTab(Gtk.Box):
         Args:
             widget (Gtk.Button): Bouton declencheur.
         """
+        logger.debug("VncTab._on_disconnect: entrée")
         if _GTKVNC_OK:
             self._vnc_display.close()
+            logger.debug("VncTab._on_disconnect: sortie")
             return
 
         if self._proc and self._proc.poll() is None:
@@ -524,6 +569,7 @@ class VncTab(Gtk.Box):
         self._set_status(_("Disconnect"))
         self._btn_connect.set_sensitive(True)
         self._btn_disconnect.set_sensitive(False)
+        logger.debug("VncTab._on_disconnect: fin")
 
     def _set_status(self, text):
         """Met a jour le label de statut.
@@ -531,11 +577,15 @@ class VncTab(Gtk.Box):
         Args:
             text (str): Nouveau statut.
         """
+        logger.debug("VncTab._set_status: entrée")
         self._lbl_status.set_text(text)
+        logger.debug("VncTab._set_status: fin")
 
     def connect_vnc(self):
         """Lance la connexion VNC automatiquement (appele depuis addTab)."""
+        logger.debug("VncTab.connect_vnc: entrée")
         self._on_connect(None)
+        logger.debug("VncTab.connect_vnc: fin")
 
     def build_context_menu(self):
         """Construit le menu contextuel (clic droit sur l'onglet) de cet onglet VNC.
@@ -547,8 +597,11 @@ class VncTab(Gtk.Box):
             Gtk.Menu | None: Connect / Disconnect / Touches spéciales, ou
                 None en mode fallback (pas de menu contextuel dedie).
         """
+        logger.debug("VncTab.build_context_menu: entrée")
         if not _GTKVNC_OK:
+            logger.debug("VncTab.build_context_menu: sortie")
             return None
+        logger.debug("VncTab.build_context_menu: sortie")
         return build_remote_desktop_context_menu(
             self._btn_connect, self._btn_disconnect, self._send_special_keys
         )
@@ -582,11 +635,13 @@ class VncPlugin(ConnectionPlugin):
 
     def __init__(self) -> None:
         """Initialise les références de widgets du formulaire VNC (peuplées par ``build_edit_page()``)."""
+        logger.debug("VncPlugin.__init__: entrée")
         self._cmb_viewer: Gtk.ComboBoxText | None = None
         self._txt_display: Gtk.Entry | None = None
         self._chk_view_only: Gtk.CheckButton | None = None
         self._chk_fullscreen: Gtk.CheckButton | None = None
         self._chk_share_clipboard: Gtk.CheckButton | None = None
+        logger.debug("VncPlugin.__init__: fin")
 
     def build_tab(self, host, get_password: Callable[[], str] | None = None) -> Gtk.Widget:
         """Construit l'onglet de session VNC (délègue à ``VncTab``).
@@ -609,6 +664,7 @@ class VncPlugin(ConnectionPlugin):
         Returns:
             Un ``Gtk.Grid`` autonome reproduisant ``gridVncProps``.
         """
+        logger.debug("VncPlugin.build_edit_page: entrée")
         grid = Gtk.Grid()
         grid.set_row_spacing(4)
         grid.set_column_spacing(6)
@@ -618,6 +674,7 @@ class VncPlugin(ConnectionPlugin):
         row = 0
 
         def add_row(label_text, widget):
+            logger.debug("add_row: entrée")
             nonlocal row
             lbl = Gtk.Label(label=label_text)
             lbl.set_halign(Gtk.Align.START)
@@ -626,6 +683,7 @@ class VncPlugin(ConnectionPlugin):
             widget.set_hexpand(True)
             grid.attach(widget, 1, row, 1, 1)
             row += 1
+            logger.debug("add_row: fin")
 
         self._cmb_viewer = Gtk.ComboBoxText()
         for item_id, label in _VIEWER_ITEMS:
@@ -651,6 +709,7 @@ class VncPlugin(ConnectionPlugin):
         row += 1
 
         grid.show_all()
+        logger.debug("VncPlugin.build_edit_page: sortie")
         return grid
 
     def load_host_fields(self, host) -> None:
@@ -659,6 +718,7 @@ class VncPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` source.
         """
+        logger.debug("VncPlugin.load_host_fields: entrée")
         if self._cmb_viewer is not None:
             self._cmb_viewer.set_active_id(getattr(host, "vnc_viewer", "tigervnc") or "tigervnc")
         if self._txt_display is not None:
@@ -672,6 +732,7 @@ class VncPlugin(ConnectionPlugin):
                 _bool_from_str(getattr(host, "vnc_share_clipboard", True))
             )
         logger.debug(f"VncPlugin.load_host_fields | host={getattr(host, 'name', '?')}")
+        logger.debug("VncPlugin.load_host_fields: fin")
 
     def save_host_fields(self, host) -> None:
         """Reporte tous les champs VNC dans *host*.
@@ -679,6 +740,7 @@ class VncPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` à mettre à jour.
         """
+        logger.debug("VncPlugin.save_host_fields: entrée")
         host.vnc_viewer = self._cmb_viewer.get_active_id() if self._cmb_viewer else "tigervnc"
         host.vnc_display = self._txt_display.get_text().strip() if self._txt_display else ""
         host.vnc_view_only = self._chk_view_only.get_active() if self._chk_view_only else False
@@ -687,6 +749,7 @@ class VncPlugin(ConnectionPlugin):
             self._chk_share_clipboard.get_active() if self._chk_share_clipboard else True
         )
         logger.debug(f"VncPlugin.save_host_fields | host={getattr(host, 'name', '?')}")
+        logger.debug("VncPlugin.save_host_fields: fin")
 
     def host_fields(self) -> list[tuple[str, object]]:
         """Champs ``Host`` propres au protocole VNC."""

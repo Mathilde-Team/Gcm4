@@ -89,12 +89,14 @@ class SshTab(Gtk.Box):
         Args:
             host: Instance ``Host`` avec ``protocol == "ssh"``.
         """
+        logger.debug("SshTab.__init__: entrée")
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         self.host = host
         self.terminal = self._build_terminal(host)
         scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, self.terminal.get_vadjustment())
         self.pack_start(self.terminal, True, True, 0)
         self.pack_start(scrollbar, False, False, 0)
+        logger.debug("SshTab.__init__: fin")
 
     def _build_terminal(self, host) -> Vte.Terminal:
         """Construit et configure le ``Vte.Terminal`` (couleurs, police, scrollback).
@@ -109,6 +111,7 @@ class SshTab(Gtk.Box):
         Returns:
             Le ``Vte.Terminal`` configuré (pas encore de commande lancée).
         """
+        logger.debug("SshTab._build_terminal: entrée")
         from gnome_connection_manager import conf, parse_color_rgba, wMain  # noqa: PLC0415
 
         v = Vte.Terminal()
@@ -157,6 +160,7 @@ class SshTab(Gtk.Box):
 
         v.set_backspace_binding(host.backspace_key)
         v.set_delete_binding(host.delete_key)
+        logger.debug("SshTab._build_terminal: sortie")
         return v
 
     def connect_ssh(self) -> None:
@@ -169,6 +173,7 @@ class SshTab(Gtk.Box):
         envoi différé du mot de passe si nécessaire, montage SSHFS, puis
         envoi des commandes personnalisées le cas échéant.
         """
+        logger.debug("SshTab.connect_ssh: entrée")
         import shlex  # noqa: PLC0415
 
         from gnome_connection_manager import (  # noqa: PLC0415
@@ -257,6 +262,7 @@ class SshTab(Gtk.Box):
             if lines:
                 GLib.timeout_add(basetime, wMain.send_data, v, "\r".join(lines))
         v.queue_draw()
+        logger.debug("SshTab.connect_ssh: fin")
 
 
 class SshPlugin(ConnectionPlugin):
@@ -271,6 +277,7 @@ class SshPlugin(ConnectionPlugin):
 
     def __init__(self) -> None:
         """Initialise les références de widgets du formulaire SSH (peuplées par ``build_edit_page()``)."""
+        logger.debug("SshPlugin.__init__: entrée")
         self._advanced_entries: dict[str, Gtk.Entry] = {}
         self._chk_keep_alive: Gtk.CheckButton | None = None
         self._txt_keep_alive: Gtk.SpinButton | None = None
@@ -293,6 +300,7 @@ class SshPlugin(ConnectionPlugin):
         self._chk_sshfs_mount: Gtk.CheckButton | None = None
         self._txt_sshfs_remote_path: Gtk.Entry | None = None
         self._txt_sshfs_local_mount: Gtk.Entry | None = None
+        logger.debug("SshPlugin.__init__: fin")
 
     # ------------------------------------------------------------------
     # build_tab() — implémenté fidèlement, NON câblé dans addTab() (cf.
@@ -328,6 +336,7 @@ class SshPlugin(ConnectionPlugin):
             forwarding / SSHFS), reproduisant ``pgHostSsh`` +
             ``tunnelGrid`` + ``pgHostSshfs``.
         """
+        logger.debug("SshPlugin.build_edit_page: entrée")
         sub_notebook = Gtk.Notebook()
         sub_notebook.append_page(self._build_advanced_page(), Gtk.Label(label=_("Advanced")))
         sub_notebook.append_page(
@@ -335,10 +344,12 @@ class SshPlugin(ConnectionPlugin):
         )
         sub_notebook.append_page(self._build_sshfs_page(), Gtk.Label(label=_("SSHFS")))
         sub_notebook.show_all()
+        logger.debug("SshPlugin.build_edit_page: sortie")
         return sub_notebook
 
     def _build_advanced_page(self) -> Gtk.Widget:
         """Construit la sous-page "Advanced" (options SSH + keep-alive/X11/agent/compression)."""
+        logger.debug("SshPlugin._build_advanced_page: entrée")
         scroller = Gtk.ScrolledWindow()
         scroller.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         grid = Gtk.Grid()
@@ -398,6 +409,7 @@ class SshPlugin(ConnectionPlugin):
         grid.attach(self._txt_extra_params, 1, row, 1, 1)
 
         scroller.add(grid)
+        logger.debug("SshPlugin._build_advanced_page: sortie")
         return scroller
 
     def _on_keep_alive_toggled(self, widget: Gtk.CheckButton) -> None:
@@ -406,8 +418,10 @@ class SshPlugin(ConnectionPlugin):
         Args:
             widget: Case à cocher "Keep alive".
         """
+        logger.debug("SshPlugin._on_keep_alive_toggled: entrée")
         self._txt_keep_alive.set_sensitive(widget.get_active())
         self._txt_keep_alive.set_text("120" if widget.get_active() else "0")
+        logger.debug("SshPlugin._on_keep_alive_toggled: fin")
 
     def _on_compression_toggled(self, widget: Gtk.CheckButton) -> None:
         """Active/désactive le champ de niveau de compression selon la case à cocher.
@@ -415,10 +429,13 @@ class SshPlugin(ConnectionPlugin):
         Args:
             widget: Case à cocher "Compression".
         """
+        logger.debug("SshPlugin._on_compression_toggled: entrée")
         self._txt_compression_level.set_sensitive(widget.get_active())
+        logger.debug("SshPlugin._on_compression_toggled: fin")
 
     def _build_port_forwarding_page(self) -> Gtk.Widget:
         """Construit la sous-page "Port forwarding" (formulaire + TreeView + boutons)."""
+        logger.debug("SshPlugin._build_port_forwarding_page: entrée")
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         box.set_margin_start(8)
         box.set_margin_end(8)
@@ -489,6 +506,7 @@ class SshPlugin(ConnectionPlugin):
         sw.add(self._tree_tunnel)
         box.pack_start(sw, True, True, 0)
 
+        logger.debug("SshPlugin._build_port_forwarding_page: sortie")
         return box
 
     def _on_tunnel_type_changed(self, widget: Gtk.ComboBoxText) -> None:
@@ -497,6 +515,7 @@ class SshPlugin(ConnectionPlugin):
         Args:
             widget: Sélecteur de type de tunnel qui vient de changer.
         """
+        logger.debug("SshPlugin._on_tunnel_type_changed: entrée")
         tunnel_type = widget.get_active_id() or "local"
         is_dynamic = tunnel_type == "dynamic"
         self._txt_remote_host.set_sensitive(not is_dynamic)
@@ -509,6 +528,7 @@ class SshPlugin(ConnectionPlugin):
             self._lbl_local_port.set_text(_("Local Port"))
             self._lbl_remote_host.set_text(_("Remote Host"))
             self._lbl_remote_port.set_text(_("Remote Port"))
+        logger.debug("SshPlugin._on_tunnel_type_changed: fin")
 
     def _on_add_tunnel_clicked(self, _widget: Gtk.Button) -> None:
         """Ajoute une redirection de port à la liste, après validation.
@@ -516,6 +536,7 @@ class SshPlugin(ConnectionPlugin):
         Args:
             _widget: Bouton "Add" cliqué.
         """
+        logger.debug("SshPlugin._on_add_tunnel_clicked: entrée")
         local = self._txt_local_port.get_text().strip()
         host_field = self._txt_remote_host.get_text().strip()
         remote = self._txt_remote_port.get_text().strip()
@@ -533,10 +554,12 @@ class SshPlugin(ConnectionPlugin):
                 self._txt_remote_port.set_text(remote)
 
         if host_field == "":
+            logger.debug("SshPlugin._on_add_tunnel_clicked: sortie")
             return  # validation déléguée à validate()
 
         for row in self._tunnel_model:
             if row[0] == local:
+                logger.debug("SshPlugin._on_add_tunnel_clicked: sortie")
                 return  # port local déjà utilisé — géré par validate()
 
         prefix = "R:" if tunnel_type == "remote" else ""
@@ -544,6 +567,7 @@ class SshPlugin(ConnectionPlugin):
         self._tunnel_model.append(
             [local, host_field, remote, f"{prefix}{local}:{host_field}:{remote}", type_label]
         )
+        logger.debug("SshPlugin._on_add_tunnel_clicked: fin")
 
     def _on_del_tunnel_clicked(self, _widget: Gtk.Button) -> None:
         """Supprime la redirection sélectionnée dans la liste.
@@ -551,12 +575,15 @@ class SshPlugin(ConnectionPlugin):
         Args:
             _widget: Bouton "Remove" cliqué.
         """
+        logger.debug("SshPlugin._on_del_tunnel_clicked: entrée")
         selected = self._tree_tunnel.get_selection().get_selected()[1]
         if selected is not None:
             self._tunnel_model.remove(selected)
+        logger.debug("SshPlugin._on_del_tunnel_clicked: fin")
 
     def _build_sshfs_page(self) -> Gtk.Widget:
         """Construit la sous-page "SSHFS" (montage automatique du système de fichiers distant)."""
+        logger.debug("SshPlugin._build_sshfs_page: entrée")
         grid = Gtk.Grid()
         grid.set_row_spacing(4)
         grid.set_column_spacing(6)
@@ -579,6 +606,7 @@ class SshPlugin(ConnectionPlugin):
         self._txt_sshfs_local_mount.set_hexpand(True)
         grid.attach(self._txt_sshfs_local_mount, 1, 2, 1, 1)
 
+        logger.debug("SshPlugin._build_sshfs_page: sortie")
         return grid
 
     # ------------------------------------------------------------------
@@ -590,6 +618,7 @@ class SshPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` source.
         """
+        logger.debug("SshPlugin.load_host_fields: entrée")
         for field_key, entry in self._advanced_entries.items():
             entry.set_text(getattr(host, field_key, "") or "")
 
@@ -626,6 +655,7 @@ class SshPlugin(ConnectionPlugin):
         self._txt_sshfs_remote_path.set_text(getattr(host, "ssh_sshfs_remote_path", "") or "")
         self._txt_sshfs_local_mount.set_text(getattr(host, "ssh_sshfs_local_mount", "") or "")
         logger.debug(f"SshPlugin.load_host_fields | host={getattr(host, 'name', '?')}")
+        logger.debug("SshPlugin.load_host_fields: fin")
 
     def save_host_fields(self, host) -> None:
         """Reporte tous les champs SSH (avancé + tunnels + SSHFS) dans *host*.
@@ -633,6 +663,7 @@ class SshPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` à mettre à jour.
         """
+        logger.debug("SshPlugin.save_host_fields: entrée")
         for field_key, entry in self._advanced_entries.items():
             setattr(host, field_key, entry.get_text().strip())
 
@@ -654,6 +685,7 @@ class SshPlugin(ConnectionPlugin):
         host.ssh_sshfs_remote_path = self._txt_sshfs_remote_path.get_text().strip()
         host.ssh_sshfs_local_mount = self._txt_sshfs_local_mount.get_text().strip()
         logger.debug(f"SshPlugin.save_host_fields | host={getattr(host, 'name', '?')}")
+        logger.debug("SshPlugin.save_host_fields: fin")
 
     def host_fields(self) -> list[tuple[str, object]]:
         """Champs ``Host`` propres à SSH (options avancées + SSHFS)."""
@@ -717,19 +749,23 @@ class SshPlugin(ConnectionPlugin):
         """Callback du menu contextuel : migre l'hôte actuellement
         sélectionné dans l'arbre des serveurs vers un fichier ssh_config.
         """
+        logger.debug("SshPlugin._on_migrate_selected_host_menu_activate: entrée")
         from gnome_connection_manager import wMain  # noqa: PLC0415
 
         selected = wMain.treeServers.get_selection().get_selected()[1]
         if selected is None or wMain.treeModel.iter_has_child(selected):
+            logger.debug("SshPlugin._on_migrate_selected_host_menu_activate: sortie")
             return
         host = wMain.treeModel.get_value(selected, 1)
         self.migrate_ssh_host(host)
+        logger.debug("SshPlugin._on_migrate_selected_host_menu_activate: fin")
 
     def edit_ssh_config(self) -> None:
         """Ouvre l'éditeur visuel de ~/.ssh/config + fichier partagé comme
         onglet épinglé dans nbConsole (réutilise l'onglet existant s'il est
         déjà ouvert, cf. ``Wmain.open_management_tab``).
         """
+        logger.debug("SshPlugin.edit_ssh_config: entrée")
         from gnome_connection_manager import wMain  # noqa: PLC0415
 
         try:
@@ -743,6 +779,7 @@ class SshPlugin(ConnectionPlugin):
                     "are in the same directory as gnome_connection_manager.py."
                 )
             )
+            logger.debug("SshPlugin.edit_ssh_config: sortie")
             return
 
         logger.debug("SshPlugin.edit_ssh_config | ouverture de l'onglet SshConfigEditorDialog")
@@ -751,6 +788,7 @@ class SshPlugin(ConnectionPlugin):
             _("Edit SSH config"),
             lambda: SshConfigEditorDialog(parent=wMain.window, show=False),
         )
+        logger.debug("SshPlugin.edit_ssh_config: fin")
 
     def manage_ssh_keys(self) -> None:
         """Ouvre le gestionnaire de clés SSH comme onglet épinglé singleton
@@ -758,6 +796,7 @@ class SshPlugin(ConnectionPlugin):
         SSH — au même titre que l'onglet Paramètres. Réutilise l'onglet
         existant s'il est déjà ouvert (cf. ``Wmain.open_management_tab``).
         """
+        logger.debug("SshPlugin.manage_ssh_keys: entrée")
         from gnome_connection_manager import wMain  # noqa: PLC0415
 
         try:
@@ -771,6 +810,7 @@ class SshPlugin(ConnectionPlugin):
                     "as gnome_connection_manager.py."
                 )
             )
+            logger.debug("SshPlugin.manage_ssh_keys: sortie")
             return
 
         logger.debug("SshPlugin.manage_ssh_keys | ouverture de l'onglet SSHKeyManagerDialog")
@@ -779,6 +819,7 @@ class SshPlugin(ConnectionPlugin):
             _("SSH Key Manager"),
             lambda: SSHKeyManagerDialog(parent=wMain.window, show=False),
         )
+        logger.debug("SshPlugin.manage_ssh_keys: fin")
 
     def _ask_ssh_config_target(self):
         """Demande à l'utilisateur la cible ssh_config (personnelle ou partagée).
@@ -787,6 +828,7 @@ class SshPlugin(ConnectionPlugin):
             Path | None: ``~/.ssh/config`` (personnel),
             ``SHARED_SSH_CONFIG_PATH`` (partagé), ou ``None`` si annulé.
         """
+        logger.debug("SshPlugin._ask_ssh_config_target: entrée")
         from pathlib import Path  # noqa: PLC0415
 
         from gnome_connection_manager import wMain  # noqa: PLC0415
@@ -818,18 +860,23 @@ class SshPlugin(ConnectionPlugin):
         response = run_dialog_sync(dlg)
         dlg.destroy()
         if response == Gtk.ResponseType.YES:
+            logger.debug("SshPlugin._ask_ssh_config_target: sortie")
             return Path.home() / ".ssh" / "config"
         if response == Gtk.ResponseType.NO:
+            logger.debug("SshPlugin._ask_ssh_config_target: sortie")
             return SHARED_SSH_CONFIG_PATH
+        logger.debug("SshPlugin._ask_ssh_config_target: sortie")
         return None
 
     def migrate_all_ssh(self) -> None:
         """Déplace TOUS les hôtes SSH de gcm.conf vers le fichier ssh_config choisi."""
+        logger.debug("SshPlugin.migrate_all_ssh: entrée")
         from gnome_connection_manager import app_logger, msgconfirm, msginfo  # noqa: PLC0415
         from plugins.ssh.core import is_shared_target, migrate_ssh_hosts  # noqa: PLC0415
 
         target = self._ask_ssh_config_target()
         if target is None:
+            logger.debug("SshPlugin.migrate_all_ssh: sortie")
             return
         shared = is_shared_target(target)
         confirm_msg = (
@@ -847,12 +894,14 @@ class SshPlugin(ConnectionPlugin):
             % target
         )
         if msgconfirm(confirm_msg) != Gtk.ResponseType.OK:
+            logger.debug("SshPlugin.migrate_all_ssh: sortie")
             return
         try:
             result = migrate_ssh_hosts(ssh_config=target)
         except Exception as exc:
             app_logger.error(f"SshPlugin.migrate_all_ssh | migration failed | exc={exc}")
             msginfo(_("Migration failed: %s") % exc)
+            logger.debug("SshPlugin.migrate_all_ssh: sortie")
             return
         msginfo(
             _("Migration done — moved: %d, skipped: %d, already managed: %d, errors: %d")
@@ -863,6 +912,7 @@ class SshPlugin(ConnectionPlugin):
                 len(result["errors"]),
             )
         )
+        logger.debug("SshPlugin.migrate_all_ssh: fin")
 
     def migrate_ssh_host(self, host) -> None:
         """Déplace uniquement *host* de gcm.conf vers le fichier ssh_config choisi.
@@ -870,11 +920,13 @@ class SshPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` sélectionnée (menu contextuel de l'arbre).
         """
+        logger.debug("SshPlugin.migrate_ssh_host: entrée")
         from gnome_connection_manager import app_logger, msgconfirm, msginfo  # noqa: PLC0415
         from plugins.ssh.core import is_shared_target, migrate_ssh_hosts  # noqa: PLC0415
 
         target = self._ask_ssh_config_target()
         if target is None:
+            logger.debug("SshPlugin.migrate_ssh_host: sortie")
             return
         shared = is_shared_target(target)
         confirm_msg = (
@@ -890,12 +942,14 @@ class SshPlugin(ConnectionPlugin):
             % (host.name, target)
         )
         if msgconfirm(confirm_msg) != Gtk.ResponseType.OK:
+            logger.debug("SshPlugin.migrate_ssh_host: sortie")
             return
         try:
             result = migrate_ssh_hosts(only_names={host.name}, ssh_config=target)
         except Exception as exc:
             app_logger.error(f"SshPlugin.migrate_ssh_host | migration failed | exc={exc}")
             msginfo(_("Migration failed: %s") % exc)
+            logger.debug("SshPlugin.migrate_ssh_host: sortie")
             return
         if result["migrated"]:
             msginfo(_("Host «%s» moved to %s.") % (host.name, target))
@@ -910,6 +964,7 @@ class SshPlugin(ConnectionPlugin):
             msginfo(_("Migration failed: %s") % "; ".join(result["errors"]))
         else:
             msginfo(_("Host «%s» was not migrated (not an SSH host?).") % host.name)
+        logger.debug("SshPlugin.migrate_ssh_host: fin")
 
     def import_ssh_config_action(self) -> None:
         """Importe les connexions depuis un fichier ssh_config vers gcm.conf.
@@ -918,6 +973,7 @@ class SshPlugin(ConnectionPlugin):
         dé-duplication sur ``(name, host)`` tous groupes confondus (cf.
         ``plugins.ssh.core.import_ssh_config``).
         """
+        logger.debug("SshPlugin.import_ssh_config_action: entrée")
         from pathlib import Path  # noqa: PLC0415
 
         from gnome_connection_manager import app_logger, msginfo, wMain  # noqa: PLC0415
@@ -950,6 +1006,7 @@ class SshPlugin(ConnectionPlugin):
         elif response == Gtk.ResponseType.NO:
             source = SHARED_SSH_CONFIG_PATH
         else:
+            logger.debug("SshPlugin.import_ssh_config_action: sortie")
             return
 
         try:
@@ -957,6 +1014,7 @@ class SshPlugin(ConnectionPlugin):
         except Exception as exc:
             app_logger.error(f"SshPlugin.import_ssh_config_action | import failed | exc={exc}")
             msginfo(_("Import failed: %s") % exc)
+            logger.debug("SshPlugin.import_ssh_config_action: sortie")
             return
 
         msginfo(
@@ -964,6 +1022,7 @@ class SshPlugin(ConnectionPlugin):
             % (len(result["imported"]), len(result["skipped_existing"]), len(result["errors"]))
         )
         wMain.updateTree()
+        logger.debug("SshPlugin.import_ssh_config_action: fin")
 
     @staticmethod
     def _show_missing_module_error(message: str) -> None:
@@ -972,9 +1031,11 @@ class SshPlugin(ConnectionPlugin):
         Args:
             message: Texte à afficher.
         """
+        logger.debug("SshPlugin._show_missing_module_error: entrée")
         from gnome_connection_manager import msgbox  # noqa: PLC0415
 
         msgbox(message)
+        logger.debug("SshPlugin._show_missing_module_error: fin")
 
     # ------------------------------------------------------------------
     # Dialogue d'édition d'hôte (wHost, cœur) — hôte géré par ssh_config.
@@ -1019,10 +1080,12 @@ class SshPlugin(ConnectionPlugin):
                 actuellement édité, ex. ``"host 3"``.
             cp: ``gcm.conf`` déjà chargé (``configparser.RawConfigParser``).
         """
+        logger.debug("SshPlugin.patch_edit_host_dialog: entrée")
         from plugins.ssh.core import _MANAGED_DESCRIPTION, _cp_getbool  # noqa: PLC0415
 
         managed = _cp_getbool(cp, host_section, "ssh_config_managed")
         if not managed:
+            logger.debug("SshPlugin.patch_edit_host_dialog: sortie")
             return
 
         alias = host_section[5:].strip() if host_section.startswith("host ") else host_section
@@ -1031,11 +1094,13 @@ class SshPlugin(ConnectionPlugin):
         try:
 
             def _get_widget(widget_id: str) -> object | None:
+                logger.debug("_get_widget: entrée")
                 obj = builder.get_object(widget_id)
                 if obj is None:
                     logger.debug(
                         f"SshPlugin.patch_edit_host_dialog | widget not found | id={widget_id}"
                     )
+                logger.debug("_get_widget: sortie")
                 return obj
 
             for widget_id in (
@@ -1079,6 +1144,7 @@ class SshPlugin(ConnectionPlugin):
             logger.warning(
                 f"SshPlugin.patch_edit_host_dialog | GTK patch failed | alias={alias} exc={exc}"
             )
+        logger.debug("SshPlugin.patch_edit_host_dialog: fin")
 
 
 def get_plugin() -> SshPlugin:

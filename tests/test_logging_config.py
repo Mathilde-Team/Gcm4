@@ -16,8 +16,8 @@ from loguru import logger
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-import gcm4_core  # noqa: E402
-import logging_config as lc  # noqa: E402
+from gcm4.core import journal as lc  # noqa: E402
+from gcm4.core import metier as gcm4_core  # noqa: E402
 
 
 @pytest.fixture(autouse=True)
@@ -205,7 +205,7 @@ def test_summarize(valeur, nom, attendu):
 def _executer(env_extra):
     """Lance un petit programme qui configure les journaux et en émet deux."""
     code = (
-        "import logging_config, loguru;"
+        "from gcm4.core import journal as logging_config; import loguru;"
         "logging_config.configure_logging();"
         "loguru.logger.debug('ligne-debug'); loguru.logger.info('ligne-info')"
     )
@@ -232,15 +232,28 @@ def test_stderr_debug_avec_gcm_debug():
 
 
 def test_chaque_core_qui_journalise_se_desactive():
-    """Tout *_core.py racine qui importe loguru se désactive et figure dans CORE_MODULES."""
+    """Tout cœur sans GTK qui importe loguru se désactive et figure dans CORE_MODULES.
+
+    Cœurs vérifiés : les ``*_core.py`` de la racine et de ``GTK3.OLD/``, et
+    ceux des outils GTK3 rangés dans leur plugin (#427, lot 3), nommés par
+    leur chemin pointé (``plugins.netmiko_push.core``).
+    """
     import ast
 
+    cores_outils = [
+        ROOT / "plugins" / nom / "core.py" for nom in ("import_putty", "netmiko_push", "snmp_push")
+    ]
     attendus = []
-    for chemin in sorted(ROOT.glob("*_core.py")):
+    for chemin in sorted(
+        [*ROOT.glob("*_core.py"), *(ROOT / "GTK3.OLD").glob("*_core.py"), *cores_outils]
+    ):
         arbre = ast.parse(chemin.read_text(encoding="utf-8"))
         if not any(isinstance(n, ast.ImportFrom) and n.module == "loguru" for n in arbre.body):
             continue
-        attendus.append(chemin.stem)
+        if chemin in cores_outils:
+            attendus.append(".".join(chemin.relative_to(ROOT).with_suffix("").parts))
+        else:
+            attendus.append(chemin.stem)
         desactive = any(
             isinstance(n, ast.Expr)
             and isinstance(n.value, ast.Call)
@@ -249,23 +262,23 @@ def test_chaque_core_qui_journalise_se_desactive():
             for n in arbre.body
         )
         assert desactive, f"{chemin.name} : ajouter <logger>.disable(__name__) au niveau module"
-    assert sorted(m for m in lc.CORE_MODULES if m != "gcm4") == attendus
+    assert sorted(m for m in lc.CORE_MODULES if m != "gcm4") == sorted(attendus)
     assert "gcm4" in lc.CORE_MODULES  # src/gcm4/__init__.py, même convention
 
 
 def test_core_muet_avant_configure_logging_puis_reactive():
     """Un module *_core ne journalise rien avant configure_logging(), puis normalement."""
     lc._reset_for_tests()
-    logger.disable("gcm4_core")
+    logger.disable("gcm4.core.metier")
     recus: list[str] = []
     sink = logger.add(lambda m: recus.append(m.record["name"]), level="DEBUG")
     try:
         gcm4_core.dep_install_hint("a", "b")
-        assert "gcm4_core" not in recus
+        assert "gcm4.core.metier" not in recus
         lc.configure_logging("DEBUG", force=True)
         sink = logger.add(lambda m: recus.append(m.record["name"]), level="DEBUG")
         gcm4_core.dep_install_hint("a", "b")
-        assert "gcm4_core" in recus
+        assert "gcm4.core.metier" in recus
     finally:
         lc._reset_for_tests()
         try:

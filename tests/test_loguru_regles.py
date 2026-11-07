@@ -36,7 +36,7 @@ import warnings
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-EXCLUDED = ("SSH-Studio/", "gtk-frdp/", "tests/")
+EXCLUDED = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/", "tests/")
 LOGGER_NAMES = {"logger", "app_logger", "_logger", "log", "_log", "_loguru_logger"}
 LOG_METHODS = {"trace", "debug", "info", "success", "warning", "error", "exception", "critical"}
 SECRET_NAMES = re.compile(
@@ -45,13 +45,9 @@ SECRET_NAMES = re.compile(
 )
 
 # Fichier -> nombre d'``except`` sans appel de journal (état de l'issue #171).
-# Restent : pluginvnc2 (paquet séparé), et les deux fichiers racine SSH
+# Restent : les deux fichiers racine SSH
 # supprimés par le portage GTK4 (#97/#180) — lot du 26/10/2026 (issue #294).
-EXCEPT_SANS_JOURNAL = {
-    "plugins/pluginvnc2/vnc_tab.py": 14,
-    "ssh_config_editor.py": 4,
-    "ssh_key_manager_dialog.py": 17,
-}
+EXCEPT_SANS_JOURNAL = {}
 
 # Modules qui définissent des fonctions sans logger de module.
 MODULES_SANS_LOGGER: set[str] = set()

@@ -1,20 +1,22 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Contexte injecté dans chaque plugin (contrat v1, ``docs/plugins.md``, #151).
 
-Le plugin ne voit ni l'application ni la fenêtre : seulement ces cinq
+Le plugin ne voit ni l'application ni la fenêtre : seulement ces six
 membres. La fenêtre est cherchée à chaque appel (le registre est construit
 au démarrage, avant elle).
 """
 
 from __future__ import annotations
 
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Sequence
 from types import MappingProxyType
 from typing import TYPE_CHECKING, Any
 
 from gi.repository import Adw, Gtk
 from loguru import logger
 
+from gcm4.core.config import ConfigError
+from gcm4.core.exchange import Conflit, ExchangeError, Rapport, importer
 from gcm4.core.i18n import _
 from gcm4.ui import dialogues
 
@@ -105,3 +107,37 @@ class ContexteApplication:
         if fenetre is not None:
             fenetre.ajouter_onglet(title, widget)
         logger.debug("open_tab: fait")
+
+    def import_hosts(self, hotes: Sequence[Host], conflit: Conflit = Conflit.IGNORER) -> Rapport:
+        """Importe ``hotes`` : magasin complété, ``gcm4.conf`` enregistré, arbre rechargé (#436).
+
+        Le magasin reprend son état d'avant l'import si l'enregistrement
+        échoue ; l'erreur est relancée en :class:`ExchangeError` (message
+        traduit) pour que l'outil la notifie. Sans fenêtre ni configuration
+        ouverte, il n'y a rien à importer : même erreur.
+
+        Args:
+            hotes: Hôtes à importer (copiés, jamais partagés).
+            conflit: Politique en cas de nom déjà pris.
+
+        Returns:
+            Rapport: Bilan de :func:`gcm4.core.exchange.importer`.
+        """
+        logger.debug("import_hosts: {} hôte(s), conflit={}", len(hotes), conflit.value)
+        fenetre = self._fenetre()
+        config = getattr(fenetre, "config", None)
+        if fenetre is None or config is None:
+            logger.debug("import_hosts: aucune configuration ouverte")
+            raise ExchangeError(_("No configuration is open: nothing to import into."))
+        avant = (list(config.store.hosts), dict(config.store.groups))
+        rapport = importer(config.store, hotes, conflit)
+        try:
+            fenetre.enregistrer_config()
+        except ConfigError as exc:
+            config.store.hosts, config.store.groups = avant
+            logger.debug("import_hosts: non enregistré, import annulé ({})", exc)
+            raise ExchangeError(str(exc)) from exc
+        if fenetre.arbre is not None:
+            fenetre.arbre.recharger()
+        logger.debug("import_hosts: {} ajouté(s)", len(rapport.ajoutes))
+        return rapport

@@ -18,6 +18,10 @@ Un plugin est une sous-classe de :class:`ConnectionPlugin` :
 - **facultatif** : :meth:`~ConnectionPlugin.build_preferences_page`,
   :meth:`~ConnectionPlugin.context_menu_items`.
 
+Un plugin peut aussi être un **outil** : une sous-classe de
+:class:`ToolPlugin` (entrée de menu Import/Export/Outils, sans protocole),
+même version de contrat.
+
 Le plugin ne lit aucun global (consignes §2) : tout ce dont il a besoin de
 l'application lui est passé par un :class:`PluginContext`.
 """
@@ -25,12 +29,13 @@ l'application lui est passé par un :class:`PluginContext`.
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, ClassVar, Protocol, runtime_checkable
 
 from loguru import logger
 
+from gcm4.core.exchange import Conflit
 from gcm4.core.i18n import _
 
 if TYPE_CHECKING:
@@ -42,6 +47,14 @@ if TYPE_CHECKING:
 #: Version du contrat. Un plugin déclare celle qu'il implémente
 #: (:attr:`ConnectionPlugin.api_version`) ; toute autre valeur est refusée.
 API_VERSION = 1
+
+# --- Plugins outils ----------------------------------------------------------
+
+#: Sections de menu où une entrée d'outil peut être placée.
+SECTION_IMPORT = "import"
+SECTION_EXPORT = "export"
+SECTION_OUTILS = "outils"
+SECTIONS_OUTILS = (SECTION_IMPORT, SECTION_EXPORT, SECTION_OUTILS)
 
 
 class PluginContext(Protocol):
@@ -67,6 +80,21 @@ class PluginContext(Protocol):
 
     def open_tab(self, title: str, widget: Gtk.Widget) -> None:
         """Ouvre un onglet supplémentaire (le contenu d'une connexion passe par :meth:`ConnectionPlugin.open`)."""
+        ...
+
+    def import_hosts(self, hotes: Sequence[Host], conflit: Conflit = Conflit.IGNORER) -> Any:
+        """Importe des hôtes dans la base de l'outil (contrat v1, #436).
+
+        Le magasin est complété selon ``conflit``, ``gcm4.conf`` est
+        enregistré et l'arbre rechargé ; renvoie le bilan
+        (:class:`~gcm4.core.exchange.Rapport`). C'est le chemin des imports
+        d'outils (sessions PuTTY, hyperviseurs…), en écho de
+        ``win.import-hosts`` pour les fichiers (#153).
+
+        Écriture impossible : rien n'est importé (magasin inchangé) et
+        :class:`~gcm4.core.exchange.ExchangeError` est levée — l'outil la
+        notifie.
+        """
         ...
 
 
@@ -176,6 +204,86 @@ class ConnectionPlugin(ABC):
         """Entrées supplémentaires du menu contextuel d'un hôte de ce plugin."""
         logger.trace("context_menu_items: {!r}", self.name)
         return []
+
+
+class ToolPlugin(ABC):
+    """Plugin outil, contrat v1. Voir ``docs/plugins.md``.
+
+    Contrairement à :class:`ConnectionPlugin`, un outil n'est rattaché à
+    aucun protocole ni hôte : c'est une entrée de menu (typiquement le menu
+    Outils, ou la section Import/Export du menu Fichier) qui ouvre son
+    propre onglet ou dialogue et gère son cycle de vie — déploiement de
+    configuration en masse, import de sessions PuTTY, inventaire
+    d'hyperviseur… Le portage GTK3 des plugins ``BatchPlugin`` passe par
+    ici (``docs/gtk4-plugins-portage.md``).
+    """
+
+    #: Version du contrat implémentée (doit valoir :data:`API_VERSION`).
+    api_version: ClassVar[int] = API_VERSION
+    #: Identifiant stable, minuscules (``"netmiko-push"``) ; sert de section
+    #: de configuration, de nom d'action (``win.outil-<name>``) et de clé de registre.
+    name: ClassVar[str] = ""
+    #: Version du plugin, affichée dans Préférences > Extensions.
+    version: ClassVar[str] = ""
+    #: Msgid anglais du libellé de menu, marqué ``N_`` dans le plugin.
+    menu_label: ClassVar[str] = ""
+    #: Section de menu : :data:`SECTION_OUTILS` (défaut), :data:`SECTION_IMPORT`
+    #: ou :data:`SECTION_EXPORT` (menu Fichier, à côté des imports d'hôtes).
+    menu_section: ClassVar[str] = SECTION_OUTILS
+    #: Nom d'icône symbolique GTK de l'entrée de menu (facultatif).
+    icon_name: ClassVar[str] = ""
+
+    def __init__(self, context: PluginContext) -> None:
+        """Le contexte est donné à la construction et gardé pour toute la vie du plugin."""
+        logger.debug("ToolPlugin.__init__: {!r}", self.name)
+        self.context = context
+        logger.debug("ToolPlugin.__init__: fait")
+
+    @abstractmethod
+    def activate(self) -> None:
+        """Déclenche l'outil (l'utilisateur a choisi l'entrée de menu).
+
+        Ouvre un onglet ou un dialogue ; lever une exception signale un
+        échec : la base l'affiche (notification) et le journalise.
+        """
+
+    # --- facultatif -----------------------------------------------------------
+
+    def build_preferences_page(self) -> Any | None:
+        """Page de réglages du plugin (Préférences > Extensions) ; ``None`` : aucune."""
+        logger.trace("build_preferences_page: {!r}", self.name)
+        return None
+
+
+def incompatibilite_outil(classe: type) -> str | None:
+    """Raison traduite pour laquelle ``classe`` n'est pas un outil v1 utilisable, sinon ``None``.
+
+    Vérifie l'héritage de :class:`ToolPlugin`, la version du contrat,
+    l'identité (``name`` en minuscules sans espace), le libellé et la
+    section de menu, et l'absence de méthode abstraite non implémentée.
+    """
+    logger.debug("incompatibilite_outil: {!r}", getattr(classe, "__name__", classe))
+    raison: str | None = None
+    if not (isinstance(classe, type) and issubclass(classe, ToolPlugin)):
+        raison = _("It is not a tool plugin.")
+    elif classe.api_version != API_VERSION:
+        raison = _(
+            "It implements plugin API version {found}; this application supports version {expected}."
+        ).format(found=classe.api_version, expected=API_VERSION)
+    elif not classe.name or classe.name != classe.name.strip().lower() or " " in classe.name:
+        raison = _("Its name must be a non-empty lowercase identifier.")
+    elif not classe.menu_label:
+        raison = _("It declares no menu label.")
+    elif classe.menu_section not in SECTIONS_OUTILS:
+        raison = _("Its menu section must be one of: {sections}.").format(
+            sections=", ".join(SECTIONS_OUTILS)
+        )
+    elif getattr(classe, "__abstractmethods__", None):
+        raison = _("It does not implement: {methods}.").format(
+            methods=", ".join(sorted(classe.__abstractmethods__))
+        )
+    logger.debug("incompatibilite_outil: {}", raison)
+    return raison
 
 
 def incompatibilite(classe: type) -> str | None:

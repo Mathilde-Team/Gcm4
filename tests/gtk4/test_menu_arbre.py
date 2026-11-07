@@ -262,3 +262,54 @@ def test_activation_groupe_et_hote(app_fixture, pomper):
     arbre.menu._on_activate(arbre.liste, position)
     pomper()
     assert messages and "proto-b" in messages[0]
+
+
+def test_section_du_plugin_dans_le_menu(app_fixture, pomper):
+    """Un hôte du plugin : la section ``context_menu_items`` ferme le menu (#396, 3/3).
+
+    Un faux plugin de connexion (le vrai plugin ssh exige VTE, absent de
+    Rocky 9) : le câblage du menu est le point testé, les entrées réelles
+    sont couvertes par ``test_plugin_ssh.py``.
+    """
+    from gcm4.core.plugins import ConnectionPlugin, MenuItem
+    from gcm4.core.registre import EtatPlugin, PluginRegistry
+
+    app, _ = app_fixture
+    fenetre = app.get_active_window()
+
+    class PluginTest(ConnectionPlugin):
+        """Deux entrées, sans fenêtre."""
+
+        name = "test-menu"
+        protocols = ("proto-b",)
+
+        def build_host_options_widget(self, host, options, changed):
+            return None
+
+        def open(self, host):
+            return None
+
+        def context_menu_items(self, host):
+            return [
+                MenuItem(label="Outil 1", activate=lambda: None),
+                MenuItem(label="Outil 2", activate=lambda: None),
+            ]
+
+    plugin = PluginTest(None)
+    fenetre.registre = PluginRegistry(
+        [EtatPlugin(name="test-menu", source="test", plugin=plugin, protocols=("proto-b",))]
+    )
+    arbre = fenetre.arbre
+    menu = arbre.menu
+    menu.ouvrir(_noeud(arbre, "LAB/web"), 10, 10)
+    pomper()
+    assert _libelles(menu)[-2:] == ["arbre.plugin-0", "arbre.plugin-1"]
+    assert menu.groupe.lookup_action("plugin-0") is not None
+    menu.popover.popdown()
+    # la section disparaît quand plus aucun plugin ne gère le protocole.
+    fenetre.registre = PluginRegistry([])
+    menu.ouvrir(_noeud(arbre, "LAB/web"), 10, 10)
+    pomper()
+    assert "arbre.plugin-0" not in _libelles(menu)
+    assert not menu.groupe.has_action("plugin-0")
+    menu.popover.popdown()

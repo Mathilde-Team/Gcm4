@@ -143,14 +143,28 @@ ci-dessus (compté ici depuis la session-38 comme hors périmètre du point
 nouveau câblage vit dans ``tests/test_gtk4_inline_editor_baseline.py``
 (``test_button_gesture_is_wired``), pas ici — ce fichier ne suivait ce
 site que comme décoy textuel, hors de son périmètre applicatif.
+
+Mise à jour session-53 (2026-11-04) : le « constructeur générique
+RDP/VNC/SPICE » de ``widgets.py``
+(``build_remote_desktop_context_menu()``), dernier des quatre menus
+contextuels applicatifs resté en ``Gtk.Menu`` classique, est porté vers
+``Gio.Menu``/``Gio.SimpleActionGroup``/``Gtk.Popover`` (voir
+``widgets.RemoteDesktopContextMenu``, ``remote_desktop_menu_core.py`` et
+``docs/gtk4-migration.md`` §3.8). Compteurs ``WIDGETS_FILE`` de
+``EXPECTED_GTK_MENU_INSTANTIATIONS`` (2 → 0) et
+``EXPECTED_LEGACY_POPUP_CALLS`` (1 → 0) ajustés en conséquence. Les
+quatre menus contextuels applicatifs de l'audit session-29 sont
+désormais tous portés ; ce qui reste hors périmètre de ce fichier est
+inchangé (cas ``CellTextView``/``populate-popup``, voir
+``tests/test_gtk4_inline_editor_baseline.py``).
 """
 
 import os
 import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORE_FILE = os.path.join(REPO_ROOT, "gnome_connection_manager.py")
-WIDGETS_FILE = os.path.join(REPO_ROOT, "widgets.py")
+CORE_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome_connection_manager.py")
+WIDGETS_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "widgets.py")
 
 # Baseline mise à jour à la session-33 (2026-09-11) — popupMenu (et son
 # sous-menu dynamique "Custom commands") porté vers
@@ -161,11 +175,11 @@ WIDGETS_FILE = os.path.join(REPO_ROOT, "widgets.py")
 # 2026-09-11) : CORE_FILE=2 / 1 / 1 (respectivement), WIDGETS_FILE inchangé.
 EXPECTED_GTK_MENU_INSTANTIATIONS = {
     CORE_FILE: 0,  # popupMenu et popupMenu.mnuCommands portés (popupMenuTab/popupMenuFolder déjà portés)
-    WIDGETS_FILE: 2,  # build_remote_desktop_context_menu() : menu + keys_submenu
+    WIDGETS_FILE: 0,  # build_remote_desktop_context_menu() porté en session-53 (RemoteDesktopContextMenu)
 }
 EXPECTED_LEGACY_POPUP_CALLS = {
     CORE_FILE: 0,  # popupMenu.popup(...) devenu popup_at() (popupMenuTab/popupMenuFolder déjà portés)
-    WIDGETS_FILE: 1,  # remote_menu.popup(...) — self.popup.popup(...) devenu popup_at()
+    WIDGETS_FILE: 0,  # remote_menu.popup(...) devenu popup_at() en session-53 (RemoteDesktopContextMenu)
 }
 # get_menu().popup(...) (pont "Custom commands" depuis le bouton hamburger)
 # n'existe plus sous cette forme : remplacé par PopupMenu.popup_commands_at()

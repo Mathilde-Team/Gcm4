@@ -127,6 +127,23 @@ FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
 
 
 @pytest.fixture
+def app_outil(tmp_path, monkeypatch, pomper):
+    """Comme ``app_fixture``, avec le seul plugin outil démo (tests/fixtures/plugin_outil)."""
+    from gcm4.core import registre
+
+    candidats = [
+        c
+        for c in registre.candidats_dossier(FIXTURES)
+        if c.nom in ("plugin_outil", "plugin_outil_fragile")
+    ]
+    app, dossier = _ouvrir(tmp_path, monkeypatch, pomper, candidats)
+    yield app, dossier
+    for fenetre in list(app.get_windows()):
+        fenetre.destroy()
+    pomper()
+
+
+@pytest.fixture
 def app_demo(tmp_path, monkeypatch, pomper):
     """Comme ``app_fixture``, avec le seul plugin démo (tests/fixtures/plugin_demo)."""
     from gcm4.core import registre

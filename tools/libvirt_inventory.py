@@ -139,6 +139,7 @@ def get_libvirt_uris() -> list[str]:
     Returns:
         list[str]: Liste d'URIs libvirt détectées.
     """
+    log.debug("get_libvirt_uris: entrée")
     try:
         result = subprocess.run(
             ["dconf", "read", "/org/virt-manager/virt-manager/connections/uris"],
@@ -173,6 +174,7 @@ def parse_libvirt_uri(uri: str) -> Hypervisor | None:
     Returns:
         Hypervisor | None: Hyperviseur parsé, ou None si invalide.
     """
+    log.debug("parse_libvirt_uri: entrée | uri={!r}", uri)
     parsed = urlparse(uri)
     scheme = parsed.scheme
     if "+" in scheme:
@@ -181,6 +183,7 @@ def parse_libvirt_uri(uri: str) -> Hypervisor | None:
         transport = "tcp"
     else:
         transport = "local"
+    log.debug("parse_libvirt_uri: retour de Hypervisor()")
     return Hypervisor(
         uri=uri,
         host=parsed.hostname or "localhost",
@@ -208,6 +211,7 @@ def ssh_connect(
     Returns:
         Client paramiko connecté, ou None en cas d'échec.
     """
+    log.debug("ssh_connect: entrée | password={}, timeout={!r}", bool(password), timeout)
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     kwargs: dict = dict(
@@ -244,11 +248,13 @@ def ssh_run(client: paramiko.SSHClient, cmd: str, timeout: int = 30) -> str:
     Returns:
         str: Sortie standard décodée.
     """
+    log.debug("ssh_run: entrée | cmd={!r}, timeout={!r}", cmd, timeout)
     _, stdout, stderr = client.exec_command(cmd, timeout=timeout)
     out = stdout.read().decode(errors="replace").strip()
     err = stderr.read().decode(errors="replace").strip()
     if err:
         log.debug(f"stderr: {err}")
+    log.debug("ssh_run: retour out")
     return out
 
 
@@ -264,6 +270,7 @@ def get_vms(client: paramiko.SSHClient) -> list[VM]:
     Returns:
         list[VM]: Liste des VMs détectées.
     """
+    log.debug("get_vms: entrée")
     out = ssh_run(client, "virsh list --all --name")
     names = [n for n in out.splitlines() if n.strip()]
     vms = []
@@ -303,6 +310,7 @@ def get_interfaces(client: paramiko.SSHClient, vm: VM) -> list[Interface]:
     Returns:
         list[Interface]: Interfaces réseau détectées.
     """
+    log.debug("get_interfaces: entrée")
     xml = ssh_run(client, f"virsh dumpxml {vm.name}")
     interfaces = []
     for block in re.findall(r"<interface.*?</interface>", xml, re.DOTALL):
@@ -322,6 +330,7 @@ def get_interfaces(client: paramiko.SSHClient, vm: VM) -> list[Interface]:
     m_vnc = re.search(r'<graphics[^>]+type=[\'"]vnc[\'"][^>]*port=[\'"](\d+)[\'"]', xml)
     if m_vnc and m_vnc.group(1) != "-1":
         vm.ports.vnc_port = int(m_vnc.group(1))
+    log.debug("get_interfaces: retour interfaces")
     return interfaces
 
 
@@ -363,6 +372,7 @@ def get_os_from_xml(client: paramiko.SSHClient, vm: VM) -> None:
     Returns:
         None: Met à jour `vm.os` en place.
     """
+    log.debug("get_os_from_xml: entrée")
     xml = ssh_run(client, f"virsh dumpxml {vm.name}")
     o = vm.os
 
@@ -389,6 +399,7 @@ def get_os_from_xml(client: paramiko.SSHClient, vm: VM) -> None:
         m = re.search(r"<description>([^<]+)</description>", xml)
         if m:
             o.os_name = m.group(1).strip()
+    log.debug("get_os_from_xml: fin")
 
 
 def get_os_from_agent(client: paramiko.SSHClient, vm: VM) -> bool:
@@ -401,10 +412,13 @@ def get_os_from_agent(client: paramiko.SSHClient, vm: VM) -> bool:
     Returns:
         bool: True si des données agent ont été trouvées.
     """
+    log.debug("get_os_from_agent: entrée")
     if vm.state != "running":
+        log.debug("get_os_from_agent: retour False")
         return False
     out = ssh_run(client, f"virsh guestinfo {vm.name} --os 2>/dev/null")
     if not out or "error" in out.lower():
+        log.debug("get_os_from_agent: retour False")
         return False
     o = vm.os
     found = False
@@ -436,6 +450,7 @@ def get_os_from_agent(client: paramiko.SSHClient, vm: VM) -> bool:
         if o.agent_hostname:
             o.hostname = o.agent_hostname
         log.info(f"    Agent OS : {o.os_name} {o.os_version or ''} kernel={o.kernel}")
+    log.debug("get_os_from_agent: retour found")
     return found
 
 
@@ -449,10 +464,13 @@ def get_os_from_ssh(hv_client: paramiko.SSHClient, vm: VM) -> bool:
     Returns:
         bool: True si la détection SSH a réussi.
     """
+    log.debug("get_os_from_ssh: entrée")
     if vm.state != "running":
+        log.debug("get_os_from_ssh: retour False")
         return False
     ip = next((i.ip for i in vm.interfaces if i.ip), None)
     if not ip:
+        log.debug("get_os_from_ssh: retour False")
         return False
     for user in ("root", "ubuntu", "debian", "rocky", "almalinux", "centos", "admin"):
         cmd = (
@@ -490,6 +508,7 @@ def get_os_from_ssh(hv_client: paramiko.SSHClient, vm: VM) -> bool:
                 f"    SSH OS  : {o.os_name} {o.os_version} kernel={o.kernel} host={o.hostname}"
             )
             return True
+    log.debug("get_os_from_ssh: retour False")
     return False
 
 
@@ -501,6 +520,7 @@ def enrich_os(hv_client: paramiko.SSHClient, vm: VM) -> None:
       3. SSH direct sur la VM  (si running + IP + clé dispo)
     Priorité : SSH > agent > XML
     """
+    log.debug("enrich_os: entrée")
     log.info(f"  OS {vm.name}…")
     get_os_from_xml(hv_client, vm)
     agent_ok = get_os_from_agent(hv_client, vm)
@@ -519,7 +539,9 @@ def enrich_os(hv_client: paramiko.SSHClient, vm: VM) -> None:
 
 def _port_open(client: paramiko.SSHClient, ip: str, port: int, timeout: int = 4) -> bool:
     """Vérifie si un port TCP est accessible depuis l'hyperviseur (nc, puis nmap)."""
+    log.debug("_port_open: entrée | ip={!r}, port={!r}, timeout={!r}", ip, port, timeout)
     if not ip:
+        log.debug("_port_open: retour False")
         return False
     out = ssh_run(
         client,
@@ -527,8 +549,10 @@ def _port_open(client: paramiko.SSHClient, ip: str, port: int, timeout: int = 4)
         timeout=timeout + 3,
     )
     if "OPEN" in out:
+        log.debug("_port_open: retour True")
         return True
     if "CLOSED" in out:
+        log.debug("_port_open: retour False")
         return False
     # Fallback nmap
     out = ssh_run(
@@ -536,11 +560,13 @@ def _port_open(client: paramiko.SSHClient, ip: str, port: int, timeout: int = 4)
         f"nmap -p {port} -sT --host-timeout {timeout}s {ip} -oG - 2>/dev/null",
         timeout=timeout + 5,
     )
+    log.debug("_port_open: retour calculé")
     return f"{port}/open" in out.lower()
 
 
 def detect_ports(client: paramiko.SSHClient, vms: list[VM]) -> None:
     """Sonde les ports SPICE, VNC et RDP depuis l'hyperviseur pour chaque VM running."""
+    log.debug("detect_ports: entrée | vms={} élément(s)", len(vms) if vms is not None else 0)
     for vm in vms:
         if vm.state != "running":
             continue
@@ -563,6 +589,7 @@ def detect_ports(client: paramiko.SSHClient, vms: list[VM]) -> None:
         vm.ports.rdp_open = _port_open(client, ip, 3389)
         if vm.ports.rdp_open:
             log.info(f"  {vm.name} RDP :3389 → ouvert")
+    log.debug("detect_ports: fin")
 
 
 # ─── Récupération des sous-réseaux ───────────────────────────────────────────
@@ -577,6 +604,7 @@ def get_host_subnets(client: paramiko.SSHClient) -> list[str]:
     Returns:
         list[str]: Liste de sous-réseaux CIDR uniques.
     """
+    log.debug("get_host_subnets: entrée")
     out = ssh_run(client, "ip -o -f inet addr show")
     subnets, seen = [], set()
     for line in out.splitlines():
@@ -598,6 +626,7 @@ def get_host_subnets(client: paramiko.SSHClient) -> list[str]:
             seen.add(cidr)
             subnets.append(cidr)
             log.info(f"    Sous-réseau détecté : {cidr}")
+    log.debug("get_host_subnets: retour subnets")
     return subnets
 
 
@@ -614,8 +643,13 @@ def nmap_ping_scan(client: paramiko.SSHClient, subnets: list[str]) -> dict[str, 
     Returns:
         dict[str, str]: Mapping mac_lower -> ip.
     """
+    log.debug(
+        "nmap_ping_scan: entrée | subnets={} élément(s)",
+        len(subnets) if subnets is not None else 0,
+    )
     result: dict[str, str] = {}
     if not subnets:
+        log.debug("nmap_ping_scan: retour result")
         return result
     if not ssh_run(client, "which nmap 2>/dev/null"):
         log.warning("  nmap non disponible.")
@@ -640,6 +674,7 @@ def nmap_ping_scan(client: paramiko.SSHClient, subnets: list[str]) -> dict[str, 
                 result[mac_m.group(1).lower()] = ip_m.group(1)
                 count += 1
         log.info(f"    {count} hôte(s) avec MAC sur {cidr}")
+    log.debug("nmap_ping_scan: retour result")
     return result
 
 
@@ -655,11 +690,13 @@ def build_arp_table(client: paramiko.SSHClient) -> dict[str, str]:
     Returns:
         dict[str, str]: Mapping mac_lower -> ip.
     """
+    log.debug("build_arp_table: entrée")
     arp = {}
     for line in ssh_run(client, "ip neigh show 2>/dev/null || arp -n 2>/dev/null").splitlines():
         m = re.search(r"(\d+\.\d+\.\d+\.\d+).*?([0-9a-f]{2}(?::[0-9a-f]{2}){5})", line, re.I)
         if m:
             arp[m.group(2).lower()] = m.group(1)
+    log.debug("build_arp_table: retour arp")
     return arp
 
 
@@ -672,6 +709,7 @@ def build_dhcp_table(client: paramiko.SSHClient) -> dict[str, str]:
     Returns:
         dict[str, str]: Mapping mac_lower -> ip.
     """
+    log.debug("build_dhcp_table: entrée")
     leases: dict[str, str] = {}
     for net in ssh_run(client, "virsh net-list --name").splitlines():
         net = net.strip()
@@ -684,6 +722,7 @@ def build_dhcp_table(client: paramiko.SSHClient) -> dict[str, str]:
                 ip_c = parts[3].split("/")[0] if "/" in parts[3] else parts[3]
                 if mac_c and re.match(r"\d+\.\d+\.\d+\.\d+", ip_c):
                     leases[mac_c.lower()] = ip_c
+    log.debug("build_dhcp_table: retour leases")
     return leases
 
 
@@ -701,6 +740,11 @@ def resolve_ips(client: paramiko.SSHClient, vms: list[VM], use_nmap: bool = True
     Returns:
         None: Met à jour les IP des interfaces en place.
     """
+    log.debug(
+        "resolve_ips: entrée | vms={} élément(s), use_nmap={!r}",
+        len(vms) if vms is not None else 0,
+        use_nmap,
+    )
     for vm in vms:
         if vm.state != "running":
             continue
@@ -732,6 +776,7 @@ def resolve_ips(client: paramiko.SSHClient, vms: list[VM], use_nmap: bool = True
             iface.ip = combined.get(iface.mac.lower())
             if iface.ip:
                 log.info(f"    {vm.name} / {iface.mac} → {iface.ip}")
+    log.debug("resolve_ips: fin")
 
 
 # ─── Affichage ────────────────────────────────────────────────────────────────
@@ -746,6 +791,10 @@ def print_report(hypervisors: list[Hypervisor]) -> None:
     Returns:
         None: Écrit le rapport sur stdout.
     """
+    log.debug(
+        "print_report: entrée | hypervisors={} élément(s)",
+        len(hypervisors) if hypervisors is not None else 0,
+    )
     print("\n" + "═" * 68 + "\n  INVENTAIRE LIBVIRT\n" + "═" * 68)
     total_vms = sum(len(hv.vms) for hv in hypervisors)
     total_running = sum(1 for hv in hypervisors for vm in hv.vms if vm.state == "running")
@@ -789,6 +838,7 @@ def print_report(hypervisors: list[Hypervisor]) -> None:
                 net = f"  réseau={iface.source_network}" if iface.source_network else ""
                 print(f"      MAC {iface.mac}  →  {iface.ip or 'IP inconnue'}{net}")
     print("\n" + "═" * 68)
+    log.debug("print_report: fin")
 
 
 def export_json(hypervisors: list[Hypervisor], path: str = "inventory.json") -> None:
@@ -801,6 +851,11 @@ def export_json(hypervisors: list[Hypervisor], path: str = "inventory.json") -> 
     Returns:
         None: Écrit le fichier sur disque.
     """
+    log.debug(
+        "export_json: entrée | hypervisors={} élément(s), path={!r}",
+        len(hypervisors) if hypervisors is not None else 0,
+        path,
+    )
     data = []
     for hv in hypervisors:
         hv_dict = {"host": hv.host, "uri": hv.uri, "vms": []}
@@ -866,6 +921,11 @@ def export_json(hypervisors: list[Hypervisor], path: str = "inventory.json") -> 
 
 def export_csv(hypervisors: list[Hypervisor], path: str = "inventory.csv") -> None:
     """Exporte l'inventaire en CSV (une ligne par VM × interface)."""
+    log.debug(
+        "export_csv: entrée | hypervisors={} élément(s), path={!r}",
+        len(hypervisors) if hypervisors is not None else 0,
+        path,
+    )
     fields = [
         "hypervisor",
         "vm_name",
@@ -942,6 +1002,12 @@ def export_ansible_ini(
       [os_windows]      VMs avec OS détecté Windows
       [rdp]             VMs avec RDP ouvert
     """
+    log.debug(
+        "export_ansible_ini: entrée | hypervisors={} élément(s), path={!r}, vm_user={!r}",
+        len(hypervisors) if hypervisors is not None else 0,
+        path,
+        vm_user,
+    )
     lines: list[str] = [
         "# Inventaire Ansible généré par libvirt_inventory.py",
         "",
@@ -1005,6 +1071,13 @@ def export_ansible_yaml(
     """Génère un inventaire Ansible au format YAML (compatible ansible-inventory)."""
 
     # Construit à la main pour ne pas nécessiter PyYAML
+    log.debug(
+        "export_ansible_yaml: entrée | hypervisors={} élément(s), path={!r}, vm_user={!r}",
+        len(hypervisors) if hypervisors is not None else 0,
+        path,
+        vm_user,
+    )
+
     def _indent(n: int) -> str:
         return "  " * n
 
@@ -1063,6 +1136,7 @@ def export_ansible_yaml(
 
 
 def _build_parser() -> argparse.ArgumentParser:
+    log.debug("_build_parser: entrée")
     p = argparse.ArgumentParser(
         description="Inventaire des VMs libvirt via SSH",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -1134,6 +1208,7 @@ def _build_parser() -> argparse.ArgumentParser:
         metavar="SEC",
         help="Délai de connexion SSH en secondes (défaut: 10)",
     )
+    log.debug("_build_parser: retour p")
     return p
 
 
@@ -1143,6 +1218,7 @@ def main() -> None:
     Returns:
         None: Exécute la collecte et les exports demandés.
     """
+    log.debug("main: entrée")
     _configure_logging()
     args = _build_parser().parse_args()
 

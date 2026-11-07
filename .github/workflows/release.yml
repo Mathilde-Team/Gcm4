@@ -44,7 +44,11 @@ jobs:
         run: |
           sudo -n apt-get update -qq
           sudo -n apt-get install -y -qq gettext rpm ruby ruby-dev build-essential \
-            debhelper dh-python dpkg-dev python3-build python3-hatchling
+            debhelper dh-python dpkg-dev python3-build python3-hatchling python3-pip
+          # Ubuntu 24.04 (ubuntu-latest) fournit hatchling 1.21, pyproject.toml
+          # exige >= 1.24 et build-deb/build.sh construit sans isolation (#362).
+          # --ignore-installed : packaging de Debian ne se désinstalle pas avec pip.
+          sudo -n python3 -m pip install --quiet --break-system-packages --ignore-installed "hatchling>=1.24"
           sudo gem install --no-document fpm
 
       - name: Version
@@ -91,10 +95,10 @@ jobs:
           for r in ./*.rpm; do rpm -qpl --dbpath "$RUNNER_TEMP/rpmdb" "$r" > "$RUNNER_TEMP/$(basename "$r").txt"; done
           # .deb : paquet gcm4 (le test de fumée complet est le job « Paquets »
           # de ci.yml, scripts/smoke-test-packages.sh).
-          for f in /usr/bin/gcm4 /usr/share/gcm4/gcm4/__init__.py /usr/share/gcm4/gcm4_core.py; do
+          for f in /usr/bin/gcm4 /usr/share/gcm4/gcm4/__init__.py /usr/share/gcm4/gcm4/core/metier.py; do
             grep -q "\.$f\$" "$RUNNER_TEMP/deb.txt" || { echo "::error::$f absent du .deb"; exit 1; }
           done
-          for f in gcm4_core.py logging_config.py models.py utils.py widgets.py plugins/plugin_base.py plugins/ssh/core.py; do
+          for f in gcm4/core/metier.py gcm4/core/journal.py models.py utils.py widgets.py plugins/plugin_base.py plugins/ssh/core.py; do
             for liste in "$RUNNER_TEMP"/*.rpm.txt; do
               grep -q "/usr/share/gnome-connection-manager/$f\$" "$liste" || { echo "::error::$f absent de $(basename "$liste" .txt)"; exit 1; }
             done

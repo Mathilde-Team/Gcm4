@@ -66,10 +66,10 @@ et c'est à l'autrice de trancher, sur #223 :
 | local | 192 | `Vte.Terminal` 2.91, shell local | `Vte.Terminal` 3.91 | Rocky 9 sans VTE GTK4 |
 | serial | 689 | `Vte.Terminal` 2.91, `picocom`/`minicom`/`screen` | **porté** : `plugins/serial/` (contrat v1, #179) ; détection des outils et construction de la commande sans GTK (`core.py`), paramètres série dans la zone d'options du protocole (repli du débit sur le champ Port, héritage GTK3) | Rocky 9 sans VTE GTK4 ; `picocom` vient d'EPEL sur Rocky 9 |
 | ipmisol | 246 | `Vte.Terminal` 2.91, `ipmitool sol activate` | **porté** : `plugins/ipmisol/` (contrat v1, #179) ; mot de passe via `IPMI_PASSWORD` (`Lancement.env`), `sol deactivate` à la fermeture | Rocky 9 sans VTE GTK4 |
-| web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | `WebKit.WebView` 6.0 ; repli vers le navigateur externe (`Gtk.UriLauncher` à partir de GTK 4.10, sinon `Gio.AppInfo`) | Rocky 9 : repli externe seulement |
+| web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | **porté** : `plugins/web/` (contrat v1, #397) ; `WebKit.WebView` 6.0 chargé à l'ouverture seulement, certificat refusé accepté pour l'hôte de l'URL seulement (`allow_tls_certificate_for_host`, GTK3 coupait la vérification pour tout le contexte), repli vers le navigateur par défaut par `Gio.AppInfo` (présent dès GTK 4.8, `Gtk.UriLauncher` n'apporterait rien ici) ; mêmes clés `web_url` et `web_ignore_cert` que GTK3 | Rocky 9 : repli externe seulement (tests WebKit écartés, repli testé) |
 | vnc | 701 | `GtkVnc.Display` (gtk-vnc, GTK3 seulement partout) | **fusion avec `plugins/pluginvnc2`** (déjà GTK4, client asyncvnc2), comme prévu par #104 | #104 ; aucune version GTK4 de gtk-vnc dans les distributions |
 | spice | 1424 | `SpiceClientGtk.Display` 3.0 (GTK3 seulement partout) | aucun widget SPICE GTK4. Deux voies : affichage maison sur `SpiceClientGLib` (canal d'affichage vers `Gdk.MemoryTexture`, comme pluginvnc2), ou visionneuse externe (`remote-viewer`) | **choix à faire** (sous-issue au moment du portage) ; spice-gtk absent de Rocky 9 |
-| rdp | 614 | `GtkFrdp.Display` (`Gtk.Socket`/XEmbed, supprimé en GTK4) | `plugins/rdp/gtk4.py` sur AsyncRdp | #71, #105 ; FreeRDP 3 absent de Debian 12 et de Rocky 9 |
+| rdp | 614 | `GtkFrdp.Display` (`Gtk.Socket`/XEmbed, supprimé en GTK4) | **porté** : `plugins/rdp/` sur AsyncRdp (contrat v1, #105) ; mêmes clés INI que GTK3, `RdpSession` et `RdpView` des intégrations GTK4 d'AsyncRdp4, boucle asyncio sur GLib (`gcm4.ui.boucle`). gtk-frdp abandonné (décision du 2026-11-01, #71) | #71 (retrait de gtk-frdp, menu contextuel) ; FreeRDP 3 absent de Debian 12 et de Rocky 9 |
 
 ### Plugins d'import, d'export et de traitement par lots (`BatchPlugin` GTK3)
 
@@ -86,14 +86,14 @@ toutes les lignes suivantes.
 
 | Plugin | Lignes | Technique GTK3 | Portage GTK4 | Bloquant ou décision liée |
 |---|---|---|---|---|
-| import_csv, import_json, export_csv, export_json | 103, 97, 100, 98 | `BatchPlugin`, dialogues `Gtk.FileChooserDialog` | **déjà repris par la base** : import/export CSV et JSON sans GTK (#152, PR #267), interface (#153, PR #269), ligne de commande (#154). À la fusion, les quatre fichiers sont retirés et leur entrée sort de l'inventaire GTK3 | fusion de #267 et #269 |
-| import_putty | 117 | `BatchPlugin`, sessions PuTTY | type « outil », dialogue GTK4 de choix de fichier | contrat « outil » |
-| import_libvirt | 1174 | `BatchPlugin`, `Gtk.TreeView` | type « outil » ; liste en `Gtk.ColumnView` ; la logique libvirt passe dans `core.py` | contrat « outil » |
-| import_ovirt | 1045 | idem | idem (API REST, JSON) | contrat « outil » |
-| import_proxmox | 1029 | idem | idem | contrat « outil » |
-| import_virtualbox | 1039 | idem, `VBoxManage` | idem | contrat « outil » |
-| netmiko_push | 932 | `BatchPlugin`, `Gtk.TreeView`, `netmiko_bulk_core.py` | type « outil » ; le cœur existe déjà sans GTK | contrat « outil » |
-| snmp_push | 1146 | idem, `snmp_bulk_core.py` | type « outil » ; le cœur existe sans GTK, dépôt SFTP/FTP/TFTP compris (#74) | contrat « outil » ; formulaire de dépôt (protocole, identifiants, dossier) à ajouter |
+| import_csv, import_json, export_csv, export_json | 103, 97, 100, 98 | `BatchPlugin`, dialogues `Gtk.FileChooserDialog` | **retirés** (31/10/2026) : remplacés par l'import/export CSV et JSON de la base — sans GTK (#152, PR #267), interface (#153, PR #269), ligne de commande (#154). Les quatre fichiers sont supprimés et leur entrée est sortie de l'inventaire GTK3 | remplacé par la base (fusionné) |
+| import_putty | 117 | `BatchPlugin`, sessions PuTTY | **porté** : `plugins/import_putty/` (contrat v1 outil, #436) ; onglet de choix du dossier (`fichiers.choisir`, repli GTK 4.8), résumé du scan, stratégie de conflit (les trois de #153), import via le nouveau service du contexte `PluginContext.import_hosts` | premier outil porté : exemple pour les suivants |
+| import_libvirt | 1174 | `BatchPlugin`, `Gtk.TreeView` | **porté** : `plugins/import_libvirt/` (contrat v1 outil, #439) ; collecte dans `core.py` sans GTK, prévisualisation en `Gtk.ColumnView` sur l'onglet générique des imports (`gcm4_hv.ui`), cibles dconf ou saisie manuelle | contrat « outil » |
+| import_ovirt | 1045 | idem | **porté** : `plugins/import_ovirt/` (contrat v1 outil, #439) ; API REST `urllib` dans `core.py`, résolution de route (direct → rebond moteur → rebond hyperviseur → question manuelle via `dialogues.creer`) | contrat « outil » |
+| import_proxmox | 1029 | idem | **porté** : `plugins/import_proxmox/` (contrat v1 outil, #439) ; `qm list/config/guest cmd` dans `core.py`, IP par l'agent QEMU puis ipconfig/ARP/nmap, SPICE si `vga: qxl` | contrat « outil » |
+| import_virtualbox | 1039 | idem, `VBoxManage` | **porté** : `plugins/import_virtualbox/` (contrat v1 outil, #439) ; `VBoxManage` dans `core.py`, IP par guestproperty puis ARP/nmap, RDP VRDE prioritaire, VNC invité sondé | contrat « outil » |
+| netmiko_push | 932 | `BatchPlugin`, `Gtk.TreeView`, `plugins/netmiko_push/core.py` | type « outil » ; le cœur existe déjà sans GTK | contrat « outil » |
+| snmp_push | 1146 | idem, `plugins/snmp_push/core.py` | type « outil » ; le cœur existe sans GTK, dépôt SFTP/FTP/TFTP compris (#74) | contrat « outil » ; formulaire de dépôt (protocole, identifiants, dossier) à ajouter |
 
 ## Ordre proposé
 
@@ -105,9 +105,16 @@ toutes les lignes suivantes.
    réutilisent.
 3. **ssh** (#97, #180) : le plus gros ; il réutilise le terminal des étapes 1
    et 2.
-4. **web**.
-5. **Contrat « outil »**, puis **import_putty**, les imports d'hyperviseurs,
-   **netmiko_push**, et **snmp_push** après #74.
+4. **web** (#397) : porté.
+5. ~~**Contrat « outil »**~~ fait (#73) : `ToolPlugin` dans
+   `gcm4.core.plugins`, sections de menu `outils`/`import`/`export`,
+   validation `incompatibilite_outil()`, sous-menu « Tools » et action
+   `win.outil-<name>` (`gcm4.core.menu.menu_avec_outils`,
+   `docs/plugins.md`). **import_putty** est porté (#436) — il a ouvert la
+   voie avec le service `import_hosts` du contexte. Les quatre imports
+   d'hyperviseurs (**libvirt, Proxmox, VirtualBox, oVirt**) sont portés
+   (#439) sur un onglet générique partagé (`plugins/import_hyperviseurs/`).
+   Reste **netmiko_push**, et **snmp_push** après #74.
 6. **vnc** (fusion pluginvnc2, #104), **rdp** (#71, #105) et **spice** (choix
    de la voie) : ils dépendent de projets ou de décisions extérieurs.
 

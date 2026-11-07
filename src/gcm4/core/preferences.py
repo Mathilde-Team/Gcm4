@@ -148,6 +148,8 @@ class Preferences:
     cycle_tabs: bool = True
     disable_hosts_stripes: bool = False
     update_title: bool = False
+    #: Icône de la zone de notification (StatusNotifierItem, #83).
+    tray_icon: bool = False
     #: Vide = nom de l'application (GTK3 écrit ce nom quand le titre est vide).
     app_title: str = ""
 
@@ -166,6 +168,7 @@ CLES: dict[str, tuple[str, str]] = {
     "cycle_tabs": (SECTION_OPTIONS, "cycle-tabs"),
     "disable_hosts_stripes": (SECTION_OPTIONS, "disable-hosts-stripes"),
     "update_title": (SECTION_OPTIONS, "update-title"),
+    "tray_icon": (SECTION_OPTIONS, "tray-icon"),
     "app_title": (SECTION_OPTIONS, "app-title"),
 }
 
@@ -180,6 +183,7 @@ BOOLEENS = (
     "cycle_tabs",
     "disable_hosts_stripes",
     "update_title",
+    "tray_icon",
 )
 
 #: Niveaux proposés dans Préférences > Journalisation (#130, #148).

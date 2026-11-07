@@ -103,8 +103,10 @@ def _cmb_set_id(cmb: Gtk.ComboBoxText | None, item_id: str) -> None:
         cmb: Combo cible (peut être ``None``).
         item_id: Id de l'item à sélectionner.
     """
+    logger.debug("_cmb_set_id: entrée")
     if cmb is not None:
         cmb.set_active_id(item_id)
+    logger.debug("_cmb_set_id: fin")
 
 
 def _cmb_get_id(cmb: Gtk.ComboBoxText | None, default: str = "") -> str:
@@ -114,9 +116,12 @@ def _cmb_get_id(cmb: Gtk.ComboBoxText | None, default: str = "") -> str:
         cmb: Combo source (peut être ``None``).
         default: Valeur retournée si rien n'est sélectionné.
     """
+    logger.debug("_cmb_get_id: entrée")
     if cmb is None:
+        logger.debug("_cmb_get_id: sortie")
         return default
     active_id = cmb.get_active_id()
+    logger.debug("_cmb_get_id: sortie")
     return active_id if active_id is not None else default
 
 
@@ -159,6 +164,7 @@ class SerialTab(Gtk.Box):
 
     def __init__(self, host):
         """Initialise le widget SerialTab."""
+        logger.debug("SerialTab.__init__: entrée")
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         self.host = host
 
@@ -346,27 +352,35 @@ class SerialTab(Gtk.Box):
         # Appliquer le template après construction de l'UI
         if tpl_saved in _SERIAL_TEMPLATES:
             self._apply_template(tpl_saved)
+        logger.debug("SerialTab.__init__: fin")
 
     # ── helpers ─────────────────────────────────────────────────────────────
 
     @staticmethod
     def _cmb_select(cmb, value, default_idx=0):
         """Sélectionne l'entrée dont le texte == value, sinon default_idx."""
+        logger.debug("SerialTab._cmb_select: entrée")
         model = cmb.get_model()
         it = model.get_iter_first()
         while it is not None:
             if model[it][0] == value:
                 cmb.set_active_iter(it)
+                logger.debug("SerialTab._cmb_select: sortie")
                 return
             it = model.iter_next(it)
         cmb.set_active(default_idx)
+        logger.debug("SerialTab._cmb_select: fin")
 
     def _flow_code(self):
+        logger.debug("SerialTab._flow_code: entrée")
         idx = self._cmb_flow.get_active()
+        logger.debug("SerialTab._flow_code: sortie")
         return self._FLOW_LABELS[idx][0] if 0 <= idx < len(self._FLOW_LABELS) else "n"
 
     def _parity_code(self):
+        logger.debug("SerialTab._parity_code: entrée")
         idx = self._cmb_parity.get_active()
+        logger.debug("SerialTab._parity_code: sortie")
         return self._PARITY_LABELS[idx][0] if 0 <= idx < len(self._PARITY_LABELS) else "n"
 
     def _databits(self):
@@ -379,7 +393,9 @@ class SerialTab(Gtk.Box):
 
     def _apply_template(self, name):
         """Applique les paramètres d'un template aux combos de l'UI."""
+        logger.debug("SerialTab._apply_template: entrée")
         if name not in _SERIAL_TEMPLATES:
+            logger.debug("SerialTab._apply_template: sortie")
             return
         baud, flow, parity, databits, stopbits = _SERIAL_TEMPLATES[name]
         self._cmb_select(self._cmb_baud, baud, 4)
@@ -393,11 +409,14 @@ class SerialTab(Gtk.Box):
         self._cmb_select(self._cmb_databits, databits, 3)
         self._cmb_select(self._cmb_stopbits, stopbits, 0)
         self.host.type = name
+        logger.debug("SerialTab._apply_template: fin")
 
     def _on_template_changed(self, cmb):
         """Applique le template sélectionné sur tous les combos."""
+        logger.debug("SerialTab._on_template_changed: entrée")
         name = cmb.get_active_text()
         self._apply_template(name)
+        logger.debug("SerialTab._on_template_changed: fin")
 
     # ── construction de la commande ─────────────────────────────────────────
 
@@ -410,6 +429,7 @@ class SerialTab(Gtk.Box):
         Returns:
             list[str]: Commande prête pour vte_run().
         """
+        logger.debug("SerialTab._build_cmd: entrée")
         device = self._entry_dev.get_text().strip() or "/dev/ttyUSB0"
         baud = self._cmb_baud.get_active_text() or "9600"
         flow = self._flow_code()
@@ -473,12 +493,14 @@ class SerialTab(Gtk.Box):
             if extra:
                 cmd += shlex.split(extra)
         app_logger.debug(f"Serial: command = {cmd}")
+        logger.debug("SerialTab._build_cmd: sortie")
         return cmd
 
     # ── connexion / déconnexion ──────────────────────────────────────────────
 
     def _on_connect(self, widget):
         """Lance la session série dans le terminal VTE."""
+        logger.debug("SerialTab._on_connect: entrée")
         self.host.extra_params = self._entry_opts.get_text().strip()
         # Persister dans les attributs structurés (serial_baud, etc.)
         baud = self._cmb_baud.get_active_text() or "9600"
@@ -492,14 +514,17 @@ class SerialTab(Gtk.Box):
         self.host.host = self._entry_dev.get_text().strip()
         cmd = self._build_cmd()
         if not cmd:
+            logger.debug("SerialTab._on_connect: sortie")
             return
         self._lbl_status.set_text(_("Connecting…"))
         self._btn_connect.set_sensitive(False)
         self._btn_disconnect.set_sensitive(True)
         vte_run(self._terminal, cmd[0], cmd[1:])
+        logger.debug("SerialTab._on_connect: fin")
 
     def _on_disconnect(self, widget):
         """Envoie SIGTERM au processus fils du VTE."""
+        logger.debug("SerialTab._on_disconnect: entrée")
         try:
             pid = self._terminal.get_pty().get_fd()
             if pid and pid > 0:
@@ -511,10 +536,13 @@ class SerialTab(Gtk.Box):
         self._lbl_status.set_text(_("Disconnect"))
         self._btn_connect.set_sensitive(True)
         self._btn_disconnect.set_sensitive(False)
+        logger.debug("SerialTab._on_disconnect: fin")
 
     def connect_serial(self):
         """Démarre la session série automatiquement (appelé depuis addTab)."""
+        logger.debug("SerialTab.connect_serial: entrée")
         self._on_connect(None)
+        logger.debug("SerialTab.connect_serial: fin")
 
 
 class SerialPlugin(ConnectionPlugin):
@@ -528,6 +556,7 @@ class SerialPlugin(ConnectionPlugin):
 
     def __init__(self) -> None:
         """Initialise les références de widgets du formulaire série (peuplées par ``build_edit_page()``)."""
+        logger.debug("SerialPlugin.__init__: entrée")
         self._cmb_template: Gtk.ComboBoxText | None = None
         self._cmb_baud: Gtk.ComboBoxText | None = None
         self._cmb_databits: Gtk.ComboBoxText | None = None
@@ -535,6 +564,7 @@ class SerialPlugin(ConnectionPlugin):
         self._cmb_stopbits: Gtk.ComboBoxText | None = None
         self._cmb_flow: Gtk.ComboBoxText | None = None
         self._cmb_tool: Gtk.ComboBoxText | None = None
+        logger.debug("SerialPlugin.__init__: fin")
 
     def build_tab(self, host, get_password: Callable[[], str] | None = None) -> Gtk.Widget:
         """Construit l'onglet de session série (délègue à ``SerialTab``).
@@ -559,6 +589,7 @@ class SerialPlugin(ConnectionPlugin):
         Returns:
             Un ``Gtk.Grid`` autonome.
         """
+        logger.debug("SerialPlugin.build_edit_page: entrée")
         grid = Gtk.Grid()
         grid.set_row_homogeneous(True)
         grid.set_row_spacing(4)
@@ -621,6 +652,7 @@ class SerialPlugin(ConnectionPlugin):
             grid.attach(widget, 1, row_idx, 1, 1)
 
         grid.show_all()
+        logger.debug("SerialPlugin.build_edit_page: sortie")
         return grid
 
     def _on_template_changed(self, widget: Gtk.ComboBoxText) -> None:
@@ -629,9 +661,11 @@ class SerialPlugin(ConnectionPlugin):
         Args:
             widget: Combo ``serialCmbTemplate`` (celui qui a changé).
         """
+        logger.debug("SerialPlugin._on_template_changed: entrée")
         tpl_id = _cmb_get_id(widget, "custom")
         tpl = _TEMPLATES.get(tpl_id)
         if tpl is None:
+            logger.debug("SerialPlugin._on_template_changed: sortie")
             return  # "custom" (ou id inconnu) : on ne touche à rien
         baud, databits, parity, stopbits, flow = tpl
         _cmb_set_id(self._cmb_baud, baud)
@@ -639,6 +673,7 @@ class SerialPlugin(ConnectionPlugin):
         _cmb_set_id(self._cmb_parity, parity)
         _cmb_set_id(self._cmb_stopbits, stopbits)
         _cmb_set_id(self._cmb_flow, flow)
+        logger.debug("SerialPlugin._on_template_changed: fin")
 
     def load_host_fields(self, host) -> None:
         """Recharge les 6 combos depuis *host* (le template reste "custom").
@@ -646,6 +681,7 @@ class SerialPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` source.
         """
+        logger.debug("SerialPlugin.load_host_fields: entrée")
         _cmb_set_id(self._cmb_baud, getattr(host, "serial_baud", "9600") or "9600")
         _cmb_set_id(self._cmb_databits, getattr(host, "serial_databits", "8") or "8")
         _cmb_set_id(self._cmb_parity, getattr(host, "serial_parity", "n") or "n")
@@ -654,6 +690,7 @@ class SerialPlugin(ConnectionPlugin):
         _cmb_set_id(self._cmb_tool, getattr(host, "serial_tool", "picocom") or "picocom")
         _cmb_set_id(self._cmb_template, "custom")
         logger.debug(f"SerialPlugin.load_host_fields | host={getattr(host, 'name', '?')}")
+        logger.debug("SerialPlugin.load_host_fields: fin")
 
     def save_host_fields(self, host) -> None:
         """Reporte les 6 combos dans *host* (le template n'est pas persisté).
@@ -661,6 +698,7 @@ class SerialPlugin(ConnectionPlugin):
         Args:
             host: Instance ``Host`` à mettre à jour.
         """
+        logger.debug("SerialPlugin.save_host_fields: entrée")
         host.serial_baud = _cmb_get_id(self._cmb_baud, "9600")
         host.serial_databits = _cmb_get_id(self._cmb_databits, "8")
         host.serial_parity = _cmb_get_id(self._cmb_parity, "n")
@@ -668,6 +706,7 @@ class SerialPlugin(ConnectionPlugin):
         host.serial_flow = _cmb_get_id(self._cmb_flow, "n")
         host.serial_tool = _cmb_get_id(self._cmb_tool, "picocom")
         logger.debug(f"SerialPlugin.save_host_fields | host={getattr(host, 'name', '?')}")
+        logger.debug("SerialPlugin.save_host_fields: fin")
 
     def host_fields(self) -> list[tuple[str, object]]:
         """Champs ``Host`` propres au protocole série."""

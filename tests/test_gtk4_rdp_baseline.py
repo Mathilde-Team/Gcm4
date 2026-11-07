@@ -92,9 +92,9 @@ Python). Trois classes :
    XEmbed du code réellement chargé.
 2. ``TestRdpPluginUsesGtkFrdpNatively`` — verrouille la dépendance actuelle
    à ``GtkFrdp``/GTK3 telle qu'elle existe aujourd'hui.
-3. ``TestRemoteDesktopContextMenuStillLegacy`` — verrouille l'état non porté
-   de ``build_remote_desktop_context_menu()`` pour les trois plugins qui le
-   consomment.
+3. ``TestRemoteDesktopContextMenuPorted`` — verrouille l'état *porté*
+   (session-53) de ``build_remote_desktop_context_menu()`` pour les trois
+   plugins qui le consomment.
 
 Si un test échoue ici après un changement délibéré (portage effectif d'un
 de ces points, apparition d'un chemin GTK4 pour `gtk-frdp`), c'est le signe
@@ -107,12 +107,12 @@ import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-CORE_FILE = os.path.join(REPO_ROOT, "gnome_connection_manager.py")
+CORE_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome_connection_manager.py")
 RDP_PLUGIN_FILE = os.path.join(REPO_ROOT, "plugins", "plugin_rdp.py")
 VNC_PLUGIN_FILE = os.path.join(REPO_ROOT, "plugins", "plugin_vnc.py")
 SPICE_PLUGIN_FILE = os.path.join(REPO_ROOT, "plugins", "plugin_spice.py")
-WIDGETS_FILE = os.path.join(REPO_ROOT, "widgets.py")
-GTK_FRDP_MESON = os.path.join(REPO_ROOT, "gtk-frdp", "src", "meson.build")
+WIDGETS_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "widgets.py")
+GTK_FRDP_MESON = os.path.join(REPO_ROOT, "GTK3.OLD", "gtk-frdp", "src", "meson.build")
 
 
 def _read(path: str) -> str:
@@ -274,36 +274,34 @@ class TestRdpPluginUsesGtkFrdpNatively(unittest.TestCase):
         )
 
 
-class TestRemoteDesktopContextMenuStillLegacy(unittest.TestCase):
-    """`build_remote_desktop_context_menu()` (RDP/VNC/SPICE) reste en `Gtk.Menu` classique.
+class TestRemoteDesktopContextMenuPorted(unittest.TestCase):
+    """`build_remote_desktop_context_menu()` (RDP/VNC/SPICE) est porté vers ``Gio.Menu``.
 
-    Complète, pour le périmètre spécifique RDP/VNC/SPICE,
-    `tests/test_gtk4_context_menus_baseline.py` (qui documente déjà ce
-    point comme « hors périmètre » de son propre inventaire depuis la
-    session-33, sans le verrouiller en tant que check-list dédiée) —
-    corrige au passage l'affirmation de `CLAUDE.md` (session-33) selon
-    laquelle « les quatre menus contextuels applicatifs... sont désormais
-    tous portés » : celui-ci, le quatrième, ne l'est pas.
+    Porté en session-53 (``widgets.RemoteDesktopContextMenu``,
+    ``Gio.Menu``/``Gio.SimpleActionGroup``/``Gtk.Popover``) : ce fichier
+    verrouille désormais l'état *porté* — plus aucun ``Gtk.Menu()``
+    dans ``widgets.py`` pour ce menu, et les trois plugins continuent
+    d'appeler le constructeur commun une fois chacun (signature
+    inchangée).
     """
 
-    def test_build_remote_desktop_context_menu_still_uses_two_gtk_menus(self):
-        """`widgets.py` construit toujours ce menu avec deux `Gtk.Menu()` classiques.
+    def test_build_remote_desktop_context_menu_uses_no_gtk_menu(self):
+        """`widgets.py` ne construit plus ce menu avec des `Gtk.Menu()` classiques.
 
-        Un menu principal (Connect/Disconnect) et un sous-menu « Special
-        keys » — voir `widgets.build_remote_desktop_context_menu()`.
+        L'ancienne baseline session-46 en attendait 2 (menu principal +
+        sous-menu « Special keys ») : le portage session-53 les supprime.
         """
         source = _read(WIDGETS_FILE)
         actual = source.count("Gtk.Menu()")
         self.assertEqual(
             actual,
-            2,
+            0,
             f"widgets.py : {actual} occurrence(s) de 'Gtk.Menu()' trouvée(s), "
-            "2 attendues (baseline session-46 : menu principal + "
-            "keys_submenu de build_remote_desktop_context_menu()). Voir "
-            "docs/gtk4-migration.md §3.8 avant d'ajuster ce test.",
+            "0 attendue (portage session-53 : RemoteDesktopContextMenu sur "
+            "Gio.Menu). Voir docs/gtk4-migration.md §3.8.",
         )
 
-    def test_three_plugins_still_call_the_legacy_builder(self):
+    def test_three_plugins_still_call_the_builder(self):
         """RDP, VNC et SPICE appellent chacun `build_remote_desktop_context_menu()` une fois."""
         for path in (RDP_PLUGIN_FILE, VNC_PLUGIN_FILE, SPICE_PLUGIN_FILE):
             source = _read(path)
@@ -315,7 +313,7 @@ class TestRemoteDesktopContextMenuStillLegacy(unittest.TestCase):
                     1,
                     f"{relpath} : {actual} appel(s) à "
                     "build_remote_desktop_context_menu() trouvé(s), 1 "
-                    "attendu (baseline session-46).",
+                    "attendu (portage session-53, signature inchangée).",
                 )
 
 

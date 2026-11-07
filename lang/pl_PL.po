@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-10-30 23:45+0000\n"
+"POT-Creation-Date: 2026-11-07 19:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,14 +18,2288 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "+ Add"
+msgstr "+ Dodaj"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid ""
+"<i>Double-click a cell to edit it.\n"
+"File format: <tt>[serial_templates]</tt> in <tt>gcm.conf</tt>\n"
+"<tt>My device = 9600,n,n,8,1</tt>  (baud,flow,parity,bits,stop)</i>"
+msgstr ""
+"<i>Kliknij dwukrotnie komórkę, aby ją edytować.\n"
+"Format pliku: <tt>[serial_templates]</tt> w <tt>gcm.conf</tt>\n"
+"<tt>Moje urządzenie = 9600,n,n,8,1</tt>  (baud,kontrola przepływu,parzystość,bity,stop)</i>"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "<span size=\"smaller\">CTRL+UP/CTRL+DOWN for history</span>"
+msgstr "<span size=\"smaller\">CTRL+GÓRA/CTRL+DÓŁ dla historii</span>"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
+msgid ""
+"<span size='smaller'>Use ##D=milliseconds to add a delay.\n"
+"Ex: ##D=1000</span>"
+msgstr ""
+"<span size='smaller'>Użyj ##D=milisekundy, aby dodać opóźnienie.\n"
+"Np.: ##D=1000</span>"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "A favorite is stored in clear text: remove the #P= password first"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, python-brace-format
+msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "A new version is available: https://github.com/MathildeDec/gnome-connection-manager/releases"
+msgstr "Dostępna jest nowa wersja: https://github.com/MathildeDec/gnome-connection-manager/releases"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/application.py
+msgid "A simple ssh connection manager for gnome"
+msgstr "Prosty menedżer połączeń SSH dla Gnome"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
+msgid "ASCII Backspace \t[Ctrl+H 0x08]"
+msgstr "ASCII Backspace \t[Ctrl+H 0x08]"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
+msgid "ASCII Delete    \t[Ctrl+? 0x7F]"
+msgstr "ASCII Delete    \t[Ctrl+? 0x7F]"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+msgid "About"
+msgstr "O programie"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Action"
+msgstr "Akcja"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Activate"
+msgstr "Aktywuj"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
+#: src/gcm4/core/menu_arbre.py
+msgid "Add Host"
+msgstr "Dodaj host"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Add the text area content to the favorite commands"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Add to favorites"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "After disconnecting"
+msgstr "Po rozłączeniu"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "Always"
+msgstr "Zawsze"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
+msgid "Automatic"
+msgstr "Automatyczny"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Background color:"
+msgstr "Kolor tła:"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
+msgid "Backspace:"
+msgstr "Backspace:"
+
+#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+msgid "Baud rate"
+msgstr "Szybkość transmisji (baud)"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "Before connecting"
+msgstr "Przed połączeniem"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
+#: plugins/ssh/gtk4.py
+msgid "Browse existing SSH keys in ~/.ssh/"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Browse filesystem for a private key file"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Buffer size"
+msgstr "Rozmiar bufora"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, python-brace-format
+msgid "CSV export error: {e}"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Can't open file for writting"
+msgstr "Nie można otworzyć pliku do zapisu"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Can't open log file for writting"
+msgstr "Nie można otworzyć pliku dziennika do zapisu"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py GTK3.OLD/widgets.py
+#: plugins/import_ovirt/gtk4.py plugins/plugin_spice.py plugins/plugin_ssh.py
+#: plugins/sftp/gtk4.py src/gcm4/ui/contexte.py src/gcm4/ui/echange.py
+#: src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/raccourcis.py
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Check updates"
+msgstr "Sprawdź aktualizacje"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Choose Group Color"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Choose a favorite command to put it in the text area above"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Choose the favorite to remove in the list first"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Circle around tabs when going to the previous/next tab"
+msgstr "Zapętlaj karty przy przechodzeniu do poprzedniej/następnej"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Clear selection"
+msgstr "Wyczyść wybór"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#: src/gcm4/ui/echange.py src/gcm4/ui/main_window.py
+msgid "Close"
+msgstr "Zamknij"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
+msgid "Close console"
+msgstr "Zamknij konsolę"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Cluster"
+msgstr "Klaster"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, fuzzy
+#| msgid "Cluster"
+msgid "Cluster…"
+msgstr "Klaster"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Colors"
+msgstr "Kolory"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Command"
+msgstr "Polecenie"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Confirm on close console"
+msgstr "Potwierdź zamknięcie konsoli"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Confirm on close console with middle click"
+msgstr "Potwierdź zamknięcie konsoli środkowym przyciskiem myszy"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Confirm on exit"
+msgstr "Potwierdź przy wyjściu"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Continuous VTE tab logging mode"
+msgstr "Tryb ciągłego logowania kart VTE"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Continuous log mode is active and cannot be disabled per tab."
+msgstr "Tryb ciągłego logowania jest aktywny i nie można go wyłączyć dla pojedynczej karty."
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
+msgid "Copy"
+msgstr "Kopiuj"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
+msgid "Copy all"
+msgstr "Kopiuj wszystko"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
+msgid "Copy and Paste"
+msgstr "Kopiuj i wklej"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Copy selection to clipboard"
+msgstr "Kopiuj wybór do schowka"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Custom Commands"
+msgstr "Niestandardowe polecenia"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, fuzzy
+#| msgid "Custom commands"
+msgid "Custom commands…"
+msgstr "Niestandardowe polecenia"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+#: src/gcm4/ui/preferences.py
+msgid "Dark"
+msgstr "Ciemny"
+
+#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+msgid "Data bits"
+msgstr "Bity danych"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "Default colors"
+msgstr "Domyślne kolory"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
+msgid "Delete Sequence \t[@7]"
+msgstr "Sekwencja Delete \t[@7]"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
+msgid "Delete:"
+msgstr "Delete:"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "Description"
+msgstr "Opis"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Disable alternating stripes in hosts window"
+msgstr "Wyłącz przeplatane paski w oknie hostów"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Disable desktop notifications when a terminal disconnects"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Disable keyboard shortcuts in terminals (pass every key through)"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Do you really want to remove all hosts in group"
+msgstr "Czy na pewno chcesz usunąć wszystkie hosty w grupie"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Do you really want to remove host"
+msgstr "Czy na pewno chcesz usunąć hosta"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Dynamic title"
+msgstr "Dynamiczny tytuł"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
+#: src/gcm4/core/menu.py src/gcm4/core/menu_arbre.py
+msgid "Edit"
+msgstr "Edytuj"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#: data/io.github.MathildeDec.gcm4.metainfo.xml src/gcm4/ui/host_dialog.py
+msgid "Edit Host"
+msgstr "Edytuj host"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Enable Logging"
+msgstr "Włącz logowanie"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Enter new name"
+msgstr "Wprowadź nową nazwę"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Enter password"
+msgstr "Wprowadź hasło"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Enter the text to send to consoles: "
+msgstr "Wprowadź tekst do wysłania do konsol: "
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Error connecting to server"
+msgstr "Błąd podczas łączenia z serwerem"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Error saving host. Description"
+msgstr "Błąd podczas zapisywania hosta. Opis"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Execute"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Export Servers"
+msgstr "Eksportuj serwery"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+#: src/gcm4/ui/echange.py
+msgid "Export servers"
+msgstr "Eksportuj serwery"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Export to CSV"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Export to CSV…"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Export to JSON"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Export to JSON…"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, fuzzy
+#| msgid "Export Servers"
+msgid "Exports"
+msgstr "Eksportuj serwery"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Favorites:"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Fields group, name and host are required"
+msgstr "Pola grupa, nazwa i host są wymagane"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+msgid "File"
+msgstr "Plik"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Flow"
+msgstr "Kontrola przepływu"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Font:"
+msgstr "Czcionka:"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Foreground color:"
+msgstr "Kolor pierwszego planu:"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "GTK Theme:"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "General"
+msgstr "Ogólne"
+
+#: GTK3.OLD/gnome_connection_manager.py data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Gnome Connection Manager"
+msgstr "Gnome Connection Manager"
+
+#: GTK3.OLD/gnome_connection_manager.py plugins/import_hyperviseurs/ui.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/menu_arbre.py
+msgid "Group"
+msgstr "Grupa"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, python-brace-format
+msgid "Group '{full_name}' already exists."
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, python-brace-format
+msgid "Group '{new_full}' already exists."
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, fuzzy
+#| msgid "Group"
+msgid "Group name:"
+msgstr "Grupa"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+msgid "Help"
+msgstr "Pomoc"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#: src/gcm4/ui/host_dialog.py
+msgid "Host"
+msgstr "Host"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Host name"
+msgstr "Nazwa hosta"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Import Servers"
+msgstr "Importuj serwery"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+#: src/gcm4/ui/echange.py
+msgid "Import servers"
+msgstr "Importuj serwery"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, fuzzy
+#| msgid "Imported"
+msgid "Imports"
+msgstr "Zaimportowano"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "Include this host in the workspace (Tools > Open Workspace)"
+msgstr "Uwzględnij ten host w obszarze roboczym (Narzędzia > Otwórz obszar roboczy)"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Invalid entry in configuration file"
+msgstr "Nieprawidłowy wpis w pliku konfiguracyjnym"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Invalid file"
+msgstr "Nieprawidłowy plik"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Invalid password"
+msgstr "Nieprawidłowe hasło"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Invalid port"
+msgstr "Nieprawidłowy port"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Invert selection"
+msgstr "Odwróć wybór"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, python-brace-format
+msgid "JSON export error: {e}"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Key sequences"
+msgstr "Sekwencje klawiszy"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, python-brace-format
+msgid ""
+"L'outil « {name} » n'a pas pu s'ouvrir.\n"
+"\n"
+"Cause : {error}\n"
+"\n"
+"Détails complets dans le journal de l'application."
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "Leave blank for passwordless/public key authentication"
+msgstr "Pozostaw puste dla uwierzytelniania bez hasła / kluczem publicznym"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+#: src/gcm4/ui/preferences.py
+msgid "Light"
+msgstr "Jasny"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Log local console sessions"
+msgstr "Rejestruj sesje lokalnej konsoli"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Logs path"
+msgstr "Ścieżka dzienników"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/main_window.py
+msgid "Menu"
+msgstr "Menu"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_key_manager_dialog.py
+#: plugins/ssh/gtk4.py src/gcm4/ui/host_dialog.py
+msgid "Name"
+msgstr "Nazwa"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "Never"
+msgstr "Nigdy"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
+msgid "New Group"
+msgstr "Nowa grupa"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, fuzzy
+#| msgid "Add new host"
+msgid "New host"
+msgstr "Dodaj nowego hosta"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, fuzzy
+#| msgid "VM name"
+msgid "New name:"
+msgstr "Nazwa VM"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "New template"
+msgstr "Nowy szablon"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Next match"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "No hosts in the workspace yet — check \"Workspace\" in Edit Host to add one"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "No open consoles"
+msgstr "Brak otwartych konsol"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
+#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/plugin_spice.py
+msgid "OK"
+msgstr "OK"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "Only on clean exit"
+msgstr "Tylko przy poprawnym zamknięciu"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py
+#: src/gcm4/ui/mises_a_jour.py src/gcm4/ui/preferences.py
+msgid "Open"
+msgstr "Otwórz"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
+#: plugins/ssh/gtk4.py
+msgid "Open SSH Key Manager (generate / import / delete)"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Open Workspace"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Open local console on startup"
+msgstr "Otwórz lokalną konsolę przy starcie"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Overrides the global \"Close console\" preference for this host only"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+msgid "Parity"
+msgstr "Parzystość"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/contexte.py
+#: src/gcm4/ui/host_dialog.py
+msgid "Password"
+msgstr "Hasło"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
+msgid "Paste"
+msgstr "Wklej"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Paste on right click"
+msgstr "Wklej po kliknięciu prawym przyciskiem"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/menu_arbre.py
+msgid "Port"
+msgstr "Port"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Previous match"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py plugins/ssh/gtk4.py
+msgid "Private key"
+msgstr "Klucz prywatny"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Project's Homepage"
+msgstr "Strona projektu"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+#: src/gcm4/ui/main_window.py src/gcm4/ui/zone_notification.py
+msgid "Quit"
+msgstr "Zakończ"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Remove from favorites"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Remove the chosen command from the favorites"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
+msgid "Rename Group"
+msgstr "Zmień nazwę grupy"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
+msgid "Rename tab"
+msgstr "Zmień nazwę karty"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Restore defaults"
+msgstr "Przywróć ustawienia domyślne"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Restore open tabs from the previous session on startup"
+msgstr "Przywracaj przy uruchomieniu karty otwarte w poprzedniej sesji"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py
+#: src/gcm4/ui/host_dialog.py
+msgid "Save"
+msgstr "Zapisz"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Save as"
+msgstr "Zapisz jako"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Save buffer as"
+msgstr "Zapisz bufor jako"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
+msgid "Select all"
+msgstr "Zaznacz wszystko"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Select background color"
+msgstr "Wybierz kolor tła"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Select consoles to use:"
+msgstr "Wybierz konsole do użycia:"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Select font"
+msgstr "Wybierz czcionkę"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Select foreground color"
+msgstr "Wybierz kolor pierwszego planu"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
+msgid "Send commands after login"
+msgstr "Wyślij polecenia po zalogowaniu"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Send the command above to every checked host (same as pressing Enter)"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Serial Templates"
+msgstr "Szablony portu szeregowego"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Server list will be overwritten, continue?"
+msgstr "Lista serwerów zostanie zastąpiona, kontynuować?"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, fuzzy
+#| msgid "_Servers"
+msgid "Servers"
+msgstr "_Serwery"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#: data/io.github.MathildeDec.gcm4.metainfo.xml src/gcm4/core/menu.py
+#: src/gcm4/ui/preferences.py
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, python-brace-format
+msgid "Shell command run locally, in the background, right after this connection ends. Currently only triggered for terminal-based protocols (SSH/Telnet/Local/Serial/IPMI SOL). Leave blank to disable. Placeholders: {name} {address} {group} {protocol}"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+#, python-brace-format
+msgid "Shell command run locally, in the background, right before this connection opens (any protocol). Leave blank to disable. Placeholders: {name} {address} {group} {protocol}"
+msgstr "Polecenie powłoki uruchamiane lokalnie w tle tuż przed otwarciem tego połączenia (dowolny protokół). Pozostaw puste, aby wyłączyć. Znaczniki: {name} {address} {group} {protocol}"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Shortcut"
+msgstr "Skrót"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Shortcuts"
+msgstr "Skróty"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+#: src/gcm4/ui/preferences.py
+msgid "Show Panel"
+msgstr "Pokaż panel"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Standard Commands"
+msgstr "Standardowe polecenia"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Stop"
+msgstr "Stop"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+#: src/gcm4/ui/preferences.py
+msgid "System"
+msgstr "Systemowy"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
+msgid "TERM"
+msgstr "TERM"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
+msgid "TTY Erase"
+msgstr "Wymazywanie TTY"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Template name"
+msgstr "Nazwa szablonu"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "There are"
+msgstr "Jest"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid ""
+"This is gnome-connection-manager, written and maintained by\n"
+"Copyright © 2012 Renzo Bertuzzi L. <kuthulu@gmail.com> - Chile"
+msgstr ""
+"To jest gnome-connection-manager, napisany i prowadzony przez\n"
+"Copyright © 2012 Renzo Bertuzzi L. <kuthulu@gmail.com> - Chile"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Tip: use #P=password to send a password without keeping it in clear text in the command history"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
+msgid "Title"
+msgstr "Tytuł"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "To create subgroups use format group1/group2/group3"
+msgstr "Aby utworzyć podgrupy, użyj formatu grupa1/grupa2/grupa3"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Transparency"
+msgstr "Przezroczystość"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/key_picker_dialog.py
+#: GTK3.OLD/ssh_config_editor.py GTK3.OLD/ssh_key_manager_dialog.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "Type"
+msgstr "Typ"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Type a command in the text area first"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Use default fixed width font"
+msgstr "Użyj domyślnej czcionki o stałej szerokości"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "Use global preference"
+msgstr "Użyj ustawienia globalnego"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
+#: src/gcm4/ui/host_dialog.py
+msgid "User"
+msgstr "Użytkownik"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
+msgid "View"
+msgstr "Widok"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "Word separator"
+msgstr "Separator słów"
+
+#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
+msgid "Workspace"
+msgstr "Obszar roboczy"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "already exists for group"
+msgstr "już istnieje dla grupy"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "open consoles, exit anyway?"
+msgstr "otwartych konsol, czy mimo to wyjść?"
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "search..."
+msgstr "szukaj..."
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, python-brace-format
+msgid "{count} connection(s) exported to {filename}."
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+#, python-brace-format
+msgid ""
+"{n} outil(s) n'ont pas pu se charger au démarrage :\n"
+"\n"
+"{details}\n"
+"\n"
+"L'application continue de fonctionner normalement sans eux. Détails complets dans le journal de l'application."
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py
+msgid "− Remove"
+msgstr "− Usuń"
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
+#: plugins/ssh/gtk4.py
+msgid "⚙"
+msgstr ""
+
+#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
+#: plugins/ssh/gtk4.py
+msgid "🔑 Pick…"
+msgstr ""
+
+#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
+msgid ""
+"<i>No SSH key found in ~/.ssh/.\n"
+"Click <b>Generate…</b> to create one.</i>"
+msgstr ""
+
+#: GTK3.OLD/key_picker_dialog.py GTK3.OLD/ssh_key_manager_dialog.py
+#: plugins/ssh/gtk4.py
+msgid "Fingerprint"
+msgstr ""
+
+#: GTK3.OLD/key_picker_dialog.py
+#, fuzzy
+#| msgid "VM name"
+msgid "Key name"
+msgstr "Nazwa VM"
+
+#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
+msgid "Keys found in <b>~/.ssh/</b> — select one (or several with Ctrl/Shift-click) then click <i>Use</i>:"
+msgstr ""
+
+#: GTK3.OLD/key_picker_dialog.py
+msgid "Permissions"
+msgstr ""
+
+#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
+msgid "Select SSH Key"
+msgstr ""
+
+#: GTK3.OLD/key_picker_dialog.py GTK3.OLD/ssh_key_manager_dialog.py
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Cancel"
+msgid "_Cancel"
+msgstr "Anuluj"
+
+#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
+msgid "_Use"
+msgstr ""
+
+#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "private"
+msgstr "Klucz prywatny"
+
+#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
+msgid "public"
+msgstr ""
+
+#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
+msgid "⚙ Generate…"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Ended (code {rc})"
+msgid ""
+"\n"
+"Exit code: {rc}"
+msgstr "Zakończono (kod {rc})"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid ""
+"\n"
+"[Error: {exc}]"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid ""
+"\n"
+"[Timeout after 10 s]"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "(no output)\n"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Add new host"
+msgid "Add a new empty host"
+msgstr "Dodaj nowego hosta"
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "AddKeysToAgent"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Alias(es)"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "At least one alias is required"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "Compression"
+msgstr "Kompresja"
+
+#: GTK3.OLD/ssh_config_editor.py
+#, fuzzy
+#| msgid "Connect"
+msgid "ConnectTimeout"
+msgstr "Połącz"
+
+#: GTK3.OLD/ssh_config_editor.py
+#, fuzzy
+#| msgid "Cluster"
+msgid "ControlMaster"
+msgstr "Klaster"
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "ControlPersist"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Copied: {cmd}"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Copy selection to clipboard"
+msgid "Copy full ssh command to clipboard"
+msgstr "Kopiuj wybór do schowka"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Copy ssh cmd"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Diff (original → current):"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "Dynamic"
+msgstr "Dynamiczny"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Dynamic"
+msgid "Dynamic (SOCKS)"
+msgstr "Dynamiczny"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Edit SSH config (personal + shared)"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Edit raw ssh_config — changes here override the Visual tab on Save."
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Enter remote host"
+msgstr "Wprowadź zdalny host"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "_File"
+msgid "File:"
+msgstr "_Plik"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Filter hosts…"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py
+#, fuzzy
+#| msgid "X11 Forwarding"
+msgid "ForwardAgent"
+msgstr "Przekazywanie X11"
+
+#: GTK3.OLD/ssh_config_editor.py
+#, fuzzy
+#| msgid "Host name"
+msgid "HostName"
+msgstr "Nazwa hosta"
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "IdentitiesOnly"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "IdentityFile"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "Local"
+msgstr "Lokalny"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Local"
+msgid "Local (-L)"
+msgstr "Lokalny"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "Local Port"
+msgstr "Port lokalny"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "localhost"
+msgid "Local target host"
+msgstr "localhost"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Local Port"
+msgid "Local target port"
+msgstr "Port lokalny"
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "LogLevel"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Multiple values possible: separate them with commas (one line per value in the file)"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "No changes."
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "PasswordAuthentication"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "Personal (~/.ssh/config)"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Port must be an integer between 1 and 65535"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Properties"
+msgstr "Właściwości"
+
+#: GTK3.OLD/ssh_config_editor.py
+#, fuzzy
+#| msgid "Command"
+msgid "ProxyCommand"
+msgstr "Polecenie"
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "ProxyJump"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "PubkeyAuthentication"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "QUIET/ERROR/INFO/VERBOSE/DEBUG"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Raw / Diff"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Redirection de port"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "Remote"
+msgstr "Zdalny"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Remote"
+msgid "Remote (-R)"
+msgstr "Zdalny"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "Remote Host"
+msgstr "Zdalny host"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "Remote Port"
+msgstr "Port zdalny"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote listen port"
+msgstr "Port zdalny"
+
+#: GTK3.OLD/ssh_config_editor.py
+#, fuzzy
+#| msgid "Command"
+msgid "RemoteCommand"
+msgstr "Polecenie"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Remote Host"
+msgid "Remove host?"
+msgstr "Zdalny host"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Remove selected host"
+msgstr "Usuń wybranego hosta"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Remove «{alias}» from {path}?"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "RequestTTY"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid ""
+"Running: {cmd}\n"
+"\n"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "ServerAliveCountMax"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "ServerAliveInterval"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Shared — bastion, all users (/etc/ssh/ssh_config.d/config_gcm.conf)"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "StrictHostKeyChecking"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "No connection type selected."
+msgid "Test SSH connection to selected host"
+msgstr "Nie wybrano typu połączenia."
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Test connection — {alias}"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py
+msgid "UserKnownHostsFile"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "Visual"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "auto / yes / no"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : 10"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : 10m"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : 192.168.1.10 ou example.com"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : 22"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : 3"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : 60"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : root"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : ssh -W %h:%p bastion, ou corkscrew proxy 8080 %h %p"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : tmux attach || tmux new"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : user@bastion.example.com, user@server1.example.com"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : web1 ou web1 web1.example.com"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : ~/.ssh/id_ed25519, ~/.ssh/id_rsa"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "ex : ~/.ssh/known_hosts"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "yes / no / ask / accept-new"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#: plugins/ssh/session.py
+msgid "yes / no / ask / confirm"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#: plugins/ssh/session.py
+msgid "yes / no / force / auto"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "yes ou no"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "{path} does not exist yet — it will be created when saving."
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "← Select or create a host"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "⚡ Test"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Cancel"
+msgid "✕ Cancel"
+msgstr "Anuluj"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "− Remove"
+msgid "✕ Remove"
+msgstr "− Usuń"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+msgid "⟳ Refresh diff"
+msgstr ""
+
+#: GTK3.OLD/ssh_config_editor.py GTK3.OLD/ssh_key_manager_dialog.py
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "+ Add"
+msgid "＋ Add"
+msgstr "+ Dodaj"
+
+#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Save"
+msgid "💾 Save"
+msgstr "Zapisz"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "#"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "(empty = no passphrase)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "(empty = remove passphrase)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "(empty if none)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "(hashed)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "(none — keys are generated unsigned)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "A certificate named {name} already exists"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "A file named {name} already exists"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Add Authorized Key"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Add {name} to ssh-agent?"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Added to ssh-agent"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+msgid "All files"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Authorized Keys"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "CA deleted: {name}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "CA deletion failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "CA import failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "CA imported and designated: {name}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "CA signing failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "CA signing timed out — CA key may require a passphrase (unsupported non-interactively)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Can't open file for writting"
+msgid "Cannot open file manager: {err}"
+msgstr "Nie można otworzyć pliku do zapisu"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Cannot read public key: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Certificate identity:"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Change Passphrase — {name}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Change the passphrase of this private key (ssh-keygen -p)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Check ~/.ssh/config (and GCM hosts, if wired in) against known_hosts"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Choose an existing local key pair as the signing CA"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+msgid "Clipboard unavailable — key content logged"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Command"
+msgid "Comment"
+msgstr "Polecenie"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Command"
+msgid "Comment:"
+msgstr "Polecenie"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Confirm new passphrase:"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Connected to {t} — Known Hosts / Authorized Keys now read from there"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Connection failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+msgid "Connection timed out"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Copy failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Copy selection to clipboard"
+msgid "Copy the public key content to clipboard"
+msgstr "Kopiuj wybór do schowka"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Created"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Current passphrase:"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Delete failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Designate Signing CA"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Designated CA: {name}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Disable"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Enabled"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Entry not found (file may have changed) — refreshing"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Failed to add key"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Failed to add to agent (passphrase required?): {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Failed to remove from agent: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Failed to update authorized_keys"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Failed to update known_hosts"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "File changed on disk — refreshing"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Template name"
+msgid "File name:"
+msgstr "Nazwa szablonu"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "File {name} already exists in ~/.ssh/ — overwrite?"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Fingerprint copied to clipboard"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Found"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Generate SSH Key"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Generate a new SSH key pair (ssh-keygen)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Generation failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Hashed"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Import CA Private Key"
+msgstr "Klucz prywatny"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Import Private Key"
+msgstr "Klucz prywatny"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Import an existing private key file into ~/.ssh/"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Import an external CA key pair into ~/.ssh/ and designate it"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Import failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Info (matching known_hosts line)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Invalid name — must not contain a path separator"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Invalid target — expected user@host or user@host:port"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Key added to authorized_keys"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Key deleted: {name}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Key generated: {name}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "Key imported: {name}"
+msgstr "Nazwa szablonu"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Key signed by CA {ca} (identity={id})"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Key type:"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Keys are saved in <b>~/.ssh/</b> with permissions 600."
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Known Hosts"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Known Hosts Test — {n}/{total} found on {target}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Load/unload this key in ssh-agent (ssh-add / ssh-add -d)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "New name for {name}:"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "New passphrase and confirmation do not match"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "New passphrase:"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "No CA currently designated"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+msgid "No CA designated — key generated unsigned"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "No Public key available for selected entry"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "No authorized_keys entry selected"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "No candidate hosts found in ~/.ssh/config (and no GCM host list wired in)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "No fingerprint available for this entry"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "No URI selected."
+msgid "No key selected"
+msgstr "Nie wybrano URI."
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "No connection type selected."
+msgid "No known_hosts entry selected"
+msgstr "Nie wybrano typu połączenia."
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "No matching .pub file found next to {name} — cannot import as CA"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "No matching .pub file found next to {name} — cannot use as CA"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "No URI selected."
+msgid "No private key selected"
+msgstr "Nie wybrano URI."
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "No public key available for selected entry"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "No public key available to identify this key in the agent"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+msgid "Nothing to rename"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Open ~/.ssh/ in the file manager"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Orphan Public key"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Orphan Public keys"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Passphrase change failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Passphrase changed for {name}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Passphrase:"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Paste the full public key line (options, type, base64 key, comment):"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid ""
+"Permanently delete <b>{name}</b> (and its Orphan Public key if present)?\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid ""
+"Permanently delete the CA key pair <b>{name}</b>?\n"
+"Certificates already signed by this CA will no longer be trustable to verify.\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Permanently delete the designated CA key pair"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Permanently delete the selected key"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Perms"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Principals (comma-separated):"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Private keys"
+msgstr "Klucz prywatny"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Public Key — {name}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Public key copied to clipboard"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+#, python-brace-format
+msgid "Public key file not found: {p}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "RSA size:"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Re-enable"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Remote target (Known Hosts / Authorized Keys):"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid ""
+"Remove this authorized_keys entry?\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid ""
+"Remove this known_hosts entry?\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Remove {name} from ssh-agent?"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Removed from ssh-agent"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Rename tab"
+msgid "Rename Key"
+msgstr "Zmień nazwę karty"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Rename failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Rename this key (and its .pub / certificate, if any)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Renamed {old} to {new}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "SSH Key Manager"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "No connection type selected."
+msgid "SSH connection failed"
+msgstr "Nie wybrano typu połączenia."
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Saved in ~/.ssh/ — leave blank for default name"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Select the private key file, not the .pub file"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Show the full public key content in a dedicated window"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Sign with designated CA ({name})"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Signed by"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Signing CA:"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Switched back to local machine"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Testing connection to {t}…"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "This does not look like a valid public key line"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "Validity"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Parity:"
+msgid "Validity:"
+msgstr "Parzystość:"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "_Add"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "_Change"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Close"
+msgid "_Close"
+msgstr "Zamknij"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+msgid "_Designate"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py
+#, fuzzy
+#| msgid "Imported"
+msgid "_Import"
+msgstr "Zaimportowano"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Rename tab"
+msgid "_Rename"
+msgstr "Zmień nazwę karty"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "add a key to authorized_keys"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "authorized_keys entry removed"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "authorized_keys entry updated"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "authorized_keys not found on {t}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "enable/disable an authorized_keys entry"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Never"
+msgid "forever"
+msgstr "Nigdy"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "known_hosts entry removed"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "known_hosts not found on {t}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "local machine"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "remove a known_hosts entry"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "remove an authorized_keys entry"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "ssh-add failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "ssh-add timed out — the key may require a passphrase (no terminal available here)"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "ssh-keygen -V syntax, e.g. +52w (1 year), +30d, or 'always:forever'"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "ssh-keygen failed: {err}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "ssh-keygen not found — install openssh-client"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "unknown CA"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "until {end}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "user@host or root@host[:port]"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "{action} this authorized_keys entry?"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "{n} authorized_keys entries loaded from {t}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "{n} known_hosts entries loaded from {t}"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "{priv} private key(s), {pub} Orphan Public key(s) loaded from ~/.ssh/"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "~/.ssh/ not found — no keys loaded"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "✓ Imported"
+msgid "↑ Import"
+msgstr "✓ Zaimportowano"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "⎘ Copy fingerprint"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "⎘ Copy public key"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Copy selection to clipboard"
+msgid "⎘ Copy to clipboard"
+msgstr "Kopiuj wybór do schowka"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "General"
+msgid "⚙ Generate"
+msgstr "Ogólne"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, python-brace-format
+msgid ""
+"⚠ You are about to {action} on the <b>root</b> account of {target}.\n"
+"This can affect SSH access to the whole system.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Rename tab"
+msgid "✎ Rename"
+msgstr "Zmień nazwę karty"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "⟳ Refresh"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "✓ Imported"
+msgid "⬆ Import CA"
+msgstr "✓ Zaimportowano"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Local"
+msgid "🏠 Local"
+msgstr "Lokalny"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "👁 View public key"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "📂 Reveal"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Connect"
+msgid "🔌 Connect"
+msgstr "Połącz"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "🔏 Designate"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "🔑 Agent"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "🔒 Passphrase"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Delete:"
+msgid "🗑 Delete"
+msgstr "Delete:"
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "🗑 Delete CA"
+msgstr ""
+
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
+msgid "🧪 Test known hosts"
+msgstr ""
+
+#: GTK3.OLD/widgets.py
+#, fuzzy, python-format
+#| msgid "Disconnect"
+msgid "%s has disconnected."
+msgstr "Rozłącz"
+
+#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
+msgid "Choose Color…"
+msgstr "Wybierz kolor…"
+
+#: GTK3.OLD/widgets.py
+msgid "Clone console"
+msgstr "Sklonuj konsolę"
+
+#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
+msgid "Collapse all"
+msgstr "Zwiń wszystko"
+
+#: GTK3.OLD/widgets.py plugins/plugin_ipmisol.py plugins/plugin_rdp.py
+#: plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_web.py src/gcm4/core/menu_arbre.py
+#: src/gcm4/core/preferences.py src/gcm4/ui/contexte.py
+msgid "Connect"
+msgstr "Połącz"
+
+#: GTK3.OLD/widgets.py
+#, fuzzy
+#| msgid "Connecting…"
+msgid "Connection closed"
+msgstr "Łączenie…"
+
+#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
+msgid "Copy Address"
+msgstr "Kopiuj adres"
+
+#: GTK3.OLD/widgets.py
+msgid "Custom commands"
+msgstr "Niestandardowe polecenia"
+
+#: GTK3.OLD/widgets.py plugins/plugin_ipmisol.py plugins/plugin_rdp.py
+#: plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py
+msgid "Disconnect"
+msgstr "Rozłącz"
+
+#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py
+msgid "Duplicate Host"
+msgstr "Duplikuj host"
+
+#: GTK3.OLD/widgets.py
+msgid "Enable logging"
+msgstr "Włącz logowanie"
+
+#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
+msgid "Expand all"
+msgstr "Rozwiń wszystko"
+
+#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
+msgid "New Group…"
+msgstr "Nowa grupa…"
+
+#: GTK3.OLD/widgets.py
+msgid "Reconnect to host"
+msgstr "Połącz ponownie z hostem"
+
+#: GTK3.OLD/widgets.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
+#: src/gcm4/ui/menu_arbre.py
+msgid "Remove"
+msgstr "Usuń"
+
+#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
+msgid "Rename Group…"
+msgstr "Zmień nazwę grupy…"
+
+#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
+msgid "Reset Color"
+msgstr "Przywróć kolor"
+
+#: GTK3.OLD/widgets.py
+msgid "Reset and Clear console"
+msgstr "Zresetuj i wyczyść konsolę"
+
+#: GTK3.OLD/widgets.py
+msgid "Reset console"
+msgstr "Zresetuj konsolę"
+
+#: GTK3.OLD/widgets.py
+msgid "Save buffer to file"
+msgstr "Zapisz bufor do pliku"
+
+#: GTK3.OLD/widgets.py
+msgid "Special keys"
+msgstr ""
+
+#: GTK3.OLD/widgets.py
+msgid "Split H"
+msgstr "Podziel H"
+
+#: GTK3.OLD/widgets.py
+msgid "Split V"
+msgstr "Podziel V"
+
+#: GTK3.OLD/widgets.py
+msgid "Unsplit all consoles"
+msgstr "Cofnij podział wszystkich konsol"
+
 #: data/io.github.MathildeDec.gcm4.desktop
 msgid "Connection Manager"
 msgstr "Menedżer połączeń"
-
-#: data/io.github.MathildeDec.gcm4.desktop
-#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
-msgid "Gnome Connection Manager"
-msgstr "Gnome Connection Manager"
 
 #: data/io.github.MathildeDec.gcm4.desktop
 #: data/io.github.MathildeDec.gcm4.metainfo.xml
@@ -43,11 +2317,6 @@ msgstr "gcm4 (tryb debugowania)"
 #: data/io.github.MathildeDec.gcm4.metainfo.xml
 msgid "Connection protocols provided by plugins"
 msgstr "Protokoły połączeń dostarczane przez rozszerzenia"
-
-#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
-#: src/gcm4/ui/host_dialog.py
-msgid "Edit Host"
-msgstr "Edytuj host"
 
 #: data/io.github.MathildeDec.gcm4.metainfo.xml
 msgid "Gnome Connection Manager keeps your hosts in groups and opens each connection in a tab of a single window."
@@ -73,1043 +2342,138 @@ msgstr "Ostatnie wydanie aplikacji GTK3; baza GTK4 nie została jeszcze wydana."
 msgid "Open tabs restored at the next start"
 msgstr "Otwarte karty przywracane przy następnym uruchomieniu"
 
-#: data/io.github.MathildeDec.gcm4.metainfo.xml gnome_connection_manager.py
-#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
-msgid "Settings"
-msgstr "Ustawienia"
-
 #: data/io.github.MathildeDec.gcm4.metainfo.xml
 msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
 msgstr "Podstawowa aplikacja sama nie zapewnia żadnego protokołu: połączenia wymagają odpowiedniego rozszerzenia."
 
-#: gnome_connection_manager.py
-msgid "+ Add"
-msgstr "+ Dodaj"
-
-#: gnome_connection_manager.py
-msgid ""
-"<i>Double-click a cell to edit it.\n"
-"File format: <tt>[serial_templates]</tt> in <tt>gcm.conf</tt>\n"
-"<tt>My device = 9600,n,n,8,1</tt>  (baud,flow,parity,bits,stop)</i>"
-msgstr ""
-"<i>Kliknij dwukrotnie komórkę, aby ją edytować.\n"
-"Format pliku: <tt>[serial_templates]</tt> w <tt>gcm.conf</tt>\n"
-"<tt>Moje urządzenie = 9600,n,n,8,1</tt>  (baud,kontrola przepływu,parzystość,bity,stop)</i>"
-
-#: gnome_connection_manager.py
-msgid "<span size=\"smaller\">CTRL+UP/CTRL+DOWN for history</span>"
-msgstr "<span size=\"smaller\">CTRL+GÓRA/CTRL+DÓŁ dla historii</span>"
-
-#: gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid ""
-"<span size='smaller'>Use ##D=milliseconds to add a delay.\n"
-"Ex: ##D=1000</span>"
-msgstr ""
-"<span size='smaller'>Użyj ##D=milisekundy, aby dodać opóźnienie.\n"
-"Np.: ##D=1000</span>"
-
-#: gnome_connection_manager.py
-msgid "A favorite is stored in clear text: remove the #P= password first"
-msgstr ""
-
-#: gnome_connection_manager.py
-#, python-brace-format
-msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "A new version is available: https://github.com/MathildeDec/gnome-connection-manager/releases"
-msgstr "Dostępna jest nowa wersja: https://github.com/MathildeDec/gnome-connection-manager/releases"
-
-#: gnome_connection_manager.py src/gcm4/ui/application.py
-msgid "A simple ssh connection manager for gnome"
-msgstr "Prosty menedżer połączeń SSH dla Gnome"
-
-#: gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "ASCII Backspace \t[Ctrl+H 0x08]"
-msgstr "ASCII Backspace \t[Ctrl+H 0x08]"
-
-#: gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "ASCII Delete    \t[Ctrl+? 0x7F]"
-msgstr "ASCII Delete    \t[Ctrl+? 0x7F]"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py
-msgid "About"
-msgstr "O programie"
-
-#: gnome_connection_manager.py
-msgid "Action"
-msgstr "Akcja"
-
-#: gnome_connection_manager.py
-msgid "Activate"
-msgstr "Aktywuj"
-
-#: gnome_connection_manager.py src/gcm4/core/menu_arbre.py widgets.py
-msgid "Add Host"
-msgstr "Dodaj host"
-
-#: gnome_connection_manager.py
-msgid "Add the text area content to the favorite commands"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Add to favorites"
-msgstr ""
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "After disconnecting"
-msgstr "Po rozłączeniu"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Always"
-msgstr "Zawsze"
-
-#: gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "Automatic"
-msgstr "Automatyczny"
-
-#: gnome_connection_manager.py
-msgid "Background color:"
-msgstr "Kolor tła:"
-
-#: gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "Backspace:"
-msgstr "Backspace:"
-
-#: gnome_connection_manager.py plugins/plugin_serial.py
-msgid "Baud rate"
-msgstr "Szybkość transmisji (baud)"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Before connecting"
-msgstr "Przed połączeniem"
-
-#: gnome_connection_manager.py ssh_config_editor.py
-msgid "Browse existing SSH keys in ~/.ssh/"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Browse filesystem for a private key file"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Buffer size"
-msgstr "Rozmiar bufora"
-
-#: gnome_connection_manager.py
-#, python-brace-format
-msgid "CSV export error: {e}"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Can't open file for writting"
-msgstr "Nie można otworzyć pliku do zapisu"
-
-#: gnome_connection_manager.py
-msgid "Can't open log file for writting"
-msgstr "Nie można otworzyć pliku dziennika do zapisu"
-
-#: gnome_connection_manager.py plugins/plugin_import_libvirt.py
-#: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_putty.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
-#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
-#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
-#: src/gcm4/ui/raccourcis.py utils.py widgets.py
-msgid "Cancel"
-msgstr "Anuluj"
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Check updates"
-msgstr "Sprawdź aktualizacje"
-
-#: gnome_connection_manager.py
-msgid "Choose Group Color"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Choose a favorite command to put it in the text area above"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Choose the favorite to remove in the list first"
-msgstr ""
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Circle around tabs when going to the previous/next tab"
-msgstr "Zapętlaj karty przy przechodzeniu do poprzedniej/następnej"
-
-#: gnome_connection_manager.py
-msgid "Clear selection"
-msgstr "Wyczyść wybór"
-
-#: gnome_connection_manager.py src/gcm4/ui/echange.py
-#: src/gcm4/ui/main_window.py ssh_config_editor.py ssh_key_manager_dialog.py
-msgid "Close"
-msgstr "Zamknij"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/main_window.py widgets.py
-msgid "Close console"
-msgstr "Zamknij konsolę"
-
-#: gnome_connection_manager.py
-msgid "Cluster"
-msgstr "Klaster"
-
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "Cluster"
-msgid "Cluster…"
-msgstr "Klaster"
-
-#: gnome_connection_manager.py
-msgid "Colors"
-msgstr "Kolory"
-
-#: gnome_connection_manager.py
-msgid "Command"
-msgstr "Polecenie"
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Confirm on close console"
-msgstr "Potwierdź zamknięcie konsoli"
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Confirm on close console with middle click"
-msgstr "Potwierdź zamknięcie konsoli środkowym przyciskiem myszy"
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Confirm on exit"
-msgstr "Potwierdź przy wyjściu"
-
-#: gnome_connection_manager.py
-msgid "Continuous VTE tab logging mode"
-msgstr "Tryb ciągłego logowania kart VTE"
-
-#: gnome_connection_manager.py
-msgid "Continuous log mode is active and cannot be disabled per tab."
-msgstr "Tryb ciągłego logowania jest aktywny i nie można go wyłączyć dla pojedynczej karty."
-
-#: gnome_connection_manager.py widgets.py
-msgid "Copy"
-msgstr "Kopiuj"
-
-#: gnome_connection_manager.py widgets.py
-msgid "Copy all"
-msgstr "Kopiuj wszystko"
-
-#: gnome_connection_manager.py widgets.py
-msgid "Copy and Paste"
-msgstr "Kopiuj i wklej"
-
-#: gnome_connection_manager.py
-msgid "Copy selection to clipboard"
-msgstr "Kopiuj wybór do schowka"
-
-#: gnome_connection_manager.py
-msgid "Custom Commands"
-msgstr "Niestandardowe polecenia"
-
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "Custom commands"
-msgid "Custom commands…"
-msgstr "Niestandardowe polecenia"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/preferences.py
-msgid "Dark"
-msgstr "Ciemny"
-
-#: gnome_connection_manager.py plugins/plugin_serial.py
-msgid "Data bits"
-msgstr "Bity danych"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Default colors"
-msgstr "Domyślne kolory"
-
-#: gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "Delete Sequence \t[@7]"
-msgstr "Sekwencja Delete \t[@7]"
-
-#: gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "Delete:"
-msgstr "Delete:"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Description"
-msgstr "Opis"
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Disable alternating stripes in hosts window"
-msgstr "Wyłącz przeplatane paski w oknie hostów"
-
-#: gnome_connection_manager.py
-msgid "Disable desktop notifications when a terminal disconnects"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Disable keyboard shortcuts in terminals (pass every key through)"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Do you really want to remove all hosts in group"
-msgstr "Czy na pewno chcesz usunąć wszystkie hosty w grupie"
-
-#: gnome_connection_manager.py
-msgid "Do you really want to remove host"
-msgstr "Czy na pewno chcesz usunąć hosta"
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Dynamic title"
-msgstr "Dynamiczny tytuł"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py
-#: src/gcm4/core/menu_arbre.py widgets.py
-msgid "Edit"
-msgstr "Edytuj"
-
-#: gnome_connection_manager.py
-msgid "Enable Logging"
-msgstr "Włącz logowanie"
-
-#: gnome_connection_manager.py
-msgid "Enter new name"
-msgstr "Wprowadź nową nazwę"
-
-#: gnome_connection_manager.py
-msgid "Enter password"
-msgstr "Wprowadź hasło"
-
-#: gnome_connection_manager.py
-msgid "Enter the text to send to consoles: "
-msgstr "Wprowadź tekst do wysłania do konsol: "
-
-#: gnome_connection_manager.py
-msgid "Error connecting to server"
-msgstr "Błąd podczas łączenia z serwerem"
-
-#: gnome_connection_manager.py
-msgid "Error saving host. Description"
-msgstr "Błąd podczas zapisywania hosta. Opis"
-
-#: gnome_connection_manager.py
-msgid "Execute"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Export Servers"
-msgstr "Eksportuj serwery"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
-msgid "Export servers"
-msgstr "Eksportuj serwery"
-
-#: gnome_connection_manager.py plugins/plugin_export_csv.py
-msgid "Export to CSV"
-msgstr ""
-
-#: gnome_connection_manager.py plugins/plugin_export_csv.py
-msgid "Export to CSV…"
-msgstr ""
-
-#: gnome_connection_manager.py plugins/plugin_export_json.py
-msgid "Export to JSON"
-msgstr ""
-
-#: gnome_connection_manager.py plugins/plugin_export_json.py
-msgid "Export to JSON…"
-msgstr ""
-
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "Export Servers"
-msgid "Exports"
-msgstr "Eksportuj serwery"
-
-#: gnome_connection_manager.py
-msgid "Favorites:"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Fields group, name and host are required"
-msgstr "Pola grupa, nazwa i host są wymagane"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py
-msgid "File"
-msgstr "Plik"
-
-#: gnome_connection_manager.py
-msgid "Flow"
-msgstr "Kontrola przepływu"
-
-#: gnome_connection_manager.py
-msgid "Font:"
-msgstr "Czcionka:"
-
-#: gnome_connection_manager.py
-msgid "Foreground color:"
-msgstr "Kolor pierwszego planu:"
-
-#: gnome_connection_manager.py
-msgid "GTK Theme:"
-msgstr ""
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "General"
-msgstr "Ogólne"
-
-#: gnome_connection_manager.py plugins/plugin_import_libvirt.py
-#: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/menu_arbre.py
-msgid "Group"
-msgstr "Grupa"
-
-#: gnome_connection_manager.py
-#, python-brace-format
-msgid "Group '{full_name}' already exists."
-msgstr ""
-
-#: gnome_connection_manager.py
-#, python-brace-format
-msgid "Group '{new_full}' already exists."
-msgstr ""
-
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "Group"
-msgid "Group name:"
-msgstr "Grupa"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py
-msgid "Help"
-msgstr "Pomoc"
-
-#: gnome_connection_manager.py plugins/plugin_ssh.py src/gcm4/ui/host_dialog.py
-#: ssh_config_editor.py ssh_key_manager_dialog.py
-msgid "Host"
-msgstr "Host"
-
-#: gnome_connection_manager.py
-msgid "Host name"
-msgstr "Nazwa hosta"
-
-#: gnome_connection_manager.py
-msgid "Import Servers"
-msgstr "Importuj serwery"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/echange.py
-msgid "Import servers"
-msgstr "Importuj serwery"
-
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "Imported"
-msgid "Imports"
-msgstr "Zaimportowano"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Include this host in the workspace (Tools > Open Workspace)"
-msgstr "Uwzględnij ten host w obszarze roboczym (Narzędzia > Otwórz obszar roboczy)"
-
-#: gnome_connection_manager.py
-msgid "Invalid entry in configuration file"
-msgstr "Nieprawidłowy wpis w pliku konfiguracyjnym"
-
-#: gnome_connection_manager.py
-msgid "Invalid file"
-msgstr "Nieprawidłowy plik"
-
-#: gnome_connection_manager.py
-msgid "Invalid password"
-msgstr "Nieprawidłowe hasło"
-
-#: gnome_connection_manager.py
-msgid "Invalid port"
-msgstr "Nieprawidłowy port"
-
-#: gnome_connection_manager.py
-msgid "Invert selection"
-msgstr "Odwróć wybór"
-
-#: gnome_connection_manager.py
-#, python-brace-format
-msgid "JSON export error: {e}"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Key sequences"
-msgstr "Sekwencje klawiszy"
-
-#: gnome_connection_manager.py
-#, python-brace-format
-msgid ""
-"L'outil « {name} » n'a pas pu s'ouvrir.\n"
-"\n"
-"Cause : {error}\n"
-"\n"
-"Détails complets dans le journal de l'application."
-msgstr ""
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Leave blank for passwordless/public key authentication"
-msgstr "Pozostaw puste dla uwierzytelniania bez hasła / kluczem publicznym"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/preferences.py
-msgid "Light"
-msgstr "Jasny"
-
-#: gnome_connection_manager.py
-msgid "Log local console sessions"
-msgstr "Rejestruj sesje lokalnej konsoli"
-
-#: gnome_connection_manager.py
-msgid "Logs path"
-msgstr "Ścieżka dzienników"
-
-#: gnome_connection_manager.py src/gcm4/ui/main_window.py
-msgid "Menu"
-msgstr "Menu"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-#: ssh_key_manager_dialog.py
-msgid "Name"
-msgstr "Nazwa"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Never"
-msgstr "Nigdy"
-
-#: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
-msgid "New Group"
-msgstr "Nowa grupa"
-
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "Add new host"
-msgid "New host"
-msgstr "Dodaj nowego hosta"
-
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "VM name"
-msgid "New name:"
-msgstr "Nazwa VM"
-
-#: gnome_connection_manager.py
-msgid "New template"
-msgstr "Nowy szablon"
-
-#: gnome_connection_manager.py
-msgid "Next match"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "No hosts in the workspace yet — check \"Workspace\" in Edit Host to add one"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "No open consoles"
-msgstr "Brak otwartych konsol"
-
-#: gnome_connection_manager.py plugins/plugin_netmiko_push.py
-#: plugins/plugin_snmp_push.py plugins/plugin_spice.py widgets.py
-msgid "OK"
-msgstr "OK"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Only on clean exit"
-msgstr "Tylko przy poprawnym zamknięciu"
-
-#: gnome_connection_manager.py plugins/plugin_import_putty.py
-#: src/gcm4/ui/mises_a_jour.py src/gcm4/ui/preferences.py utils.py
-msgid "Open"
-msgstr "Otwórz"
-
-#: gnome_connection_manager.py ssh_config_editor.py
-msgid "Open SSH Key Manager (generate / import / delete)"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Open Workspace"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Open local console on startup"
-msgstr "Otwórz lokalną konsolę przy starcie"
-
-#: gnome_connection_manager.py
-msgid "Overrides the global \"Close console\" preference for this host only"
-msgstr ""
-
-#: gnome_connection_manager.py plugins/plugin_serial.py
-msgid "Parity"
-msgstr "Parzystość"
-
-#: gnome_connection_manager.py src/gcm4/ui/contexte.py
-#: src/gcm4/ui/host_dialog.py
-msgid "Password"
-msgstr "Hasło"
-
-#: gnome_connection_manager.py widgets.py
-msgid "Paste"
-msgstr "Wklej"
-
-#: gnome_connection_manager.py
-msgid "Paste on right click"
-msgstr "Wklej po kliknięciu prawym przyciskiem"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/menu_arbre.py ssh_config_editor.py
-msgid "Port"
-msgstr "Port"
-
-#: gnome_connection_manager.py
-msgid "Previous match"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Private key"
-msgstr "Klucz prywatny"
-
-#: gnome_connection_manager.py
-msgid "Project's Homepage"
-msgstr "Strona projektu"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/main_window.py
-msgid "Quit"
-msgstr "Zakończ"
-
-#: gnome_connection_manager.py
-msgid "Remove from favorites"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Remove the chosen command from the favorites"
-msgstr ""
-
-#: gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
-msgid "Rename Group"
-msgstr "Zmień nazwę grupy"
-
-#: gnome_connection_manager.py widgets.py
-msgid "Rename tab"
-msgstr "Zmień nazwę karty"
-
-#: gnome_connection_manager.py
-msgid "Restore defaults"
-msgstr "Przywróć ustawienia domyślne"
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Restore open tabs from the previous session on startup"
-msgstr "Przywracaj przy uruchomieniu karty otwarte w poprzedniej sesji"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py utils.py
-msgid "Save"
-msgstr "Zapisz"
-
-#: gnome_connection_manager.py
-msgid "Save as"
-msgstr "Zapisz jako"
-
-#: gnome_connection_manager.py
-msgid "Save buffer as"
-msgstr "Zapisz bufor jako"
-
-#: gnome_connection_manager.py widgets.py
-msgid "Select all"
-msgstr "Zaznacz wszystko"
-
-#: gnome_connection_manager.py
-msgid "Select background color"
-msgstr "Wybierz kolor tła"
-
-#: gnome_connection_manager.py
-msgid "Select consoles to use:"
-msgstr "Wybierz konsole do użycia:"
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Select font"
-msgstr "Wybierz czcionkę"
-
-#: gnome_connection_manager.py
-msgid "Select foreground color"
-msgstr "Wybierz kolor pierwszego planu"
-
-#: gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "Send commands after login"
-msgstr "Wyślij polecenia po zalogowaniu"
-
-#: gnome_connection_manager.py
-msgid "Send the command above to every checked host (same as pressing Enter)"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Serial Templates"
-msgstr "Szablony portu szeregowego"
-
-#: gnome_connection_manager.py
-msgid "Server list will be overwritten, continue?"
-msgstr "Lista serwerów zostanie zastąpiona, kontynuować?"
-
-#: gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Servers"
-msgid "Servers"
-msgstr "_Serwery"
-
-#: gnome_connection_manager.py
-#, python-brace-format
-msgid "Shell command run locally, in the background, right after this connection ends. Currently only triggered for terminal-based protocols (SSH/Telnet/Local/Serial/IPMI SOL). Leave blank to disable. Placeholders: {name} {address} {group} {protocol}"
-msgstr ""
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-#, python-brace-format
-msgid "Shell command run locally, in the background, right before this connection opens (any protocol). Leave blank to disable. Placeholders: {name} {address} {group} {protocol}"
-msgstr "Polecenie powłoki uruchamiane lokalnie w tle tuż przed otwarciem tego połączenia (dowolny protokół). Pozostaw puste, aby wyłączyć. Znaczniki: {name} {address} {group} {protocol}"
-
-#: gnome_connection_manager.py
-msgid "Shortcut"
-msgstr "Skrót"
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Shortcuts"
-msgstr "Skróty"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/preferences.py
-msgid "Show Panel"
-msgstr "Pokaż panel"
-
-#: gnome_connection_manager.py
-msgid "Standard Commands"
-msgstr "Standardowe polecenia"
-
-#: gnome_connection_manager.py
-msgid "Stop"
-msgstr "Stop"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py src/gcm4/ui/preferences.py
-msgid "System"
-msgstr "Systemowy"
-
-#: gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "TERM"
-msgstr "TERM"
-
-#: gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "TTY Erase"
-msgstr "Wymazywanie TTY"
-
-#: gnome_connection_manager.py
-msgid "Template name"
-msgstr "Nazwa szablonu"
-
-#: gnome_connection_manager.py
-msgid "There are"
-msgstr "Jest"
-
-#: gnome_connection_manager.py
-msgid ""
-"This is gnome-connection-manager, written and maintained by\n"
-"Copyright © 2012 Renzo Bertuzzi L. <kuthulu@gmail.com> - Chile"
-msgstr ""
-"To jest gnome-connection-manager, napisany i prowadzony przez\n"
-"Copyright © 2012 Renzo Bertuzzi L. <kuthulu@gmail.com> - Chile"
-
-#: gnome_connection_manager.py
-msgid "Tip: use #P=password to send a password without keeping it in clear text in the command history"
-msgstr ""
-
-#: gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Title"
-msgstr "Tytuł"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "To create subgroups use format group1/group2/group3"
-msgstr "Aby utworzyć podgrupy, użyj formatu grupa1/grupa2/grupa3"
-
-#: gnome_connection_manager.py
-msgid "Transparency"
-msgstr "Przezroczystość"
-
-#: gnome_connection_manager.py key_picker_dialog.py plugins/plugin_ssh.py
-#: ssh_config_editor.py ssh_key_manager_dialog.py
-msgid "Type"
-msgstr "Typ"
-
-#: gnome_connection_manager.py
-msgid "Type a command in the text area first"
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "Use default fixed width font"
-msgstr "Użyj domyślnej czcionki o stałej szerokości"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Use global preference"
-msgstr "Użyj ustawienia globalnego"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py ssh_config_editor.py
-msgid "User"
-msgstr "Użytkownik"
-
-#: gnome_connection_manager.py src/gcm4/core/menu.py
-msgid "View"
-msgstr "Widok"
-
-#: gnome_connection_manager.py
-msgid "Word separator"
-msgstr "Separator słów"
-
-#: gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Workspace"
-msgstr "Obszar roboczy"
-
-#: gnome_connection_manager.py
-msgid "already exists for group"
-msgstr "już istnieje dla grupy"
-
-#: gnome_connection_manager.py
-msgid "open consoles, exit anyway?"
-msgstr "otwartych konsol, czy mimo to wyjść?"
-
-#: gnome_connection_manager.py
-msgid "search..."
-msgstr "szukaj..."
-
-#: gnome_connection_manager.py
-#, python-brace-format
-msgid "{count} connection(s) exported to {filename}."
-msgstr ""
-
-#: gnome_connection_manager.py
-#, python-brace-format
-msgid ""
-"{n} outil(s) n'ont pas pu se charger au démarrage :\n"
-"\n"
-"{details}\n"
-"\n"
-"L'application continue de fonctionner normalement sans eux. Détails complets dans le journal de l'application."
-msgstr ""
-
-#: gnome_connection_manager.py
-msgid "− Remove"
-msgstr "− Usuń"
-
-#: gnome_connection_manager.py ssh_config_editor.py
-msgid "⚙"
-msgstr ""
-
-#: gnome_connection_manager.py ssh_config_editor.py
-msgid "🔑 Pick…"
-msgstr ""
-
-#: key_picker_dialog.py
-msgid ""
-"<i>No SSH key found in ~/.ssh/.\n"
-"Click <b>Generate…</b> to create one.</i>"
-msgstr ""
-
-#: key_picker_dialog.py ssh_key_manager_dialog.py
-msgid "Fingerprint"
-msgstr ""
-
-#: key_picker_dialog.py
-#, fuzzy
-#| msgid "VM name"
-msgid "Key name"
-msgstr "Nazwa VM"
-
-#: key_picker_dialog.py
-msgid "Keys found in <b>~/.ssh/</b> — select one (or several with Ctrl/Shift-click) then click <i>Use</i>:"
-msgstr ""
-
-#: key_picker_dialog.py
-msgid "Permissions"
-msgstr ""
-
-#: key_picker_dialog.py
-msgid "Select SSH Key"
-msgstr ""
-
-#: key_picker_dialog.py ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Cancel"
-msgid "_Cancel"
-msgstr "Anuluj"
-
-#: key_picker_dialog.py
-msgid "_Use"
-msgstr ""
-
-#: key_picker_dialog.py
-#, fuzzy
-#| msgid "Private key"
-msgid "private"
-msgstr "Klucz prywatny"
-
-#: key_picker_dialog.py
-msgid "public"
-msgstr ""
-
-#: key_picker_dialog.py
-msgid "⚙ Generate…"
-msgstr ""
-
-#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/telnet/gtk4.py
-#, python-brace-format
-msgid "{program} not found"
-msgstr "Nie znaleziono programu {program}"
-
-#: plugins/plugin_export_csv.py
-#, python-brace-format
-msgid "CSV export error: {exc}"
-msgstr ""
-
-#: plugins/plugin_export_csv.py plugins/plugin_export_json.py
-#, python-brace-format
-msgid "{n} connection(s) exported to {filename}."
-msgstr ""
-
-#: plugins/plugin_export_json.py
-#, python-brace-format
-msgid "JSON export error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_csv.py
-#, fuzzy, python-brace-format
-#| msgid "Template name"
-msgid "CSV import error: {exc}"
-msgstr "Nazwa szablonu"
-
-#: plugins/plugin_import_csv.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from CSV"
-msgstr "Importuj z libvirt"
-
-#: plugins/plugin_import_csv.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from CSV…"
-msgstr "Importuj z libvirt"
-
-#: plugins/plugin_import_csv.py
-msgid "No valid entry found in CSV."
-msgstr ""
-
-#: plugins/plugin_import_csv.py
-#, python-brace-format
-msgid "{n} connection(s) imported from CSV."
-msgstr ""
-
-#: plugins/plugin_import_json.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from JSON"
-msgstr "Importuj z libvirt"
-
-#: plugins/plugin_import_json.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from JSON…"
-msgstr "Importuj z libvirt"
-
-#: plugins/plugin_import_json.py
-#, python-brace-format
-msgid "JSON import error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_json.py
-msgid "No valid entry found in JSON."
-msgstr ""
-
-#: plugins/plugin_import_json.py
-#, python-brace-format
-msgid "{n} connection(s) imported from JSON."
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/plugin_snmp_push.py
 msgid "1. Configuration"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/plugin_snmp_push.py
 msgid "2. Suivi"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/plugin_snmp_push.py
 msgid "3. Résultats"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "<b>Connection types to import:</b>"
-msgstr "<b>Typy połączeń do zaimportowania:</b>"
-
-#: plugins/plugin_import_libvirt.py
-msgid "<i>Applies only to the Libvirt import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py plugins/plugin_ssh.py
+#: plugins/import_hyperviseurs/ui.py plugins/import_ovirt/gtk4.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Add"
 msgstr "Dodaj"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-msgid "Default SSH user (VMs):"
-msgstr "Domyślny użytkownik SSH (VM):"
+#: plugins/import_hyperviseurs/ui.py
+#| msgid "Sessions found: {count}."
+msgid "Connections found: {count}."
+msgstr "Znalezione połączenia: {count}."
 
-#: plugins/plugin_import_libvirt.py
-msgid "Detected libvirt URI"
-msgstr "Wykryty URI libvirt"
-
-#: plugins/plugin_import_libvirt.py
-msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
-msgstr "Np.: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-msgid "Hypervisor SSH user:"
-msgstr "Użytkownik SSH hypervisora:"
-
-#: plugins/plugin_import_libvirt.py
-msgid "Hypervisors (virt-manager / dconf):"
-msgstr "Hypervisory (virt-manager / dconf):"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/import_hyperviseurs/ui.py
 msgid "IP / Host"
 msgstr "IP / Host"
 
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "Jeśli host już istnieje:"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "Zachowaj istniejący host"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "No connection to import (all already exist or none selected)."
+msgstr "Brak połączeń do zaimportowania (wszystkie już istnieją lub żadne nie zostało wybrane)."
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "Proto"
+msgstr "Protokół"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "Zmień nazwę importowanego hosta"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "Zastąp istniejący host"
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Scan failed: {exc}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "State"
+msgstr "Stan"
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Target added: {uri}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Target already present: {uri}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+msgid "VM name"
+msgstr "Nazwa VM"
+
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_ipmisol.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
+msgid "Waiting…"
+msgstr "Oczekiwanie…"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "✓ Check all"
+msgstr "✓ Zaznacz wszystko"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "✗ Uncheck all"
+msgstr "✗ Odznacz wszystko"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "⬇  Import selected"
+msgstr "⬇  Importuj wybrane"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "🔄  Rescan"
+msgstr "🔄  Skanuj ponownie"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_ovirt/gtk4.py
+#: plugins/import_proxmox/gtk4.py plugins/import_virtualbox/gtk4.py
+msgid "<b>Connection types to import:</b>"
+msgstr "<b>Typy połączeń do zaimportowania:</b>"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Detected libvirt URI"
+msgstr "Wykryty URI libvirt"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
+msgid "Hypervisor SSH user:"
+msgstr "Użytkownik SSH hypervisora:"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Hypervisors (virt-manager / dconf):"
+msgstr "Hypervisory (virt-manager / dconf):"
+
+#: plugins/import_libvirt/gtk4.py
 msgid "Import from libvirt"
 msgstr "Importuj z libvirt"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Imported"
-msgstr "Zaimportowano"
-
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_libvirt/gtk4.py
 msgid "Invalid libvirt target."
 msgstr "Nieprawidłowy cel libvirt."
 
-#: plugins/plugin_import_libvirt.py
-msgid "Libvirt"
-msgstr "Libvirt"
-
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_libvirt/gtk4.py
 msgid ""
 "No URI found in dconf (virt-manager not configured?).\n"
 "Add your URIs manually below."
@@ -1117,147 +2481,40 @@ msgstr ""
 "Nie znaleziono URI w dconf (virt-manager nie jest skonfigurowany?).\n"
 "Dodaj swoje URI ręcznie poniżej."
 
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_libvirt/gtk4.py
 msgid "No URI selected."
 msgstr "Nie wybrano URI."
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No connection to import (all already exist or none selected)."
-msgstr "Brak połączeń do zaimportowania (wszystkie już istnieją lub żadne nie zostało wybrane)."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/import_libvirt/gtk4.py plugins/import_ovirt/gtk4.py
+#: plugins/import_proxmox/gtk4.py plugins/import_virtualbox/gtk4.py
 msgid "No connection type selected."
 msgstr "Nie wybrano typu połączenia."
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No host imported."
-msgstr "Nie zaimportowano żadnego hosta."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No new host (duplicates ignored)."
-msgstr "Brak nowego hosta (duplikaty zostały zignorowane)."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Overwrite existing connections with the same name and protocol"
-msgstr "Zastąp istniejące połączenia o tej samej nazwie i protokole"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Proto"
-msgstr "Protokół"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
 msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
 msgstr "RDP  (sprawdza port 3389 z hypervisora przez nc/nmap - pomijane, jeśli port jest zamknięty)"
 
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_libvirt/gtk4.py
 msgid "SPICE  (virt-viewer --connect qemu+ssh://... vm - SSH tunnel handled automatically)"
 msgstr "SPICE  (virt-viewer --connect qemu+ssh://... vm - tunel SSH obsługiwany automatycznie)"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
 msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
 msgstr "SSH  (ProxyJump -J przez hypervisor, gdy znany jest adres IP VM, w przeciwnym razie shell hypervisora + -t ssh user@vm)"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Scan failed: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "State"
-msgstr "Stan"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Target added automatically: {pending_uri}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Target added: {uri}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Target already present: {uri}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py
-msgid "Used as default user in the Libvirt import dialog."
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py
-msgid "VM name"
-msgstr "Nazwa VM"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
 #, fuzzy
 #| msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
 msgid "VNC  (probe port 5900 from hypervisor via nc/nmap - skipped if port is closed)"
 msgstr "RDP  (sprawdza port 3389 z hypervisora przez nc/nmap - pomijane, jeśli port jest zamknięty)"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/plugin_web.py
-msgid "Waiting…"
-msgstr "Oczekiwanie…"
-
-#: plugins/plugin_import_libvirt.py
-#, fuzzy, python-brace-format
-#| msgid "Import from libvirt"
-msgid "{n} connection(s) imported from libvirt."
-msgstr "Importuj z libvirt"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✓ Check all"
-msgstr "✓ Zaznacz wszystko"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✓ Imported"
-msgstr "✓ Zaimportowano"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✕  Close"
-msgstr "✕  Zamknij"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✗ Uncheck all"
-msgstr "✗ Odznacz wszystko"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "⬇  Import selected"
-msgstr "⬇  Importuj wybrane"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "🔄  Rescan"
-msgstr "🔄  Skanuj ponownie"
-
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_libvirt/gtk4.py
 #, fuzzy
 #| msgid "🔍  Scan hypervisors"
 msgid "🔍  Scan Libvirt hypervisors"
 msgstr "🔍  Skanuj hypervisory"
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 #, python-brace-format
 msgid ""
 "Could not reach '{vm}' directly, via the oVirt engine, or via its hypervisor.\n"
@@ -1266,97 +2523,70 @@ msgid ""
 "Leave empty to skip this VM."
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "Engine URL is required."
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "Engine URL:"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 #, fuzzy
 #| msgid "Import from libvirt"
 msgid "Import from oVirt"
 msgstr "Importuj z libvirt"
 
-#: plugins/plugin_import_ovirt.py
-msgid ""
-"Note: IP resolution requires the oVirt guest agent to be installed in each VM.\n"
-"Reachability is tested automatically (direct, then jump proxy via the engine, then via the VM's hypervisor) — if all three fail, you will be asked for a manual route per VM during the scan."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 #, fuzzy
 #| msgid "Password"
 msgid "Password:"
 msgstr "Hasło"
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "RDP  (Windows guests only — port 3389 probed via the resolved route)"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "SSH  (direct — oVirt VMs are usually directly routable)"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "SSH user (engine/hypervisor jump):"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 #, python-brace-format
 msgid "Unreachable VM: {vm}"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
-msgid "Used only as a fallback when a VM is not directly reachable: SSH user for jump-proxy attempts via the engine machine or the VM's hypervisor, and default SSH user for the VMs themselves (non-Windows guests)."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 #, fuzzy
 #| msgid "User"
 msgid "Username:"
 msgstr "Użytkownik"
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "Verify TLS certificate"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
-#, python-brace-format
-msgid "{n} connection(s) imported from oVirt."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "🔍  Scan oVirt engine"
 msgstr ""
 
-#: plugins/plugin_import_proxmox.py
-msgid "<i>Applies only to the Proxmox import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-msgid "Add a Proxmox target:"
-msgstr "Dodaj cel Proxmox:"
-
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Ex: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
-msgstr "Np.: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
-
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "Import from Proxmox"
 msgstr "Importuj z Proxmox"
 
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "Invalid Proxmox target."
 msgstr "Nieprawidłowy cel Proxmox."
 
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "No Proxmox target selected."
 msgstr "Nie wybrano celu Proxmox."
 
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid ""
 "No SSH URI found in dconf.\n"
 "Enter an IP/host below and click Add."
@@ -1364,173 +2594,144 @@ msgstr ""
 "Nie znaleziono URI SSH w dconf.\n"
 "Wprowadź adres IP/host poniżej i kliknij Dodaj."
 
-#: plugins/plugin_import_proxmox.py
-msgid "Proxmox"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "Proxmox target (qemu+ssh://user@host/system)"
 msgstr ""
 
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 #, fuzzy
 #| msgid "Add a Proxmox target:"
 msgid "Proxmox targets:"
 msgstr "Dodaj cel Proxmox:"
 
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "SPICE  (vga:qxl required — ticket generated at connection time via pvesh)"
 msgstr ""
 
-#: plugins/plugin_import_proxmox.py
-#, fuzzy
-#| msgid "Waiting…"
-msgid "Scanning…"
-msgstr "Oczekiwanie…"
-
-#: plugins/plugin_import_proxmox.py
-msgid "Used as default user in the Proxmox import dialog."
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-#, fuzzy, python-brace-format
-#| msgid "Import from Proxmox"
-msgid "{n} connection(s) imported from Proxmox."
-msgstr "Importuj z Proxmox"
-
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "🔍  Scan Proxmox hosts"
 msgstr "🔍  Skanuj hosty Proxmox"
 
-#: plugins/plugin_import_putty.py
-msgid "Import from PuTTY sessions…"
-msgstr ""
+#: plugins/import_putty/gtk4.py
+msgid "Choose a folder…"
+msgstr "Wybierz katalog…"
 
-#: plugins/plugin_import_putty.py
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "Import"
+msgstr "Importuj"
+
+#: plugins/import_putty/gtk4.py
+#, fuzzy
+#| msgid "Import from Proxmox"
+msgid "Import from PuTTY sessions"
+msgstr "Importuj z Proxmox"
+
+#: plugins/import_putty/gtk4.py
+#, fuzzy
+#| msgid "Import from libvirt"
+msgid "Import from PuTTY sessions…"
+msgstr "Importuj z libvirt"
+
+#: plugins/import_putty/gtk4.py
 msgid "No importable SSH/Telnet session found in this folder."
 msgstr ""
 
-#: plugins/plugin_import_putty.py
-#, python-brace-format
+#: plugins/import_putty/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
 msgid "PuTTY import error: {exc}"
-msgstr ""
+msgstr "Nazwa szablonu"
 
-#: plugins/plugin_import_putty.py
+#: plugins/import_putty/gtk4.py
+#, python-brace-format
+msgid "PuTTY sessions folder: {folder}"
+msgstr "Katalog sesji PuTTY: {folder}"
+
+#: plugins/import_putty/gtk4.py
 msgid "Select PuTTY sessions folder"
 msgstr ""
 
-#: plugins/plugin_import_putty.py
+#: plugins/import_putty/gtk4.py
+#, python-brace-format
+msgid "Sessions found: {count}."
+msgstr "Znalezione sesje: {count}."
+
+#: plugins/import_putty/gtk4.py
 #, python-brace-format
 msgid "{count} session(s) ignored (unsupported protocol or missing host)."
 msgstr ""
 
-#: plugins/plugin_import_putty.py
-#, python-brace-format
-msgid "{n} connection(s) imported from PuTTY."
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-msgid "<i>Applies only to the VirtualBox import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "Add a VirtualBox host:"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
+msgid "Ex: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
+msgstr "Np.: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
+
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "Hypervisor SSH user:"
 msgid "Host SSH user:"
 msgstr "Użytkownik SSH hypervisora:"
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "Import from libvirt"
 msgid "Import from VirtualBox"
 msgstr "Importuj z libvirt"
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "Invalid Proxmox target."
 msgid "Invalid VirtualBox target."
 msgstr "Nieprawidłowy cel Proxmox."
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "No URI selected."
 msgid "No host selected."
 msgstr "Nie wybrano URI."
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "RDP  (native VirtualBox VRDE if enabled, otherwise guest port 3389 probe)"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
 msgid "SSH  (ProxyJump -J via host when VM IP is known, otherwise host shell + -t ssh user@vm)"
 msgstr "SSH  (ProxyJump -J przez hypervisor, gdy znany jest adres IP VM, w przeciwnym razie shell hypervisora + -t ssh user@vm)"
 
-#: plugins/plugin_import_virtualbox.py
-msgid "Used as default user in the VirtualBox import dialog."
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "VNC  (probe port 5900 in the guest — off by default)"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
-msgid "VirtualBox"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy
-#| msgid ""
-#| "No URI found in dconf (virt-manager not configured?).\n"
-#| "Add your URIs manually below."
-msgid ""
-"VirtualBox has no central registry (unlike virt-manager/dconf).\n"
-"Add your hosts manually below."
-msgstr ""
-"Nie znaleziono URI w dconf (virt-manager nie jest skonfigurowany?).\n"
-"Dodaj swoje URI ręcznie poniżej."
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "VirtualBox host (user@host[:port])"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "VirtualBox hosts:"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy, python-brace-format
-#| msgid "Import from libvirt"
-msgid "{n} connection(s) imported from VirtualBox."
-msgstr "Importuj z libvirt"
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "🔍  Scan Proxmox hosts"
 msgid "🔍  Scan VirtualBox hosts"
 msgstr "🔍  Skanuj hosty Proxmox"
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
-#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
-#: src/gcm4/ui/contexte.py widgets.py
-msgid "Connect"
-msgstr "Połącz"
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
+#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
+#, python-brace-format
+msgid "{program} not found"
+msgstr "Nie znaleziono programu {program}"
 
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
 #: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
+#: plugins/web/gtk4.py
 msgid "Connecting…"
 msgstr "Łączenie…"
-
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py widgets.py
-msgid "Disconnect"
-msgstr "Rozłącz"
 
 #: plugins/plugin_ipmisol.py
 msgid "IPMI (SOL)"
@@ -1879,15 +3080,15 @@ msgstr ""
 msgid "Authentication failed"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "Custom…"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "Domain"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 #, fuzzy
 #| msgid "Dynamic title"
 msgid "Dynamic resolution"
@@ -1897,7 +3098,7 @@ msgstr "Dynamiczny tytuł"
 msgid "Error: could not mount the ISO"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/web/gtk4.py
 #, python-brace-format
 msgid "Error: {msg}"
 msgstr ""
@@ -1906,7 +3107,7 @@ msgstr ""
 msgid "Fullscreen"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 msgid "Geometry"
 msgstr ""
 
@@ -1914,7 +3115,8 @@ msgstr ""
 msgid "Height"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_web.py
+#: plugins/plugin_rdp.py plugins/plugin_web.py plugins/rdp/gtk4.py
+#: plugins/web/gtk4.py
 msgid "Ignore certificate errors"
 msgstr ""
 
@@ -1922,21 +3124,22 @@ msgstr ""
 msgid "RDP"
 msgstr ""
 
-#: plugins/plugin_rdp.py
+#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
 #, fuzzy
 #| msgid "Remote"
 msgid "RemoteApp"
 msgstr "Zdalny"
 
 #: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/rdp/gtk4.py
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
 msgid "Share folder"
 msgstr ""
 
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
 msgid "Shared folder path"
 msgstr ""
 
@@ -2082,9 +3285,9 @@ msgstr "Szablon:"
 msgid "Template:"
 msgstr "Szablon:"
 
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
 msgid "Tool"
-msgstr ""
+msgstr "Narzędzie"
 
 #: plugins/plugin_serial.py
 msgid "Transmission speed in baud"
@@ -2363,29 +3566,29 @@ msgstr "Nie znaleziono xfreerdp"
 msgid "remote-viewer options:"
 msgstr "Opcje xfreerdp:"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Advanced"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Agent Forwarding"
 msgid "Agent forwarding (-A)"
 msgstr "Przekazywanie agenta"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "Arbitrary command to reach the target, e.g. via corkscrew or nc"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "Bastion host(s) to hop through, e.g. user@bastion"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "Command to run instead of a shell"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Compression"
 msgid "Compression (-C)"
@@ -2395,11 +3598,7 @@ msgstr "Kompresja"
 msgid "Connections will be added to the « ssh_config » group, with name = host = SSH alias."
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
-msgid "Dynamic"
-msgstr "Dynamiczny"
-
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Dynamic / SOCKS (-D)"
 msgstr ""
 
@@ -2407,7 +3606,7 @@ msgstr ""
 msgid "Edit SSH config"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Edit ~/.ssh/config…"
 msgstr ""
 
@@ -2453,41 +3652,15 @@ msgstr ""
 msgid "Import from which file?"
 msgstr "Importuj z libvirt"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Keep alive (seconds)"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
-msgid "Local"
-msgstr "Lokalny"
-
-#: plugins/plugin_ssh.py ssh_config_editor.py
-#, fuzzy
-#| msgid "Local"
-msgid "Local (-L)"
-msgstr "Lokalny"
-
-#: plugins/plugin_ssh.py ssh_config_editor.py
-msgid "Local Port"
-msgstr "Port lokalny"
-
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Local mount point"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
-#, fuzzy
-#| msgid "localhost"
-msgid "Local target host"
-msgstr "localhost"
-
-#: plugins/plugin_ssh.py ssh_config_editor.py
-#, fuzzy
-#| msgid "Local Port"
-msgid "Local target port"
-msgstr "Port lokalny"
-
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Manage SSH Keys…"
 msgstr ""
 
@@ -2501,7 +3674,7 @@ msgstr ""
 msgid "Migration failed: %s"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Mount remote filesystem via SSHFS on connect"
 msgstr ""
 
@@ -2545,10 +3718,6 @@ msgstr ""
 msgid "Personal (me)"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
-msgid "Personal (~/.ssh/config)"
-msgstr ""
-
 #: plugins/plugin_ssh.py
 #, python-format
 msgid ""
@@ -2556,58 +3725,25 @@ msgid ""
 "Shared: visible and usable by every user of this machine (team bastion), %s — requires root privileges."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Port forwarding"
 msgstr "Przekierowanie portów"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "QUIET / ERROR / INFO / VERBOSE / DEBUG…"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_config_editor.py
-msgid "Remote"
-msgstr "Zdalny"
-
-#: plugins/plugin_ssh.py ssh_config_editor.py
-#, fuzzy
-#| msgid "Remote"
-msgid "Remote (-R)"
-msgstr "Zdalny"
-
-#: plugins/plugin_ssh.py ssh_config_editor.py
-msgid "Remote Host"
-msgstr "Zdalny host"
-
-#: plugins/plugin_ssh.py ssh_config_editor.py
-msgid "Remote Port"
-msgstr "Port zdalny"
-
-#: plugins/plugin_ssh.py ssh_config_editor.py
-#, fuzzy
-#| msgid "Remote Port"
-msgid "Remote listen port"
-msgstr "Port zdalny"
-
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Remote Host"
 msgid "Remote path"
 msgstr "Zdalny host"
 
-#: plugins/plugin_ssh.py src/gcm4/core/menu_arbre.py
-#: src/gcm4/core/preferences.py src/gcm4/ui/menu_arbre.py widgets.py
-msgid "Remove"
-msgstr "Usuń"
-
 #: plugins/plugin_ssh.py
 msgid "SSH"
 msgstr ""
 
-#: plugins/plugin_ssh.py ssh_key_manager_dialog.py
-msgid "SSH Key Manager"
-msgstr ""
-
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid ""
 "SSH private key file not found:\n"
 "\n"
@@ -2616,11 +3752,11 @@ msgid ""
 "Please check the key path configuration."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "SSHFS"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "Seconds before giving up on the connection"
 msgstr ""
 
@@ -2636,13 +3772,13 @@ msgstr ""
 msgid "Which file?"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "X11 Forwarding"
 msgid "X11 forwarding (-X)"
 msgstr "Przekazywanie X11"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "e.g. 10m, or yes"
 msgstr ""
 
@@ -2658,24 +3794,16 @@ msgid ""
 "Make sure ssh_key_manager_dialog.py is in the same directory as gnome_connection_manager.py."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "yes / no"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "yes / no / accept-new"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/session.py
 msgid "yes / no / ask / auto"
-msgstr ""
-
-#: plugins/plugin_ssh.py ssh_config_editor.py
-msgid "yes / no / ask / confirm"
-msgstr ""
-
-#: plugins/plugin_ssh.py ssh_config_editor.py
-msgid "yes / no / force / auto"
 msgstr ""
 
 #: plugins/plugin_vnc.py
@@ -2709,7 +3837,7 @@ msgstr ""
 msgid "xfreerdp not found"
 msgstr "Nie znaleziono xfreerdp"
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "BMC web console (iLO, iDRAC, IMM…) or any web interface (Proxmox, switch, TrueNAS…)"
 msgstr ""
 
@@ -2717,15 +3845,15 @@ msgstr ""
 msgid "Error: URL not configured"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "Error: could not open the URL"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "Opened in the system browser"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "URL"
 msgstr ""
 
@@ -2733,7 +3861,7 @@ msgstr ""
 msgid "URL is required for a Web connection."
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/core.py
 msgid "URL is required."
 msgstr ""
 
@@ -2741,11 +3869,11 @@ msgstr ""
 msgid "URL not configured"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "Useful for self-signed certificates on BMC interfaces"
 msgstr ""
 
-#: plugins/plugin_web.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
 msgid "Web"
 msgstr ""
 
@@ -2753,6 +3881,69 @@ msgstr ""
 msgid ""
 "WebKitGTK unavailable (gir1.2-webkit2-4.1 package missing).\n"
 "The web console will open in the system browser."
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Choose the folder to share"
+msgstr ""
+
+#: plugins/rdp/core.py
+#, fuzzy, python-brace-format
+#| msgid "Port must be a number between {min} and {max}."
+msgid "Enter a size between {min} and {max} pixels"
+msgstr "Port musi być liczbą z zakresu od {min} do {max}."
+
+#: plugins/rdp/core.py
+#, fuzzy
+#| msgid "Invalid file"
+msgid "Invalid custom size"
+msgstr "Nieprawidłowy plik"
+
+#: plugins/rdp/core.py
+msgid "Sharing an ISO image is not supported yet"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "This folder does not exist"
+msgstr ""
+
+#: plugins/rdp/core.py
+msgid "Unknown geometry"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, python-brace-format
+msgid "AsyncRdp is not available ({error}). Install asyncrdp and set 'integrations' in the [plugin rdp] section to the integrations/gtk4 folder of AsyncRdp4."
+msgstr ""
+
+#: plugins/rdp/gtk4.py plugins/sftp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Connecting…"
+msgid "Connecting to {host}…"
+msgstr "Łączenie…"
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Connecting…"
+msgid "Connection cancelled"
+msgstr "Łączenie…"
+
+#: plugins/rdp/gtk4.py
+msgid "Fit to tab"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Initialization failed: {error}"
+msgid "RDP connection to {host} failed: {error}"
+msgstr "Inicjalizacja nie powiodła się: {error}"
+
+#: plugins/rdp/gtk4.py
+msgid "RDP needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Size"
 msgstr ""
 
 #: plugins/sftp/core.py
@@ -2782,12 +3973,6 @@ msgstr ""
 #: plugins/sftp/gtk4.py
 msgid "Busy, try again when the current operation is finished"
 msgstr ""
-
-#: plugins/sftp/gtk4.py
-#, fuzzy, python-brace-format
-#| msgid "Connecting…"
-msgid "Connecting to {host}…"
-msgstr "Łączenie…"
 
 #: plugins/sftp/gtk4.py
 #, fuzzy, python-brace-format
@@ -2912,7 +4097,7 @@ msgstr "Folder dzienników"
 msgid "Private key file:"
 msgstr "Klucz prywatny"
 
-#: plugins/sftp/gtk4.py
+#: plugins/sftp/gtk4.py plugins/web/gtk4.py
 msgid "Refresh"
 msgstr ""
 
@@ -2977,6 +4162,37 @@ msgstr ""
 #: plugins/sftp/gtk4.py
 #, python-brace-format
 msgid "{path}: {count} items"
+msgstr ""
+
+#
+#: plugins/ssh/gtk4.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "Potwierdź"
+
+#: plugins/ssh/gtk4.py
+msgid "Permissions too open: ssh will refuse this key"
+msgstr "Zbyt szerokie uprawnienia: ssh odrzuci ten klucz"
+
+#: plugins/web/core.py
+msgid "The URL must start with http:// or https://"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Certificate"
+msgstr ""
+
+#: plugins/web/gtk4.py src/gcm4/ui/preferences.py
+msgid "Loaded"
+msgstr "Wczytano"
+
+#: plugins/web/gtk4.py
+msgid "Open in the system browser"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid ""
+"WebKitGTK 6.0 unavailable (gir1.2-webkit-6.0 package missing).\n"
+"The web console opens in the system browser."
 msgstr ""
 
 #: src/gcm4/app.py
@@ -3122,6 +4338,10 @@ msgid "unsupported format or version"
 msgstr "nieobsługiwany format lub wersja"
 
 #: src/gcm4/core/menu.py
+msgid "Keyboard Shortcuts"
+msgstr "Skróty klawiszowe"
+
+#: src/gcm4/core/menu.py
 msgid "Next tab"
 msgstr "Następna karta"
 
@@ -3137,41 +4357,21 @@ msgstr "Zapisz konfigurację jako…"
 msgid "Search"
 msgstr "Szukaj"
 
-#: src/gcm4/core/menu_arbre.py widgets.py
-msgid "Choose Color…"
-msgstr "Wybierz kolor…"
+#: src/gcm4/core/menu.py
+msgid "Tools"
+msgstr "Narzędzia"
 
-#: src/gcm4/core/menu_arbre.py widgets.py
-msgid "Collapse all"
-msgstr "Zwiń wszystko"
-
-#: src/gcm4/core/menu_arbre.py widgets.py
-msgid "Copy Address"
-msgstr "Kopiuj adres"
-
-#: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py widgets.py
-msgid "Duplicate Host"
-msgstr "Duplikuj host"
+#: src/gcm4/core/menu.py
+msgid "User Guide"
+msgstr "Podręcznik użytkownika"
 
 #: src/gcm4/core/menu_arbre.py
 msgid "Edit Selected Hosts…"
 msgstr "Edytuj zaznaczone hosty…"
 
-#: src/gcm4/core/menu_arbre.py widgets.py
-msgid "Expand all"
-msgstr "Rozwiń wszystko"
-
-#: src/gcm4/core/menu_arbre.py widgets.py
-msgid "New Group…"
-msgstr "Nowa grupa…"
-
-#: src/gcm4/core/menu_arbre.py widgets.py
-msgid "Rename Group…"
-msgstr "Zmień nazwę grupy…"
-
-#: src/gcm4/core/menu_arbre.py widgets.py
-msgid "Reset Color"
-msgstr "Przywróć kolor"
+#: src/gcm4/core/plugins.py
+msgid "It declares no menu label."
+msgstr "Nie deklaruje etykiety menu."
 
 #: src/gcm4/core/plugins.py
 msgid "It declares no protocol."
@@ -3190,6 +4390,15 @@ msgstr "Implementuje wersję {found} API wtyczek; ta aplikacja obsługuje wersj�
 #: src/gcm4/core/plugins.py
 msgid "It is not a connection plugin."
 msgstr "To nie jest wtyczka połączenia."
+
+#: src/gcm4/core/plugins.py
+msgid "It is not a tool plugin."
+msgstr "To nie jest wtyczka narzędzia."
+
+#: src/gcm4/core/plugins.py
+#, python-brace-format
+msgid "Its menu section must be one of: {sections}."
+msgstr "Jego sekcja menu musi być jedną z: {sections}."
 
 #: src/gcm4/core/plugins.py
 msgid "Its name must be a non-empty lowercase identifier."
@@ -3269,10 +4478,22 @@ msgstr "Port musi być liczbą z zakresu od {min} do {max}."
 msgid "The name must not contain «/»."
 msgstr "Nazwa nie może zawierać znaku „/”."
 
+#: src/gcm4/ui/aide.py src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
+msgid "Hosts"
+msgstr "Hosty"
+
+#: src/gcm4/ui/aide.py src/gcm4/ui/preferences.py
+msgid "Main window"
+msgstr "Okno główne"
+
 #: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
 msgstr "gcm4 jest już uruchomiony z innym folderem konfiguracji: zamknij go, aby użyć {requested}."
+
+#: src/gcm4/ui/contexte.py
+msgid "No configuration is open: nothing to import into."
+msgstr "Brak otwartej konfiguracji: nie ma dokąd importować."
 
 #: src/gcm4/ui/contexte.py
 #, python-brace-format
@@ -3294,14 +4515,6 @@ msgid "Hosts in {file}: {count}, already present: {existing}"
 msgstr "Hosty w {file}: {count}, już istniejące: {existing}"
 
 #: src/gcm4/ui/echange.py
-msgid "If a host already exists:"
-msgstr "Jeśli host już istnieje:"
-
-#: src/gcm4/ui/echange.py
-msgid "Import"
-msgstr "Importuj"
-
-#: src/gcm4/ui/echange.py
 msgid "Include passwords (in clear text)"
 msgstr "Dołącz hasła (jawnym tekstem)"
 
@@ -3310,20 +4523,8 @@ msgid "JSON or CSV file, chosen by its extension."
 msgstr "Plik JSON lub CSV, według rozszerzenia."
 
 #: src/gcm4/ui/echange.py
-msgid "Keep the existing host"
-msgstr "Zachowaj istniejący host"
-
-#: src/gcm4/ui/echange.py
 msgid "Passwords will be written in clear text: keep this file safe."
 msgstr "Hasła zostaną zapisane jawnym tekstem: przechowuj ten plik bezpiecznie."
-
-#: src/gcm4/ui/echange.py
-msgid "Rename the imported host"
-msgstr "Zmień nazwę importowanego hosta"
-
-#: src/gcm4/ui/echange.py
-msgid "Replace the existing host"
-msgstr "Zastąp istniejący host"
 
 #: src/gcm4/ui/echange.py
 msgid "This file contains passwords in clear text."
@@ -3342,6 +4543,10 @@ msgid "Connection"
 msgstr "Połączenie"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Connection type; its options are shown below"
+msgstr "Typ połączenia; jego opcje są wyświetlane poniżej"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "Odrzuć"
 
@@ -3358,6 +4563,10 @@ msgid "Existing groups"
 msgstr "Istniejące grupy"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Extra arguments added to the connection command, if the protocol supports them"
+msgstr "Dodatkowe argumenty polecenia połączenia, jeśli protokół je obsługuje"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Extra parameters"
 msgstr "Dodatkowe parametry"
 
@@ -3366,8 +4575,20 @@ msgid "Foreground color"
 msgstr "Kolor tekstu"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Host name or IP address of the server"
+msgstr "Nazwa hosta lub adres IP serwera"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "Kontynuuj edycję"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank to use the default port of the protocol"
+msgstr "Pozostaw puste, aby użyć domyślnego portu protokołu"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Name shown in the host list, unique within its group"
+msgstr "Nazwa wyświetlana na liście hostów, unikalna w obrębie grupy"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -3386,6 +4607,10 @@ msgid "No extension is installed."
 msgstr "Nie zainstalowano żadnego rozszerzenia."
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Note shown in the tooltip of the host list"
+msgstr "Notatka wyświetlana w podpowiedzi listy hostów"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "Protokół"
 
@@ -3402,14 +4627,22 @@ msgstr "Polecenie powłoki uruchamiane lokalnie w tle tuż po zakończeniu tego 
 msgid "The changes to this host have not been saved."
 msgstr "Zmiany tego hosta nie zostały zapisane."
 
+#: src/gcm4/ui/host_dialog.py
+msgid "Use the console colors of the settings instead of the colors below"
+msgstr "Używaj kolorów konsoli z ustawień zamiast kolorów poniżej"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User name on the remote host"
+msgstr "Nazwa użytkownika na zdalnym hoście"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "What to do with the console tab when the connection ends"
+msgstr "Co zrobić z kartą konsoli po zakończeniu połączenia"
+
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
 msgid "An item with this name already exists in '{group}'."
 msgstr "Element o tej nazwie już istnieje w „{group}”."
-
-#: src/gcm4/ui/host_tree.py src/gcm4/ui/preferences.py
-msgid "Hosts"
-msgstr "Hosty"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -3467,6 +4700,11 @@ msgstr "Otwarte połączenia zostaną zamknięte."
 #: src/gcm4/ui/main_window.py
 msgid "Quit anyway?"
 msgstr "Mimo to zakończyć?"
+
+#: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Tool «{name}» failed; see the log."
+msgstr "Narzędzie „{name}” nie powiodło się; zobacz dziennik."
 
 #: src/gcm4/ui/main_window.py
 #, python-brace-format
@@ -3582,11 +4820,6 @@ msgstr "Zmień hasło główne"
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Change…"
 msgstr "Zmień…"
-
-#
-#: src/gcm4/ui/mot_de_passe_maitre.py
-msgid "Confirm"
-msgstr "Potwierdź"
 
 #
 #: src/gcm4/ui/mot_de_passe_maitre.py
@@ -3741,8 +4974,28 @@ msgid "Write down or print this code and keep it in a safe place: it will not be
 msgstr "Zapisz lub wydrukuj ten kod i przechowuj go w bezpiecznym miejscu: nie zostanie ponownie wyświetlony. Jeśli zapomnisz hasła głównego, odblokuje on zapisane hasła, a potem wybierzesz nowe hasło główne."
 
 #: src/gcm4/ui/preferences.py
+msgid "Add the title of the current tab to the window title"
+msgstr "Dodaje tytuł bieżącej karty do tytułu okna"
+
+#: src/gcm4/ui/preferences.py
+msgid "After the last tab, go back to the first one, and the other way round"
+msgstr "Po ostatniej karcie wróć do pierwszej i odwrotnie"
+
+#: src/gcm4/ui/preferences.py
+msgid "Also ask when a tab is closed with the middle mouse button"
+msgstr "Pytaj także, gdy karta jest zamykana środkowym przyciskiem myszy"
+
+#: src/gcm4/ui/preferences.py
 msgid "Appearance"
 msgstr "Wygląd"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before closing a console tab"
+msgstr "Pytaj przed zamknięciem karty konsoli"
+
+#: src/gcm4/ui/preferences.py
+msgid "Ask before quitting while connections are open"
+msgstr "Pytaj przed wyjściem, gdy są otwarte połączenia"
 
 #: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
@@ -3761,8 +5014,16 @@ msgid "Extensions"
 msgstr "Rozszerzenia"
 
 #: src/gcm4/ui/preferences.py
-msgid "Loaded"
-msgstr "Wczytano"
+msgid "Follow the system style or force a light or dark one"
+msgstr "Stosuj styl systemu lub wymuś jasny albo ciemny motyw"
+
+#: src/gcm4/ui/preferences.py
+msgid "Font of the host list"
+msgstr "Czcionka listy hostów"
+
+#: src/gcm4/ui/preferences.py
+msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
+msgstr "KDE Plasma, XFCE, Cinnamon, MATE, LXQt lub GNOME z rozszerzeniem AppIndicator"
 
 #: src/gcm4/ui/preferences.py
 msgid "Log folder"
@@ -3773,12 +5034,16 @@ msgid "Logging"
 msgstr "Dziennik"
 
 #: src/gcm4/ui/preferences.py
-msgid "Main window"
-msgstr "Okno główne"
+msgid "Look for a newer published version on GitHub at startup"
+msgstr "Przy uruchomieniu sprawdzaj w GitHubie nowszą opublikowaną wersję"
 
 #: src/gcm4/ui/preferences.py
 msgid "No extension found."
 msgstr "Nie znaleziono żadnego rozszerzenia."
+
+#: src/gcm4/ui/preferences.py
+msgid "Notification area"
+msgstr "Obszar powiadomień"
 
 #: src/gcm4/ui/preferences.py
 msgid "Overridden for this session by --debug or GCM_LOG_LEVEL."
@@ -3795,8 +5060,28 @@ msgid "Preferences page unavailable: {error}"
 msgstr "Strona preferencji jest niedostępna: {error}"
 
 #: src/gcm4/ui/preferences.py
+msgid "Reconnect the hosts that were open when the application was closed"
+msgstr "Ponownie połącz hosty otwarte w chwili zamknięcia aplikacji"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "Bezpieczeństwo"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show an icon in the notification area"
+msgstr "Pokazuj ikonę w obszarze powiadomień"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show every row of the host list on the same background"
+msgstr "Wyświetlaj wszystkie wiersze listy hostów na tym samym tle"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list in the desktop font"
+msgstr "Wyświetlaj listę hostów czcionką pulpitu"
+
+#: src/gcm4/ui/preferences.py
+msgid "Show the host list next to the consoles"
+msgstr "Wyświetlaj listę hostów obok konsol"
 
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
@@ -3819,6 +5104,10 @@ msgstr "Użyj czcionki systemowej"
 #, python-brace-format
 msgid "Version {version}"
 msgstr "Wersja {version}"
+
+#: src/gcm4/ui/preferences.py
+msgid "Window title; leave blank to use the application name"
+msgstr "Tytuł okna; pozostaw puste, aby użyć nazwy aplikacji"
 
 #: src/gcm4/ui/raccourcis.py
 #, python-brace-format
@@ -3883,1251 +5172,16 @@ msgstr "sygnał {number}"
 msgid "status {status}"
 msgstr "stan {status}"
 
-#: ssh_config_editor.py
-#, fuzzy, python-brace-format
-#| msgid "Ended (code {rc})"
-msgid ""
-"\n"
-"Exit code: {rc}"
-msgstr "Zakończono (kod {rc})"
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid ""
-"\n"
-"[Error: {exc}]"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid ""
-"\n"
-"[Timeout after 10 s]"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "(no output)\n"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Add new host"
-msgid "Add a new empty host"
-msgstr "Dodaj nowego hosta"
-
-#: ssh_config_editor.py
-msgid "AddKeysToAgent"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Alias(es)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "At least one alias is required"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Compression"
-msgstr "Kompresja"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Connect"
-msgid "ConnectTimeout"
-msgstr "Połącz"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Cluster"
-msgid "ControlMaster"
-msgstr "Klaster"
-
-#: ssh_config_editor.py
-msgid "ControlPersist"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "Copied: {cmd}"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Copy selection to clipboard"
-msgid "Copy full ssh command to clipboard"
-msgstr "Kopiuj wybór do schowka"
-
-#: ssh_config_editor.py
-msgid "Copy ssh cmd"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Diff (original → current):"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Dynamic"
-msgid "Dynamic (SOCKS)"
-msgstr "Dynamiczny"
-
-#: ssh_config_editor.py
-msgid "Edit SSH config (personal + shared)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Edit raw ssh_config — changes here override the Visual tab on Save."
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Enter remote host"
-msgstr "Wprowadź zdalny host"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "_File"
-msgid "File:"
-msgstr "_Plik"
-
-#: ssh_config_editor.py
-msgid "Filter hosts…"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "X11 Forwarding"
-msgid "ForwardAgent"
-msgstr "Przekazywanie X11"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Host name"
-msgid "HostName"
-msgstr "Nazwa hosta"
-
-#: ssh_config_editor.py
-msgid "IdentitiesOnly"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "IdentityFile"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "LogLevel"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Multiple values possible: separate them with commas (one line per value in the file)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "No changes."
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "PasswordAuthentication"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Port must be an integer between 1 and 65535"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Properties"
-msgstr "Właściwości"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Command"
-msgid "ProxyCommand"
-msgstr "Polecenie"
-
-#: ssh_config_editor.py
-msgid "ProxyJump"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "PubkeyAuthentication"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "QUIET/ERROR/INFO/VERBOSE/DEBUG"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Raw / Diff"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Redirection de port"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Command"
-msgid "RemoteCommand"
-msgstr "Polecenie"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Remote Host"
-msgid "Remove host?"
-msgstr "Zdalny host"
-
-#: ssh_config_editor.py
-msgid "Remove selected host"
-msgstr "Usuń wybranego hosta"
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "Remove «{alias}» from {path}?"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "RequestTTY"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid ""
-"Running: {cmd}\n"
-"\n"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ServerAliveCountMax"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ServerAliveInterval"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Shared — bastion, all users (/etc/ssh/ssh_config.d/config_gcm.conf)"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "StrictHostKeyChecking"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "No connection type selected."
-msgid "Test SSH connection to selected host"
-msgstr "Nie wybrano typu połączenia."
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "Test connection — {alias}"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "UserKnownHostsFile"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "Visual"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "auto / yes / no"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 10"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 10m"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 192.168.1.10 ou example.com"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 22"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 3"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : 60"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : root"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : ssh -W %h:%p bastion, ou corkscrew proxy 8080 %h %p"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : tmux attach || tmux new"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : user@bastion.example.com, user@server1.example.com"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : web1 ou web1 web1.example.com"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : ~/.ssh/id_ed25519, ~/.ssh/id_rsa"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "ex : ~/.ssh/known_hosts"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "yes / no / ask / accept-new"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "yes ou no"
-msgstr ""
-
-#: ssh_config_editor.py
-#, python-brace-format
-msgid "{path} does not exist yet — it will be created when saving."
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "← Select or create a host"
-msgstr ""
-
-#: ssh_config_editor.py
-msgid "⚡ Test"
-msgstr ""
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Cancel"
-msgid "✕ Cancel"
-msgstr "Anuluj"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "− Remove"
-msgid "✕ Remove"
-msgstr "− Usuń"
-
-#: ssh_config_editor.py
-msgid "⟳ Refresh diff"
-msgstr ""
-
-#: ssh_config_editor.py ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "+ Add"
-msgid "＋ Add"
-msgstr "+ Dodaj"
-
-#: ssh_config_editor.py
-#, fuzzy
-#| msgid "Save"
-msgid "💾 Save"
-msgstr "Zapisz"
-
-#: ssh_key_manager_dialog.py
-msgid "#"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "(empty = no passphrase)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "(empty = remove passphrase)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "(empty if none)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "(hashed)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "(none — keys are generated unsigned)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "A certificate named {name} already exists"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "A file named {name} already exists"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Add Authorized Key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Add {name} to ssh-agent?"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Added to ssh-agent"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "All files"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Authorized Keys"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "CA deleted: {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "CA deletion failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "CA import failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "CA imported and designated: {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "CA signing failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "CA signing timed out — CA key may require a passphrase (unsupported non-interactively)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy, python-brace-format
-#| msgid "Can't open file for writting"
-msgid "Cannot open file manager: {err}"
-msgstr "Nie można otworzyć pliku do zapisu"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Cannot read public key: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Certificate identity:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Change Passphrase — {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Change the passphrase of this private key (ssh-keygen -p)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Check ~/.ssh/config (and GCM hosts, if wired in) against known_hosts"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Choose an existing local key pair as the signing CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Clipboard unavailable — key content logged"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Command"
-msgid "Comment"
-msgstr "Polecenie"
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Command"
-msgid "Comment:"
-msgstr "Polecenie"
-
-#: ssh_key_manager_dialog.py
-msgid "Confirm new passphrase:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Connected to {t} — Known Hosts / Authorized Keys now read from there"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Connection failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Connection timed out"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Copy failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Copy selection to clipboard"
-msgid "Copy the public key content to clipboard"
-msgstr "Kopiuj wybór do schowka"
-
-#: ssh_key_manager_dialog.py
-msgid "Created"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Current passphrase:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Delete failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Designate Signing CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Designated CA: {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Disable"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Enabled"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Entry not found (file may have changed) — refreshing"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Failed to add key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Failed to add to agent (passphrase required?): {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Failed to remove from agent: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Failed to update authorized_keys"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Failed to update known_hosts"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "File changed on disk — refreshing"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Template name"
-msgid "File name:"
-msgstr "Nazwa szablonu"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "File {name} already exists in ~/.ssh/ — overwrite?"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Fingerprint copied to clipboard"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Found"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Generate SSH Key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Generate a new SSH key pair (ssh-keygen)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Generation failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Hashed"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Private key"
-msgid "Import CA Private Key"
-msgstr "Klucz prywatny"
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Private key"
-msgid "Import Private Key"
-msgstr "Klucz prywatny"
-
-#: ssh_key_manager_dialog.py
-msgid "Import an existing private key file into ~/.ssh/"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Import an external CA key pair into ~/.ssh/ and designate it"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Import failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Info (matching known_hosts line)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Invalid name — must not contain a path separator"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Invalid target — expected user@host or user@host:port"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Key added to authorized_keys"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Key deleted: {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Key generated: {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy, python-brace-format
-#| msgid "Template name"
-msgid "Key imported: {name}"
-msgstr "Nazwa szablonu"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Key signed by CA {ca} (identity={id})"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Key type:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Keys are saved in <b>~/.ssh/</b> with permissions 600."
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Known Hosts"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Known Hosts Test — {n}/{total} found on {target}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Load/unload this key in ssh-agent (ssh-add / ssh-add -d)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "New name for {name}:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "New passphrase and confirmation do not match"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "New passphrase:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No CA currently designated"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No CA designated — key generated unsigned"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No Public key available for selected entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No authorized_keys entry selected"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No candidate hosts found in ~/.ssh/config (and no GCM host list wired in)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No fingerprint available for this entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "No URI selected."
-msgid "No key selected"
-msgstr "Nie wybrano URI."
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "No connection type selected."
-msgid "No known_hosts entry selected"
-msgstr "Nie wybrano typu połączenia."
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "No matching .pub file found next to {name} — cannot import as CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "No matching .pub file found next to {name} — cannot use as CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "No URI selected."
-msgid "No private key selected"
-msgstr "Nie wybrano URI."
-
-#: ssh_key_manager_dialog.py
-msgid "No public key available for selected entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "No public key available to identify this key in the agent"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Nothing to rename"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Open ~/.ssh/ in the file manager"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Orphan Public key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Orphan Public keys"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Passphrase change failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Passphrase changed for {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Passphrase:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Paste the full public key line (options, type, base64 key, comment):"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid ""
-"Permanently delete <b>{name}</b> (and its Orphan Public key if present)?\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid ""
-"Permanently delete the CA key pair <b>{name}</b>?\n"
-"Certificates already signed by this CA will no longer be trustable to verify.\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Permanently delete the designated CA key pair"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Permanently delete the selected key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Perms"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Principals (comma-separated):"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Private key"
-msgid "Private keys"
-msgstr "Klucz prywatny"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Public Key — {name}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Public key copied to clipboard"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Public key file not found: {p}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "RSA size:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Re-enable"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Remote target (Known Hosts / Authorized Keys):"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid ""
-"Remove this authorized_keys entry?\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid ""
-"Remove this known_hosts entry?\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Remove {name} from ssh-agent?"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Removed from ssh-agent"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Rename tab"
-msgid "Rename Key"
-msgstr "Zmień nazwę karty"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Rename failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Rename this key (and its .pub / certificate, if any)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Renamed {old} to {new}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "No connection type selected."
-msgid "SSH connection failed"
-msgstr "Nie wybrano typu połączenia."
-
-#: ssh_key_manager_dialog.py
-msgid "Saved in ~/.ssh/ — leave blank for default name"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Select the private key file, not the .pub file"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Show the full public key content in a dedicated window"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Sign with designated CA ({name})"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Signed by"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Signing CA:"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Switched back to local machine"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Testing connection to {t}…"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "This does not look like a valid public key line"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "Validity"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Parity:"
-msgid "Validity:"
-msgstr "Parzystość:"
-
-#: ssh_key_manager_dialog.py
-msgid "_Add"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "_Change"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Close"
-msgid "_Close"
-msgstr "Zamknij"
-
-#: ssh_key_manager_dialog.py
-msgid "_Designate"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Imported"
-msgid "_Import"
-msgstr "Zaimportowano"
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Rename tab"
-msgid "_Rename"
-msgstr "Zmień nazwę karty"
-
-#: ssh_key_manager_dialog.py
-msgid "add a key to authorized_keys"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "authorized_keys entry removed"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "authorized_keys entry updated"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "authorized_keys not found on {t}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "enable/disable an authorized_keys entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Never"
-msgid "forever"
-msgstr "Nigdy"
-
-#: ssh_key_manager_dialog.py
-msgid "known_hosts entry removed"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "known_hosts not found on {t}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "local machine"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "remove a known_hosts entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "remove an authorized_keys entry"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "ssh-add failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "ssh-add timed out — the key may require a passphrase (no terminal available here)"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "ssh-keygen -V syntax, e.g. +52w (1 year), +30d, or 'always:forever'"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "ssh-keygen failed: {err}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "ssh-keygen not found — install openssh-client"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "unknown CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "until {end}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "user@host or root@host[:port]"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "{action} this authorized_keys entry?"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "{n} authorized_keys entries loaded from {t}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "{n} known_hosts entries loaded from {t}"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "{priv} private key(s), {pub} Orphan Public key(s) loaded from ~/.ssh/"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "~/.ssh/ not found — no keys loaded"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "✓ Imported"
-msgid "↑ Import"
-msgstr "✓ Zaimportowano"
-
-#: ssh_key_manager_dialog.py
-msgid "⎘ Copy fingerprint"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "⎘ Copy public key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Copy selection to clipboard"
-msgid "⎘ Copy to clipboard"
-msgstr "Kopiuj wybór do schowka"
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "General"
-msgid "⚙ Generate"
-msgstr "Ogólne"
-
-#: ssh_key_manager_dialog.py
-#, python-brace-format
-msgid ""
-"⚠ You are about to {action} on the <b>root</b> account of {target}.\n"
-"This can affect SSH access to the whole system.\n"
-"<b>Are you sure?</b>"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Rename tab"
-msgid "✎ Rename"
-msgstr "Zmień nazwę karty"
-
-#: ssh_key_manager_dialog.py
-msgid "⟳ Refresh"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "✓ Imported"
-msgid "⬆ Import CA"
-msgstr "✓ Zaimportowano"
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Local"
-msgid "🏠 Local"
-msgstr "Lokalny"
-
-#: ssh_key_manager_dialog.py
-msgid "👁 View public key"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "📂 Reveal"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Connect"
-msgid "🔌 Connect"
-msgstr "Połącz"
-
-#: ssh_key_manager_dialog.py
-msgid "🔏 Designate"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "🔑 Agent"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "🔒 Passphrase"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Delete:"
-msgid "🗑 Delete"
-msgstr "Delete:"
-
-#: ssh_key_manager_dialog.py
-msgid "🗑 Delete CA"
-msgstr ""
-
-#: ssh_key_manager_dialog.py
-msgid "🧪 Test known hosts"
-msgstr ""
-
-#: widgets.py
-#, fuzzy, python-format
-#| msgid "Disconnect"
-msgid "%s has disconnected."
-msgstr "Rozłącz"
-
-#: widgets.py
-msgid "Clone console"
-msgstr "Sklonuj konsolę"
-
-#: widgets.py
-#, fuzzy
-#| msgid "Connecting…"
-msgid "Connection closed"
-msgstr "Łączenie…"
-
-#: widgets.py
-msgid "Custom commands"
-msgstr "Niestandardowe polecenia"
-
-#: widgets.py
-msgid "Enable logging"
-msgstr "Włącz logowanie"
-
-#: widgets.py
-msgid "Reconnect to host"
-msgstr "Połącz ponownie z hostem"
-
-#: widgets.py
-msgid "Reset and Clear console"
-msgstr "Zresetuj i wyczyść konsolę"
-
-#: widgets.py
-msgid "Reset console"
-msgstr "Zresetuj konsolę"
-
-#: widgets.py
-msgid "Save buffer to file"
-msgstr "Zapisz bufor do pliku"
-
-#: widgets.py
-msgid "Special keys"
-msgstr ""
-
-#: widgets.py
-msgid "Split H"
-msgstr "Podziel H"
-
-#: widgets.py
-msgid "Split V"
-msgstr "Podziel V"
-
-#: widgets.py
-msgid "Unsplit all consoles"
-msgstr "Cofnij podział wszystkich konsol"
+#: src/gcm4/ui/zone_notification.py
+msgid "Hide window"
+msgstr "Ukryj okno"
+
+#: src/gcm4/ui/zone_notification.py
+msgid "Show window"
+msgstr "Pokaż okno"
+
+#~ msgid "Add a Proxmox target:"
+#~ msgstr "Dodaj cel Proxmox:"
 
 #~ msgid "Colors and Keys"
 #~ msgstr "Kolory i klawisze"
@@ -5149,6 +5203,9 @@ msgstr "Cofnij podział wszystkich konsol"
 #~ msgid "Create dynamic port forwarding"
 #~ msgstr "Utwórz dynamiczne przekierowanie portu"
 
+#~ msgid "Default SSH user (VMs):"
+#~ msgstr "Domyślny użytkownik SSH (VM):"
+
 #~ msgid "Detected Proxmox target"
 #~ msgstr "Wykryty cel Proxmox"
 
@@ -5158,29 +5215,67 @@ msgstr "Cofnij podział wszystkich konsol"
 #~ msgid "Edit hosts properties"
 #~ msgstr "Edytuj właściwości hostów"
 
+#~ msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
+#~ msgstr "Np.: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
+
 #~ msgid "Export server list to file"
 #~ msgstr "Eksportuj listę serwerów do pliku"
 
 #~ msgid "Extra arguments to pass to command line"
 #~ msgstr "Dodatkowe argumenty przekazywane do wiersza poleceń"
 
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from CSV"
+#~ msgstr "Importuj z libvirt"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from JSON"
+#~ msgstr "Importuj z libvirt"
+
+#, fuzzy
+#~| msgid "Import from libvirt"
+#~ msgid "Import from JSON…"
+#~ msgstr "Importuj z libvirt"
+
 #~ msgid "Import server list from file"
 #~ msgstr "Importuj listę serwerów z pliku"
+
+#~ msgid "Imported"
+#~ msgstr "Zaimportowano"
 
 #~ msgid "Keep-Alive"
 #~ msgstr "Keep-Alive"
 
+#~ msgid "Libvirt"
+#~ msgstr "Libvirt"
+
 #~ msgid "Local port already assigned"
 #~ msgstr "Port lokalny jest już zajęty"
 
+#~ msgid "No host imported."
+#~ msgstr "Nie zaimportowano żadnego hosta."
+
+#~ msgid "No new host (duplicates ignored)."
+#~ msgstr "Brak nowego hosta (duplikaty zostały zignorowane)."
+
 #~ msgid "Open local console"
 #~ msgstr "Otwórz lokalną konsolę"
+
+#~ msgid "Overwrite existing connections with the same name and protocol"
+#~ msgstr "Zastąp istniejące połączenia o tej samej nazwie i protokole"
 
 #~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
 #~ msgstr "SPICE  (niedostępne tutaj: Proxmox wymaga biletu API/proxy)"
 
 #~ msgid "Save active console buffer to file"
 #~ msgstr "Zapisz bufor aktywnej konsoli do pliku"
+
+#, fuzzy
+#~| msgid "Waiting…"
+#~ msgid "Scanning…"
+#~ msgstr "Oczekiwanie…"
 
 #~ msgid "Seconds between keep-alive packets"
 #~ msgstr "Sekundy między pakietami keep-alive"
@@ -5196,6 +5291,17 @@ msgstr "Cofnij podział wszystkich konsol"
 
 #~ msgid "Split console vertically"
 #~ msgstr "Podziel konsolę w pionie"
+
+#, fuzzy
+#~| msgid ""
+#~| "No URI found in dconf (virt-manager not configured?).\n"
+#~| "Add your URIs manually below."
+#~ msgid ""
+#~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
+#~ "Add your hosts manually below."
+#~ msgstr ""
+#~ "Nie znaleziono URI w dconf (virt-manager nie jest skonfigurowany?).\n"
+#~ "Dodaj swoje URI ręcznie poniżej."
 
 #~ msgid "_Edit"
 #~ msgstr "_Edytuj"
@@ -5247,3 +5353,24 @@ msgstr "Cofnij podział wszystkich konsol"
 
 #~ msgid "xfreerdp log:"
 #~ msgstr "Dziennik xfreerdp:"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from Proxmox"
+#~ msgid "{n} connection(s) imported from Proxmox."
+#~ msgstr "Importuj z Proxmox"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from libvirt"
+#~ msgid "{n} connection(s) imported from VirtualBox."
+#~ msgstr "Importuj z libvirt"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from libvirt"
+#~ msgid "{n} connection(s) imported from libvirt."
+#~ msgstr "Importuj z libvirt"
+
+#~ msgid "✓ Imported"
+#~ msgstr "✓ Zaimportowano"
+
+#~ msgid "✕  Close"
+#~ msgstr "✕  Zamknij"

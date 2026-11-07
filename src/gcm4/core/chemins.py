@@ -33,7 +33,7 @@ from dataclasses import dataclass, field
 
 from loguru import logger
 
-import gcm4_core
+from gcm4.core import metier as gcm4_core
 
 NOM_DOSSIER = "gcm4"
 FICHIER_CONF = "gcm4.conf"

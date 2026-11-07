@@ -37,10 +37,10 @@ import re
 import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORE_FILE = os.path.join(REPO_ROOT, "gnome_connection_manager.py")
-GCM4_CORE_FILE = os.path.join(REPO_ROOT, "gcm4_core.py")
+CORE_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome_connection_manager.py")
+GCM4_CORE_FILE = os.path.join(REPO_ROOT, "src", "gcm4", "core", "metier.py")
 MAKEFILE = os.path.join(REPO_ROOT, "Makefile")
-DESKTOP_FILE = os.path.join(REPO_ROOT, "gnome-connection-manager.desktop")
+DESKTOP_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome-connection-manager.desktop")
 
 VENDORED_DIR_NAMES = {"SSH-Studio", "gtk-frdp", "__pycache__", ".git"}
 
@@ -48,19 +48,17 @@ VENDORED_DIR_NAMES = {"SSH-Studio", "gtk-frdp", "__pycache__", ".git"}
 # session-30 (voir docs/gcm4-rename.md §1) — la ligne d'auto-alias
 # `sys.modules["gnome_connection_manager"] = ...` dans le module lui-même
 # n'est pas un import et n'est pas comptée ici, mais devra être adaptée en
-# même temps que ces 12 sites lors du renommage réel.
+# même temps que ces 10 sites lors du renommage réel.
 EXPECTED_REAL_IMPORT_SITES = {
-    os.path.join(REPO_ROOT, "widgets.py"),
-    os.path.join(REPO_ROOT, "models.py"),
-    os.path.join(REPO_ROOT, "ssh_config_editor.py"),
-    os.path.join(REPO_ROOT, "ssh_key_manager_dialog.py"),
-    os.path.join(REPO_ROOT, "key_picker_dialog.py"),
-    os.path.join(REPO_ROOT, "utils.py"),
-    os.path.join(REPO_ROOT, "plugins", "plugin_import_proxmox.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "widgets.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "models.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "ssh_config_editor.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "ssh_key_manager_dialog.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "key_picker_dialog.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "utils.py"),
     os.path.join(REPO_ROOT, "plugins", "plugin_telnet.py"),
     os.path.join(REPO_ROOT, "plugins", "plugin_local.py"),
     os.path.join(REPO_ROOT, "plugins", "plugin_ssh.py"),
-    os.path.join(REPO_ROOT, "plugins", "plugin_import_libvirt.py"),
     os.path.join(REPO_ROOT, "tests", "test_gcm.py"),
 }
 
@@ -97,10 +95,10 @@ def _iter_repo_python_files():
 
 
 class TestModuleImportSites(unittest.TestCase):
-    """Sites d'import réel de `gnome_connection_manager` — 12 à la session-30."""
+    """Sites d'import réel de `gnome_connection_manager` — 10 après #439."""
 
     def test_real_import_sites_match_baseline_exactly(self):
-        """Le jeu exact des 12 fichiers ne doit ni grandir ni rétrécir sans le voir."""
+        """Le jeu exact des 10 fichiers ne doit ni grandir ni rétrécir sans le voir."""
         found = set()
         for path in _iter_repo_python_files():
             if path == CORE_FILE:

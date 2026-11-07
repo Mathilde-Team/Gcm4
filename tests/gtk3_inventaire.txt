@@ -1,17 +1,12 @@
 # Fichiers Python encore GTK3 (issue #178). Ne peut que diminuer :
 # voir tests/test_gtk3_retrait.py. Une ligne par fichier, triée.
-gnome_connection_manager.py
-key_picker_dialog.py
-models.py
-plugins/plugin_export_csv.py
-plugins/plugin_export_json.py
-plugins/plugin_import_csv.py
-plugins/plugin_import_json.py
-plugins/plugin_import_libvirt.py
-plugins/plugin_import_ovirt.py
-plugins/plugin_import_proxmox.py
-plugins/plugin_import_putty.py
-plugins/plugin_import_virtualbox.py
+GTK3.OLD/gnome_connection_manager.py
+GTK3.OLD/key_picker_dialog.py
+GTK3.OLD/models.py
+GTK3.OLD/ssh_config_editor.py
+GTK3.OLD/ssh_key_manager_dialog.py
+GTK3.OLD/utils.py
+GTK3.OLD/widgets.py
 plugins/plugin_ipmisol.py
 plugins/plugin_local.py
 plugins/plugin_netmiko_push.py
@@ -23,7 +18,3 @@ plugins/plugin_ssh.py
 plugins/plugin_telnet.py
 plugins/plugin_vnc.py
 plugins/plugin_web.py
-ssh_config_editor.py
-ssh_key_manager_dialog.py
-utils.py
-widgets.py

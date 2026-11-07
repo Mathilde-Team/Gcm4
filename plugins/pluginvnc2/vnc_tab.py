@@ -105,12 +105,16 @@ class HostKeyStore:
     """
 
     def __init__(self, path: Optional[Path] = None):
+        logger.debug("HostKeyStore.__init__: entrée")
         self.path = path or (Path.home() / ".gcm" / "vnc_host_keys.json")
         self._data = self._load()
+        logger.debug("HostKeyStore.__init__: fin")
 
     def _load(self) -> dict:
+        logger.debug("HostKeyStore._load: entrée")
         if self.path.exists():
             try:
+                logger.debug("HostKeyStore._load: sortie")
                 return json.loads(self.path.read_text())
             except (json.JSONDecodeError, OSError):
                 logger.warning(
@@ -118,7 +122,9 @@ class HostKeyStore:
                     path=str(self.path),
                     exception=True,
                 )
+                logger.debug("HostKeyStore._load: sortie")
                 return {}
+        logger.debug("HostKeyStore._load: sortie")
         return {}
 
     def _save(self):
@@ -139,6 +145,7 @@ class HostKeyStore:
         # le même dossier que la cible pour que `os.replace()` reste un
         # simple renommage (pas de copie inter-partition qui romprait
         # l'atomicité).
+        logger.debug("HostKeyStore._save: entrée")
         self.path.parent.mkdir(parents=True, exist_ok=True)
         fd, tmp_path = tempfile.mkstemp(dir=str(self.path.parent), prefix=f".{self.path.name}.", suffix=".tmp")
         try:
@@ -148,21 +155,27 @@ class HostKeyStore:
                 os.fsync(f.fileno())
             os.replace(tmp_path, self.path)
         except BaseException:
+            logger.debug("HostKeyStore._save: except BaseException")
             try:
                 os.unlink(tmp_path)
             except OSError:
+                logger.debug("HostKeyStore._save: except OSError")
                 pass
             raise
+        logger.debug("HostKeyStore._save: fin")
 
     @staticmethod
     def _entry_key(host: str, port: int) -> str:
         return f"{host}:{port}"
 
     def get(self, host: str, port: int) -> Optional[rsa.RSAPublicKey]:
+        logger.debug("HostKeyStore.get: entrée")
         raw = self._data.get(self._entry_key(host, port))
         if raw is None:
+            logger.debug("HostKeyStore.get: sortie")
             return None
         try:
+            logger.debug("HostKeyStore.get: sortie")
             return load_der_public_key(base64.b64decode(raw))
         except (ValueError, UnsupportedAlgorithm):
             # Le fichier JSON dans son ensemble était valide (sinon _load()
@@ -193,16 +206,22 @@ class HostKeyStore:
                 port=port,
                 exception=True,
             )
+            logger.debug("HostKeyStore.get: sortie")
             return None
+        logger.debug("HostKeyStore.get: fin")
 
     def set(self, host: str, port: int, key: rsa.RSAPublicKey):
+        logger.debug("HostKeyStore.set: entrée")
         der = key.public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
         self._data[self._entry_key(host, port)] = base64.b64encode(der).decode("ascii")
         self._save()
+        logger.debug("HostKeyStore.set: fin")
 
     def forget(self, host: str, port: int):
+        logger.debug("HostKeyStore.forget: entrée")
         if self._data.pop(self._entry_key(host, port), None) is not None:
             self._save()
+        logger.debug("HostKeyStore.forget: fin")
 
 
 #: Instance partagée par défaut, pratique pour une utilisation simple.
@@ -323,6 +342,7 @@ class VncDisplay(Gtk.Picture):
     }
 
     def __init__(self, info: VncConnectionInfo, host_key_store: Optional[HostKeyStore] = None):
+        logger.debug("VncDisplay.__init__: entrée")
         super().__init__()
         self.info = info
         self.host_key_store = host_key_store or default_host_key_store
@@ -370,13 +390,17 @@ class VncDisplay(Gtk.Picture):
         self._countdown_base_message = ""
 
         self._setup_input_controllers()
+        logger.debug("VncDisplay.__init__: fin")
 
     # ---- Cycle de vie ----
 
     def start(self):
+        logger.debug("VncDisplay.start: entrée")
         self._connect_task = asyncio.ensure_future(self._connect_and_run())
+        logger.debug("VncDisplay.start: fin")
 
     def stop(self):
+        logger.debug("VncDisplay.stop: entrée")
         logger.debug("VncDisplay.stop | host={host} status={status}", host=self.info.host, status=self.status.value)
         self._cancel_pending_auto_reconnect()
         if self._connect_task:
@@ -388,8 +412,10 @@ class VncDisplay(Gtk.Picture):
         if self._ctx:
             asyncio.ensure_future(self._safe_close())
         self._set_status(VncStatus.DISCONNECTED, "Déconnecté")
+        logger.debug("VncDisplay.stop: fin")
 
     def _release_all_mouse_holds(self):
+        logger.debug("VncDisplay._release_all_mouse_holds: entrée")
         for button, hold_cm in self._active_mouse_holds.items():
             try:
                 hold_cm.__exit__(None, None, None)
@@ -401,8 +427,10 @@ class VncDisplay(Gtk.Picture):
                     button=button,
                 )
         self._active_mouse_holds.clear()
+        logger.debug("VncDisplay._release_all_mouse_holds: fin")
 
     def _release_all_key_holds(self):
+        logger.debug("VncDisplay._release_all_key_holds: entrée")
         for keycode, hold_cm in self._active_key_holds.items():
             try:
                 hold_cm.__exit__(None, None, None)
@@ -414,19 +442,24 @@ class VncDisplay(Gtk.Picture):
                     keycode=keycode,
                 )
         self._active_key_holds.clear()
+        logger.debug("VncDisplay._release_all_key_holds: fin")
 
     async def _safe_close(self):
+        logger.debug("VncDisplay._safe_close: entrée")
         try:
             await self._ctx.__aexit__(None, None, None)
         except Exception:
             logger.trace("VncDisplay._safe_close | fermeture déjà en cours | host={host}", host=self.info.host)
+        logger.debug("VncDisplay._safe_close: fin")
 
     def reconnect(self):
+        logger.debug("VncDisplay.reconnect: entrée")
         logger.debug("VncDisplay.reconnect | host={host}", host=self.info.host)
         self.stop()
         self._last_cursor = None
         self._last_size = None
         self.start()
+        logger.debug("VncDisplay.reconnect: fin")
 
     # ---- Reconnexion automatique ----
 
@@ -492,10 +525,13 @@ class VncDisplay(Gtk.Picture):
         non vide) renvoie juste le suffixe seul, sans tiret orphelin
         devant.
         """
+        logger.debug("VncDisplay._append_reconnect_delay_to_message: entrée")
         suffix = f"nouvelle tentative automatique dans {delay_seconds}s"
+        logger.debug("VncDisplay._append_reconnect_delay_to_message: sortie")
         return f"{message} — {suffix}" if message else suffix
 
     def _schedule_auto_reconnect(self):
+        logger.debug("VncDisplay._schedule_auto_reconnect: entrée")
         delay_seconds = self._resolve_reconnect_delay_seconds(self._reconnect_attempt)
         self._reconnect_attempt += 1
         logger.info(
@@ -506,6 +542,7 @@ class VncDisplay(Gtk.Picture):
         )
         self._reconnect_timeout_id = GLib.timeout_add_seconds(delay_seconds, self._on_auto_reconnect_timeout)
         self._start_reconnect_countdown(delay_seconds)
+        logger.debug("VncDisplay._schedule_auto_reconnect: fin")
 
     @staticmethod
     def _resolve_countdown_tick(remaining: int):
@@ -550,19 +587,24 @@ class VncDisplay(Gtk.Picture):
         logger.debug("VncDisplay._cancel_reconnect_countdown | sortie")
 
     def _on_auto_reconnect_timeout(self):
+        logger.debug("VncDisplay._on_auto_reconnect_timeout: entrée")
         self._reconnect_timeout_id = None
         self._cancel_reconnect_countdown()
         self.reconnect()
+        logger.debug("VncDisplay._on_auto_reconnect_timeout: sortie")
         return False  # source à usage unique -- un nouveau minuteur est replanifié si ça échoue encore
 
     def _cancel_pending_auto_reconnect(self):
+        logger.debug("VncDisplay._cancel_pending_auto_reconnect: entrée")
         self._cancel_reconnect_countdown()
         if self._reconnect_timeout_id is not None:
             GLib.source_remove(self._reconnect_timeout_id)
             self._reconnect_timeout_id = None
+        logger.debug("VncDisplay._cancel_pending_auto_reconnect: fin")
 
     def forget_host_key(self):
         """Oublie la clé hôte pinnée pour ce serveur (auth Apple ARD)."""
+        logger.debug("VncDisplay.forget_host_key: entrée")
         if self.info.pin_host_key:
             logger.info(
                 "VncDisplay.forget_host_key | host={host} port={port}",
@@ -570,8 +612,10 @@ class VncDisplay(Gtk.Picture):
                 port=self.info.port,
             )
             self.host_key_store.forget(self.info.host, self.info.port)
+        logger.debug("VncDisplay.forget_host_key: fin")
 
     def _set_status(self, status: VncStatus, message: str = ""):
+        logger.debug("VncDisplay._set_status: entrée")
         self.status = status
         if status == VncStatus.CONNECTED:
             # Une connexion pleinement établie autorise une future
@@ -603,6 +647,7 @@ class VncDisplay(Gtk.Picture):
         self.emit("vnc-status-changed", status.value, message)
         if will_auto_reconnect:
             self._schedule_auto_reconnect()
+        logger.debug("VncDisplay._set_status: fin")
 
     @staticmethod
     def _resolve_connection_mode(reverse: bool, host: str, port: int, pin_host_key: bool) -> dict:
@@ -703,6 +748,7 @@ class VncDisplay(Gtk.Picture):
         return message
 
     async def _connect_and_run(self):
+        logger.debug("VncDisplay._connect_and_run: entrée")
         logger.debug(
             "VncDisplay._connect_and_run | enter | host={host} port={port} shared={shared}",
             host=self.info.host,
@@ -732,6 +778,7 @@ class VncDisplay(Gtk.Picture):
             logger.error("VncDisplay._connect_and_run | {exc} | host={host}", exc=exc, host=self.info.host)
             self._set_status(VncStatus.ERROR, f"Chemin WebSocket invalide : {self.info.ws_path!r}")
             logger.debug("VncDisplay._connect_and_run | sortie chemin WebSocket invalide")
+            logger.debug("VncDisplay._connect_and_run: sortie")
             return
 
         try:
@@ -740,6 +787,7 @@ class VncDisplay(Gtk.Picture):
             logger.error("VncDisplay._connect_and_run | {exc} | host={host}", exc=exc, host=self.info.host)
             self._set_status(VncStatus.ERROR, f"VeNCrypt : {exc}")
             logger.debug("VncDisplay._connect_and_run | sortie CA privée illisible")
+            logger.debug("VncDisplay._connect_and_run: sortie")
             return
 
         try:
@@ -775,6 +823,7 @@ class VncDisplay(Gtk.Picture):
                 )
             else:
                 self._set_status(VncStatus.ERROR, f"Authentification refusée : {exc}")
+            logger.debug("VncDisplay._connect_and_run: sortie")
             return
         except Exception as exc:
             logger.error(
@@ -784,6 +833,7 @@ class VncDisplay(Gtk.Picture):
                 exception=True,
             )
             self._set_status(VncStatus.ERROR, self._describe_connection_error(exc))
+            logger.debug("VncDisplay._connect_and_run: sortie")
             return
 
         # Après un succès, mémoriser/rafraîchir la clé hôte si l'auth Apple
@@ -806,6 +856,7 @@ class VncDisplay(Gtk.Picture):
                 exception=True,
             )
             self._set_status(VncStatus.ERROR, "Erreur au premier rendu")
+            logger.debug("VncDisplay._connect_and_run: sortie")
             return
 
         logger.info(
@@ -819,8 +870,10 @@ class VncDisplay(Gtk.Picture):
         self._set_status(VncStatus.CONNECTED, "Connecté")
         self._read_task = asyncio.ensure_future(self._read_loop())
         self.emit("vnc-connected")
+        logger.debug("VncDisplay._connect_and_run: fin")
 
     def _handle_video_update(self):
+        logger.debug("VncDisplay._handle_video_update: entrée")
         self._check_cursor_changed()
         self._check_size_changed()
         self._check_screens_changed()
@@ -832,20 +885,27 @@ class VncDisplay(Gtk.Picture):
         # doit être explicitement redemandé — c'est ce qui manquait avant.
         if not self.client.continuous_updates_active:
             self.client.video.refresh()
+        logger.debug("VncDisplay._handle_video_update: fin")
 
     def _handle_clipboard_update(self):
+        logger.debug("VncDisplay._handle_clipboard_update: entrée")
         if not self.info.sync_clipboard:
+            logger.debug("VncDisplay._handle_clipboard_update: sortie")
             return
         text = self.client.clipboard.text
         self._last_clipboard_text = text
         self._set_system_clipboard(text)
+        logger.debug("VncDisplay._handle_clipboard_update: fin")
 
     def _handle_bell_update(self):
+        logger.debug("VncDisplay._handle_bell_update: entrée")
         display = self.get_display()
         if display is not None:
             display.beep()
+        logger.debug("VncDisplay._handle_bell_update: fin")
 
     async def _read_loop(self):
+        logger.debug("VncDisplay._read_loop: entrée")
         logger.debug("VncDisplay._read_loop | enter | host={host}", host=self.info.host)
         try:
             # Premier rafraîchissement : screenshot() a déjà consommé la
@@ -870,6 +930,7 @@ class VncDisplay(Gtk.Picture):
                 # rien à faire ici de plus.
 
         except asyncio.CancelledError:
+            logger.debug("VncDisplay._read_loop: except asyncio.CancelledError")
             raise
         except Exception as exc:
             logger.error(
@@ -878,16 +939,19 @@ class VncDisplay(Gtk.Picture):
                 exception=True,
             )
             self._set_status(VncStatus.ERROR, f"Connexion interrompue : {exc}")
+        logger.debug("VncDisplay._read_loop: fin")
 
     # ---- Rendu ----
 
     def _push_frame(self, rgba_array):
+        logger.debug("VncDisplay._push_frame: entrée")
         height, width, _ = rgba_array.shape
         data = rgba_array.tobytes()
         gbytes = GLib.Bytes.new(data)
         texture = Gdk.MemoryTexture.new(width, height, Gdk.MemoryFormat.R8G8B8A8, gbytes, width * 4)
         self.set_paintable(texture)
         self._last_frame_texture = texture
+        logger.debug("VncDisplay._push_frame: fin")
 
     def save_screenshot(self, path) -> bool:
         """Enregistre en PNG l'image actuellement affichée (dernier frame
@@ -904,11 +968,13 @@ class VncDisplay(Gtk.Picture):
         l'utilisateur plutôt que de laisser une exception remonter hors d'un
         callback GTK.
         """
+        logger.debug("VncDisplay.save_screenshot: entrée")
         if self._last_frame_texture is None:
             logger.warning(
                 "VncDisplay.save_screenshot | aucune image disponible pour l'instant | host={host}",
                 host=self.info.host,
             )
+            logger.debug("VncDisplay.save_screenshot: sortie")
             return False
         try:
             self._last_frame_texture.save_to_png(str(path))
@@ -919,12 +985,14 @@ class VncDisplay(Gtk.Picture):
                 path=str(path),
                 exception=True,
             )
+            logger.debug("VncDisplay.save_screenshot: sortie")
             return False
         logger.info(
             "VncDisplay.save_screenshot | image enregistrée | host={host} path={path}",
             host=self.info.host,
             path=str(path),
         )
+        logger.debug("VncDisplay.save_screenshot: sortie")
         return True
 
     def copy_screenshot_to_clipboard(self) -> bool:
@@ -943,11 +1011,13 @@ class VncDisplay(Gtk.Picture):
         avant que le widget soit réalisé -- pas besoin d'un display GTK déjà
         affiché pour que l'appel soit valide.
         """
+        logger.debug("VncDisplay.copy_screenshot_to_clipboard: entrée")
         if self._last_frame_texture is None:
             logger.warning(
                 "VncDisplay.copy_screenshot_to_clipboard | aucune image disponible pour l'instant | host={host}",
                 host=self.info.host,
             )
+            logger.debug("VncDisplay.copy_screenshot_to_clipboard: sortie")
             return False
         try:
             self.get_clipboard().set_texture(self._last_frame_texture)
@@ -957,47 +1027,62 @@ class VncDisplay(Gtk.Picture):
                 host=self.info.host,
                 exception=True,
             )
+            logger.debug("VncDisplay.copy_screenshot_to_clipboard: sortie")
             return False
         logger.info(
             "VncDisplay.copy_screenshot_to_clipboard | image copiée dans le presse-papiers | host={host}",
             host=self.info.host,
         )
+        logger.debug("VncDisplay.copy_screenshot_to_clipboard: sortie")
         return True
 
     def _check_cursor_changed(self):
+        logger.debug("VncDisplay._check_cursor_changed: entrée")
         cursor = self.client.video.cursor
         if cursor is not self._last_cursor:
             self._last_cursor = cursor
             self.emit("vnc-cursor-changed", cursor)
+        logger.debug("VncDisplay._check_cursor_changed: fin")
 
     def _check_size_changed(self):
+        logger.debug("VncDisplay._check_size_changed: entrée")
         size = (self.client.video.width, self.client.video.height)
         if size != self._last_size:
             self._last_size = size
             self.emit("vnc-size-changed", size[0], size[1])
+        logger.debug("VncDisplay._check_size_changed: fin")
 
     def _check_screens_changed(self):
+        logger.debug("VncDisplay._check_screens_changed: entrée")
         screens = self.client.video.screens
         if screens != self._last_screens:
             self._last_screens = screens
             self.emit("vnc-screens-changed", screens)
+        logger.debug("VncDisplay._check_screens_changed: fin")
 
     def _find_active_screen(self):
+        logger.debug("VncDisplay._find_active_screen: entrée")
         for screen in self._last_screens:
             if screen.id == self._active_screen_id:
+                logger.debug("VncDisplay._find_active_screen: sortie")
                 return screen
+        logger.debug("VncDisplay._find_active_screen: sortie")
         return None
 
     def _apply_active_screen_crop(self, rgba_array):
+        logger.debug("VncDisplay._apply_active_screen_crop: entrée")
         if self._active_screen_id is None:
+            logger.debug("VncDisplay._apply_active_screen_crop: sortie")
             return rgba_array
         screen = self._find_active_screen()
         if screen is None:
             # L'écran choisi a disparu (déconnexion d'un moniteur côté
             # distant) -- on retombe sur le bureau complet plutôt que de
             # planter sur un découpage hors bornes.
+            logger.debug("VncDisplay._apply_active_screen_crop: sortie")
             return rgba_array
         ys, xs = screen.slices
+        logger.debug("VncDisplay._apply_active_screen_crop: sortie")
         return rgba_array[ys, xs]
 
     def set_active_screen(self, screen_id: Optional[int]):
@@ -1007,10 +1092,12 @@ class VncDisplay(Gtk.Picture):
         complet. Les coordonnées souris continuent d'être converties vers
         le référentiel absolu du framebuffer distant (cf. widget_to_remote).
         """
+        logger.debug("VncDisplay.set_active_screen: entrée")
         self._active_screen_id = screen_id
         if self.client:
             pixels = self.client.video.as_rgba()
             self._push_frame(self._apply_active_screen_crop(pixels))
+        logger.debug("VncDisplay.set_active_screen: fin")
 
     # ---- Actions spéciales ----
 
@@ -1065,10 +1152,13 @@ class VncDisplay(Gtk.Picture):
         logger.debug("VncDisplay._send_power_action | sortie")
 
     def send_ctrl_alt_del(self):
+        logger.debug("VncDisplay.send_ctrl_alt_del: entrée")
         if self.client:
             asyncio.ensure_future(self._send_cad())
+        logger.debug("VncDisplay.send_ctrl_alt_del: fin")
 
     async def _send_cad(self):
+        logger.debug("VncDisplay._send_cad: entrée")
         try:
             with self.client.keyboard.hold("Control_L", "Alt_L"):
                 self.client.keyboard.press("Delete")
@@ -1088,7 +1178,9 @@ class VncDisplay(Gtk.Picture):
             # ci-dessous -- priorité suggérée en session 14, traité en
             # session 15, cf. docs/sessions/session-15.md et
             # tests/test_send_cad_dead_connection.py.
+            logger.debug("VncDisplay._send_cad: except Exception")
             pass
+        logger.debug("VncDisplay._send_cad: fin")
 
     def send_text(self, text: str):
         """
@@ -1101,10 +1193,13 @@ class VncDisplay(Gtk.Picture):
         Ne fait rien si `text` est vide ou si la connexion n'est pas
         établie -- même garde que send_ctrl_alt_del() ci-dessus.
         """
+        logger.debug("VncDisplay.send_text: entrée")
         if self.client and text:
             asyncio.ensure_future(self._send_text(text))
+        logger.debug("VncDisplay.send_text: fin")
 
     async def _send_text(self, text: str):
+        logger.debug("VncDisplay._send_text: entrée")
         for char in text:
             vnc_name = self._resolve_vnc_key_name_for_char(char)
             if vnc_name is None:
@@ -1130,11 +1225,15 @@ class VncDisplay(Gtk.Picture):
                 # hypothèse. Si la connexion est réellement morte, chaque
                 # caractère suivant échouera à son tour de la même façon,
                 # sans boucle infinie (bornée par len(text)).
+                logger.debug("VncDisplay._send_text: except Exception")
                 continue
+        logger.debug("VncDisplay._send_text: fin")
 
     def toggle_scaling(self):
+        logger.debug("VncDisplay.toggle_scaling: entrée")
         current = self.get_content_fit()
         self.set_content_fit(Gtk.ContentFit.FILL if current == Gtk.ContentFit.CONTAIN else Gtk.ContentFit.CONTAIN)
+        logger.debug("VncDisplay.toggle_scaling: fin")
 
     # ---- Presse-papiers bidirectionnel ----
 
@@ -1142,16 +1241,22 @@ class VncDisplay(Gtk.Picture):
         """À appeler une fois le widget rattaché à un Gdk.Display (signal
         'realize'), pour surveiller les changements du presse-papiers
         système et les relayer vers le serveur."""
+        logger.debug("VncDisplay._watch_local_clipboard: entrée")
         if not self.info.sync_clipboard:
+            logger.debug("VncDisplay._watch_local_clipboard: sortie")
             return
         display = self.get_display()
         if display is None or display.get_clipboard() is self._clipboard_watched:
+            logger.debug("VncDisplay._watch_local_clipboard: sortie")
             return
         self._clipboard_watched = display.get_clipboard()
         self._clipboard_watched.connect("changed", self._on_local_clipboard_changed)
+        logger.debug("VncDisplay._watch_local_clipboard: fin")
 
     def _on_local_clipboard_changed(self, clipboard):
+        logger.debug("VncDisplay._on_local_clipboard_changed: entrée")
         clipboard.read_text_async(None, self._on_local_clipboard_read)
+        logger.debug("VncDisplay._on_local_clipboard_changed: fin")
 
     @staticmethod
     def _resolve_clipboard_send_mode(extended_supported: bool, text: str) -> str:
@@ -1176,6 +1281,7 @@ class VncDisplay(Gtk.Picture):
                 text.encode("latin-1")
                 mode = "legacy"
             except UnicodeEncodeError:
+                logger.debug("VncDisplay._resolve_clipboard_send_mode: except UnicodeEncodeError")
                 mode = "unsupported"
         logger.debug("VncDisplay._resolve_clipboard_send_mode | sortie {m}", m=mode)
         return mode
@@ -1245,11 +1351,14 @@ class VncDisplay(Gtk.Picture):
         logger.debug("VncDisplay._on_local_clipboard_read | sortie ClientCutText")
 
     def _set_system_clipboard(self, text: str):
+        logger.debug("VncDisplay._set_system_clipboard: entrée")
         display = self.get_display()
         if display is None or not text:
+            logger.debug("VncDisplay._set_system_clipboard: sortie")
             return
         provider = Gdk.ContentProvider.new_for_value(GObject.Value(str, text))
         display.get_clipboard().set_content(provider)
+        logger.debug("VncDisplay._set_system_clipboard: fin")
 
     def get_display_transform(self):
         """
@@ -1261,7 +1370,9 @@ class VncDisplay(Gtk.Picture):
         Retourne None tant qu'on n'a pas de taille distante ou de taille
         allouée connues (ex: avant le premier rendu).
         """
+        logger.debug("VncDisplay.get_display_transform: entrée")
         if not self.client:
+            logger.debug("VncDisplay.get_display_transform: sortie")
             return None
 
         screen = self._find_active_screen() if self._active_screen_id is not None else None
@@ -1282,20 +1393,24 @@ class VncDisplay(Gtk.Picture):
             remote_w = self.client.video.width
             remote_h = self.client.video.height
         if not remote_w or not remote_h:
+            logger.debug("VncDisplay.get_display_transform: sortie")
             return None
 
         alloc_w = self.get_width()
         alloc_h = self.get_height()
         if alloc_w <= 0 or alloc_h <= 0:
+            logger.debug("VncDisplay.get_display_transform: sortie")
             return None
 
         if self.get_content_fit() == Gtk.ContentFit.FILL:
+            logger.debug("VncDisplay.get_display_transform: sortie")
             return alloc_w / remote_w, alloc_h / remote_h, 0.0, 0.0
 
         # CONTAIN : échelle uniforme, image centrée (letterboxing)
         scale = min(alloc_w / remote_w, alloc_h / remote_h)
         offset_x = (alloc_w - remote_w * scale) / 2
         offset_y = (alloc_h - remote_h * scale) / 2
+        logger.debug("VncDisplay.get_display_transform: sortie")
         return scale, scale, offset_x, offset_y
 
     def widget_to_remote(self, x, y):
@@ -1303,8 +1418,10 @@ class VncDisplay(Gtk.Picture):
         coordonnées framebuffer distant ABSOLUES, pour un pointage souris
         précis même quand l'affichage est mis à l'échelle et/ou restreint à
         un seul écran (cf. set_active_screen)."""
+        logger.debug("VncDisplay.widget_to_remote: entrée")
         transform = self.get_display_transform()
         if transform is None:
+            logger.debug("VncDisplay.widget_to_remote: sortie")
             return int(x), int(y)
         scale_x, scale_y, offset_x, offset_y = transform
         rx = (x - offset_x) / scale_x if scale_x else 0.0
@@ -1320,6 +1437,7 @@ class VncDisplay(Gtk.Picture):
                 rx += screen.x
                 ry += screen.y
 
+        logger.debug("VncDisplay.widget_to_remote: sortie")
         return int(rx), int(ry)
 
     def set_continuous_updates(self, enable: bool):
@@ -1330,11 +1448,15 @@ class VncDisplay(Gtk.Picture):
         la boucle de lecture continue de fonctionner correctement puisque
         continuous_updates_active reste à False côté client.
         """
+        logger.debug("VncDisplay.set_continuous_updates: entrée")
         if not self.client:
+            logger.debug("VncDisplay.set_continuous_updates: sortie")
             return
         asyncio.ensure_future(self._send_enable_continuous_updates(enable))
+        logger.debug("VncDisplay.set_continuous_updates: fin")
 
     async def _send_enable_continuous_updates(self, enable: bool):
+        logger.debug("VncDisplay._send_enable_continuous_updates: entrée")
         try:
             await self.client.send_enable_continuous_updates(
                 enable, 0, 0, self.client.video.width, self.client.video.height
@@ -1353,11 +1475,14 @@ class VncDisplay(Gtk.Picture):
             # l'envoi. Traité en session 15, cf.
             # docs/sessions/session-15.md et
             # tests/test_continuous_updates_dead_connection.py.
+            logger.debug("VncDisplay._send_enable_continuous_updates: except Exception")
             pass
+        logger.debug("VncDisplay._send_enable_continuous_updates: fin")
 
     # ---- Entrées clavier / souris ----
 
     def _setup_input_controllers(self):
+        logger.debug("VncDisplay._setup_input_controllers: entrée")
         key_ctrl = Gtk.EventControllerKey()
         key_ctrl.connect("key-pressed", self._on_key_pressed)
         key_ctrl.connect("key-released", self._on_key_released)
@@ -1386,6 +1511,7 @@ class VncDisplay(Gtk.Picture):
         self.add_controller(scroll)
 
         self.connect("realize", lambda *_: self._watch_local_clipboard())
+        logger.debug("VncDisplay._setup_input_controllers: fin")
 
     def _resolve_vnc_key_name(self, keyval) -> Optional[str]:
         """
@@ -1399,14 +1525,19 @@ class VncDisplay(Gtk.Picture):
            claviers étendus) -- key_codes reconnaît aussi les caractères
            bruts, pas seulement les noms de keysyms.
         """
+        logger.debug("VncDisplay._resolve_vnc_key_name: entrée")
         name = Gdk.keyval_name(keyval)
         if name in GDK_TO_VNC_KEY:
+            logger.debug("VncDisplay._resolve_vnc_key_name: sortie")
             return GDK_TO_VNC_KEY[name]
         if name:
+            logger.debug("VncDisplay._resolve_vnc_key_name: sortie")
             return name
         codepoint = Gdk.keyval_to_unicode(keyval)
         if codepoint:
+            logger.debug("VncDisplay._resolve_vnc_key_name: sortie")
             return chr(codepoint)
+        logger.debug("VncDisplay._resolve_vnc_key_name: sortie")
         return None
 
     def _resolve_vnc_key_name_for_char(self, char: str) -> Optional[str]:
@@ -1433,16 +1564,20 @@ class VncDisplay(Gtk.Picture):
         return self._resolve_vnc_key_name(Gdk.unicode_to_keyval(ord(char)))
 
     def _on_key_pressed(self, ctrl, keyval, keycode, state):
+        logger.debug("VncDisplay._on_key_pressed: entrée")
         if not self.client:
+            logger.debug("VncDisplay._on_key_pressed: sortie")
             return True
         # Garde anti-répétition : le système envoie des key-pressed répétés
         # tant que la touche est physiquement enfoncée (auto-repeat). On ne
         # relance pas un appui sur une touche déjà tenue -- ça correspond
         # au comportement réel d'une touche maintenue côté clavier distant.
         if keycode in self._active_key_holds:
+            logger.debug("VncDisplay._on_key_pressed: sortie")
             return True
         vnc_name = self._resolve_vnc_key_name(keyval)
         if vnc_name is None:
+            logger.debug("VncDisplay._on_key_pressed: sortie")
             return True  # touche sans équivalent connu, on ignore proprement
         try:
             hold_cm = self.client.keyboard.hold(vnc_name)
@@ -1456,6 +1591,7 @@ class VncDisplay(Gtk.Picture):
                 keyval=keyval,
                 keycode=keycode,
             )
+            logger.debug("VncDisplay._on_key_pressed: sortie")
             return True
         except Exception:
             # Même famille de garde que _on_motion/_on_button_pressed/
@@ -1468,21 +1604,28 @@ class VncDisplay(Gtk.Picture):
             # l'exception remontait telle quelle hors du gestionnaire de
             # signal GTK, contrairement aux quatre chemins souris déjà
             # protégés (session 12).
+            logger.debug("VncDisplay._on_key_pressed: sortie")
             return True
         self._active_key_holds[keycode] = hold_cm
+        logger.debug("VncDisplay._on_key_pressed: sortie")
         return True
 
     def _on_key_released(self, ctrl, keyval, keycode, state):
+        logger.debug("VncDisplay._on_key_released: entrée")
         hold_cm = self._active_key_holds.pop(keycode, None)
         if hold_cm is not None:
             try:
                 hold_cm.__exit__(None, None, None)
             except Exception:
+                logger.debug("VncDisplay._on_key_released: except Exception")
                 pass
+        logger.debug("VncDisplay._on_key_released: sortie")
         return True
 
     def _on_motion(self, ctrl, x, y):
+        logger.debug("VncDisplay._on_motion: entrée")
         if not self.client:
+            logger.debug("VncDisplay._on_motion: sortie")
             return
         rx, ry = self.widget_to_remote(x, y)
         try:
@@ -1498,10 +1641,14 @@ class VncDisplay(Gtk.Picture):
             # remontait telle quelle hors du gestionnaire de signal GTK
             # (appelé à haute fréquence pendant un déplacement de souris,
             # contrairement aux appuis/relâchements ponctuels déjà protégés).
+            logger.debug("VncDisplay._on_motion: except Exception")
             pass
+        logger.debug("VncDisplay._on_motion: fin")
 
     def _on_button_pressed(self, gesture, n_press, x, y):
+        logger.debug("VncDisplay._on_button_pressed: entrée")
         if not self.client:
+            logger.debug("VncDisplay._on_button_pressed: sortie")
             return
         self.grab_focus()
         rx, ry = self.widget_to_remote(x, y)
@@ -1520,6 +1667,7 @@ class VncDisplay(Gtk.Picture):
                 # relâchement physique reçu, quel qu'il soit). Bug réel trouvé
                 # et corrigé le 2026-09-06, cf.
                 # tests/test_mouse_button_holds.py.
+                logger.debug("VncDisplay._on_button_pressed: sortie")
                 return
             # Maintien réel du bouton entre pressed et released, pour que le
             # drag (sélection, glisser-déposer) fonctionne côté serveur.
@@ -1538,11 +1686,15 @@ class VncDisplay(Gtk.Picture):
             # quelle hors du gestionnaire de signal GTK. Même famille de bug
             # que celui corrigé le 2026-09-09 dans _on_button_released --
             # voir tests/test_mouse_button_holds.py.
+            logger.debug("VncDisplay._on_button_pressed: sortie")
             return
         self._active_mouse_holds[button] = hold_cm
+        logger.debug("VncDisplay._on_button_pressed: fin")
 
     def _on_button_released(self, gesture, n_press, x, y):
+        logger.debug("VncDisplay._on_button_released: entrée")
         if not self.client:
+            logger.debug("VncDisplay._on_button_released: sortie")
             return
         button = self._gdk_button_to_vnc(gesture.get_current_button())
         hold_cm = self._active_mouse_holds.pop(button, None)
@@ -1570,7 +1722,9 @@ class VncDisplay(Gtk.Picture):
                 # exactement ce garde depuis le début ; _on_button_released
                 # ne l'avait pas. Bug réel trouvé et corrigé le 2026-09-09,
                 # cf. tests/test_mouse_button_holds.py.
+                logger.debug("VncDisplay._on_button_released: except Exception")
                 pass
+        logger.debug("VncDisplay._on_button_released: fin")
 
     @staticmethod
     def _resolve_effective_scroll_delta(dy: float, invert: bool) -> float:
@@ -1588,7 +1742,9 @@ class VncDisplay(Gtk.Picture):
         return -dy if invert else dy
 
     def _on_scroll(self, ctrl, dx, dy):
+        logger.debug("VncDisplay._on_scroll: entrée")
         if not self.client:
+            logger.debug("VncDisplay._on_scroll: sortie")
             return True
         dy = self._resolve_effective_scroll_delta(dy, self.info.invert_scroll)
         try:
@@ -1608,7 +1764,9 @@ class VncDisplay(Gtk.Picture):
             # quelle hors du gestionnaire de signal GTK. Dernier des trois
             # chemins souris de cette famille (avec _on_motion et les deux
             # méthodes bouton) à recevoir ce garde.
+            logger.debug("VncDisplay._on_scroll: except Exception")
             pass
+        logger.debug("VncDisplay._on_scroll: sortie")
         return True
 
     @staticmethod
@@ -1639,6 +1797,7 @@ class VncTab(Gtk.Box):
     }
 
     def __init__(self, info: VncConnectionInfo):
+        logger.debug("VncTab.__init__: entrée")
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.info = info
         self._last_mouse_xy = (0, 0)
@@ -1696,10 +1855,12 @@ class VncTab(Gtk.Box):
         self._setup_global_shortcuts()
 
         self.display.start()
+        logger.debug("VncTab.__init__: fin")
 
     # ---- Barre d'outils ----
 
     def _build_toolbar(self) -> Gtk.Box:
+        logger.debug("VncTab._build_toolbar: entrée")
         bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         bar.set_margin_top(4)
         bar.set_margin_bottom(4)
@@ -1848,21 +2009,27 @@ class VncTab(Gtk.Box):
         self.screen_dropdown.connect("notify::selected", self._on_screen_selected)
         bar.append(self.screen_dropdown)
 
+        logger.debug("VncTab._build_toolbar: sortie")
         return bar
 
     def _on_continuous_toggled(self, button):
+        logger.debug("VncTab._on_continuous_toggled: entrée")
         enable = button.get_active()
         self._continuous_updates_on = enable
         self.display.set_continuous_updates(enable)
+        logger.debug("VncTab._on_continuous_toggled: fin")
 
     def _resize_window_to_remote(self):
+        logger.debug("VncTab._resize_window_to_remote: entrée")
         size = self._resolve_resize_target_size(self._screens, self.display._active_screen_id, self._last_remote_size)
         if not size:
+            logger.debug("VncTab._resize_window_to_remote: sortie")
             return
         root = self.get_root()
         if isinstance(root, Gtk.Window):
             width, height = size
             root.set_default_size(width, height)
+        logger.debug("VncTab._resize_window_to_remote: fin")
 
     @staticmethod
     def _resolve_resize_target_size(screens, active_screen_id, last_remote_size):
@@ -1881,10 +2048,13 @@ class VncTab(Gtk.Box):
         (avant le premier `vnc-size-changed`), pour laisser l'appelant
         décider de ne rien faire plutôt que de déballer un None.
         """
+        logger.debug("VncTab._resolve_resize_target_size: entrée")
         if active_screen_id is not None:
             for screen in screens:
                 if screen.id == active_screen_id:
+                    logger.debug("VncTab._resolve_resize_target_size: sortie")
                     return screen.width, screen.height
+        logger.debug("VncTab._resolve_resize_target_size: sortie")
         return last_remote_size
 
     def _toggle_fullscreen(self):
@@ -1897,15 +2067,18 @@ class VncTab(Gtk.Box):
         attaché à une vraie `Gtk.Window` — ex. onglet construit mais pas
         encore inséré dans le Notebook.
         """
+        logger.debug("VncTab._toggle_fullscreen: entrée")
         root = self.get_root()
         if not isinstance(root, Gtk.Window):
             logger.warning(
                 "VncTab: bouton plein écran ignoré, pas de Gtk.Window racine "
                 "(onglet pas encore attaché à une fenêtre ?)"
             )
+            logger.debug("VncTab._toggle_fullscreen: sortie")
             return
         self._is_fullscreen, method_name = self._resolve_fullscreen_action(self._is_fullscreen)
         getattr(root, method_name)()
+        logger.debug("VncTab._toggle_fullscreen: fin")
 
     @staticmethod
     def _resolve_fullscreen_action(currently_fullscreen):
@@ -1931,7 +2104,9 @@ class VncTab(Gtk.Box):
         propre état local (`self._is_fullscreen`) et bascule sa PROPRE
         fenêtre racine, indépendamment de ce que fait gcm4 en interne.
         """
+        logger.debug("VncTab._resolve_fullscreen_action: entrée")
         next_state = not currently_fullscreen
+        logger.debug("VncTab._resolve_fullscreen_action: sortie")
         return next_state, ("fullscreen" if next_state else "unfullscreen")
 
     # ---- Capture d'écran ----
@@ -1947,20 +2122,25 @@ class VncTab(Gtk.Box):
         _flash_status_message() -- pas de popup bloquante pour un geste
         aussi fréquent.
         """
+        logger.debug("VncTab._on_screenshot_clicked: entrée")
         dialog = Gtk.FileDialog()
         dialog.set_initial_name(self._default_screenshot_filename(self.info.host))
         root = self.get_root()
         dialog.save(root if isinstance(root, Gtk.Window) else None, None, self._on_screenshot_dialog_finished)
+        logger.debug("VncTab._on_screenshot_clicked: fin")
 
     def _on_screenshot_dialog_finished(self, dialog, result):
+        logger.debug("VncTab._on_screenshot_dialog_finished: entrée")
         try:
             gfile = dialog.save_finish(result)
         except GLib.Error:
             # Dialogue annulé par l'utilisateur -- rien à faire, pas une erreur.
+            logger.debug("VncTab._on_screenshot_dialog_finished: sortie")
             return
         path = gfile.get_path()
         success = self.display.save_screenshot(path)
         self._flash_status_message(self._resolve_screenshot_feedback_message(success, path))
+        logger.debug("VncTab._on_screenshot_dialog_finished: fin")
 
     @staticmethod
     def _default_screenshot_filename(host: str, when: Optional[datetime] = None) -> str:
@@ -1974,8 +2154,10 @@ class VncTab(Gtk.Box):
         le reste du nom. `when` est injectable pour les tests ; par défaut
         l'horodatage courant.
         """
+        logger.debug("VncTab._default_screenshot_filename: entrée")
         when = when or datetime.now()
         safe_host = host.replace(":", "-").replace("/", "-")
+        logger.debug("VncTab._default_screenshot_filename: sortie")
         return f"vnc-{safe_host}-{when:%Y%m%d-%H%M%S}.png"
 
     @staticmethod
@@ -1984,8 +2166,11 @@ class VncTab(Gtk.Box):
         de capture -- extrait en méthode statique pure (même style que
         _resolve_resize_target_size / _resolve_fullscreen_action) pour
         rester testable sans dialogue ni GLib.timeout_add réels."""
+        logger.debug("VncTab._resolve_screenshot_feedback_message: entrée")
         if success:
+            logger.debug("VncTab._resolve_screenshot_feedback_message: sortie")
             return f"Capture enregistrée : {path}"
+        logger.debug("VncTab._resolve_screenshot_feedback_message: sortie")
         return "Échec de la capture d'écran (voir le journal)"
 
     def _on_copy_screenshot_clicked(self):
@@ -1994,8 +2179,10 @@ class VncTab(Gtk.Box):
         dialogue, contrairement à _on_screenshot_clicked : il n'y a rien à
         choisir (ni nom, ni emplacement) pour une copie presse-papiers.
         """
+        logger.debug("VncTab._on_copy_screenshot_clicked: entrée")
         success = self.display.copy_screenshot_to_clipboard()
         self._flash_status_message(self._resolve_copy_screenshot_feedback_message(success))
+        logger.debug("VncTab._on_copy_screenshot_clicked: fin")
 
     @staticmethod
     def _resolve_copy_screenshot_feedback_message(success: bool) -> str:
@@ -2003,8 +2190,11 @@ class VncTab(Gtk.Box):
         de copie presse-papiers -- même style que
         _resolve_screenshot_feedback_message, mais sans chemin de fichier à
         mentionner (rien n'est écrit sur disque ici)."""
+        logger.debug("VncTab._resolve_copy_screenshot_feedback_message: entrée")
         if success:
+            logger.debug("VncTab._resolve_copy_screenshot_feedback_message: sortie")
             return "Capture copiée dans le presse-papiers"
+        logger.debug("VncTab._resolve_copy_screenshot_feedback_message: sortie")
         return "Échec de la copie dans le presse-papiers (voir le journal)"
 
     def _flash_status_message(self, text: str, duration_ms: int = 3000):
@@ -2012,9 +2202,11 @@ class VncTab(Gtk.Box):
         restaure le libellé précédent -- réutilisé pour le retour visuel
         après une capture d'écran, sans dépendre d'une infrastructure de
         toast/notification qui n'existe pas encore dans cet onglet."""
+        logger.debug("VncTab._flash_status_message: entrée")
         previous_text = self.status_label.get_label()
         self.status_label.set_label(text)
         GLib.timeout_add(duration_ms, lambda: self.status_label.set_label(previous_text))
+        logger.debug("VncTab._flash_status_message: fin")
 
     @staticmethod
     def _resolve_pasted_clipboard_text(clipboard_text: Optional[str]) -> Optional[str]:
@@ -2060,7 +2252,9 @@ class VncTab(Gtk.Box):
         """Ouvre une petite fenêtre pour taper du texte à envoyer au
         serveur distant sous forme de frappes clavier (une par caractère),
         cf. VncDisplay.send_text()."""
+        logger.debug("VncTab._on_send_text_clicked: entrée")
         self._show_send_text_dialog()
+        logger.debug("VncTab._on_send_text_clicked: fin")
 
     def _show_send_text_dialog(self):
         # Même structure que _show_forget_key_confirmation_dialog plus bas
@@ -2073,6 +2267,7 @@ class VncTab(Gtk.Box):
         # bouton n'affiche non plus aucune confirmation -- afficher un
         # message fixe "envoyé" laisserait croire à une confirmation de
         # remise qu'on n'a pas réellement.
+        logger.debug("VncTab._show_send_text_dialog: entrée")
         root = self.get_root()
         dialog = Gtk.Window()
         if isinstance(root, Gtk.Window):
@@ -2113,6 +2308,7 @@ class VncTab(Gtk.Box):
         box.append(entry)
 
         def _on_paste_read(clipboard, result):
+            logger.debug("_on_paste_read: entrée")
             try:
                 text = clipboard.read_text_finish(result)
             except GLib.Error:
@@ -2121,6 +2317,7 @@ class VncTab(Gtk.Box):
                 # -- champ laissé inchangé plutôt qu'une exception qui
                 # remonterait telle quelle hors de ce callback GLib.
                 logger.trace("VncTab._show_send_text_dialog | presse-papiers local non textuel ou illisible, ignoré")
+                logger.debug("_on_paste_read: sortie")
                 return
             pasted = self._resolve_pasted_clipboard_text(text)
             if pasted is not None:
@@ -2132,9 +2329,12 @@ class VncTab(Gtk.Box):
                 # retapé par-dessus si besoin.
                 entry.set_text(pasted)
                 entry.select_region(0, -1)
+            logger.debug("_on_paste_read: fin")
 
         def _on_paste_icon_pressed(entry_widget, icon_pos):
+            logger.debug("_on_paste_icon_pressed: entrée")
             entry_widget.get_clipboard().read_text_async(None, _on_paste_read)
+            logger.debug("_on_paste_icon_pressed: fin")
 
         entry.connect("icon-press", _on_paste_icon_pressed)
 
@@ -2174,9 +2374,11 @@ class VncTab(Gtk.Box):
             # self.client and text), sans règle métier propre à vérifier
             # séparément -- juste éviter de fermer le dialogue sur une
             # validation vide (Entrée dans un champ non rempli).
+            logger.debug("_do_send: entrée")
             text = entry.get_text()
             action = self._resolve_send_text_action(text, self._keep_send_text_dialog_open)
             if action is None:
+                logger.debug("_do_send: sortie")
                 return
             self.display.send_text(text)
             if action == "keep":
@@ -2184,12 +2386,14 @@ class VncTab(Gtk.Box):
                 entry.grab_focus()
             else:
                 dialog.close()
+            logger.debug("_do_send: fin")
 
         entry.connect("activate", _do_send)
         send_button.connect("clicked", _do_send)
 
         dialog.present()
         entry.grab_focus()
+        logger.debug("VncTab._show_send_text_dialog: fin")
 
     # ---- Raccourcis clavier globaux ----
 
@@ -2236,6 +2440,7 @@ class VncTab(Gtk.Box):
         serveur distant), l'appui serait systématiquement avalé d'abord et
         transmis tel quel au serveur distant.
         """
+        logger.debug("VncTab._setup_global_shortcuts: entrée")
         self.shortcuts = Gtk.ShortcutController()
         self.shortcuts.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
         for accelerator, handler_name in self._GLOBAL_SHORTCUTS:
@@ -2243,13 +2448,18 @@ class VncTab(Gtk.Box):
             action = Gtk.CallbackAction.new(lambda widget, args, data, _h=handler: _h())
             self.shortcuts.add_shortcut(Gtk.Shortcut.new(Gtk.ShortcutTrigger.parse_string(accelerator), action))
         self.add_controller(self.shortcuts)
+        logger.debug("VncTab._setup_global_shortcuts: fin")
 
     def _shortcut_action_screenshot(self) -> bool:
+        logger.debug("VncTab._shortcut_action_screenshot: entrée")
         self._on_screenshot_clicked()
+        logger.debug("VncTab._shortcut_action_screenshot: sortie")
         return True
 
     def _shortcut_action_copy_screenshot(self) -> bool:
+        logger.debug("VncTab._shortcut_action_copy_screenshot: entrée")
         self._on_copy_screenshot_clicked()
+        logger.debug("VncTab._shortcut_action_copy_screenshot: sortie")
         return True
 
     def _shortcut_action_send_text(self) -> bool:
@@ -2269,16 +2479,21 @@ class VncTab(Gtk.Box):
         return True
 
     def _shortcut_action_toggle_fullscreen(self) -> bool:
+        logger.debug("VncTab._shortcut_action_toggle_fullscreen: entrée")
         self._toggle_fullscreen()
+        logger.debug("VncTab._shortcut_action_toggle_fullscreen: sortie")
         return True
 
     def _shortcut_action_send_ctrl_alt_del(self) -> bool:
+        logger.debug("VncTab._shortcut_action_send_ctrl_alt_del: entrée")
         self.display.send_ctrl_alt_del()
+        logger.debug("VncTab._shortcut_action_send_ctrl_alt_del: sortie")
         return True
 
     # ---- Placeholder de connexion (spinner / erreur / réessayer) ----
 
     def _build_placeholder(self) -> Gtk.Widget:
+        logger.debug("VncTab._build_placeholder: entrée")
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         box.set_valign(Gtk.Align.CENTER)
         box.set_halign(Gtk.Align.CENTER)
@@ -2303,6 +2518,7 @@ class VncTab(Gtk.Box):
         self.forget_key_button.connect("clicked", self._on_forget_key_clicked)
         box.append(self.forget_key_button)
 
+        logger.debug("VncTab._build_placeholder: sortie")
         return box
 
     @staticmethod
@@ -2441,9 +2657,12 @@ class VncTab(Gtk.Box):
         confirmer une action destructrice » suit `PATTERNS.md` (cf.
         `docs/sessions/session-05.md`).
         """
+        logger.debug("VncTab._on_forget_key_clicked: entrée")
         self._show_forget_key_confirmation_dialog()
+        logger.debug("VncTab._on_forget_key_clicked: fin")
 
     def _show_forget_key_confirmation_dialog(self):
+        logger.debug("VncTab._show_forget_key_confirmation_dialog: entrée")
         root = self.get_root()
         dialog = Gtk.Window()
         if isinstance(root, Gtk.Window):
@@ -2489,14 +2708,19 @@ class VncTab(Gtk.Box):
         button_row.append(confirm_button)
 
         def _update_confirm_sensitivity(*_a):
+            logger.debug("_update_confirm_sensitivity: entrée")
             confirm_button.set_sensitive(self._resolve_forget_key_confirmation(entry.get_text(), self.info.host))
+            logger.debug("_update_confirm_sensitivity: fin")
 
         def _do_confirm(*_a):
+            logger.debug("_do_confirm: entrée")
             if not self._resolve_forget_key_confirmation(entry.get_text(), self.info.host):
+                logger.debug("_do_confirm: sortie")
                 return
             dialog.close()
             self.display.forget_host_key()
             self.display.reconnect()
+            logger.debug("_do_confirm: fin")
 
         entry.connect("changed", _update_confirm_sensitivity)
         entry.connect("activate", _do_confirm)
@@ -2504,6 +2728,7 @@ class VncTab(Gtk.Box):
 
         dialog.present()
         entry.grab_focus()
+        logger.debug("VncTab._show_forget_key_confirmation_dialog: fin")
 
     @staticmethod
     def _resolve_forget_key_confirmation(typed_text: str, expected_host: str) -> bool:
@@ -2548,6 +2773,7 @@ class VncTab(Gtk.Box):
         return status_value != VncStatus.DISCONNECTED.value
 
     def _on_status_changed(self, display, status_value, message):
+        logger.debug("VncTab._on_status_changed: entrée")
         self.emit("tab-status-changed", status_value)
         self.status_label.set_label(f"{self.info.name} — {message}")
         self.btn_disconnect.set_sensitive(self._resolve_disconnect_button_sensitivity(status_value))
@@ -2587,6 +2813,7 @@ class VncTab(Gtk.Box):
             self.btn_screenshot.set_sensitive(False)
             self.btn_copy_screenshot.set_sensitive(False)
             self.btn_send_text.set_sensitive(False)
+        logger.debug("VncTab._on_status_changed: fin")
 
     def _on_reconnect_countdown(self, _display, message):
         """Met à jour le message d'erreur affiché, seconde par seconde (#94),
@@ -2597,12 +2824,17 @@ class VncTab(Gtk.Box):
         logger.debug("VncTab._on_reconnect_countdown | sortie")
 
     def _on_title_changed(self, display, title):
+        logger.debug("VncTab._on_title_changed: entrée")
         self.emit("tab-title-changed", title)
+        logger.debug("VncTab._on_title_changed: fin")
 
     def _on_size_changed(self, display, width, height):
+        logger.debug("VncTab._on_size_changed: entrée")
         self._last_remote_size = (width, height)
+        logger.debug("VncTab._on_size_changed: fin")
 
     def _on_screens_changed(self, display, screens):
+        logger.debug("VncTab._on_screens_changed: entrée")
         self._screens = list(screens)
 
         # Calculée AVANT de décider si le dropdown est visible : que
@@ -2639,6 +2871,7 @@ class VncTab(Gtk.Box):
             # reviendrait cropper dessus sans action de l'utilisateur si
             # cet écran réapparaît plus tard avec le même id).
             self.display.set_active_screen(None)
+        logger.debug("VncTab._on_screens_changed: fin")
 
     @staticmethod
     def _resolve_screen_dropdown_index(screens, active_screen_id):
@@ -2660,22 +2893,29 @@ class VncTab(Gtk.Box):
         Index 0 = "Bureau complet" ; sinon 1-based (index i+1 pour
         `screens[i]`), même correspondance que `_on_screen_selected`.
         """
+        logger.debug("VncTab._resolve_screen_dropdown_index: entrée")
         if active_screen_id is not None:
             for i, screen in enumerate(screens):
                 if screen.id == active_screen_id:
+                    logger.debug("VncTab._resolve_screen_dropdown_index: sortie")
                     return i + 1
+        logger.debug("VncTab._resolve_screen_dropdown_index: sortie")
         return 0
 
     def _on_screen_selected(self, dropdown, *_args):
+        logger.debug("VncTab._on_screen_selected: entrée")
         if self._updating_screen_dropdown:
+            logger.debug("VncTab._on_screen_selected: sortie")
             return  # évite de redéclencher set_active_screen() pendant set_model()/set_selected()
         idx = dropdown.get_selected()
         if idx <= 0 or idx - 1 >= len(self._screens):
             self.display.set_active_screen(None)
         else:
             self.display.set_active_screen(self._screens[idx - 1].id)
+        logger.debug("VncTab._on_screen_selected: fin")
 
     def _on_connected(self, display):
+        logger.debug("VncTab._on_connected: entrée")
         self.btn_continuous.set_sensitive(True)
         self.btn_screenshot.set_sensitive(True)
         self.btn_copy_screenshot.set_sensitive(True)
@@ -2685,8 +2925,10 @@ class VncTab(Gtk.Box):
         # actif dans la barre d'outils sans l'être réellement.
         if self._continuous_updates_on:
             self.display.set_continuous_updates(True)
+        logger.debug("VncTab._on_connected: fin")
 
     def _on_cursor_changed(self, display, cursor):
+        logger.debug("VncTab._on_cursor_changed: entrée")
         self._current_cursor = cursor
 
         if cursor is None or cursor.width == 0 or cursor.height == 0:
@@ -2694,6 +2936,7 @@ class VncTab(Gtk.Box):
             # on rend la main au pointeur système par défaut.
             self.cursor_picture.set_visible(False)
             self.display.set_cursor_from_name("default")
+            logger.debug("VncTab._on_cursor_changed: sortie")
             return
 
         height, width = cursor.data.shape[0], cursor.data.shape[1]
@@ -2714,28 +2957,35 @@ class VncTab(Gtk.Box):
         self.display.set_cursor_from_name("none")
 
         self._position_cursor(*self._last_mouse_xy)
+        logger.debug("VncTab._on_cursor_changed: fin")
 
     def _on_display_motion(self, ctrl, x, y):
+        logger.debug("VncTab._on_display_motion: entrée")
         self._last_mouse_xy = (x, y)
         if self.cursor_picture.get_visible():
             self._position_cursor(x, y)
+        logger.debug("VncTab._on_display_motion: fin")
 
     def _position_cursor(self, x, y):
         # x, y sont déjà en coordonnées widget (là où se trouve réellement
         # le pointeur à l'écran) ; seul le hotspot — exprimé en pixels
         # distants — doit être converti à l'échelle d'affichage courante.
+        logger.debug("VncTab._position_cursor: entrée")
         transform = self.display.get_display_transform()
         scale_x, scale_y = (transform[0], transform[1]) if transform else (1.0, 1.0)
         hotspot_x = (self._current_cursor.x if self._current_cursor else 0) * scale_x
         hotspot_y = (self._current_cursor.y if self._current_cursor else 0) * scale_y
         self.cursor_picture.set_margin_start(max(0, int(x - hotspot_x)))
         self.cursor_picture.set_margin_top(max(0, int(y - hotspot_y)))
+        logger.debug("VncTab._position_cursor: fin")
 
     # ---- API publique pour la fenêtre principale ----
 
     def close(self):
+        logger.debug("VncTab.close: entrée")
         self.display.stop()
         self.emit("close-requested")
+        logger.debug("VncTab.close: fin")
 
 
 # ---------------------------------------------------------------------------
@@ -2744,6 +2994,7 @@ class VncTab(Gtk.Box):
 
 
 def build_vnc_tab_label(tab: VncTab) -> Gtk.Box:
+    logger.debug("build_vnc_tab_label: entrée")
     box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
 
     icon = Gtk.Image.new_from_icon_name("video-display-symbolic")
@@ -2760,6 +3011,7 @@ def build_vnc_tab_label(tab: VncTab) -> Gtk.Box:
 
     tab.connect("tab-title-changed", lambda _t, title: label.set_label(title))
 
+    logger.debug("build_vnc_tab_label: sortie")
     return box
 
 
@@ -2807,6 +3059,7 @@ if __name__ == "__main__":
 
     class DemoWindow(Gtk.ApplicationWindow):
         def __init__(self, app, info: VncConnectionInfo):
+            logger.debug("DemoWindow.__init__: entrée")
             super().__init__(application=app, title="Démo VncTab")
             self.set_default_size(1024, 768)
 
@@ -2814,26 +3067,35 @@ if __name__ == "__main__":
             self.set_child(self.notebook)
 
             self.add_tab(info)
+            logger.debug("DemoWindow.__init__: fin")
 
         def add_tab(self, info: VncConnectionInfo):
+            logger.debug("DemoWindow.add_tab: entrée")
             tab = VncTab(info)
             tab.connect("close-requested", self._on_tab_close)
             label = build_vnc_tab_label(tab)
             self.notebook.append_page(tab, label)
+            logger.debug("DemoWindow.add_tab: fin")
 
         def _on_tab_close(self, tab):
+            logger.debug("DemoWindow._on_tab_close: entrée")
             page_num = self.notebook.page_num(tab)
             if page_num != -1:
                 self.notebook.remove_page(page_num)
+            logger.debug("DemoWindow._on_tab_close: fin")
 
     class DemoApp(Gtk.Application):
         def __init__(self, info):
+            logger.debug("DemoApp.__init__: entrée")
             super().__init__(application_id="fr.transcende.vnctab.demo")
             self.info = info
+            logger.debug("DemoApp.__init__: fin")
 
         def do_activate(self):
+            logger.debug("DemoApp.do_activate: entrée")
             win = DemoWindow(self, self.info)
             win.present()
+            logger.debug("DemoApp.do_activate: fin")
 
     demo_info = parse_demo_args(sys.argv[1:])
     if demo_info is None:
