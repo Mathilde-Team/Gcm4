@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-99 modules · 203 classes · 368 fonctions publiques de module.
+97 modules · 173 classes · 368 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -24,8 +24,8 @@ flowchart TD
     g1["gcm4"]
     g2["gcm4.core"]
     g3["gcm4.ui"]
-    g0 -->|52| g2
-    g0 -->|12| g3
+    g0 -->|44| g2
+    g0 -->|8| g3
     g1 -->|4| g2
     g1 -->|1| g3
     g2 -->|1| g0
@@ -75,8 +75,6 @@ flowchart TD
 | `plugins.snmp_push.core` | `plugins/snmp_push/core.py` | Cœur métier (sans GTK) du déploiement SNMP pour GCM. |
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
 | `plugins.ssh.core` | `plugins/ssh/core.py` | Logique métier SSH de gcm4, zéro dépendance GTK — parsing de ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf. |
-| `plugins.ssh.gtk4` | `plugins/ssh/gtk4.py` | Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, éditeur de ``~/.ssh/config`` (personnel + partagé) et gestionnaire de clés. |
-| `plugins.ssh.gtk4` | `plugins/ssh/gtk4.py` | Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, éditeur de ``~/.ssh/config`` (personnel + partagé) et gestionnaire de clés. |
 | `plugins.ssh.gtk4` | `plugins/ssh/gtk4.py` | Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, éditeur de ``~/.ssh/config`` (personnel + partagé) et gestionnaire de clés. |
 | `plugins.ssh.session` | `plugins/ssh/session.py` | Logique de la session SSH GTK4, sans GTK (#396, partie 1). |
 | `plugins.telnet.core` | `plugins/telnet/core.py` | Logique du plugin telnet, sans GTK : commande et délai des commandes après connexion. |
@@ -942,21 +940,21 @@ classDiagram
         +lire(nom) str None
         +ecrire(nom, texte, mode) bool
     }
-    class plugins_ssh_gtk4_LigneCle {
+    class LigneCle {
         <<Gtk.ListBoxRow>>
     }
-    class plugins_ssh_gtk4_KeyPickerDialog {
+    class KeyPickerDialog {
         <<Gtk.Window>>
         +charger() None
         +lignes() list~LigneCle~
     }
-    class plugins_ssh_gtk4_LigneHote {
+    class LigneHote {
         <<Gtk.ListBoxRow>>
     }
-    class plugins_ssh_gtk4_LigneRedirection {
+    class LigneRedirection {
         <<Gtk.ListBoxRow>>
     }
-    class plugins_ssh_gtk4_SshConfigEditor {
+    class SshConfigEditor {
         <<Gtk.Window>>
         +ouvrir_gestionnaire() None
         +lignes() list~LigneHote~
@@ -972,31 +970,31 @@ classDiagram
         +enregistrer() bool
         +notifier(message) None
     }
-    class plugins_ssh_gtk4_SshTestDialog {
+    class SshTestDialog {
         <<Gtk.Window>>
         +ajouter(texte) None
         +contenu() str
     }
-    class plugins_ssh_gtk4_Element {
+    class Element {
         <<GObject.Object>>
     }
-    class plugins_ssh_gtk4_Tableau {
+    class Tableau {
         +remplir(valeurs) None
         +valeurs() list~object~
         +choisie() object None
     }
-    class plugins_ssh_gtk4_GenererCleDialog {
+    class GenererCleDialog {
         <<Gtk.Window>>
         +type_choisi() str
         +options() dict~str, object~
     }
-    class plugins_ssh_gtk4_VuePubliqueDialog {
+    class VuePubliqueDialog {
         <<Gtk.Window>>
     }
-    class plugins_ssh_gtk4_ResultatsKnownHostsDialog {
+    class ResultatsKnownHostsDialog {
         <<Gtk.Window>>
     }
-    class plugins_ssh_gtk4_LigneGestionCle {
+    class LigneGestionCle {
         <<dataclass>>
         +core.CleSsh cle
         +core.DetailsCle details
@@ -1007,7 +1005,7 @@ classDiagram
         +creation() str
         +permissions() str
     }
-    class plugins_ssh_gtk4_SshKeyManager {
+    class SshKeyManager {
         <<Gtk.Window>>
         +notifier(message) None
         +confirmer(corps, suite) None
@@ -1036,213 +1034,7 @@ classDiagram
         +hotes_candidats() list~str~
         +ajouter_authorized_key(ligne) None
     }
-    class plugins_ssh_gtk4_SshSession {
-        <<SessionTerminal>>
-    }
-    class plugins_ssh_gtk4_SshPlugin {
-        +default_port(protocol) int None
-        +build_host_options_widget(host, options, changed) Gtk.Widget
-        +open(host) SshSession
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_ssh_gtk4_SshPlugin
-    class plugins_ssh_gtk4_LigneCle {
-        <<Gtk.ListBoxRow>>
-    }
-    class plugins_ssh_gtk4_KeyPickerDialog {
-        <<Gtk.Window>>
-        +charger() None
-        +lignes() list~LigneCle~
-    }
-    class plugins_ssh_gtk4_LigneHote {
-        <<Gtk.ListBoxRow>>
-    }
-    class plugins_ssh_gtk4_LigneRedirection {
-        <<Gtk.ListBoxRow>>
-    }
-    class plugins_ssh_gtk4_SshConfigEditor {
-        <<Gtk.Window>>
-        +ouvrir_gestionnaire() None
-        +lignes() list~LigneHote~
-        +remplir_liste() None
-        +charger_hote(hote, cible) None
-        +valeurs() dict~str, str~
-        +appliquer_formulaire() bool
-        +synchroniser_brut() None
-        +synchroniser_modele() bool
-        +rafraichir_diff() None
-        +montrer_erreurs(erreurs) None
-        +valider() list~str~
-        +enregistrer() bool
-        +notifier(message) None
-    }
-    class plugins_ssh_gtk4_SshTestDialog {
-        <<Gtk.Window>>
-        +ajouter(texte) None
-        +contenu() str
-    }
-    class plugins_ssh_gtk4_Element {
-        <<GObject.Object>>
-    }
-    class plugins_ssh_gtk4_Tableau {
-        +remplir(valeurs) None
-        +valeurs() list~object~
-        +choisie() object None
-    }
-    class plugins_ssh_gtk4_GenererCleDialog {
-        <<Gtk.Window>>
-        +type_choisi() str
-        +options() dict~str, object~
-    }
-    class plugins_ssh_gtk4_VuePubliqueDialog {
-        <<Gtk.Window>>
-    }
-    class plugins_ssh_gtk4_ResultatsKnownHostsDialog {
-        <<Gtk.Window>>
-    }
-    class plugins_ssh_gtk4_LigneGestionCle {
-        <<dataclass>>
-        +core.CleSsh cle
-        +core.DetailsCle details
-        +publique() Path None
-        +expiree() bool
-        +validite() str
-        +signataire() str
-        +creation() str
-        +permissions() str
-    }
-    class plugins_ssh_gtk4_SshKeyManager {
-        <<Gtk.Window>>
-        +notifier(message) None
-        +confirmer(corps, suite) None
-        +demander(titre, corps, bouton, extra, suite) None
-        +en_fond(travail, fin) None
-        +fichiers() core.FichiersLocaux core.FichiersDistants
-        +libelle(cible)$ str
-        +message_erreur(exc)$ str
-        +charger_cles(notifier) None
-        +cle_choisie() LigneGestionCle None
-        +actualiser_boutons(page) None
-        +generer(options) None
-        +importer(chemin) None
-        +renommer(ligne, nouveau) None
-        +changer_phrase(ligne, ancienne, nouvelle, confirmation) None
-        +ajouter_agent(ligne) None
-        +retirer_agent(ligne) None
-        +supprimer(ligne) None
-        +afficher_ca() None
-        +designer_ca(chemin) None
-        +importer_ca(chemin) None
-        +supprimer_ca() None
-        +charger_cible(notifier) None
-        +confirmer_root(cible, action, suite) None
-        +modifier(cible, nom, mode, transformation, messages) None
-        +hotes_candidats() list~str~
-        +ajouter_authorized_key(ligne) None
-    }
-    class plugins_ssh_gtk4_SshSession {
-        <<SessionTerminal>>
-    }
-    class plugins_ssh_gtk4_SshPlugin {
-        +default_port(protocol) int None
-        +build_host_options_widget(host, options, changed) Gtk.Widget
-        +open(host) SshSession
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_ssh_gtk4_SshPlugin
-    class plugins_ssh_gtk4_LigneCle {
-        <<Gtk.ListBoxRow>>
-    }
-    class plugins_ssh_gtk4_KeyPickerDialog {
-        <<Gtk.Window>>
-        +charger() None
-        +lignes() list~LigneCle~
-    }
-    class plugins_ssh_gtk4_LigneHote {
-        <<Gtk.ListBoxRow>>
-    }
-    class plugins_ssh_gtk4_LigneRedirection {
-        <<Gtk.ListBoxRow>>
-    }
-    class plugins_ssh_gtk4_SshConfigEditor {
-        <<Gtk.Window>>
-        +ouvrir_gestionnaire() None
-        +lignes() list~LigneHote~
-        +remplir_liste() None
-        +charger_hote(hote, cible) None
-        +valeurs() dict~str, str~
-        +appliquer_formulaire() bool
-        +synchroniser_brut() None
-        +synchroniser_modele() bool
-        +rafraichir_diff() None
-        +montrer_erreurs(erreurs) None
-        +valider() list~str~
-        +enregistrer() bool
-        +notifier(message) None
-    }
-    class plugins_ssh_gtk4_SshTestDialog {
-        <<Gtk.Window>>
-        +ajouter(texte) None
-        +contenu() str
-    }
-    class plugins_ssh_gtk4_Element {
-        <<GObject.Object>>
-    }
-    class plugins_ssh_gtk4_Tableau {
-        +remplir(valeurs) None
-        +valeurs() list~object~
-        +choisie() object None
-    }
-    class plugins_ssh_gtk4_GenererCleDialog {
-        <<Gtk.Window>>
-        +type_choisi() str
-        +options() dict~str, object~
-    }
-    class plugins_ssh_gtk4_VuePubliqueDialog {
-        <<Gtk.Window>>
-    }
-    class plugins_ssh_gtk4_ResultatsKnownHostsDialog {
-        <<Gtk.Window>>
-    }
-    class plugins_ssh_gtk4_LigneGestionCle {
-        <<dataclass>>
-        +core.CleSsh cle
-        +core.DetailsCle details
-        +publique() Path None
-        +expiree() bool
-        +validite() str
-        +signataire() str
-        +creation() str
-        +permissions() str
-    }
-    class plugins_ssh_gtk4_SshKeyManager {
-        <<Gtk.Window>>
-        +notifier(message) None
-        +confirmer(corps, suite) None
-        +demander(titre, corps, bouton, extra, suite) None
-        +en_fond(travail, fin) None
-        +fichiers() core.FichiersLocaux core.FichiersDistants
-        +libelle(cible)$ str
-        +message_erreur(exc)$ str
-        +charger_cles(notifier) None
-        +cle_choisie() LigneGestionCle None
-        +actualiser_boutons(page) None
-        +generer(options) None
-        +importer(chemin) None
-        +renommer(ligne, nouveau) None
-        +changer_phrase(ligne, ancienne, nouvelle, confirmation) None
-        +ajouter_agent(ligne) None
-        +retirer_agent(ligne) None
-        +supprimer(ligne) None
-        +afficher_ca() None
-        +designer_ca(chemin) None
-        +importer_ca(chemin) None
-        +supprimer_ca() None
-        +charger_cible(notifier) None
-        +confirmer_root(cible, action, suite) None
-        +modifier(cible, nom, mode, transformation, messages) None
-        +hotes_candidats() list~str~
-        +ajouter_authorized_key(ligne) None
-    }
-    class plugins_ssh_gtk4_SshSession {
+    class SshSession {
         <<SessionTerminal>>
     }
     class plugins_ssh_gtk4_SshPlugin {
