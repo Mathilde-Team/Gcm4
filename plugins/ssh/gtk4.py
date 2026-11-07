@@ -3191,6 +3191,8 @@ class SshKeyManager(Gtk.Window):
             ),
         )
         logger.debug("ajouter_authorized_key: sortie")
+
+
 # -- Session et plugin (#396, partie 2) ---------------------------------------
 
 
