@@ -103,7 +103,9 @@ class TestLoguruOnly(unittest.TestCase):
             lines = _sink_additions((ROOT / f).read_text(encoding="utf-8"))
             if lines:
                 fautes[f] = lines
-        self.assertEqual(fautes, {}, "les puits loguru se configurent dans src/gcm4/core/journal.py")
+        self.assertEqual(
+            fautes, {}, "les puits loguru se configurent dans src/gcm4/core/journal.py"
+        )
 
     def test_outils_autonomes_configurent_a_l_execution_seulement(self):
         """Les outils de tools/ configurent leur sortie dans main(), pas à l'import."""
