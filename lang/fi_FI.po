@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 16:05+0000\n"
+"POT-Creation-Date: 2026-11-07 16:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,12 +150,12 @@ msgstr "Lokitiedostoa ei voi avata kirjoitusta varten"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py GTK3.OLD/widgets.py
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_putty.py
-#: plugins/plugin_import_virtualbox.py plugins/plugin_spice.py
-#: plugins/plugin_ssh.py plugins/sftp/gtk4.py src/gcm4/ui/contexte.py
-#: src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
-#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/raccourcis.py
+#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py
 msgid "Cancel"
 msgstr "Peruuta"
 
@@ -581,8 +581,7 @@ msgid "Only on clean exit"
 msgstr "Vain siistissä lopetuksessa"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py
-#: plugins/plugin_import_putty.py src/gcm4/ui/mises_a_jour.py
-#: src/gcm4/ui/preferences.py
+#: src/gcm4/ui/mises_a_jour.py src/gcm4/ui/preferences.py
 msgid "Open"
 msgstr "Avaa"
 
@@ -2351,6 +2350,71 @@ msgstr "Avoimet välilehdet palautetaan seuraavalla käynnistyskerralla"
 msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
 msgstr "Perussovellus ei itse tarjoa yhtään protokollaa: yhteydet tarvitsevat vastaavan laajennuksen."
 
+#: plugins/import_putty/gtk4.py
+msgid "Choose a folder…"
+msgstr "Valitse kansio…"
+
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "Jos isäntä on jo olemassa:"
+
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "Import"
+msgstr "Tuo"
+
+#: plugins/import_putty/gtk4.py
+#, fuzzy
+#| msgid "Import from Proxmox"
+msgid "Import from PuTTY sessions"
+msgstr "Tuo Proxmoxista"
+
+#: plugins/import_putty/gtk4.py
+#, fuzzy
+#| msgid "Import from libvirt"
+msgid "Import from PuTTY sessions…"
+msgstr "Tuo libvirtistä"
+
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "Säilytä olemassa oleva isäntä"
+
+#: plugins/import_putty/gtk4.py
+msgid "No importable SSH/Telnet session found in this folder."
+msgstr ""
+
+#: plugins/import_putty/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "PuTTY import error: {exc}"
+msgstr "Mallin nimi"
+
+#: plugins/import_putty/gtk4.py
+#, python-brace-format
+msgid "PuTTY sessions folder: {folder}"
+msgstr "PuTTY-istuntojen kansio: {folder}"
+
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "Nimeä tuotu isäntä uudelleen"
+
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "Korvaa olemassa oleva isäntä"
+
+#: plugins/import_putty/gtk4.py
+msgid "Select PuTTY sessions folder"
+msgstr ""
+
+#: plugins/import_putty/gtk4.py
+#, python-brace-format
+msgid "Sessions found: {count}."
+msgstr "Löydetyt istunnot: {count}."
+
+#: plugins/import_putty/gtk4.py
+#, python-brace-format
+msgid "{count} session(s) ignored (unsupported protocol or missing host)."
+msgstr ""
+
 #: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
 #: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
@@ -2725,33 +2789,6 @@ msgstr "Tuo Proxmoxista"
 #: plugins/plugin_import_proxmox.py
 msgid "🔍  Scan Proxmox hosts"
 msgstr "🔍  Etsi Proxmox-isännät"
-
-#: plugins/plugin_import_putty.py
-msgid "Import from PuTTY sessions…"
-msgstr ""
-
-#: plugins/plugin_import_putty.py
-msgid "No importable SSH/Telnet session found in this folder."
-msgstr ""
-
-#: plugins/plugin_import_putty.py
-#, python-brace-format
-msgid "PuTTY import error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_putty.py
-msgid "Select PuTTY sessions folder"
-msgstr ""
-
-#: plugins/plugin_import_putty.py
-#, python-brace-format
-msgid "{count} session(s) ignored (unsupported protocol or missing host)."
-msgstr ""
-
-#: plugins/plugin_import_putty.py
-#, python-brace-format
-msgid "{n} connection(s) imported from PuTTY."
-msgstr ""
 
 #: plugins/plugin_import_virtualbox.py
 msgid "<i>Applies only to the VirtualBox import plugin. Can still be overridden per import run.</i>"
@@ -4604,6 +4641,10 @@ msgid "gcm4 is already running with another configuration folder: close it to us
 msgstr "gcm4 on jo käynnissä toisella asetuskansiolla: sulje se, jotta voit käyttää kansiota {requested}."
 
 #: src/gcm4/ui/contexte.py
+msgid "No configuration is open: nothing to import into."
+msgstr "Asetuksia ei ole avoinna: ei kohdetta tuonnille."
+
+#: src/gcm4/ui/contexte.py
 #, python-brace-format
 msgid "Password for {target}"
 msgstr "Salasana kohteelle {target}"
@@ -4623,14 +4664,6 @@ msgid "Hosts in {file}: {count}, already present: {existing}"
 msgstr "Isäntiä tiedostossa {file}: {count}, jo olemassa: {existing}"
 
 #: src/gcm4/ui/echange.py
-msgid "If a host already exists:"
-msgstr "Jos isäntä on jo olemassa:"
-
-#: src/gcm4/ui/echange.py
-msgid "Import"
-msgstr "Tuo"
-
-#: src/gcm4/ui/echange.py
 msgid "Include passwords (in clear text)"
 msgstr "Sisällytä salasanat (selväkielisinä)"
 
@@ -4639,20 +4672,8 @@ msgid "JSON or CSV file, chosen by its extension."
 msgstr "JSON- tai CSV-tiedosto, tiedostopäätteen mukaan."
 
 #: src/gcm4/ui/echange.py
-msgid "Keep the existing host"
-msgstr "Säilytä olemassa oleva isäntä"
-
-#: src/gcm4/ui/echange.py
 msgid "Passwords will be written in clear text: keep this file safe."
 msgstr "Salasanat kirjoitetaan selväkielisinä: säilytä tiedosto turvallisesti."
-
-#: src/gcm4/ui/echange.py
-msgid "Rename the imported host"
-msgstr "Nimeä tuotu isäntä uudelleen"
-
-#: src/gcm4/ui/echange.py
-msgid "Replace the existing host"
-msgstr "Korvaa olemassa oleva isäntä"
 
 #: src/gcm4/ui/echange.py
 msgid "This file contains passwords in clear text."
@@ -5308,11 +5329,6 @@ msgstr "Piilota ikkuna"
 msgid "Show window"
 msgstr "Näytä ikkuna"
 
-#, fuzzy, python-brace-format
-#~| msgid "Template name"
-#~ msgid "CSV import error: {exc}"
-#~ msgstr "Mallin nimi"
-
 #~ msgid "Colors and Keys"
 #~ msgstr "Värit ja näppäimet"
 
@@ -5351,11 +5367,6 @@ msgstr "Näytä ikkuna"
 #, fuzzy
 #~| msgid "Import from libvirt"
 #~ msgid "Import from CSV"
-#~ msgstr "Tuo libvirtistä"
-
-#, fuzzy
-#~| msgid "Import from libvirt"
-#~ msgid "Import from CSV…"
 #~ msgstr "Tuo libvirtistä"
 
 #, fuzzy

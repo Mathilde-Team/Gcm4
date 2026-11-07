@@ -73,7 +73,7 @@ Chaque protocole est découvert automatiquement par `PluginRegistry.autoload()`.
 | Export CSV / JSON | `plugin_export_csv.py` / `plugin_export_json.py` | ❌ **Supprimés le 31/10/2026 (#179)** : remplacés par l'export de la base GTK4 (#152/#153), sans mot de passe |
 | Push config masse — Netmiko | `plugin_netmiko_push.py` + `plugins/netmiko_push/core.py` | ✅ Session CLI SSH/équipement, profils, inventaire CSV, gabarits `#colonne#` — non documenté |
 | Push config masse — SNMP | `plugin_snmp_push.py` + `plugins/snmp_push/core.py` | ✅ `SNMP SET` déclencheur (H3C/Cisco/**Huawei ajouté le 2026-08-30**), `ThreadPoolExecutor`. **#74 (2026-10-24)** : dépôt du fichier rendu par SFTP/FTP/TFTP (`FileTransferConfig`, `upload_config_file`) et protocole de récupération TFTP/FTP/SFTP transmis au driver, repris de `snmp_push_core.py`, supprimé ; le formulaire du plugin GTK3 ne propose pas encore ces réglages (§2.2-bis) |
-| Import PuTTY (`~/.putty/sessions/`) | `plugin_import_putty.py` + `plugins/import_putty/core.py` | ✅ **2026-09-01.** Scanne un dossier de sessions PuTTY Unix (`Clé=Valeur` par fichier, noms de fichier décodés du schéma `%XX`) ; SSH/Telnet uniquement (Rlogin/Raw sans équivalent GCM, Serial hors périmètre — champs PuTTY trop différents du plugin série, voir docstring de `plugins/import_putty/core.py`), sessions ignorées listées dans le message de résumé |
+| Import PuTTY (`~/.putty/sessions/`) | ~~`plugin_import_putty.py`~~ + `plugins/import_putty/{core,gtk4}.py` | ❌ **GTK3 supprimé le 07/11/2026 (#436, #179)** : porté en plugin outil du contrat v1 (`plugins/import_putty/gtk4.py`, section Import du menu Fichier, onglet avec stratégie de conflit, import via `PluginContext.import_hosts`). Le scan (2026-09-01) est inchangé dans `core.py` : dossier de sessions PuTTY Unix (`Clé=Valeur` par fichier, noms `%XX` décodés) ; SSH/Telnet uniquement, sessions ignorées listées dans le résumé |
 
 > Le plugin Netmiko n'est **pas cassé** : le log « `plugin_netmiko_push` ignore : pas
 > de `get_plugin()` » est normal (module `BatchPlugin`, chargé séparément par
@@ -657,10 +657,11 @@ plugins/                         découverts par autoload() (cf. plugin_base.py)
 ├── plugin_import_libvirt.py / plugin_import_proxmox.py
 ├── plugin_import_virtualbox.py    URI vbox+ssh:// saisie manuelle
 ├── plugin_import_ovirt.py         Engine oVirt (URL + API REST + user SSH)
-├── plugin_import_putty.py         ✅ 2026-09-01 — sessions PuTTY Unix
-│                                   (~/.putty/sessions/), SSH/Telnet
-│                                   uniquement ; scan/parsing dans
-│                                   plugins/import_putty/core.py (racine, zéro GTK)
+├── (plugin_import_putty.py supprimé le 07/11/2026, #436/#179 :
+│                                   porté en plugin outil GTK4
+│                                   plugins/import_putty/{core,gtk4}.py —
+│                                   sessions PuTTY Unix, SSH/Telnet
+│                                   uniquement, import via le contexte)
 │                                   (import/export CSV/JSON supprimés le
 │                                   31/10/2026, #179 : remplacés par la base
 │                                   GTK4 — gcm4.core.exchange)

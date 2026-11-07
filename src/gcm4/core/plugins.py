@@ -29,12 +29,13 @@ l'application lui est passé par un :class:`PluginContext`.
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, ClassVar, Protocol, runtime_checkable
 
 from loguru import logger
 
+from gcm4.core.exchange import Conflit
 from gcm4.core.i18n import _
 
 if TYPE_CHECKING:
@@ -79,6 +80,21 @@ class PluginContext(Protocol):
 
     def open_tab(self, title: str, widget: Gtk.Widget) -> None:
         """Ouvre un onglet supplémentaire (le contenu d'une connexion passe par :meth:`ConnectionPlugin.open`)."""
+        ...
+
+    def import_hosts(self, hotes: Sequence[Host], conflit: Conflit = Conflit.IGNORER) -> Any:
+        """Importe des hôtes dans la base de l'outil (contrat v1, #436).
+
+        Le magasin est complété selon ``conflit``, ``gcm4.conf`` est
+        enregistré et l'arbre rechargé ; renvoie le bilan
+        (:class:`~gcm4.core.exchange.Rapport`). C'est le chemin des imports
+        d'outils (sessions PuTTY, hyperviseurs…), en écho de
+        ``win.import-hosts`` pour les fichiers (#153).
+
+        Écriture impossible : rien n'est importé (magasin inchangé) et
+        :class:`~gcm4.core.exchange.ExchangeError` est levée — l'outil la
+        notifie.
+        """
         ...
 
 
