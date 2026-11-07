@@ -12,9 +12,9 @@ from pathlib import Path
 
 import pytest
 
-import logging_config
 from gcm4 import app
 from gcm4.core import cli, echange_cli
+from gcm4.core import journal as logging_config
 from gcm4.core.chiffrement import ChiffrementGcm
 from gcm4.core.config import Config, load_config, save_config
 from gcm4.core.model import Host

@@ -26,7 +26,7 @@ sensibles : relire un journal debug avant de le partager.
 
 Usage :
 
-    import logging_config
+    from gcm4.core import journal as logging_config
     app_logger = logging_config.configure_logging(config_dir=CONFIG_DIR)
 
 ``configure_logging`` est idempotent (sauf ``force=True``) : un module qui
@@ -59,10 +59,8 @@ _TRUE = frozenset({"1", "true", "yes", "oui", "on"})
 CORE_MODULES = (
     "gcm4",  # paquet src/gcm4 et ses sous-modules (#133)
     "folder_context_menu_core",
-    "gcm4_core",
     "gesture_trigger_core",
     "inline_editor_core",
-    "master_password_core",
     "netmiko_bulk_core",
     "popup_menu_core",
     "putty_import_core",

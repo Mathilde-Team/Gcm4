@@ -95,10 +95,10 @@ jobs:
           for r in ./*.rpm; do rpm -qpl --dbpath "$RUNNER_TEMP/rpmdb" "$r" > "$RUNNER_TEMP/$(basename "$r").txt"; done
           # .deb : paquet gcm4 (le test de fumée complet est le job « Paquets »
           # de ci.yml, scripts/smoke-test-packages.sh).
-          for f in /usr/bin/gcm4 /usr/share/gcm4/gcm4/__init__.py /usr/share/gcm4/gcm4_core.py; do
+          for f in /usr/bin/gcm4 /usr/share/gcm4/gcm4/__init__.py /usr/share/gcm4/gcm4/core/metier.py; do
             grep -q "\.$f\$" "$RUNNER_TEMP/deb.txt" || { echo "::error::$f absent du .deb"; exit 1; }
           done
-          for f in gcm4_core.py logging_config.py models.py utils.py widgets.py plugins/plugin_base.py plugins/ssh/core.py; do
+          for f in gcm4/core/metier.py gcm4/core/journal.py models.py utils.py widgets.py plugins/plugin_base.py plugins/ssh/core.py; do
             for liste in "$RUNNER_TEMP"/*.rpm.txt; do
               grep -q "/usr/share/gnome-connection-manager/$f\$" "$liste" || { echo "::error::$f absent de $(basename "$liste" .txt)"; exit 1; }
             done

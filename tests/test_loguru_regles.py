@@ -36,7 +36,7 @@ import warnings
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-EXCLUDED = ("SSH-Studio/", "gtk-frdp/", "tests/")
+EXCLUDED = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/", "tests/")
 LOGGER_NAMES = {"logger", "app_logger", "_logger", "log", "_log", "_loguru_logger"}
 LOG_METHODS = {"trace", "debug", "info", "success", "warning", "error", "exception", "critical"}
 SECRET_NAMES = re.compile(

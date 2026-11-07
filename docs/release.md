@@ -28,7 +28,7 @@ l'application (`APPLICATION_ID`, `io.github.MathildeDec.gcm4`) :
   (logithèques). La balise `<release>` suit la version de `pyproject.toml`.
 - `icons/hicolor/<taille>/apps/io.github.MathildeDec.gcm4.png` : 16 à 128
   pixels, produites par `make icons` (`scripts/generer-icones.sh`) depuis
-  `icon.png` (128×128, jamais agrandie) et versionnées.
+  `data/icon.png` (128×128, jamais agrandie) et versionnées.
 
 `GLib.set_prgname(APPLICATION_ID)` (`Gcm4Application.__init__`) donne à la
 fenêtre la classe `io.github.MathildeDec.gcm4` (`WM_CLASS` sous X11,
@@ -55,7 +55,7 @@ Issue #156, sur le modèle de Netcross.
 - Version : celle de `pyproject.toml`, seule source ; `gcm4 --version` la lit
   dans le `.dist-info` du wheel installé et affiche donc la même.
 - Contenu : le wheel de `pyproject.toml` (`src/gcm4` et les modules racine
-  `gcm4_core`, `logging_config`, `pyAES`) décompressé dans `/usr/share/gcm4`,
+  `gcm4.core.metier`, `gcm4.core.journal`, `gcm4.core.pyaes`) décompressé dans `/usr/share/gcm4`,
   dossier privé (ces noms génériques n'ont rien à faire dans
   `dist-packages`) ; le lanceur `/usr/bin/gcm4` ; le `.desktop`, le metainfo
   et les icônes de `data/` ; un `.mo` par langue de `lang/LINGUAS` dans

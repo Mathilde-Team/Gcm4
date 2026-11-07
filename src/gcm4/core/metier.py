@@ -5,7 +5,7 @@
 
 Extrait de ``gnome_connection_manager.py`` le 2026-08-30 (première étape de
 la séparation cœur métier / cœur GTK4, avant le découpage des plugins en
-dossiers — voir ``proposition-architecture-plugins-gtk4.md``). Toute
+dossiers — voir ``docs/proposition-architecture-plugins-gtk4.md``). Toute
 fonction ajoutée ici doit rester importable sans ``gi``/``Gtk``/``Vte`` : ce
 fichier est le socle testable sans stub GTK, et servira de référence à la
 future couche GTK4 (``gnome_connection_manager.py`` après portage) comme aux
@@ -74,7 +74,7 @@ from loguru import logger as app_logger
 # logging_config.configure_logging() (CORE_MODULES).
 app_logger.disable(__name__)
 
-import pyAES
+from gcm4.core import pyaes as pyAES
 
 if TYPE_CHECKING:
     from plugins.plugin_base import PluginRegistry
@@ -375,7 +375,7 @@ def setup_app_logger(config_dir: str, debug: bool = False):
         loguru.Logger: Le logger configuré (``app_logger`` de ce module).
     """
     app_logger.debug("setup_app_logger: entrée")
-    import logging_config
+    from gcm4.core import journal as logging_config
 
     logger_ = logging_config.configure_logging(
         "DEBUG" if debug else None, config_dir=config_dir, force=True

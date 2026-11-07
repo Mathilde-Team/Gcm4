@@ -219,7 +219,7 @@ class HostUtils:
             Host: Instance peuplee a partir de la section INI.
         """
         logger.debug("HostUtils.load_host_from_ini: entrée")
-        from gcm4_core import decrypt, get_password
+        from gcm4.core.metier import decrypt, get_password
         from utils import conf
 
         if pwd == "":
@@ -281,7 +281,7 @@ class HostUtils:
                 (defaut).
         """
         logger.debug("HostUtils.save_host_to_ini: entrée")
-        from gcm4_core import encrypt, get_password
+        from gcm4.core.metier import encrypt, get_password
 
         def _s(v):
             """Coerce any value to str safely (None → '')."""

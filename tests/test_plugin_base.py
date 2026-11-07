@@ -3,7 +3,7 @@
 
 Couvre le comportement NOUVEAU de cette session : ``plugin_base.py`` ne
 verrouille plus ``gi.require_version("Gtk", "3.0")`` ni n'importe plus
-``Gtk`` au niveau module (voir ``proposition-architecture-plugins-gtk4.md``
+``Gtk`` au niveau module (voir ``docs/proposition-architecture-plugins-gtk4.md``
 §4). L'unique usage de ``Gtk`` restant dans le fichier est en annotation de
 type, déjà paresseuse grâce à ``from __future__ import annotations`` — donc
 protégée par un bloc ``if TYPE_CHECKING:``.
@@ -52,7 +52,7 @@ class TestPluginBaseGtkAgnostic(unittest.TestCase):
             sys.modules,
             "plugin_base.py a réintroduit un import gi réel au niveau module "
             "— cassera le chargement de tout plugin GTK4 dans le même process "
-            "(voir proposition-architecture-plugins-gtk4.md §4).",
+            "(voir docs/proposition-architecture-plugins-gtk4.md §4).",
         )
 
     def test_no_require_version_call_in_source(self):

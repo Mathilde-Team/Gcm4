@@ -60,7 +60,7 @@ Conséquence sur l'ordre de mise en œuvre (§3.6 ci-dessous, point 2 —
 « valider avec l'autrice » — est donc levé) : le prochain travail de codage
 sur ce chantier peut commencer par l'extraction de `plugins/ssh/core.py`
 (partie testable sans GTK dès maintenant, sur le modèle de l'extraction de
-`gcm4_core.py` en session-05), une session distincte étant réservée ensuite
+`src/gcm4/core/metier.py` en session-05), une session distincte étant réservée ensuite
 pour `plugins/ssh/gtk4.py` (portage effectif des widgets — dépend lui-même
 de l'avancement des points de rupture du cœur en §3.2, en particulier
 `Gtk.Dialog.run()`, avant de pouvoir tourner réellement).
@@ -193,7 +193,7 @@ distributions cibles avant de s'engager, ces informations évoluent vite :
 ## 3.6 Premier pas concret du portage (session-25, 2026-09-10)
 
 Jusqu'ici, **aucune ligne de portage GTK4 réel n'avait été écrite** — seul du
-travail préparatoire (séparation `gcm4_core.py`, suppression du vestige
+travail préparatoire (séparation `src/gcm4/core/metier.py`, suppression du vestige
 `patch_edit_host_dialog`). Cette session lève **l'étape 1** de l'ordre de
 mise en œuvre proposé (`proposition-architecture-plugins-gtk4.md` §8) :
 

@@ -36,7 +36,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INVENTAIRE = ROOT / "tests" / "gtk3_inventaire.txt"
-EXCLUS = ("SSH-Studio/", "gtk-frdp/")
+EXCLUS = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/")
 VERSIONS_GTK3 = {("Gtk", "3.0"), ("Gdk", "3.0"), ("Vte", "2.91")}
 MODULES_GTK = {"Gtk", "Gdk", "Vte"}
 EN_TETE = (

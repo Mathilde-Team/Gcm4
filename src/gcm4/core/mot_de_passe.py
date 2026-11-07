@@ -75,7 +75,7 @@ from loguru import logger as app_logger
 # logging_config.configure_logging() (CORE_MODULES).
 app_logger.disable(__name__)
 
-import pyAES
+from gcm4.core import pyaes as pyAES
 
 __all__ = [
     "MASTER_PASSWORD_MAGIC",

@@ -18,7 +18,7 @@ from collections.abc import Iterable
 
 from loguru import logger
 
-import gcm4_core
+from gcm4.core import metier as gcm4_core
 from gcm4.core.config import update_keys
 from gcm4.core.window_state import SECTION, _lire
 

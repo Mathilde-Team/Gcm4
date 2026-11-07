@@ -107,12 +107,12 @@ import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-CORE_FILE = os.path.join(REPO_ROOT, "gnome_connection_manager.py")
+CORE_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome_connection_manager.py")
 RDP_PLUGIN_FILE = os.path.join(REPO_ROOT, "plugins", "plugin_rdp.py")
 VNC_PLUGIN_FILE = os.path.join(REPO_ROOT, "plugins", "plugin_vnc.py")
 SPICE_PLUGIN_FILE = os.path.join(REPO_ROOT, "plugins", "plugin_spice.py")
-WIDGETS_FILE = os.path.join(REPO_ROOT, "widgets.py")
-GTK_FRDP_MESON = os.path.join(REPO_ROOT, "gtk-frdp", "src", "meson.build")
+WIDGETS_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "widgets.py")
+GTK_FRDP_MESON = os.path.join(REPO_ROOT, "GTK3.OLD", "gtk-frdp", "src", "meson.build")
 
 
 def _read(path: str) -> str:
