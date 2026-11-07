@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 12:45+0000\n"
+"POT-Creation-Date: 2026-11-07 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2018,9 +2018,9 @@ msgstr "टेम्पलेट:"
 msgid "Template:"
 msgstr "टेम्पलेट:"
 
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
 msgid "Tool"
-msgstr ""
+msgstr "टूल"
 
 #: plugins/plugin_serial.py
 msgid "Transmission speed in baud"
@@ -3423,6 +3423,10 @@ msgid "Search"
 msgstr "खोजें"
 
 #: src/gcm4/core/menu.py
+msgid "Tools"
+msgstr "टूल्स"
+
+#: src/gcm4/core/menu.py
 msgid "User Guide"
 msgstr "उपयोगकर्ता मार्गदर्शिका"
 
@@ -3463,6 +3467,10 @@ msgid "Reset Color"
 msgstr "रंग रीसेट करें"
 
 #: src/gcm4/core/plugins.py
+msgid "It declares no menu label."
+msgstr "यह कोई मेनू लेबल घोषित नहीं करता।"
+
+#: src/gcm4/core/plugins.py
 msgid "It declares no protocol."
 msgstr "कोई प्रोटोकॉल घोषित नहीं है।"
 
@@ -3479,6 +3487,15 @@ msgstr "यह प्लगइन API संस्करण {found} लागू
 #: src/gcm4/core/plugins.py
 msgid "It is not a connection plugin."
 msgstr "यह कनेक्शन प्लगइन नहीं है।"
+
+#: src/gcm4/core/plugins.py
+msgid "It is not a tool plugin."
+msgstr "यह एक टूल प्लगइन नहीं है।"
+
+#: src/gcm4/core/plugins.py
+#, python-brace-format
+msgid "Its menu section must be one of: {sections}."
+msgstr "इसका मेनू अनुभाग इनमें से एक होना चाहिए: {sections}।"
 
 #: src/gcm4/core/plugins.py
 msgid "Its name must be a non-empty lowercase identifier."
@@ -3796,6 +3813,11 @@ msgstr "खुले कनेक्शन बंद कर दिए जाए�
 #: src/gcm4/ui/main_window.py
 msgid "Quit anyway?"
 msgstr "फिर भी बाहर निकलें?"
+
+#: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Tool «{name}» failed; see the log."
+msgstr "टूल «{name}» विफल रहा; लॉग देखें।"
 
 #: src/gcm4/ui/main_window.py
 #, python-brace-format

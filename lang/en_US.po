@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 12:45+0000\n"
+"POT-Creation-Date: 2026-11-07 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1921,9 +1921,9 @@ msgstr ""
 msgid "Template:"
 msgstr ""
 
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
 msgid "Tool"
-msgstr ""
+msgstr "Tool"
 
 #: plugins/plugin_serial.py
 msgid "Transmission speed in baud"
@@ -3261,6 +3261,10 @@ msgid "Search"
 msgstr "Search"
 
 #: src/gcm4/core/menu.py
+msgid "Tools"
+msgstr "Tools"
+
+#: src/gcm4/core/menu.py
 msgid "User Guide"
 msgstr "User Guide"
 
@@ -3301,6 +3305,10 @@ msgid "Reset Color"
 msgstr "Reset Color"
 
 #: src/gcm4/core/plugins.py
+msgid "It declares no menu label."
+msgstr "It declares no menu label."
+
+#: src/gcm4/core/plugins.py
 msgid "It declares no protocol."
 msgstr "It declares no protocol."
 
@@ -3317,6 +3325,15 @@ msgstr "It implements plugin API version {found}; this application supports vers
 #: src/gcm4/core/plugins.py
 msgid "It is not a connection plugin."
 msgstr "It is not a connection plugin."
+
+#: src/gcm4/core/plugins.py
+msgid "It is not a tool plugin."
+msgstr "It is not a tool plugin."
+
+#: src/gcm4/core/plugins.py
+#, python-brace-format
+msgid "Its menu section must be one of: {sections}."
+msgstr "Its menu section must be one of: {sections}."
 
 #: src/gcm4/core/plugins.py
 msgid "Its name must be a non-empty lowercase identifier."
@@ -3634,6 +3651,11 @@ msgstr "Open connections will be closed."
 #: src/gcm4/ui/main_window.py
 msgid "Quit anyway?"
 msgstr "Quit anyway?"
+
+#: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Tool «{name}» failed; see the log."
+msgstr "Tool «{name}» failed; see the log."
 
 #: src/gcm4/ui/main_window.py
 #, python-brace-format

@@ -576,6 +576,8 @@ class PreferencesWindow(Adw.PreferencesWindow):
             ligne = Adw.ActionRow(title=etat.name)
             ligne.set_use_markup(False)  # raison d'erreur : texte libre
             details = [_("Version {version}").format(version=etat.version)] if etat.version else []
+            if getattr(etat, "type", "connexion") == "outil":
+                details.append(_("Tool"))
             details.append(etat.source)
             if etat.erreur is not None:
                 details.append(etat.erreur)

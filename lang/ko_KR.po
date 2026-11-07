@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 12:45+0000\n"
+"POT-Creation-Date: 2026-11-07 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2018,9 +2018,9 @@ msgstr "템플릿:"
 msgid "Template:"
 msgstr "템플릿:"
 
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
 msgid "Tool"
-msgstr ""
+msgstr "도구"
 
 #: plugins/plugin_serial.py
 msgid "Transmission speed in baud"
@@ -3423,6 +3423,10 @@ msgid "Search"
 msgstr "검색"
 
 #: src/gcm4/core/menu.py
+msgid "Tools"
+msgstr "도구"
+
+#: src/gcm4/core/menu.py
 msgid "User Guide"
 msgstr "사용자 안내서"
 
@@ -3463,6 +3467,10 @@ msgid "Reset Color"
 msgstr "색 초기화"
 
 #: src/gcm4/core/plugins.py
+msgid "It declares no menu label."
+msgstr "메뉴 라벨을 선언하지 않습니다."
+
+#: src/gcm4/core/plugins.py
 msgid "It declares no protocol."
 msgstr "선언된 프로토콜이 없습니다."
 
@@ -3479,6 +3487,15 @@ msgstr "플러그인 API 버전 {found}을(를) 구현합니다. 이 프로그�
 #: src/gcm4/core/plugins.py
 msgid "It is not a connection plugin."
 msgstr "연결 플러그인이 아닙니다."
+
+#: src/gcm4/core/plugins.py
+msgid "It is not a tool plugin."
+msgstr "도구 플러그인이 아닙니다."
+
+#: src/gcm4/core/plugins.py
+#, python-brace-format
+msgid "Its menu section must be one of: {sections}."
+msgstr "메뉴 섹션은 다음 중 하나여야 합니다: {sections}."
 
 #: src/gcm4/core/plugins.py
 msgid "Its name must be a non-empty lowercase identifier."
@@ -3796,6 +3813,11 @@ msgstr "열려 있는 연결이 닫힙니다."
 #: src/gcm4/ui/main_window.py
 msgid "Quit anyway?"
 msgstr "그래도 종료하시겠습니까?"
+
+#: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Tool «{name}» failed; see the log."
+msgstr "도구 «{name}»이(가) 실패했습니다. 로그를 확인하세요."
 
 #: src/gcm4/ui/main_window.py
 #, python-brace-format

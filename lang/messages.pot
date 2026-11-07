@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 12:45+0000\n"
+"POT-Creation-Date: 2026-11-07 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1886,7 +1886,7 @@ msgstr ""
 msgid "Flow control"
 msgstr ""
 
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
 msgid "Tool"
 msgstr ""
 
@@ -3190,6 +3190,10 @@ msgstr ""
 msgid "Keyboard Shortcuts"
 msgstr ""
 
+#: src/gcm4/core/menu.py
+msgid "Tools"
+msgstr ""
+
 #: src/gcm4/core/menu_arbre.py widgets.py
 msgid "Copy Address"
 msgstr ""
@@ -3227,7 +3231,7 @@ msgid "Edit Selected Hosts…"
 msgstr ""
 
 #: src/gcm4/core/plugins.py
-msgid "It is not a connection plugin."
+msgid "It is not a tool plugin."
 msgstr ""
 
 #: src/gcm4/core/plugins.py
@@ -3240,12 +3244,25 @@ msgid "Its name must be a non-empty lowercase identifier."
 msgstr ""
 
 #: src/gcm4/core/plugins.py
-msgid "It declares no protocol."
+msgid "It declares no menu label."
+msgstr ""
+
+#: src/gcm4/core/plugins.py
+#, python-brace-format
+msgid "Its menu section must be one of: {sections}."
 msgstr ""
 
 #: src/gcm4/core/plugins.py
 #, python-brace-format
 msgid "It does not implement: {methods}."
+msgstr ""
+
+#: src/gcm4/core/plugins.py
+msgid "It is not a connection plugin."
+msgstr ""
+
+#: src/gcm4/core/plugins.py
+msgid "It declares no protocol."
 msgstr ""
 
 #: src/gcm4/core/preferences.py
@@ -3531,6 +3548,11 @@ msgstr ""
 
 #: src/gcm4/ui/main_window.py
 msgid "Configuration not loaded"
+msgstr ""
+
+#: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Tool «{name}» failed; see the log."
 msgstr ""
 
 #: src/gcm4/ui/main_window.py

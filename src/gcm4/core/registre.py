@@ -10,11 +10,17 @@ Sources, dans cet ordre (``docs/plugins.md``, « Installation et découverte »)
    paquet ``gcm4_plugin_<nom>``, ``gtk4.py`` peut donc importer ``core.py``.
 
 Chaque candidat devient un :class:`EtatPlugin`. Un plugin qui lève à l'import
-ou à l'initialisation, incompatible (:func:`gcm4.core.plugins.incompatibilite`),
-en double (même ``name``) ou qui réclame un protocole déjà pris est marqué
-**en erreur** avec sa raison traduite et un ``warning`` au journal. Les autres
-continuent, et le démarrage aussi. Les plugins chargés sont rangés par
-``name`` : l'ordre ne dépend pas du système de fichiers.
+ou à l'initialisation, incompatible (:func:`gcm4.core.plugins.incompatibilite`
+ou :func:`gcm4.core.plugins.incompatibilite_outil`), en double (même ``name``)
+ou qui réclame un protocole déjà pris est marqué **en erreur** avec sa raison
+traduite et un ``warning`` au journal. Les autres continuent, et le démarrage
+aussi. Les plugins chargés sont rangés par ``name`` : l'ordre ne dépend pas du
+système de fichiers.
+
+Un candidat peut être un **outil** (:class:`gcm4.core.plugins.ToolPlugin`) :
+même découverte (``PLUGIN`` dans ``gtk4.py`` ou point d'entrée), aucune
+section protocole, mais une entrée de menu (``menu_avec_outils`` de
+``gcm4.core.menu``) et l'action ``win.outil-<name>``.
 """
 
 from __future__ import annotations
@@ -32,7 +38,13 @@ from typing import Any
 from loguru import logger
 
 from gcm4.core.i18n import _
-from gcm4.core.plugins import ConnectionPlugin, PluginContext, incompatibilite
+from gcm4.core.plugins import (
+    ConnectionPlugin,
+    PluginContext,
+    ToolPlugin,
+    incompatibilite,
+    incompatibilite_outil,
+)
 
 GROUPE = "gcm4.plugins"
 #: Fichier d'un plugin en mode source, dans ``plugins/<nom>/``.
@@ -50,8 +62,10 @@ class EtatPlugin:
     source: str
     version: str = ""
     protocols: tuple[str, ...] = ()
-    plugin: ConnectionPlugin | None = None
+    plugin: ConnectionPlugin | ToolPlugin | None = None
     erreur: str | None = None
+    #: ``"connexion"`` ou ``"outil"`` : famille du plugin candidat.
+    type: str = "connexion"
 
     @property
     def charge(self) -> bool:
@@ -213,7 +227,11 @@ def _charger(candidat: Candidat, contexte: FabriqueDeContexte) -> EtatPlugin:
         return _en_erreur(
             candidat.nom, candidat.source, _("Import failed: {error}").format(error=exc)
         )
-    raison = incompatibilite(classe)
+    raison = (
+        incompatibilite_outil(classe)
+        if isinstance(classe, type) and issubclass(classe, ToolPlugin)
+        else incompatibilite(classe)
+    )
     if raison is not None:
         logger.debug("_charger: incompatible")
         return _en_erreur(
@@ -229,19 +247,21 @@ def _charger(candidat: Candidat, contexte: FabriqueDeContexte) -> EtatPlugin:
             _("Initialization failed: {error}").format(error=exc),
             classe,
         )
+    outil = isinstance(plugin, ToolPlugin)
     etat = EtatPlugin(
         name=classe.name,
         source=candidat.source,
         version=classe.version,
-        protocols=tuple(classe.protocols),
+        protocols=() if outil else tuple(classe.protocols),
         plugin=plugin,
+        type="outil" if outil else "connexion",
     )
     logger.debug("_charger: {!r} chargé ({})", etat.name, etat.protocols)
     return etat
 
 
 class PluginRegistry:
-    """Plugins chargés (par protocole) et en erreur ; vide = mode zéro plugin."""
+    """Plugins chargés (par protocole, outils par nom) et en erreur ; vide = mode zéro plugin."""
 
     def __init__(self, etats: Iterable[EtatPlugin] = ()) -> None:
         """Range ``etats`` par nom et indexe les protocoles des plugins chargés."""
@@ -249,7 +269,7 @@ class PluginRegistry:
         self.etats: list[EtatPlugin] = sorted(etats, key=lambda e: (e.name, e.source))
         self._par_protocole: dict[str, ConnectionPlugin] = {}
         for etat in self.etats:
-            if etat.plugin is not None:
+            if etat.plugin is not None and isinstance(etat.plugin, ConnectionPlugin):
                 for protocole in etat.protocols:
                     self._par_protocole.setdefault(protocole, etat.plugin)
         logger.debug(
@@ -259,10 +279,32 @@ class PluginRegistry:
         )
 
     def plugins(self) -> list[ConnectionPlugin]:
-        """Plugins utilisables, par nom."""
+        """Plugins de connexion utilisables, par nom (les outils sont dans :meth:`outils`)."""
         logger.trace("plugins")
-        resultat = [e.plugin for e in self.etats if e.plugin is not None]
+        resultat = [
+            e.plugin
+            for e in self.etats
+            if e.plugin is not None and isinstance(e.plugin, ConnectionPlugin)
+        ]
         logger.trace("plugins: {}", len(resultat))
+        return resultat
+
+    def outils(self) -> list[ToolPlugin]:
+        """Plugins outils utilisables, par nom."""
+        logger.trace("outils")
+        resultat = [
+            e.plugin
+            for e in self.etats
+            if e.plugin is not None and isinstance(e.plugin, ToolPlugin)
+        ]
+        logger.trace("outils: {}", len(resultat))
+        return resultat
+
+    def outil(self, nom: str) -> ToolPlugin | None:
+        """Outil de ce nom, ou ``None``."""
+        logger.trace("outil: {!r}", nom)
+        resultat = next((o for o in self.outils() if o.name == nom), None)
+        logger.trace("outil: {}", resultat.name if resultat else None)
         return resultat
 
     def erreurs(self) -> list[EtatPlugin]:

@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-111 modules · 198 classes · 422 fonctions publiques de module.
+111 modules · 199 classes · 425 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -1815,7 +1815,9 @@ classDiagram
     }
     class mod_gcm4_core_menu {
         <<module>>
-        +actions_du_menu() list~str~
+        +actions_du_menu(menu) list~str~
+        +action_outil(name) str
+        +menu_avec_outils(menu, outils) tuple~SousMenu, ...~
     }
     class gcm4_core_menu_Entree {
         <<dataclass>>
@@ -1921,6 +1923,7 @@ classDiagram
     }
     class mod_gcm4_core_plugins {
         <<module>>
+        +incompatibilite_outil(classe) str None
         +incompatibilite(classe) str None
     }
     class PluginContext {
@@ -1955,6 +1958,17 @@ classDiagram
         +open(host) Session
         +build_preferences_page() Gtk.Widget None
         +context_menu_items(host) list~MenuItem~
+    }
+    class ToolPlugin {
+        <<ABC>>
+        +ClassVar~int~ api_version
+        +ClassVar~str~ name
+        +ClassVar~str~ version
+        +ClassVar~str~ menu_label
+        +ClassVar~str~ menu_section
+        +ClassVar~str~ icon_name
+        +activate() None
+        +build_preferences_page() Any None
     }
     class mod_gcm4_core_preferences {
         <<module>>
@@ -2027,8 +2041,9 @@ classDiagram
         +str source
         +str version
         +tuple~str, ...~ protocols
-        +ConnectionPlugin None plugin
+        +ConnectionPlugin ToolPlugin None plugin
         +str None erreur
+        +str type
         +charge() bool
     }
     class Candidat {
@@ -2039,6 +2054,8 @@ classDiagram
     }
     class gcm4_core_registre_PluginRegistry {
         +plugins() list~ConnectionPlugin~
+        +outils() list~ToolPlugin~
+        +outil(nom) ToolPlugin None
         +erreurs() list~EtatPlugin~
         +get(protocole) ConnectionPlugin None
         +protocols() list~str~
@@ -2213,7 +2230,7 @@ classDiagram
     }
     class mod_gcm4_ui_main_window {
         <<module>>
-        +construire_menu() Gio.Menu
+        +construire_menu(outils) Gio.Menu
     }
     class MainWindow {
         <<Adw.ApplicationWindow>>
