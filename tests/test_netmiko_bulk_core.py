@@ -25,7 +25,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import netmiko_bulk_core as nb  # noqa: E402
+from plugins.netmiko_push import core as nb  # noqa: E402
 
 # ──────────────────────────────────────────────────────────────────────────
 # Stub netmiko (aucune connexion réelle)
@@ -762,7 +762,7 @@ class TestRunBulkPush(unittest.TestCase):
                 config_errors=["% Invalid input"],
                 error="",
             )
-            from netmiko_bulk_core import _write_log
+            from plugins.netmiko_push.core import _write_log
 
             path = _write_log(Path(tmp), row, result)
             content = Path(path).read_text(encoding="utf-8")
@@ -777,7 +777,7 @@ class TestRunBulkPush(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             row = _row()
             result = nb.PushResult(row=row, status=nb.STATUS_FAILED, error="x")
-            from netmiko_bulk_core import _write_log
+            from plugins.netmiko_push.core import _write_log
 
             path = _write_log(Path(tmp), row, result)
             content = Path(path).read_text(encoding="utf-8")

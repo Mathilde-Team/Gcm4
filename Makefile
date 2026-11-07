@@ -19,8 +19,9 @@ TMPINSTALLDIR = /tmp/$(PKG_NAME)-fpm-install
 # plugin. tests/test_paquet_contenu.py vérifie que chaque module importé est
 # bien installé.
 # Ancienne application GTK3 rangée dans GTK3.OLD/ (#427) : installée à plat,
-# comme avant, avec les cœurs d'import restés à la racine.
-RUNTIME_PY  = $(sort $(wildcard GTK3.OLD/*.py) $(wildcard *.py))
+# comme avant. Les cœurs des outils (lot 3) sont dans plugins/<dossier>/core.py
+# et suivent PLUGINS_PY. Plus aucun module à la racine.
+RUNTIME_PY  = $(sort $(wildcard GTK3.OLD/*.py))
 GCM4_PY     = $(sort $(shell git ls-files 'src/gcm4/*.py' 'src/gcm4/*.css'))
 PLUGINS_PY  = $(sort $(shell find plugins -name '*.py' -not -path '*/tests/*' -not -name 'conftest.py' -not -path '*/__pycache__/*'))
 
@@ -219,7 +220,7 @@ test:
 
 # ── Lint (ruff + flake8) ──────────────────────────────────────────────────────
 # session-35 (2026-09-14) : la cible ne couvrait que gnome_connection_manager.py,
-# src/gcm4/core/metier.py et tests/ — les plugins/, models.py, netmiko_bulk_core.py,
+# src/gcm4/core/metier.py et tests/ — les plugins/, models.py, plugins/netmiko_push/core.py,
 # utils.py et widgets.py n'étaient jamais vérifiés. Élargi à tout le dépôt
 # (respecte l'exclude de pyproject.toml, dont SSH-Studio/gtk-frdp, vendorisés
 # et hors périmètre GCM).

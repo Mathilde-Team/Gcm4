@@ -60,7 +60,7 @@ sys.modules.setdefault("ezsnmp", _ezsnmp)
 sys.modules.setdefault("ezsnmp.exceptions", _ezsnmp_exceptions)
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import snmp_bulk_core as snmp_core  # noqa: E402
+from plugins.snmp_push import core as snmp_core  # noqa: E402
 
 
 class TestDriverRegistryCompleteness(unittest.TestCase):

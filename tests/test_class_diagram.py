@@ -59,7 +59,8 @@ class TestDiagrammeDeClasses(unittest.TestCase):
     def test_groupes(self):
         """Classement cœur / application / plugins / src/gcm4."""
         self.assertEqual(GEN.group_of("src/gcm4/core/metier.py"), "gcm4.core")
-        self.assertEqual(GEN.group_of("snmp_bulk_core.py"), GEN.GROUP_CORE)
+        self.assertEqual(GEN.group_of("GTK3.OLD/popup_menu_core.py"), GEN.GROUP_CORE)
+        self.assertEqual(GEN.group_of("plugins/snmp_push/core.py"), GEN.GROUP_PLUGINS)
         self.assertEqual(GEN.group_of("gnome_connection_manager.py"), GEN.GROUP_APP)
         self.assertEqual(GEN.group_of("plugins/ssh/core.py"), GEN.GROUP_PLUGINS)
         self.assertEqual(GEN.group_of("src/gcm4/core/hosts.py"), "gcm4.core")

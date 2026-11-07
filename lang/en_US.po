@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 14:24+0000\n"
+"POT-Creation-Date: 2026-11-07 15:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -429,7 +429,7 @@ msgid "Help"
 msgstr "Help"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/plugin_ssh.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #: src/gcm4/ui/host_dialog.py
 msgid "Host"
 msgstr "Host"
@@ -516,7 +516,7 @@ msgid "Menu"
 msgstr "Menu"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_key_manager_dialog.py
-#: src/gcm4/ui/host_dialog.py
+#: plugins/ssh/gtk4.py src/gcm4/ui/host_dialog.py
 msgid "Name"
 msgstr "Name"
 
@@ -864,6 +864,7 @@ msgid ""
 msgstr ""
 
 #: GTK3.OLD/key_picker_dialog.py GTK3.OLD/ssh_key_manager_dialog.py
+#: plugins/ssh/gtk4.py
 msgid "Fingerprint"
 msgstr ""
 
@@ -1282,27 +1283,27 @@ msgstr ""
 msgid "💾 Save"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "#"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "(empty = no passphrase)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "(empty = remove passphrase)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "(empty if none)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "(hashed)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "(none — keys are generated unsigned)"
 msgstr ""
 
@@ -1311,21 +1312,21 @@ msgstr ""
 msgid "A certificate named {name} already exists"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "A file named {name} already exists"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Add Authorized Key"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Add {name} to ssh-agent?"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Added to ssh-agent"
 msgstr ""
 
@@ -1333,67 +1334,67 @@ msgstr ""
 msgid "All files"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Authorized Keys"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "CA deleted: {name}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "CA deletion failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "CA import failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "CA imported and designated: {name}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "CA signing failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "CA signing timed out — CA key may require a passphrase (unsupported non-interactively)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Cannot open file manager: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Cannot read public key: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Certificate identity:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Change Passphrase — {name}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Change the passphrase of this private key (ssh-keygen -p)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Check ~/.ssh/config (and GCM hosts, if wired in) against known_hosts"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Choose an existing local key pair as the signing CA"
 msgstr ""
 
@@ -1401,24 +1402,24 @@ msgstr ""
 msgid "Clipboard unavailable — key content logged"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Comment"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Comment:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Confirm new passphrase:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Connected to {t} — Known Hosts / Authorized Keys now read from there"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Connection failed: {err}"
 msgstr ""
@@ -1432,196 +1433,196 @@ msgstr ""
 msgid "Copy failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Copy the public key content to clipboard"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Created"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Current passphrase:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Delete failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Designate Signing CA"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Designated CA: {name}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Disable"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Enabled"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Entry not found (file may have changed) — refreshing"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Failed to add key"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Failed to add to agent (passphrase required?): {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Failed to remove from agent: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Failed to update authorized_keys"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Failed to update known_hosts"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "File changed on disk — refreshing"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "File name:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "File {name} already exists in ~/.ssh/ — overwrite?"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Fingerprint copied to clipboard"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Found"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Generate SSH Key"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Generate a new SSH key pair (ssh-keygen)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Generation failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Hashed"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Import CA Private Key"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Import Private Key"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Import an existing private key file into ~/.ssh/"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Import an external CA key pair into ~/.ssh/ and designate it"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Import failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Info (matching known_hosts line)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Invalid name — must not contain a path separator"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Invalid target — expected user@host or user@host:port"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Key added to authorized_keys"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Key deleted: {name}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Key generated: {name}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Key imported: {name}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Key signed by CA {ca} (identity={id})"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Key type:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Keys are saved in <b>~/.ssh/</b> with permissions 600."
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Known Hosts"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Known Hosts Test — {n}/{total} found on {target}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Load/unload this key in ssh-agent (ssh-add / ssh-add -d)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "New name for {name}:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "New passphrase and confirmation do not match"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "New passphrase:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "No CA currently designated"
 msgstr ""
 
@@ -1629,49 +1630,49 @@ msgstr ""
 msgid "No CA designated — key generated unsigned"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "No Public key available for selected entry"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "No authorized_keys entry selected"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "No candidate hosts found in ~/.ssh/config (and no GCM host list wired in)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "No fingerprint available for this entry"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "No key selected"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "No known_hosts entry selected"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "No matching .pub file found next to {name} — cannot import as CA"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "No matching .pub file found next to {name} — cannot use as CA"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "No private key selected"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "No public key available for selected entry"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "No public key available to identify this key in the agent"
 msgstr ""
 
@@ -1679,44 +1680,44 @@ msgstr ""
 msgid "Nothing to rename"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Open ~/.ssh/ in the file manager"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Orphan Public key"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Orphan Public keys"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Passphrase change failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Passphrase changed for {name}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Passphrase:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Paste the full public key line (options, type, base64 key, comment):"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid ""
 "Permanently delete <b>{name}</b> (and its Orphan Public key if present)?\n"
 "<b>This cannot be undone.</b>"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid ""
 "Permanently delete the CA key pair <b>{name}</b>?\n"
@@ -1724,32 +1725,32 @@ msgid ""
 "<b>This cannot be undone.</b>"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Permanently delete the designated CA key pair"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Permanently delete the selected key"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Perms"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Principals (comma-separated):"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Private keys"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Public Key — {name}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Public key copied to clipboard"
 msgstr ""
 
@@ -1758,58 +1759,58 @@ msgstr ""
 msgid "Public key file not found: {p}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "RSA size:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Re-enable"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Remote target (Known Hosts / Authorized Keys):"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid ""
 "Remove this authorized_keys entry?\n"
 "<b>This cannot be undone.</b>"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid ""
 "Remove this known_hosts entry?\n"
 "<b>This cannot be undone.</b>"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Remove {name} from ssh-agent?"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Removed from ssh-agent"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Rename Key"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Rename failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Rename this key (and its .pub / certificate, if any)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Renamed {old} to {new}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/plugin_ssh.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "SSH Key Manager"
 msgstr ""
 
@@ -1817,61 +1818,61 @@ msgstr ""
 msgid "SSH connection failed"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Saved in ~/.ssh/ — leave blank for default name"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Select the private key file, not the .pub file"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Show the full public key content in a dedicated window"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Sign with designated CA ({name})"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Signed by"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Signing CA:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Switched back to local machine"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "Testing connection to {t}…"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "This does not look like a valid public key line"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Validity"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "Validity:"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "_Add"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "_Change"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "_Close"
 msgstr ""
 
@@ -1883,136 +1884,136 @@ msgstr ""
 msgid "_Import"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "_Rename"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "add a key to authorized_keys"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "authorized_keys entry removed"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "authorized_keys entry updated"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "authorized_keys not found on {t}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "enable/disable an authorized_keys entry"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "forever"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "known_hosts entry removed"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "known_hosts not found on {t}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "local machine"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "remove a known_hosts entry"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "remove an authorized_keys entry"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "ssh-add failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "ssh-add timed out — the key may require a passphrase (no terminal available here)"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "ssh-keygen -V syntax, e.g. +52w (1 year), +30d, or 'always:forever'"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "ssh-keygen failed: {err}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "ssh-keygen not found — install openssh-client"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "unknown CA"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "until {end}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "user@host or root@host[:port]"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "{action} this authorized_keys entry?"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "{n} authorized_keys entries loaded from {t}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "{n} known_hosts entries loaded from {t}"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid "{priv} private key(s), {pub} Orphan Public key(s) loaded from ~/.ssh/"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "~/.ssh/ not found — no keys loaded"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "↑ Import"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "⎘ Copy fingerprint"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "⎘ Copy public key"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "⎘ Copy to clipboard"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "⚙ Generate"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 #, python-brace-format
 msgid ""
 "⚠ You are about to {action} on the <b>root</b> account of {target}.\n"
@@ -2020,55 +2021,55 @@ msgid ""
 "<b>Are you sure?</b>"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "✎ Rename"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "⟳ Refresh"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "⬆ Import CA"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "🏠 Local"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "👁 View public key"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "📂 Reveal"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "🔌 Connect"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "🔏 Designate"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "🔑 Agent"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "🔒 Passphrase"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "🗑 Delete"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "🗑 Delete CA"
 msgstr ""
 
-#: GTK3.OLD/ssh_key_manager_dialog.py
+#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
 msgid "🧪 Test known hosts"
 msgstr ""
 
@@ -4045,6 +4046,11 @@ msgstr ""
 msgid "{path}: {count} items"
 msgstr ""
 
+#
+#: plugins/ssh/gtk4.py src/gcm4/ui/mot_de_passe_maitre.py
+msgid "Confirm"
+msgstr "Confirm"
+
 #: plugins/ssh/gtk4.py
 msgid "Permissions too open: ssh will refuse this key"
 msgstr "Permissions too open: ssh will refuse this key"
@@ -4712,11 +4718,6 @@ msgstr "Change the master password"
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Change…"
 msgstr "Change…"
-
-#
-#: src/gcm4/ui/mot_de_passe_maitre.py
-msgid "Confirm"
-msgstr "Confirm"
 
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm the new master password"

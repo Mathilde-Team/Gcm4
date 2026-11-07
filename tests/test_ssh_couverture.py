@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Chemins d'erreur et cas limites de plugins/ssh/core.py et putty_import_core.py.
+"""Chemins d'erreur et cas limites de plugins/ssh/core.py et plugins/import_putty/core.py.
 
 Complète test_ssh_core.py et test_putty_import_core.py sur les branches
 restées sans couverture : validation des ports hors plage, Include
@@ -15,7 +15,7 @@ from pathlib import Path
 import pytest
 
 import plugins.ssh.core as ssh_core
-import putty_import_core
+from plugins.import_putty import core as putty_import_core
 
 
 def _config_avec(contenu: str, tmp_path: Path) -> ssh_core.SSHConfigParser:
