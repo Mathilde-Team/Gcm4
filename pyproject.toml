@@ -348,9 +348,13 @@ skip_covered = false
 # tests de la logique du plugin VNC (#408, 34,8 % → 100 %), soit 67.
 # Palier 13 de #293 (05/11/2026) : 69,3 % en mesure combinée avec les
 # tests de la logique du plugin RDP (#412, 15,1 % → 100 %), soit 69.
+# Palier 14 de #293 (06/11/2026) : 72,5 % en mesure combinée avec les
+# tests de l'éditeur de ~/.ssh/config GTK3 (#416, 0 % → 100 %), soit 72.
+# Palier 15 de #293 (06/11/2026) : 73,3 % en mesure combinée avec les
+# tests du sélecteur de clé SSH GTK3 (#418, 10,6 % → 100 %), soit 73.
 # Relever ce chiffre quand la base monte, ne jamais le baisser
 # pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
-fail_under = 69
+fail_under = 73
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
