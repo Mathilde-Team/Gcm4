@@ -27,6 +27,7 @@ from gi.repository import GLib, Gtk, Vte  # noqa: E402
 from gcm4.core import registre  # noqa: E402
 from gcm4.core.model import Host  # noqa: E402
 from gcm4.ui.terminal import zone_options as zone_commune  # noqa: E402
+from plugins.ssh import session  # noqa: E402
 
 RACINE = Path(__file__).resolve().parents[2]
 
@@ -395,10 +396,140 @@ def test_zone_options_redirections(plugin):
 
 
 def test_zone_options_structure(plugin):
-    """Deux pages dans le carnet, puis la zone commune des plugins terminal."""
+    """Trois pages dans le carnet, puis la zone commune des plugins terminal."""
     options = {}
     zone, carnet = _zone(plugin, options, [])
-    assert carnet.get_n_pages() == 2
+    assert carnet.get_n_pages() == 3
     assert carnet.get_tab_label_text(carnet.get_nth_page(0)) == "Advanced"
     assert carnet.get_tab_label_text(carnet.get_nth_page(1)) == "Port forwarding"
+    assert carnet.get_tab_label_text(carnet.get_nth_page(2)) == "SSHFS"
     assert isinstance(zone_commune(options, lambda: None), Gtk.Widget)
+
+
+FAUX_SSHFS = """#!{python}
+import os, sys
+trace = open(os.environ["FAUX_SSHFS_TRACE"], "a")
+trace.write("sshfs=" + repr(sys.argv[1:]) + "\\n")
+trace.close()
+"""
+
+FAUX_FUSERMOUNT = """#!{python}
+import os, sys
+trace = open(os.environ["FAUX_SSHFS_TRACE"], "a")
+trace.write("fusermount=" + repr(sys.argv[1:]) + "\\n")
+trace.close()
+"""
+
+
+@pytest.fixture
+def faux_sshfs(tmp_path, monkeypatch):
+    """Faux sshfs et fusermount en tête de PATH ; rend le fichier de trace."""
+    dossier = tmp_path / "bin"  # déjà créé par le faux ssh éventuel
+    dossier.mkdir(exist_ok=True)
+    trace = tmp_path / "trace_sshfs"
+    monkeypatch.setenv("FAUX_SSHFS_TRACE", str(trace))
+    for nom, modele in (
+        ("sshfs", FAUX_SSHFS),
+        ("fusermount", FAUX_FUSERMOUNT),
+        ("fusermount3", FAUX_FUSERMOUNT),  # prioritaire dans arreter_montage
+    ):
+        programme = dossier / nom
+        programme.write_text(modele.format(python=sys.executable), encoding="utf-8")
+        programme.chmod(0o755)
+    return trace
+
+
+def test_commande_auth():
+    """Sans clé : sshpass s'il est là ; jamais de mot de passe journalisé."""
+    assert session.commande_auth("cle", "secret", ["sshfs"]) == ["sshfs"]
+    assert session.commande_auth("", "", ["sshfs"]) == ["sshfs"]
+    assert session.commande_auth("", "secret", ["sshfs"]) is None
+    assert session.commande_auth("", "secret", ["sshfs"], sshpass="/bin/sshpass") == [
+        "/bin/sshpass",
+        "-p",
+        "secret",
+        "sshfs",
+    ]
+
+
+def test_commande_montage():
+    """Arguments sshfs de GTK3 : port, reconnexion, clé, cible."""
+    assert session.commande_montage(
+        "/bin/sshfs", 2222, "alice", "s1", "/srv", "/mnt/s1", "~/.ssh/id"
+    ) == [
+        "/bin/sshfs",
+        "-p",
+        "2222",
+        "-o",
+        "reconnect,ServerAliveInterval=15,ServerAliveCountMax=3",
+        "-o",
+        f"IdentityFile={Path('~/.ssh/id').expanduser()}",
+        "alice@s1:/srv",
+        "/mnt/s1",
+    ]
+    sans_cle = session.commande_montage("/bin/sshfs", None, "bob", "s2", "/a", "/b", "")
+    assert "-o" not in sans_cle[5:] and sans_cle[2] == "22" and "bob@s2:/a" in sans_cle
+
+
+def test_zone_options_sshfs(plugin):
+    """La page SSHFS écrit les options sshfs, mêmes clés INI que GTK3."""
+    options = {"ssh_sshfs_mount": "True", "ssh_sshfs_remote_path": "/srv/data"}
+    changements = []
+    zone, carnet = _zone(plugin, options, changements)
+    page = carnet.get_nth_page(2)
+    case = _trouver(page, Gtk.CheckButton, "Mount remote filesystem via SSHFS on connect")
+    assert case.get_active()
+    saisies = [e for e in _enfants(page) if isinstance(e, Gtk.Entry)]
+    distant = next(e for e in saisies if e.get_text() == "/srv/data")
+    local = next(e for e in saisies if e.get_text() == "")
+    case.set_active(False)
+    assert options["ssh_sshfs_mount"] == "False"
+    case.set_active(True)
+    assert options["ssh_sshfs_mount"] == "True"
+    distant.set_text("/autre")
+    assert options["ssh_sshfs_remote_path"] == "/autre"
+    local.set_text("/mnt/serveur")
+    assert options["ssh_sshfs_local_mount"] == "/mnt/serveur"
+    assert changements
+
+
+def test_montage_sshfs_lance_et_demonte(plugin, faux_ssh, faux_sshfs, tmp_path, monkeypatch):
+    """Option sshfs active : sshfs lancé à l'ouverture, fusermount appelé à la fermeture."""
+    monkeypatch.setenv("FAUX_SSH_MUET", "1")
+    montage = tmp_path / "mnt"
+    hote = _hote(
+        protocol_options={
+            "ssh": {"ssh_sshfs_mount": "True", "ssh_sshfs_local_mount": str(montage)}
+        }
+    )
+    session_ouverte = plugin.open(hote)
+    assert session_ouverte.montage_sshfs == str(montage)
+    assert montage.is_dir()
+    assert _attendre(lambda: "sshfs=" in "\n".join(_trace(faux_sshfs)))
+    session_ouverte.close()
+    assert _attendre(lambda: session_ouverte.code_de_sortie is not None)
+    assert _attendre(lambda: "fusermount=" in "\n".join(_trace(faux_sshfs)))
+    assert f"['-u', '{montage}']" in "\n".join(_trace(faux_sshfs))
+    session_ouverte.close()  # idempotent : montage déjà démonté
+
+
+def test_montage_sshfs_desactive(plugin, faux_ssh, tmp_path, monkeypatch):
+    """Option sshfs absente : aucun montage, la session vit sans."""
+    monkeypatch.setenv("FAUX_SSH_MUET", "1")
+    session_ouverte = plugin.open(_hote())
+    assert session_ouverte.montage_sshfs is None
+    session_ouverte.close()
+    assert _attendre(lambda: session_ouverte.code_de_sortie is not None)
+
+
+def test_menu_contextuel_outils(plugin):
+    """Le menu contextuel d'un hôte ssh expose l'éditeur et le gestionnaire de clés (#97)."""
+    items = plugin.context_menu_items(_hote())
+    assert [i.label for i in items] == ["Edit ~/.ssh/config…", "Manage SSH Keys…"]
+    items[1].activate()
+    gestionnaires = [
+        f for f in Gtk.Window.list_toplevels() if "SSH Key Manager" in (f.get_title() or "")
+    ]
+    assert len(gestionnaires) == 1
+    for fenetre in gestionnaires:
+        fenetre.destroy()

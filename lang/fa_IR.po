@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 15:35+0000\n"
+"POT-Creation-Date: 2026-11-07 16:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3718,7 +3718,7 @@ msgstr ""
 msgid "Edit SSH config"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Edit ~/.ssh/config…"
 msgstr ""
 
@@ -3768,11 +3768,11 @@ msgstr "وارد کردن از libvirt"
 msgid "Keep alive (seconds)"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Local mount point"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Manage SSH Keys…"
 msgstr ""
 
@@ -3786,7 +3786,7 @@ msgstr ""
 msgid "Migration failed: %s"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Mount remote filesystem via SSHFS on connect"
 msgstr ""
 
@@ -3845,7 +3845,7 @@ msgstr "هدایت پورت"
 msgid "QUIET / ERROR / INFO / VERBOSE / DEBUG…"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Remote Host"
 msgid "Remote path"
@@ -3864,7 +3864,7 @@ msgid ""
 "Please check the key path configuration."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "SSHFS"
 msgstr ""
 

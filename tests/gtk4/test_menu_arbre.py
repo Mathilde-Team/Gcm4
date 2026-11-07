@@ -4,8 +4,9 @@
 from __future__ import annotations
 
 import configparser
+from pathlib import Path
 
-from gi.repository import Gtk
+from gi.repository import Gio, Gtk
 
 import gcm4.ui  # noqa: F401  (require_version avant gi.repository)
 from gcm4.core.chiffrement import ChiffrementGcm
@@ -262,3 +263,38 @@ def test_activation_groupe_et_hote(app_fixture, pomper):
     arbre.menu._on_activate(arbre.liste, position)
     pomper()
     assert messages and "proto-b" in messages[0]
+
+
+def test_section_du_plugin_dans_le_menu(tmp_path, pomper):
+    """Un hôte ssh : la section du plugin (outils #97) ferme le menu contextuel (#396, 3/3)."""
+    import argparse
+
+    from gcm4.core import registre
+    from gcm4.ui.application import Gcm4Application
+
+    racine = Path(__file__).resolve().parents[2]
+    candidats = [c for c in registre.candidats_dossier(racine / "plugins") if c.nom == "ssh"]
+    (tmp_path / "gcm4.conf").write_text(
+        "[host 1]\nname = srv\nhost = s1.example\nprotocol = ssh\n",
+        encoding="utf-8",
+    )
+    app = Gcm4Application(
+        argparse.Namespace(config_dir=str(tmp_path), debug=False, hotes=[]),
+        flags=Gio.ApplicationFlags.NON_UNIQUE,
+        candidats=candidats,
+    )
+    app.register(None)
+    app.activate()
+    pomper()
+    try:
+        arbre = app.get_active_window().arbre
+        menu = arbre.menu
+        menu.ouvrir(_noeud(arbre, "srv"), 10, 10)
+        pomper()
+        assert _libelles(menu)[-2:] == ["arbre.plugin-0", "arbre.plugin-1"]
+        assert not _libelles(menu)[:-2] or _libelles(menu)[:-2][-1] != "arbre.plugin-0"
+        menu.popover.popdown()
+    finally:
+        for fenetre in list(app.get_windows()):
+            fenetre.destroy()
+        pomper()
