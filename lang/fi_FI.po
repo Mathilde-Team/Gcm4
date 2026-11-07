@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 19:47+0000\n"
+"POT-Creation-Date: 2026-11-07 20:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -567,7 +567,7 @@ msgid "No open consoles"
 msgstr "Ei avoimia konsoleja"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
 #: plugins/plugin_spice.py
 msgid "OK"
 msgstr "OK"
@@ -2346,17 +2346,17 @@ msgstr "Avoimet välilehdet palautetaan seuraavalla käynnistyskerralla"
 msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
 msgstr "Perussovellus ei itse tarjoa yhtään protokollaa: yhteydet tarvitsevat vastaavan laajennuksen."
 
-#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
 #: plugins/plugin_snmp_push.py
 msgid "1. Configuration"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
 #: plugins/plugin_snmp_push.py
 msgid "2. Suivi"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
 #: plugins/plugin_snmp_push.py
 msgid "3. Résultats"
 msgstr ""
@@ -2727,6 +2727,302 @@ msgstr "🔍  Etsi Proxmox-isännät"
 msgid "{program} not found"
 msgstr "Ohjelmaa {program} ei löydy"
 
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "0 / {n}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Afficher les mots de passe"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Annuler l'envoi"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Aucune ligne cochée."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Charger l'inventaire"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Chargez d'abord un inventaire."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Choisir un fichier…"
+msgstr "Valitse tiedosto…"
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Choisissez d'abord un fichier profiles.ini."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Choisissez l'inventaire CSV et le gabarit."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Choisissez un constructeur et un modèle."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Commande de sauvegarde (optionnel, ex. 'save force') :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Connexions en parallèle :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Constructeur"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Constructeur :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Durée (s)"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Déploiement Netmiko…"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Détail"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "En attente"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "En attente : {n}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "En cours"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Enregistrer ce profil"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Erreur d'écriture : {e}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Erreur de chargement : {e}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Fichier :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, fuzzy
+#| msgid "Invalid entry in configuration file"
+msgid "Gabarit de configuration :"
+msgstr "Virheellinen merkintä asetustiedostossa"
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, fuzzy
+#| msgid "IP / Host"
+msgid "IP / hôte"
+msgstr "IP / Isäntä"
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Ignoré"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Impossible de lire le journal : {e}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Inventaire (CSV) :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Lancer le déploiement →"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Le profil doit avoir un nom."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Ligne"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Modèle / device_type netmiko :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Mot de passe :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Mot de passe enable (si applicable) :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Netmiko"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Nom"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Nom du profil (= colonne 'type'/'profile' du CSV) :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Nouveau"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "OK : {n}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Ouvrir le dossier des journaux"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+#, fuzzy
+#| msgid "Port"
+msgid "Port :"
+msgstr "Portti"
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Profil"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Profil '{n}' mis à jour (en mémoire)."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+#, python-brace-format
+msgid "Profils chargés depuis {p}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Profils de connexion (constructeur, identifiants…)"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Profils écrits dans {p}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Rejeté"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Rejetés : {n}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Sauvegarder la configuration après envoi"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, fuzzy
+#| msgid "State"
+msgid "Statut"
+msgstr "Tila"
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Supprimer"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Timeout (s) :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Total : {total}  |  OK : {ok}  |  Rejetés : {rejected}  |  Échecs : {failed}  |  Ignorés : {skipped}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Utilisateur"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Utilisateur :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Validation : {ok} prêt(s), {err} en erreur."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Valider (à blanc, sans se connecter)"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Variables"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Voir les résultats →"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "device_type"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "{d} / {n}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "{n} hôte(s) chargé(s) depuis {csv}."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Échec"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Échecs : {n}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Écrire profiles.ini sur disque"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "← Nouveau déploiement"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "⚠ Variables absentes du CSV : {v}"
+msgstr ""
+
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
 #: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
 #: plugins/web/gtk4.py
@@ -2744,336 +3040,6 @@ msgstr "Istunto päättyi"
 
 #: plugins/plugin_ipmisol.py
 msgid "ipmitool introuvable"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "0 / {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Afficher les mots de passe"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Annuler l'envoi"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Aucune exécution pour le moment."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Aucune ligne cochée."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Charger l'inventaire"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Chargez d'abord un inventaire."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Choisissez d'abord un fichier profiles.ini."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Choisissez l'inventaire CSV et le gabarit."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Choisissez un constructeur et un modèle."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Commande de sauvegarde (optionnel, ex. 'save force') :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Connexions en parallèle :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Constructeur"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Constructeur :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Durée (s)"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Déploiement Netmiko…"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Détail"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "En attente"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "En attente : 0"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "En attente : {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "En cours"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Enregistrer ce profil"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Envoyer"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Erreur d'écriture : {e}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Erreur de chargement : {e}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Fichier :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, fuzzy
-#| msgid "Invalid entry in configuration file"
-msgid "Gabarit de configuration :"
-msgstr "Virheellinen merkintä asetustiedostossa"
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, fuzzy
-#| msgid "IP / Host"
-msgid "IP / hôte"
-msgstr "IP / Isäntä"
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Ignoré"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Impossible de lire le journal : {e}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Inventaire (CSV) :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Lancer le déploiement →"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Le profil doit avoir un nom."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Ligne"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Modèle / device_type netmiko :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Mot de passe :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Mot de passe enable (si applicable) :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Netmiko"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Nom"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Nom du profil (= colonne 'type'/'profile' du CSV) :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Nouveau"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "OK : 0"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "OK : {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Ouvrir le dossier des journaux"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-#, fuzzy
-#| msgid "Port"
-msgid "Port :"
-msgstr "Portti"
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Profil"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Profil '{n}' mis à jour (en mémoire)."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-#, python-brace-format
-msgid "Profils chargés depuis {p}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Profils de connexion (constructeur, identifiants…)"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Profils écrits dans {p}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Rejeté"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Rejetés : 0"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Rejetés : {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Sauvegarder la configuration après envoi"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, fuzzy
-#| msgid "State"
-msgid "Statut"
-msgstr "Tila"
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Supprimer"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Timeout (s) :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Total : {total}  |  OK : {ok}  |  Rejetés : {rejected}  |  Échecs : {failed}  |  Ignorés : {skipped}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Utilisateur"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Utilisateur :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Validation : {ok} prêt(s), {err} en erreur."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Valider (à blanc, sans se connecter)"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Variables"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Voir les résultats →"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "device_type"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "profiles.ini"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "{d} / {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "{n} hôte(s) chargé(s) depuis {csv}."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Échec"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Échecs : 0"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Échecs : {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Écrire profiles.ini sur disque"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "← Nouveau déploiement"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "⚠ Variables absentes du CSV : {v}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "⚠ profil inconnu : {p}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
 #: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
@@ -3318,6 +3284,10 @@ msgid "Afficher les secrets"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
+msgid "Aucune exécution pour le moment."
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
 msgid "Choisissez d'abord un fichier snmp_profiles.ini."
 msgstr ""
 
@@ -3346,11 +3316,23 @@ msgid "Déploiement SNMP…"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
+msgid "En attente : 0"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
 msgid "Envois en parallèle :"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
+msgid "Envoyer"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
 msgid "IP du serveur de dépôt (TFTP/FTP/SFTP) :"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
+msgid "OK : 0"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
@@ -3376,6 +3358,10 @@ msgstr ""
 
 #: plugins/plugin_snmp_push.py
 msgid "Push SNMP"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
+msgid "Rejetés : 0"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
@@ -3407,6 +3393,10 @@ msgid "snmp_profiles.ini"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
+msgid "Échecs : 0"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
 msgid "Écrire snmp_profiles.ini sur disque"
 msgstr ""
 
@@ -3416,6 +3406,16 @@ msgstr ""
 
 #: plugins/plugin_snmp_push.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "⚠ profil inconnu : {p}"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
 #: plugins/plugin_spice.py

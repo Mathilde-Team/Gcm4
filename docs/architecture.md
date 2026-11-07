@@ -25,18 +25,20 @@
 > ne les prend pas pour des plugins. Les quatre imports d'hyperviseurs sont
 > désormais des outils GTK4 complets (#439) : `plugins/import_<libvirt|proxmox|
 > virtualbox|ovirt>/` (contrat v1 outil), interface partagée
-> `plugins/import_hyperviseurs/ui.py` (paquet `gcm4_hv`).
+> `plugins/import_hyperviseurs/ui.py` (paquet `gcm4_hv`). **netmiko_push** est
+> porté de la même façon (#441) : `plugins/netmiko_push/gtk4.py` (contrat v1
+> outil).
 
 | Module | Rôle | Dépendances externes |
 |---|---|---|
 | `gnome_connection_manager.py` | Cœur applicatif (~7500 lignes) : `Wmain`, `Whost`, `Wconfig`, `Wabout`, `Wcluster` | `PyGObject`, `GTK3`, `VTE` |
 | `plugins/plugin_*.py` (`ConnectionPlugin`) | Un plugin par protocole de connexion, autoload par `PluginRegistry` | selon protocole (voir §2.1) |
-| `plugins/plugin_*.py` (`BatchPlugin`) | Outils de traitement en masse (import/export/push config), autoload par `BatchPluginRegistry — il ne reste que `plugin_netmiko_push.py` et `plugin_snmp_push.py` (portage #179 en cours) | selon outil (voir §2.2) |
+| `plugins/plugin_*.py` (`BatchPlugin`) | Outils de traitement en masse (import/export/push config), autoload par `BatchPluginRegistry — il ne reste que `plugin_snmp_push.py` (portage #179 en cours) | selon outil (voir §2.2) |
 | `models.py` | `Host` — champs communs + champs par protocole appris dynamiquement (`all_host_fields()`) | — |
 | `widgets.py` / `utils.py` | Widgets GTK custom, `run_dialog_sync()` (palliatif `Gtk.Dialog.run()`, absent en GTK4) | `PyGObject` |
 | `ssh_config_editor.py`, `ssh_key_manager_dialog.py`, `key_picker_dialog.py` | Gestion SSH avancée — UI GTK3, portage de SSH-Studio (GTK4/Adw → GTK3) | `paramiko` (clés) |
 | `plugins/ssh/core.py` | Logique métier SSH sans GTK (parsing `~/.ssh/config`, migration/import gcm.conf) — fusion `ssh_config_parser.py`+`ssh_migrate_gcm.py` (session-26, plugin pilote de la migration GTK4) | — |
-| `plugins/netmiko_push/core.py`, `plugins/snmp_push/core.py` | Cœurs métier sans GTK des outils de déploiement en masse (`snmp_push_core.py` supprimé, #74) | `netmiko`, `ezsnmp`/`easysnmp`, `paramiko` (dépôt SFTP) |
+| `plugins/netmiko_push/{core,gtk4}.py`, `plugins/snmp_push/core.py` | Cœur métier + interface GTK4 du déploiement Netmiko (porté #441) ; cœur sans GTK du push SNMP (`snmp_push_core.py` supprimé, #74) | `netmiko`, `ezsnmp`/`easysnmp`, `paramiko` (dépôt SFTP) |
 | `plugins/import_hyperviseurs/core.py` | Helpers partagés libvirt/Proxmox (jamais préfixé `plugin_`) | `paramiko`, `nmap` (sonde) |
 | `src/gcm4/core/mot_de_passe.py` | Protection par mot de passe maître du fichier de clé locale (`KEY_FILE`) — logique de chiffrement/déchiffrement seule, zéro GTK (session-27) | `gcm4.core.pyaes` |
 | `tools/` | Scripts CLI autonomes : `libvirt_inventory.py` (v4), `ssh_deploy.py`, `validate_po.py`, `validate_xml_json.py` | `virsh`, `paramiko` |
@@ -74,13 +76,10 @@ Chaque protocole est découvert automatiquement par `PluginRegistry.autoload()`.
 | Import oVirt | `plugin_import_ovirt.py` | ✅ Pilotage Engine oVirt (URL + API REST + user SSH) — non documenté |
 | Import CSV / JSON | `plugin_import_csv.py` / `plugin_import_json.py` | ❌ **Supprimés le 31/10/2026 (#179)** : remplacés par l'import de la base GTK4 (`gcm4.core.exchange`, #152/#153) |
 | Export CSV / JSON | `plugin_export_csv.py` / `plugin_export_json.py` | ❌ **Supprimés le 31/10/2026 (#179)** : remplacés par l'export de la base GTK4 (#152/#153), sans mot de passe |
-| Push config masse — Netmiko | `plugin_netmiko_push.py` + `plugins/netmiko_push/core.py` | ✅ Session CLI SSH/équipement, profils, inventaire CSV, gabarits `#colonne#` — non documenté |
+| Push config masse — Netmiko | ~~`plugin_netmiko_push.py`~~ + `plugins/netmiko_push/{core,gtk4}.py` | ❌ **GTK3 supprimé le 07/11/2026 (#441, #179)** : porté en plugin outil du contrat v1 (`plugins/netmiko_push/gtk4.py`, section Outils du menu, onglet « Netmiko » en trois phases Configuration / Suivi / Résultats, inventaire cochable, éditeur de profils constructeur → modèle, annulation). Le cœur (`run_bulk_push`, profils, inventaire CSV, gabarits `#colonne#`) est inchangé |
 | Push config masse — SNMP | `plugin_snmp_push.py` + `plugins/snmp_push/core.py` | ✅ `SNMP SET` déclencheur (H3C/Cisco/**Huawei ajouté le 2026-08-30**), `ThreadPoolExecutor`. **#74 (2026-10-24)** : dépôt du fichier rendu par SFTP/FTP/TFTP (`FileTransferConfig`, `upload_config_file`) et protocole de récupération TFTP/FTP/SFTP transmis au driver, repris de `snmp_push_core.py`, supprimé ; le formulaire du plugin GTK3 ne propose pas encore ces réglages (§2.2-bis) |
 | Import PuTTY (`~/.putty/sessions/`) | ~~`plugin_import_putty.py`~~ + `plugins/import_putty/{core,gtk4}.py` | ❌ **GTK3 supprimé le 07/11/2026 (#436, #179)** : porté en plugin outil du contrat v1 (`plugins/import_putty/gtk4.py`, section Import du menu Fichier, onglet avec stratégie de conflit, import via `PluginContext.import_hosts`). Le scan (2026-09-01) est inchangé dans `core.py` : dossier de sessions PuTTY Unix (`Clé=Valeur` par fichier, noms `%XX` décodés) ; SSH/Telnet uniquement, sessions ignorées listées dans le résumé |
 
-> Le plugin Netmiko n'est **pas cassé** : le log « `plugin_netmiko_push` ignore : pas
-> de `get_plugin()` » est normal (module `BatchPlugin`, chargé séparément par
-> `BatchPluginRegistry`, voir `Wmain._warn_if_batch_plugin_failed()`).
 
 #### 2.2-bis Constat (2026-08-30) — tranché (#74, 2026-10-12)
 > **Décision de l'auteure (#74, 2026-10-12)** : compléter `plugins/snmp_push/core.py`
@@ -668,10 +667,12 @@ plugins/                         découverts par autoload() (cf. plugin_base.py)
 │                                   (import/export CSV/JSON supprimés le
 │                                   31/10/2026, #179 : remplacés par la base
 │                                   GTK4 — gcm4.core.exchange)
-├── plugin_netmiko_push.py         BatchPlugin — get_batch_plugin() (PAS get_plugin(),
-│                                   c'est normal : PluginRegistry l'ignore à raison,
-│                                   BatchPluginRegistry le charge séparément)
-└── plugin_snmp_push.py            BatchPlugin — idem, asyncio + ezsnmp
+├── (plugin_netmiko_push.py supprimé le 07/11/2026, #441/#179 :
+│                                   porté en plugin outil GTK4
+│                                   plugins/netmiko_push/{core,gtk4}.py —
+│                                   onglet « Netmiko » en trois phases,
+│                                   inventaire cochable, profils, annulation)
+└── plugin_snmp_push.py            BatchPlugin — get_batch_plugin(), asyncio + ezsnmp
 
 models.py         Host — _CORE_FIELDS communs + champs par protocole appris
                   dynamiquement via _protocol_field_defaults() →
@@ -710,7 +711,7 @@ plugins/netmiko_push/core.py / plugins/snmp_push/core.py
     #74 (2026-10-24) : plugins/snmp_push/core.py dépose aussi le fichier rendu
     (SFTP/FTP/TFTP, FileTransferConfig) ; snmp_push_core.py, décrit
     ci-dessous, est supprimé.
-    plugin_netmiko_push.py -> plugins/netmiko_push/core.py.
+    plugin_netmiko_push.py (supprimé, porté #441) -> plugins/netmiko_push/{core,gtk4}.py.
     plugin_snmp_push.py -> plugins/snmp_push/core.py (drivers H3C/Cisco/Huawei, ce
     dernier ajouté le 2026-08-30, voir décisions en tête de ce fichier ;
     ezsnmp en priorité avec repli easysnmp pour compatibilité).

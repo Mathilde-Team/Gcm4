@@ -33,7 +33,7 @@ Changelog = "https://github.com/MathildeDec/gnome-connection-manager/blob/main/C
 # démarrage de l'app : le chargeur de plugins (plugin_base.PluginRegistry)
 # capture les erreurs d'import et désactive juste le plugin concerné
 # (message "n outil(s)/plugin(s) n'ont pas pu se charger" au démarrage) :
-#   - netmiko    : push de config en masse (plugins/netmiko_push/core.py, plugin_netmiko_push.py)
+#   - netmiko    : push de config en masse (plugins/netmiko_push/)
 #   - paramiko   : SPICE via libvirt, dépôt SFTP du push SNMP/inventaire
 #                  (plugin_spice.py, plugins/snmp_push/core.py, plugins/import_hyperviseurs/core.py,
 #                  tools/*.py), plugin sftp de gcm4 (plugins/sftp/, #75)
