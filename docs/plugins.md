@@ -241,6 +241,14 @@ PLUGIN = MonOutil
   du contrat, `name` (minuscules sans espace), `menu_label`, `menu_section`
   et les méthodes abstraites. Le plugin est ensuite signalé en erreur dans
   Préférences > Extensions, comme un plugin de connexion.
+- **Import d'hôtes** (#436) : un outil qui importe des hôtes (sessions
+  PuTTY, inventaire d'hyperviseur…) passe par
+  `self.context.import_hosts(hotes, conflit)` — le magasin est complété,
+  `gcm4.conf` enregistré et l'arbre rechargé ; la valeur de retour est le
+  bilan `Rapport` de `gcm4.core.exchange` (mêmes stratégies de conflit que
+  l'import de fichiers, #153). L'échec d'enregistrement lève
+  `ExchangeError` (magasin inchangé) : l'outil la notifie et reste
+  utilisable. Voir `plugins/import_putty/gtk4.py` pour l'exemple complet.
 - **Réglages** : `build_preferences_page()` (facultatif) rend une page
   Adwata pour Préférences > Extensions ; `None` : aucune.
 - **Icône** : `icon_name` (facultatif), nom d'icône symbolique GTK de

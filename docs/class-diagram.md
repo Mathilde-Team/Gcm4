@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-97 modules · 173 classes · 372 fonctions publiques de module.
+97 modules · 174 classes · 371 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -24,14 +24,14 @@ flowchart TD
     g1["gcm4"]
     g2["gcm4.core"]
     g3["gcm4.ui"]
-    g0 -->|45| g2
-    g0 -->|8| g3
+    g0 -->|51| g2
+    g0 -->|9| g3
     g1 -->|4| g2
     g1 -->|1| g3
     g2 -->|1| g0
     g2 -->|1| g1
     g3 -->|2| g1
-    g3 -->|62| g2
+    g3 -->|64| g2
 ```
 
 ## Plugins
@@ -40,6 +40,7 @@ flowchart TD
 |---|---|---|
 | `plugins.import_hyperviseurs.core` | `plugins/import_hyperviseurs/core.py` | Helpers partagés par les imports hyperviseurs (libvirt / Proxmox). |
 | `plugins.import_putty.core` | `plugins/import_putty/core.py` | Cœur métier (sans GTK) de l'import de sessions PuTTY pour GCM. |
+| `plugins.import_putty.gtk4` | `plugins/import_putty/gtk4.py` | Outil « Import from PuTTY sessions » (contrat v1, #436, portage #179). |
 | `plugins.ipmisol` | `plugins/ipmisol/__init__.py` | Plugin ipmisol : SOL (console série des cartes de gestion) dans un terminal. |
 | `plugins.ipmisol.core` | `plugins/ipmisol/core.py` | Partie métier du plugin ipmisol (sans GTK) — portage #179. |
 | `plugins.ipmisol.gtk4` | `plugins/ipmisol/gtk4.py` | Plugin ipmisol de gcm4 (contrat v1, ``docs/plugins.md``) : SOL dans un terminal VTE GTK4. |
@@ -50,7 +51,6 @@ flowchart TD
 | `plugins.plugin_import_libvirt` | `plugins/plugin_import_libvirt.py` | Outil « Import from libvirt » (BatchPlugin) pour GCM. |
 | `plugins.plugin_import_ovirt` | `plugins/plugin_import_ovirt.py` | Outil « Import from oVirt » (BatchPlugin) pour GCM. |
 | `plugins.plugin_import_proxmox` | `plugins/plugin_import_proxmox.py` | Outil « Import from Proxmox » (BatchPlugin) pour GCM. |
-| `plugins.plugin_import_putty` | `plugins/plugin_import_putty.py` | Outil « Import from PuTTY sessions » (BatchPlugin) pour GCM. |
 | `plugins.plugin_import_virtualbox` | `plugins/plugin_import_virtualbox.py` | Outil « Import from VirtualBox » (BatchPlugin) pour GCM. |
 | `plugins.plugin_ipmisol` | `plugins/plugin_ipmisol.py` | Plugin de connexion IPMI Serial-over-LAN (console BMC : iLO, iDRAC, IMM…). |
 | `plugins.plugin_local` | `plugins/plugin_local.py` | Plugin de connexion "Local" (shell local, sans hôte distant). |
@@ -102,6 +102,14 @@ classDiagram
         +parse_putty_session_file(path) dict~str, str~
         +putty_session_to_row(session_name, raw) tuple~dict~str, str~ None, str None~
         +scan_putty_sessions(directory) tuple~list~dict~str, str~~, list~str~~
+    }
+    class OngletImportPutty {
+        <<Gtk.Box>>
+        +conflit_choisi() Conflit
+    }
+    class ImportPuttyPlugin {
+        <<ToolPlugin>>
+        +activate() None
     }
     class mod_plugins_ipmisol_core {
         <<module>>
@@ -287,14 +295,6 @@ classDiagram
         +activate() None
     }
     BatchPlugin <|-- ProxmoxImportBatchPlugin
-    class mod_plugins_plugin_import_putty {
-        <<module>>
-        +get_batch_plugin() PuttyImportBatchPlugin
-    }
-    class PuttyImportBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- PuttyImportBatchPlugin
     class mod_plugins_plugin_import_virtualbox {
         <<module>>
         +build_preferences_tab(notebook)
@@ -1548,6 +1548,7 @@ classDiagram
         +ask_password(host, done) None
         +notify(message) None
         +open_tab(title, widget) None
+        +import_hosts(hotes, conflit) Any
     }
     class Session {
         <<Protocol>>
@@ -1822,6 +1823,7 @@ classDiagram
         +ask_password(host, done) None
         +notify(message) None
         +open_tab(title, widget) None
+        +import_hosts(hotes, conflit) Rapport
     }
     class mod_gcm4_ui_couleurs {
         <<module>>

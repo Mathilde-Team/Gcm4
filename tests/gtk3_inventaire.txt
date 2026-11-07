@@ -10,7 +10,6 @@ GTK3.OLD/widgets.py
 plugins/plugin_import_libvirt.py
 plugins/plugin_import_ovirt.py
 plugins/plugin_import_proxmox.py
-plugins/plugin_import_putty.py
 plugins/plugin_import_virtualbox.py
 plugins/plugin_ipmisol.py
 plugins/plugin_local.py

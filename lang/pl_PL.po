@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 16:05+0000\n"
+"POT-Creation-Date: 2026-11-07 16:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,12 +150,12 @@ msgstr "Nie można otworzyć pliku dziennika do zapisu"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py GTK3.OLD/widgets.py
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_putty.py
-#: plugins/plugin_import_virtualbox.py plugins/plugin_spice.py
-#: plugins/plugin_ssh.py plugins/sftp/gtk4.py src/gcm4/ui/contexte.py
-#: src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
-#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/raccourcis.py
+#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -581,8 +581,7 @@ msgid "Only on clean exit"
 msgstr "Tylko przy poprawnym zamknięciu"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py
-#: plugins/plugin_import_putty.py src/gcm4/ui/mises_a_jour.py
-#: src/gcm4/ui/preferences.py
+#: src/gcm4/ui/mises_a_jour.py src/gcm4/ui/preferences.py
 msgid "Open"
 msgstr "Otwórz"
 
@@ -2351,6 +2350,71 @@ msgstr "Otwarte karty przywracane przy następnym uruchomieniu"
 msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
 msgstr "Podstawowa aplikacja sama nie zapewnia żadnego protokołu: połączenia wymagają odpowiedniego rozszerzenia."
 
+#: plugins/import_putty/gtk4.py
+msgid "Choose a folder…"
+msgstr "Wybierz katalog…"
+
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "Jeśli host już istnieje:"
+
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "Import"
+msgstr "Importuj"
+
+#: plugins/import_putty/gtk4.py
+#, fuzzy
+#| msgid "Import from Proxmox"
+msgid "Import from PuTTY sessions"
+msgstr "Importuj z Proxmox"
+
+#: plugins/import_putty/gtk4.py
+#, fuzzy
+#| msgid "Import from libvirt"
+msgid "Import from PuTTY sessions…"
+msgstr "Importuj z libvirt"
+
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "Zachowaj istniejący host"
+
+#: plugins/import_putty/gtk4.py
+msgid "No importable SSH/Telnet session found in this folder."
+msgstr ""
+
+#: plugins/import_putty/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "PuTTY import error: {exc}"
+msgstr "Nazwa szablonu"
+
+#: plugins/import_putty/gtk4.py
+#, python-brace-format
+msgid "PuTTY sessions folder: {folder}"
+msgstr "Katalog sesji PuTTY: {folder}"
+
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "Zmień nazwę importowanego hosta"
+
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "Zastąp istniejący host"
+
+#: plugins/import_putty/gtk4.py
+msgid "Select PuTTY sessions folder"
+msgstr ""
+
+#: plugins/import_putty/gtk4.py
+#, python-brace-format
+msgid "Sessions found: {count}."
+msgstr "Znalezione sesje: {count}."
+
+#: plugins/import_putty/gtk4.py
+#, python-brace-format
+msgid "{count} session(s) ignored (unsupported protocol or missing host)."
+msgstr ""
+
 #: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
 #: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
@@ -2725,33 +2789,6 @@ msgstr "Importuj z Proxmox"
 #: plugins/plugin_import_proxmox.py
 msgid "🔍  Scan Proxmox hosts"
 msgstr "🔍  Skanuj hosty Proxmox"
-
-#: plugins/plugin_import_putty.py
-msgid "Import from PuTTY sessions…"
-msgstr ""
-
-#: plugins/plugin_import_putty.py
-msgid "No importable SSH/Telnet session found in this folder."
-msgstr ""
-
-#: plugins/plugin_import_putty.py
-#, python-brace-format
-msgid "PuTTY import error: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_putty.py
-msgid "Select PuTTY sessions folder"
-msgstr ""
-
-#: plugins/plugin_import_putty.py
-#, python-brace-format
-msgid "{count} session(s) ignored (unsupported protocol or missing host)."
-msgstr ""
-
-#: plugins/plugin_import_putty.py
-#, python-brace-format
-msgid "{n} connection(s) imported from PuTTY."
-msgstr ""
 
 #: plugins/plugin_import_virtualbox.py
 msgid "<i>Applies only to the VirtualBox import plugin. Can still be overridden per import run.</i>"
@@ -4604,6 +4641,10 @@ msgid "gcm4 is already running with another configuration folder: close it to us
 msgstr "gcm4 jest już uruchomiony z innym folderem konfiguracji: zamknij go, aby użyć {requested}."
 
 #: src/gcm4/ui/contexte.py
+msgid "No configuration is open: nothing to import into."
+msgstr "Brak otwartej konfiguracji: nie ma dokąd importować."
+
+#: src/gcm4/ui/contexte.py
 #, python-brace-format
 msgid "Password for {target}"
 msgstr "Hasło dla {target}"
@@ -4623,14 +4664,6 @@ msgid "Hosts in {file}: {count}, already present: {existing}"
 msgstr "Hosty w {file}: {count}, już istniejące: {existing}"
 
 #: src/gcm4/ui/echange.py
-msgid "If a host already exists:"
-msgstr "Jeśli host już istnieje:"
-
-#: src/gcm4/ui/echange.py
-msgid "Import"
-msgstr "Importuj"
-
-#: src/gcm4/ui/echange.py
 msgid "Include passwords (in clear text)"
 msgstr "Dołącz hasła (jawnym tekstem)"
 
@@ -4639,20 +4672,8 @@ msgid "JSON or CSV file, chosen by its extension."
 msgstr "Plik JSON lub CSV, według rozszerzenia."
 
 #: src/gcm4/ui/echange.py
-msgid "Keep the existing host"
-msgstr "Zachowaj istniejący host"
-
-#: src/gcm4/ui/echange.py
 msgid "Passwords will be written in clear text: keep this file safe."
 msgstr "Hasła zostaną zapisane jawnym tekstem: przechowuj ten plik bezpiecznie."
-
-#: src/gcm4/ui/echange.py
-msgid "Rename the imported host"
-msgstr "Zmień nazwę importowanego hosta"
-
-#: src/gcm4/ui/echange.py
-msgid "Replace the existing host"
-msgstr "Zastąp istniejący host"
 
 #: src/gcm4/ui/echange.py
 msgid "This file contains passwords in clear text."
@@ -5308,11 +5329,6 @@ msgstr "Ukryj okno"
 msgid "Show window"
 msgstr "Pokaż okno"
 
-#, fuzzy, python-brace-format
-#~| msgid "Template name"
-#~ msgid "CSV import error: {exc}"
-#~ msgstr "Nazwa szablonu"
-
 #~ msgid "Colors and Keys"
 #~ msgstr "Kolory i klawisze"
 
@@ -5351,11 +5367,6 @@ msgstr "Pokaż okno"
 #, fuzzy
 #~| msgid "Import from libvirt"
 #~ msgid "Import from CSV"
-#~ msgstr "Importuj z libvirt"
-
-#, fuzzy
-#~| msgid "Import from libvirt"
-#~ msgid "Import from CSV…"
 #~ msgstr "Importuj z libvirt"
 
 #, fuzzy

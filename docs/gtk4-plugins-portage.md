@@ -87,7 +87,7 @@ toutes les lignes suivantes.
 | Plugin | Lignes | Technique GTK3 | Portage GTK4 | Bloquant ou décision liée |
 |---|---|---|---|---|
 | import_csv, import_json, export_csv, export_json | 103, 97, 100, 98 | `BatchPlugin`, dialogues `Gtk.FileChooserDialog` | **retirés** (31/10/2026) : remplacés par l'import/export CSV et JSON de la base — sans GTK (#152, PR #267), interface (#153, PR #269), ligne de commande (#154). Les quatre fichiers sont supprimés et leur entrée est sortie de l'inventaire GTK3 | remplacé par la base (fusionné) |
-| import_putty | 117 | `BatchPlugin`, sessions PuTTY | type « outil », dialogue GTK4 de choix de fichier | contrat « outil » |
+| import_putty | 117 | `BatchPlugin`, sessions PuTTY | **porté** : `plugins/import_putty/` (contrat v1 outil, #436) ; onglet de choix du dossier (`fichiers.choisir`, repli GTK 4.8), résumé du scan, stratégie de conflit (les trois de #153), import via le nouveau service du contexte `PluginContext.import_hosts` | premier outil porté : exemple pour les suivants |
 | import_libvirt | 1174 | `BatchPlugin`, `Gtk.TreeView` | type « outil » ; liste en `Gtk.ColumnView` ; la logique libvirt passe dans `core.py` | contrat « outil » |
 | import_ovirt | 1045 | idem | idem (API REST, JSON) | contrat « outil » |
 | import_proxmox | 1029 | idem | idem | contrat « outil » |
@@ -110,8 +110,9 @@ toutes les lignes suivantes.
    `gcm4.core.plugins`, sections de menu `outils`/`import`/`export`,
    validation `incompatibilite_outil()`, sous-menu « Tools » et action
    `win.outil-<name>` (`gcm4.core.menu.menu_avec_outils`,
-   `docs/plugins.md`). Reste **import_putty**, les imports d'hyperviseurs,
-   **netmiko_push**, et **snmp_push** après #74.
+   `docs/plugins.md`). **import_putty** est porté (#436) — il a ouvert la
+   voie avec le service `import_hosts` du contexte. Reste les imports
+   d'hyperviseurs, **netmiko_push**, et **snmp_push** après #74.
 6. **vnc** (fusion pluginvnc2, #104), **rdp** (#71, #105) et **spice** (choix
    de la voie) : ils dépendent de projets ou de décisions extérieurs.
 
