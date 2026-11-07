@@ -148,7 +148,7 @@ class TestCatalogues(unittest.TestCase):
 
     def _traduire(self, language: str, text: str) -> str:
         code = (
-            "import gcm4_core, builtins, sys\n"
+            "from gcm4.core import metier as gcm4_core\nimport builtins, sys\n"
             f"gcm4_core.bindtextdomain({DOMAIN!r}, {str(LANG_DIR)!r})\n"
             "sys.stdout.write(builtins._(sys.argv[1]))\n"
         )

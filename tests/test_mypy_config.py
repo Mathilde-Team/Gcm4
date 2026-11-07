@@ -15,10 +15,10 @@ CONFIG = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["t
 # Modules vérifiés à 0 erreur au moment de l'issue #173. On peut en ajouter
 # dans pyproject.toml ; en retirer un fait échouer ce test.
 MODULES_TYPES_MINIMUM = {
-    "gcm4_core.py",
-    "logging_config.py",
+    "src/gcm4/core/metier.py",
+    "src/gcm4/core/journal.py",
     "models.py",
-    "master_password_core.py",
+    "src/gcm4/core/mot_de_passe.py",
     "folder_context_menu_core.py",
     "gesture_trigger_core.py",
     "inline_editor_core.py",

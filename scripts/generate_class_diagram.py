@@ -12,8 +12,8 @@ qu'il existe, ``src/gcm4/`` (épopée GTK4). ``tests/``, ``tools/``,
 
 Groupes :
 
-- **Cœur** : modules sans GTK (``*_core.py``, ``gcm4_core.py``,
-  ``logging_config.py``, ``master_password_core.py``), comme dans
+- **Cœur** : modules sans GTK (``*_core.py``, ``src/gcm4/core/metier.py``,
+  ``src/gcm4/core/journal.py``, ``src/gcm4/core/mot_de_passe.py``), comme dans
   ``tests/test_architecture_imports.py`` ;
 - **Application GTK** : les autres modules de la racine ;
 - **Plugins** : ``plugins/`` ;
@@ -47,7 +47,7 @@ from loguru import logger
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "docs" / "class-diagram.md"
 EXCLUDED = ("tests/", "tools/", "scripts/", "SSH-Studio/", "gtk-frdp/")
-CORE_EXTRA = {"gcm4_core.py", "logging_config.py", "master_password_core.py"}
+CORE_EXTRA: set[str] = set()  # modules sans GTK passés dans src/gcm4/core (#427)
 GROUP_CORE = "Cœur (sans GTK)"
 GROUP_APP = "Application GTK"
 GROUP_PLUGINS = "Plugins"

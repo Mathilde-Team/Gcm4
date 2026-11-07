@@ -441,7 +441,7 @@ Texte complet : [LICENSE](LICENSE) (GNU GPL version 3). Détail des régimes : [
 
 - Code écrit par l'équipe : **GPL-3.0-or-later**.
 - Fichiers repris de l'amont gnome-connection-manager (Renzo Bertuzzi) : **GPL-3.0 seule**, comme le prévoit l'avis amont (« version 3 », sans « ou toute version ultérieure »). Le programme distribué, qui combine les deux, est donc diffusé sous GPL-3.0 seule.
-- `pyAES.py` : MIT (Brandon Sterne).
+- `src/gcm4/core/pyaes.py` : MIT (Brandon Sterne).
 - Chaque fichier de code indique son régime par un en-tête `SPDX-License-Identifier` (vérifié par `tests/test_licence.py`).
 
 

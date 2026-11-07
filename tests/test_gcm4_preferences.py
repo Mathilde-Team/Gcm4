@@ -165,9 +165,9 @@ def test_main_applique_le_niveau_enregistre(tmp_path, monkeypatch):
     """gcm4 sans --debug ni variable : niveau de Préférences > Journalisation."""
     import sys
 
-    import logging_config
     from gcm4 import app
     from gcm4.core import chemins
+    from gcm4.core import journal as logging_config
 
     (tmp_path / "gcm4.conf").write_text("[options]\nlog-level = WARNING\n", encoding="utf-8")
     appels = []

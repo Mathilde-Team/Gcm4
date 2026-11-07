@@ -87,7 +87,7 @@ et toute clé inconnue.
 | Clé | Lecture GTK4 |
 |---|---|
 | `window-width`, `window-height`, `left-panel-width`, `show-panel` | `gcm4.core.window_state` (#134) |
-| `group-colors` | `Group.color` ; format `chemin=#rrggbb,…` (`gcm4_core.parse_group_colors`) |
+| `group-colors` | `Group.color` ; format `chemin=#rrggbb,…` (`gcm4.core.metier.parse_group_colors`) |
 | `collapsed-folders` | `Group.collapsed` ; chemins séparés par des virgules |
 | `open-tabs`, `dark-mode`, `theme-mode` | brutes (lots 3 et 1c) |
 

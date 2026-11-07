@@ -12,9 +12,9 @@ import os
 
 from loguru import logger
 
-import logging_config
 from gcm4 import __version__
 from gcm4.core import chemins, echange_cli
+from gcm4.core import journal as logging_config
 
 
 def build_parser() -> argparse.ArgumentParser:

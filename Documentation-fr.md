@@ -83,7 +83,7 @@ gnome_connection_manager.py   ← application principale (interface GTK3)
 ├── Whost                     ← formulaire édition hôte
 └── Wconfig                   ← fenêtre préférences
 
-gcm4_core.py                  ← cœur métier extrait, sans dépendance GTK
+src/gcm4/core/metier.py                  ← cœur métier extrait, sans dépendance GTK
                                  (préalable à la migration GTK4)
 
 plugins/                      ← un fichier par plugin, chargé automatiquement

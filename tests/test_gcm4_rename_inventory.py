@@ -38,7 +38,7 @@ import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORE_FILE = os.path.join(REPO_ROOT, "gnome_connection_manager.py")
-GCM4_CORE_FILE = os.path.join(REPO_ROOT, "gcm4_core.py")
+GCM4_CORE_FILE = os.path.join(REPO_ROOT, "src", "gcm4", "core", "metier.py")
 MAKEFILE = os.path.join(REPO_ROOT, "Makefile")
 DESKTOP_FILE = os.path.join(REPO_ROOT, "gnome-connection-manager.desktop")
 

@@ -11,9 +11,9 @@ from collections.abc import Iterable
 from gi.repository import Adw, Gdk, Gio, GLib, Gtk
 from loguru import logger
 
-import logging_config
 from gcm4 import __version__
 from gcm4.core import chemins, cli, theme
+from gcm4.core import journal as logging_config
 from gcm4.core import preferences as prefs_core
 from gcm4.core import raccourcis as raccourcis_core
 from gcm4.core.config import ConfigError

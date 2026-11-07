@@ -26,23 +26,19 @@ flowchart TD
     g3["gcm4"]
     g4["gcm4.core"]
     g5["gcm4.ui"]
-    g1 -->|14| g0
+    g1 -->|8| g0
     g1 -->|2| g2
-    g0 -->|2| g1
-    g0 -->|1| g2
+    g1 -->|6| g4
     g2 -->|54| g1
-    g2 -->|4| g0
-    g2 -->|40| g4
+    g2 -->|3| g0
+    g2 -->|41| g4
     g2 -->|7| g5
-    g3 -->|2| g0
-    g3 -->|2| g4
+    g3 -->|4| g4
     g3 -->|1| g5
-    g4 -->|1| g1
-    g4 -->|6| g0
+    g4 -->|1| g2
     g4 -->|1| g3
-    g5 -->|3| g0
     g5 -->|2| g3
-    g5 -->|59| g4
+    g5 -->|62| g4
 ```
 
 ## Cœur (sans GTK)
@@ -50,11 +46,8 @@ flowchart TD
 | Module | Fichier | Rôle |
 |---|---|---|
 | `folder_context_menu_core` | `folder_context_menu_core.py` | Logique metier pure du menu contextuel du panneau de serveurs (zero import Gtk/Gio). |
-| `gcm4_core` | `gcm4_core.py` | Logique métier de GNOME Connection Manager — zéro dépendance GTK. |
 | `gesture_trigger_core` | `gesture_trigger_core.py` | Logique métier pure du déclenchement des menus contextuels (zéro import Gtk/Gio). |
 | `inline_editor_core` | `inline_editor_core.py` | Logique métier pure de l'éditeur inline `CellTextView` (`widgets.py`, zéro import Gtk). |
-| `logging_config` | `logging_config.py` | logging_config -- configuration centrale de loguru (issue #130, sous-issue 4a). |
-| `master_password_core` | `master_password_core.py` | Protection par mot de passe maître du fichier de clé locale (``KEY_FILE``). |
 | `netmiko_bulk_core` | `netmiko_bulk_core.py` | Cœur métier (sans GTK) du plugin de déploiement de configuration en masse via Netmiko pour GCM. |
 | `popup_menu_core` | `popup_menu_core.py` | Logique metier pure du menu contextuel du terminal (zero import Gtk/Gio/Vte). |
 | `putty_import_core` | `putty_import_core.py` | Cœur métier (sans GTK) de l'import de sessions PuTTY pour GCM. |
@@ -70,43 +63,6 @@ classDiagram
         +should_show_protocol_items(click_target)
         +flatten_action_names(sections)
     }
-    class mod_gcm4_core {
-        <<module>>
-        +migrate_legacy_config_dir(old_dir, new_dir) bool
-        +dep_install_hint(pkg_debian, pkg_fedora, pkg_arch) str
-        +bindtextdomain(app_name, locale_dir) None
-        +setup_app_logger(config_dir, debug)
-        +get_username() str None
-        +get_password() str
-        +load_encryption_key(key_file) None
-        +initialise_encyption_key(key_file) None
-        +xor(pw, str1) list~str~
-        +encrypt_old(passw, string) str
-        +decrypt_old(passw, string) str
-        +encrypt(passw, string) str
-        +decrypt(passw, string, version) str
-        +color_to_hex(rgba, diff) str
-        +proto_default_port(proto, plugin_registry) str
-        +proto_requires_address(proto, plugin_registry) bool
-        +all_default_ports(plugin_registry) set~str~
-        +compute_zoom_size(current_size, delta, minimum, maximum) float
-        +resolve_cluster_command(text) str
-        +mask_cluster_command(text) str
-        +load_cluster_favorites(cp) list~str~
-        +save_cluster_favorites(cp, favorites) None
-        +add_cluster_favorite(favorites, text) list~str~
-        +remove_cluster_favorite(favorites, text) list~str~
-        +resolve_auto_close_tab(host_override, global_default) int
-        +workspace_hosts(groups) list
-        +serialize_open_tabs(open_hosts) list
-        +parse_open_tabs(raw) list
-        +resolve_host_specs(specs, groups) list
-        +serialize_group_colors(color_map) str
-        +parse_group_colors(raw) dict
-        +resolve_group_color(group, color_map, default) str
-        +resolve_connection_hook_command(template, host_name, host_address, host_group, protocol) str None
-        +resolve_theme_mode(raw_mode) str
-    }
     class mod_gesture_trigger_core {
         <<module>>
         +classify_tree_servers_press(button, n_press)
@@ -120,50 +76,6 @@ classDiagram
         +classify_editor_button_press(n_press)
         +classify_editor_focus_leave(menu_open, done)
         +is_editor_menu_button(button)
-    }
-    class mod_logging_config {
-        <<module>>
-        +level_from_env() str
-        +is_debug_level(level) bool
-        +app_log_path(config_dir) str
-        +configure_logging(level, config_dir, log_file, force)
-        +enable_debug(level, config_dir)
-        +current_level() str
-        +log_files() list~str~
-        +is_debug_enabled() bool
-        +extract_debug_flag(argv) tuple~bool, list~str~~
-        +add_debug_argument(parser) None
-        +apply_debug_argument(args, config_dir) None
-        +get_logger(name)
-        +summarize(value, name) str
-        +mask_password(text) str
-    }
-    class mod_master_password_core {
-        <<module>>
-        +is_protected(key_file_content) bool
-        +protect_key_file_content(raw_key, master_password) str
-        +unlock_key_file_content(protected_content, master_password) str
-        +rewrap_key_file_content(protected_content, old_master_password, new_master_password) str
-        +generate_recovery_code() str
-        +normalize_recovery_code(code) str
-        +has_recovery_code(protected_content) bool
-        +protect_key_file_content_with_recovery(raw_key, master_password) tuple~str, str~
-        +unlock_with_recovery_code(protected_content, recovery_code) str
-        +regenerate_recovery_code(protected_content, master_password) tuple~str, str~
-        +recover_with_code(protected_content, recovery_code, new_master_password) tuple~str, str~
-        +remove_master_password_protection(protected_content, master_password) str
-    }
-    class InvalidMasterPasswordError {
-        <<Exception>>
-    }
-    class CorruptedProtectedContentError {
-        <<Exception>>
-    }
-    class InvalidRecoveryCodeError {
-        <<Exception>>
-    }
-    class RecoveryCodeUnavailableError {
-        <<Exception>>
     }
     class mod_netmiko_bulk_core {
         <<module>>
@@ -356,7 +268,6 @@ classDiagram
 | `hypervisor_import_common` | `hypervisor_import_common.py` | Helpers partagés par les imports hyperviseurs (libvirt / Proxmox). |
 | `key_picker_dialog` | `key_picker_dialog.py` | Dialogue de sélection de clé SSH existante depuis ~/.ssh/. |
 | `models` | `models.py` | Modèles de données pour les hôtes et utilitaires de configuration. |
-| `pyAES` | `pyAES.py` | AES encryption/decryption implementation in pure Python. |
 | `ssh_config_editor` | `ssh_config_editor.py` | Dialogue GTK3 d'édition de ~/.ssh/config intégré à GCM. |
 | `ssh_key_manager_dialog` | `ssh_key_manager_dialog.py` | Gestionnaire de clés SSH : liste, génération, import, suppression, copie. |
 | `urlregex` | `urlregex.py` | Expressions régulières PCRE2 utilisées par GCM pour la détection d'URLs. |
@@ -580,33 +491,6 @@ classDiagram
         +get_val(cp, section, name, default)$
         +load_host_from_ini(cp, section, pwd)$
         +save_host_to_ini(cp, section, host, pwd)$
-    }
-    class mod_pyAES {
-        <<module>>
-        +rotate(word, n)
-        +shiftRows(state)
-        +shiftRowsInv(state)
-        +keyScheduleCore(word, i)
-        +expandKey(cipherKey)
-        +subBytes(state)
-        +subBytesInv(state)
-        +addRoundKey(state, roundKey)
-        +galoisMult(a, b)
-        +mixColumn(column)
-        +mixColumnInv(column)
-        +mixColumns(state)
-        +mixColumnsInv(state)
-        +aesRound(state, roundKey)
-        +aesRoundInv(state, roundKey)
-        +createRoundKey(expandedKey, n)
-        +passwordToKey(password)
-        +aesMain(state, expandedKey, numRounds)
-        +aesMainInv(state, expandedKey, numRounds)
-        +aesEncrypt(plaintext, key)
-        +aesDecrypt(ciphertext, key)
-        +getBlock(fp)
-        +encrypt(text, password)
-        +decrypt(text, password)
     }
     class SshConfigEditorDialog {
         <<Gtk.Dialog>>
@@ -1606,13 +1490,17 @@ classDiagram
 | `gcm4.core.exchange` | `src/gcm4/core/exchange.py` | Import et export des hôtes en CSV et JSON, sans GTK (#152). |
 | `gcm4.core.host_tree` | `src/gcm4/core/host_tree.py` | Arbre des groupes et des hôtes, sans GTK (#139). |
 | `gcm4.core.i18n` | `src/gcm4/core/i18n.py` | Traductions de gcm4 : domaine gettext ``gcm-lang`` de l'application GTK3. |
+| `gcm4.core.journal` | `src/gcm4/core/journal.py` | logging_config -- configuration centrale de loguru (issue #130, sous-issue 4a). |
 | `gcm4.core.menu` | `src/gcm4/core/menu.py` | Menu principal et raccourcis de gcm4, décrits sans GTK (#134). |
 | `gcm4.core.menu_arbre` | `src/gcm4/core/menu_arbre.py` | Menu contextuel de l'arbre et règles de ses actions, sans GTK (#142). |
+| `gcm4.core.metier` | `src/gcm4/core/metier.py` | Logique métier de GNOME Connection Manager — zéro dépendance GTK. |
 | `gcm4.core.mises_a_jour` | `src/gcm4/core/mises_a_jour.py` | Vérification des mises à jour, sans GTK ni réseau dans les tests (#245). |
 | `gcm4.core.model` | `src/gcm4/core/model.py` | Modèle de la base GTK4 : Host, Group, HostStore, sans GTK (#136). |
+| `gcm4.core.mot_de_passe` | `src/gcm4/core/mot_de_passe.py` | Protection par mot de passe maître du fichier de clé locale (``KEY_FILE``). |
 | `gcm4.core.onglets` | `src/gcm4/core/onglets.py` | Onglets ouverts, enregistrés à la fermeture et restaurés au démarrage (#246). |
 | `gcm4.core.plugins` | `src/gcm4/core/plugins.py` | Contrat v1 entre la base gcm4 et ses plugins de connexion (#149), sans GTK. |
 | `gcm4.core.preferences` | `src/gcm4/core/preferences.py` | Préférences générales de la base GTK4, sans GTK (lot 5a, #147). |
+| `gcm4.core.pyaes` | `src/gcm4/core/pyaes.py` | AES encryption/decryption implementation in pure Python. |
 | `gcm4.core.raccourcis` | `src/gcm4/core/raccourcis.py` | Raccourcis de la fenêtre principale modifiables : section ``[shortcuts]`` (#247), sans GTK. |
 | `gcm4.core.registre` | `src/gcm4/core/registre.py` | Découverte des plugins et isolation de leurs erreurs (#150), sans GTK. |
 | `gcm4.core.replies` | `src/gcm4/core/replies.py` | Groupes repliés de ``[window] collapsed-folders``, au format GTK3 (#139). |
@@ -1813,6 +1701,23 @@ classDiagram
         +install(locale_dir) gettext.NullTranslations
         +N_(message) str
     }
+    class mod_gcm4_core_journal {
+        <<module>>
+        +level_from_env() str
+        +is_debug_level(level) bool
+        +app_log_path(config_dir) str
+        +configure_logging(level, config_dir, log_file, force)
+        +enable_debug(level, config_dir)
+        +current_level() str
+        +log_files() list~str~
+        +is_debug_enabled() bool
+        +extract_debug_flag(argv) tuple~bool, list~str~~
+        +add_debug_argument(parser) None
+        +apply_debug_argument(args, config_dir) None
+        +get_logger(name)
+        +summarize(value, name) str
+        +mask_password(text) str
+    }
     class mod_gcm4_core_menu {
         <<module>>
         +actions_du_menu(menu) list~str~
@@ -1845,6 +1750,43 @@ classDiagram
         +int hotes
         +int sous_groupes
         +vide() bool
+    }
+    class mod_gcm4_core_metier {
+        <<module>>
+        +migrate_legacy_config_dir(old_dir, new_dir) bool
+        +dep_install_hint(pkg_debian, pkg_fedora, pkg_arch) str
+        +bindtextdomain(app_name, locale_dir) None
+        +setup_app_logger(config_dir, debug)
+        +get_username() str None
+        +get_password() str
+        +load_encryption_key(key_file) None
+        +initialise_encyption_key(key_file) None
+        +xor(pw, str1) list~str~
+        +encrypt_old(passw, string) str
+        +decrypt_old(passw, string) str
+        +encrypt(passw, string) str
+        +decrypt(passw, string, version) str
+        +color_to_hex(rgba, diff) str
+        +proto_default_port(proto, plugin_registry) str
+        +proto_requires_address(proto, plugin_registry) bool
+        +all_default_ports(plugin_registry) set~str~
+        +compute_zoom_size(current_size, delta, minimum, maximum) float
+        +resolve_cluster_command(text) str
+        +mask_cluster_command(text) str
+        +load_cluster_favorites(cp) list~str~
+        +save_cluster_favorites(cp, favorites) None
+        +add_cluster_favorite(favorites, text) list~str~
+        +remove_cluster_favorite(favorites, text) list~str~
+        +resolve_auto_close_tab(host_override, global_default) int
+        +workspace_hosts(groups) list
+        +serialize_open_tabs(open_hosts) list
+        +parse_open_tabs(raw) list
+        +resolve_host_specs(specs, groups) list
+        +serialize_group_colors(color_map) str
+        +parse_group_colors(raw) dict
+        +resolve_group_color(group, color_map, default) str
+        +resolve_connection_hook_command(template, host_name, host_address, host_group, protocol) str None
+        +resolve_theme_mode(raw_mode) str
     }
     class mod_gcm4_core_mises_a_jour {
         <<module>>
@@ -1914,6 +1856,33 @@ classDiagram
         +replace(original, nouveau) Host
         +duplicate(host) Host
         +search(texte) list~Host~
+    }
+    class mod_gcm4_core_mot_de_passe {
+        <<module>>
+        +is_protected(key_file_content) bool
+        +protect_key_file_content(raw_key, master_password) str
+        +unlock_key_file_content(protected_content, master_password) str
+        +rewrap_key_file_content(protected_content, old_master_password, new_master_password) str
+        +generate_recovery_code() str
+        +normalize_recovery_code(code) str
+        +has_recovery_code(protected_content) bool
+        +protect_key_file_content_with_recovery(raw_key, master_password) tuple~str, str~
+        +unlock_with_recovery_code(protected_content, recovery_code) str
+        +regenerate_recovery_code(protected_content, master_password) tuple~str, str~
+        +recover_with_code(protected_content, recovery_code, new_master_password) tuple~str, str~
+        +remove_master_password_protection(protected_content, master_password) str
+    }
+    class InvalidMasterPasswordError {
+        <<Exception>>
+    }
+    class CorruptedProtectedContentError {
+        <<Exception>>
+    }
+    class InvalidRecoveryCodeError {
+        <<Exception>>
+    }
+    class RecoveryCodeUnavailableError {
+        <<Exception>>
     }
     class mod_gcm4_core_onglets {
         <<module>>
@@ -2008,6 +1977,33 @@ classDiagram
         +str libelle
         +str portee
         +str None action
+    }
+    class mod_gcm4_core_pyaes {
+        <<module>>
+        +rotate(word, n)
+        +shiftRows(state)
+        +shiftRowsInv(state)
+        +keyScheduleCore(word, i)
+        +expandKey(cipherKey)
+        +subBytes(state)
+        +subBytesInv(state)
+        +addRoundKey(state, roundKey)
+        +galoisMult(a, b)
+        +mixColumn(column)
+        +mixColumnInv(column)
+        +mixColumns(state)
+        +mixColumnsInv(state)
+        +aesRound(state, roundKey)
+        +aesRoundInv(state, roundKey)
+        +createRoundKey(expandedKey, n)
+        +passwordToKey(password)
+        +aesMain(state, expandedKey, numRounds)
+        +aesMainInv(state, expandedKey, numRounds)
+        +aesEncrypt(plaintext, key)
+        +aesDecrypt(ciphertext, key)
+        +getBlock(fp)
+        +encrypt(text, password)
+        +decrypt(text, password)
     }
     class mod_gcm4_core_raccourcis {
         <<module>>

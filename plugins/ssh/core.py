@@ -3,7 +3,7 @@
 ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf.
 
 Fusion (session-26, plan validé le 2026-09-10 — voir
-``proposition-architecture-plugins-gtk4.md`` §3.0-bis/§6 et
+``docs/proposition-architecture-plugins-gtk4.md`` §3.0-bis/§6 et
 ``docs/gtk4-migration.md`` §3.0-bis/§3.6) des anciens modules à la racine
 du dépôt :
 

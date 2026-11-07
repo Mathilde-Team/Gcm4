@@ -37,7 +37,7 @@ mkdir -p "$BUILD_DIR" "$DIST_DIR"
 # Sources du wheel ([tool.hatch.build.targets.wheel] de pyproject.toml) :
 # les fichiers suivis par git seulement, sans __pycache__ ni fichier local.
 # README.md et LICENSE sont lus par hatchling (métadonnées du wheel).
-(cd "$REPO_ROOT" && git ls-files -z -- src/gcm4 gcm4_core.py logging_config.py master_password_core.py pyAES.py \
+(cd "$REPO_ROOT" && git ls-files -z -- src/gcm4 \
     pyproject.toml README.md LICENSE NOTICE data \
     | xargs -0 cp --parents -t "$BUILD_DIR")
 cp -r "$SCRIPT_DIR/debian" "$SCRIPT_DIR/wrappers" "$BUILD_DIR/"

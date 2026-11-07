@@ -21,9 +21,9 @@
 | `plugins/ssh/core.py` | Logique métier SSH sans GTK (parsing `~/.ssh/config`, migration/import gcm.conf) — fusion `ssh_config_parser.py`+`ssh_migrate_gcm.py` (session-26, plugin pilote de la migration GTK4) | — |
 | `netmiko_bulk_core.py`, `snmp_bulk_core.py` | Cœurs métier sans GTK des outils de déploiement en masse (`snmp_push_core.py` supprimé, #74) | `netmiko`, `ezsnmp`/`easysnmp`, `paramiko` (dépôt SFTP) |
 | `hypervisor_import_common.py` | Helpers partagés libvirt/Proxmox (jamais préfixé `plugin_`) | `paramiko`, `nmap` (sonde) |
-| `master_password_core.py` | Protection par mot de passe maître du fichier de clé locale (`KEY_FILE`) — logique de chiffrement/déchiffrement seule, zéro GTK (session-27) | `pyAES` |
+| `src/gcm4/core/mot_de_passe.py` | Protection par mot de passe maître du fichier de clé locale (`KEY_FILE`) — logique de chiffrement/déchiffrement seule, zéro GTK (session-27) | `gcm4.core.pyaes` |
 | `tools/` | Scripts CLI autonomes : `libvirt_inventory.py` (v4), `ssh_deploy.py`, `validate_po.py`, `validate_xml_json.py` | `virsh`, `paramiko` |
-| `pyAES.py` / `urlregex.py` | AES-256/OFB pur Python (mots de passe) / regex PCRE2 (URL/e-mail terminal) | — |
+| `src/gcm4/core/pyaes.py` / `urlregex.py` | AES-256/OFB pur Python (mots de passe) / regex PCRE2 (URL/e-mail terminal) | — |
 | `tests/test_gcm.py` | 492 fonctions de test (56 classes), `unittest` + `mock` | `pytest` |
 | Dépendances vendorisées | `gtk-frdp/` (RDP embarqué natif, meson), `SSH-Studio/` (référence portage SSH), `vnc/`, `rdp/` (cibles Docker de test) | `meson`/`ninja` |
 
@@ -156,13 +156,13 @@ proposition ; il est **entièrement mis en œuvre** :
   dépôt, pas encore déplacé dans `plugins/ssh/`.
 
 ### 2.6 Sécurité / configuration
-- ✅ Chiffrement AES des mots de passe (`pyAES.py`, AES-256/OFB pur Python).
-- ⚠️ **Master password (session-27, 2026-09-10)** : `master_password_core.py`
+- ✅ Chiffrement AES des mots de passe (`src/gcm4/core/pyaes.py`, AES-256/OFB pur Python).
+- ⚠️ **Master password (session-27, 2026-09-10)** : `src/gcm4/core/mot_de_passe.py`
   fournit la logique de protection/déverrouillage du contenu de `KEY_FILE`
-  par un mot de passe maître (PBKDF2-HMAC-SHA256, enveloppe via `pyAES`,
+  par un mot de passe maître (PBKDF2-HMAC-SHA256, enveloppe via `gcm4.core.pyaes`,
   vérificateur d'intégrité, rétrocompatibilité totale avec un `KEY_FILE`
   legacy non protégé) — **testée et fonctionnelle en isolation, pas encore
-  câblée** dans `gcm4_core.load_encryption_key()`/`initialise_encyption_key()`
+  câblée** dans `gcm4.core.metier.load_encryption_key()`/`initialise_encyption_key()`
   ni dans le flux de démarrage GTK (prompt du mot de passe, gestion de
   l'oubli). Voir `docs/sessions/session-27.md` pour le détail du périmètre
   et des points laissés à la validation de l'auteure.
@@ -172,20 +172,20 @@ proposition ; il est **entièrement mis en œuvre** :
 - ✅ **2026-09-01.** Masquage des mots de passe dans l'historique des
   commandes cluster (`Wcluster`, zone de commandes envoyée à tous les hôtes
   actifs) : marqueur `#P=<valeur>` saisi dans la commande — envoyé en clair
-  aux terminaux (`gcm4_core.resolve_cluster_command()`), mais remplacé par
+  aux terminaux (`gcm4.core.metier.resolve_cluster_command()`), mais remplacé par
   des astérisques dans l'historique rappelable au CTRL+UP/CTRL+DOWN
-  (`gcm4_core.mask_cluster_command()`), pour qu'un mot de passe tapé une
+  (`gcm4.core.metier.mask_cluster_command()`), pour qu'un mot de passe tapé une
   fois ne reste jamais en clair en mémoire au-delà de l'envoi. Convention
   introduite cette session (aucune trace antérieure du marqueur dans le
   dépôt ni dans une doc historique) ; compromis assumé et documenté dans
   la docstring : un marqueur rappelé depuis l'historique n'est plus
   réutilisable tel quel, l'utilisateur doit resaisir la valeur. Logique
-  pure dans `gcm4_core.py` (zéro GTK, testée dans
+  pure dans `src/gcm4/core/metier.py` (zéro GTK, testée dans
   `tests/test_gcm4_core.py::TestResolveClusterCommand`/`TestMaskClusterCommand`,
   10 tests), câblage mince dans `Wcluster.send_cluster_commands()` ;
   info-bulle ajoutée sur la zone de saisie pour la découvrabilité.
 - ⚠️ **Migration de config pour le renommage gcm4 (session-30, 2026-09-10)** :
-  `gcm4_core.migrate_legacy_config_dir(old_dir, new_dir)` — copie générique
+  `gcm4.core.metier.migrate_legacy_config_dir(old_dir, new_dir)` — copie générique
   (jamais destructrice, idempotente, permissions préservées) d'un dossier
   de config vers un nouveau, sans nom en dur — **testée et fonctionnelle en
   isolation (8 tests), pas encore câblée** : ni `old_dir`/`new_dir`
@@ -343,11 +343,11 @@ hu, id, ro, th, vi, zh).
   les mêmes répertoires.
 - ⚠️ **`widgets.py` duplique indépendamment `CONFIG_DIR`/`CONFIG_FILE`/
   `KEY_FILE` et son propre logger Loguru (2026-08-30, trouvé en écrivant
-  `gcm4_core.py`)** : `widgets.py` (ligne ~49) recalcule son propre
+  `src/gcm4/core/metier.py`)** : `widgets.py` (ligne ~49) recalcule son propre
   `USERHOME_DIR`/`CONFIG_DIR`/`CONFIG_FILE`/`KEY_FILE` en dur
-  (`USERHOME_DIR + "/.gcm"`) au lieu d'utiliser `gcm4_core._resolve_config_dir()`,
+  (`USERHOME_DIR + "/.gcm"`) au lieu d'utiliser `gcm4.core.metier._resolve_config_dir()`,
   et définit sa propre `_setup_app_logger()` (ligne ~62, avec repli stdlib
-  si Loguru absent) indépendante de celle de `gcm4_core.py`. Conséquences
+  si Loguru absent) indépendante de celle de `src/gcm4/core/metier.py`. Conséquences
   concrètes : l'option CLI `--config` (#80) est invisible pour tout code
   passant par `widgets.CONFIG_FILE` (ex. `plugin_spice.py`, pairage
   d'hôtes SPICE, qui lit `Path(CONFIG_FILE)` importé depuis `widgets.py`,
@@ -357,7 +357,7 @@ hu, id, ro, th, vi, zh).
   vérifiable sans GTK/VTE réel dans cet environnement de travail) — à
   confirmer avec l'auteure avant d'unifier les deux (`widgets.py`
   importerait `CONFIG_DIR`/`CONFIG_FILE`/`KEY_FILE`/`setup_app_logger`
-  depuis `gcm4_core.py` au lieu de les recalculer). À traiter en même temps
+  depuis `src/gcm4/core/metier.py` au lieu de les recalculer). À traiter en même temps
   que l'exécution réelle du renommage GCM → gcm4 (`docs/gcm4-rename.md` §5)
   pour ne pas laisser les deux définitions diverger sur le nouveau nom.
 
@@ -372,7 +372,7 @@ exposée via un nouveau hook générique `ConnectionPlugin.patch_edit_host_dialo
 figurait pas dans la liste ci-dessous (trouvé indépendamment) ; les trois
 vestiges suivants, eux, restent ouverts.
 
-En travaillant sur `gcm4_core.py` (§4.1), plusieurs traces de protocole
+En travaillant sur `src/gcm4/core/metier.py` (§4.1), plusieurs traces de protocole
 trouvées dans `gnome_connection_manager.py` qui ne devraient plus y être
 puisque ces protocoles sont déjà des plugins — non corrigées ici, portée
 plus large qu'une extraction (touchent potentiellement le contrat
@@ -563,7 +563,7 @@ son environnement à l'instance en cours, qui l'analyse avec
 
 | Deuxième lancement | Effet dans l'instance en cours | Code de sortie |
 |---|---|---|
-| `gcm4 --debug` (action « debug mode » du lanceur) | niveau DEBUG à chaud (`logging_config.enable_debug`), `args.debug` vrai pour Préférences > Journalisation | 0 |
+| `gcm4 --debug` (action « debug mode » du lanceur) | niveau DEBUG à chaud (`gcm4.core.journal.enable_debug`), `args.debug` vrai pour Préférences > Journalisation | 0 |
 | `gcm4 groupe/nom…` | fenêtre présentée, hôtes sélectionnés (`MainWindow.ouvrir_hotes`, #154) | 0 |
 | autre dossier de configuration (`-c` ou `$XDG_CONFIG_HOME`) | rien ; message sur la sortie d'erreur du deuxième lancement | 5 (`CODE_AUTRE_CONFIG`) |
 | ligne refusée par l'analyseur (appel D-Bus forgé seulement) | rien | 2 (`CODE_REFUS`) |
@@ -577,7 +577,7 @@ processus sur un `dbus-daemon` privé).
 ## 3. Arborescence détaillée (fichiers, classes, dépendances)
 
 ```
-gcm4_core.py                  ~1085 lignes — cœur MÉTIER, zéro import gi/Gtk/Vte,
+src/gcm4/core/metier.py                  ~1085 lignes — cœur MÉTIER, zéro import gi/Gtk/Vte,
                                 extrait de gnome_connection_manager.py le 2026-08-30
                                 (préalable au découpage des plugins en dossiers,
                                 voir décisions en tête de ce fichier). Neutre de
@@ -617,7 +617,7 @@ gnome_connection_manager.py   ~7610 lignes — cœur GTK (le "gtk4.py" central �
 │                                   conf.AUTO_CLOSE_TAB, visible seulement en VTE)
 ├── Wconfig / Wabout / Wcluster        (Wcluster.send_cluster_commands() : marqueur
 │                                   #P=<valeur> masqué à l'historique depuis le
-│                                   2026-09-01, voir gcm4_core.py ci-dessus)
+│                                   2026-09-01, voir src/gcm4/core/metier.py ci-dessus)
 ├── SerialTemplatesTab              vestige de protocole assumé, voir features.md §2.8-bis
 └── CheckUpdates (Thread)
 
@@ -664,7 +664,7 @@ widgets.py        widgets GTK custom (dont WebTab, la classe la plus simple, 104
                   lignes, utilisée comme base de plugin_web.py)
 utils.py          run_dialog_sync() — palliatif documenté pour Gtk.Dialog.run()
                   (supprimé en GTK4) ; classe de base GCMBase
-pyAES.py          AES-256/OFB pur Python (mots de passe)
+src/gcm4/core/pyaes.py          AES-256/OFB pur Python (mots de passe)
 urlregex.py       regex PCRE2 (URL/e-mail dans le terminal)
 
 hypervisor_import_common.py   helpers partagés libvirt/Proxmox — jamais préfixé
@@ -739,7 +739,7 @@ tests/test_snmp_bulk_core.py   nouveau (2026-08-30), 4 tests — couvre snmp_bul
 tests/test_gcm4_core.py   nouveau (2026-08-30), 93 tests (26 d'origine +
                      ajouts de sessions ultérieures, dont 8 pour
                      migrate_legacy_config_dir() en session-30), tous exécutés
-                     réellement et verts — couvre gcm4_core.py (zéro GTK, aucun
+                     réellement et verts — couvre src/gcm4/core/metier.py (zéro GTK, aucun
                      stub requis). Priorité au comportement nouveau/changé
                      (exceptions au lieu de msgbox, plugin_registry en
                      paramètre) et aux 3 régressions de transcription trouvées

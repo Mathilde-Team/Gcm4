@@ -13,12 +13,13 @@ PKG_OPENSUSE = $(PKG_NAME)-opensuse-$(PKG_VERSION).$(PKG_ARCH_RPM).rpm
 TMPINSTALLDIR = /tmp/$(PKG_NAME)-fpm-install
 
 # Modules embarqués (issue #162) : TOUS les .py de la racine et les .py de
-# plugins/ hors tests. Avant, seuls gnome_connection_manager.py, pyAES.py et
+# plugins/ hors tests. Avant, seuls gnome_connection_manager.py, src/gcm4/core/pyaes.py et
 # urlregex.py étaient copiés : le paquet installé échouait à l'import de
 # gcm4_core, logging_config, models, utils, widgets... et n'avait aucun
 # plugin. tests/test_paquet_contenu.py vérifie que chaque module importé est
 # bien installé.
 RUNTIME_PY  = $(sort $(wildcard *.py))
+GCM4_PY     = $(sort $(shell git ls-files 'src/gcm4/*.py' 'src/gcm4/*.css'))
 PLUGINS_PY  = $(sort $(shell find plugins -name '*.py' -not -path '*/tests/*' -not -name 'conftest.py' -not -path '*/__pycache__/*'))
 
 FPM_COMMON = -s dir -n $(PKG_NAME) -v $(PKG_VERSION) -C $(TMPINSTALLDIR) \
@@ -101,6 +102,11 @@ install: translate
 		$(DESTDIR)/usr/share/$(PKG_NAME)/
 	for f in $(PLUGINS_PY); do \
 		install -D -m 644 "$$f" "$(DESTDIR)/usr/share/$(PKG_NAME)/$$f"; \
+	done
+	# Modules sans GTK passés de la racine à src/gcm4/core (#427) : l'application
+	# GTK3 les importe par « gcm4.core », le paquet gcm4 est donc copié à côté.
+	for f in $(GCM4_PY); do \
+		install -D -m 644 "$$f" "$(DESTDIR)/usr/share/$(PKG_NAME)/$${f#src/}"; \
 	done
 	chmod 755 $(DESTDIR)/usr/share/$(PKG_NAME)/gnome_connection_manager.py
 
@@ -211,7 +217,7 @@ test:
 
 # ── Lint (ruff + flake8) ──────────────────────────────────────────────────────
 # session-35 (2026-09-14) : la cible ne couvrait que gnome_connection_manager.py,
-# gcm4_core.py et tests/ — les plugins/, models.py, netmiko_bulk_core.py,
+# src/gcm4/core/metier.py et tests/ — les plugins/, models.py, netmiko_bulk_core.py,
 # utils.py et widgets.py n'étaient jamais vérifiés. Élargi à tout le dépôt
 # (respecte l'exclude de pyproject.toml, dont SSH-Studio/gtk-frdp, vendorisés
 # et hors périmètre GCM).

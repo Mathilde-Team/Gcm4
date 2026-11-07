@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Chemin de déchiffrement de pyAES.py (primitives inverses).
+"""Chemin de déchiffrement de src/gcm4/core/pyaes.py (primitives inverses).
 
 L'application ne chiffre qu'avec pyAES (mots de passe de gcm.conf) ; le
 chemin inverse (aesDecrypt et ses primitives *_Inv) n'était jamais exécuté
@@ -14,7 +14,7 @@ la cohérence interne (déchiffrer ce qu'on a chiffré).
 
 from __future__ import annotations
 
-import pyAES
+from gcm4.core import pyaes as pyAES
 
 CLE = list(range(32))  # 000102...1f (32 octets, AES-256)
 

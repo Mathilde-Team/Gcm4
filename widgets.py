@@ -93,7 +93,7 @@ def _setup_app_logger():
         loguru.Logger: Le logger configuré.
     """
     _loguru_logger.debug("_setup_app_logger() called")
-    import logging_config
+    from gcm4.core import journal as logging_config
 
     logging_config.configure_logging()
     _loguru_logger.debug(
@@ -1530,7 +1530,7 @@ class NotebookTabLabel(Gtk.Box):
             int: 0 (jamais), 1 (toujours) ou 2 (seulement en sortie propre).
         """
         logger.debug("NotebookTabLabel.effective_auto_close_tab: entrée")
-        from gcm4_core import resolve_auto_close_tab
+        from gcm4.core.metier import resolve_auto_close_tab
         from gnome_connection_manager import conf
 
         logger.debug("NotebookTabLabel.effective_auto_close_tab: sortie")

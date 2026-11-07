@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""docs/journalisation.md reste fidèle à logging_config.py (issue #172)."""
+"""docs/journalisation.md reste fidèle à src/gcm4/core/journal.py (issue #172)."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-import logging_config as lc  # noqa: E402
+from gcm4.core import journal as lc  # noqa: E402
 
 DOC = (ROOT / "docs" / "journalisation.md").read_text(encoding="utf-8")
 
