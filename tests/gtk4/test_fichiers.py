@@ -208,6 +208,20 @@ def test_choisir_dossier_sans_filtres(pomper):
     pomper()
 
 
+def test_choisir_ouvrir_sans_filtres(pomper):
+    """``filtrer=False`` (clés SSH, #97) : tout fichier, aucun filtre."""
+    recus: list[str | None] = []
+    dialogue = fichiers.choisir(_parent(), fichiers.OUVRIR, "Clé", recus.append, filtrer=False)
+    if hasattr(Gtk, "FileDialog"):
+        assert isinstance(dialogue, Gtk.FileDialog)
+        assert dialogue.get_filters() is None
+    else:  # Debian 12 : GTK 4.8, repli natif
+        assert isinstance(dialogue, Gtk.FileChooserNative)
+        assert dialogue.get_filters().get_n_items() == 0
+    assert recus == []
+    pomper()
+
+
 # --- Rappels fin : Gtk.FileDialog factice ---
 
 

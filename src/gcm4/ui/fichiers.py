@@ -57,7 +57,12 @@ def _chemin(fichier: Gio.File | None) -> str | None:
 
 
 def choisir(
-    parent: Gtk.Window, mode: str, titre: str, rappel: Rappel, nom: str = ""
+    parent: Gtk.Window,
+    mode: str,
+    titre: str,
+    rappel: Rappel,
+    nom: str = "",
+    filtrer: bool = True,
 ) -> Gtk.FileDialog | Gtk.FileChooserNative:
     """Ouvre le sélecteur ``mode`` (:data:`OUVRIR`, :data:`ENREGISTRER`, :data:`DOSSIER`).
 
@@ -67,12 +72,14 @@ def choisir(
         titre (str): Titre traduit du sélecteur.
         rappel (Rappel): Reçoit le chemin choisi, ou ``None``.
         nom (str): Nom proposé en mode :data:`ENREGISTRER`.
+        filtrer (bool): Filtres :data:`FILTRES` (JSON, CSV) ; ``False`` pour
+            tout fichier (clés SSH, #97).
 
     Returns:
         Gtk.FileDialog | Gtk.FileChooserNative: Le sélecteur (déjà affiché).
     """
     logger.debug("choisir: {} {!r}", mode, titre)
-    filtres = _filtres() if mode != DOSSIER else []
+    filtres = _filtres() if mode != DOSSIER and filtrer else []
     if hasattr(Gtk, "FileDialog"):
         dialogue = Gtk.FileDialog(title=titre, modal=True)
         if filtres:
