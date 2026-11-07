@@ -711,6 +711,12 @@ def test_designer_la_ca(module, ouvrir, dossier, tmp_path, selecteur):
     ca.with_name("ca_test.pub").unlink()  # empreinte lue sur la privée
     fenetre.afficher_ca()
     assert fenetre.etat_ca.get_text().startswith("ca_test")
+    # Une seule fenêtre à la fois, comme dans l'application (« une seule
+    # fenêtre par éditeur ») : deux gestionnaires affichés simultanément
+    # font planter GTK 4.8 (Debian 12).
+    fenetre.close()
+    assert fenetre.ferme
+    _attendre(lambda: False, 0.05)  # destruction effective avant la suivante
     autre = ouvrir()
     assert autre.ca == ca
     autre._on_generer(None)
