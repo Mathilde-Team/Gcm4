@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-97 modules · 174 classes · 371 fonctions publiques de module.
+103 modules · 175 classes · 387 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -24,8 +24,8 @@ flowchart TD
     g1["gcm4"]
     g2["gcm4.core"]
     g3["gcm4.ui"]
-    g0 -->|51| g2
-    g0 -->|9| g3
+    g0 -->|62| g2
+    g0 -->|10| g3
     g1 -->|4| g2
     g1 -->|1| g3
     g2 -->|1| g0
@@ -38,9 +38,19 @@ flowchart TD
 
 | Module | Fichier | Rôle |
 |---|---|---|
+| `plugins.import_hyperviseurs` | `plugins/import_hyperviseurs/__init__.py` | Aides partagées des imports d'hyperviseurs (libvirt, Proxmox, VirtualBox, oVirt). |
 | `plugins.import_hyperviseurs.core` | `plugins/import_hyperviseurs/core.py` | Helpers partagés par les imports hyperviseurs (libvirt / Proxmox). |
+| `plugins.import_hyperviseurs.ui` | `plugins/import_hyperviseurs/ui.py` | Interface GTK4 commune aux imports d'hyperviseurs (contrat v1, #439). |
+| `plugins.import_libvirt.core` | `plugins/import_libvirt/core.py` | Cœur de l'outil « Import from libvirt » (contrat v1, #439, portage #179). |
+| `plugins.import_libvirt.gtk4` | `plugins/import_libvirt/gtk4.py` | Outil « Import from libvirt » (contrat v1, #439, portage #179). |
+| `plugins.import_ovirt.core` | `plugins/import_ovirt/core.py` | Cœur de l'outil « Import from oVirt » (contrat v1, #439, portage #179). |
+| `plugins.import_ovirt.gtk4` | `plugins/import_ovirt/gtk4.py` | Outil « Import from oVirt » (contrat v1, #439, portage #179). |
+| `plugins.import_proxmox.core` | `plugins/import_proxmox/core.py` | Cœur de l'outil « Import from Proxmox » (contrat v1, #439, portage #179). |
+| `plugins.import_proxmox.gtk4` | `plugins/import_proxmox/gtk4.py` | Outil « Import from Proxmox » (contrat v1, #439, portage #179). |
 | `plugins.import_putty.core` | `plugins/import_putty/core.py` | Cœur métier (sans GTK) de l'import de sessions PuTTY pour GCM. |
 | `plugins.import_putty.gtk4` | `plugins/import_putty/gtk4.py` | Outil « Import from PuTTY sessions » (contrat v1, #436, portage #179). |
+| `plugins.import_virtualbox.core` | `plugins/import_virtualbox/core.py` | Cœur de l'outil « Import from VirtualBox » (contrat v1, #439, portage #179). |
+| `plugins.import_virtualbox.gtk4` | `plugins/import_virtualbox/gtk4.py` | Outil « Import from VirtualBox » (contrat v1, #439, portage #179). |
 | `plugins.ipmisol` | `plugins/ipmisol/__init__.py` | Plugin ipmisol : SOL (console série des cartes de gestion) dans un terminal. |
 | `plugins.ipmisol.core` | `plugins/ipmisol/core.py` | Partie métier du plugin ipmisol (sans GTK) — portage #179. |
 | `plugins.ipmisol.gtk4` | `plugins/ipmisol/gtk4.py` | Plugin ipmisol de gcm4 (contrat v1, ``docs/plugins.md``) : SOL dans un terminal VTE GTK4. |
@@ -48,10 +58,6 @@ flowchart TD
 | `plugins.local.gtk4` | `plugins/local/gtk4.py` | Plugin local de gcm4 (contrat v1, ``docs/plugins.md``) : shell local dans un terminal VTE GTK4. |
 | `plugins.netmiko_push.core` | `plugins/netmiko_push/core.py` | Cœur métier (sans GTK) du plugin de déploiement de configuration en masse via Netmiko pour GCM. |
 | `plugins.plugin_base` | `plugins/plugin_base.py` | Contrats plugin pour GCM. |
-| `plugins.plugin_import_libvirt` | `plugins/plugin_import_libvirt.py` | Outil « Import from libvirt » (BatchPlugin) pour GCM. |
-| `plugins.plugin_import_ovirt` | `plugins/plugin_import_ovirt.py` | Outil « Import from oVirt » (BatchPlugin) pour GCM. |
-| `plugins.plugin_import_proxmox` | `plugins/plugin_import_proxmox.py` | Outil « Import from Proxmox » (BatchPlugin) pour GCM. |
-| `plugins.plugin_import_virtualbox` | `plugins/plugin_import_virtualbox.py` | Outil « Import from VirtualBox » (BatchPlugin) pour GCM. |
 | `plugins.plugin_ipmisol` | `plugins/plugin_ipmisol.py` | Plugin de connexion IPMI Serial-over-LAN (console BMC : iLO, iDRAC, IMM…). |
 | `plugins.plugin_local` | `plugins/plugin_local.py` | Plugin de connexion "Local" (shell local, sans hôte distant). |
 | `plugins.plugin_netmiko_push` | `plugins/plugin_netmiko_push.py` | Onglet « Netmiko » (déploiement de configuration en masse) pour GCM. |
@@ -96,6 +102,74 @@ classDiagram
         +libvirt_nmap_scan(client, run_fn, log_fn)
         +check_port_open(client, run_fn, ip, port, timeout)
     }
+    class plugins_import_hyperviseurs_ui_Element {
+        <<GObject.Object>>
+    }
+    class VueCochable {
+        <<Gtk.ScrolledWindow>>
+        +remplir(valeurs) None
+        +selectionnees() list~Any~
+        +tout_cocher(valeur) None
+    }
+    class ZoneCibles {
+        <<Gtk.Box>>
+        +ajouter() None
+        +cibles() list~str~
+        +definir(cibles) None
+    }
+    class OngletImportHyperviseurs {
+        <<Gtk.Box>>
+        +conflit_choisi() Conflit
+        +log(msg) None
+        +progression(fraction, texte) None
+        +lancer_scan(travail) None
+        +afficher_resultats(decouvertes) None
+    }
+    class mod_plugins_import_libvirt_core {
+        <<module>>
+        +partage() object
+        +partager_ui() object
+        +normaliser_cible(saisie) str
+        +collecter_hotes(uris, utilisateur_ssh, log_fn, progression_fn, filtre_protocoles) list~dict~
+    }
+    class OngletImportLibvirt
+    OngletImportHyperviseurs <|-- OngletImportLibvirt
+    class ImportLibvirtPlugin {
+        <<ToolPlugin>>
+        +activate() None
+    }
+    class mod_plugins_import_ovirt_core {
+        <<module>>
+        +partage() object
+        +partager_ui() object
+        +api_get(url_moteur, utilisateur, mot_de_passe, verifier_tls, chemin, log_fn, timeout) dict None
+        +sonder_tcp_direct(hote, port, timeout) bool
+        +adresse_hote(url_moteur, utilisateur, mot_de_passe, verifier_tls, id_hote, log_fn) str
+        +interpreter_route_manuelle(manuelle, ip_repli) dict None
+        +resoudre_route(nom_vm, ip_addr, url_moteur, utilisateur_api, mot_de_passe_api, verifier_tls, utilisateur_ssh, id_hote, log_fn, demander_route) dict None
+        +sonder_port_via_route(route, port, utilisateur_ssh, log_fn) bool
+        +collecter_hotes(url_moteur, utilisateur, mot_de_passe, verifier_tls, utilisateur_ssh, log_fn, progression_fn, filtre_protocoles, demander_route) list~dict~
+    }
+    class OngletImportOvirt
+    OngletImportHyperviseurs <|-- OngletImportOvirt
+    class ImportOvirtPlugin {
+        <<ToolPlugin>>
+        +activate() None
+    }
+    class mod_plugins_import_proxmox_core {
+        <<module>>
+        +partage() object
+        +partager_ui() object
+        +normaliser_cible(saisie) str
+        +extraire_premiere_ipv4(sortie_qga) str
+        +collecter_hotes(uris, utilisateur_ssh, log_fn, progression_fn, filtre_protocoles) list~dict~
+    }
+    class OngletImportProxmox
+    OngletImportHyperviseurs <|-- OngletImportProxmox
+    class ImportProxmoxPlugin {
+        <<ToolPlugin>>
+        +activate() None
+    }
     class mod_plugins_import_putty_core {
         <<module>>
         +decode_putty_session_name(raw_filename) str
@@ -108,6 +182,20 @@ classDiagram
         +conflit_choisi() Conflit
     }
     class ImportPuttyPlugin {
+        <<ToolPlugin>>
+        +activate() None
+    }
+    class mod_plugins_import_virtualbox_core {
+        <<module>>
+        +partage() object
+        +partager_ui() object
+        +normaliser_cible(saisie, utilisateur_defaut) str
+        +parser_machinereadable(texte) dict~str, str~
+        +collecter_hotes(uris, utilisateur_ssh, log_fn, progression_fn, filtre_protocoles) list~dict~
+    }
+    class OngletImportVirtualBox
+    OngletImportHyperviseurs <|-- OngletImportVirtualBox
+    class ImportVirtualBoxPlugin {
         <<ToolPlugin>>
         +activate() None
     }
@@ -254,62 +342,6 @@ classDiagram
         +tool_ids() list~str~
         +autoload(directory, package) list~str~
     }
-    class mod_plugins_plugin_import_libvirt {
-        <<module>>
-        +build_preferences_tab(notebook)
-        +get_batch_plugin() LibvirtImportBatchPlugin
-    }
-    class LibvirtPrefsTab {
-        +apply()
-    }
-    class LibvirtImportDialog {
-        <<GCMBase>>
-    }
-    class LibvirtImportBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- LibvirtImportBatchPlugin
-    class mod_plugins_plugin_import_ovirt {
-        <<module>>
-        +get_batch_plugin() OvirtImportBatchPlugin
-    }
-    class OvirtImportDialog {
-        <<GCMBase>>
-    }
-    class OvirtImportBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- OvirtImportBatchPlugin
-    class mod_plugins_plugin_import_proxmox {
-        <<module>>
-        +build_preferences_tab(notebook)
-        +get_batch_plugin() ProxmoxImportBatchPlugin
-    }
-    class ProxmoxPrefsTab {
-        +apply()
-    }
-    class ProxmoxImportDialog {
-        <<GCMBase>>
-    }
-    class ProxmoxImportBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- ProxmoxImportBatchPlugin
-    class mod_plugins_plugin_import_virtualbox {
-        <<module>>
-        +build_preferences_tab(notebook)
-        +get_batch_plugin() VirtualBoxImportBatchPlugin
-    }
-    class VirtualBoxPrefsTab {
-        +apply()
-    }
-    class VirtualBoxImportDialog {
-        <<GCMBase>>
-    }
-    class VirtualBoxImportBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- VirtualBoxImportBatchPlugin
     class mod_plugins_plugin_ipmisol {
         <<module>>
         +get_plugin() IpmiSolPlugin
@@ -975,7 +1007,7 @@ classDiagram
         +ajouter(texte) None
         +contenu() str
     }
-    class Element {
+    class plugins_ssh_gtk4_Element {
         <<GObject.Object>>
     }
     class Tableau {

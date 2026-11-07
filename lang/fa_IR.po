@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 16:30+0000\n"
+"POT-Creation-Date: 2026-11-07 19:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,13 +149,11 @@ msgid "Can't open log file for writting"
 msgstr "فایل گزارش برای نوشتن باز نمی‌شود"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py GTK3.OLD/widgets.py
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
-#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
-#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
-#: src/gcm4/ui/raccourcis.py
+#: plugins/import_ovirt/gtk4.py plugins/plugin_spice.py plugins/plugin_ssh.py
+#: plugins/sftp/gtk4.py src/gcm4/ui/contexte.py src/gcm4/ui/echange.py
+#: src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/raccourcis.py
 msgid "Cancel"
 msgstr "لغو"
 
@@ -413,10 +411,8 @@ msgstr "عمومی"
 msgid "Gnome Connection Manager"
 msgstr "Gnome Connection Manager"
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_import_libvirt.py
-#: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/menu_arbre.py
+#: GTK3.OLD/gnome_connection_manager.py plugins/import_hyperviseurs/ui.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "گروه"
 
@@ -2350,13 +2346,275 @@ msgstr "بازیابی زبانه‌های باز در راه‌اندازی ب�
 msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
 msgstr "برنامهٔ پایه به‌تنهایی هیچ پروتکلی فراهم نمی‌کند: اتصال‌ها به افزونهٔ مربوط نیاز دارند."
 
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/plugin_snmp_push.py
+msgid "1. Configuration"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/plugin_snmp_push.py
+msgid "2. Suivi"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/plugin_snmp_push.py
+msgid "3. Résultats"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_ovirt/gtk4.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "Add"
+msgstr "افزودن"
+
+#: plugins/import_hyperviseurs/ui.py
+#| msgid "Sessions found: {count}."
+msgid "Connections found: {count}."
+msgstr "اتصالات یافت‌شده: {count}."
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "IP / Host"
+msgstr "IP / میزبان"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "اگر میزبان از قبل وجود دارد:"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "نگه‌داشتن میزبان موجود"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "No connection to import (all already exist or none selected)."
+msgstr "هیچ اتصالی برای وارد کردن وجود ندارد (همه از قبل وجود دارند یا هیچ‌کدام انتخاب نشده)."
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "Proto"
+msgstr "پروتکل"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "تغییر نام میزبان درون‌بری‌شده"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "جایگزینی میزبان موجود"
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Scan failed: {exc}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "State"
+msgstr "وضعیت"
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Target added: {uri}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Target already present: {uri}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+msgid "VM name"
+msgstr "نام ماشین مجازی"
+
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_ipmisol.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
+msgid "Waiting…"
+msgstr "در حال انتظار…"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "✓ Check all"
+msgstr "✓ انتخاب همه"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "✗ Uncheck all"
+msgstr "✗ لغو انتخاب همه"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "⬇  Import selected"
+msgstr "⬇  وارد کردن انتخاب‌شده"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "🔄  Rescan"
+msgstr "🔄  اسکن مجدد"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_ovirt/gtk4.py
+#: plugins/import_proxmox/gtk4.py plugins/import_virtualbox/gtk4.py
+msgid "<b>Connection types to import:</b>"
+msgstr "<b>انواع اتصال برای وارد کردن:</b>"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Detected libvirt URI"
+msgstr "URI شناسایی‌شده libvirt"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
+msgid "Hypervisor SSH user:"
+msgstr "کاربر SSH هایپروایزر:"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Hypervisors (virt-manager / dconf):"
+msgstr "هایپروایزرها (virt-manager / dconf):"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Import from libvirt"
+msgstr "وارد کردن از libvirt"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Invalid libvirt target."
+msgstr "هدف libvirt نامعتبر است."
+
+#: plugins/import_libvirt/gtk4.py
+msgid ""
+"No URI found in dconf (virt-manager not configured?).\n"
+"Add your URIs manually below."
+msgstr ""
+"هیچ URI در dconf یافت نشد (شاید virt-manager پیکربندی نشده؟).\n"
+"URIهای خود را به‌صورت دستی در زیر اضافه کنید."
+
+#: plugins/import_libvirt/gtk4.py
+msgid "No URI selected."
+msgstr "هیچ URI انتخاب نشده است."
+
+#: plugins/import_libvirt/gtk4.py plugins/import_ovirt/gtk4.py
+#: plugins/import_proxmox/gtk4.py plugins/import_virtualbox/gtk4.py
+msgid "No connection type selected."
+msgstr "هیچ نوع اتصالی انتخاب نشده است."
+
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
+msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
+msgstr "RDP  (بررسی پورت 3389 از هایپروایزر از طریق nc/nmap - در صورت بسته بودن پورت، رد می‌شود)"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "SPICE  (virt-viewer --connect qemu+ssh://... vm - SSH tunnel handled automatically)"
+msgstr "SPICE  (virt-viewer --connect qemu+ssh://... vm - تونل SSH به‌طور خودکار مدیریت می‌شود)"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
+msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
+msgstr "SSH  (ProxyJump -J از طریق هایپروایزر زمانی که IP ماشین مجازی شناخته شده باشد، در غیر این صورت شِل هایپروایزر + -t ssh user@vm)"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
+#, fuzzy
+#| msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
+msgid "VNC  (probe port 5900 from hypervisor via nc/nmap - skipped if port is closed)"
+msgstr "RDP  (بررسی پورت 3389 از هایپروایزر از طریق nc/nmap - در صورت بسته بودن پورت، رد می‌شود)"
+
+#: plugins/import_libvirt/gtk4.py
+#, fuzzy
+#| msgid "🔍  Scan hypervisors"
+msgid "🔍  Scan Libvirt hypervisors"
+msgstr "🔍  اسکن هایپروایزرها"
+
+#: plugins/import_ovirt/gtk4.py
+#, python-brace-format
+msgid ""
+"Could not reach '{vm}' directly, via the oVirt engine, or via its hypervisor.\n"
+"\n"
+"Enter either a direct target — \"ip\" or \"ip:port\" — or a jump proxy — \"-J user@jumphost[:port] target_ip\".\n"
+"Leave empty to skip this VM."
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+msgid "Engine URL is required."
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+msgid "Engine URL:"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+#, fuzzy
+#| msgid "Import from libvirt"
+msgid "Import from oVirt"
+msgstr "وارد کردن از libvirt"
+
+#: plugins/import_ovirt/gtk4.py
+#, fuzzy
+#| msgid "Password"
+msgid "Password:"
+msgstr "رمز عبور"
+
+#: plugins/import_ovirt/gtk4.py
+msgid "RDP  (Windows guests only — port 3389 probed via the resolved route)"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+msgid "SSH  (direct — oVirt VMs are usually directly routable)"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+msgid "SSH user (engine/hypervisor jump):"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+#, python-brace-format
+msgid "Unreachable VM: {vm}"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+#, fuzzy
+#| msgid "User"
+msgid "Username:"
+msgstr "کاربر"
+
+#: plugins/import_ovirt/gtk4.py
+msgid "Verify TLS certificate"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+msgid "🔍  Scan oVirt engine"
+msgstr ""
+
+#: plugins/import_proxmox/gtk4.py
+msgid "Import from Proxmox"
+msgstr "وارد کردن از Proxmox"
+
+#: plugins/import_proxmox/gtk4.py
+msgid "Invalid Proxmox target."
+msgstr "هدف Proxmox نامعتبر است."
+
+#: plugins/import_proxmox/gtk4.py
+msgid "No Proxmox target selected."
+msgstr "هیچ هدف Proxmox انتخاب نشده است."
+
+#: plugins/import_proxmox/gtk4.py
+msgid ""
+"No SSH URI found in dconf.\n"
+"Enter an IP/host below and click Add."
+msgstr ""
+"هیچ URI SSH در dconf یافت نشد.\n"
+"یک IP/میزبان در زیر وارد کرده و روی افزودن کلیک کنید."
+
+#: plugins/import_proxmox/gtk4.py
+msgid "Proxmox target (qemu+ssh://user@host/system)"
+msgstr ""
+
+#: plugins/import_proxmox/gtk4.py
+#, fuzzy
+#| msgid "Add a Proxmox target:"
+msgid "Proxmox targets:"
+msgstr "افزودن یک هدف Proxmox:"
+
+#: plugins/import_proxmox/gtk4.py
+msgid "SPICE  (vga:qxl required — ticket generated at connection time via pvesh)"
+msgstr ""
+
+#: plugins/import_proxmox/gtk4.py
+msgid "🔍  Scan Proxmox hosts"
+msgstr "🔍  اسکن میزبان‌های Proxmox"
+
 #: plugins/import_putty/gtk4.py
 msgid "Choose a folder…"
 msgstr "انتخاب یک پوشه…"
-
-#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
-msgid "If a host already exists:"
-msgstr "اگر میزبان از قبل وجود دارد:"
 
 #: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
 msgid "Import"
@@ -2374,10 +2632,6 @@ msgstr "وارد کردن از Proxmox"
 msgid "Import from PuTTY sessions…"
 msgstr "وارد کردن از libvirt"
 
-#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
-msgid "Keep the existing host"
-msgstr "نگه‌داشتن میزبان موجود"
-
 #: plugins/import_putty/gtk4.py
 msgid "No importable SSH/Telnet session found in this folder."
 msgstr ""
@@ -2393,14 +2647,6 @@ msgstr "نام قالب"
 msgid "PuTTY sessions folder: {folder}"
 msgstr "پوشه نشست‌های PuTTY: {folder}"
 
-#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
-msgid "Rename the imported host"
-msgstr "تغییر نام میزبان درون‌بری‌شده"
-
-#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
-msgid "Replace the existing host"
-msgstr "جایگزینی میزبان موجود"
-
 #: plugins/import_putty/gtk4.py
 msgid "Select PuTTY sessions folder"
 msgstr ""
@@ -2415,466 +2661,71 @@ msgstr "نشست‌های یافت‌شده: {count}."
 msgid "{count} session(s) ignored (unsupported protocol or missing host)."
 msgstr ""
 
-#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
-#, python-brace-format
-msgid "{program} not found"
-msgstr "{program} یافت نشد"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "1. Configuration"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "2. Suivi"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "3. Résultats"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "<b>Connection types to import:</b>"
-msgstr "<b>انواع اتصال برای وارد کردن:</b>"
-
-#: plugins/plugin_import_libvirt.py
-msgid "<i>Applies only to the Libvirt import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py plugins/plugin_ssh.py
-#: plugins/ssh/gtk4.py
-msgid "Add"
-msgstr "افزودن"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-msgid "Default SSH user (VMs):"
-msgstr "کاربر SSH پیش‌فرض (ماشین‌های مجازی):"
-
-#: plugins/plugin_import_libvirt.py
-msgid "Detected libvirt URI"
-msgstr "URI شناسایی‌شده libvirt"
-
-#: plugins/plugin_import_libvirt.py
-msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
-msgstr "مثال: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-msgid "Hypervisor SSH user:"
-msgstr "کاربر SSH هایپروایزر:"
-
-#: plugins/plugin_import_libvirt.py
-msgid "Hypervisors (virt-manager / dconf):"
-msgstr "هایپروایزرها (virt-manager / dconf):"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "IP / Host"
-msgstr "IP / میزبان"
-
-#: plugins/plugin_import_libvirt.py
-msgid "Import from libvirt"
-msgstr "وارد کردن از libvirt"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Imported"
-msgstr "وارد شد"
-
-#: plugins/plugin_import_libvirt.py
-msgid "Invalid libvirt target."
-msgstr "هدف libvirt نامعتبر است."
-
-#: plugins/plugin_import_libvirt.py
-msgid "Libvirt"
-msgstr "Libvirt"
-
-#: plugins/plugin_import_libvirt.py
-msgid ""
-"No URI found in dconf (virt-manager not configured?).\n"
-"Add your URIs manually below."
-msgstr ""
-"هیچ URI در dconf یافت نشد (شاید virt-manager پیکربندی نشده؟).\n"
-"URIهای خود را به‌صورت دستی در زیر اضافه کنید."
-
-#: plugins/plugin_import_libvirt.py
-msgid "No URI selected."
-msgstr "هیچ URI انتخاب نشده است."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No connection to import (all already exist or none selected)."
-msgstr "هیچ اتصالی برای وارد کردن وجود ندارد (همه از قبل وجود دارند یا هیچ‌کدام انتخاب نشده)."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No connection type selected."
-msgstr "هیچ نوع اتصالی انتخاب نشده است."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No host imported."
-msgstr "هیچ میزبانی وارد نشد."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No new host (duplicates ignored)."
-msgstr "هیچ میزبان جدیدی وجود ندارد (موارد تکراری نادیده گرفته شدند)."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Overwrite existing connections with the same name and protocol"
-msgstr "بازنویسی اتصالات موجود با نام و پروتکل یکسان"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Proto"
-msgstr "پروتکل"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
-msgstr "RDP  (بررسی پورت 3389 از هایپروایزر از طریق nc/nmap - در صورت بسته بودن پورت، رد می‌شود)"
-
-#: plugins/plugin_import_libvirt.py
-msgid "SPICE  (virt-viewer --connect qemu+ssh://... vm - SSH tunnel handled automatically)"
-msgstr "SPICE  (virt-viewer --connect qemu+ssh://... vm - تونل SSH به‌طور خودکار مدیریت می‌شود)"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
-msgstr "SSH  (ProxyJump -J از طریق هایپروایزر زمانی که IP ماشین مجازی شناخته شده باشد، در غیر این صورت شِل هایپروایزر + -t ssh user@vm)"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Scan failed: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "State"
-msgstr "وضعیت"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Target added automatically: {pending_uri}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Target added: {uri}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Target already present: {uri}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py
-msgid "Used as default user in the Libvirt import dialog."
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py
-msgid "VM name"
-msgstr "نام ماشین مجازی"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#, fuzzy
-#| msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
-msgid "VNC  (probe port 5900 from hypervisor via nc/nmap - skipped if port is closed)"
-msgstr "RDP  (بررسی پورت 3389 از هایپروایزر از طریق nc/nmap - در صورت بسته بودن پورت، رد می‌شود)"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Waiting…"
-msgstr "در حال انتظار…"
-
-#: plugins/plugin_import_libvirt.py
-#, fuzzy, python-brace-format
-#| msgid "Import from libvirt"
-msgid "{n} connection(s) imported from libvirt."
-msgstr "وارد کردن از libvirt"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✓ Check all"
-msgstr "✓ انتخاب همه"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✓ Imported"
-msgstr "✓ وارد شد"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✕  Close"
-msgstr "✕  بستن"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✗ Uncheck all"
-msgstr "✗ لغو انتخاب همه"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "⬇  Import selected"
-msgstr "⬇  وارد کردن انتخاب‌شده"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "🔄  Rescan"
-msgstr "🔄  اسکن مجدد"
-
-#: plugins/plugin_import_libvirt.py
-#, fuzzy
-#| msgid "🔍  Scan hypervisors"
-msgid "🔍  Scan Libvirt hypervisors"
-msgstr "🔍  اسکن هایپروایزرها"
-
-#: plugins/plugin_import_ovirt.py
-#, python-brace-format
-msgid ""
-"Could not reach '{vm}' directly, via the oVirt engine, or via its hypervisor.\n"
-"\n"
-"Enter either a direct target — \"ip\" or \"ip:port\" — or a jump proxy — \"-J user@jumphost[:port] target_ip\".\n"
-"Leave empty to skip this VM."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-msgid "Engine URL is required."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-msgid "Engine URL:"
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from oVirt"
-msgstr "وارد کردن از libvirt"
-
-#: plugins/plugin_import_ovirt.py
-msgid ""
-"Note: IP resolution requires the oVirt guest agent to be installed in each VM.\n"
-"Reachability is tested automatically (direct, then jump proxy via the engine, then via the VM's hypervisor) — if all three fail, you will be asked for a manual route per VM during the scan."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-#, fuzzy
-#| msgid "Password"
-msgid "Password:"
-msgstr "رمز عبور"
-
-#: plugins/plugin_import_ovirt.py
-msgid "RDP  (Windows guests only — port 3389 probed via the resolved route)"
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-msgid "SSH  (direct — oVirt VMs are usually directly routable)"
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-msgid "SSH user (engine/hypervisor jump):"
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-#, python-brace-format
-msgid "Unreachable VM: {vm}"
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-msgid "Used only as a fallback when a VM is not directly reachable: SSH user for jump-proxy attempts via the engine machine or the VM's hypervisor, and default SSH user for the VMs themselves (non-Windows guests)."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-#, fuzzy
-#| msgid "User"
-msgid "Username:"
-msgstr "کاربر"
-
-#: plugins/plugin_import_ovirt.py
-msgid "Verify TLS certificate"
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-#, python-brace-format
-msgid "{n} connection(s) imported from oVirt."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-msgid "🔍  Scan oVirt engine"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-msgid "<i>Applies only to the Proxmox import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-msgid "Add a Proxmox target:"
-msgstr "افزودن یک هدف Proxmox:"
-
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Ex: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
-msgstr "مثال: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
-
-#: plugins/plugin_import_proxmox.py
-msgid "Import from Proxmox"
-msgstr "وارد کردن از Proxmox"
-
-#: plugins/plugin_import_proxmox.py
-msgid "Invalid Proxmox target."
-msgstr "هدف Proxmox نامعتبر است."
-
-#: plugins/plugin_import_proxmox.py
-msgid "No Proxmox target selected."
-msgstr "هیچ هدف Proxmox انتخاب نشده است."
-
-#: plugins/plugin_import_proxmox.py
-msgid ""
-"No SSH URI found in dconf.\n"
-"Enter an IP/host below and click Add."
-msgstr ""
-"هیچ URI SSH در dconf یافت نشد.\n"
-"یک IP/میزبان در زیر وارد کرده و روی افزودن کلیک کنید."
-
-#: plugins/plugin_import_proxmox.py
-msgid "Proxmox"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-msgid "Proxmox target (qemu+ssh://user@host/system)"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-#, fuzzy
-#| msgid "Add a Proxmox target:"
-msgid "Proxmox targets:"
-msgstr "افزودن یک هدف Proxmox:"
-
-#: plugins/plugin_import_proxmox.py
-msgid "SPICE  (vga:qxl required — ticket generated at connection time via pvesh)"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-#, fuzzy
-#| msgid "Waiting…"
-msgid "Scanning…"
-msgstr "در حال انتظار…"
-
-#: plugins/plugin_import_proxmox.py
-msgid "Used as default user in the Proxmox import dialog."
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-#, fuzzy, python-brace-format
-#| msgid "Import from Proxmox"
-msgid "{n} connection(s) imported from Proxmox."
-msgstr "وارد کردن از Proxmox"
-
-#: plugins/plugin_import_proxmox.py
-msgid "🔍  Scan Proxmox hosts"
-msgstr "🔍  اسکن میزبان‌های Proxmox"
-
-#: plugins/plugin_import_virtualbox.py
-msgid "<i>Applies only to the VirtualBox import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "Add a VirtualBox host:"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
+msgid "Ex: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
+msgstr "مثال: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
+
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "Hypervisor SSH user:"
 msgid "Host SSH user:"
 msgstr "کاربر SSH هایپروایزر:"
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "Import from libvirt"
 msgid "Import from VirtualBox"
 msgstr "وارد کردن از libvirt"
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "Invalid Proxmox target."
 msgid "Invalid VirtualBox target."
 msgstr "هدف Proxmox نامعتبر است."
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "No URI selected."
 msgid "No host selected."
 msgstr "هیچ URI انتخاب نشده است."
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "RDP  (native VirtualBox VRDE if enabled, otherwise guest port 3389 probe)"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
 msgid "SSH  (ProxyJump -J via host when VM IP is known, otherwise host shell + -t ssh user@vm)"
 msgstr "SSH  (ProxyJump -J از طریق هایپروایزر زمانی که IP ماشین مجازی شناخته شده باشد، در غیر این صورت شِل هایپروایزر + -t ssh user@vm)"
 
-#: plugins/plugin_import_virtualbox.py
-msgid "Used as default user in the VirtualBox import dialog."
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "VNC  (probe port 5900 in the guest — off by default)"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
-msgid "VirtualBox"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy
-#| msgid ""
-#| "No URI found in dconf (virt-manager not configured?).\n"
-#| "Add your URIs manually below."
-msgid ""
-"VirtualBox has no central registry (unlike virt-manager/dconf).\n"
-"Add your hosts manually below."
-msgstr ""
-"هیچ URI در dconf یافت نشد (شاید virt-manager پیکربندی نشده؟).\n"
-"URIهای خود را به‌صورت دستی در زیر اضافه کنید."
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "VirtualBox host (user@host[:port])"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "VirtualBox hosts:"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy, python-brace-format
-#| msgid "Import from libvirt"
-msgid "{n} connection(s) imported from VirtualBox."
-msgstr "وارد کردن از libvirt"
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "🔍  Scan Proxmox hosts"
 msgid "🔍  Scan VirtualBox hosts"
 msgstr "🔍  اسکن میزبان‌های Proxmox"
+
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
+#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
+#, python-brace-format
+msgid "{program} not found"
+msgstr "{program} یافت نشد"
 
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
 #: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
@@ -5329,6 +5180,9 @@ msgstr "پنهان کردن پنجره"
 msgid "Show window"
 msgstr "نمایش پنجره"
 
+#~ msgid "Add a Proxmox target:"
+#~ msgstr "افزودن یک هدف Proxmox:"
+
 #~ msgid "Colors and Keys"
 #~ msgstr "رنگ‌ها و کلیدها"
 
@@ -5349,6 +5203,9 @@ msgstr "نمایش پنجره"
 #~ msgid "Create dynamic port forwarding"
 #~ msgstr "ایجاد هدایت پورت دینامیک"
 
+#~ msgid "Default SSH user (VMs):"
+#~ msgstr "کاربر SSH پیش‌فرض (ماشین‌های مجازی):"
+
 #~ msgid "Detected Proxmox target"
 #~ msgstr "هدف Proxmox شناسایی‌شده"
 
@@ -5357,6 +5214,9 @@ msgstr "نمایش پنجره"
 
 #~ msgid "Edit hosts properties"
 #~ msgstr "ویرایش ویژگی‌های میزبان‌ها"
+
+#~ msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
+#~ msgstr "مثال: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
 
 #~ msgid "Export server list to file"
 #~ msgstr "صدور فهرست سرورها به فایل"
@@ -5382,20 +5242,40 @@ msgstr "نمایش پنجره"
 #~ msgid "Import server list from file"
 #~ msgstr "وارد کردن فهرست سرورها از فایل"
 
+#~ msgid "Imported"
+#~ msgstr "وارد شد"
+
 #~ msgid "Keep-Alive"
 #~ msgstr "Keep-Alive"
+
+#~ msgid "Libvirt"
+#~ msgstr "Libvirt"
 
 #~ msgid "Local port already assigned"
 #~ msgstr "پورت محلی از قبل اختصاص یافته است"
 
+#~ msgid "No host imported."
+#~ msgstr "هیچ میزبانی وارد نشد."
+
+#~ msgid "No new host (duplicates ignored)."
+#~ msgstr "هیچ میزبان جدیدی وجود ندارد (موارد تکراری نادیده گرفته شدند)."
+
 #~ msgid "Open local console"
 #~ msgstr "باز کردن کنسول محلی"
+
+#~ msgid "Overwrite existing connections with the same name and protocol"
+#~ msgstr "بازنویسی اتصالات موجود با نام و پروتکل یکسان"
 
 #~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
 #~ msgstr "SPICE  (در اینجا در دسترس نیست: Proxmox به تیکت/پراکسی API نیاز دارد)"
 
 #~ msgid "Save active console buffer to file"
 #~ msgstr "ذخیره بافر کنسول فعال در فایل"
+
+#, fuzzy
+#~| msgid "Waiting…"
+#~ msgid "Scanning…"
+#~ msgstr "در حال انتظار…"
 
 #~ msgid "Seconds between keep-alive packets"
 #~ msgstr "ثانیه بین بسته‌های keep-alive"
@@ -5411,6 +5291,17 @@ msgstr "نمایش پنجره"
 
 #~ msgid "Split console vertically"
 #~ msgstr "تقسیم عمودی کنسول"
+
+#, fuzzy
+#~| msgid ""
+#~| "No URI found in dconf (virt-manager not configured?).\n"
+#~| "Add your URIs manually below."
+#~ msgid ""
+#~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
+#~ "Add your hosts manually below."
+#~ msgstr ""
+#~ "هیچ URI در dconf یافت نشد (شاید virt-manager پیکربندی نشده؟).\n"
+#~ "URIهای خود را به‌صورت دستی در زیر اضافه کنید."
 
 #~ msgid "_Edit"
 #~ msgstr "_ویرایش"
@@ -5462,3 +5353,24 @@ msgstr "نمایش پنجره"
 
 #~ msgid "xfreerdp log:"
 #~ msgstr "گزارش xfreerdp:"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from Proxmox"
+#~ msgid "{n} connection(s) imported from Proxmox."
+#~ msgstr "وارد کردن از Proxmox"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from libvirt"
+#~ msgid "{n} connection(s) imported from VirtualBox."
+#~ msgstr "وارد کردن از libvirt"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from libvirt"
+#~ msgid "{n} connection(s) imported from libvirt."
+#~ msgstr "وارد کردن از libvirt"
+
+#~ msgid "✓ Imported"
+#~ msgstr "✓ وارد شد"
+
+#~ msgid "✕  Close"
+#~ msgstr "✕  بستن"

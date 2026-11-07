@@ -88,10 +88,10 @@ toutes les lignes suivantes.
 |---|---|---|---|---|
 | import_csv, import_json, export_csv, export_json | 103, 97, 100, 98 | `BatchPlugin`, dialogues `Gtk.FileChooserDialog` | **retirés** (31/10/2026) : remplacés par l'import/export CSV et JSON de la base — sans GTK (#152, PR #267), interface (#153, PR #269), ligne de commande (#154). Les quatre fichiers sont supprimés et leur entrée est sortie de l'inventaire GTK3 | remplacé par la base (fusionné) |
 | import_putty | 117 | `BatchPlugin`, sessions PuTTY | **porté** : `plugins/import_putty/` (contrat v1 outil, #436) ; onglet de choix du dossier (`fichiers.choisir`, repli GTK 4.8), résumé du scan, stratégie de conflit (les trois de #153), import via le nouveau service du contexte `PluginContext.import_hosts` | premier outil porté : exemple pour les suivants |
-| import_libvirt | 1174 | `BatchPlugin`, `Gtk.TreeView` | type « outil » ; liste en `Gtk.ColumnView` ; la logique libvirt passe dans `core.py` | contrat « outil » |
-| import_ovirt | 1045 | idem | idem (API REST, JSON) | contrat « outil » |
-| import_proxmox | 1029 | idem | idem | contrat « outil » |
-| import_virtualbox | 1039 | idem, `VBoxManage` | idem | contrat « outil » |
+| import_libvirt | 1174 | `BatchPlugin`, `Gtk.TreeView` | **porté** : `plugins/import_libvirt/` (contrat v1 outil, #439) ; collecte dans `core.py` sans GTK, prévisualisation en `Gtk.ColumnView` sur l'onglet générique des imports (`gcm4_hv.ui`), cibles dconf ou saisie manuelle | contrat « outil » |
+| import_ovirt | 1045 | idem | **porté** : `plugins/import_ovirt/` (contrat v1 outil, #439) ; API REST `urllib` dans `core.py`, résolution de route (direct → rebond moteur → rebond hyperviseur → question manuelle via `dialogues.creer`) | contrat « outil » |
+| import_proxmox | 1029 | idem | **porté** : `plugins/import_proxmox/` (contrat v1 outil, #439) ; `qm list/config/guest cmd` dans `core.py`, IP par l'agent QEMU puis ipconfig/ARP/nmap, SPICE si `vga: qxl` | contrat « outil » |
+| import_virtualbox | 1039 | idem, `VBoxManage` | **porté** : `plugins/import_virtualbox/` (contrat v1 outil, #439) ; `VBoxManage` dans `core.py`, IP par guestproperty puis ARP/nmap, RDP VRDE prioritaire, VNC invité sondé | contrat « outil » |
 | netmiko_push | 932 | `BatchPlugin`, `Gtk.TreeView`, `plugins/netmiko_push/core.py` | type « outil » ; le cœur existe déjà sans GTK | contrat « outil » |
 | snmp_push | 1146 | idem, `plugins/snmp_push/core.py` | type « outil » ; le cœur existe sans GTK, dépôt SFTP/FTP/TFTP compris (#74) | contrat « outil » ; formulaire de dépôt (protocole, identifiants, dossier) à ajouter |
 
@@ -111,8 +111,10 @@ toutes les lignes suivantes.
    validation `incompatibilite_outil()`, sous-menu « Tools » et action
    `win.outil-<name>` (`gcm4.core.menu.menu_avec_outils`,
    `docs/plugins.md`). **import_putty** est porté (#436) — il a ouvert la
-   voie avec le service `import_hosts` du contexte. Reste les imports
-   d'hyperviseurs, **netmiko_push**, et **snmp_push** après #74.
+   voie avec le service `import_hosts` du contexte. Les quatre imports
+   d'hyperviseurs (**libvirt, Proxmox, VirtualBox, oVirt**) sont portés
+   (#439) sur un onglet générique partagé (`plugins/import_hyperviseurs/`).
+   Reste **netmiko_push**, et **snmp_push** après #74.
 6. **vnc** (fusion pluginvnc2, #104), **rdp** (#71, #105) et **spice** (choix
    de la voie) : ils dépendent de projets ou de décisions extérieurs.
 
