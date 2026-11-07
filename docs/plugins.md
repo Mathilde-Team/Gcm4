@@ -249,6 +249,22 @@ PLUGIN = MonOutil
   l'import de fichiers, #153). L'échec d'enregistrement lève
   `ExchangeError` (magasin inchangé) : l'outil la notifie et reste
   utilisable. Voir `plugins/import_putty/gtk4.py` pour l'exemple complet.
+- **Import d'hyperviseurs** (#439) : les quatre outils (libvirt, Proxmox,
+  VirtualBox, oVirt) partagent un onglet générique (`plugins/import_hyperviseurs/ui.py`,
+  chargé en paquet `gcm4_hv` à identité stable) : configuration
+  (`_construire_parametres()`), journal et progression thread-sûrs
+  (`GLib.idle_add`), prévisualisation cochable en `Gtk.ColumnView`,
+  stratégie de conflit et import via `import_hosts`. Chaque plugin garde
+  sa logique de collecte dans son `core.py` (aucun GTK) : testable sans
+  fenêtre (cf. `tests/test_import_*_collecte.py`).
+- **Déploiement Netmiko** (#441) : `plugins/netmiko_push/gtk4.py` ouvre un
+  onglet « Netmiko » en trois phases (`Gtk.Stack` Configuration / Suivi /
+  Résultats) : choix de l'inventaire CSV et du gabarit `#colonne#`
+  (`fichiers.choisir`), inventaire cochable en `Gtk.ColumnView` avec
+  aperçu, éditeur de profils en cascade constructeur → modèle
+  (`profiles.ini`, créé depuis le modèle), validation à blanc puis envoi
+  via `core.run_bulk_push` (progression, compteurs, annulation
+  `threading.Event`, journaux ouverts par `Gtk.FileLauncher`).
 - **Réglages** : `build_preferences_page()` (facultatif) rend une page
   Adwata pour Préférences > Extensions ; `None` : aucune.
 - **Icône** : `icon_name` (facultatif), nom d'icône symbolique GTK de

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 16:30+0000\n"
+"POT-Creation-Date: 2026-11-07 20:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,13 +149,11 @@ msgid "Can't open log file for writting"
 msgstr "Protokolldatei kann nicht zum Schreiben geöffnet werden"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py GTK3.OLD/widgets.py
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py plugins/plugin_ssh.py plugins/sftp/gtk4.py
-#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
-#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
-#: src/gcm4/ui/raccourcis.py
+#: plugins/import_ovirt/gtk4.py plugins/plugin_spice.py plugins/plugin_ssh.py
+#: plugins/sftp/gtk4.py src/gcm4/ui/contexte.py src/gcm4/ui/echange.py
+#: src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
+#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/raccourcis.py
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -413,10 +411,8 @@ msgstr "Allgemein"
 msgid "Gnome Connection Manager"
 msgstr "Gnome Connection Manager"
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_import_libvirt.py
-#: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/menu_arbre.py
+#: GTK3.OLD/gnome_connection_manager.py plugins/import_hyperviseurs/ui.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Gruppe"
 
@@ -571,7 +567,7 @@ msgid "No open consoles"
 msgstr "Keine offenen Konsolen"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
 #: plugins/plugin_spice.py
 msgid "OK"
 msgstr "OK"
@@ -2350,13 +2346,275 @@ msgstr "Offene Tabs werden beim nächsten Start wiederhergestellt"
 msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
 msgstr "Die Basisanwendung bringt selbst kein Protokoll mit: Verbindungen benötigen die passende Erweiterung."
 
+#: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
+#: plugins/plugin_snmp_push.py
+msgid "1. Configuration"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
+#: plugins/plugin_snmp_push.py
+msgid "2. Suivi"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
+#: plugins/plugin_snmp_push.py
+msgid "3. Résultats"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_ovirt/gtk4.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Connections found: {count}."
+msgstr "Gefundene Verbindungen: {count}."
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "IP / Host"
+msgstr "IP / Host"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "Wenn ein Host bereits existiert:"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "Vorhandenen Host behalten"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "No connection to import (all already exist or none selected)."
+msgstr "Keine Verbindung zum Importieren (alle existieren bereits oder keine ausgewählt)."
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "Proto"
+msgstr "Proto"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "Importierten Host umbenennen"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "Vorhandenen Host ersetzen"
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Scan failed: {exc}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "State"
+msgstr "Status"
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Target added: {uri}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Target already present: {uri}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+msgid "VM name"
+msgstr "VM-Name"
+
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_ipmisol.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
+msgid "Waiting…"
+msgstr "Warten…"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "✓ Check all"
+msgstr "✓ Alle auswählen"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "✗ Uncheck all"
+msgstr "✗ Alle abwählen"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "⬇  Import selected"
+msgstr "⬇  Auswahl importieren"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "🔄  Rescan"
+msgstr "🔄  Erneut scannen"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_ovirt/gtk4.py
+#: plugins/import_proxmox/gtk4.py plugins/import_virtualbox/gtk4.py
+msgid "<b>Connection types to import:</b>"
+msgstr "<b>Zu importierende Verbindungstypen:</b>"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Detected libvirt URI"
+msgstr "Erkannte libvirt-URI"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
+msgid "Hypervisor SSH user:"
+msgstr "SSH-Benutzer des Hypervisors:"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Hypervisors (virt-manager / dconf):"
+msgstr "Hypervisoren (virt-manager / dconf):"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Import from libvirt"
+msgstr "Aus libvirt importieren"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Invalid libvirt target."
+msgstr "Ungültiges libvirt-Ziel."
+
+#: plugins/import_libvirt/gtk4.py
+msgid ""
+"No URI found in dconf (virt-manager not configured?).\n"
+"Add your URIs manually below."
+msgstr ""
+"Keine URI in dconf gefunden (virt-manager nicht konfiguriert?).\n"
+"Fügen Sie Ihre URIs unten manuell hinzu."
+
+#: plugins/import_libvirt/gtk4.py
+msgid "No URI selected."
+msgstr "Keine URI ausgewählt."
+
+#: plugins/import_libvirt/gtk4.py plugins/import_ovirt/gtk4.py
+#: plugins/import_proxmox/gtk4.py plugins/import_virtualbox/gtk4.py
+msgid "No connection type selected."
+msgstr "Kein Verbindungstyp ausgewählt."
+
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
+msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
+msgstr "RDP  (Port 3389 vom Hypervisor über nc/nmap prüfen - wird übersprungen, wenn der Port geschlossen ist)"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "SPICE  (virt-viewer --connect qemu+ssh://... vm - SSH tunnel handled automatically)"
+msgstr "SPICE  (virt-viewer --connect qemu+ssh://... vm - der SSH-Tunnel wird automatisch verwaltet)"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
+msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
+msgstr "SSH  (ProxyJump -J über den Hypervisor, wenn die VM-IP bekannt ist, andernfalls Hypervisor-Shell + -t ssh Benutzer@vm)"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
+#, fuzzy
+#| msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
+msgid "VNC  (probe port 5900 from hypervisor via nc/nmap - skipped if port is closed)"
+msgstr "RDP  (Port 3389 vom Hypervisor über nc/nmap prüfen - wird übersprungen, wenn der Port geschlossen ist)"
+
+#: plugins/import_libvirt/gtk4.py
+#, fuzzy
+#| msgid "🔍  Scan hypervisors"
+msgid "🔍  Scan Libvirt hypervisors"
+msgstr "🔍  Hypervisoren durchsuchen"
+
+#: plugins/import_ovirt/gtk4.py
+#, python-brace-format
+msgid ""
+"Could not reach '{vm}' directly, via the oVirt engine, or via its hypervisor.\n"
+"\n"
+"Enter either a direct target — \"ip\" or \"ip:port\" — or a jump proxy — \"-J user@jumphost[:port] target_ip\".\n"
+"Leave empty to skip this VM."
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+msgid "Engine URL is required."
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+msgid "Engine URL:"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+#, fuzzy
+#| msgid "Import from libvirt"
+msgid "Import from oVirt"
+msgstr "Aus libvirt importieren"
+
+#: plugins/import_ovirt/gtk4.py
+#, fuzzy
+#| msgid "Password"
+msgid "Password:"
+msgstr "Passwort"
+
+#: plugins/import_ovirt/gtk4.py
+msgid "RDP  (Windows guests only — port 3389 probed via the resolved route)"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+msgid "SSH  (direct — oVirt VMs are usually directly routable)"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+msgid "SSH user (engine/hypervisor jump):"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+#, python-brace-format
+msgid "Unreachable VM: {vm}"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+#, fuzzy
+#| msgid "User"
+msgid "Username:"
+msgstr "Benutzer"
+
+#: plugins/import_ovirt/gtk4.py
+msgid "Verify TLS certificate"
+msgstr ""
+
+#: plugins/import_ovirt/gtk4.py
+msgid "🔍  Scan oVirt engine"
+msgstr ""
+
+#: plugins/import_proxmox/gtk4.py
+msgid "Import from Proxmox"
+msgstr "Aus Proxmox importieren"
+
+#: plugins/import_proxmox/gtk4.py
+msgid "Invalid Proxmox target."
+msgstr "Ungültiges Proxmox-Ziel."
+
+#: plugins/import_proxmox/gtk4.py
+msgid "No Proxmox target selected."
+msgstr "Kein Proxmox-Ziel ausgewählt."
+
+#: plugins/import_proxmox/gtk4.py
+msgid ""
+"No SSH URI found in dconf.\n"
+"Enter an IP/host below and click Add."
+msgstr ""
+"Keine SSH-URI in dconf gefunden.\n"
+"Geben Sie unten eine IP/Host ein und klicken Sie auf Hinzufügen."
+
+#: plugins/import_proxmox/gtk4.py
+msgid "Proxmox target (qemu+ssh://user@host/system)"
+msgstr ""
+
+#: plugins/import_proxmox/gtk4.py
+#, fuzzy
+#| msgid "Add a Proxmox target:"
+msgid "Proxmox targets:"
+msgstr "Ein Proxmox-Ziel hinzufügen:"
+
+#: plugins/import_proxmox/gtk4.py
+msgid "SPICE  (vga:qxl required — ticket generated at connection time via pvesh)"
+msgstr ""
+
+#: plugins/import_proxmox/gtk4.py
+msgid "🔍  Scan Proxmox hosts"
+msgstr "🔍  Proxmox-Hosts durchsuchen"
+
 #: plugins/import_putty/gtk4.py
 msgid "Choose a folder…"
 msgstr "Ordner auswählen…"
-
-#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
-msgid "If a host already exists:"
-msgstr "Wenn ein Host bereits existiert:"
 
 #: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
 msgid "Import"
@@ -2374,10 +2632,6 @@ msgstr "Aus Proxmox importieren"
 msgid "Import from PuTTY sessions…"
 msgstr "Aus libvirt importieren"
 
-#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
-msgid "Keep the existing host"
-msgstr "Vorhandenen Host behalten"
-
 #: plugins/import_putty/gtk4.py
 msgid "No importable SSH/Telnet session found in this folder."
 msgstr ""
@@ -2393,14 +2647,6 @@ msgstr "Vorlagenname"
 msgid "PuTTY sessions folder: {folder}"
 msgstr "PuTTY-Sitzungsordner: {folder}"
 
-#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
-msgid "Rename the imported host"
-msgstr "Importierten Host umbenennen"
-
-#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
-msgid "Replace the existing host"
-msgstr "Vorhandenen Host ersetzen"
-
 #: plugins/import_putty/gtk4.py
 msgid "Select PuTTY sessions folder"
 msgstr ""
@@ -2415,466 +2661,367 @@ msgstr "Gefundene Sitzungen: {count}."
 msgid "{count} session(s) ignored (unsupported protocol or missing host)."
 msgstr ""
 
+#: plugins/import_virtualbox/gtk4.py
+msgid "Add a VirtualBox host:"
+msgstr ""
+
+#: plugins/import_virtualbox/gtk4.py
+msgid "Ex: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
+msgstr "Bsp.: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
+
+#: plugins/import_virtualbox/gtk4.py
+#, fuzzy
+#| msgid "Hypervisor SSH user:"
+msgid "Host SSH user:"
+msgstr "SSH-Benutzer des Hypervisors:"
+
+#: plugins/import_virtualbox/gtk4.py
+#, fuzzy
+#| msgid "Import from libvirt"
+msgid "Import from VirtualBox"
+msgstr "Aus libvirt importieren"
+
+#: plugins/import_virtualbox/gtk4.py
+#, fuzzy
+#| msgid "Invalid Proxmox target."
+msgid "Invalid VirtualBox target."
+msgstr "Ungültiges Proxmox-Ziel."
+
+#: plugins/import_virtualbox/gtk4.py
+#, fuzzy
+#| msgid "No URI selected."
+msgid "No host selected."
+msgstr "Keine URI ausgewählt."
+
+#: plugins/import_virtualbox/gtk4.py
+msgid "RDP  (native VirtualBox VRDE if enabled, otherwise guest port 3389 probe)"
+msgstr ""
+
+#: plugins/import_virtualbox/gtk4.py
+#, fuzzy
+#| msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
+msgid "SSH  (ProxyJump -J via host when VM IP is known, otherwise host shell + -t ssh user@vm)"
+msgstr "SSH  (ProxyJump -J über den Hypervisor, wenn die VM-IP bekannt ist, andernfalls Hypervisor-Shell + -t ssh Benutzer@vm)"
+
+#: plugins/import_virtualbox/gtk4.py
+msgid "VNC  (probe port 5900 in the guest — off by default)"
+msgstr ""
+
+#: plugins/import_virtualbox/gtk4.py
+msgid "VirtualBox host (user@host[:port])"
+msgstr ""
+
+#: plugins/import_virtualbox/gtk4.py
+msgid "VirtualBox hosts:"
+msgstr ""
+
+#: plugins/import_virtualbox/gtk4.py
+#, fuzzy
+#| msgid "🔍  Scan Proxmox hosts"
+msgid "🔍  Scan VirtualBox hosts"
+msgstr "🔍  Proxmox-Hosts durchsuchen"
+
 #: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
 #: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "{program} nicht gefunden"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "1. Configuration"
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "0 / {n}"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "2. Suivi"
+#: plugins/netmiko_push/gtk4.py
+msgid "Afficher les mots de passe"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "3. Résultats"
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Annuler l'envoi"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "<b>Connection types to import:</b>"
-msgstr "<b>Zu importierende Verbindungstypen:</b>"
-
-#: plugins/plugin_import_libvirt.py
-msgid "<i>Applies only to the Libvirt import plugin. Can still be overridden per import run.</i>"
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Aucune ligne cochée."
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py plugins/plugin_ssh.py
-#: plugins/ssh/gtk4.py
-msgid "Add"
-msgstr "Hinzufügen"
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Charger l'inventaire"
+msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-msgid "Default SSH user (VMs):"
-msgstr "Standard-SSH-Benutzer (VMs):"
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Chargez d'abord un inventaire."
+msgstr ""
 
-#: plugins/plugin_import_libvirt.py
-msgid "Detected libvirt URI"
-msgstr "Erkannte libvirt-URI"
+#: plugins/netmiko_push/gtk4.py
+msgid "Choisir un fichier…"
+msgstr "Datei auswählen…"
 
-#: plugins/plugin_import_libvirt.py
-msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
-msgstr "Bsp.: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
+#: plugins/netmiko_push/gtk4.py
+msgid "Choisissez d'abord un fichier profiles.ini."
+msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-msgid "Hypervisor SSH user:"
-msgstr "SSH-Benutzer des Hypervisors:"
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Choisissez l'inventaire CSV et le gabarit."
+msgstr ""
 
-#: plugins/plugin_import_libvirt.py
-msgid "Hypervisors (virt-manager / dconf):"
-msgstr "Hypervisoren (virt-manager / dconf):"
+#: plugins/netmiko_push/gtk4.py
+msgid "Choisissez un constructeur et un modèle."
+msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "IP / Host"
+#: plugins/netmiko_push/gtk4.py
+msgid "Commande de sauvegarde (optionnel, ex. 'save force') :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Connexions en parallèle :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Constructeur"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Constructeur :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Durée (s)"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Déploiement Netmiko…"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Détail"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "En attente"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "En attente : {n}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "En cours"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Enregistrer ce profil"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Erreur d'écriture : {e}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Erreur de chargement : {e}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Fichier :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, fuzzy
+#| msgid "Invalid entry in configuration file"
+msgid "Gabarit de configuration :"
+msgstr "Ungültiger Eintrag in der Konfigurationsdatei"
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, fuzzy
+#| msgid "IP / Host"
+msgid "IP / hôte"
 msgstr "IP / Host"
 
-#: plugins/plugin_import_libvirt.py
-msgid "Import from libvirt"
-msgstr "Aus libvirt importieren"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Imported"
-msgstr "Importiert"
-
-#: plugins/plugin_import_libvirt.py
-msgid "Invalid libvirt target."
-msgstr "Ungültiges libvirt-Ziel."
-
-#: plugins/plugin_import_libvirt.py
-msgid "Libvirt"
-msgstr "Libvirt"
-
-#: plugins/plugin_import_libvirt.py
-msgid ""
-"No URI found in dconf (virt-manager not configured?).\n"
-"Add your URIs manually below."
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Ignoré"
 msgstr ""
-"Keine URI in dconf gefunden (virt-manager nicht konfiguriert?).\n"
-"Fügen Sie Ihre URIs unten manuell hinzu."
 
-#: plugins/plugin_import_libvirt.py
-msgid "No URI selected."
-msgstr "Keine URI ausgewählt."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No connection to import (all already exist or none selected)."
-msgstr "Keine Verbindung zum Importieren (alle existieren bereits oder keine ausgewählt)."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No connection type selected."
-msgstr "Kein Verbindungstyp ausgewählt."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No host imported."
-msgstr "Kein Host importiert."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No new host (duplicates ignored)."
-msgstr "Kein neuer Host (Duplikate ignoriert)."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Overwrite existing connections with the same name and protocol"
-msgstr "Vorhandene Verbindungen mit gleichem Namen und Protokoll überschreiben"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Proto"
-msgstr "Proto"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
-msgstr "RDP  (Port 3389 vom Hypervisor über nc/nmap prüfen - wird übersprungen, wenn der Port geschlossen ist)"
-
-#: plugins/plugin_import_libvirt.py
-msgid "SPICE  (virt-viewer --connect qemu+ssh://... vm - SSH tunnel handled automatically)"
-msgstr "SPICE  (virt-viewer --connect qemu+ssh://... vm - der SSH-Tunnel wird automatisch verwaltet)"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
-msgstr "SSH  (ProxyJump -J über den Hypervisor, wenn die VM-IP bekannt ist, andernfalls Hypervisor-Shell + -t ssh Benutzer@vm)"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
 #, python-brace-format
-msgid "Scan failed: {exc}"
+msgid "Impossible de lire le journal : {e}"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "State"
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Inventaire (CSV) :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Lancer le déploiement →"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Le profil doit avoir un nom."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Ligne"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Modèle / device_type netmiko :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Mot de passe :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Mot de passe enable (si applicable) :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Netmiko"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Nom"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Nom du profil (= colonne 'type'/'profile' du CSV) :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Nouveau"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "OK : {n}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Ouvrir le dossier des journaux"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+#, fuzzy
+#| msgid "Port"
+msgid "Port :"
+msgstr "Port"
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Profil"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Profil '{n}' mis à jour (en mémoire)."
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+#, python-brace-format
+msgid "Profils chargés depuis {p}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Profils de connexion (constructeur, identifiants…)"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Profils écrits dans {p}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Rejeté"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "Rejetés : {n}"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Sauvegarder la configuration après envoi"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#, fuzzy
+#| msgid "State"
+msgid "Statut"
 msgstr "Status"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Supprimer"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Timeout (s) :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
 #, python-brace-format
-msgid "Target added automatically: {pending_uri}"
+msgid "Total : {total}  |  OK : {ok}  |  Rejetés : {rejected}  |  Échecs : {failed}  |  Ignorés : {skipped}"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
+#: plugins/netmiko_push/gtk4.py
+msgid "Utilisateur"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "Utilisateur :"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
 #, python-brace-format
-msgid "Target added: {uri}"
+msgid "Validation : {ok} prêt(s), {err} en erreur."
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
+#: plugins/netmiko_push/gtk4.py
+msgid "Valider (à blanc, sans se connecter)"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Variables"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Voir les résultats →"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py
+msgid "device_type"
+msgstr ""
+
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
 #, python-brace-format
-msgid "Target already present: {uri}"
+msgid "{d} / {n}"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py
-msgid "Used as default user in the Libvirt import dialog."
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py
-msgid "VM name"
-msgstr "VM-Name"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#, fuzzy
-#| msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
-msgid "VNC  (probe port 5900 from hypervisor via nc/nmap - skipped if port is closed)"
-msgstr "RDP  (Port 3389 vom Hypervisor über nc/nmap prüfen - wird übersprungen, wenn der Port geschlossen ist)"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Waiting…"
-msgstr "Warten…"
-
-#: plugins/plugin_import_libvirt.py
-#, fuzzy, python-brace-format
-#| msgid "Import from libvirt"
-msgid "{n} connection(s) imported from libvirt."
-msgstr "Aus libvirt importieren"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✓ Check all"
-msgstr "✓ Alle auswählen"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✓ Imported"
-msgstr "✓ Importiert"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✕  Close"
-msgstr "✕  Schließen"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✗ Uncheck all"
-msgstr "✗ Alle abwählen"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "⬇  Import selected"
-msgstr "⬇  Auswahl importieren"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "🔄  Rescan"
-msgstr "🔄  Erneut scannen"
-
-#: plugins/plugin_import_libvirt.py
-#, fuzzy
-#| msgid "🔍  Scan hypervisors"
-msgid "🔍  Scan Libvirt hypervisors"
-msgstr "🔍  Hypervisoren durchsuchen"
-
-#: plugins/plugin_import_ovirt.py
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
 #, python-brace-format
-msgid ""
-"Could not reach '{vm}' directly, via the oVirt engine, or via its hypervisor.\n"
-"\n"
-"Enter either a direct target — \"ip\" or \"ip:port\" — or a jump proxy — \"-J user@jumphost[:port] target_ip\".\n"
-"Leave empty to skip this VM."
+msgid "{n} hôte(s) chargé(s) depuis {csv}."
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
-msgid "Engine URL is required."
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "Échec"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
-msgid "Engine URL:"
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from oVirt"
-msgstr "Aus libvirt importieren"
-
-#: plugins/plugin_import_ovirt.py
-msgid ""
-"Note: IP resolution requires the oVirt guest agent to be installed in each VM.\n"
-"Reachability is tested automatically (direct, then jump proxy via the engine, then via the VM's hypervisor) — if all three fail, you will be asked for a manual route per VM during the scan."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-#, fuzzy
-#| msgid "Password"
-msgid "Password:"
-msgstr "Passwort"
-
-#: plugins/plugin_import_ovirt.py
-msgid "RDP  (Windows guests only — port 3389 probed via the resolved route)"
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-msgid "SSH  (direct — oVirt VMs are usually directly routable)"
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-msgid "SSH user (engine/hypervisor jump):"
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
 #, python-brace-format
-msgid "Unreachable VM: {vm}"
+msgid "Échecs : {n}"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
-msgid "Used only as a fallback when a VM is not directly reachable: SSH user for jump-proxy attempts via the engine machine or the VM's hypervisor, and default SSH user for the VMs themselves (non-Windows guests)."
+#: plugins/netmiko_push/gtk4.py
+msgid "Écrire profiles.ini sur disque"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
-#, fuzzy
-#| msgid "User"
-msgid "Username:"
-msgstr "Benutzer"
-
-#: plugins/plugin_import_ovirt.py
-msgid "Verify TLS certificate"
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+msgid "← Nouveau déploiement"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
 #, python-brace-format
-msgid "{n} connection(s) imported from oVirt."
+msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
-
-#: plugins/plugin_import_ovirt.py
-msgid "🔍  Scan oVirt engine"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-msgid "<i>Applies only to the Proxmox import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-msgid "Add a Proxmox target:"
-msgstr "Ein Proxmox-Ziel hinzufügen:"
-
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Ex: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
-msgstr "Bsp.: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
-
-#: plugins/plugin_import_proxmox.py
-msgid "Import from Proxmox"
-msgstr "Aus Proxmox importieren"
-
-#: plugins/plugin_import_proxmox.py
-msgid "Invalid Proxmox target."
-msgstr "Ungültiges Proxmox-Ziel."
-
-#: plugins/plugin_import_proxmox.py
-msgid "No Proxmox target selected."
-msgstr "Kein Proxmox-Ziel ausgewählt."
-
-#: plugins/plugin_import_proxmox.py
-msgid ""
-"No SSH URI found in dconf.\n"
-"Enter an IP/host below and click Add."
-msgstr ""
-"Keine SSH-URI in dconf gefunden.\n"
-"Geben Sie unten eine IP/Host ein und klicken Sie auf Hinzufügen."
-
-#: plugins/plugin_import_proxmox.py
-msgid "Proxmox"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-msgid "Proxmox target (qemu+ssh://user@host/system)"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-#, fuzzy
-#| msgid "Add a Proxmox target:"
-msgid "Proxmox targets:"
-msgstr "Ein Proxmox-Ziel hinzufügen:"
-
-#: plugins/plugin_import_proxmox.py
-msgid "SPICE  (vga:qxl required — ticket generated at connection time via pvesh)"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-#, fuzzy
-#| msgid "Waiting…"
-msgid "Scanning…"
-msgstr "Warten…"
-
-#: plugins/plugin_import_proxmox.py
-msgid "Used as default user in the Proxmox import dialog."
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-#, fuzzy, python-brace-format
-#| msgid "Import from Proxmox"
-msgid "{n} connection(s) imported from Proxmox."
-msgstr "Aus Proxmox importieren"
-
-#: plugins/plugin_import_proxmox.py
-msgid "🔍  Scan Proxmox hosts"
-msgstr "🔍  Proxmox-Hosts durchsuchen"
-
-#: plugins/plugin_import_virtualbox.py
-msgid "<i>Applies only to the VirtualBox import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-msgid "Add a VirtualBox host:"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy
-#| msgid "Hypervisor SSH user:"
-msgid "Host SSH user:"
-msgstr "SSH-Benutzer des Hypervisors:"
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from VirtualBox"
-msgstr "Aus libvirt importieren"
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy
-#| msgid "Invalid Proxmox target."
-msgid "Invalid VirtualBox target."
-msgstr "Ungültiges Proxmox-Ziel."
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy
-#| msgid "No URI selected."
-msgid "No host selected."
-msgstr "Keine URI ausgewählt."
-
-#: plugins/plugin_import_virtualbox.py
-msgid "RDP  (native VirtualBox VRDE if enabled, otherwise guest port 3389 probe)"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy
-#| msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
-msgid "SSH  (ProxyJump -J via host when VM IP is known, otherwise host shell + -t ssh user@vm)"
-msgstr "SSH  (ProxyJump -J über den Hypervisor, wenn die VM-IP bekannt ist, andernfalls Hypervisor-Shell + -t ssh Benutzer@vm)"
-
-#: plugins/plugin_import_virtualbox.py
-msgid "Used as default user in the VirtualBox import dialog."
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-msgid "VNC  (probe port 5900 in the guest — off by default)"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-msgid "VirtualBox"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy
-#| msgid ""
-#| "No URI found in dconf (virt-manager not configured?).\n"
-#| "Add your URIs manually below."
-msgid ""
-"VirtualBox has no central registry (unlike virt-manager/dconf).\n"
-"Add your hosts manually below."
-msgstr ""
-"Keine URI in dconf gefunden (virt-manager nicht konfiguriert?).\n"
-"Fügen Sie Ihre URIs unten manuell hinzu."
-
-#: plugins/plugin_import_virtualbox.py
-msgid "VirtualBox host (user@host[:port])"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-msgid "VirtualBox hosts:"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy, python-brace-format
-#| msgid "Import from libvirt"
-msgid "{n} connection(s) imported from VirtualBox."
-msgstr "Aus libvirt importieren"
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy
-#| msgid "🔍  Scan Proxmox hosts"
-msgid "🔍  Scan VirtualBox hosts"
-msgstr "🔍  Proxmox-Hosts durchsuchen"
 
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
 #: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
@@ -2893,336 +3040,6 @@ msgstr "Sitzung beendet"
 
 #: plugins/plugin_ipmisol.py
 msgid "ipmitool introuvable"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "0 / {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Afficher les mots de passe"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Annuler l'envoi"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Aucune exécution pour le moment."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Aucune ligne cochée."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Charger l'inventaire"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Chargez d'abord un inventaire."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Choisissez d'abord un fichier profiles.ini."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Choisissez l'inventaire CSV et le gabarit."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Choisissez un constructeur et un modèle."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Commande de sauvegarde (optionnel, ex. 'save force') :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Connexions en parallèle :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Constructeur"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Constructeur :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Durée (s)"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Déploiement Netmiko…"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Détail"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "En attente"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "En attente : 0"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "En attente : {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "En cours"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Enregistrer ce profil"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Envoyer"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Erreur d'écriture : {e}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Erreur de chargement : {e}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Fichier :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, fuzzy
-#| msgid "Invalid entry in configuration file"
-msgid "Gabarit de configuration :"
-msgstr "Ungültiger Eintrag in der Konfigurationsdatei"
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, fuzzy
-#| msgid "IP / Host"
-msgid "IP / hôte"
-msgstr "IP / Host"
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Ignoré"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Impossible de lire le journal : {e}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Inventaire (CSV) :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Lancer le déploiement →"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Le profil doit avoir un nom."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Ligne"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Modèle / device_type netmiko :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Mot de passe :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Mot de passe enable (si applicable) :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Netmiko"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Nom"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Nom du profil (= colonne 'type'/'profile' du CSV) :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Nouveau"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "OK : 0"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "OK : {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Ouvrir le dossier des journaux"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-#, fuzzy
-#| msgid "Port"
-msgid "Port :"
-msgstr "Port"
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Profil"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Profil '{n}' mis à jour (en mémoire)."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-#, python-brace-format
-msgid "Profils chargés depuis {p}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Profils de connexion (constructeur, identifiants…)"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Profils écrits dans {p}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Rejeté"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Rejetés : 0"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Rejetés : {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Sauvegarder la configuration après envoi"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, fuzzy
-#| msgid "State"
-msgid "Statut"
-msgstr "Status"
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Supprimer"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Timeout (s) :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Total : {total}  |  OK : {ok}  |  Rejetés : {rejected}  |  Échecs : {failed}  |  Ignorés : {skipped}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Utilisateur"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Utilisateur :"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Validation : {ok} prêt(s), {err} en erreur."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Valider (à blanc, sans se connecter)"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Variables"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Voir les résultats →"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "device_type"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "profiles.ini"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "{d} / {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "{n} hôte(s) chargé(s) depuis {csv}."
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Échec"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "Échecs : 0"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Échecs : {n}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py
-msgid "Écrire profiles.ini sur disque"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-msgid "← Nouveau déploiement"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "⚠ Variables absentes du CSV : {v}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "⚠ profil inconnu : {p}"
-msgstr ""
-
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
 #: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
@@ -3467,6 +3284,10 @@ msgid "Afficher les secrets"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
+msgid "Aucune exécution pour le moment."
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
 msgid "Choisissez d'abord un fichier snmp_profiles.ini."
 msgstr ""
 
@@ -3495,11 +3316,23 @@ msgid "Déploiement SNMP…"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
+msgid "En attente : 0"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
 msgid "Envois en parallèle :"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
+msgid "Envoyer"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
 msgid "IP du serveur de dépôt (TFTP/FTP/SFTP) :"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
+msgid "OK : 0"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
@@ -3525,6 +3358,10 @@ msgstr ""
 
 #: plugins/plugin_snmp_push.py
 msgid "Push SNMP"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
+msgid "Rejetés : 0"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
@@ -3556,6 +3393,10 @@ msgid "snmp_profiles.ini"
 msgstr ""
 
 #: plugins/plugin_snmp_push.py
+msgid "Échecs : 0"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
 msgid "Écrire snmp_profiles.ini sur disque"
 msgstr ""
 
@@ -3565,6 +3406,16 @@ msgstr ""
 
 #: plugins/plugin_snmp_push.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "⚠ profil inconnu : {p}"
+msgstr ""
+
+#: plugins/plugin_snmp_push.py
+#, python-brace-format
+msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
 #: plugins/plugin_spice.py
@@ -5329,6 +5180,9 @@ msgstr "Fenster ausblenden"
 msgid "Show window"
 msgstr "Fenster anzeigen"
 
+#~ msgid "Add a Proxmox target:"
+#~ msgstr "Ein Proxmox-Ziel hinzufügen:"
+
 #~ msgid "Colors and Keys"
 #~ msgstr "Farben und Tasten"
 
@@ -5349,6 +5203,9 @@ msgstr "Fenster anzeigen"
 #~ msgid "Create dynamic port forwarding"
 #~ msgstr "Dynamische Portweiterleitung erstellen"
 
+#~ msgid "Default SSH user (VMs):"
+#~ msgstr "Standard-SSH-Benutzer (VMs):"
+
 #~ msgid "Detected Proxmox target"
 #~ msgstr "Erkanntes Proxmox-Ziel"
 
@@ -5357,6 +5214,9 @@ msgstr "Fenster anzeigen"
 
 #~ msgid "Edit hosts properties"
 #~ msgstr "Host-Eigenschaften bearbeiten"
+
+#~ msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
+#~ msgstr "Bsp.: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
 
 #~ msgid "Export server list to file"
 #~ msgstr "Serverliste in Datei exportieren"
@@ -5382,20 +5242,40 @@ msgstr "Fenster anzeigen"
 #~ msgid "Import server list from file"
 #~ msgstr "Serverliste aus Datei importieren"
 
+#~ msgid "Imported"
+#~ msgstr "Importiert"
+
 #~ msgid "Keep-Alive"
 #~ msgstr "Keep-Alive"
+
+#~ msgid "Libvirt"
+#~ msgstr "Libvirt"
 
 #~ msgid "Local port already assigned"
 #~ msgstr "Lokaler Port bereits zugewiesen"
 
+#~ msgid "No host imported."
+#~ msgstr "Kein Host importiert."
+
+#~ msgid "No new host (duplicates ignored)."
+#~ msgstr "Kein neuer Host (Duplikate ignoriert)."
+
 #~ msgid "Open local console"
 #~ msgstr "Lokale Konsole öffnen"
+
+#~ msgid "Overwrite existing connections with the same name and protocol"
+#~ msgstr "Vorhandene Verbindungen mit gleichem Namen und Protokoll überschreiben"
 
 #~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
 #~ msgstr "SPICE  (hier nicht verfügbar: Proxmox erfordert API-Ticket/Proxy)"
 
 #~ msgid "Save active console buffer to file"
 #~ msgstr "Puffer der aktiven Konsole in Datei speichern"
+
+#, fuzzy
+#~| msgid "Waiting…"
+#~ msgid "Scanning…"
+#~ msgstr "Warten…"
 
 #~ msgid "Seconds between keep-alive packets"
 #~ msgstr "Sekunden zwischen Keep-Alive-Paketen"
@@ -5411,6 +5291,17 @@ msgstr "Fenster anzeigen"
 
 #~ msgid "Split console vertically"
 #~ msgstr "Konsole vertikal teilen"
+
+#, fuzzy
+#~| msgid ""
+#~| "No URI found in dconf (virt-manager not configured?).\n"
+#~| "Add your URIs manually below."
+#~ msgid ""
+#~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
+#~ "Add your hosts manually below."
+#~ msgstr ""
+#~ "Keine URI in dconf gefunden (virt-manager nicht konfiguriert?).\n"
+#~ "Fügen Sie Ihre URIs unten manuell hinzu."
 
 #~ msgid "_Edit"
 #~ msgstr "B_earbeiten"
@@ -5462,3 +5353,24 @@ msgstr "Fenster anzeigen"
 
 #~ msgid "xfreerdp log:"
 #~ msgstr "xfreerdp-Protokoll:"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from Proxmox"
+#~ msgid "{n} connection(s) imported from Proxmox."
+#~ msgstr "Aus Proxmox importieren"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from libvirt"
+#~ msgid "{n} connection(s) imported from VirtualBox."
+#~ msgstr "Aus libvirt importieren"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from libvirt"
+#~ msgid "{n} connection(s) imported from libvirt."
+#~ msgstr "Aus libvirt importieren"
+
+#~ msgid "✓ Imported"
+#~ msgstr "✓ Importiert"
+
+#~ msgid "✕  Close"
+#~ msgstr "✕  Schließen"
