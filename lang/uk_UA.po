@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 14:23+0000\n"
+"POT-Creation-Date: 2026-11-07 15:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -629,7 +629,7 @@ msgstr "Порт"
 msgid "Previous match"
 msgstr ""
 
-#: GTK3.OLD/gnome_connection_manager.py
+#: GTK3.OLD/gnome_connection_manager.py plugins/ssh/gtk4.py
 msgid "Private key"
 msgstr "Закритий ключ"
 
@@ -2260,8 +2260,9 @@ msgstr "Нова група…"
 msgid "Reconnect to host"
 msgstr "Перепідключитися до хоста"
 
-#: GTK3.OLD/widgets.py plugins/plugin_ssh.py src/gcm4/core/menu_arbre.py
-#: src/gcm4/core/preferences.py src/gcm4/ui/menu_arbre.py
+#: GTK3.OLD/widgets.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Remove"
 msgstr "Видалити"
 
@@ -2351,7 +2352,7 @@ msgid "The base application provides no protocol by itself: connections need the
 msgstr "Базова програма сама не надає жодного протоколу: для підключень потрібне відповідне розширення."
 
 #: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/telnet/gtk4.py
+#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "Програму {program} не знайдено"
@@ -2385,6 +2386,7 @@ msgstr ""
 
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py plugins/plugin_ssh.py
+#: plugins/ssh/gtk4.py
 msgid "Add"
 msgstr "Додати"
 
@@ -3676,11 +3678,11 @@ msgstr "xfreerdp не знайдено"
 msgid "remote-viewer options:"
 msgstr "Параметри xfreerdp:"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Advanced"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Agent Forwarding"
 msgid "Agent forwarding (-A)"
@@ -3698,7 +3700,7 @@ msgstr ""
 msgid "Command to run instead of a shell"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Compression"
 msgid "Compression (-C)"
@@ -3708,7 +3710,7 @@ msgstr "Стиснення"
 msgid "Connections will be added to the « ssh_config » group, with name = host = SSH alias."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Dynamic / SOCKS (-D)"
 msgstr ""
 
@@ -3762,7 +3764,7 @@ msgstr ""
 msgid "Import from which file?"
 msgstr "Імпорт з libvirt"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Keep alive (seconds)"
 msgstr ""
 
@@ -3835,7 +3837,7 @@ msgid ""
 "Shared: visible and usable by every user of this machine (team bastion), %s — requires root privileges."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Port forwarding"
 msgstr "Перенаправлення порту"
 
@@ -3853,7 +3855,7 @@ msgstr "Віддалений хост"
 msgid "SSH"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid ""
 "SSH private key file not found:\n"
 "\n"
@@ -3882,7 +3884,7 @@ msgstr ""
 msgid "Which file?"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "X11 Forwarding"
 msgid "X11 forwarding (-X)"

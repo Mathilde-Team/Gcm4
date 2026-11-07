@@ -26,7 +26,7 @@ def module():
     """``gcm4_plugin_ssh.gtk4`` chargé par le registre, en mode source."""
     candidats = [c for c in registre.candidats_dossier(RACINE / "plugins") if c.nom == "ssh"]
     etats = {e.name: e for e in registre.decouvrir(lambda _nom: None, candidats).etats}
-    assert etats["ssh"].plugin is None and "PLUGIN" in str(etats["ssh"].erreur)
+    assert etats["ssh"].erreur is None and etats["ssh"].plugin is not None
     yield sys.modules["gcm4_plugin_ssh.gtk4"]
     registre._oublier_paquet("gcm4_plugin_ssh")
 

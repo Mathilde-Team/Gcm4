@@ -6,18 +6,20 @@ Portage GTK4 des fichiers GTK3 de la racine (``key_picker_dialog.py``,
 ``ssh_config_editor.py``, ``ssh_key_manager_dialog.py``), qui restent en
 place pour l'application GTK3 jusqu'à #180. La logique sans GTK (liste des
 clés, empreintes, permissions, parsing de ``~/.ssh/config``, formulaire et
-redirections de l'éditeur) est dans
-:mod:`core`.
+redirections de l'éditeur) est dans :mod:`core`, celle de la session
+(commande ``ssh``, expect, redirections de ports) dans :mod:`session`
+(#396).
 
-**Pas de ``PLUGIN`` ici** (décision du 28/10/2026 sur #97) : le contrat v1
-refuse un plugin sans protocole, et la session SSH elle-même est portée
-par #396. D'ici là, chargé en mode source comme ``gcm4_plugin_ssh.gtk4``,
-le dossier ``ssh`` apparaît en erreur de chargement dans Extensions (état
-transitoire documenté).
+Le ``PLUGIN`` (session SSH en terminal VTE, #396) revendique le protocole
+``ssh`` ; la zone d'options de l'hôte reprend les pages « Advanced » et
+« Port forwarding » de GTK3, la zone commune des plugins terminal
+(commandes, ``TERM``, encodage, touches) en plus. SSHFS et le menu des
+outils arrivent avec la partie 3 de #396.
 """
 
 from __future__ import annotations
 
+import shutil
 import threading
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -31,9 +33,13 @@ from gi.repository import Adw, Gio, GLib, GObject, Gtk, Pango  # noqa: E402
 from loguru import logger  # noqa: E402
 
 from gcm4.core.i18n import _  # noqa: E402
+from gcm4.core.model import Host  # noqa: E402
+from gcm4.core.plugins import ConnectionPlugin  # noqa: E402
+from gcm4.core.terminal import Lancement  # noqa: E402
 from gcm4.ui import dialogues, fichiers  # noqa: E402
+from gcm4.ui.terminal import SessionTerminal, zone_options  # noqa: E402
 
-from . import core  # noqa: E402
+from . import core, session  # noqa: E402
 
 __all__ = [
     "CIBLES",
@@ -52,9 +58,12 @@ __all__ = [
     "LigneGestionCle",
     "LigneHote",
     "LigneRedirection",
+    "PLUGIN",
     "ResultatsKnownHostsDialog",
     "SshConfigEditor",
     "SshKeyManager",
+    "SshPlugin",
+    "SshSession",
     "SshTestDialog",
     "Tableau",
     "VuePubliqueDialog",
@@ -3182,3 +3191,469 @@ class SshKeyManager(Gtk.Window):
             ),
         )
         logger.debug("ajouter_authorized_key: sortie")
+
+
+# -- Session et plugin (#396, partie 2) ---------------------------------------
+
+
+class SshSession(SessionTerminal):
+    """Onglet ssh : session terminal commune, commandes envoyées au bout de 3 s."""
+
+    def __init__(
+        self,
+        host: Host,
+        lancement: Lancement,
+        log,
+        notifier: Callable[[str], None] | None = None,
+    ) -> None:
+        """Construit le terminal et lance ``lancement`` (asynchrone, rien ne bloque).
+
+        Args:
+            host: hôte ouvert (couleurs, options ``ssh``).
+            lancement: commande à lancer (:func:`session.lancement`).
+            log: journal du plugin.
+            notifier: toast d'échec de connexion (#80, ``context.notify``).
+        """
+        logger.debug("SshSession.__init__: {!r}", host.path)
+        super().__init__(host, "ssh", lancement, log, session.DELAI_COMMANDES_MS, notifier)
+        logger.debug("SshSession.__init__: fait")
+
+
+def _bascule_booleen(options: dict[str, str], cle: str, changed: Callable[[], None]) -> Callable:
+    """Fabrique le gestionnaire d'une case à cocher d'option booléenne INI.
+
+    Args:
+        options: options du protocole, écrites par la case.
+        cle: clé de l'option (``session.OPT_X11``…).
+        changed: signalé à chaque écriture.
+
+    Returns:
+        Fonction connectée à ``toggled`` ; écrit ``True``/``False`` comme GTK3.
+    """
+    logger.debug("_bascule_booleen: entrée | {}", cle)
+
+    def bascule(bouton: Gtk.CheckButton) -> None:
+        """La case change : l'option suit (``True``/``False``, comme GTK3)."""
+        logger.debug("bascule: {} -> {}", cle, bouton.get_active())
+        options[cle] = "True" if bouton.get_active() else "False"
+        changed()
+        logger.debug("bascule: fait")
+
+    logger.debug("_bascule_booleen: sortie")
+    return bascule
+
+
+def _page_avancee(options: dict[str, str], changed: Callable[[], None]) -> Gtk.Widget:
+    """Page « Advanced » : keep-alive, X11, agent, compression, clé, options ``-o``.
+
+    Reprend ``_build_advanced_page`` de GTK3, en écrivant directement les
+    options du protocole (mêmes clés INI) ; « Extra ssh args » est un champ
+    commun de l'hôte, édité par le dialogue principal.
+    """
+    logger.debug("_page_avancee: entrée | {} option(s)", len(options))
+    grille = Gtk.Grid(
+        column_spacing=6,
+        row_spacing=4,
+        margin_start=8,
+        margin_end=8,
+        margin_top=8,
+        margin_bottom=8,
+    )
+    ligne = 0
+
+    # Keep alive : case + délai ; « 0 » (ou absent) désactive.
+    actif = options.get(session.OPT_KEEPALIVE, "").strip() not in ("", "0")
+    delai_texte = options.get(session.OPT_KEEPALIVE, "").strip()
+    case_keepalive = Gtk.CheckButton(label=_("Keep alive (seconds)"), active=actif)
+    try:
+        delai_valeur = int(delai_texte) if delai_texte else 120
+    except ValueError:
+        logger.debug("_page_avancee: keepalive illisible {!r} -> 120", delai_texte)
+        delai_valeur = 120
+    delai = Gtk.SpinButton()
+    delai.set_adjustment(
+        Gtk.Adjustment(value=delai_valeur, lower=0, upper=3600, step_increment=10)
+    )
+    delai.set_sensitive(actif)
+
+    def bascule_keepalive(bouton: Gtk.CheckButton) -> None:
+        """La case change : le délai suit, l'option vaut le délai ou « 0 »."""
+        logger.debug("bascule_keepalive: {}", bouton.get_active())
+        delai.set_sensitive(bouton.get_active())
+        options[session.OPT_KEEPALIVE] = (
+            str(int(delai.get_value())) if bouton.get_active() else "0"
+        )
+        changed()
+        logger.debug("bascule_keepalive: fait")
+
+    def delai_modifie(_bouton: Gtk.SpinButton) -> None:
+        """Le délai change : l'option suit si le keep-alive est actif."""
+        logger.debug("delai_modifie: {}", int(delai.get_value()))
+        if case_keepalive.get_active():
+            options[session.OPT_KEEPALIVE] = str(int(delai.get_value()))
+            changed()
+        logger.debug("delai_modifie: fait")
+
+    case_keepalive.connect("toggled", bascule_keepalive)
+    delai.connect("value-changed", delai_modifie)
+    grille.attach(case_keepalive, 0, ligne, 1, 1)
+    grille.attach(delai, 1, ligne, 1, 1)
+    ligne += 1
+
+    # X11 et agent : simples cases.
+    for cle, libelle in (
+        (session.OPT_X11, _("X11 forwarding (-X)")),
+        (session.OPT_AGENT, _("Agent forwarding (-A)")),
+    ):
+        case = Gtk.CheckButton(label=libelle, active=session.booleen(options.get(cle, "")))
+        case.connect("toggled", _bascule_booleen(options, cle, changed))
+        grille.attach(case, 0, ligne, 2, 1)
+        ligne += 1
+
+    # Compression : case + niveau.
+    compression = session.booleen(options.get(session.OPT_COMPRESSION, ""))
+    case_compression = Gtk.CheckButton(label=_("Compression (-C)"), active=compression)
+    niveau_texte = options.get(session.OPT_NIVEAU_COMPRESSION, "").strip()
+    try:
+        niveau_valeur = int(niveau_texte) if niveau_texte else 6
+    except ValueError:
+        logger.debug("_page_avancee: niveau de compression illisible {!r} -> 6", niveau_texte)
+        niveau_valeur = 6
+    niveau = Gtk.SpinButton()
+    niveau.set_adjustment(Gtk.Adjustment(value=niveau_valeur, lower=1, upper=9, step_increment=1))
+    niveau.set_sensitive(compression)
+    case_compression.connect(
+        "toggled", _bascule_booleen(options, session.OPT_COMPRESSION, changed)
+    )
+
+    def niveau_modifie(_bouton: Gtk.SpinButton) -> None:
+        """Le niveau change : l'option suit si la compression est active."""
+        logger.debug("niveau_modifie: {}", int(niveau.get_value()))
+        if case_compression.get_active():
+            options[session.OPT_NIVEAU_COMPRESSION] = str(int(niveau.get_value()))
+            changed()
+        logger.debug("niveau_modifie: fait")
+
+    def sensibiliser_niveau(bouton: Gtk.CheckButton) -> None:
+        """La compression change : le niveau redevient modifiable ou non."""
+        logger.debug("sensibiliser_niveau: {}", bouton.get_active())
+        niveau.set_sensitive(bouton.get_active())
+        logger.debug("sensibiliser_niveau: fait")
+
+    case_compression.connect("toggled", sensibiliser_niveau)
+    niveau.connect("value-changed", niveau_modifie)
+    grille.attach(case_compression, 0, ligne, 1, 1)
+    grille.attach(niveau, 1, ligne, 1, 1)
+    ligne += 1
+
+    # Clé privée : chemin libre (``~`` compris, développé au lancement).
+    grille.attach(Gtk.Label(label=_("Private key"), xalign=0), 0, ligne, 1, 1)
+    saisie_cle = Gtk.Entry(
+        hexpand=True, text=options.get(session.OPT_CLE, ""), placeholder_text="~/.ssh/id_ed25519"
+    )
+
+    def cle_modifiee(entree: Gtk.Entry) -> None:
+        """La clé change : l'option suit."""
+        logger.debug("cle_modifiee: {!r}", entree.get_text())
+        options[session.OPT_CLE] = entree.get_text().strip()
+        changed()
+        logger.debug("cle_modifiee: fait")
+
+    saisie_cle.connect("changed", cle_modifiee)
+    grille.attach(saisie_cle, 1, ligne, 1, 1)
+    ligne += 1
+
+    # Options avancées : une saisie par option ``-o`` de GTK3.
+    for cle_ini, option, aide in session.CHAMPS_AVANCES:
+        grille.attach(Gtk.Label(label=option, xalign=0), 0, ligne, 1, 1)
+        saisie = Gtk.Entry(hexpand=True, text=options.get(cle_ini, ""))
+        if aide:
+            saisie.set_tooltip_text(_(aide))
+
+        def valeur_modifiee(entree: Gtk.Entry, cle_ini: str = cle_ini) -> None:
+            """L'option ``-o`` change : l'option INI suit."""
+            logger.debug("valeur_modifiee: {} -> {!r}", cle_ini, entree.get_text())
+            options[cle_ini] = entree.get_text().strip()
+            changed()
+            logger.debug("valeur_modifiee: fait")
+
+        saisie.connect("changed", valeur_modifiee)
+        grille.attach(saisie, 1, ligne, 1, 1)
+        ligne += 1
+
+    defilement = Gtk.ScrolledWindow(
+        child=grille,
+        hscrollbar_policy=Gtk.PolicyType.NEVER,
+        propagate_natural_height=True,
+        max_content_height=360,
+    )
+    logger.debug("_page_avancee: sortie")
+    return defilement
+
+
+def _redirection_d_option(tunnel: str) -> core.Redirection | None:
+    """Redirection d'affichage d'une entrée de l'option ``tunnel``, si elle est lisible.
+
+    Args:
+        tunnel: entrée au format GTK3 (``8080:web:80``, ``R:…``, ``8080:*:*``).
+
+    Returns:
+        La redirection, ou ``None`` si l'entrée est vide ou mal formée.
+    """
+    logger.debug("_redirection_d_option: {!r}", tunnel)
+    brut = tunnel.strip()
+    if not brut:
+        logger.debug("_redirection_d_option: sortie | vide")
+        return None
+    type_ = "local"
+    if brut.startswith("R:"):
+        type_, brut = "remote", brut[2:]
+    morceaux = brut.split(":", 2)
+    if len(morceaux) != 3 or not morceaux[0]:
+        logger.debug("_redirection_d_option: sortie | mal formée")
+        return None
+    if brut.endswith(":*:*"):
+        resultat = core.Redirection("dynamic", morceaux[0], "", "", tunnel.strip())
+    else:
+        resultat = core.Redirection(type_, morceaux[0], morceaux[1], morceaux[2], tunnel.strip())
+    logger.debug("_redirection_d_option: sortie | {}", resultat.brut)
+    return resultat
+
+
+def _page_redirections(options: dict[str, str], changed: Callable[[], None]) -> Gtk.Widget:
+    """Page « Port forwarding » : formulaire d'ajout et liste des redirections.
+
+    Reprend ``_build_port_forwarding_page`` de GTK3 : type (locale, distante,
+    dynamique), ports, hôte cible, liste ; l'option ``tunnel`` est réécrite en
+    entier à chaque ajout ou retrait.
+    """
+    logger.debug("_page_redirections: entrée | {} option(s)", len(options))
+    boite = Gtk.Box(
+        orientation=Gtk.Orientation.VERTICAL,
+        spacing=6,
+        margin_start=8,
+        margin_end=8,
+        margin_top=8,
+        margin_bottom=8,
+    )
+    formulaire = Gtk.Grid(column_spacing=6, row_spacing=4)
+
+    formulaire.attach(Gtk.Label(label=_("Type"), xalign=0), 0, 0, 1, 1)
+    modeles_types = Gtk.StringList()
+    for libelle in (_("Local (-L)"), _("Remote (-R)"), _("Dynamic / SOCKS (-D)")):
+        modeles_types.append(libelle)
+    type_choisi = Gtk.DropDown(model=modeles_types)
+    formulaire.attach(type_choisi, 1, 0, 1, 1)
+
+    libelle_local = Gtk.Label(label=_("Local Port"), xalign=0)
+    formulaire.attach(libelle_local, 0, 1, 1, 1)
+    port_local = Gtk.SpinButton()
+    port_local.set_adjustment(Gtk.Adjustment(value=8080, lower=1, upper=65535, step_increment=1))
+    formulaire.attach(port_local, 1, 1, 1, 1)
+
+    libelle_hote = Gtk.Label(label=_("Remote Host"), xalign=0)
+    formulaire.attach(libelle_hote, 0, 2, 1, 1)
+    hote_cible = Gtk.Entry(hexpand=True)
+    formulaire.attach(hote_cible, 1, 2, 1, 1)
+
+    libelle_distant = Gtk.Label(label=_("Remote Port"), xalign=0)
+    formulaire.attach(libelle_distant, 0, 3, 1, 1)
+    port_distant = Gtk.SpinButton()
+    port_distant.set_adjustment(Gtk.Adjustment(value=8080, lower=1, upper=65535, step_increment=1))
+    formulaire.attach(port_distant, 1, 3, 1, 1)
+    #: Le port distant a-t-il été touché ? Sinon, « hôte:port » dans le champ
+    #: hôte se découpe, comme le laissait entendre le formulaire GTK3.
+    distant_touche = False
+
+    def distant_modifie(_bouton: Gtk.SpinButton) -> None:
+        """Le port distant est modifié à la main : plus de découpage de l'hôte."""
+        logger.debug("distant_modifie: {}", int(port_distant.get_value()))
+        nonlocal distant_touche
+        distant_touche = True
+        logger.debug("distant_modifie: fait")
+
+    port_distant.connect("value-changed", distant_modifie)
+
+    def _type_courant() -> str:
+        """Type sélectionné : ``local``, ``remote`` ou ``dynamic``."""
+        logger.debug("_type_courant: entrée")
+        resultat = ("local", "remote", "dynamic")[type_choisi.get_selected()]
+        logger.debug("_type_courant: sortie | {}", resultat)
+        return resultat
+
+    def type_change(_menu: Gtk.DropDown, _param) -> None:
+        """Le type change : libellés et sensibilité des champs, comme GTK3."""
+        logger.debug("type_change: {}", _type_courant())
+        courant = _type_courant()
+        dynamique = courant == "dynamic"
+        hote_cible.set_sensitive(not dynamique)
+        port_distant.set_sensitive(not dynamique)
+        if courant == "remote":
+            libelle_local.set_text(_("Remote listen port"))
+            libelle_hote.set_text(_("Local target host"))
+            libelle_distant.set_text(_("Local target port"))
+        else:
+            libelle_local.set_text(_("Local Port"))
+            libelle_hote.set_text(_("Remote Host"))
+            libelle_distant.set_text(_("Remote Port"))
+        logger.debug("type_change: fait")
+
+    type_choisi.connect("notify::selected", type_change)
+
+    liste = Gtk.ListBox()
+    liste.set_vexpand(True)
+
+    def _ecrire() -> None:
+        """Réécrit l'option ``tunnel`` depuis les redirections de la liste."""
+        logger.debug("_ecrire: entrée")
+        tunnels = [rangée.redirection.brut for rangée in _rangées()]
+        options[session.OPT_TUNNELS] = session.ecrire_tunnels(tunnels)
+        logger.debug(
+            "_ecrire: {} redirection(s) -> {!r}", len(tunnels), options[session.OPT_TUNNELS]
+        )
+
+    def _rangées() -> list[LigneRedirection]:
+        """Lignes de redirection de la liste, dans l'ordre."""
+        logger.debug("_rangées: entrée")
+        enfant = liste.get_first_child()
+        resultat = []
+        while enfant is not None:
+            if isinstance(enfant, LigneRedirection):
+                resultat.append(enfant)
+            enfant = enfant.get_next_sibling()
+        logger.debug("_rangées: sortie | {} ligne(s)", len(resultat))
+        return resultat
+
+    for tunnel in session.lire_tunnels(options.get(session.OPT_TUNNELS, "")):
+        redirection = _redirection_d_option(tunnel)
+        if redirection is not None:
+            liste.append(LigneRedirection(redirection))
+
+    def ajouter(_bouton: Gtk.Button) -> None:
+        """Ajoute la redirection saisie, comme GTK3 (doublon de port ignoré)."""
+        logger.debug("ajouter: entrée | type={}", _type_courant())
+        courant = _type_courant()
+        local = str(int(port_local.get_value()))
+        cible = hote_cible.get_text().strip()
+        distant = str(int(port_distant.get_value()))
+        if courant != "dynamic" and not distant_touche and cible.count(":") == 1:
+            # « hôte:port » en un seul champ accepté, comme GTK3.
+            machine, _sep, port = cible.rpartition(":")
+            if port.isdigit():
+                cible, distant = machine, port
+        if courant == "dynamic":
+            cible, distant = "*", "*"
+        if cible == "":
+            logger.debug("ajouter: sortie | hôte cible manquant")
+            return
+        if any(r.redirection.local == local for r in _rangées()):
+            logger.debug("ajouter: sortie | port local déjà pris")
+            return
+        brut = (
+            f"{local}:{cible}:{distant}" if courant != "remote" else f"R:{local}:{cible}:{distant}"
+        )
+        liste.append(LigneRedirection(core.Redirection(courant, local, cible, distant, brut)))
+        _ecrire()
+        changed()
+        logger.debug("ajouter: fait | {}", brut)
+
+    def retirer(_bouton: Gtk.Button) -> None:
+        """Retire la redirection sélectionnée."""
+        logger.debug("retirer: entrée")
+        selectionnee = liste.get_selected_row()
+        if selectionnee is not None:
+            liste.remove(selectionnee)
+            _ecrire()
+            changed()
+        logger.debug("retirer: fait")
+
+    boutons = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+    bouton_ajouter = Gtk.Button(label=_("Add"))
+    bouton_ajouter.connect("clicked", ajouter)
+    bouton_retirer = Gtk.Button(label=_("Remove"))
+    bouton_retirer.connect("clicked", retirer)
+    boutons.append(bouton_ajouter)
+    boutons.append(bouton_retirer)
+    formulaire.attach(boutons, 0, 4, 2, 1)
+
+    boite.append(formulaire)
+    boite.append(liste)
+    logger.debug("_page_redirections: sortie")
+    return boite
+
+
+class SshPlugin(ConnectionPlugin):
+    """Protocole ``ssh`` : terminal VTE, mots de passe par expect, redirections."""
+
+    name = "ssh"
+    version = "1.0"
+    protocols = ("ssh",)
+
+    def default_port(self, protocol: str) -> int | None:
+        """Port 22."""
+        logger.debug("SshPlugin.default_port: {!r}", protocol)
+        logger.debug("SshPlugin.default_port: {}", session.PORT_DEFAUT)
+        return session.PORT_DEFAUT
+
+    def build_host_options_widget(
+        self, host: Host, options: dict[str, str], changed: Callable[[], None]
+    ) -> Gtk.Widget:
+        """Options ssh de l'hôte : Advanced, Port forwarding, puis zone commune."""
+        logger.debug("SshPlugin.build_host_options_widget: {!r}", host.path)
+        zone = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        carnet = Gtk.Notebook()
+        carnet.append_page(_page_avancee(options, changed), Gtk.Label(label=_("Advanced")))
+        carnet.append_page(
+            _page_redirections(options, changed), Gtk.Label(label=_("Port forwarding"))
+        )
+        zone.append(carnet)
+        zone.append(zone_options(options, changed))
+        logger.debug("SshPlugin.build_host_options_widget: fait")
+        return zone
+
+    def open(self, host: Host) -> SshSession:
+        """Lance ssh (ou expect) dans un terminal.
+
+        Une clé privée renseignée mais introuvable est signalée ; ssh est
+        lancé quand même, comme GTK3.
+
+        Raises:
+            FileNotFoundError: ``ssh``, ou ``expect`` pour un mot de passe,
+                est introuvable dans ``PATH``.
+            ValueError: paramètres supplémentaires mal formés.
+        """
+        logger.debug("SshPlugin.open: {!r}", host.path)
+        ssh = shutil.which("ssh")
+        if ssh is None:
+            logger.debug("SshPlugin.open: ssh absent")
+            raise FileNotFoundError(_("{program} not found").format(program="ssh"))
+        options = host.protocol_options.get("ssh", {})
+        cle = session.cle_absente(options)
+        if cle is not None:
+            logger.debug("SshPlugin.open: clé absente | {}", cle)
+            self.context.notify(
+                _(
+                    "SSH private key file not found:\n\n{}\n\nPlease check the key path "
+                    "configuration."
+                ).format(cle)
+            )
+        try:
+            lance = session.lancement(
+                host.host,
+                host.port,
+                host.user,
+                host.password,
+                host.extra_params,
+                options,
+                ssh,
+                shutil.which("expect"),
+            )
+        except FileNotFoundError as exc:
+            logger.debug("SshPlugin.open: {} absent", exc.args[0])
+            raise FileNotFoundError(_("{program} not found").format(program=exc.args[0])) from None
+        session_ouverte = SshSession(host, lance, self.context.log, notifier=self.context.notify)
+        logger.debug("SshPlugin.open: session ouverte")
+        return session_ouverte
+
+
+PLUGIN = SshPlugin
