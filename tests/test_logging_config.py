@@ -232,15 +232,28 @@ def test_stderr_debug_avec_gcm_debug():
 
 
 def test_chaque_core_qui_journalise_se_desactive():
-    """Tout *_core.py (racine et GTK3.OLD/) qui importe loguru se désactive et figure dans CORE_MODULES."""
+    """Tout cœur sans GTK qui importe loguru se désactive et figure dans CORE_MODULES.
+
+    Cœurs vérifiés : les ``*_core.py`` de la racine et de ``GTK3.OLD/``, et
+    ceux des outils GTK3 rangés dans leur plugin (#427, lot 3), nommés par
+    leur chemin pointé (``plugins.netmiko_push.core``).
+    """
     import ast
 
+    cores_outils = [
+        ROOT / "plugins" / nom / "core.py" for nom in ("import_putty", "netmiko_push", "snmp_push")
+    ]
     attendus = []
-    for chemin in sorted([*ROOT.glob("*_core.py"), *(ROOT / "GTK3.OLD").glob("*_core.py")]):
+    for chemin in sorted(
+        [*ROOT.glob("*_core.py"), *(ROOT / "GTK3.OLD").glob("*_core.py"), *cores_outils]
+    ):
         arbre = ast.parse(chemin.read_text(encoding="utf-8"))
         if not any(isinstance(n, ast.ImportFrom) and n.module == "loguru" for n in arbre.body):
             continue
-        attendus.append(chemin.stem)
+        if chemin in cores_outils:
+            attendus.append(".".join(chemin.relative_to(ROOT).with_suffix("").parts))
+        else:
+            attendus.append(chemin.stem)
         desactive = any(
             isinstance(n, ast.Expr)
             and isinstance(n.value, ast.Call)

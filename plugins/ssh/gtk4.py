@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, éditeur de
-``~/.ssh/config`` (personnel + partagé), et à venir gestionnaire de clés.
+``~/.ssh/config`` (personnel + partagé) et gestionnaire de clés.
 
 Portage GTK4 des fichiers GTK3 de la racine (``key_picker_dialog.py``,
 ``ssh_config_editor.py``, ``ssh_key_manager_dialog.py``), qui restent en
@@ -18,7 +18,9 @@ transitoire documenté).
 
 from __future__ import annotations
 
+import threading
 from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
 
 import gi
@@ -29,19 +31,33 @@ from gi.repository import Adw, Gio, GLib, GObject, Gtk, Pango  # noqa: E402
 from loguru import logger  # noqa: E402
 
 from gcm4.core.i18n import _  # noqa: E402
-from gcm4.ui import dialogues  # noqa: E402
+from gcm4.ui import dialogues, fichiers  # noqa: E402
 
 from . import core  # noqa: E402
 
 __all__ = [
     "CIBLES",
+    "PAGE_AUTHORIZED_KEYS",
+    "PAGE_KNOWN_HOSTS",
+    "PAGE_ORPHELINES",
+    "PAGE_PRIVEES",
+    "TAILLES_RSA",
+    "TAILLE_RSA_DEFAUT",
+    "TYPES_CLE",
     "TYPES_REDIRECTION",
+    "Element",
+    "GenererCleDialog",
     "KeyPickerDialog",
     "LigneCle",
+    "LigneGestionCle",
     "LigneHote",
     "LigneRedirection",
+    "ResultatsKnownHostsDialog",
     "SshConfigEditor",
+    "SshKeyManager",
     "SshTestDialog",
+    "Tableau",
+    "VuePubliqueDialog",
 ]
 
 
@@ -409,7 +425,8 @@ class SshConfigEditor(Gtk.Window):
 
         Args:
             parent: Fenêtre parente (modale).
-            gestionnaire: Ouvre le gestionnaire de clés ; ``None`` masque « ⚙ ».
+            gestionnaire: Ouvre le gestionnaire de clés ; ``None`` ouvre un
+                :class:`SshKeyManager` transitoire de l'éditeur (un seul).
             chemin_personnel: ``~/.ssh/config`` par défaut.
             chemin_partage: :data:`core.SHARED_SSH_CONFIG_PATH` par défaut.
         """
@@ -423,7 +440,8 @@ class SshConfigEditor(Gtk.Window):
         )
         if parent is not None:
             self.set_transient_for(parent)
-        self._gestionnaire = gestionnaire
+        self._gestionnaire = gestionnaire if gestionnaire is not None else self.ouvrir_gestionnaire
+        self.gestionnaire_cles: SshKeyManager | None = None
         self.analyseurs: dict[str, core.SSHConfigParser] = {
             "personal": core.SSHConfigParser(config_path=chemin_personnel),
             "shared": core.SSHConfigParser(
@@ -464,6 +482,26 @@ class SshConfigEditor(Gtk.Window):
         logger.debug("SshConfigEditor.__init__: sortie")
 
     # -- construction ------------------------------------------------------
+
+    def ouvrir_gestionnaire(self) -> None:
+        """« ⚙ » par défaut : présente le gestionnaire de clés (créé au besoin).
+
+        Une seule fenêtre par éditeur ; fermée, elle est recréée au clic
+        suivant.
+        """
+        logger.debug("SshConfigEditor.ouvrir_gestionnaire: entrée")
+        if self.gestionnaire_cles is None:
+            self.gestionnaire_cles = SshKeyManager(parent=self)
+            self.gestionnaire_cles.connect("close-request", self._on_gestionnaire_ferme)
+        self.gestionnaire_cles.present()
+        logger.debug("SshConfigEditor.ouvrir_gestionnaire: sortie")
+
+    def _on_gestionnaire_ferme(self, _fenetre: Gtk.Window) -> bool:
+        """Gestionnaire fermé : le prochain « ⚙ » en ouvre un nouveau."""
+        logger.debug("SshConfigEditor._on_gestionnaire_ferme: entrée")
+        self.gestionnaire_cles = None
+        logger.debug("SshConfigEditor._on_gestionnaire_ferme: sortie")
+        return False
 
     def _construire_erreurs(self) -> Gtk.Widget:
         """Bandeau d'erreurs (validation, écriture), masqué par défaut."""
@@ -1243,3 +1281,1904 @@ class SshTestDialog(Gtk.Window):
             self.processus.force_exit()
         logger.debug("_on_fermeture: sortie")
         return False
+
+
+# ---------------------------------------------------------------------------
+# Gestionnaire de clés (#97, 3/3) — portage de ssh_key_manager_dialog.py
+# ---------------------------------------------------------------------------
+
+#: Types proposés à la génération (``dsa`` : refusé par OpenSSH ≥ 9.8).
+TYPES_CLE: tuple[str, ...] = ("ed25519", "rsa", "ecdsa", "ed25519-sk", "ecdsa-sk")
+
+#: Tailles RSA proposées (``ssh-keygen`` refuse moins de 1024 bits).
+TAILLES_RSA: tuple[str, ...] = ("2048", "3072", "4096", "8192", "16384")
+
+#: Taille RSA par défaut (index dans :data:`TAILLES_RSA`).
+TAILLE_RSA_DEFAUT = 2
+
+#: Onglets du gestionnaire, dans l'ordre.
+PAGE_PRIVEES, PAGE_ORPHELINES, PAGE_KNOWN_HOSTS, PAGE_AUTHORIZED_KEYS = range(4)
+
+
+class Element(GObject.Object):
+    """Valeur Python quelconque rangée dans un ``Gio.ListStore``."""
+
+    def __init__(self, valeur: object) -> None:
+        """Enveloppe ``valeur``."""
+        logger.trace("Element.__init__")
+        super().__init__()
+        self.valeur = valeur
+        logger.trace("__init__: sortie")
+
+
+def _comparer(texte: Callable[[object], str]) -> Callable[[Element, Element, object], int]:
+    """Comparateur de :class:`Element` sur ``texte(valeur)`` (tri des colonnes)."""
+    logger.trace("_comparer")
+
+    def comparer(premier: Element, second: Element, _donnees: object) -> int:
+        logger.trace("comparer: entrée")
+        a, b = texte(premier.valeur), texte(second.valeur)
+        logger.trace("comparer: sortie")
+        return (a > b) - (a < b)
+
+    logger.trace("_comparer: sortie")
+    return comparer
+
+
+class Tableau:
+    """``Gtk.ColumnView`` à sélection simple, colonnes texte triables.
+
+    Remplace les ``Gtk.TreeView`` + ``Gtk.ListStore`` de la version GTK3.
+    """
+
+    def __init__(
+        self,
+        colonnes: list[tuple[str, Callable[[object], str], bool]],
+        alerte: Callable[[object], bool] | None = None,
+        coche: tuple[str, Callable[[object], bool], Callable[[object], None]] | None = None,
+    ) -> None:
+        """Construit la vue.
+
+        Args:
+            colonnes: ``(titre, texte de la cellule, extensible)`` par colonne.
+            alerte: Ligne à signaler (classe CSS ``error``, ex. clé expirée).
+            coche: Première colonne à case à cocher : ``(titre, état, rappel au clic)`` ;
+                la case reprend son état, le rappel décide de la suite.
+        """
+        logger.debug("Tableau.__init__: entrée | {} colonne(s)", len(colonnes))
+        self.modele = Gio.ListStore.new(Element)
+        self.vue = Gtk.ColumnView(vexpand=True)
+        trie = Gtk.SortListModel.new(self.modele, self.vue.get_sorter())
+        self.selection = Gtk.SingleSelection(autoselect=False, can_unselect=True)
+        self.selection.set_model(trie)
+        self.vue.set_model(self.selection)
+        self._alerte = alerte
+        if coche is not None:
+            self.vue.append_column(self._colonne_coche(*coche))
+        for titre, texte, extensible in colonnes:
+            self.vue.append_column(self._colonne_texte(titre, texte, extensible))
+        self.defilement = Gtk.ScrolledWindow(child=self.vue, vexpand=True, has_frame=True)
+        self.selection.set_selected(Gtk.INVALID_LIST_POSITION)
+        logger.debug("Tableau.__init__: sortie")
+
+    def _colonne_texte(
+        self, titre: str, texte: Callable[[object], str], extensible: bool
+    ) -> Gtk.ColumnViewColumn:
+        """Colonne d'étiquettes, triable sur son texte."""
+        logger.debug("_colonne_texte: entrée | {}", titre)
+        fabrique = Gtk.SignalListItemFactory()
+
+        def preparer(_fabrique: Gtk.SignalListItemFactory, item: Gtk.ListItem) -> None:
+            logger.trace("preparer: entrée")
+            item.set_child(Gtk.Label(xalign=0, ellipsize=Pango.EllipsizeMode.END))
+            logger.trace("preparer: sortie")
+
+        def lier(_fabrique: Gtk.SignalListItemFactory, item: Gtk.ListItem) -> None:
+            logger.trace("lier: entrée")
+            valeur = item.get_item().valeur
+            etiquette = item.get_child()
+            etiquette.set_text(texte(valeur))
+            etiquette.set_tooltip_text(texte(valeur) or None)
+            if self._alerte is not None and self._alerte(valeur):
+                etiquette.add_css_class("error")
+            else:
+                etiquette.remove_css_class("error")
+            logger.trace("lier: sortie")
+
+        fabrique.connect("setup", preparer)
+        fabrique.connect("bind", lier)
+        colonne = Gtk.ColumnViewColumn(
+            title=titre, factory=fabrique, expand=extensible, resizable=True
+        )
+        colonne.set_sorter(Gtk.CustomSorter.new(_comparer(texte), None))
+        logger.debug("_colonne_texte: sortie")
+        return colonne
+
+    def _colonne_coche(
+        self, titre: str, etat: Callable[[object], bool], rappel: Callable[[object], None]
+    ) -> Gtk.ColumnViewColumn:
+        """Colonne de cases à cocher ; un clic appelle ``rappel(valeur)``."""
+        logger.debug("_colonne_coche: entrée | {}", titre)
+        fabrique = Gtk.SignalListItemFactory()
+
+        def basculee(case: Gtk.CheckButton) -> None:
+            logger.trace("basculee: entrée")
+            if case.liaison:
+                logger.trace("basculee: sortie")
+                return
+            case.liaison = True
+            case.set_active(etat(case.valeur))  # l'état ne change qu'après écriture
+            case.liaison = False
+            rappel(case.valeur)
+            logger.trace("basculee: sortie")
+
+        def preparer(_fabrique: Gtk.SignalListItemFactory, item: Gtk.ListItem) -> None:
+            logger.trace("preparer: entrée")
+            case = Gtk.CheckButton(halign=Gtk.Align.CENTER)
+            case.liaison = False
+            case.valeur = None
+            case.connect("toggled", basculee)
+            item.set_child(case)
+            logger.trace("preparer: sortie")
+
+        def lier(_fabrique: Gtk.SignalListItemFactory, item: Gtk.ListItem) -> None:
+            logger.trace("lier: entrée")
+            case = item.get_child()
+            case.valeur = item.get_item().valeur
+            case.liaison = True
+            case.set_active(etat(case.valeur))
+            case.liaison = False
+            logger.trace("lier: sortie")
+
+        fabrique.connect("setup", preparer)
+        fabrique.connect("bind", lier)
+        colonne = Gtk.ColumnViewColumn(title=titre, factory=fabrique)
+        colonne.set_sorter(Gtk.CustomSorter.new(_comparer(lambda v: str(etat(v))), None))
+        logger.debug("_colonne_coche: sortie")
+        return colonne
+
+    def remplir(self, valeurs: list[object]) -> None:
+        """Remplace le contenu ; plus rien n'est sélectionné."""
+        logger.debug("remplir: entrée | {}", len(valeurs))
+        self.modele.splice(0, self.modele.get_n_items(), [Element(v) for v in valeurs])
+        self.selection.set_selected(Gtk.INVALID_LIST_POSITION)
+        logger.debug("remplir: sortie")
+
+    def valeurs(self) -> list[object]:
+        """Valeurs dans l'ordre affiché (tri compris)."""
+        logger.debug("valeurs: entrée")
+        modele = self.selection.get_model()
+        resultat = [modele.get_item(i).valeur for i in range(modele.get_n_items())]
+        logger.debug("valeurs: sortie | {}", len(resultat))
+        return resultat
+
+    def choisie(self) -> object | None:
+        """Valeur sélectionnée, ou ``None``."""
+        logger.debug("choisie: entrée")
+        item = self.selection.get_selected_item()
+        valeur = item.valeur if item is not None else None
+        logger.debug("choisie: sortie | {}", valeur is not None)
+        return valeur
+
+
+def _texte_tampon(vue: Gtk.TextView) -> str:
+    """Texte complet d'un ``Gtk.TextView``."""
+    logger.trace("_texte_tampon")
+    tampon = vue.get_buffer()
+    logger.trace("_texte_tampon: sortie")
+    return tampon.get_text(tampon.get_start_iter(), tampon.get_end_iter(), False)
+
+
+def _raccourci(fenetre: Gtk.Widget, declencheur: str, rappel: Callable[..., bool]) -> None:
+    """Ajoute le raccourci ``declencheur`` (« Escape », « <Control>n »…) à ``fenetre``."""
+    logger.trace("_raccourci: {}", declencheur)
+    controleur = Gtk.ShortcutController()
+    controleur.add_shortcut(
+        Gtk.Shortcut(
+            trigger=Gtk.ShortcutTrigger.parse_string(declencheur),
+            action=Gtk.CallbackAction.new(rappel),
+        )
+    )
+    fenetre.add_controller(controleur)
+    logger.trace("_raccourci: sortie")
+
+
+class GenererCleDialog(Gtk.Window):
+    """Paramètres de ``ssh-keygen`` (et de la signature par la CA désignée)."""
+
+    def __init__(
+        self,
+        parent: Gtk.Window,
+        ca: str | None,
+        rappel: Callable[[dict[str, object]], None],
+    ) -> None:
+        """Construit le formulaire.
+
+        Args:
+            parent: Gestionnaire de clés (modale).
+            ca: Nom de la CA désignée ; ``None`` masque la signature.
+            rappel: Reçoit :meth:`options` quand l'utilisateur valide.
+        """
+        logger.debug("GenererCleDialog.__init__: entrée | ca={}", ca is not None)
+        super().__init__(
+            title=_("Generate SSH Key"),
+            transient_for=parent,
+            modal=True,
+            destroy_with_parent=True,
+            default_width=440,
+        )
+        self._rappel = rappel
+        commentaire = core.commentaire_par_defaut()
+        grille = Gtk.Grid(
+            column_spacing=10,
+            row_spacing=8,
+            margin_top=12,
+            margin_bottom=12,
+            margin_start=16,
+            margin_end=16,
+        )
+
+        def ligne(rang: int, libelle: str, champ: Gtk.Widget) -> Gtk.Label:
+            logger.trace("ligne: entrée")
+            etiquette = Gtk.Label(label=libelle, xalign=1)
+            grille.attach(etiquette, 0, rang, 1, 1)
+            grille.attach(champ, 1, rang, 1, 1)
+            logger.trace("ligne: sortie")
+            return etiquette
+
+        self.type = Gtk.DropDown.new_from_strings(list(TYPES_CLE))
+        self.type.connect("notify::selected", self._on_type)
+        ligne(0, _("Key type:"), self.type)
+        self.taille = Gtk.DropDown.new_from_strings(list(TAILLES_RSA))
+        self.taille.set_selected(TAILLE_RSA_DEFAUT)
+        self.etiquette_taille = ligne(1, _("RSA size:"), self.taille)
+        self.nom = Gtk.Entry(text="id_ed25519", hexpand=True)
+        self.nom.set_tooltip_text(_("Saved in ~/.ssh/ — leave blank for default name"))
+        ligne(2, _("File name:"), self.nom)
+        self.commentaire = Gtk.Entry(text=commentaire, hexpand=True)
+        ligne(3, _("Comment:"), self.commentaire)
+        self.phrase = Gtk.PasswordEntry(
+            show_peek_icon=True, hexpand=True, placeholder_text=_("(empty = no passphrase)")
+        )
+        ligne(4, _("Passphrase:"), self.phrase)
+        info = Gtk.Label(xalign=0, wrap=True)
+        info.set_markup(
+            "<small><i>"
+            + _("Keys are saved in <b>~/.ssh/</b> with permissions 600.")
+            + "</i></small>"
+        )
+        grille.attach(info, 0, 5, 2, 1)
+
+        self.signer = Gtk.CheckButton(
+            label=_("Sign with designated CA ({name})").format(name=ca or ""),
+            visible=ca is not None,
+        )
+        self.signer.connect("toggled", self._on_signer)
+        grille.attach(self.signer, 0, 6, 2, 1)
+        self.identite = Gtk.Entry(text=commentaire, hexpand=True)
+        self.principaux = Gtk.Entry(text=commentaire.split("@", 1)[0], hexpand=True)
+        self.validite = Gtk.Entry(text="+52w", hexpand=True)
+        self.validite.set_tooltip_text(
+            _("ssh-keygen -V syntax, e.g. +52w (1 year), +30d, or 'always:forever'")
+        )
+        self.champs_signature: list[Gtk.Widget] = []
+        for rang, (libelle, champ) in enumerate(
+            (
+                (_("Certificate identity:"), self.identite),
+                (_("Principals (comma-separated):"), self.principaux),
+                (_("Validity:"), self.validite),
+            ),
+            start=7,
+        ):
+            self.champs_signature += [ligne(rang, libelle, champ), champ]
+
+        boutons = Gtk.Box(spacing=6, halign=Gtk.Align.END, margin_top=6)
+        annuler = Gtk.Button(label=_("_Cancel"), use_underline=True)
+        annuler.connect("clicked", lambda _b: self.close())
+        self.bouton_generer = Gtk.Button(label=_("⚙ Generate"))
+        self.bouton_generer.add_css_class("suggested-action")
+        self.bouton_generer.connect("clicked", self._on_generer)
+        boutons.append(annuler)
+        boutons.append(self.bouton_generer)
+        grille.attach(boutons, 0, 10, 2, 1)
+        self.set_child(grille)
+        _raccourci(self, "Escape", lambda *_a: self.close() or True)
+        self._on_type(self.type, None)
+        self._on_signer(self.signer)
+        logger.debug("GenererCleDialog.__init__: sortie")
+
+    def type_choisi(self) -> str:
+        """Type de clé sélectionné."""
+        logger.debug("type_choisi: entrée")
+        type_ = TYPES_CLE[self.type.get_selected()]
+        logger.debug("type_choisi: sortie | {}", type_)
+        return type_
+
+    def _on_type(self, _choix: Gtk.DropDown, _pspec: GObject.ParamSpec | None) -> None:
+        """Taille RSA visible pour ``rsa`` seulement ; nom de fichier ``id_<type>``."""
+        logger.debug("_on_type: entrée")
+        type_ = self.type_choisi()
+        self.etiquette_taille.set_visible(type_ == "rsa")
+        self.taille.set_visible(type_ == "rsa")
+        self.nom.set_text(f"id_{type_}")
+        logger.debug("_on_type: sortie")
+
+    def _on_signer(self, case: Gtk.CheckButton) -> None:
+        """Champs du certificat visibles quand la signature est cochée."""
+        logger.debug("_on_signer: entrée | {}", case.get_active())
+        for champ in self.champs_signature:
+            champ.set_visible(case.get_active())
+        logger.debug("_on_signer: sortie")
+
+    def options(self) -> dict[str, object]:
+        """Paramètres saisis (valeurs par défaut pour les champs vides)."""
+        logger.debug("options: entrée")
+        type_ = self.type_choisi()
+        commentaire = self.commentaire.get_text().strip() or core.commentaire_par_defaut()
+        options: dict[str, object] = {
+            "type": type_,
+            "taille": int(TAILLES_RSA[self.taille.get_selected()]) if type_ == "rsa" else 0,
+            "nom": self.nom.get_text().strip() or f"id_{type_}",
+            "commentaire": commentaire,
+            "phrase": self.phrase.get_text(),
+            "signer": self.signer.get_visible() and self.signer.get_active(),
+            "identite": self.identite.get_text().strip() or commentaire,
+            "principaux": self.principaux.get_text().strip() or commentaire.split("@", 1)[0],
+            "validite": self.validite.get_text().strip() or "+52w",
+        }
+        logger.debug("options: sortie | type={} signer={}", type_, options["signer"])
+        return options
+
+    def _on_generer(self, _bouton: Gtk.Button) -> None:
+        """« ⚙ Generate » : transmet les options et ferme."""
+        logger.debug("_on_generer: entrée")
+        options = self.options()
+        self.close()
+        self._rappel(options)
+        logger.debug("_on_generer: sortie")
+
+
+class VuePubliqueDialog(Gtk.Window):
+    """Contenu complet d'une clé publique, avec copie (non modale)."""
+
+    def __init__(self, parent: Gtk.Window, nom: str, contenu: str) -> None:
+        """Affiche ``contenu`` (clé ``nom``)."""
+        logger.debug("VuePubliqueDialog.__init__: entrée | {}", nom)
+        super().__init__(
+            title=_("Public Key — {name}").format(name=nom),
+            transient_for=parent,
+            destroy_with_parent=True,
+            default_width=640,
+            default_height=220,
+        )
+        self.contenu = contenu
+        boite = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=6,
+            margin_top=8,
+            margin_bottom=8,
+            margin_start=8,
+            margin_end=8,
+        )
+        self.texte = Gtk.TextView(editable=False, wrap_mode=Gtk.WrapMode.CHAR, monospace=True)
+        self.texte.get_buffer().set_text(contenu)
+        boite.append(Gtk.ScrolledWindow(child=self.texte, vexpand=True, has_frame=True))
+        boutons = Gtk.Box(spacing=6, halign=Gtk.Align.END)
+        self.bouton_copier = Gtk.Button(label=_("⎘ Copy to clipboard"))
+        self.bouton_copier.connect("clicked", lambda _b: self.get_clipboard().set(self.contenu))
+        fermer = Gtk.Button(label=_("_Close"), use_underline=True)
+        fermer.connect("clicked", lambda _b: self.close())
+        boutons.append(self.bouton_copier)
+        boutons.append(fermer)
+        boite.append(boutons)
+        self.set_child(boite)
+        _raccourci(self, "Escape", lambda *_a: self.close() or True)
+        logger.debug("VuePubliqueDialog.__init__: sortie")
+
+
+class ResultatsKnownHostsDialog(Gtk.Window):
+    """Résultat du test des hôtes connus contre ``known_hosts``."""
+
+    def __init__(
+        self, parent: Gtk.Window, cible: str, resultats: list[tuple[str, bool, str]]
+    ) -> None:
+        """Affiche ``resultats`` (``(hôte, trouvé, ligne)``) pour la cible ``cible``."""
+        logger.debug("ResultatsKnownHostsDialog.__init__: entrée | {}", len(resultats))
+        trouves = sum(1 for _h, trouve, _i in resultats if trouve)
+        super().__init__(
+            title=_("Known Hosts Test — {n}/{total} found on {target}").format(
+                n=trouves, total=len(resultats), target=cible
+            ),
+            transient_for=parent,
+            modal=True,
+            destroy_with_parent=True,
+            default_width=720,
+            default_height=420,
+        )
+        self.tableau = Tableau(
+            [
+                (_("Host"), lambda r: r[0], True),
+                (_("Found"), lambda r: "✓" if r[1] else "✗", False),
+                (_("Info (matching known_hosts line)"), lambda r: r[2], True),
+            ],
+            alerte=lambda r: not r[1],
+        )
+        self.tableau.remplir(list(resultats))
+        boite = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=6,
+            margin_top=8,
+            margin_bottom=8,
+            margin_start=8,
+            margin_end=8,
+        )
+        boite.append(self.tableau.defilement)
+        fermer = Gtk.Button(label=_("_Close"), use_underline=True, halign=Gtk.Align.END)
+        fermer.connect("clicked", lambda _b: self.close())
+        boite.append(fermer)
+        self.set_child(boite)
+        _raccourci(self, "Escape", lambda *_a: self.close() or True)
+        logger.debug("ResultatsKnownHostsDialog.__init__: sortie")
+
+
+@dataclass(frozen=True)
+class LigneGestionCle:
+    """Une clé de l'onglet Private keys ou Orphan Public keys."""
+
+    cle: core.CleSsh
+    details: core.DetailsCle
+
+    @property
+    def publique(self) -> Path | None:
+        """Fichier de clé publique à copier ou afficher."""
+        logger.trace("LigneGestionCle.publique")
+        return self.cle.chemin if self.cle.est_publique else self.cle.publique
+
+    @property
+    def expiree(self) -> bool:
+        """Certificat expiré."""
+        logger.trace("LigneGestionCle.expiree")
+        return self.details.certificat is not None and self.details.certificat.expire
+
+    def validite(self) -> str:
+        """Colonne « Validity »."""
+        logger.trace("LigneGestionCle.validite")
+        certificat = self.details.certificat
+        if certificat is None:
+            logger.trace("validite: sortie")
+            return "—"
+        if certificat.fin is None:
+            logger.trace("validite: sortie")
+            return _("forever")
+        if certificat.fin == "?":
+            logger.trace("validite: sortie")
+            return "?"
+        logger.trace("validite: sortie")
+        return _("until {end}").format(end=certificat.fin)
+
+    def signataire(self) -> str:
+        """Colonne « Signed by »."""
+        logger.trace("LigneGestionCle.signataire")
+        if self.details.certificat is None:
+            logger.trace("signataire: sortie")
+            return "—"
+        logger.trace("signataire: sortie")
+        return self.details.certificat.ca or _("unknown CA")
+
+    def creation(self) -> str:
+        """Colonne « Created »."""
+        logger.trace("LigneGestionCle.creation")
+        date = self.details.creation
+        logger.trace("creation: sortie")
+        return date.strftime("%Y-%m-%d %H:%M") if date is not None else "?"
+
+    def permissions(self) -> str:
+        """Colonne « Perms »."""
+        logger.trace("LigneGestionCle.permissions")
+        return f"{self.cle.permissions} {'✓' if self.cle.permissions_ok else '⚠'}"
+
+
+def _colonnes_cles() -> list[tuple[str, Callable[[object], str], bool]]:
+    """Colonnes communes des onglets Private keys et Orphan Public keys."""
+    logger.trace("_colonnes_cles")
+    return [
+        (_("Name"), lambda ligne: ligne.cle.nom, True),
+        (_("Type"), lambda ligne: ligne.details.type, False),
+        (_("Fingerprint"), lambda ligne: ligne.cle.empreinte, True),
+        (_("Created"), LigneGestionCle.creation, False),
+        (_("Validity"), LigneGestionCle.validite, False),
+        (_("Signed by"), LigneGestionCle.signataire, True),
+        (_("Perms"), LigneGestionCle.permissions, False),
+    ]
+
+
+class SshKeyManager(Gtk.Window):
+    """Gestionnaire de clés SSH (portage GTK4 de ``ssh_key_manager_dialog.py``).
+
+    Quatre onglets : clés privées et publiques orphelines de ``~/.ssh/``
+    (toujours locales), ``known_hosts`` et ``authorized_keys`` de la cible
+    (machine locale, ou compte distant ``user@hôte[:port]`` par ssh). Barre
+    de la CA de signature, barre d'actions propre à l'onglet affiché,
+    messages en toasts. Les accès à la cible (test de connexion, lecture,
+    écriture), la génération de clé et le test des known_hosts tournent
+    dans un fil d'exécution : l'interface ne gèle pas.
+    """
+
+    def __init__(
+        self,
+        parent: Gtk.Window | None = None,
+        dossier: Path | None = None,
+        hotes_gcm: Callable[[], list[str]] | None = None,
+    ) -> None:
+        """Construit la fenêtre et charge les quatre onglets.
+
+        Args:
+            parent: Fenêtre parente.
+            dossier: Dossier des clés (``~/.ssh/`` par défaut).
+            hotes_gcm: Hôtes de gcm4 à tester contre ``known_hosts``, en plus
+                des alias de ``~/.ssh/config``.
+        """
+        logger.debug("SshKeyManager.__init__: entrée")
+        super().__init__(
+            title=_("SSH Key Manager"),
+            destroy_with_parent=True,
+            default_width=1180,
+            default_height=640,
+        )
+        if parent is not None:
+            self.set_transient_for(parent)
+        self.dossier = dossier if dossier is not None else Path.home() / ".ssh"
+        self.config_ca = self.dossier / ".gcm_ca_config.json"
+        self.local = core.FichiersLocaux(self.dossier)
+        self.distant: core.FichiersDistants | None = None
+        self._hotes_gcm = hotes_gcm
+        self.ca = core.lire_config_ca(self.config_ca)
+        self.travaux = 0
+        self.ferme = False
+        self.dialogue: object | None = None
+        self.messages_cible: dict[int, str] = {}
+
+        racine = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        racine.append(self._construire_cible())
+        racine.append(Gtk.Separator())
+        racine.append(self._construire_ca())
+        racine.append(Gtk.Separator())
+        self.onglets = Gtk.Notebook(margin_start=8, margin_end=8, margin_top=8, vexpand=True)
+        self.privees = Tableau(
+            _colonnes_cles()
+            + [
+                (
+                    _("Orphan Public key"),
+                    lambda ligne: "✓ .pub" if ligne.cle.publique else "✗ none",
+                    False,
+                )
+            ],
+            alerte=lambda ligne: ligne.expiree,
+        )
+        self.orphelines = Tableau(_colonnes_cles(), alerte=lambda ligne: ligne.expiree)
+        self.known_hosts = Tableau(
+            [
+                (_("#"), lambda e: f"{e.ligne:6d}", False),
+                (_("Host"), lambda e: _("(hashed)") if e.hache else e.hotes, True),
+                (_("Type"), lambda e: e.type, False),
+                (_("Fingerprint"), lambda e: e.empreinte, True),
+                (_("Hashed"), lambda e: "✓" if e.hache else "", False),
+            ]
+        )
+        self.authorized_keys = Tableau(
+            [
+                (_("Type"), lambda e: e.type, False),
+                (_("Fingerprint"), lambda e: e.empreinte, True),
+                (_("Comment"), lambda e: e.commentaire, True),
+            ],
+            coche=(_("Enabled"), lambda e: e.active, self._on_basculer_authorized_key),
+        )
+        for tableau, titre in (
+            (self.privees, _("Private keys")),
+            (self.orphelines, _("Orphan Public keys")),
+            (self.known_hosts, _("Known Hosts")),
+            (self.authorized_keys, _("Authorized Keys")),
+        ):
+            self.onglets.append_page(tableau.defilement, Gtk.Label(label=titre))
+        for tableau in (self.privees, self.orphelines):
+            tableau.selection.connect("notify::selected", lambda *_a: self.actualiser_boutons())
+        racine.append(self.onglets)
+        racine.append(Gtk.Separator())
+        racine.append(
+            Gtk.ScrolledWindow(
+                child=self._construire_actions(), vscrollbar_policy=Gtk.PolicyType.NEVER
+            )
+        )
+        self.toasts = Adw.ToastOverlay(child=racine)
+        self.set_child(self.toasts)
+        self.onglets.connect("switch-page", self._on_onglet)
+
+        _raccourci(self, "Escape", lambda *_a: self.close() or True)
+        _raccourci(self, "<Control>n", lambda *_a: self._on_generer(None) or True)
+        _raccourci(self, "<Control>i", lambda *_a: self._on_importer(None) or True)
+        _raccourci(self, "Delete", lambda *_a: self._on_supprimer_page() or True)
+        self.connect("close-request", self._on_fermeture)
+
+        self.afficher_ca()
+        self.charger_cles()
+        self.charger_cible()
+        self._on_onglet(self.onglets, None, PAGE_PRIVEES)
+        logger.info("SshKeyManager | ouvert dossier={}", self.dossier)
+        logger.debug("SshKeyManager.__init__: sortie")
+
+    # -- construction -------------------------------------------------------
+
+    def _construire_cible(self) -> Gtk.Widget:
+        """Barre de la cible de Known Hosts / Authorized Keys."""
+        logger.debug("_construire_cible: entrée")
+        barre = Gtk.Box(spacing=6, margin_top=6, margin_bottom=6, margin_start=8, margin_end=8)
+        barre.append(Gtk.Label(label=_("Remote target (Known Hosts / Authorized Keys):")))
+        self.saisie_cible = Gtk.Entry(
+            hexpand=True, placeholder_text=_("user@host or root@host[:port]")
+        )
+        self.saisie_cible.connect("activate", self._on_connecter)
+        barre.append(self.saisie_cible)
+        self.bouton_connecter = self._bouton(barre, _("🔌 Connect"), self._on_connecter)
+        self.bouton_local = self._bouton(barre, _("🏠 Local"), self._on_local)
+        self.etat_cible = Gtk.Label(margin_start=6)
+        barre.append(self.etat_cible)
+        self._afficher_cible()
+        logger.debug("_construire_cible: sortie")
+        return barre
+
+    def _construire_ca(self) -> Gtk.Widget:
+        """Barre de la CA de signature (toujours locale)."""
+        logger.debug("_construire_ca: entrée")
+        barre = Gtk.Box(spacing=6, margin_top=6, margin_bottom=6, margin_start=8, margin_end=8)
+        barre.append(Gtk.Label(label=_("Signing CA:")))
+        self.etat_ca = Gtk.Label(hexpand=True, xalign=0)
+        barre.append(self.etat_ca)
+        self.bouton_designer_ca = self._bouton(
+            barre,
+            _("🔏 Designate"),
+            self._on_designer_ca,
+            _("Choose an existing local key pair as the signing CA"),
+        )
+        self.bouton_importer_ca = self._bouton(
+            barre,
+            _("⬆ Import CA"),
+            self._on_importer_ca,
+            _("Import an external CA key pair into ~/.ssh/ and designate it"),
+        )
+        self.bouton_supprimer_ca = self._bouton(
+            barre,
+            _("🗑 Delete CA"),
+            self._on_supprimer_ca,
+            _("Permanently delete the designated CA key pair"),
+            destructif=True,
+        )
+        logger.debug("_construire_ca: sortie")
+        return barre
+
+    @staticmethod
+    def _bouton(
+        boite: Gtk.Box,
+        libelle: str,
+        rappel: Callable[[Gtk.Button], None],
+        info: str | None = None,
+        destructif: bool = False,
+    ) -> Gtk.Button:
+        """Ajoute un bouton d'action à ``boite``."""
+        logger.trace("_bouton: {}", libelle)
+        bouton = Gtk.Button(label=libelle, tooltip_text=info)
+        if destructif:
+            bouton.add_css_class("destructive-action")
+        bouton.connect("clicked", rappel)
+        boite.append(bouton)
+        logger.trace("_bouton: sortie")
+        return bouton
+
+    def _construire_actions(self) -> Gtk.Widget:
+        """Barre d'actions : un groupe par type d'onglet, et « Close »."""
+        logger.debug("_construire_actions: entrée")
+        barre = Gtk.Box(spacing=6, margin_top=6, margin_bottom=6, margin_start=8, margin_end=8)
+        b = self._bouton
+        self.actions_cles = boite = Gtk.Box(spacing=6)
+        self.bouton_generer = b(
+            boite,
+            _("⚙ Generate"),
+            self._on_generer,
+            _("Generate a new SSH key pair (ssh-keygen)"),
+        )
+        self.bouton_importer = b(
+            boite,
+            _("↑ Import"),
+            self._on_importer,
+            _("Import an existing private key file into ~/.ssh/"),
+        )
+        self.bouton_copier = b(
+            boite,
+            _("⎘ Copy public key"),
+            self._on_copier_publique,
+            _("Copy the public key content to clipboard"),
+        )
+        self.bouton_voir = b(
+            boite,
+            _("👁 View public key"),
+            self._on_voir_publique,
+            _("Show the full public key content in a dedicated window"),
+        )
+        self.bouton_renommer = b(
+            boite,
+            _("✎ Rename"),
+            self._on_renommer,
+            _("Rename this key (and its .pub / certificate, if any)"),
+        )
+        self.bouton_phrase = b(
+            boite,
+            _("🔒 Passphrase"),
+            self._on_phrase,
+            _("Change the passphrase of this private key (ssh-keygen -p)"),
+        )
+        self.bouton_agent = b(
+            boite,
+            _("🔑 Agent"),
+            self._on_agent,
+            _("Load/unload this key in ssh-agent (ssh-add / ssh-add -d)"),
+        )
+        self.bouton_reveler = b(
+            boite, _("📂 Reveal"), self._on_reveler, _("Open ~/.ssh/ in the file manager")
+        )
+        self.bouton_supprimer = b(
+            boite,
+            _("🗑 Delete"),
+            self._on_supprimer,
+            _("Permanently delete the selected key"),
+            destructif=True,
+        )
+
+        self.actions_known_hosts = boite = Gtk.Box(spacing=6)
+        self.bouton_rafraichir_kh = b(boite, _("⟳ Refresh"), lambda _b: self.charger_cible())
+        self.bouton_copier_empreinte = b(boite, _("⎘ Copy fingerprint"), self._on_copier_empreinte)
+        self.bouton_tester_kh = b(
+            boite,
+            _("🧪 Test known hosts"),
+            self._on_tester_known_hosts,
+            _("Check ~/.ssh/config (and GCM hosts, if wired in) against known_hosts"),
+        )
+        self.bouton_supprimer_kh = b(
+            boite, _("🗑 Delete"), self._on_supprimer_known_host, destructif=True
+        )
+
+        self.actions_authorized_keys = boite = Gtk.Box(spacing=6)
+        self.bouton_rafraichir_ak = b(boite, _("⟳ Refresh"), lambda _b: self.charger_cible())
+        self.bouton_ajouter_ak = b(boite, _("＋ Add"), self._on_ajouter_authorized_key)
+        self.bouton_supprimer_ak = b(
+            boite, _("🗑 Delete"), self._on_supprimer_authorized_key, destructif=True
+        )
+
+        for groupe in (self.actions_cles, self.actions_known_hosts, self.actions_authorized_keys):
+            barre.append(groupe)
+        self.bouton_fermer = Gtk.Button(label=_("Close"), hexpand=True, halign=Gtk.Align.END)
+        self.bouton_fermer.connect("clicked", lambda _b: self.close())
+        barre.append(self.bouton_fermer)
+        logger.debug("_construire_actions: sortie")
+        return barre
+
+    # -- outils -------------------------------------------------------------
+
+    def notifier(self, message: str) -> None:
+        """Message éphémère ; les messages se succèdent dans le ToastOverlay.
+
+        Le toast précédent n'est jamais écarté à la main : ``dismiss()`` sur un
+        toast en cours d'affichage fait planter libadwaita 1.2 à la fermeture de
+        la fenêtre (``adw_animation_skip`` sur un objet libéré, Debian 12) —
+        le ToastOverlay enchaîne lui-même les messages de sa file.
+        """
+        logger.debug("notifier: entrée | {}", message)
+        toast = Adw.Toast.new(message)
+        toast.set_timeout(4)
+        self.toasts.add_toast(toast)
+        self.dernier_message = message
+        logger.debug("notifier: sortie")
+
+    def confirmer(self, corps: str, suite: Callable[[], None]) -> None:
+        """Question (``corps`` en balisage Pango) ; ``suite()`` si confirmée."""
+        logger.debug("confirmer: entrée")
+
+        def reponse(identifiant: str) -> None:
+            logger.debug("confirmer.reponse: {}", identifiant)
+            self.dialogue = None
+            if identifiant == "ok":
+                suite()
+            logger.trace("reponse: sortie")
+
+        dialogue = dialogues.creer(
+            self,
+            _("Confirm"),
+            corps,
+            [("cancel", _("_Cancel"), None), ("ok", _("Confirm"), None)],
+            "ok",
+            "cancel",
+            reponse,
+        )
+        dialogue.set_body_use_markup(True)
+        self.dialogue = dialogue
+        logger.debug("confirmer: sortie")
+
+    def demander(
+        self,
+        titre: str,
+        corps: str,
+        bouton: str,
+        extra: Gtk.Widget,
+        suite: Callable[[], None],
+    ) -> None:
+        """Dialogue de saisie (``extra``) ; ``suite()`` si validé par ``bouton``."""
+        logger.debug("demander: entrée | {}", titre)
+
+        def reponse(identifiant: str) -> None:
+            logger.debug("demander.reponse: {}", identifiant)
+            self.dialogue = None
+            if identifiant == "ok":
+                suite()
+            logger.trace("reponse: sortie")
+
+        self.dialogue = dialogues.creer(
+            self,
+            titre,
+            corps,
+            [
+                ("cancel", _("_Cancel"), None),
+                ("ok", bouton, Adw.ResponseAppearance.SUGGESTED),
+            ],
+            "ok",
+            "cancel",
+            reponse,
+            extra=extra,
+        )
+        logger.debug("demander: sortie")
+
+    def en_fond(
+        self,
+        travail: Callable[[], object],
+        fin: Callable[[object, core.ErreurCle | None], None],
+    ) -> None:
+        """``travail()`` dans un fil d'exécution, puis ``fin(résultat, erreur)`` dans GTK.
+
+        ``fin`` n'est pas appelé si la fenêtre a été fermée entre-temps.
+        """
+        logger.debug("en_fond: entrée | {} en cours", self.travaux)
+        self.travaux += 1
+
+        def terminer(resultat: object, erreur: core.ErreurCle | None) -> bool:
+            logger.debug("en_fond.terminer: erreur={}", erreur is not None)
+            self.travaux -= 1
+            if not self.ferme:
+                fin(resultat, erreur)
+            logger.trace("terminer: sortie")
+            return GLib.SOURCE_REMOVE
+
+        def executer() -> None:
+            logger.debug("en_fond.executer: début")
+            try:
+                resultat, erreur = travail(), None
+            except core.ErreurCle as exc:
+                logger.warning("en_fond.executer: {}", exc)
+                resultat, erreur = None, exc
+            GLib.idle_add(terminer, resultat, erreur)
+            logger.trace("executer: sortie")
+
+        threading.Thread(target=executer, daemon=True).start()
+        logger.debug("en_fond: sortie")
+
+    def _on_fermeture(self, _fenetre: Gtk.Window) -> bool:
+        """Les travaux encore en cours n'afficheront plus rien ; le dialogue ouvert est fermé.
+
+        Le dialogue est détruit avant la fenêtre : laissé à
+        ``destroy_with_parent``, un dialogue encore affiché (résultats du test
+        de ``known_hosts``…) fait planter GTK 4.8 (Debian 12).
+        """
+        logger.debug("_on_fermeture: entrée | {} travail(aux)", self.travaux)
+        self.ferme = True
+        dialogue, self.dialogue = self.dialogue, None
+        if isinstance(dialogue, Gtk.Window) and dialogue.get_visible():
+            dialogue.destroy()
+        logger.debug("_on_fermeture: sortie")
+        return False
+
+    def fichiers(self) -> core.FichiersLocaux | core.FichiersDistants:
+        """Fichiers de la cible active (distante si connectée)."""
+        logger.trace("fichiers")
+        return self.distant if self.distant is not None else self.local
+
+    @staticmethod
+    def libelle(cible: core.FichiersLocaux | core.FichiersDistants) -> str:
+        """« local machine » ou ``user@hôte[:port]``."""
+        logger.trace("libelle")
+        return cible.cible.affichage if cible.distant else _("local machine")
+
+    def _afficher_cible(self) -> None:
+        """Libellé de la cible active, en gras."""
+        logger.debug("_afficher_cible: entrée")
+        texte = GLib.markup_escape_text(self.libelle(self.fichiers()))
+        self.etat_cible.set_markup(f"<b>{texte}</b>")
+        logger.debug("_afficher_cible: sortie")
+
+    def _copier(self, texte: str) -> None:
+        """Met ``texte`` dans le presse-papiers."""
+        logger.debug("_copier: entrée | {} caractère(s)", len(texte))
+        self.get_clipboard().set(texte)
+        logger.debug("_copier: sortie")
+
+    @staticmethod
+    def message_erreur(exc: core.ErreurCle) -> str:
+        """Détail affichable d'une :class:`core.ErreurCle`."""
+        logger.trace("message_erreur: {}", exc.code)
+        return (exc.detail or exc.code)[:120]
+
+    def _on_onglet(self, _onglets: Gtk.Notebook, _page: Gtk.Widget | None, numero: int) -> None:
+        """Barre d'actions de l'onglet affiché."""
+        logger.debug("_on_onglet: entrée | {}", numero)
+        self.actions_cles.set_visible(numero in (PAGE_PRIVEES, PAGE_ORPHELINES))
+        self.actions_known_hosts.set_visible(numero == PAGE_KNOWN_HOSTS)
+        self.actions_authorized_keys.set_visible(numero == PAGE_AUTHORIZED_KEYS)
+        self.actualiser_boutons(numero)
+        if numero in self.messages_cible:
+            self.notifier(self.messages_cible[numero])
+        logger.debug("_on_onglet: sortie")
+
+    # -- clés locales -------------------------------------------------------
+
+    def charger_cles(self, notifier: bool = True) -> None:
+        """Relit ``~/.ssh/`` : onglets Private keys et Orphan Public keys.
+
+        Args:
+            notifier: Annonce le nombre de clés ; ``False`` après une action,
+                dont le message (« Key imported… ») reste affiché.
+        """
+        logger.debug("charger_cles: entrée")
+        if not self.dossier.is_dir():
+            self.privees.remplir([])
+            self.orphelines.remplir([])
+            self.notifier(_("~/.ssh/ not found — no keys loaded"))
+            self.actualiser_boutons()
+            logger.debug("charger_cles: sortie | dossier absent")
+            return
+        lignes = [LigneGestionCle(c, core.details_cle(c)) for c in core.lister_cles(self.dossier)]
+        privees = [ligne for ligne in lignes if not ligne.cle.est_publique]
+        orphelines = [ligne for ligne in lignes if ligne.cle.est_publique]
+        self.privees.remplir(privees)
+        self.orphelines.remplir(orphelines)
+        if notifier:
+            self.notifier(
+                _("{priv} private key(s), {pub} Orphan Public key(s) loaded from ~/.ssh/").format(
+                    priv=len(privees), pub=len(orphelines)
+                )
+            )
+        self.actualiser_boutons()
+        logger.debug("charger_cles: sortie | {} + {}", len(privees), len(orphelines))
+
+    def _tableau_cles(self, page: int | None = None) -> Tableau | None:
+        """Tableau de clés de l'onglet ``page`` (affiché par défaut), sinon ``None``."""
+        logger.trace("_tableau_cles")
+        page = self.onglets.get_current_page() if page is None else page
+        logger.trace("_tableau_cles: sortie")
+        return {PAGE_PRIVEES: self.privees, PAGE_ORPHELINES: self.orphelines}.get(page)
+
+    def cle_choisie(self) -> LigneGestionCle | None:
+        """Clé sélectionnée dans l'onglet affiché (Private ou Orphan)."""
+        logger.debug("cle_choisie: entrée")
+        tableau = self._tableau_cles()
+        ligne = tableau.choisie() if tableau is not None else None
+        logger.debug("cle_choisie: sortie | {}", ligne is not None)
+        return ligne
+
+    def actualiser_boutons(self, page: int | None = None) -> None:
+        """Boutons des clés actifs selon la sélection."""
+        logger.debug("actualiser_boutons: entrée")
+        tableau = self._tableau_cles(page)
+        ligne = tableau.choisie() if tableau is not None else None
+        publique = ligne is not None and ligne.publique is not None
+        privee = ligne is not None and not ligne.cle.est_publique
+        self.bouton_copier.set_sensitive(publique)
+        self.bouton_voir.set_sensitive(publique)
+        self.bouton_renommer.set_sensitive(ligne is not None)
+        self.bouton_phrase.set_sensitive(privee)
+        self.bouton_agent.set_sensitive(privee)
+        self.bouton_supprimer.set_sensitive(ligne is not None)
+        logger.debug("actualiser_boutons: sortie")
+
+    def _on_generer(self, _bouton: Gtk.Button | None) -> None:
+        """« ⚙ Generate » (Ctrl+N) : formulaire de génération."""
+        logger.debug("_on_generer: entrée")
+        ca = self.ca.name if self.ca is not None and self.ca.exists() else None
+        self.dialogue = GenererCleDialog(self, ca, self.generer)
+        self.dialogue.present()
+        logger.debug("_on_generer: sortie")
+
+    def generer(self, options: dict[str, object]) -> None:
+        """Génère la clé (et la signe si demandé) en arrière-plan."""
+        logger.debug("generer: entrée | type={}", options["type"])
+        chemin = core.nom_libre(self.dossier, str(options["nom"]))
+        ca = self.ca if options["signer"] else None
+
+        def travail() -> tuple[Path, Path | None, core.ErreurCle | None]:
+            logger.trace("travail: entrée")
+            core.generer_cle(
+                chemin,
+                str(options["type"]),
+                int(options["taille"]),
+                str(options["commentaire"]),
+                str(options["phrase"]),
+            )
+            if ca is None:
+                logger.trace("travail: sortie")
+                return chemin, None, None
+            try:
+                certificat = core.signer_cle(
+                    chemin.with_name(chemin.name + ".pub"),
+                    ca,
+                    str(options["identite"]),
+                    str(options["principaux"]),
+                    str(options["validite"]),
+                )
+            except core.ErreurCle as exc:
+                logger.warning("generer: signature impossible : {}", exc)
+                return chemin, None, exc
+            logger.trace("travail: sortie")
+            return chemin, certificat, None
+
+        self.en_fond(travail, lambda r, e: self._cle_generee(r, e, options, ca))
+        logger.debug("generer: sortie | {}", chemin.name)
+
+    def _cle_generee(
+        self,
+        resultat: tuple[Path, Path | None, core.ErreurCle | None] | None,
+        erreur: core.ErreurCle | None,
+        options: dict[str, object],
+        ca: Path | None,
+    ) -> None:
+        """Message de fin de génération / signature, puis liste relue."""
+        logger.debug("_cle_generee: entrée | erreur={}", erreur is not None)
+        if erreur is not None:
+            if erreur.code == "absent":
+                self.notifier(_("ssh-keygen not found — install openssh-client"))
+            elif erreur.code == "echec":
+                self.notifier(_("ssh-keygen failed: {err}").format(err=erreur.detail[:80]))
+            else:
+                self.notifier(_("Generation failed: {err}").format(err=erreur.code))
+            logger.debug("_cle_generee: sortie | échec")
+            return
+        chemin, certificat, signature = resultat
+        logger.info("SshKeyManager | clé générée {}", chemin.name)
+        if signature is not None and signature.code == "delai":
+            self.notifier(
+                _(
+                    "CA signing timed out — CA key may require a passphrase "
+                    "(unsupported non-interactively)"
+                )
+            )
+        elif signature is not None:
+            self.notifier(_("CA signing failed: {err}").format(err=self.message_erreur(signature)))
+        elif certificat is not None:
+            self.notifier(
+                _("Key signed by CA {ca} (identity={id})").format(
+                    ca=ca.name, id=options["identite"]
+                )
+            )
+        else:
+            self.notifier(_("Key generated: {name}").format(name=chemin.name))
+        self.charger_cles(notifier=False)
+        logger.debug("_cle_generee: sortie")
+
+    def _on_importer(self, _bouton: Gtk.Button | None) -> None:
+        """« ↑ Import » (Ctrl+I) : choix d'une clé privée à copier dans ``~/.ssh/``."""
+        logger.debug("_on_importer: entrée")
+        self.dialogue = fichiers.choisir(
+            self, fichiers.OUVRIR, _("Import Private Key"), self.importer, filtrer=False
+        )
+        logger.debug("_on_importer: sortie")
+
+    def _si_absent(self, source: Path, suite: Callable[[], None]) -> None:
+        """``suite()``, après confirmation si ``~/.ssh/`` a déjà un fichier de ce nom."""
+        logger.debug("_si_absent: entrée")
+        if (self.dossier / source.name).exists():
+            self.confirmer(
+                GLib.markup_escape_text(
+                    _("File {name} already exists in ~/.ssh/ — overwrite?").format(
+                        name=source.name
+                    )
+                ),
+                suite,
+            )
+        else:
+            suite()
+        logger.debug("_si_absent: sortie")
+
+    def importer(self, chemin: str | None) -> None:
+        """Importe la paire ``chemin`` (``None`` : sélecteur annulé)."""
+        logger.debug("importer: entrée | {}", chemin is not None)
+        if chemin is not None:
+            source = Path(chemin)
+            self._si_absent(source, lambda: self._importer(source))
+        logger.debug("importer: sortie")
+
+    def _importer(self, source: Path) -> None:
+        """Copie la paire ``source`` dans ``~/.ssh/``."""
+        logger.debug("_importer: entrée")
+        try:
+            core.importer_paire(source, self.dossier)
+        except core.ErreurCle as exc:
+            logger.error("_importer: {}", exc)
+            self.notifier(_("Import failed: {err}").format(err=self.message_erreur(exc)))
+            logger.trace("_importer: sortie")
+            return
+        logger.info("SshKeyManager | clé importée {}", source.name)
+        self.notifier(_("Key imported: {name}").format(name=source.name))
+        self.charger_cles(notifier=False)
+        logger.debug("_importer: sortie")
+
+    def _lire_publique(self, ligne: LigneGestionCle | None, absente: str) -> str | None:
+        """Contenu de la clé publique de ``ligne`` ; ``None`` (et message) sinon."""
+        logger.debug("_lire_publique: entrée")
+        if ligne is None or ligne.publique is None:
+            self.notifier(absente)
+            logger.debug("_lire_publique: sortie | aucune")
+            return None
+        try:
+            texte = ligne.publique.read_text(encoding="utf-8").strip()
+        except OSError as exc:
+            logger.error("_lire_publique: {}", exc)
+            self.notifier(_("Cannot read public key: {err}").format(err=exc))
+            logger.trace("_lire_publique: sortie")
+            return None
+        logger.debug("_lire_publique: sortie | {} caractère(s)", len(texte))
+        return texte
+
+    def _on_copier_publique(self, _bouton: Gtk.Button) -> None:
+        """« ⎘ Copy public key »."""
+        logger.debug("_on_copier_publique: entrée")
+        texte = self._lire_publique(
+            self.cle_choisie(), _("No Public key available for selected entry")
+        )
+        if texte is not None:
+            self._copier(texte)
+            self.notifier(_("Public key copied to clipboard"))
+        logger.debug("_on_copier_publique: sortie")
+
+    def _on_voir_publique(self, _bouton: Gtk.Button) -> None:
+        """« 👁 View public key »."""
+        logger.debug("_on_voir_publique: entrée")
+        ligne = self.cle_choisie()
+        texte = self._lire_publique(ligne, _("No public key available for selected entry"))
+        if texte is not None:
+            self.dialogue = VuePubliqueDialog(self, ligne.cle.nom, texte)
+            self.dialogue.present()
+        logger.debug("_on_voir_publique: sortie")
+
+    def _on_renommer(self, _bouton: Gtk.Button) -> None:
+        """« ✎ Rename » : nouveau nom de la clé (et de sa .pub / son certificat)."""
+        logger.debug("_on_renommer: entrée")
+        ligne = self.cle_choisie()
+        if ligne is None:
+            self.notifier(_("No key selected"))
+            logger.debug("_on_renommer: sortie | aucune clé")
+            return
+        self.saisie_nom = Gtk.Entry(text=ligne.cle.nom)
+        self.demander(
+            _("Rename Key"),
+            _("New name for {name}:").format(name=ligne.cle.nom),
+            _("_Rename"),
+            self.saisie_nom,
+            lambda: self.renommer(ligne, self.saisie_nom.get_text().strip()),
+        )
+        logger.debug("_on_renommer: sortie")
+
+    def renommer(self, ligne: LigneGestionCle, nouveau: str) -> None:
+        """Renomme ``ligne`` en ``nouveau`` (rien si le nom ne change pas)."""
+        logger.debug("renommer: entrée")
+        ancien = ligne.cle.nom
+        if not nouveau or nouveau == ancien:
+            logger.debug("renommer: sortie | inchangé")
+            return
+        try:
+            core.renommer_cle(ligne.cle, nouveau)
+        except core.ErreurCle as exc:
+            logger.error("renommer: {}", exc)
+            if exc.code == "nom":
+                self.notifier(_("Invalid name — must not contain a path separator"))
+            elif exc.code == "existe":
+                self.notifier(_("A file named {name} already exists").format(name=exc.detail))
+            else:
+                self.notifier(_("Rename failed: {err}").format(err=self.message_erreur(exc)))
+            logger.trace("renommer: sortie")
+            return
+        logger.info("SshKeyManager | {} renommée {}", ancien, nouveau)
+        self.notifier(_("Renamed {old} to {new}").format(old=ancien, new=nouveau))
+        self.charger_cles(notifier=False)
+        logger.debug("renommer: sortie")
+
+    def _cle_privee(self) -> LigneGestionCle | None:
+        """Clé privée sélectionnée ; ``None`` (et message) sinon."""
+        logger.debug("_cle_privee: entrée")
+        ligne = self.cle_choisie()
+        if ligne is None or ligne.cle.est_publique:
+            self.notifier(_("No private key selected"))
+            ligne = None
+        logger.debug("_cle_privee: sortie | {}", ligne is not None)
+        return ligne
+
+    def _on_phrase(self, _bouton: Gtk.Button) -> None:
+        """« 🔒 Passphrase » : ancienne, nouvelle et confirmation."""
+        logger.debug("_on_phrase: entrée")
+        ligne = self._cle_privee()
+        if ligne is None:
+            logger.debug("_on_phrase: sortie | aucune clé privée")
+            return
+        grille = Gtk.Grid(column_spacing=10, row_spacing=8)
+        self.phrases: list[Gtk.PasswordEntry] = []
+        for rang, (libelle, indication) in enumerate(
+            (
+                (_("Current passphrase:"), _("(empty if none)")),
+                (_("New passphrase:"), _("(empty = remove passphrase)")),
+                (_("Confirm new passphrase:"), ""),
+            )
+        ):
+            champ = Gtk.PasswordEntry(
+                show_peek_icon=True, hexpand=True, placeholder_text=indication
+            )
+            grille.attach(Gtk.Label(label=libelle, xalign=1), 0, rang, 1, 1)
+            grille.attach(champ, 1, rang, 1, 1)
+            self.phrases.append(champ)
+        self.demander(
+            _("Change Passphrase — {name}").format(name=ligne.cle.nom),
+            "",
+            _("_Change"),
+            grille,
+            lambda: self.changer_phrase(ligne, *(c.get_text() for c in self.phrases)),
+        )
+        logger.debug("_on_phrase: sortie")
+
+    def changer_phrase(
+        self, ligne: LigneGestionCle, ancienne: str, nouvelle: str, confirmation: str
+    ) -> None:
+        """``ssh-keygen -p`` si la confirmation correspond (phrases jamais journalisées)."""
+        logger.debug("changer_phrase: entrée")
+        if nouvelle != confirmation:
+            self.notifier(_("New passphrase and confirmation do not match"))
+            logger.debug("changer_phrase: sortie | confirmation différente")
+            return
+        try:
+            core.changer_phrase(ligne.cle.chemin, ancienne, nouvelle)
+        except core.ErreurCle as exc:
+            logger.warning("changer_phrase: {}", exc.code)
+            self.notifier(
+                _("Passphrase change failed: {err}").format(err=self.message_erreur(exc))
+            )
+            logger.trace("changer_phrase: sortie")
+            return
+        logger.info("SshKeyManager | phrase de passe changée pour {}", ligne.cle.nom)
+        self.notifier(_("Passphrase changed for {name}").format(name=ligne.cle.nom))
+        logger.debug("changer_phrase: sortie")
+
+    def _on_agent(self, _bouton: Gtk.Button) -> None:
+        """« 🔑 Agent » : ajoute ou retire la clé de ssh-agent, après confirmation."""
+        logger.debug("_on_agent: entrée")
+        ligne = self._cle_privee()
+        if ligne is None:
+            logger.debug("_on_agent: sortie | aucune clé privée")
+            return
+        if ligne.cle.publique is None:
+            self.notifier(_("No public key available to identify this key in the agent"))
+            logger.debug("_on_agent: sortie | pas de .pub")
+            return
+        nom = GLib.markup_escape_text(ligne.cle.nom)
+        if core.cle_dans_agent(ligne.cle.publique):
+            self.confirmer(
+                _("Remove {name} from ssh-agent?").format(name=nom),
+                lambda: self.retirer_agent(ligne),
+            )
+        else:
+            self.confirmer(
+                _("Add {name} to ssh-agent?").format(name=nom), lambda: self.ajouter_agent(ligne)
+            )
+        logger.debug("_on_agent: sortie")
+
+    def ajouter_agent(self, ligne: LigneGestionCle) -> None:
+        """``ssh-add`` de la clé."""
+        logger.debug("ajouter_agent: entrée")
+        try:
+            core.ajouter_agent(ligne.cle.chemin)
+        except core.ErreurCle as exc:
+            logger.warning("ajouter_agent: {}", exc)
+            if exc.code == "delai":
+                self.notifier(
+                    _(
+                        "ssh-add timed out — the key may require a passphrase "
+                        "(no terminal available here)"
+                    )
+                )
+            elif exc.code == "echec":
+                self.notifier(
+                    _("Failed to add to agent (passphrase required?): {err}").format(
+                        err=exc.detail[:100]
+                    )
+                )
+            else:
+                self.notifier(_("ssh-add failed: {err}").format(err=exc.code))
+            logger.trace("ajouter_agent: sortie")
+            return
+        self.notifier(_("Added to ssh-agent"))
+        logger.debug("ajouter_agent: sortie")
+
+    def retirer_agent(self, ligne: LigneGestionCle) -> None:
+        """``ssh-add -d`` de la clé."""
+        logger.debug("retirer_agent: entrée")
+        try:
+            core.retirer_agent(ligne.cle.publique)
+        except core.ErreurCle as exc:
+            logger.warning("retirer_agent: {}", exc)
+            if exc.code == "echec":
+                self.notifier(_("Failed to remove from agent: {err}").format(err=exc.detail[:100]))
+            else:
+                self.notifier(_("ssh-add failed: {err}").format(err=exc.code))
+            logger.trace("retirer_agent: sortie")
+            return
+        self.notifier(_("Removed from ssh-agent"))
+        logger.debug("retirer_agent: sortie")
+
+    def _on_reveler(self, _bouton: Gtk.Button) -> None:
+        """« 📂 Reveal » : ``~/.ssh/`` dans le gestionnaire de fichiers."""
+        logger.debug("_on_reveler: entrée")
+        try:
+            Gio.AppInfo.launch_default_for_uri(
+                Gio.File.new_for_path(str(self.dossier)).get_uri(), None
+            )
+        except GLib.Error as exc:
+            logger.error("_on_reveler: {}", exc.message)
+            self.notifier(_("Cannot open file manager: {err}").format(err=exc.message))
+        logger.debug("_on_reveler: sortie")
+
+    def _on_supprimer(self, _bouton: Gtk.Button | None) -> None:
+        """« 🗑 Delete » : supprime la clé (et sa .pub, son certificat) après confirmation."""
+        logger.debug("_on_supprimer: entrée")
+        ligne = self.cle_choisie()
+        if ligne is None:
+            logger.debug("_on_supprimer: sortie | aucune clé")
+            return
+        self.confirmer(
+            _(
+                "Permanently delete <b>{name}</b> (and its Orphan Public key if present)?\n"
+                "<b>This cannot be undone.</b>"
+            ).format(name=GLib.markup_escape_text(ligne.cle.nom)),
+            lambda: self.supprimer(ligne),
+        )
+        logger.debug("_on_supprimer: sortie")
+
+    def supprimer(self, ligne: LigneGestionCle) -> None:
+        """Supprime ``ligne``."""
+        logger.debug("supprimer: entrée")
+        try:
+            core.supprimer_cle(ligne.cle)
+        except core.ErreurCle as exc:
+            logger.error("supprimer: {}", exc)
+            self.notifier(_("Delete failed: {err}").format(err=self.message_erreur(exc)))
+            logger.trace("supprimer: sortie")
+            return
+        logger.info("SshKeyManager | clé supprimée {}", ligne.cle.nom)
+        self.notifier(_("Key deleted: {name}").format(name=ligne.cle.nom))
+        self.charger_cles(notifier=False)
+        logger.debug("supprimer: sortie")
+
+    def _on_supprimer_page(self) -> None:
+        """Touche Suppr : suppression propre à l'onglet affiché."""
+        logger.debug("_on_supprimer_page: entrée")
+        page = self.onglets.get_current_page()
+        if page == PAGE_KNOWN_HOSTS:
+            self._on_supprimer_known_host(None)
+        elif page == PAGE_AUTHORIZED_KEYS:
+            self._on_supprimer_authorized_key(None)
+        else:
+            self._on_supprimer(None)
+        logger.debug("_on_supprimer_page: sortie")
+
+    # -- CA de signature ----------------------------------------------------
+
+    def afficher_ca(self) -> None:
+        """Libellé de la CA désignée (nom, type, empreinte)."""
+        logger.debug("afficher_ca: entrée")
+        if self.ca is None:
+            self.etat_ca.set_markup(
+                "<i>{}</i>".format(
+                    GLib.markup_escape_text(_("(none — keys are generated unsigned)"))
+                )
+            )
+            logger.debug("afficher_ca: sortie | aucune")
+            return
+        publique = self.ca.with_name(self.ca.name + ".pub")
+        empreinte, type_ = core.empreinte_et_type(publique if publique.exists() else self.ca)
+        detail = f" — {type_} {empreinte}" if empreinte else ""
+        self.etat_ca.set_markup(
+            f"<b>{GLib.markup_escape_text(self.ca.name)}</b>{GLib.markup_escape_text(detail)}"
+        )
+        logger.debug("afficher_ca: sortie | {}", self.ca.name)
+
+    def _designer(self, ca: Path | None) -> None:
+        """Enregistre ``ca`` comme CA désignée (``None`` : aucune)."""
+        logger.debug("_designer: entrée | {}", ca is not None)
+        self.ca = ca
+        core.ecrire_config_ca(self.config_ca, ca)
+        self.afficher_ca()
+        logger.debug("_designer: sortie")
+
+    def _on_designer_ca(self, _bouton: Gtk.Button) -> None:
+        """« 🔏 Designate » : choix d'une paire locale existante."""
+        logger.debug("_on_designer_ca: entrée")
+        self.dialogue = fichiers.choisir(
+            self, fichiers.OUVRIR, _("Designate Signing CA"), self.designer_ca, filtrer=False
+        )
+        logger.debug("_on_designer_ca: sortie")
+
+    def designer_ca(self, chemin: str | None) -> None:
+        """Désigne la clé privée ``chemin``, qui doit avoir sa ``.pub``."""
+        logger.debug("designer_ca: entrée | {}", chemin is not None)
+        if chemin is None:
+            logger.debug("designer_ca: sortie | annulé")
+            return
+        prive = Path(chemin)
+        if prive.name.endswith(".pub"):
+            self.notifier(_("Select the private key file, not the .pub file"))
+            logger.debug("designer_ca: sortie | .pub choisie")
+            return
+        if not prive.with_name(prive.name + ".pub").exists():
+            self.notifier(
+                _("No matching .pub file found next to {name} — cannot use as CA").format(
+                    name=prive.name
+                )
+            )
+            logger.debug("designer_ca: sortie | pas de .pub")
+            return
+        self._designer(prive)
+        logger.info("SshKeyManager | CA désignée {}", prive)
+        self.notifier(_("Designated CA: {name}").format(name=prive.name))
+        logger.debug("designer_ca: sortie")
+
+    def _on_importer_ca(self, _bouton: Gtk.Button) -> None:
+        """« ⬆ Import CA » : copie une paire externe dans ``~/.ssh/`` et la désigne."""
+        logger.debug("_on_importer_ca: entrée")
+        self.dialogue = fichiers.choisir(
+            self, fichiers.OUVRIR, _("Import CA Private Key"), self.importer_ca, filtrer=False
+        )
+        logger.debug("_on_importer_ca: sortie")
+
+    def importer_ca(self, chemin: str | None) -> None:
+        """Importe la CA ``chemin`` (confirmation si le nom existe déjà)."""
+        logger.debug("importer_ca: entrée | {}", chemin is not None)
+        if chemin is None:
+            logger.debug("importer_ca: sortie | annulé")
+            return
+        source = Path(chemin)
+        if not source.with_name(source.name + ".pub").exists():
+            self.notifier(
+                _("No matching .pub file found next to {name} — cannot import as CA").format(
+                    name=source.name
+                )
+            )
+            logger.debug("importer_ca: sortie | pas de .pub")
+            return
+        self._si_absent(source, lambda: self._importer_ca(source))
+        logger.debug("importer_ca: sortie")
+
+    def _importer_ca(self, source: Path) -> None:
+        """Copie la paire ``source`` et la désigne."""
+        logger.debug("_importer_ca: entrée")
+        try:
+            ca = core.importer_paire(source, self.dossier, exiger_publique=True)
+        except core.ErreurCle as exc:
+            logger.error("_importer_ca: {}", exc)
+            self.notifier(_("CA import failed: {err}").format(err=self.message_erreur(exc)))
+            logger.trace("_importer_ca: sortie")
+            return
+        self._designer(ca)
+        logger.info("SshKeyManager | CA importée et désignée {}", ca)
+        self.notifier(_("CA imported and designated: {name}").format(name=ca.name))
+        self.charger_cles(notifier=False)
+        logger.debug("_importer_ca: sortie")
+
+    def _on_supprimer_ca(self, _bouton: Gtk.Button) -> None:
+        """« 🗑 Delete CA » : supprime la paire de la CA, après confirmation."""
+        logger.debug("_on_supprimer_ca: entrée")
+        if self.ca is None:
+            self.notifier(_("No CA currently designated"))
+            logger.debug("_on_supprimer_ca: sortie | aucune")
+            return
+        self.confirmer(
+            _(
+                "Permanently delete the CA key pair <b>{name}</b>?\n"
+                "Certificates already signed by this CA will no longer be trustable to verify.\n"
+                "<b>This cannot be undone.</b>"
+            ).format(name=GLib.markup_escape_text(self.ca.name)),
+            self.supprimer_ca,
+        )
+        logger.debug("_on_supprimer_ca: sortie")
+
+    def supprimer_ca(self) -> None:
+        """Supprime la clé privée et publique de la CA désignée."""
+        logger.debug("supprimer_ca: entrée")
+        nom = self.ca.name
+        try:
+            self.ca.unlink(missing_ok=True)
+            self.ca.with_name(nom + ".pub").unlink(missing_ok=True)
+        except OSError as exc:
+            logger.error("supprimer_ca: {}", exc)
+            self.notifier(_("CA deletion failed: {err}").format(err=exc))
+            logger.trace("supprimer_ca: sortie")
+            return
+        self._designer(None)
+        logger.info("SshKeyManager | CA supprimée {}", nom)
+        self.notifier(_("CA deleted: {name}").format(name=nom))
+        self.charger_cles(notifier=False)
+        logger.debug("supprimer_ca: sortie")
+
+    # -- cible : known_hosts / authorized_keys -------------------------------
+
+    def _on_connecter(self, _widget: Gtk.Widget) -> None:
+        """« 🔌 Connect » (ou Entrée) : teste la cible saisie avant de l'utiliser."""
+        logger.debug("_on_connecter: entrée")
+        texte = self.saisie_cible.get_text().strip()
+        if not texte:
+            self._on_local(None)
+            logger.debug("_on_connecter: sortie | vide, retour en local")
+            return
+        cible = core.analyser_cible(texte)
+        if cible is None:
+            self.notifier(_("Invalid target — expected user@host or user@host:port"))
+            logger.debug("_on_connecter: sortie | invalide")
+            return
+        distant = core.FichiersDistants(cible)
+        self.notifier(_("Testing connection to {t}…").format(t=cible.affichage))
+        self.bouton_connecter.set_sensitive(False)
+        self.en_fond(distant.tester, lambda erreur, _e: self._connexion_testee(distant, erreur))
+        logger.debug("_on_connecter: sortie")
+
+    def _connexion_testee(self, distant: core.FichiersDistants, erreur: str | None) -> None:
+        """Résultat du test : la cible devient active, ou message d'échec."""
+        logger.debug("_connexion_testee: entrée | erreur={}", erreur is not None)
+        self.bouton_connecter.set_sensitive(True)
+        if erreur is not None:
+            logger.warning("SshKeyManager | {} injoignable : {}", distant.cible.affichage, erreur)
+            self.notifier(_("Connection failed: {err}").format(err=erreur[:120]))
+            logger.trace("_connexion_testee: sortie")
+            return
+        self.distant = distant
+        self._afficher_cible()
+        logger.info("SshKeyManager | connecté à {}", distant.cible.affichage)
+        self.notifier(
+            _("Connected to {t} — Known Hosts / Authorized Keys now read from there").format(
+                t=distant.cible.affichage
+            )
+        )
+        self.charger_cible(notifier=False)
+        logger.debug("_connexion_testee: sortie")
+
+    def _on_local(self, _widget: Gtk.Widget | None) -> None:
+        """« 🏠 Local » : retour à la machine locale."""
+        logger.debug("_on_local: entrée")
+        self.distant = None
+        self.saisie_cible.set_text("")
+        self._afficher_cible()
+        self.notifier(_("Switched back to local machine"))
+        self.charger_cible(notifier=False)
+        logger.debug("_on_local: sortie")
+
+    def charger_cible(self, notifier: bool = True) -> None:
+        """Relit ``known_hosts`` et ``authorized_keys`` de la cible, en arrière-plan."""
+        logger.debug("charger_cible: entrée")
+        cible = self.fichiers()
+        self.en_fond(
+            lambda: (cible.lire("known_hosts"), cible.lire("authorized_keys")),
+            lambda contenus, _e: self._cible_lue(cible, contenus, notifier),
+        )
+        logger.debug("charger_cible: sortie")
+
+    def _cible_lue(
+        self,
+        cible: core.FichiersLocaux | core.FichiersDistants,
+        contenus: tuple[str | None, str | None],
+        notifier: bool,
+    ) -> None:
+        """Remplit les onglets Known Hosts et Authorized Keys (si la cible n'a pas changé)."""
+        logger.debug("_cible_lue: entrée")
+        if cible is not self.fichiers():
+            logger.debug("_cible_lue: sortie | cible changée entre-temps")
+            return
+        libelle = self.libelle(cible)
+        known_hosts, authorized_keys = contenus
+        entrees_kh = core.lire_known_hosts(known_hosts) if known_hosts is not None else []
+        entrees_ak = (
+            core.lire_authorized_keys(authorized_keys) if authorized_keys is not None else []
+        )
+        self.known_hosts.remplir(entrees_kh)
+        self.authorized_keys.remplir(entrees_ak)
+        if known_hosts is None:
+            message_kh = _("known_hosts not found on {t}").format(t=libelle)
+        else:
+            message_kh = _("{n} known_hosts entries loaded from {t}").format(
+                n=len(entrees_kh), t=libelle
+            )
+        if authorized_keys is None:
+            message_ak = _("authorized_keys not found on {t}").format(t=libelle)
+        else:
+            message_ak = _("{n} authorized_keys entries loaded from {t}").format(
+                n=len(entrees_ak), t=libelle
+            )
+        self.messages_cible = {PAGE_KNOWN_HOSTS: message_kh, PAGE_AUTHORIZED_KEYS: message_ak}
+        page = self.onglets.get_current_page()
+        if notifier and page in self.messages_cible:
+            self.notifier(self.messages_cible[page])
+        logger.debug("_cible_lue: sortie | {} + {}", len(entrees_kh), len(entrees_ak))
+
+    def confirmer_root(
+        self,
+        cible: core.FichiersLocaux | core.FichiersDistants,
+        action: str,
+        suite: Callable[[], None],
+    ) -> None:
+        """Confirmation de plus avant d'écrire sur le compte root (local ou distant)."""
+        logger.debug("confirmer_root: entrée")
+        if cible.utilisateur() != "root":
+            suite()
+            logger.debug("confirmer_root: sortie | pas root")
+            return
+        self.confirmer(
+            _(
+                "⚠ You are about to {action} on the <b>root</b> account of {target}.\n"
+                "This can affect SSH access to the whole system.\n<b>Are you sure?</b>"
+            ).format(
+                action=GLib.markup_escape_text(action),
+                target=GLib.markup_escape_text(self.libelle(cible)),
+            ),
+            suite,
+        )
+        logger.debug("confirmer_root: sortie | confirmation demandée")
+
+    def modifier(
+        self,
+        cible: core.FichiersLocaux | core.FichiersDistants,
+        nom: str,
+        mode: int,
+        transformation: Callable[[str], str | None],
+        messages: tuple[str, str, str],
+    ) -> None:
+        """Relit ``nom``, applique ``transformation`` et réécrit, en arrière-plan.
+
+        Args:
+            cible: Fichiers de la cible au moment de l'action.
+            nom: ``known_hosts`` ou ``authorized_keys``.
+            mode: Permissions du fichier réécrit.
+            transformation: Nouveau texte, ou ``None`` si la ligne visée a changé.
+            messages: ``(succès, échec d'écriture, fichier modifié entre-temps)``.
+        """
+        logger.debug("modifier: entrée | {}", nom)
+
+        def travail() -> bool | None:
+            logger.trace("travail: entrée")
+            nouveau = transformation(cible.lire(nom) or "")
+            logger.trace("travail: sortie")
+            return None if nouveau is None else cible.ecrire(nom, nouveau, mode)
+
+        def fin(ecrit: bool | None, _erreur: core.ErreurCle | None) -> None:
+            logger.debug("modifier.fin: {}", ecrit)
+            succes, echec, change = messages
+            if ecrit is None:
+                self.notifier(change)
+            else:
+                self.notifier(succes if ecrit else echec)
+            self.charger_cible(notifier=False)
+            logger.trace("fin: sortie")
+
+        self.en_fond(travail, fin)
+        logger.debug("modifier: sortie")
+
+    def _on_copier_empreinte(self, _bouton: Gtk.Button) -> None:
+        """« ⎘ Copy fingerprint » de l'entrée known_hosts sélectionnée."""
+        logger.debug("_on_copier_empreinte: entrée")
+        entree = self.known_hosts.choisie()
+        if entree is None:
+            self.notifier(_("No known_hosts entry selected"))
+        elif not entree.empreinte:
+            self.notifier(_("No fingerprint available for this entry"))
+        else:
+            self._copier(entree.empreinte)
+            self.notifier(_("Fingerprint copied to clipboard"))
+        logger.debug("_on_copier_empreinte: sortie")
+
+    def hotes_candidats(self) -> list[str]:
+        """Alias de ``~/.ssh/config`` puis hôtes de gcm4, sans doublon."""
+        logger.debug("hotes_candidats: entrée")
+        hotes = core.hotes_ssh_config(self.dossier / "config")
+        if self._hotes_gcm is not None:
+            try:
+                supplementaires = self._hotes_gcm() or []
+            except Exception as exc:  # rappel fourni par l'appelant
+                logger.warning("hotes_candidats: hôtes de gcm4 indisponibles : {}", exc)
+                supplementaires = []
+            for hote in supplementaires:
+                if hote and hote not in hotes:
+                    hotes.append(hote)
+        logger.debug("hotes_candidats: sortie | {}", len(hotes))
+        return hotes
+
+    def _on_tester_known_hosts(self, _bouton: Gtk.Button) -> None:
+        """« 🧪 Test known hosts » : chaque hôte candidat est-il dans known_hosts ?"""
+        logger.debug("_on_tester_known_hosts: entrée")
+        hotes = self.hotes_candidats()
+        if not hotes:
+            self.notifier(
+                _("No candidate hosts found in ~/.ssh/config (and no GCM host list wired in)")
+            )
+            logger.debug("_on_tester_known_hosts: sortie | aucun hôte")
+            return
+        cible = self.fichiers()
+
+        def travail() -> list[tuple[str, bool, str]] | None:
+            logger.trace("travail: entrée")
+            texte = cible.lire("known_hosts")
+            logger.trace("travail: sortie")
+            return None if texte is None else core.tester_known_hosts(texte, hotes)
+
+        self.en_fond(travail, lambda resultats, _e: self._known_hosts_testes(cible, resultats))
+        logger.debug("_on_tester_known_hosts: sortie")
+
+    def _known_hosts_testes(
+        self,
+        cible: core.FichiersLocaux | core.FichiersDistants,
+        resultats: list[tuple[str, bool, str]] | None,
+    ) -> None:
+        """Fenêtre des résultats, ou message si la cible n'a pas de known_hosts."""
+        logger.debug("_known_hosts_testes: entrée")
+        if resultats is None:
+            self.notifier(_("known_hosts not found on {t}").format(t=self.libelle(cible)))
+            logger.debug("_known_hosts_testes: sortie | pas de known_hosts")
+            return
+        logger.info(
+            "SshKeyManager | test known_hosts {} : {}/{}",
+            self.libelle(cible),
+            sum(1 for _h, trouve, _i in resultats if trouve),
+            len(resultats),
+        )
+        self.dialogue = ResultatsKnownHostsDialog(self, self.libelle(cible), resultats)
+        self.dialogue.present()
+        logger.debug("_known_hosts_testes: sortie")
+
+    def _retrait(
+        self,
+        entree: core.EntreeKnownHosts | core.EntreeAuthorizedKeys | None,
+        nom: str,
+        mode: int,
+        textes: tuple[str, str, str, str, str],
+    ) -> None:
+        """Retire ``entree`` de ``nom`` après confirmation (et confirmation root).
+
+        Args:
+            entree: Entrée sélectionnée, ou ``None``.
+            nom: ``known_hosts`` ou ``authorized_keys``.
+            mode: Permissions du fichier réécrit.
+            textes: ``(aucune sélection, question, action root, succès, échec)``.
+        """
+        logger.debug("_retrait: entrée | {}", nom)
+        aucune, question, action, succes, echec = textes
+        if entree is None:
+            self.notifier(aucune)
+            logger.debug("_retrait: sortie | aucune entrée")
+            return
+        cible = self.fichiers()
+        messages = (succes, echec, _("Entry not found (file may have changed) — refreshing"))
+        self.confirmer(
+            question,
+            lambda: self.confirmer_root(
+                cible,
+                action,
+                lambda: self.modifier(
+                    cible, nom, mode, lambda t: core.retirer_ligne(t, entree.brut), messages
+                ),
+            ),
+        )
+        logger.debug("_retrait: sortie")
+
+    def _on_supprimer_known_host(self, _bouton: Gtk.Button | None) -> None:
+        """« 🗑 Delete » (Known Hosts) : retire l'entrée sélectionnée."""
+        logger.debug("_on_supprimer_known_host: entrée")
+        self._retrait(
+            self.known_hosts.choisie(),
+            "known_hosts",
+            0o644,
+            (
+                _("No known_hosts entry selected"),
+                _("Remove this known_hosts entry?\n<b>This cannot be undone.</b>"),
+                _("remove a known_hosts entry"),
+                _("known_hosts entry removed"),
+                _("Failed to update known_hosts"),
+            ),
+        )
+        logger.debug("_on_supprimer_known_host: sortie")
+
+    def _on_supprimer_authorized_key(self, _bouton: Gtk.Button | None) -> None:
+        """« 🗑 Delete » (Authorized Keys) : retire l'entrée sélectionnée."""
+        logger.debug("_on_supprimer_authorized_key: entrée")
+        self._retrait(
+            self.authorized_keys.choisie(),
+            "authorized_keys",
+            0o600,
+            (
+                _("No authorized_keys entry selected"),
+                _("Remove this authorized_keys entry?\n<b>This cannot be undone.</b>"),
+                _("remove an authorized_keys entry"),
+                _("authorized_keys entry removed"),
+                _("Failed to update authorized_keys"),
+            ),
+        )
+        logger.debug("_on_supprimer_authorized_key: sortie")
+
+    def _on_basculer_authorized_key(self, entree: core.EntreeAuthorizedKeys) -> None:
+        """Case « Enabled » : commente ou décommente l'entrée après confirmation(s)."""
+        logger.debug("_on_basculer_authorized_key: entrée | ligne {}", entree.ligne)
+        action = _("Disable") if entree.active else _("Re-enable")
+        cible = self.fichiers()
+        messages = (
+            _("authorized_keys entry updated"),
+            _("Failed to update authorized_keys"),
+            _("File changed on disk — refreshing"),
+        )
+        self.confirmer(
+            _("{action} this authorized_keys entry?").format(action=action),
+            lambda: self.confirmer_root(
+                cible,
+                _("enable/disable an authorized_keys entry"),
+                lambda: self.modifier(
+                    cible,
+                    "authorized_keys",
+                    0o600,
+                    lambda t: core.basculer_ligne(t, entree.ligne, entree.brut),
+                    messages,
+                ),
+            ),
+        )
+        logger.debug("_on_basculer_authorized_key: sortie")
+
+    def _on_ajouter_authorized_key(self, _bouton: Gtk.Button) -> None:
+        """« ＋ Add » : ligne de clé publique à ajouter à authorized_keys."""
+        logger.debug("_on_ajouter_authorized_key: entrée")
+        self.saisie_cle = Gtk.TextView(wrap_mode=Gtk.WrapMode.CHAR, monospace=True)
+        defilement = Gtk.ScrolledWindow(
+            child=self.saisie_cle, min_content_height=100, min_content_width=480, has_frame=True
+        )
+        self.demander(
+            _("Add Authorized Key"),
+            _("Paste the full public key line (options, type, base64 key, comment):"),
+            _("_Add"),
+            defilement,
+            lambda: self.ajouter_authorized_key(_texte_tampon(self.saisie_cle).strip()),
+        )
+        logger.debug("_on_ajouter_authorized_key: sortie")
+
+    def ajouter_authorized_key(self, ligne: str) -> None:
+        """Ajoute ``ligne`` à authorized_keys si c'est une clé publique."""
+        logger.debug("ajouter_authorized_key: entrée | {} caractère(s)", len(ligne))
+        if not ligne:
+            logger.debug("ajouter_authorized_key: sortie | vide")
+            return
+        if not core.est_ligne_cle_publique(ligne):
+            self.notifier(_("This does not look like a valid public key line"))
+            logger.debug("ajouter_authorized_key: sortie | invalide")
+            return
+        cible = self.fichiers()
+        messages = (_("Key added to authorized_keys"), _("Failed to add key"), "")
+        self.confirmer_root(
+            cible,
+            _("add a key to authorized_keys"),
+            lambda: self.modifier(
+                cible,
+                "authorized_keys",
+                0o600,
+                lambda t: core.ajouter_ligne(t, ligne),
+                messages,
+            ),
+        )
+        logger.debug("ajouter_authorized_key: sortie")

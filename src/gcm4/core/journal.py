@@ -61,11 +61,11 @@ CORE_MODULES = (
     "folder_context_menu_core",
     "gesture_trigger_core",
     "inline_editor_core",
-    "netmiko_bulk_core",
+    "plugins.netmiko_push.core",
     "popup_menu_core",
-    "putty_import_core",
+    "plugins.import_putty.core",
     "remote_desktop_menu_core",
-    "snmp_bulk_core",
+    "plugins.snmp_push.core",
     "tab_context_menu_core",
 )
 
