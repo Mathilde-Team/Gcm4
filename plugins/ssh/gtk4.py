@@ -1836,7 +1836,6 @@ class SshKeyManager(Gtk.Window):
         self.travaux = 0
         self.ferme = False
         self.dialogue: object | None = None
-        self._toast: Adw.Toast | None = None
         self.messages_cible: dict[int, str] = {}
 
         racine = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -2064,13 +2063,17 @@ class SshKeyManager(Gtk.Window):
     # -- outils -------------------------------------------------------------
 
     def notifier(self, message: str) -> None:
-        """Message éphémère ; remplace le précédent (comme la barre d'état GTK3)."""
+        """Message éphémère ; les messages se succèdent dans le ToastOverlay.
+
+        Le toast précédent n'est jamais écarté à la main : ``dismiss()`` sur un
+        toast en cours d'affichage fait planter libadwaita 1.2 à la fermeture de
+        la fenêtre (``adw_animation_skip`` sur un objet libéré, Debian 12) —
+        le ToastOverlay enchaîne lui-même les messages de sa file.
+        """
         logger.debug("notifier: entrée | {}", message)
-        if self._toast is not None:
-            self._toast.dismiss()
-        self._toast = Adw.Toast.new(message)
-        self._toast.set_timeout(4)
-        self.toasts.add_toast(self._toast)
+        toast = Adw.Toast.new(message)
+        toast.set_timeout(4)
+        self.toasts.add_toast(toast)
         self.dernier_message = message
         logger.debug("notifier: sortie")
 
