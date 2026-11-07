@@ -28,7 +28,7 @@ l'application (`APPLICATION_ID`, `io.github.MathildeDec.gcm4`) :
   (logithèques). La balise `<release>` suit la version de `pyproject.toml`.
 - `icons/hicolor/<taille>/apps/io.github.MathildeDec.gcm4.png` : 16 à 128
   pixels, produites par `make icons` (`scripts/generer-icones.sh`) depuis
-  `icon.png` (128×128, jamais agrandie) et versionnées.
+  `data/icon.png` (128×128, jamais agrandie) et versionnées.
 
 `GLib.set_prgname(APPLICATION_ID)` (`Gcm4Application.__init__`) donne à la
 fenêtre la classe `io.github.MathildeDec.gcm4` (`WM_CLASS` sous X11,

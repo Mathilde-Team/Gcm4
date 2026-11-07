@@ -18,7 +18,9 @@ TMPINSTALLDIR = /tmp/$(PKG_NAME)-fpm-install
 # gcm4_core, logging_config, models, utils, widgets... et n'avait aucun
 # plugin. tests/test_paquet_contenu.py vérifie que chaque module importé est
 # bien installé.
-RUNTIME_PY  = $(sort $(wildcard *.py))
+# Ancienne application GTK3 rangée dans GTK3.OLD/ (#427) : installée à plat,
+# comme avant, avec les cœurs d'import restés à la racine.
+RUNTIME_PY  = $(sort $(wildcard GTK3.OLD/*.py) $(wildcard *.py))
 GCM4_PY     = $(sort $(shell git ls-files 'src/gcm4/*.py' 'src/gcm4/*.css'))
 PLUGINS_PY  = $(sort $(shell find plugins -name '*.py' -not -path '*/tests/*' -not -name 'conftest.py' -not -path '*/__pycache__/*'))
 
@@ -50,7 +52,7 @@ help:
 	@echo "  make class-diagram → régénère docs/class-diagram.md"
 	@echo "  make ci       → rejoue les étapes des jobs Qualité, Types, i18n, bureau et documentation"
 	@echo "  make check-desktop → valide lanceur, AppStream et icônes (data/)"
-	@echo "  make icons   → régénère data/icons/hicolor/ depuis icon.png"
+	@echo "  make icons   → régénère data/icons/hicolor/ depuis data/icon.png"
 	@echo "  make docs     → construit la documentation MkDocs (site/, strict)"
 	@echo "  make test     → lance la suite pytest"
 	@echo "  make lint     → ruff + flake8"
@@ -96,9 +98,9 @@ install: translate
 	git log --no-merges --format="* %s" \
 		>> $(DESTDIR)/usr/share/doc/$(PKG_NAME)/changelog
 	gzip -9 $(DESTDIR)/usr/share/doc/$(PKG_NAME)/changelog
-	cp gnome-connection-manager.desktop $(DESTDIR)/usr/share/applications/
+	cp GTK3.OLD/gnome-connection-manager.desktop $(DESTDIR)/usr/share/applications/
 	cat NOTICE LICENSE > $(DESTDIR)/usr/share/doc/$(PKG_NAME)/copyright
-	cp -r lang icon.png ssh.expect style.css $(RUNTIME_PY) \
+	cp -r lang data/icon.png GTK3.OLD/ssh.expect GTK3.OLD/style.css $(RUNTIME_PY) \
 		$(DESTDIR)/usr/share/$(PKG_NAME)/
 	for f in $(PLUGINS_PY); do \
 		install -D -m 644 "$$f" "$(DESTDIR)/usr/share/$(PKG_NAME)/$$f"; \
@@ -150,7 +152,7 @@ rpm:
 		-d expect \
 		-d python3-paramiko \
 		-d python3-loguru \
-		--after-install postinst \
+		--after-install GTK3.OLD/postinst \
 		usr
 	@echo "\033[92mOK: $(PKG_RPM)\033[0m"
 
@@ -175,7 +177,7 @@ opensuse:
 		-d expect \
 		-d python3-paramiko \
 		-d python3-loguru \
-		--after-install postinst \
+		--after-install GTK3.OLD/postinst \
 		usr
 	@echo "\033[92mOK: $(PKG_OPENSUSE) (openSUSE)\033[0m"
 
@@ -185,7 +187,7 @@ opensuse:
 # de ces jobs figure ici.
 ci:
 	uv run ruff check .
-	uv run --with flake8 flake8 gnome_connection_manager.py
+	uv run --with flake8 flake8 GTK3.OLD/gnome_connection_manager.py
 	uv run python scripts/generate_class_diagram.py --check
 	uv run ruff format --check .
 	uvx pre-commit run --all-files --show-diff-on-failure
@@ -200,7 +202,7 @@ ci:
 
 # ── Intégration au bureau (issue #155) ──
 # check-desktop : lanceur, AppStream et icônes (desktop-file-utils, appstream).
-# icons : régénère data/icons/hicolor/ depuis icon.png (ImageMagick).
+# icons : régénère data/icons/hicolor/ depuis data/icon.png (ImageMagick).
 check-desktop:
 	scripts/check-desktop.sh
 
@@ -234,7 +236,7 @@ test:
 # « erreurs ruff », voir docs/sessions/session-36.md).
 lint:
 	ruff check .
-	flake8 gnome_connection_manager.py
+	flake8 GTK3.OLD/gnome_connection_manager.py
 
 # ── Validation .po (+ .xml/.glade/.json si le dépôt en contient un jour) ─────
 # session-30 (2026-09-10) : cette cible appelait tools/validate_xml_json.py

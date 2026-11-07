@@ -38,7 +38,9 @@ RACINE = Path(__file__).resolve().parents[1]
 
 def _colonnes_gtk3() -> list[str]:
     """``Wmain._CSV_CORE_FIELDS`` lu dans le code GTK3 (sans l'importer : il charge GTK)."""
-    arbre = ast.parse((RACINE / "gnome_connection_manager.py").read_text(encoding="utf-8"))
+    arbre = ast.parse(
+        (RACINE / "GTK3.OLD" / "gnome_connection_manager.py").read_text(encoding="utf-8")
+    )
     for noeud in ast.walk(arbre):
         if isinstance(noeud, (ast.AnnAssign, ast.Assign)):  # noqa: UP038 (Python 3.9, #223)
             cibles = [noeud.target] if isinstance(noeud, ast.AnnAssign) else noeud.targets

@@ -39,8 +39,10 @@ ultérieure ». Trois régimes coexistent donc dans ce dépôt :
 - GPL-3.0-only : fichiers repris ou dérivés du code amont. Ils gardent
   la licence d'origine tant que l'auteur amont n'a pas donné son accord
   pour « ou toute version ultérieure » :
-    gnome_connection_manager.py, widgets.py, src/gcm4/core/metier.py,
-    models.py, utils.py, urlregex.py, ssh.expect, style.css, postinst
+    src/gcm4/core/metier.py et, dans GTK3.OLD/ (ancienne application
+    GTK3, #427) : GTK3.OLD/gnome_connection_manager.py, GTK3.OLD/widgets.py,
+    GTK3.OLD/models.py, GTK3.OLD/utils.py, GTK3.OLD/urlregex.py,
+    GTK3.OLD/ssh.expect, GTK3.OLD/style.css, GTK3.OLD/postinst
 - GPL-3.0-or-later : code écrit par l'équipe Mathilde-Team (src/gcm4/,
   plugins/, scripts/, tools/, tests/ et les autres modules, sauf
   src/gcm4/core/metier.py et src/gcm4/core/pyaes.py).
@@ -56,7 +58,7 @@ l'équipe reste réutilisable séparément sous GPL-3.0-or-later.
 Code vendorisé (non distribué dans les paquets gcm4)
 ----------------------------------------------------
 
-- gtk-frdp/ (Marek Kasik, GNOME) : COPYING contient la LGPL-3.0 ;
+- GTK3.OLD/gtk-frdp/ (Marek Kasik, GNOME) : COPYING contient la LGPL-3.0 ;
   gtk-frdp.h et gtk-frdp-version.h.in sont en LGPL-3.0-or-later, les
   13 autres sources de src/ en GPL-3.0-or-later. L'ensemble de la
   bibliothèque compilée est donc à traiter comme GPL-3.0-or-later.

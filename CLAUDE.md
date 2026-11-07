@@ -512,7 +512,7 @@ recherche sur l'écosystème GTK4 : tout est dans `docs/gtk4-migration.md`.
 ```bash
 ruff check <fichier> && ruff format <fichier>   # sur tout fichier neuf ou touché
 make test      # python3 -m pytest tests/ -v
-make lint      # ruff check . + flake8 gnome_connection_manager.py
+make lint      # ruff check . + flake8 GTK3.OLD/gnome_connection_manager.py
 make validate  # .po (+ .xml/.glade/.json si le dépôt en contient un jour)
 make check     # validate + lint + test + check-gitignore
 ```

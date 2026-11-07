@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FILES = [
     ROOT / "plugins" / "plugin_vnc.py",
     ROOT / "plugins" / "plugin_spice.py",
-    ROOT / "gnome_connection_manager.py",
+    ROOT / "GTK3.OLD" / "gnome_connection_manager.py",
 ]
 # Variables qui portent un secret en clair dans ces fichiers.
 SECRET_NAMES = {"pwd", "password", "vv_lines"}

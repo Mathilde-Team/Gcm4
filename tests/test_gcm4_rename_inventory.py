@@ -37,10 +37,10 @@ import re
 import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORE_FILE = os.path.join(REPO_ROOT, "gnome_connection_manager.py")
+CORE_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome_connection_manager.py")
 GCM4_CORE_FILE = os.path.join(REPO_ROOT, "src", "gcm4", "core", "metier.py")
 MAKEFILE = os.path.join(REPO_ROOT, "Makefile")
-DESKTOP_FILE = os.path.join(REPO_ROOT, "gnome-connection-manager.desktop")
+DESKTOP_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome-connection-manager.desktop")
 
 VENDORED_DIR_NAMES = {"SSH-Studio", "gtk-frdp", "__pycache__", ".git"}
 
@@ -50,12 +50,12 @@ VENDORED_DIR_NAMES = {"SSH-Studio", "gtk-frdp", "__pycache__", ".git"}
 # n'est pas un import et n'est pas comptée ici, mais devra être adaptée en
 # même temps que ces 12 sites lors du renommage réel.
 EXPECTED_REAL_IMPORT_SITES = {
-    os.path.join(REPO_ROOT, "widgets.py"),
-    os.path.join(REPO_ROOT, "models.py"),
-    os.path.join(REPO_ROOT, "ssh_config_editor.py"),
-    os.path.join(REPO_ROOT, "ssh_key_manager_dialog.py"),
-    os.path.join(REPO_ROOT, "key_picker_dialog.py"),
-    os.path.join(REPO_ROOT, "utils.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "widgets.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "models.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "ssh_config_editor.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "ssh_key_manager_dialog.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "key_picker_dialog.py"),
+    os.path.join(REPO_ROOT, "GTK3.OLD", "utils.py"),
     os.path.join(REPO_ROOT, "plugins", "plugin_import_proxmox.py"),
     os.path.join(REPO_ROOT, "plugins", "plugin_telnet.py"),
     os.path.join(REPO_ROOT, "plugins", "plugin_local.py"),

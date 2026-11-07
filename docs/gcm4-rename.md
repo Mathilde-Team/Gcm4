@@ -50,8 +50,9 @@ sans risque fonctionnel si oublié dans un premier temps.
 `Makefile` (qui omettaient d'ailleurs une langue sur les 29) ont été
 remplacées par `scripts/i18n-update.sh --compile lang`.
 
-`generate_pot.sh` (qui visait un dossier `po/` inexistant) délègue
-désormais à `scripts/i18n-update.sh`.
+`generate_pot.sh` (qui visait un dossier `po/` inexistant) déléguait
+à `scripts/i18n-update.sh` ; il a été supprimé (#427), appeler
+directement `scripts/i18n-update.sh` ou `make i18n-update`.
 
 ## 3. Inventaire — fichier `.desktop`
 
