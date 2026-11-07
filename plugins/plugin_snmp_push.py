@@ -21,7 +21,7 @@ strictement le même mécanisme que côté Netmiko.
 Intégration dans Wmain : AUCUNE (cf. ``get_batch_plugin()`` en bas de
 fichier, découvert automatiquement par ``BatchPluginRegistry.autoload()``).
 
-AVERTISSEMENT — cf. l'avertissement en tête de ``snmp_bulk_core.py`` : la
+AVERTISSEMENT — cf. l'avertissement en tête de ``plugins/snmp_push/core.py`` : la
 partie SNMP (ezsnmp) n'a pas pu être testée contre un équipement réel dans
 cet environnement de développement. Teste sur un équipement de labo avant
 tout usage en production.
@@ -41,7 +41,7 @@ from gi.repository import GLib, Gtk  # noqa: E402
 from loguru import logger
 from plugin_base import BatchPlugin  # noqa: E402
 
-from snmp_bulk_core import (  # noqa: E402
+from plugins.snmp_push.core import (  # noqa: E402
     SNMP_VENDORS,
     STATUS_FAILED,
     STATUS_OK,

@@ -15,7 +15,7 @@ retrouve l'IP de chaque VM par bail DHCP puis, à défaut, par corrélation
 MAC/nmap, sonde RDP/VNC, et présente le résultat dans un dialogue de
 sélection avant import. La logique bas niveau commune à l'import Proxmox
 (connexion SSH par clé, scan réseau, sonde de port) vit dans
-``hypervisor_import_common.py`` — voir ce module pour le pourquoi de son
+``plugins/import_hyperviseurs/core.py`` — voir ce module pour le pourquoi de son
 absence de préfixe ``plugin_``.
 """
 
@@ -32,7 +32,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import GLib, Gtk  # noqa: E402
 
 # isort: split
-import hypervisor_import_common as hv_common  # noqa: E402, I001
+from plugins.import_hyperviseurs import core as hv_common  # noqa: E402, I001
 from plugin_base import BatchPlugin  # noqa: E402, I001
 from utils import GCMBase, msgbox  # noqa: E402, I001
 

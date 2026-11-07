@@ -92,8 +92,8 @@ toutes les lignes suivantes.
 | import_ovirt | 1045 | idem | idem (API REST, JSON) | contrat « outil » |
 | import_proxmox | 1029 | idem | idem | contrat « outil » |
 | import_virtualbox | 1039 | idem, `VBoxManage` | idem | contrat « outil » |
-| netmiko_push | 932 | `BatchPlugin`, `Gtk.TreeView`, `netmiko_bulk_core.py` | type « outil » ; le cœur existe déjà sans GTK | contrat « outil » |
-| snmp_push | 1146 | idem, `snmp_bulk_core.py` | type « outil » ; le cœur existe sans GTK, dépôt SFTP/FTP/TFTP compris (#74) | contrat « outil » ; formulaire de dépôt (protocole, identifiants, dossier) à ajouter |
+| netmiko_push | 932 | `BatchPlugin`, `Gtk.TreeView`, `plugins/netmiko_push/core.py` | type « outil » ; le cœur existe déjà sans GTK | contrat « outil » |
+| snmp_push | 1146 | idem, `plugins/snmp_push/core.py` | type « outil » ; le cœur existe sans GTK, dépôt SFTP/FTP/TFTP compris (#74) | contrat « outil » ; formulaire de dépôt (protocole, identifiants, dossier) à ajouter |
 
 ## Ordre proposé
 

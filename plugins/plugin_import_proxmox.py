@@ -14,7 +14,7 @@ Scan natif `qm`/`pvesh` via SSH sur un ou plusieurs noeuds Proxmox,
 résolution d'IP (bail DHCP puis nmap/MAC en repli), sonde RDP/VNC, dialogue
 de sélection avant import — même déroulé que l'import libvirt. La logique
 bas niveau commune (connexion SSH par clé, scan réseau, sonde de port) vit
-dans ``hypervisor_import_common.py``, partagée avec ``plugin_import_libvirt.py``.
+dans ``plugins/import_hyperviseurs/core.py``, partagée avec ``plugin_import_libvirt.py``.
 """
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import GLib, Gtk  # noqa: E402
 
 # isort: split
-import hypervisor_import_common as hv_common  # noqa: E402, I001
+from plugins.import_hyperviseurs import core as hv_common  # noqa: E402, I001
 from plugin_base import BatchPlugin  # noqa: E402, I001
 from utils import GCMBase, msgbox  # noqa: E402, I001
 

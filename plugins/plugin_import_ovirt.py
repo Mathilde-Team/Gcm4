@@ -18,7 +18,7 @@ activement : direct → jump moteur → jump hyperviseur → question interactiv
 à l'utilisateur en dernier recours (cf. ``_ovirt_resolve_route``, qui
 utilise ``widgets.inputbox`` pour cette dernière étape). La logique SSH bas
 niveau (connexion par clé, sonde de port) reste celle de
-``hypervisor_import_common.py``, partagée avec les autres imports
+``plugins/import_hyperviseurs/core.py``, partagée avec les autres imports
 d'hyperviseur.
 """
 
@@ -41,7 +41,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import GLib, Gtk  # noqa: E402
 
 # isort: split
-import hypervisor_import_common as hv_common  # noqa: E402, I001
+from plugins.import_hyperviseurs import core as hv_common  # noqa: E402, I001
 from plugin_base import BatchPlugin  # noqa: E402, I001
 from utils import GCMBase, msgbox  # noqa: E402, I001
 from widgets import inputbox  # noqa: E402, I001

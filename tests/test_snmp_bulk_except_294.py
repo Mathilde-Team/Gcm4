@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""``except`` journalisés de ``snmp_bulk_core.py`` (issue #294, lot 2).
+"""``except`` journalisés de ``plugins/snmp_push/core.py`` (issue #294, lot 2).
 
 Mêmes replis qu'avant (``(False, message)``, journal de poussée non écrit),
 mais chacun laisse une trace qui nomme l'hôte et la cause. Le module est

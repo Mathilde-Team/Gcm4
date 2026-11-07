@@ -13,7 +13,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import putty_import_core as core  # noqa: E402
+from plugins.import_putty import core as core  # noqa: E402
 
 
 class TestDecodePuttySessionName(unittest.TestCase):

@@ -33,9 +33,9 @@ Changelog = "https://github.com/MathildeDec/gnome-connection-manager/blob/main/C
 # démarrage de l'app : le chargeur de plugins (plugin_base.PluginRegistry)
 # capture les erreurs d'import et désactive juste le plugin concerné
 # (message "n outil(s)/plugin(s) n'ont pas pu se charger" au démarrage) :
-#   - netmiko    : push de config en masse (netmiko_bulk_core.py, plugin_netmiko_push.py)
+#   - netmiko    : push de config en masse (plugins/netmiko_push/core.py, plugin_netmiko_push.py)
 #   - paramiko   : SPICE via libvirt, dépôt SFTP du push SNMP/inventaire
-#                  (plugin_spice.py, snmp_bulk_core.py, hypervisor_import_common.py,
+#                  (plugin_spice.py, plugins/snmp_push/core.py, plugins/import_hyperviseurs/core.py,
 #                  tools/*.py), plugin sftp de gcm4 (plugins/sftp/, #75)
 #   - libvirt    : import de VM SPICE via libvirt-python (plugin_spice.py)
 #   - vnc        : plugin_vnc.py (import top-level de Cryptodome pour
@@ -158,10 +158,10 @@ files = [
     "GTK3.OLD/folder_context_menu_core.py",
     "GTK3.OLD/gesture_trigger_core.py",
     "GTK3.OLD/inline_editor_core.py",
-    "netmiko_bulk_core.py",
+    "plugins/netmiko_push/core.py",
     "GTK3.OLD/popup_menu_core.py",
-    "putty_import_core.py",
-    "snmp_bulk_core.py",
+    "plugins/import_putty/core.py",
+    "plugins/snmp_push/core.py",
     "GTK3.OLD/tab_context_menu_core.py",
     "plugins/plugin_base.py",
     "plugins/ssh/core.py",
