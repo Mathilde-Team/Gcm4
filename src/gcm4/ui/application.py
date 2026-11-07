@@ -11,15 +11,15 @@ from collections.abc import Iterable
 from gi.repository import Adw, Gdk, Gio, GLib, Gtk
 from loguru import logger
 
-import logging_config
 from gcm4 import __version__
 from gcm4.core import chemins, cli, theme
+from gcm4.core import journal as logging_config
 from gcm4.core import preferences as prefs_core
 from gcm4.core import raccourcis as raccourcis_core
 from gcm4.core.config import ConfigError
 from gcm4.core.i18n import _
 from gcm4.core.registre import Candidat, PluginRegistry, decouvrir
-from gcm4.ui import aide, mises_a_jour
+from gcm4.ui import aide, boucle, mises_a_jour
 from gcm4.ui import raccourcis as raccourcis_ui
 from gcm4.ui.contexte import ContexteApplication
 from gcm4.ui.main_window import MainWindow
@@ -454,7 +454,8 @@ def run(args: argparse.Namespace, argv: list[str] | None = None) -> int:
     """
     logger.debug("run: entrée")
     application = Gcm4Application(args)
-    code = application.run(["gcm4", *(argv or [])])
+    # asyncio sur GLib avant run() : plugins rdp, vnc (#105).
+    code = boucle.executer(lambda: application.run(["gcm4", *(argv or [])]))
     # Seul un deuxième lancement reçoit ce code (celui de l'instance en cours).
     if code == CODE_AUTRE_CONFIG:
         print(

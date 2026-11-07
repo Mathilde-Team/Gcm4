@@ -14,9 +14,9 @@ import sys
 
 from loguru import logger
 
-import gcm4_core
-import logging_config
 from gcm4.core import chemins, cli, echange_cli, i18n, preferences
+from gcm4.core import journal as logging_config
+from gcm4.core import metier as gcm4_core
 from gcm4.core.i18n import _
 
 # Paquets système de PyGObject, GTK4 et libadwaita (D1 de #118).

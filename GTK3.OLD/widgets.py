@@ -43,18 +43,18 @@ if TYPE_CHECKING:
     def _(message: str) -> str: ...
 
 
-from loguru import logger as _loguru_logger
+from loguru import logger
 
 try:
     USERHOME_DIR = os.getenv("HOME")
 except Exception as exc:
-    _loguru_logger.debug("widgets | variable HOME illisible : {}", exc)
+    logger.debug("widgets | variable HOME illisible : {}", exc)
     USERHOME_DIR = ""
 if USERHOME_DIR is None or USERHOME_DIR == "":
     try:
         USERHOME_DIR = os.path.expanduser("~")
     except Exception as exc:
-        _loguru_logger.debug("widgets | répertoire personnel introuvable : {}", exc)
+        logger.debug("widgets | répertoire personnel introuvable : {}", exc)
         USERHOME_DIR = ""
 
 assert (USERHOME_DIR is not None) and (USERHOME_DIR != ""), (
@@ -92,14 +92,12 @@ def _setup_app_logger():
     Returns:
         loguru.Logger: Le logger configuré.
     """
-    _loguru_logger.debug("_setup_app_logger() called")
-    import logging_config
+    logger.debug("_setup_app_logger() called")
+    from gcm4.core import journal as logging_config
 
     logging_config.configure_logging()
-    _loguru_logger.debug(
-        "_setup_app_logger() returning | niveau={}", logging_config.current_level()
-    )
-    return _loguru_logger
+    logger.debug("_setup_app_logger() returning | niveau={}", logging_config.current_level())
+    return logger
 
 
 app_logger = _setup_app_logger()
@@ -1530,7 +1528,7 @@ class NotebookTabLabel(Gtk.Box):
             int: 0 (jamais), 1 (toujours) ou 2 (seulement en sortie propre).
         """
         logger.debug("NotebookTabLabel.effective_auto_close_tab: entrée")
-        from gcm4_core import resolve_auto_close_tab
+        from gcm4.core.metier import resolve_auto_close_tab
         from gnome_connection_manager import conf
 
         logger.debug("NotebookTabLabel.effective_auto_close_tab: sortie")
@@ -1790,7 +1788,7 @@ def inputbox(title, text, default="", password=False, parent=None, icon_path=Non
         try:
             dlg.set_icon_from_file(icon_path)
         except GLib.Error as exc:
-            _loguru_logger.debug("widgets | icône {} non appliquée : {}", icon_path, exc)
+            logger.debug("widgets | icône {} non appliquée : {}", icon_path, exc)
     if run_dialog_sync(dlg) == Gtk.ResponseType.OK:
         response = dlg.value
     else:

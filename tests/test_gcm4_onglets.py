@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-import gcm4_core
+from gcm4.core import metier as gcm4_core
 from gcm4.core import onglets
 
 

@@ -27,7 +27,7 @@ from typing import Optional
 from gi.repository import Adw, Gdk, Gtk
 from loguru import logger
 
-import gcm4_core
+from gcm4.core import metier as gcm4_core
 from gcm4.core.i18n import _
 from gcm4.core.model import Host, HostStore, normaliser_chemin
 from gcm4.core.registre import PluginRegistry

@@ -50,8 +50,8 @@ import os
 from gi.repository import Adw, Gio, GLib, Gtk, Pango
 from loguru import logger
 
-import logging_config
 from gcm4.core import comportement_onglets, menu
+from gcm4.core import journal as logging_config
 from gcm4.core import preferences as prefs_core
 from gcm4.core import raccourcis as raccourcis_core
 from gcm4.core.config import ConfigError
@@ -576,6 +576,8 @@ class PreferencesWindow(Adw.PreferencesWindow):
             ligne = Adw.ActionRow(title=etat.name)
             ligne.set_use_markup(False)  # raison d'erreur : texte libre
             details = [_("Version {version}").format(version=etat.version)] if etat.version else []
+            if getattr(etat, "type", "connexion") == "outil":
+                details.append(_("Tool"))
             details.append(etat.source)
             if etat.erreur is not None:
                 details.append(etat.erreur)

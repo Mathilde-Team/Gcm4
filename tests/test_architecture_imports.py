@@ -30,8 +30,11 @@ PLUGINS = ROOT / "plugins"
 
 # Modules sans GTK : logique pure, testable sans affichage.
 MODULES_COEUR = sorted(
-    {p.name for p in ROOT.glob("*_core.py")}
-    | {"gcm4_core.py", "logging_config.py", "master_password_core.py"}
+    {
+        p.relative_to(ROOT).as_posix()
+        for p in [*ROOT.glob("*_core.py"), *(ROOT / "GTK3.OLD").glob("*_core.py")]
+    }
+    | {"src/gcm4/core/metier.py", "src/gcm4/core/journal.py", "src/gcm4/core/mot_de_passe.py"}
 )
 NOMS_PLUGINS = sorted(p.stem for p in PLUGINS.glob("plugin_*.py") if p.stem != "plugin_base")
 CORES_DE_PLUGINS = sorted(p.relative_to(ROOT).as_posix() for p in PLUGINS.glob("*/core.py"))

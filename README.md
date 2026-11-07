@@ -148,7 +148,7 @@ ko · nb · nl · pl · pt · ro · ru · sv · th · tr · uk · vi · zh
 ```bash
 git clone https://github.com/MathildeDec/gnome-connection-manager
 cd gnome-connection-manager
-./gnome_connection_manager.py
+./GTK3.OLD/gnome_connection_manager.py
 ```
 
 ### Dossier de configuration alternatif
@@ -157,8 +157,8 @@ Par défaut, GCM stocke sa configuration dans `~/.gcm/`. Pour utiliser un autre
 emplacement (poste partagé, tests, profils multiples) :
 
 ```bash
-./gnome_connection_manager.py --config /chemin/vers/dossier
-./gnome_connection_manager.py -c /chemin/vers/dossier
+./GTK3.OLD/gnome_connection_manager.py --config /chemin/vers/dossier
+./GTK3.OLD/gnome_connection_manager.py -c /chemin/vers/dossier
 ```
 
 ### Dépendances (Debian / Ubuntu)
@@ -246,8 +246,8 @@ pre-commit run --all-files  # vérification manuelle
 GCM détecte automatiquement la langue du système. Pour forcer :
 
 ```bash
-LANG=en_US.UTF-8 ./gnome_connection_manager.py
-LANG=de_DE.UTF-8 ./gnome_connection_manager.py
+LANG=en_US.UTF-8 ./GTK3.OLD/gnome_connection_manager.py
+LANG=de_DE.UTF-8 ./GTK3.OLD/gnome_connection_manager.py
 ```
 
 ---
@@ -301,7 +301,7 @@ automatisée, paquets système GTK/VTE inclus :
 
 ```bash
 ./bootstrap-dev.sh              # installe tout, support RDP+SNMP inclus
-uv run python3 gnome_connection_manager.py
+uv run python3 GTK3.OLD/gnome_connection_manager.py
 ```
 
 Voir `bootstrap-dev.sh --help` pour les options (`--without-rdp`,
@@ -407,8 +407,8 @@ pre-commit run --all-files  # vérification manuelle
 ## Journaux et mode debug
 
 ```bash
-./gnome_connection_manager.py --debug          # ou GCM_DEBUG=1
-GCM_LOG_LEVEL=TRACE ./gnome_connection_manager.py
+./GTK3.OLD/gnome_connection_manager.py --debug          # ou GCM_DEBUG=1
+GCM_LOG_LEVEL=TRACE ./GTK3.OLD/gnome_connection_manager.py
 ```
 
 Le journal permanent est `~/.gcm/log/gcm-app.log`. Niveaux, variables
@@ -441,7 +441,7 @@ Texte complet : [LICENSE](LICENSE) (GNU GPL version 3). Détail des régimes : [
 
 - Code écrit par l'équipe : **GPL-3.0-or-later**.
 - Fichiers repris de l'amont gnome-connection-manager (Renzo Bertuzzi) : **GPL-3.0 seule**, comme le prévoit l'avis amont (« version 3 », sans « ou toute version ultérieure »). Le programme distribué, qui combine les deux, est donc diffusé sous GPL-3.0 seule.
-- `pyAES.py` : MIT (Brandon Sterne).
+- `src/gcm4/core/pyaes.py` : MIT (Brandon Sterne).
 - Chaque fichier de code indique son régime par un en-tête `SPDX-License-Identifier` (vérifié par `tests/test_licence.py`).
 
 

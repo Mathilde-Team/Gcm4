@@ -74,9 +74,16 @@ if __name__ == "__main__":
 # et pour que PluginRegistry/BatchPluginRegistry.autoload() (qui scanne par
 # defaut le dossier de plugin_base.py) trouve tous les plugins.
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "plugins"))
+# Lancement depuis les sources (#427) : ce fichier vit dans GTK3.OLD/, alors
+# que plugins/, src/gcm4 et les cœurs d'import restent à la racine du dépôt.
+# Paquet installé : tout est dans le même dossier, rien à ajouter.
+_DOSSIER = os.path.dirname(os.path.abspath(__file__))
+if os.path.basename(_DOSSIER) == "GTK3.OLD":
+    _RACINE = os.path.dirname(_DOSSIER)
+    sys.path[:0] = [os.path.join(_RACINE, "plugins"), _RACINE, os.path.join(_RACINE, "src")]
 
-import gcm4_core  # noqa: E402
-import logging_config  # noqa: E402
+from gcm4.core import journal as logging_config  # noqa: E402
+from gcm4.core import metier as gcm4_core  # noqa: E402
 from plugins.plugin_base import BatchPluginRegistry, PluginRegistry  # noqa: E402
 
 if TYPE_CHECKING:
@@ -310,7 +317,7 @@ _ZOOM_RESET = ["zoom_reset"]
 
 # Bornes et pas du zoom terminal (Ctrl+/Ctrl-/Ctrl+0 par defaut, voir
 # Wmain.terminal_zoom() et les add_shortcut() correspondants dans loadConfig()).
-# Les bornes MIN/MAX elles-memes vivent desormais dans gcm4_core.py, avec
+# Les bornes MIN/MAX elles-memes vivent desormais dans src/gcm4/core/metier.py, avec
 # _compute_zoom_size() ; ne restent ici que les constantes utilisees cote GTK.
 _TERMINAL_ZOOM_STEP = 1
 _TERMINAL_ZOOM_DEFAULT_SIZE = 10
@@ -792,7 +799,7 @@ def decrypt(passw, string):
 
     Réécriture du 2026-08-30 : ``gcm4_core.decrypt()`` reçoit désormais la
     version de format en paramètre explicite au lieu de lire le global
-    ``utils.conf.VERSION`` (``utils.py`` importe GTK ; ``gcm4_core.py`` ne
+    ``utils.conf.VERSION`` (``utils.py`` importe GTK ; ``src/gcm4/core/metier.py`` ne
     doit rien lui devoir) — ``conf`` déjà importé plus haut dans ce fichier.
     """
     return gcm4_core.decrypt(passw, string, version=conf.VERSION)
@@ -864,7 +871,7 @@ def _serial_templates_load(cp):
 
     Vestige de protocole assumé (2026-08-30) : les templates série
     (presets Cisco/Huawei/Arduino...) sont des données spécifiques au
-    protocole série — elles n'ont pas leur place dans gcm4_core.py (cœur
+    protocole série — elles n'ont pas leur place dans src/gcm4/core/metier.py (cœur
     neutre de protocole). Elles restent ici pour l'instant, comme
     ``plugins/plugin_serial.py`` (qui maintient sa propre copie
     indépendante non synchronisée — bug distinct, voir features.md §2.8) ;

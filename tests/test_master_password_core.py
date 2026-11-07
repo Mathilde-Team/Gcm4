@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Tests unitaires pour master_password_core.py.
+"""Tests unitaires pour src/gcm4/core/mot_de_passe.py.
 
 Comme tests/test_gcm4_core.py, ce fichier importe le module directement —
 aucun stub GTK nécessaire, le module n'a aucune dépendance gi/Gtk (voir
@@ -11,7 +11,7 @@ import sys
 import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import master_password_core as core  # noqa: E402
+from gcm4.core import mot_de_passe as core  # noqa: E402
 
 
 class TestIsProtected(unittest.TestCase):
