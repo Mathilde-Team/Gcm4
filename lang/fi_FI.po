@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 16:05+0000\n"
+"POT-Creation-Date: 2026-11-07 19:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,11 +149,9 @@ msgid "Can't open log file for writting"
 msgstr "Lokitiedostoa ei voi avata kirjoitusta varten"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py GTK3.OLD/widgets.py
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_putty.py
-#: plugins/plugin_import_virtualbox.py plugins/plugin_spice.py
-#: plugins/plugin_ssh.py plugins/sftp/gtk4.py src/gcm4/ui/contexte.py
-#: src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
+#: plugins/import_ovirt/gtk4.py plugins/plugin_spice.py plugins/plugin_ssh.py
+#: plugins/sftp/gtk4.py src/gcm4/ui/contexte.py src/gcm4/ui/echange.py
+#: src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
 #: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
 #: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/raccourcis.py
 msgid "Cancel"
@@ -413,10 +411,8 @@ msgstr "Yleiset"
 msgid "Gnome Connection Manager"
 msgstr "Gnome Connection Manager"
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_import_libvirt.py
-#: plugins/plugin_import_ovirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/menu_arbre.py
+#: GTK3.OLD/gnome_connection_manager.py plugins/import_hyperviseurs/ui.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/menu_arbre.py
 msgid "Group"
 msgstr "Ryhmä"
 
@@ -581,8 +577,7 @@ msgid "Only on clean exit"
 msgstr "Vain siistissä lopetuksessa"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py
-#: plugins/plugin_import_putty.py src/gcm4/ui/mises_a_jour.py
-#: src/gcm4/ui/preferences.py
+#: src/gcm4/ui/mises_a_jour.py src/gcm4/ui/preferences.py
 msgid "Open"
 msgstr "Avaa"
 
@@ -2351,89 +2346,134 @@ msgstr "Avoimet välilehdet palautetaan seuraavalla käynnistyskerralla"
 msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
 msgstr "Perussovellus ei itse tarjoa yhtään protokollaa: yhteydet tarvitsevat vastaavan laajennuksen."
 
-#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
-#, python-brace-format
-msgid "{program} not found"
-msgstr "Ohjelmaa {program} ei löydy"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/plugin_snmp_push.py
 msgid "1. Configuration"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/plugin_snmp_push.py
 msgid "2. Suivi"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_netmiko_push.py plugins/plugin_snmp_push.py
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_netmiko_push.py
+#: plugins/plugin_snmp_push.py
 msgid "3. Résultats"
 msgstr ""
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "<b>Connection types to import:</b>"
-msgstr "<b>Tuotavat yhteystyypit:</b>"
-
-#: plugins/plugin_import_libvirt.py
-msgid "<i>Applies only to the Libvirt import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py plugins/plugin_ssh.py
-#: plugins/ssh/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/import_ovirt/gtk4.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Add"
 msgstr "Lisää"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-msgid "Default SSH user (VMs):"
-msgstr "Oletus-SSH-käyttäjä (VM:t):"
+#: plugins/import_hyperviseurs/ui.py
+#| msgid "Sessions found: {count}."
+msgid "Connections found: {count}."
+msgstr "Löydetyt yhteydet: {count}."
 
-#: plugins/plugin_import_libvirt.py
-msgid "Detected libvirt URI"
-msgstr "Havaittu libvirt-URI"
-
-#: plugins/plugin_import_libvirt.py
-msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
-msgstr "Esim: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-msgid "Hypervisor SSH user:"
-msgstr "Hypervisorin SSH-käyttäjä:"
-
-#: plugins/plugin_import_libvirt.py
-msgid "Hypervisors (virt-manager / dconf):"
-msgstr "Hypervisorit (virt-manager / dconf):"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/import_hyperviseurs/ui.py
 msgid "IP / Host"
 msgstr "IP / Isäntä"
 
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "If a host already exists:"
+msgstr "Jos isäntä on jo olemassa:"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Keep the existing host"
+msgstr "Säilytä olemassa oleva isäntä"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "No connection to import (all already exist or none selected)."
+msgstr "Ei tuotavia yhteyksiä (kaikki ovat olemassa tai mitään ei ole valittu)."
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "Proto"
+msgstr "Protokolla"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Rename the imported host"
+msgstr "Nimeä tuotu isäntä uudelleen"
+
+#: plugins/import_hyperviseurs/ui.py plugins/import_putty/gtk4.py
+#: src/gcm4/ui/echange.py
+msgid "Replace the existing host"
+msgstr "Korvaa olemassa oleva isäntä"
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Scan failed: {exc}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "State"
+msgstr "Tila"
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Target added: {uri}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py
+#, python-brace-format
+msgid "Target already present: {uri}"
+msgstr ""
+
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+msgid "VM name"
+msgstr "VM:n nimi"
+
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_ipmisol.py
+#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_web.py plugins/web/gtk4.py
+msgid "Waiting…"
+msgstr "Odotetaan…"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "✓ Check all"
+msgstr "✓ Valitse kaikki"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "✗ Uncheck all"
+msgstr "✗ Poista valinnat"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "⬇  Import selected"
+msgstr "⬇  Tuo valitut"
+
+#: plugins/import_hyperviseurs/ui.py
+msgid "🔄  Rescan"
+msgstr "🔄  Skannaa uudelleen"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_ovirt/gtk4.py
+#: plugins/import_proxmox/gtk4.py plugins/import_virtualbox/gtk4.py
+msgid "<b>Connection types to import:</b>"
+msgstr "<b>Tuotavat yhteystyypit:</b>"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Detected libvirt URI"
+msgstr "Havaittu libvirt-URI"
+
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
+msgid "Hypervisor SSH user:"
+msgstr "Hypervisorin SSH-käyttäjä:"
+
+#: plugins/import_libvirt/gtk4.py
+msgid "Hypervisors (virt-manager / dconf):"
+msgstr "Hypervisorit (virt-manager / dconf):"
+
+#: plugins/import_libvirt/gtk4.py
 msgid "Import from libvirt"
 msgstr "Tuo libvirtistä"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Imported"
-msgstr "Tuotu"
-
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_libvirt/gtk4.py
 msgid "Invalid libvirt target."
 msgstr "Virheellinen libvirt-kohde."
 
-#: plugins/plugin_import_libvirt.py
-msgid "Libvirt"
-msgstr "Libvirt"
-
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_libvirt/gtk4.py
 msgid ""
 "No URI found in dconf (virt-manager not configured?).\n"
 "Add your URIs manually below."
@@ -2441,147 +2481,40 @@ msgstr ""
 "dconf:stä ei löytynyt URI:a (virt-manageria ei ole määritetty?).\n"
 "Lisää URI:t käsin alle."
 
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_libvirt/gtk4.py
 msgid "No URI selected."
 msgstr "URI:a ei valittu."
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No connection to import (all already exist or none selected)."
-msgstr "Ei tuotavia yhteyksiä (kaikki ovat olemassa tai mitään ei ole valittu)."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
+#: plugins/import_libvirt/gtk4.py plugins/import_ovirt/gtk4.py
+#: plugins/import_proxmox/gtk4.py plugins/import_virtualbox/gtk4.py
 msgid "No connection type selected."
 msgstr "Yhteystyyppiä ei valittu."
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No host imported."
-msgstr "Isäntää ei tuotu."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "No new host (duplicates ignored)."
-msgstr "Ei uusia isäntiä (kaksoiskappaleet ohitettu)."
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Overwrite existing connections with the same name and protocol"
-msgstr "Korvaa olemassa olevat samalla nimellä ja protokollalla olevat yhteydet"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Proto"
-msgstr "Protokolla"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
 msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
 msgstr "RDP  (tarkista portti 3389 hypervisorista nc/nmap-työkalulla - ohitetaan, jos portti on kiinni)"
 
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_libvirt/gtk4.py
 msgid "SPICE  (virt-viewer --connect qemu+ssh://... vm - SSH tunnel handled automatically)"
 msgstr "SPICE  (virt-viewer --connect qemu+ssh://... vm - SSH-tunneli hoidetaan automaattisesti)"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
 msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
 msgstr "SSH  (ProxyJump -J hypervisorin kautta, kun VM:n IP on tiedossa, muuten hypervisorin shell + -t ssh käyttäjä@vm)"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Scan failed: {exc}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "State"
-msgstr "Tila"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Target added automatically: {pending_uri}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Target added: {uri}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
-#: plugins/plugin_import_virtualbox.py
-#, python-brace-format
-msgid "Target already present: {uri}"
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py
-msgid "Used as default user in the Libvirt import dialog."
-msgstr ""
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_spice.py
-msgid "VM name"
-msgstr "VM:n nimi"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
+#: plugins/import_libvirt/gtk4.py plugins/import_proxmox/gtk4.py
 #, fuzzy
 #| msgid "RDP  (probe port 3389 from hypervisor via nc/nmap - skipped if port is closed)"
 msgid "VNC  (probe port 5900 from hypervisor via nc/nmap - skipped if port is closed)"
 msgstr "RDP  (tarkista portti 3389 hypervisorista nc/nmap-työkalulla - ohitetaan, jos portti on kiinni)"
 
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Waiting…"
-msgstr "Odotetaan…"
-
-#: plugins/plugin_import_libvirt.py
-#, fuzzy, python-brace-format
-#| msgid "Import from libvirt"
-msgid "{n} connection(s) imported from libvirt."
-msgstr "Tuo libvirtistä"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✓ Check all"
-msgstr "✓ Valitse kaikki"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✓ Imported"
-msgstr "✓ Tuotu"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✕  Close"
-msgstr "✕  Sulje"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "✗ Uncheck all"
-msgstr "✗ Poista valinnat"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "⬇  Import selected"
-msgstr "⬇  Tuo valitut"
-
-#: plugins/plugin_import_libvirt.py plugins/plugin_import_ovirt.py
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "🔄  Rescan"
-msgstr "🔄  Skannaa uudelleen"
-
-#: plugins/plugin_import_libvirt.py
+#: plugins/import_libvirt/gtk4.py
 #, fuzzy
 #| msgid "🔍  Scan hypervisors"
 msgid "🔍  Scan Libvirt hypervisors"
 msgstr "🔍  Etsi hypervisorit"
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 #, python-brace-format
 msgid ""
 "Could not reach '{vm}' directly, via the oVirt engine, or via its hypervisor.\n"
@@ -2590,97 +2523,70 @@ msgid ""
 "Leave empty to skip this VM."
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "Engine URL is required."
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "Engine URL:"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 #, fuzzy
 #| msgid "Import from libvirt"
 msgid "Import from oVirt"
 msgstr "Tuo libvirtistä"
 
-#: plugins/plugin_import_ovirt.py
-msgid ""
-"Note: IP resolution requires the oVirt guest agent to be installed in each VM.\n"
-"Reachability is tested automatically (direct, then jump proxy via the engine, then via the VM's hypervisor) — if all three fail, you will be asked for a manual route per VM during the scan."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 #, fuzzy
 #| msgid "Password"
 msgid "Password:"
 msgstr "Salasana"
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "RDP  (Windows guests only — port 3389 probed via the resolved route)"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "SSH  (direct — oVirt VMs are usually directly routable)"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "SSH user (engine/hypervisor jump):"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 #, python-brace-format
 msgid "Unreachable VM: {vm}"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
-msgid "Used only as a fallback when a VM is not directly reachable: SSH user for jump-proxy attempts via the engine machine or the VM's hypervisor, and default SSH user for the VMs themselves (non-Windows guests)."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 #, fuzzy
 #| msgid "User"
 msgid "Username:"
 msgstr "Käyttäjä"
 
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "Verify TLS certificate"
 msgstr ""
 
-#: plugins/plugin_import_ovirt.py
-#, python-brace-format
-msgid "{n} connection(s) imported from oVirt."
-msgstr ""
-
-#: plugins/plugin_import_ovirt.py
+#: plugins/import_ovirt/gtk4.py
 msgid "🔍  Scan oVirt engine"
 msgstr ""
 
-#: plugins/plugin_import_proxmox.py
-msgid "<i>Applies only to the Proxmox import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-msgid "Add a Proxmox target:"
-msgstr "Lisää Proxmox-kohde:"
-
-#: plugins/plugin_import_proxmox.py plugins/plugin_import_virtualbox.py
-msgid "Ex: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
-msgstr "Esim: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
-
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "Import from Proxmox"
 msgstr "Tuo Proxmoxista"
 
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "Invalid Proxmox target."
 msgstr "Virheellinen Proxmox-kohde."
 
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "No Proxmox target selected."
 msgstr "Proxmox-kohdetta ei valittu."
 
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid ""
 "No SSH URI found in dconf.\n"
 "Enter an IP/host below and click Add."
@@ -2688,156 +2594,138 @@ msgstr ""
 "dconf:stä ei löytynyt SSH-URI:a.\n"
 "Syötä IP/isäntä alle ja napsauta Lisää."
 
-#: plugins/plugin_import_proxmox.py
-msgid "Proxmox"
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "Proxmox target (qemu+ssh://user@host/system)"
 msgstr ""
 
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 #, fuzzy
 #| msgid "Add a Proxmox target:"
 msgid "Proxmox targets:"
 msgstr "Lisää Proxmox-kohde:"
 
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "SPICE  (vga:qxl required — ticket generated at connection time via pvesh)"
 msgstr ""
 
-#: plugins/plugin_import_proxmox.py
-#, fuzzy
-#| msgid "Waiting…"
-msgid "Scanning…"
-msgstr "Odotetaan…"
-
-#: plugins/plugin_import_proxmox.py
-msgid "Used as default user in the Proxmox import dialog."
-msgstr ""
-
-#: plugins/plugin_import_proxmox.py
-#, fuzzy, python-brace-format
-#| msgid "Import from Proxmox"
-msgid "{n} connection(s) imported from Proxmox."
-msgstr "Tuo Proxmoxista"
-
-#: plugins/plugin_import_proxmox.py
+#: plugins/import_proxmox/gtk4.py
 msgid "🔍  Scan Proxmox hosts"
 msgstr "🔍  Etsi Proxmox-isännät"
 
-#: plugins/plugin_import_putty.py
-msgid "Import from PuTTY sessions…"
-msgstr ""
+#: plugins/import_putty/gtk4.py
+msgid "Choose a folder…"
+msgstr "Valitse kansio…"
 
-#: plugins/plugin_import_putty.py
+#: plugins/import_putty/gtk4.py src/gcm4/ui/echange.py
+msgid "Import"
+msgstr "Tuo"
+
+#: plugins/import_putty/gtk4.py
+#, fuzzy
+#| msgid "Import from Proxmox"
+msgid "Import from PuTTY sessions"
+msgstr "Tuo Proxmoxista"
+
+#: plugins/import_putty/gtk4.py
+#, fuzzy
+#| msgid "Import from libvirt"
+msgid "Import from PuTTY sessions…"
+msgstr "Tuo libvirtistä"
+
+#: plugins/import_putty/gtk4.py
 msgid "No importable SSH/Telnet session found in this folder."
 msgstr ""
 
-#: plugins/plugin_import_putty.py
-#, python-brace-format
+#: plugins/import_putty/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
 msgid "PuTTY import error: {exc}"
-msgstr ""
+msgstr "Mallin nimi"
 
-#: plugins/plugin_import_putty.py
+#: plugins/import_putty/gtk4.py
+#, python-brace-format
+msgid "PuTTY sessions folder: {folder}"
+msgstr "PuTTY-istuntojen kansio: {folder}"
+
+#: plugins/import_putty/gtk4.py
 msgid "Select PuTTY sessions folder"
 msgstr ""
 
-#: plugins/plugin_import_putty.py
+#: plugins/import_putty/gtk4.py
+#, python-brace-format
+msgid "Sessions found: {count}."
+msgstr "Löydetyt istunnot: {count}."
+
+#: plugins/import_putty/gtk4.py
 #, python-brace-format
 msgid "{count} session(s) ignored (unsupported protocol or missing host)."
 msgstr ""
 
-#: plugins/plugin_import_putty.py
-#, python-brace-format
-msgid "{n} connection(s) imported from PuTTY."
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-msgid "<i>Applies only to the VirtualBox import plugin. Can still be overridden per import run.</i>"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "Add a VirtualBox host:"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
+msgid "Ex: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
+msgstr "Esim: 192.168.105.41 | root@192.168.105.41 | root@192.168.105.41:22"
+
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "Hypervisor SSH user:"
 msgid "Host SSH user:"
 msgstr "Hypervisorin SSH-käyttäjä:"
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "Import from libvirt"
 msgid "Import from VirtualBox"
 msgstr "Tuo libvirtistä"
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "Invalid Proxmox target."
 msgid "Invalid VirtualBox target."
 msgstr "Virheellinen Proxmox-kohde."
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "No URI selected."
 msgid "No host selected."
 msgstr "URI:a ei valittu."
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "RDP  (native VirtualBox VRDE if enabled, otherwise guest port 3389 probe)"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "SSH  (ProxyJump -J via hypervisor when VM IP is known, otherwise hypervisor shell + -t ssh user@vm)"
 msgid "SSH  (ProxyJump -J via host when VM IP is known, otherwise host shell + -t ssh user@vm)"
 msgstr "SSH  (ProxyJump -J hypervisorin kautta, kun VM:n IP on tiedossa, muuten hypervisorin shell + -t ssh käyttäjä@vm)"
 
-#: plugins/plugin_import_virtualbox.py
-msgid "Used as default user in the VirtualBox import dialog."
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "VNC  (probe port 5900 in the guest — off by default)"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
-msgid "VirtualBox"
-msgstr ""
-
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy
-#| msgid ""
-#| "No URI found in dconf (virt-manager not configured?).\n"
-#| "Add your URIs manually below."
-msgid ""
-"VirtualBox has no central registry (unlike virt-manager/dconf).\n"
-"Add your hosts manually below."
-msgstr ""
-"dconf:stä ei löytynyt URI:a (virt-manageria ei ole määritetty?).\n"
-"Lisää URI:t käsin alle."
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "VirtualBox host (user@host[:port])"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 msgid "VirtualBox hosts:"
 msgstr ""
 
-#: plugins/plugin_import_virtualbox.py
-#, fuzzy, python-brace-format
-#| msgid "Import from libvirt"
-msgid "{n} connection(s) imported from VirtualBox."
-msgstr "Tuo libvirtistä"
-
-#: plugins/plugin_import_virtualbox.py
+#: plugins/import_virtualbox/gtk4.py
 #, fuzzy
 #| msgid "🔍  Scan Proxmox hosts"
 msgid "🔍  Scan VirtualBox hosts"
 msgstr "🔍  Etsi Proxmox-isännät"
+
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
+#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
+#, python-brace-format
+msgid "{program} not found"
+msgstr "Ohjelmaa {program} ei löydy"
 
 #: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
 #: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
@@ -4604,6 +4492,10 @@ msgid "gcm4 is already running with another configuration folder: close it to us
 msgstr "gcm4 on jo käynnissä toisella asetuskansiolla: sulje se, jotta voit käyttää kansiota {requested}."
 
 #: src/gcm4/ui/contexte.py
+msgid "No configuration is open: nothing to import into."
+msgstr "Asetuksia ei ole avoinna: ei kohdetta tuonnille."
+
+#: src/gcm4/ui/contexte.py
 #, python-brace-format
 msgid "Password for {target}"
 msgstr "Salasana kohteelle {target}"
@@ -4623,14 +4515,6 @@ msgid "Hosts in {file}: {count}, already present: {existing}"
 msgstr "Isäntiä tiedostossa {file}: {count}, jo olemassa: {existing}"
 
 #: src/gcm4/ui/echange.py
-msgid "If a host already exists:"
-msgstr "Jos isäntä on jo olemassa:"
-
-#: src/gcm4/ui/echange.py
-msgid "Import"
-msgstr "Tuo"
-
-#: src/gcm4/ui/echange.py
 msgid "Include passwords (in clear text)"
 msgstr "Sisällytä salasanat (selväkielisinä)"
 
@@ -4639,20 +4523,8 @@ msgid "JSON or CSV file, chosen by its extension."
 msgstr "JSON- tai CSV-tiedosto, tiedostopäätteen mukaan."
 
 #: src/gcm4/ui/echange.py
-msgid "Keep the existing host"
-msgstr "Säilytä olemassa oleva isäntä"
-
-#: src/gcm4/ui/echange.py
 msgid "Passwords will be written in clear text: keep this file safe."
 msgstr "Salasanat kirjoitetaan selväkielisinä: säilytä tiedosto turvallisesti."
-
-#: src/gcm4/ui/echange.py
-msgid "Rename the imported host"
-msgstr "Nimeä tuotu isäntä uudelleen"
-
-#: src/gcm4/ui/echange.py
-msgid "Replace the existing host"
-msgstr "Korvaa olemassa oleva isäntä"
 
 #: src/gcm4/ui/echange.py
 msgid "This file contains passwords in clear text."
@@ -5308,10 +5180,8 @@ msgstr "Piilota ikkuna"
 msgid "Show window"
 msgstr "Näytä ikkuna"
 
-#, fuzzy, python-brace-format
-#~| msgid "Template name"
-#~ msgid "CSV import error: {exc}"
-#~ msgstr "Mallin nimi"
+#~ msgid "Add a Proxmox target:"
+#~ msgstr "Lisää Proxmox-kohde:"
 
 #~ msgid "Colors and Keys"
 #~ msgstr "Värit ja näppäimet"
@@ -5333,6 +5203,9 @@ msgstr "Näytä ikkuna"
 #~ msgid "Create dynamic port forwarding"
 #~ msgstr "Luo dynaaminen portinvälitys"
 
+#~ msgid "Default SSH user (VMs):"
+#~ msgstr "Oletus-SSH-käyttäjä (VM:t):"
+
 #~ msgid "Detected Proxmox target"
 #~ msgstr "Havaittu Proxmox-kohde"
 
@@ -5341,6 +5214,9 @@ msgstr "Näytä ikkuna"
 
 #~ msgid "Edit hosts properties"
 #~ msgstr "Muokkaa isäntien ominaisuuksia"
+
+#~ msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
+#~ msgstr "Esim: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
 
 #~ msgid "Export server list to file"
 #~ msgstr "Vie palvelinlista tiedostoon"
@@ -5351,11 +5227,6 @@ msgstr "Näytä ikkuna"
 #, fuzzy
 #~| msgid "Import from libvirt"
 #~ msgid "Import from CSV"
-#~ msgstr "Tuo libvirtistä"
-
-#, fuzzy
-#~| msgid "Import from libvirt"
-#~ msgid "Import from CSV…"
 #~ msgstr "Tuo libvirtistä"
 
 #, fuzzy
@@ -5371,20 +5242,40 @@ msgstr "Näytä ikkuna"
 #~ msgid "Import server list from file"
 #~ msgstr "Tuo palvelinlista tiedostosta"
 
+#~ msgid "Imported"
+#~ msgstr "Tuotu"
+
 #~ msgid "Keep-Alive"
 #~ msgstr "Keep-Alive"
+
+#~ msgid "Libvirt"
+#~ msgstr "Libvirt"
 
 #~ msgid "Local port already assigned"
 #~ msgstr "Paikallinen portti on jo varattu"
 
+#~ msgid "No host imported."
+#~ msgstr "Isäntää ei tuotu."
+
+#~ msgid "No new host (duplicates ignored)."
+#~ msgstr "Ei uusia isäntiä (kaksoiskappaleet ohitettu)."
+
 #~ msgid "Open local console"
 #~ msgstr "Avaa paikallinen konsoli"
+
+#~ msgid "Overwrite existing connections with the same name and protocol"
+#~ msgstr "Korvaa olemassa olevat samalla nimellä ja protokollalla olevat yhteydet"
 
 #~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
 #~ msgstr "SPICE  (ei käytettävissä tässä: Proxmox vaatii API-tiketin/proxyn)"
 
 #~ msgid "Save active console buffer to file"
 #~ msgstr "Tallenna aktiivisen konsolin puskuri tiedostoon"
+
+#, fuzzy
+#~| msgid "Waiting…"
+#~ msgid "Scanning…"
+#~ msgstr "Odotetaan…"
 
 #~ msgid "Seconds between keep-alive packets"
 #~ msgstr "Sekuntien väli keep-alive-paketeissa"
@@ -5400,6 +5291,17 @@ msgstr "Näytä ikkuna"
 
 #~ msgid "Split console vertically"
 #~ msgstr "Jaa konsoli pystysuunnassa"
+
+#, fuzzy
+#~| msgid ""
+#~| "No URI found in dconf (virt-manager not configured?).\n"
+#~| "Add your URIs manually below."
+#~ msgid ""
+#~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
+#~ "Add your hosts manually below."
+#~ msgstr ""
+#~ "dconf:stä ei löytynyt URI:a (virt-manageria ei ole määritetty?).\n"
+#~ "Lisää URI:t käsin alle."
 
 #~ msgid "_Edit"
 #~ msgstr "_Muokkaa"
@@ -5451,3 +5353,24 @@ msgstr "Näytä ikkuna"
 
 #~ msgid "xfreerdp log:"
 #~ msgstr "xfreerdp-loki:"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from Proxmox"
+#~ msgid "{n} connection(s) imported from Proxmox."
+#~ msgstr "Tuo Proxmoxista"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from libvirt"
+#~ msgid "{n} connection(s) imported from VirtualBox."
+#~ msgstr "Tuo libvirtistä"
+
+#, fuzzy, python-brace-format
+#~| msgid "Import from libvirt"
+#~ msgid "{n} connection(s) imported from libvirt."
+#~ msgstr "Tuo libvirtistä"
+
+#~ msgid "✓ Imported"
+#~ msgstr "✓ Tuotu"
+
+#~ msgid "✕  Close"
+#~ msgstr "✕  Sulje"

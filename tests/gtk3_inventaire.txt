@@ -7,11 +7,6 @@ GTK3.OLD/ssh_config_editor.py
 GTK3.OLD/ssh_key_manager_dialog.py
 GTK3.OLD/utils.py
 GTK3.OLD/widgets.py
-plugins/plugin_import_libvirt.py
-plugins/plugin_import_ovirt.py
-plugins/plugin_import_proxmox.py
-plugins/plugin_import_putty.py
-plugins/plugin_import_virtualbox.py
 plugins/plugin_ipmisol.py
 plugins/plugin_local.py
 plugins/plugin_netmiko_push.py

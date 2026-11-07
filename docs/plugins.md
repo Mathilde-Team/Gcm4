@@ -241,6 +241,22 @@ PLUGIN = MonOutil
   du contrat, `name` (minuscules sans espace), `menu_label`, `menu_section`
   et les méthodes abstraites. Le plugin est ensuite signalé en erreur dans
   Préférences > Extensions, comme un plugin de connexion.
+- **Import d'hôtes** (#436) : un outil qui importe des hôtes (sessions
+  PuTTY, inventaire d'hyperviseur…) passe par
+  `self.context.import_hosts(hotes, conflit)` — le magasin est complété,
+  `gcm4.conf` enregistré et l'arbre rechargé ; la valeur de retour est le
+  bilan `Rapport` de `gcm4.core.exchange` (mêmes stratégies de conflit que
+  l'import de fichiers, #153). L'échec d'enregistrement lève
+  `ExchangeError` (magasin inchangé) : l'outil la notifie et reste
+  utilisable. Voir `plugins/import_putty/gtk4.py` pour l'exemple complet.
+- **Import d'hyperviseurs** (#439) : les quatre outils (libvirt, Proxmox,
+  VirtualBox, oVirt) partagent un onglet générique (`plugins/import_hyperviseurs/ui.py`,
+  chargé en paquet `gcm4_hv` à identité stable) : configuration
+  (`_construire_parametres()`), journal et progression thread-sûrs
+  (`GLib.idle_add`), prévisualisation cochable en `Gtk.ColumnView`,
+  stratégie de conflit et import via `import_hosts`. Chaque plugin garde
+  sa logique de collecte dans son `core.py` (aucun GTK) : testable sans
+  fenêtre (cf. `tests/test_import_*_collecte.py`).
 - **Réglages** : `build_preferences_page()` (facultatif) rend une page
   Adwata pour Préférences > Extensions ; `None` : aucune.
 - **Icône** : `icon_name` (facultatif), nom d'icône symbolique GTK de

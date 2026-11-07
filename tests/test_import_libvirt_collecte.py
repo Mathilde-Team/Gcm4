@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Collecte des VMs libvirt de ``plugin_import_libvirt`` (#293, palier 7).
+"""Collecte des VMs libvirt de ``plugins/import_libvirt/core.py`` (#293, #439).
 
-``_libvirt_fetch_hosts`` interroge les hyperviseurs par SSH (``virsh list``,
+``collecter_hotes`` interroge les hyperviseurs par SSH (``virsh list``,
 ARP, baux DHCP, nmap, ``dumpxml``, ``domifaddr``) et fabrique les hôtes GCM.
 Doublure SSH partagée (``tests/doublures_ssh.py``) :
 aucun réseau, aucun processus externe, aucun GTK.
@@ -19,18 +19,16 @@ sys.path.insert(
     0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "plugins")
 )
 
-import test_gcm  # noqa: E402, F401  (pose les doublures gi/Gtk avant l'import du plugin)
-
-# isort: split
-import plugin_import_libvirt as lv  # noqa: E402
 from doublures_ssh import Hyperviseur  # noqa: E402
+
+from plugins.import_libvirt import core as lv  # noqa: E402
 
 
 def collecter(uris, proto_filter=None, ssh_user="admin"):
     """Lance la collecte libvirt et renvoie hôtes, journal, progression."""
     journal: list[str] = []
     progression: list[tuple] = []
-    hotes = lv._libvirt_fetch_hosts(
+    hotes = lv.collecter_hotes(
         uris, ssh_user, journal.append, lambda f, t: progression.append((f, t)), proto_filter
     )
     return hotes, journal, progression
@@ -176,3 +174,14 @@ def test_aucune_connexion_generee(monkeypatch):
     hotes, journal, _ = collecter(["qemu+ssh://kvm/system"], proto_filter={"rdp", "spice"})
     assert hotes == []
     assert "  - webfront : aucune connexion générée" in journal
+
+
+def test_normaliser_cible():
+    """Saisie libre → URI qemu+ssh : URI complète, utilisateur vide, port."""
+    assert lv.normaliser_cible("") == ""
+    assert lv.normaliser_cible("  ") == ""
+    assert lv.normaliser_cible("qemu+ssh://root@h/system") == "qemu+ssh://root@h/system"
+    assert lv.normaliser_cible("@h.example") == "qemu+ssh://root@h.example/system"
+    assert lv.normaliser_cible("h.example:22") == "qemu+ssh://root@h.example/system"
+    assert lv.normaliser_cible("h.example:abc") == "qemu+ssh://root@h.example:abc/system"
+    assert lv.normaliser_cible("h.example:2222") == "qemu+ssh://root@h.example:2222/system"
