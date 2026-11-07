@@ -4,9 +4,8 @@
 from __future__ import annotations
 
 import configparser
-from pathlib import Path
 
-from gi.repository import Gio, Gtk
+from gi.repository import Gtk
 
 import gcm4.ui  # noqa: F401  (require_version avant gi.repository)
 from gcm4.core.chiffrement import ChiffrementGcm
@@ -265,36 +264,52 @@ def test_activation_groupe_et_hote(app_fixture, pomper):
     assert messages and "proto-b" in messages[0]
 
 
-def test_section_du_plugin_dans_le_menu(tmp_path, pomper):
-    """Un hôte ssh : la section du plugin (outils #97) ferme le menu contextuel (#396, 3/3)."""
-    import argparse
+def test_section_du_plugin_dans_le_menu(app_fixture, pomper):
+    """Un hôte du plugin : la section ``context_menu_items`` ferme le menu (#396, 3/3).
 
-    from gcm4.core import registre
-    from gcm4.ui.application import Gcm4Application
+    Un faux plugin de connexion (le vrai plugin ssh exige VTE, absent de
+    Rocky 9) : le câblage du menu est le point testé, les entrées réelles
+    sont couvertes par ``test_plugin_ssh.py``.
+    """
+    from gcm4.core.plugins import ConnectionPlugin, MenuItem
+    from gcm4.core.registre import EtatPlugin, PluginRegistry
 
-    racine = Path(__file__).resolve().parents[2]
-    candidats = [c for c in registre.candidats_dossier(racine / "plugins") if c.nom == "ssh"]
-    (tmp_path / "gcm4.conf").write_text(
-        "[host 1]\nname = srv\nhost = s1.example\nprotocol = ssh\n",
-        encoding="utf-8",
+    app, _ = app_fixture
+    fenetre = app.get_active_window()
+
+    class PluginTest(ConnectionPlugin):
+        """Deux entrées, sans fenêtre."""
+
+        name = "test-menu"
+        protocols = ("proto-b",)
+
+        def build_host_options_widget(self, host, options, changed):
+            return None
+
+        def open(self, host):
+            return None
+
+        def context_menu_items(self, host):
+            return [
+                MenuItem(label="Outil 1", activate=lambda: None),
+                MenuItem(label="Outil 2", activate=lambda: None),
+            ]
+
+    plugin = PluginTest(None)
+    fenetre.registre = PluginRegistry(
+        [EtatPlugin(name="test-menu", source="test", plugin=plugin, protocols=("proto-b",))]
     )
-    app = Gcm4Application(
-        argparse.Namespace(config_dir=str(tmp_path), debug=False, hotes=[]),
-        flags=Gio.ApplicationFlags.NON_UNIQUE,
-        candidats=candidats,
-    )
-    app.register(None)
-    app.activate()
+    arbre = fenetre.arbre
+    menu = arbre.menu
+    menu.ouvrir(_noeud(arbre, "LAB/web"), 10, 10)
     pomper()
-    try:
-        arbre = app.get_active_window().arbre
-        menu = arbre.menu
-        menu.ouvrir(_noeud(arbre, "srv"), 10, 10)
-        pomper()
-        assert _libelles(menu)[-2:] == ["arbre.plugin-0", "arbre.plugin-1"]
-        assert not _libelles(menu)[:-2] or _libelles(menu)[:-2][-1] != "arbre.plugin-0"
-        menu.popover.popdown()
-    finally:
-        for fenetre in list(app.get_windows()):
-            fenetre.destroy()
-        pomper()
+    assert _libelles(menu)[-2:] == ["arbre.plugin-0", "arbre.plugin-1"]
+    assert menu.groupe.lookup_action("plugin-0") is not None
+    menu.popover.popdown()
+    # la section disparaît quand plus aucun plugin ne gère le protocole.
+    fenetre.registre = PluginRegistry([])
+    menu.ouvrir(_noeud(arbre, "LAB/web"), 10, 10)
+    pomper()
+    assert "arbre.plugin-0" not in _libelles(menu)
+    assert not menu.groupe.has_action("plugin-0")
+    menu.popover.popdown()
