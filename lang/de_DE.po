@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 12:45+0000\n"
+"POT-Creation-Date: 2026-11-07 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2018,9 +2018,9 @@ msgstr "Vorlage:"
 msgid "Template:"
 msgstr "Vorlage:"
 
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
 msgid "Tool"
-msgstr ""
+msgstr "Werkzeug"
 
 #: plugins/plugin_serial.py
 msgid "Transmission speed in baud"
@@ -3423,6 +3423,10 @@ msgid "Search"
 msgstr "Suchen"
 
 #: src/gcm4/core/menu.py
+msgid "Tools"
+msgstr "Werkzeuge"
+
+#: src/gcm4/core/menu.py
 msgid "User Guide"
 msgstr "Benutzerhandbuch"
 
@@ -3463,6 +3467,10 @@ msgid "Reset Color"
 msgstr "Farbe zurücksetzen"
 
 #: src/gcm4/core/plugins.py
+msgid "It declares no menu label."
+msgstr "Es deklariert keine Menübezeichnung."
+
+#: src/gcm4/core/plugins.py
 msgid "It declares no protocol."
 msgstr "Es deklariert kein Protokoll."
 
@@ -3479,6 +3487,15 @@ msgstr "Es implementiert Version {found} der Plugin-API; diese Anwendung unterst
 #: src/gcm4/core/plugins.py
 msgid "It is not a connection plugin."
 msgstr "Es ist kein Verbindungs-Plugin."
+
+#: src/gcm4/core/plugins.py
+msgid "It is not a tool plugin."
+msgstr "Es ist kein Werkzeug-Plugin."
+
+#: src/gcm4/core/plugins.py
+#, python-brace-format
+msgid "Its menu section must be one of: {sections}."
+msgstr "Sein Menüabschnitt muss einer von sein: {sections}."
 
 #: src/gcm4/core/plugins.py
 msgid "Its name must be a non-empty lowercase identifier."
@@ -3796,6 +3813,11 @@ msgstr "Offene Verbindungen werden geschlossen."
 #: src/gcm4/ui/main_window.py
 msgid "Quit anyway?"
 msgstr "Trotzdem beenden?"
+
+#: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Tool «{name}» failed; see the log."
+msgstr "Werkzeug „{name}“ fehlgeschlagen; siehe Protokoll."
 
 #: src/gcm4/ui/main_window.py
 #, python-brace-format

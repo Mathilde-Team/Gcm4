@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 12:45+0000\n"
+"POT-Creation-Date: 2026-11-07 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2018,9 +2018,9 @@ msgstr "Mẫu:"
 msgid "Template:"
 msgstr "Mẫu:"
 
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
 msgid "Tool"
-msgstr ""
+msgstr "Công cụ"
 
 #: plugins/plugin_serial.py
 msgid "Transmission speed in baud"
@@ -3423,6 +3423,10 @@ msgid "Search"
 msgstr "Tìm kiếm"
 
 #: src/gcm4/core/menu.py
+msgid "Tools"
+msgstr "Công cụ"
+
+#: src/gcm4/core/menu.py
 msgid "User Guide"
 msgstr "Hướng dẫn sử dụng"
 
@@ -3463,6 +3467,10 @@ msgid "Reset Color"
 msgstr "Đặt lại màu"
 
 #: src/gcm4/core/plugins.py
+msgid "It declares no menu label."
+msgstr "Không khai báo nhãn menu."
+
+#: src/gcm4/core/plugins.py
 msgid "It declares no protocol."
 msgstr "Không khai báo giao thức nào."
 
@@ -3479,6 +3487,15 @@ msgstr "Triển khai API tiện ích phiên bản {found}; ứng dụng này h�
 #: src/gcm4/core/plugins.py
 msgid "It is not a connection plugin."
 msgstr "Đây không phải tiện ích kết nối."
+
+#: src/gcm4/core/plugins.py
+msgid "It is not a tool plugin."
+msgstr "Đây không phải là plugin công cụ."
+
+#: src/gcm4/core/plugins.py
+#, python-brace-format
+msgid "Its menu section must be one of: {sections}."
+msgstr "Phần menu của nó phải là một trong: {sections}."
 
 #: src/gcm4/core/plugins.py
 msgid "Its name must be a non-empty lowercase identifier."
@@ -3796,6 +3813,11 @@ msgstr "Các kết nối đang mở sẽ bị đóng."
 #: src/gcm4/ui/main_window.py
 msgid "Quit anyway?"
 msgstr "Vẫn thoát?"
+
+#: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Tool «{name}» failed; see the log."
+msgstr "Công cụ «{name}» đã thất bại; xem nhật ký."
 
 #: src/gcm4/ui/main_window.py
 #, python-brace-format

@@ -24,7 +24,8 @@ propre confirmation (#147).
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
+from typing import Any
 
 from gi.repository import Adw, Gdk, Gio, GLib, Gtk
 from loguru import logger
@@ -45,11 +46,15 @@ LARGEUR_DEFAUT = 1000
 HAUTEUR_DEFAUT = 650
 
 
-def construire_menu() -> Gio.Menu:
-    """``Gio.Menu`` du menu principal, depuis ``gcm4.core.menu``."""
-    logger.debug("construire_menu: entrée")
+def construire_menu(outils: Iterable[Any] = ()) -> Gio.Menu:
+    """``Gio.Menu`` du menu principal, depuis ``gcm4.core.menu``.
+
+    ``outils`` : plugins outils chargés, leurs entrées complètent le menu
+    (``menu_avec_outils``, #73).
+    """
+    logger.debug("construire_menu: entrée | {} outil(s)", len(list(outils)))
     racine = Gio.Menu()
-    for sous_menu in menu.MENU_PRINCIPAL:
+    for sous_menu in menu.menu_avec_outils(menu.MENU_PRINCIPAL, outils):
         contenu = Gio.Menu()
         for section in sous_menu.sections:
             bloc = Gio.Menu()
@@ -94,8 +99,14 @@ class MainWindow(Adw.ApplicationWindow):
 
         entete = Adw.HeaderBar()
         self.bouton_menu = Gtk.MenuButton(
-            icon_name="open-menu-symbolic", menu_model=construire_menu()
+            icon_name="open-menu-symbolic", menu_model=construire_menu(self.registre.outils())
         )
+        for outil in self.registre.outils():
+            # Une action par outil (#73) : l'échec de activate() est notifié,
+            # jamais fatal pour la fenêtre.
+            action = Gio.SimpleAction.new(menu.action_outil(outil.name).split(".", 1)[1], None)
+            action.connect("activate", self._on_outil, outil)
+            self.add_action(action)
         self.bouton_menu.set_tooltip_text(_("Menu"))
         entete.pack_end(self.bouton_menu)
 
@@ -232,6 +243,18 @@ class MainWindow(Adw.ApplicationWindow):
         logger.debug("notifier: entrée")
         self.toasts.add_toast(Adw.Toast(title=message, timeout=5))
         logger.debug("notifier: fait")
+
+    def _on_outil(
+        self, _action: Gio.SimpleAction, _param: GLib.Variant | None, outil: Any
+    ) -> None:
+        """Déclenche un plugin outil ; son échec est notifié, jamais fatal (#73)."""
+        logger.debug("_on_outil: entrée | {!r}", outil.name)
+        try:
+            outil.activate()
+        except Exception:
+            logger.exception("_on_outil: {} a échoué", outil.name)
+            self.notifier(_("Tool «{name}» failed; see the log.").format(name=outil.name))
+        logger.debug("_on_outil: fait")
 
     def _on_connect_host(self, _action: Gio.SimpleAction, param: GLib.Variant) -> None:
         """Double-clic / Entrée / « Connecter » : le plugin du protocole ouvre un onglet.

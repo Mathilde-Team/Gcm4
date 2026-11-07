@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 12:45+0000\n"
+"POT-Creation-Date: 2026-11-07 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2018,9 +2018,9 @@ msgstr "Sjabloon:"
 msgid "Template:"
 msgstr "Sjabloon:"
 
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
 msgid "Tool"
-msgstr ""
+msgstr "Gereedschap"
 
 #: plugins/plugin_serial.py
 msgid "Transmission speed in baud"
@@ -3423,6 +3423,10 @@ msgid "Search"
 msgstr "Zoeken"
 
 #: src/gcm4/core/menu.py
+msgid "Tools"
+msgstr "Gereedschap"
+
+#: src/gcm4/core/menu.py
 msgid "User Guide"
 msgstr "Gebruikershandleiding"
 
@@ -3463,6 +3467,10 @@ msgid "Reset Color"
 msgstr "Kleur herstellen"
 
 #: src/gcm4/core/plugins.py
+msgid "It declares no menu label."
+msgstr "Het declareert geen menulabel."
+
+#: src/gcm4/core/plugins.py
 msgid "It declares no protocol."
 msgstr "Er is geen protocol gedeclareerd."
 
@@ -3479,6 +3487,15 @@ msgstr "Het implementeert versie {found} van de plugin-API; deze toepassing onde
 #: src/gcm4/core/plugins.py
 msgid "It is not a connection plugin."
 msgstr "Het is geen verbindingsplugin."
+
+#: src/gcm4/core/plugins.py
+msgid "It is not a tool plugin."
+msgstr "Het is geen gereedschapsplugin."
+
+#: src/gcm4/core/plugins.py
+#, python-brace-format
+msgid "Its menu section must be one of: {sections}."
+msgstr "Het menu-onderdeel moet een van de volgende zijn: {sections}."
 
 #: src/gcm4/core/plugins.py
 msgid "Its name must be a non-empty lowercase identifier."
@@ -3796,6 +3813,11 @@ msgstr "Open verbindingen worden gesloten."
 #: src/gcm4/ui/main_window.py
 msgid "Quit anyway?"
 msgstr "Toch afsluiten?"
+
+#: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Tool «{name}» failed; see the log."
+msgstr "Gereedschap «{name}» is mislukt; zie het logboek."
 
 #: src/gcm4/ui/main_window.py
 #, python-brace-format
