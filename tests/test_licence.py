@@ -2,7 +2,7 @@
 """Licence de gcm4 (issue #339) : LICENSE, NOTICE, en-têtes SPDX et paquets.
 
 Trois régimes (NOTICE) : le code repris de l'amont gnome-connection-manager
-reste en GPL-3.0 seule, pyAES.py en MIT, le code de l'équipe est en
+reste en GPL-3.0 seule, src/gcm4/core/pyaes.py en MIT, le code de l'équipe est en
 GPL-3.0-or-later. Ces tests, sans réseau, verrouillent :
 
 - ``LICENSE`` = texte GPLv3 seul, pour que GitHub reconnaisse la licence
@@ -26,7 +26,7 @@ ROOT = Path(__file__).resolve().parent.parent
 AMONT = {
     "gnome_connection_manager.py",
     "widgets.py",
-    "gcm4_core.py",
+    "src/gcm4/core/metier.py",
     "models.py",
     "utils.py",
     "urlregex.py",
@@ -35,7 +35,7 @@ AMONT = {
     "postinst",
 }
 # Code tiers repris avec sa propre licence.
-TIERS = {"pyAES.py": "MIT"}
+TIERS = {"src/gcm4/core/pyaes.py": "MIT"}
 # Sous-projets vendorisés : licence propre, documentée dans NOTICE.
 VENDORISES = ("SSH-Studio/", "gtk-frdp/", "lang/")
 SPDX = re.compile(r"SPDX-License-Identifier: (\S+)")
@@ -86,13 +86,13 @@ class TestLicenseEtNotice(unittest.TestCase):
         """La liste GPL-3.0 seule de NOTICE est celle de AMONT."""
         notice = _lire("NOTICE")
         bloc = notice.split("- GPL-3.0-only :", 1)[1].split("- GPL-3.0-or-later :", 1)[0]
-        listes = set(re.findall(r"[\w.-]+\.(?:py|expect|css)|postinst", bloc))
+        listes = set(re.findall(r"[\w./-]+\.(?:py|expect|css)|postinst", bloc))
         self.assertEqual(listes, AMONT)
 
     def test_notice_documente_le_code_vendorise(self):
         """Code vendorisé et dépendances optionnelles documentés."""
         notice = _lire("NOTICE")
-        for depot in ("gtk-frdp/", "SSH-Studio/", "pyAES.py"):
+        for depot in ("gtk-frdp/", "SSH-Studio/", "src/gcm4/core/pyaes.py"):
             self.assertIn(depot, notice)
         for extra in ("netmiko", "paramiko", "libvirt-python", "pycryptodomex", "loguru"):
             self.assertIn(extra, notice)
@@ -130,7 +130,7 @@ class TestPaquets(unittest.TestCase):
         bloc = copyright_.split("License: GPL-3+", 1)[1].split("License: GPL-3\n", 1)[0]
         fichiers = set(bloc.split("Files:", 1)[1].split("Copyright:", 1)[0].split())
         self.assertEqual(fichiers, AMONT)
-        self.assertIn("Files: pyAES.py", copyright_)
+        self.assertIn("Files: src/gcm4/core/pyaes.py", copyright_)
         for licence in ("License: GPL-3+\n", "License: GPL-3\n", "License: Expat\n"):
             self.assertIn(licence, copyright_)
 

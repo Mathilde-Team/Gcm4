@@ -92,7 +92,7 @@ else:
 
 
 # mask_password : partagée par tout le dépôt depuis l'issue #130.
-from logging_config import mask_password  # noqa: E402
+from gcm4.core.journal import mask_password  # noqa: E402
 
 
 def parse_spice_hosts(conf_path: Path) -> list[tuple[str, str]]:

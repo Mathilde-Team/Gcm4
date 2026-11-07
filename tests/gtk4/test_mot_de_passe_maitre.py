@@ -190,7 +190,7 @@ def test_preferences_cycle_complet(tmp_path, monkeypatch, pomper):
 
 def test_groupe_indisponible_et_v1(tmp_path, monkeypatch, pomper):
     """Configuration non chargée : groupe inactif ; clé v1 : « sans code », pas de lien oubli."""
-    import master_password_core as mpc
+    from gcm4.core import mot_de_passe as mpc
 
     groupe = GroupeMotDePasseMaitre(None)
     assert not groupe.get_sensitive() and "not loaded" in groupe.etat.get_subtitle()

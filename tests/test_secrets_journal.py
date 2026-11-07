@@ -37,7 +37,7 @@ def _log_calls(path):
 
 def _load_mask_password():
     """mask_password partagée, dans logging_config (sans GTK) depuis l'issue #130."""
-    import logging_config
+    from gcm4.core import journal as logging_config
 
     return logging_config.mask_password
 

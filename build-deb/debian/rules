@@ -1,8 +1,8 @@
 #!/usr/bin/make -f
 # Paquet gcm4 (#156) : la base GTK4 est installée dans /usr/share/gcm4,
-# dossier privé, comme Netcross. Les modules racine que gcm4 réutilise
-# (gcm4_core, logging_config, pyAES) ne vont donc pas dans dist-packages,
-# où leurs noms génériques pourraient entrer en conflit.
+# dossier privé, comme Netcross. Le paquet gcm4 (modules
+# de gcm4.core compris, anciennement à la racine, #427) ne va donc pas dans
+# dist-packages.
 #
 # Le contenu de /usr/share/gcm4 est celui du wheel construit depuis
 # pyproject.toml (hatchling, only-include) : une seule liste de fichiers

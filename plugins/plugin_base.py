@@ -44,7 +44,7 @@ if TYPE_CHECKING:
     # évaluées à l'exécution), donc aucun `gi.require_version()`/import Gtk
     # réel n'est nécessaire ici. Ce verrou de version GTK3, hérité, empêchait
     # tout plugin GTK4 de se charger dans le même process — voir
-    # `proposition-architecture-plugins-gtk4.md` §4 et
+    # `docs/proposition-architecture-plugins-gtk4.md` §4 et
     # `docs/gtk4-migration.md`. Chaque plugin (futur `__init__.py` par
     # dossier) reste seul responsable de choisir sa propre version GTK.
     from gi.repository import Gtk

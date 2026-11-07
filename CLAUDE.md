@@ -42,12 +42,12 @@ générique de migration de config livrés et testés (session-30,
   `gtk3.py`). Voir `CONSIGNES-AGENTS-IA.md` pour les règles imposées à tout
   agent travaillant sur ce chantier (logging, docstrings, tests, ruff,
   imports circulaires — strictes).
-  **Points §9 de `proposition-architecture-plugins-gtk4.md` validés avec
+  **Points §9 de `docs/proposition-architecture-plugins-gtk4.md` validés avec
   l'autrice le 2026-09-10** : pas de mécanisme de sélection GTK3/GTK4 à
   écrire (conséquence du "GTK3 100% abandonné"), fichiers SSH fusionnés en
   2 (`core.py`+`gtk4.py`, pas plus) — détail `docs/gtk4-migration.md`
   §3.0-bis.
-- Neutralité de protocole du cœur (`gcm4_core.py`) : aucune logique
+- Neutralité de protocole du cœur (`src/gcm4/core/metier.py`) : aucune logique
   spécifique à un protocole ne doit y rester à terme — vestiges déjà
   identifiés dans `docs/architecture.md` §2.8-bis.
 
@@ -115,7 +115,7 @@ recherche sur l'écosystème GTK4 : tout est dans `docs/gtk4-migration.md`.
    voir `gtk4-migration.md` §3.6 pour le détail et pour la réponse (fourchette
    grossière, volontairement non chiffrée précisément) à la question de
    l'échéance du cœur GTK4. Questions §9 de
-   `proposition-architecture-plugins-gtk4.md` validées le 2026-09-10 (voir
+   `docs/proposition-architecture-plugins-gtk4.md` validées le 2026-09-10 (voir
    §3.0-bis).
 1. **Plugin pilote SSH — `plugins/ssh/core.py` extrait (session-26,
    2026-09-10)** : fusion de `ssh_config_parser.py`+`ssh_migrate_gcm.py`
@@ -453,7 +453,7 @@ recherche sur l'écosystème GTK4 : tout est dans `docs/gtk4-migration.md`.
    (session-30, 2026-09-10)** : inventaire complet de ce qui doit changer
    (12 sites d'import réel du module principal, 29 occurrences du domaine
    i18n `gcm-lang`, `.desktop`, packaging, config utilisateur) et nouvelle
-   fonction générique testée `gcm4_core.migrate_legacy_config_dir()`
+   fonction générique testée `gcm4.core.metier.migrate_legacy_config_dir()`
    (copie, jamais destructrice, idempotente, sans nom de dossier en dur —
    8 tests). **Pas d'exécution du renommage cette session** : six choix de
    noms non tranchés (module, dossier de config, fichier de conf/clé,
@@ -482,9 +482,9 @@ recherche sur l'écosystème GTK4 : tout est dans `docs/gtk4-migration.md`.
    renommage/réintroduction des fonctions manquantes (voir
    `docs/architecture.md` §2.8). README/CHANGELOG (« 491 tests ») corrigés
    avec les chiffres réels. Détail : `docs/sessions/session-36.md`.
-   Master password : la logique de chiffrement (`master_password_core.py`,
+   Master password : la logique de chiffrement (`src/gcm4/core/mot_de_passe.py`,
    session-27, 2026-09-10) est faite et testée isolément (PBKDF2 + enveloppe
-   `pyAES`, rétrocompatible avec un `KEY_FILE` legacy non protégé) ; le
+   `gcm4.core.pyaes`, rétrocompatible avec un `KEY_FILE` legacy non protégé) ; le
    câblage réel est fait dans gcm4 (#98, décisions de l'auteure du
    12/10/2026 : protection facultative, code de recouvrement affiché une
    fois) : page de verrouillage au démarrage, Paramètres > Sécurité.
@@ -614,7 +614,7 @@ premiers jobs.
   à rouvrir seulement pour retrouver le raisonnement d'une décision passée,
   pas à chaque démarrage
 - `CONSIGNES-AGENTS-IA.md` — règles strictes pour le code des plugins
-- `proposition-architecture-plugins-gtk4.md`, `PATTERNS-COMPARISON.md` — inchangés
+- `docs/proposition-architecture-plugins-gtk4.md`, `docs/patterns-comparison.md` — inchangés
 
 @docs/features-backlog.md
 

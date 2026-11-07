@@ -30,7 +30,7 @@ from html import escape
 
 from loguru import logger
 
-import gcm4_core
+from gcm4.core import metier as gcm4_core
 from gcm4.core.model import Group, Host, HostStore, parent
 from gcm4.core.replies import ecrire_replies, gtk3_tree_paths, lire_replies
 from gcm4.core.theme import color_class

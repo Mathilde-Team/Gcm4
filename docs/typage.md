@@ -5,8 +5,8 @@ Issue #173. `uv run mypy` vérifie les modules listés dans `[tool.mypy] files`
 
 ## Périmètre
 
-- Modules sans GTK d'abord : `gcm4_core.py`, `logging_config.py`,
-  `models.py`, `master_password_core.py`, les `*_core.py`,
+- Modules sans GTK d'abord : `src/gcm4/core/metier.py`, `src/gcm4/core/journal.py`,
+  `models.py`, `src/gcm4/core/mot_de_passe.py`, les `*_core.py`,
   `plugins/plugin_base.py` et `plugins/ssh/core.py`. Ils sont tous à
   0 erreur.
 - La liste ne peut que s'allonger : `tests/test_mypy_config.py` échoue si

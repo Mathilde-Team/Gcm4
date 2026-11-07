@@ -50,8 +50,8 @@ import os
 from gi.repository import Adw, Gio, GLib, Gtk, Pango
 from loguru import logger
 
-import logging_config
 from gcm4.core import comportement_onglets, menu
+from gcm4.core import journal as logging_config
 from gcm4.core import preferences as prefs_core
 from gcm4.core import raccourcis as raccourcis_core
 from gcm4.core.config import ConfigError

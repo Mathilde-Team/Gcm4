@@ -126,7 +126,7 @@ def test_echec_ancien_intact(tmp_path, monkeypatch):
     """Copie interrompue (disque plein) : MigrationError, ancien intact, dossier partiel supprimé."""
     import shutil
 
-    import gcm4_core
+    from gcm4.core import metier as gcm4_core
 
     ancien = _ancien(tmp_path)
     avant = _contenu(ancien)

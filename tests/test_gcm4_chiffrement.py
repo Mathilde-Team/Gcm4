@@ -11,9 +11,9 @@ from pathlib import Path
 import pytest
 from loguru import logger
 
-import gcm4_core
 from gcm4.core import chemins
 from gcm4.core import config as config_mod
+from gcm4.core import metier as gcm4_core
 from gcm4.core.chiffrement import ChiffrementError, ChiffrementGcm, dechiffrer_aes_strict
 from gcm4.core.config import ConfigError, load_config, save_config
 
@@ -164,7 +164,7 @@ def test_valeur_corrompue(valeur):
 
 def test_utf8_invalide(monkeypatch):
     """Bourrage correct mais octets non UTF-8 : ChiffrementError."""
-    import pyAES
+    from gcm4.core import pyaes as pyAES
 
     chiffre = pyAES.encrypt(b"\xff\xfe", "s")
     with pytest.raises(ChiffrementError):
@@ -173,7 +173,7 @@ def test_utf8_invalide(monkeypatch):
 
 def test_aller_retour_strict_toutes_longueurs():
     """dechiffrer_aes_strict inverse pyAES.encrypt pour 0 à 40 octets (frontières de blocs)."""
-    import pyAES
+    from gcm4.core import pyaes as pyAES
 
     for n in range(41):
         texte = "é" * (n // 2) + "x" * (n % 2)
@@ -212,7 +212,7 @@ def test_flux_aes_de_mauvaise_longueur_refuse(monkeypatch):
 
     Remplace le contrôle de ``zip(strict=True)``, absent de Python 3.9 (#223).
     """
-    import pyAES
+    from gcm4.core import pyaes as pyAES
 
     stocke = gcm4_core.encrypt("cle-de-test", "mot de passe")
     monkeypatch.setattr(pyAES, "aesEncrypt", lambda flux, cle: list(range(15)))

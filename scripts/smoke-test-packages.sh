@@ -201,7 +201,7 @@ check_rpm_content() {
     local listing
     listing="$(rpm -qpl "$PKG")"
     for f in /usr/bin/gcm4 "$PREFIX/gcm4/app.py" "$PREFIX/gcm4/ui/style.css" \
-        "$PREFIX/gcm4_core.py" "$PREFIX/logging_config.py" "$PREFIX/master_password_core.py" "$PREFIX/pyAES.py" \
+        "$PREFIX/gcm4/core/metier.py" "$PREFIX/gcm4/core/journal.py" "$PREFIX/gcm4/core/mot_de_passe.py" "$PREFIX/gcm4/core/pyaes.py" \
         "/usr/share/applications/$APP_ID.desktop" "/usr/share/metainfo/$APP_ID.metainfo.xml"; do
         grep -qx "$f" <<<"$listing" || fail "rpm : $f absent"
     done

@@ -67,7 +67,7 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-only-include = ["src/gcm4", "gcm4_core.py", "logging_config.py", "master_password_core.py", "pyAES.py"]
+only-include = ["src/gcm4"]
 sources = ["src"]
 # Mode éditable (`uv sync`) : src/ et la racine sur sys.path, sans copie
 # des modules racine (une copie figée masquerait les modifications).
@@ -150,10 +150,11 @@ files = [
     "src/gcm4/core/theme.py",
     "src/gcm4/core/validation.py",
     "src/gcm4/core/window_state.py",
-    "gcm4_core.py",
-    "logging_config.py",
+    "src/gcm4/core/metier.py",
+    "src/gcm4/core/journal.py",
     "models.py",
-    "master_password_core.py",
+    "src/gcm4/core/mot_de_passe.py",
+    "src/gcm4/core/pyaes.py",
     "folder_context_menu_core.py",
     "gesture_trigger_core.py",
     "inline_editor_core.py",
@@ -274,7 +275,7 @@ convention = "google"
 # isort : compatibilité black
 [tool.ruff.lint.isort]
 force-single-line = false
-known-first-party = ["gnome_connection_manager", "gcm4_core"]
+known-first-party = ["gnome_connection_manager", "gcm4"]
 
 [tool.ruff.lint.per-file-ignores]
 "urlregex.py" = ["W605"]

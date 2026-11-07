@@ -47,7 +47,7 @@ Dans **Paramètres > Sécurité** :
 
 - Format `GCM4MPW2:<enveloppe mot de passe>:<enveloppe code>` : la même clé
   est chiffrée deux fois, par une clé dérivée du mot de passe et par une clé
-  dérivée du code (PBKDF2-HMAC-SHA256, `master_password_core.py`). Le format
+  dérivée du code (PBKDF2-HMAC-SHA256, `src/gcm4/core/mot_de_passe.py`). Le format
   `GCM4MPW1` (mot de passe seul) reste lu.
 - L'écriture de `.gcm4.key` est atomique (fichier temporaire `0600` puis
   remplacement) : une coupure ne laisse pas une clé à moitié écrite.

@@ -39,11 +39,12 @@ ultérieure ». Trois régimes coexistent donc dans ce dépôt :
 - GPL-3.0-only : fichiers repris ou dérivés du code amont. Ils gardent
   la licence d'origine tant que l'auteur amont n'a pas donné son accord
   pour « ou toute version ultérieure » :
-    gnome_connection_manager.py, widgets.py, gcm4_core.py, models.py,
-    utils.py, urlregex.py, ssh.expect, style.css, postinst
+    gnome_connection_manager.py, widgets.py, src/gcm4/core/metier.py,
+    models.py, utils.py, urlregex.py, ssh.expect, style.css, postinst
 - GPL-3.0-or-later : code écrit par l'équipe Mathilde-Team (src/gcm4/,
-  plugins/, scripts/, tools/, tests/ et les autres modules).
-- MIT : pyAES.py, Copyright (c) 2007 Brandon Sterne
+  plugins/, scripts/, tools/, tests/ et les autres modules, sauf
+  src/gcm4/core/metier.py et src/gcm4/core/pyaes.py).
+- MIT : src/gcm4/core/pyaes.py (ancien pyAES.py), Copyright (c) 2007 Brandon Sterne
   (http://brandon.sternefamily.net/files/mit-license.txt), repris de
   l'amont avec sa licence d'origine.
 
