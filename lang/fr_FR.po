@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 12:45+0000\n"
+"POT-Creation-Date: 2026-11-07 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2018,9 +2018,9 @@ msgstr "Modèle :"
 msgid "Template:"
 msgstr "Modèle :"
 
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
+#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
 msgid "Tool"
-msgstr ""
+msgstr "Outil"
 
 #: plugins/plugin_serial.py
 msgid "Transmission speed in baud"
@@ -3403,6 +3403,10 @@ msgid "Search"
 msgstr "Rechercher"
 
 #: src/gcm4/core/menu.py
+msgid "Tools"
+msgstr "Outils"
+
+#: src/gcm4/core/menu.py
 msgid "User Guide"
 msgstr "Guide utilisateur"
 
@@ -3443,6 +3447,10 @@ msgid "Reset Color"
 msgstr "Réinitialiser la couleur"
 
 #: src/gcm4/core/plugins.py
+msgid "It declares no menu label."
+msgstr "Il ne déclare aucun libellé de menu."
+
+#: src/gcm4/core/plugins.py
 msgid "It declares no protocol."
 msgstr "Il ne déclare aucun protocole."
 
@@ -3459,6 +3467,15 @@ msgstr "Il implémente la version {found} de l'API des plugins ; cette applicati
 #: src/gcm4/core/plugins.py
 msgid "It is not a connection plugin."
 msgstr "Ce n'est pas un plugin de connexion."
+
+#: src/gcm4/core/plugins.py
+msgid "It is not a tool plugin."
+msgstr "Ce n'est pas un plugin outil."
+
+#: src/gcm4/core/plugins.py
+#, python-brace-format
+msgid "Its menu section must be one of: {sections}."
+msgstr "Sa section de menu doit être l'une de : {sections}."
 
 #: src/gcm4/core/plugins.py
 msgid "Its name must be a non-empty lowercase identifier."
@@ -3776,6 +3793,11 @@ msgstr "Les connexions ouvertes seront fermées."
 #: src/gcm4/ui/main_window.py
 msgid "Quit anyway?"
 msgstr "Quitter quand même ?"
+
+#: src/gcm4/ui/main_window.py
+#, python-brace-format
+msgid "Tool «{name}» failed; see the log."
+msgstr "L'outil «{name}» a échoué ; consultez le journal."
 
 #: src/gcm4/ui/main_window.py
 #, python-brace-format

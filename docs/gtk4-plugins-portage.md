@@ -106,7 +106,11 @@ toutes les lignes suivantes.
 3. **ssh** (#97, #180) : le plus gros ; il réutilise le terminal des étapes 1
    et 2.
 4. **web** (#397) : porté.
-5. **Contrat « outil »**, puis **import_putty**, les imports d'hyperviseurs,
+5. ~~**Contrat « outil »**~~ fait (#73) : `ToolPlugin` dans
+   `gcm4.core.plugins`, sections de menu `outils`/`import`/`export`,
+   validation `incompatibilite_outil()`, sous-menu « Tools » et action
+   `win.outil-<name>` (`gcm4.core.menu.menu_avec_outils`,
+   `docs/plugins.md`). Reste **import_putty**, les imports d'hyperviseurs,
    **netmiko_push**, et **snmp_push** après #74.
 6. **vnc** (fusion pluginvnc2, #104), **rdp** (#71, #105) et **spice** (choix
    de la voie) : ils dépendent de projets ou de décisions extérieurs.
