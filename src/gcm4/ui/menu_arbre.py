@@ -162,12 +162,47 @@ class MenuArbre:
             for action in section:
                 partie.append(_(menu_arbre.LIBELLES[action]), f"{PREFIXE}.{action}")
             modele.append_section(None, partie)
+        self._ajouter_items_plugins(noeud, modele)
         self.popover.set_menu_model(modele)
         rectangle = Gdk.Rectangle()
         rectangle.x, rectangle.y, rectangle.width, rectangle.height = int(x), int(y), 1, 1
         self.popover.set_pointing_to(rectangle)
         self.popover.popup()
         logger.debug("ouvrir: {} section(s)", modele.get_n_items())
+
+    def _ajouter_items_plugins(self, noeud: Noeud | None, modele: Gio.Menu) -> None:
+        """Ajoute la section du plugin de l'hôte visé (``context_menu_items``).
+
+        Les entrées du contrat v1 (``docs/plugins.md``) : une section en
+        fin de menu, avec les actions dynamiques ``plugin-<n>`` du groupe
+        ``arbre.`` (remplacées à chaque ouverture).
+        """
+        logger.debug("_ajouter_items_plugins: {!r}", noeud.chemin if noeud else None)
+        for nom in [a for a in self.groupe.list_actions() if a.startswith("plugin-")]:
+            self.groupe.remove_action(nom)
+        if noeud is None or noeud.host is None:
+            logger.debug("_ajouter_items_plugins: sortie | pas d'hôte")
+            return
+        plugin = self._registre().get(noeud.host.protocol)
+        if plugin is None:
+            logger.debug("_ajouter_items_plugins: sortie | pas de plugin")
+            return
+        try:
+            items = plugin.context_menu_items(noeud.host)
+        except Exception as exc:  # un plugin ne doit pas arrêter gcm4
+            logger.warning("_ajouter_items_plugins: {!r} : {}", plugin.name, exc)
+            return
+        if not items:
+            logger.debug("_ajouter_items_plugins: sortie | aucune entrée")
+            return
+        partie = Gio.Menu()
+        for rang, item in enumerate(items):
+            action = Gio.SimpleAction.new(f"plugin-{rang}", None)
+            action.connect("activate", lambda *_a, act=item.activate: act())
+            self.groupe.add_action(action)
+            partie.append(item.label, f"{PREFIXE}.plugin-{rang}")
+        modele.append_section(None, partie)
+        logger.debug("_ajouter_items_plugins: {} entrée(s)", len(items))
 
     def _on_clic_droit(self, geste: Gtk.GestureClick, _n: int, x: float, y: float) -> None:
         """Clic droit : la ligne sous le pointeur est sélectionnée, puis le menu s'ouvre.

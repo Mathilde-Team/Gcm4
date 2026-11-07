@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 14:23+0000\n"
+"POT-Creation-Date: 2026-11-07 16:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -438,7 +438,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: GTK3.OLD/gnome_connection_manager.py
+#: GTK3.OLD/gnome_connection_manager.py plugins/ssh/gtk4.py
 msgid "Private key"
 msgstr ""
 
@@ -2138,8 +2138,9 @@ msgstr ""
 msgid "Reset Color"
 msgstr ""
 
-#: GTK3.OLD/widgets.py plugins/plugin_ssh.py src/gcm4/core/menu_arbre.py
-#: src/gcm4/core/preferences.py src/gcm4/ui/menu_arbre.py
+#: GTK3.OLD/widgets.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Remove"
 msgstr ""
 
@@ -2173,7 +2174,7 @@ msgid "Connection closed"
 msgstr ""
 
 #: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/telnet/gtk4.py
+#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr ""
@@ -2217,6 +2218,7 @@ msgstr ""
 
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py plugins/plugin_ssh.py
+#: plugins/ssh/gtk4.py
 msgid "Add"
 msgstr ""
 
@@ -3453,11 +3455,11 @@ msgstr ""
 msgid "QUIET / ERROR / INFO / VERBOSE / DEBUG…"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Dynamic / SOCKS (-D)"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid ""
 "SSH private key file not found:\n"
 "\n"
@@ -3470,31 +3472,31 @@ msgstr ""
 msgid "SSH"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Advanced"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Port forwarding"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "SSHFS"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Keep alive (seconds)"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "X11 forwarding (-X)"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Agent forwarding (-A)"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Compression (-C)"
 msgstr ""
 
@@ -3502,19 +3504,19 @@ msgstr ""
 msgid "Extra ssh args"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Mount remote filesystem via SSHFS on connect"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Remote path"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Local mount point"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Edit ~/.ssh/config…"
 msgstr ""
 
@@ -3526,7 +3528,7 @@ msgstr ""
 msgid "Import from ssh_config…"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Manage SSH Keys…"
 msgstr ""
 

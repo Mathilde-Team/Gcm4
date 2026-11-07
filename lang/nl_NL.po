@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 14:23+0000\n"
+"POT-Creation-Date: 2026-11-07 16:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -629,7 +629,7 @@ msgstr "Poort"
 msgid "Previous match"
 msgstr ""
 
-#: GTK3.OLD/gnome_connection_manager.py
+#: GTK3.OLD/gnome_connection_manager.py plugins/ssh/gtk4.py
 msgid "Private key"
 msgstr "Privésleutel"
 
@@ -2260,8 +2260,9 @@ msgstr "Nieuwe groep…"
 msgid "Reconnect to host"
 msgstr "Opnieuw verbinden met host"
 
-#: GTK3.OLD/widgets.py plugins/plugin_ssh.py src/gcm4/core/menu_arbre.py
-#: src/gcm4/core/preferences.py src/gcm4/ui/menu_arbre.py
+#: GTK3.OLD/widgets.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
+#: src/gcm4/ui/menu_arbre.py
 msgid "Remove"
 msgstr "Verwijderen"
 
@@ -2351,7 +2352,7 @@ msgid "The base application provides no protocol by itself: connections need the
 msgstr "De basistoepassing biedt zelf geen enkel protocol: verbindingen hebben de bijbehorende extensie nodig."
 
 #: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/telnet/gtk4.py
+#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "{program} niet gevonden"
@@ -2385,6 +2386,7 @@ msgstr ""
 
 #: plugins/plugin_import_libvirt.py plugins/plugin_import_proxmox.py
 #: plugins/plugin_import_virtualbox.py plugins/plugin_ssh.py
+#: plugins/ssh/gtk4.py
 msgid "Add"
 msgstr "Toevoegen"
 
@@ -3676,11 +3678,11 @@ msgstr "xfreerdp niet gevonden"
 msgid "remote-viewer options:"
 msgstr "xfreerdp-opties:"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Advanced"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Agent Forwarding"
 msgid "Agent forwarding (-A)"
@@ -3698,7 +3700,7 @@ msgstr ""
 msgid "Command to run instead of a shell"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Compression"
 msgid "Compression (-C)"
@@ -3708,7 +3710,7 @@ msgstr "Compressie"
 msgid "Connections will be added to the « ssh_config » group, with name = host = SSH alias."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Dynamic / SOCKS (-D)"
 msgstr ""
 
@@ -3716,7 +3718,7 @@ msgstr ""
 msgid "Edit SSH config"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Edit ~/.ssh/config…"
 msgstr ""
 
@@ -3762,15 +3764,15 @@ msgstr ""
 msgid "Import from which file?"
 msgstr "Importeren vanuit libvirt"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Keep alive (seconds)"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Local mount point"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Manage SSH Keys…"
 msgstr ""
 
@@ -3784,7 +3786,7 @@ msgstr ""
 msgid "Migration failed: %s"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Mount remote filesystem via SSHFS on connect"
 msgstr ""
 
@@ -3835,7 +3837,7 @@ msgid ""
 "Shared: visible and usable by every user of this machine (team bastion), %s — requires root privileges."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Port forwarding"
 msgstr "Poortdoorsturing"
 
@@ -3843,7 +3845,7 @@ msgstr "Poortdoorsturing"
 msgid "QUIET / ERROR / INFO / VERBOSE / DEBUG…"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Remote Host"
 msgid "Remote path"
@@ -3853,7 +3855,7 @@ msgstr "Externe host"
 msgid "SSH"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid ""
 "SSH private key file not found:\n"
 "\n"
@@ -3862,7 +3864,7 @@ msgid ""
 "Please check the key path configuration."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "SSHFS"
 msgstr ""
 
@@ -3882,7 +3884,7 @@ msgstr ""
 msgid "Which file?"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "X11 Forwarding"
 msgid "X11 forwarding (-X)"

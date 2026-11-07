@@ -24,16 +24,23 @@ les **mêmes clés INI que GTK3** (``models.save_host_to_ini`` et
 
 from __future__ import annotations
 
+import getpass
 import os
 import shlex
+import shutil
+import subprocess
 from collections.abc import Mapping
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from loguru import logger
 
 from gcm4.core.i18n import N_
 from gcm4.core.terminal import Lancement
 from gcm4.core.terminal import etapes as _etapes
+
+if TYPE_CHECKING:
+    from gcm4.core.model import Host
 
 __all__ = [
     "CHAMPS_AVANCES",
@@ -45,6 +52,13 @@ __all__ = [
     "OPT_NIVEAU_COMPRESSION",
     "OPT_TUNNELS",
     "OPT_X11",
+    "OPT_SSHFS_MONTAGE",
+    "OPT_SSHFS_DISTANT",
+    "OPT_SSHFS_LOCAL",
+    "arreter_montage",
+    "demarrer_montage",
+    "commande_auth",
+    "commande_montage",
     "PORT_DEFAUT",
     "SCRIPT_EXPECT",
     "arguments",
@@ -80,6 +94,12 @@ OPT_COMPRESSION = "compression"
 OPT_NIVEAU_COMPRESSION = "compression-level"
 #: Fichier de clé privée (``-i``).
 OPT_CLE = "private_key"
+#: Montage sshfs à la connexion (clé INI de GTK3, sans conversion).
+OPT_SSHFS_MONTAGE = "ssh_sshfs_mount"
+#: Chemin distant monté par sshfs (clé INI de GTK3).
+OPT_SSHFS_DISTANT = "ssh_sshfs_remote_path"
+#: Point de montage local de sshfs (clé INI de GTK3).
+OPT_SSHFS_LOCAL = "ssh_sshfs_local_mount"
 
 #: Options ``-o`` avancées : (clé INI, option ssh, aide), dans l'ordre de GTK3
 #: (``_ADVANCED_FIELDS`` de ``plugins/plugin_ssh.py``).
@@ -254,3 +274,191 @@ def etapes(commandes: str) -> list[tuple[int, str]]:
     resultat = _etapes(commandes, DELAI_COMMANDES_MS)
     logger.debug("etapes: {} envoi(s)", len(resultat))
     return resultat
+
+
+def commande_auth(
+    cle: str, mot_de_passe: str, commande: list[str], sshpass: str | None = None
+) -> list[str] | None:
+    """Commande préfixée par ``sshpass`` si l'hôte n'a pas de clé, mais un mot de passe.
+
+    Portage de ``_ssh_auth_wrap`` de GTK3. Le mot de passe n'est jamais
+    journalisé.
+
+    Returns:
+        La commande (éventuellement préfixée), ou ``None`` quand aucune
+        authentification non interactive n'est disponible (ni clé, ni
+        ``sshpass``).
+    """
+    logger.debug("commande_auth: entrée | clé={} sshpass={}", bool(cle), sshpass is not None)
+    if cle or not mot_de_passe:
+        logger.debug("commande_auth: sortie | commande inchangée")
+        return commande
+    resultat = [sshpass, "-p", mot_de_passe, *commande] if sshpass else None
+    logger.debug("commande_auth: {}", "préfixée" if resultat else "aucune auth non interactive")
+    return resultat
+
+
+def commande_montage(
+    sshfs: str,
+    port: int | None,
+    utilisateur: str,
+    adresse: str,
+    distant: str,
+    local: str,
+    cle: str,
+) -> list[str]:
+    """Arguments du montage sshfs, comme ``_start_sshfs_mount`` de GTK3."""
+    logger.debug(
+        "commande_montage: {}@{}:{} -> {} | port={}",
+        utilisateur,
+        adresse,
+        distant,
+        local,
+        port,
+    )
+    commande = [
+        sshfs,
+        "-p",
+        str(port if port is not None else PORT_DEFAUT),
+        "-o",
+        "reconnect,ServerAliveInterval=15,ServerAliveCountMax=3",
+    ]
+    if cle:
+        commande += ["-o", f"IdentityFile={os.path.expanduser(cle)}"]
+    commande += [f"{utilisateur}@{adresse}:{distant}", local]
+    logger.debug("commande_montage: sortie")
+    return commande
+
+
+def demarrer_montage(
+    hote: Host,
+    options: Mapping[str, str],
+    log,
+    *,
+    sshfs: str | None = None,
+    ssh: str | None = None,
+    sshpass: str | None = None,
+    utilisateur_courant: str | None = None,
+) -> str | None:
+    """Lance le montage sshfs de l'hôte si l'option est active.
+
+    Reprend ``_start_sshfs_mount`` et ``_ensure_remote_sshfs_dir`` de GTK3 :
+    création du point de montage local, ``mkdir -p`` distant par ssh, puis
+    processus sshfs détaché. Aucune exception ne remonte : un échec est
+    journalé (avertissement) et le montage est simplement ignoré.
+
+    Args:
+        hote: hôte ouvert (adresse, port, utilisateur, clé, mot de passe).
+        options: options ssh de l'hôte (``OPT_SSHFS_*``).
+        log: journal du plugin (``warning``/``debug`` comme loguru).
+        sshfs: chemin de ``sshfs`` ; ``None`` : cherché dans ``PATH``.
+        ssh: chemin de ``ssh`` pour le ``mkdir`` distant ; ``None`` : ``PATH``.
+        sshpass: chemin de ``sshpass`` ; ``None`` : ``PATH``.
+        utilisateur_courant: nom de l'utilisateur local (défauts des chemins) ;
+            ``None`` : ``getpass.getuser()``.
+
+    Returns:
+        Le point de montage local, ou ``None`` si le montage n'a pas été lancé.
+    """
+    logger.debug("demarrer_montage: {!r}", hote.path)
+    if not booleen(options.get(OPT_SSHFS_MONTAGE, "")):
+        logger.debug("demarrer_montage: sortie | option inactive")
+        return None
+    if utilisateur_courant is None:
+        utilisateur_courant = getpass.getuser()
+    distant = options.get(OPT_SSHFS_DISTANT, "").strip() or f"/mnt/{utilisateur_courant}"
+    nom_hote = hote.host or hote.name or "host"
+    local = (
+        options.get(OPT_SSHFS_LOCAL, "").strip() or f"/home/{utilisateur_courant}/mnt/{nom_hote}"
+    )
+    binaire = sshfs if sshfs is not None else shutil.which("sshfs")
+    if not binaire:
+        log.warning("sshfs introuvable, montage ignoré pour {}", hote.path)
+        return None
+    try:
+        os.makedirs(local, exist_ok=True)
+    except OSError as exc:
+        log.warning("impossible de créer {} : {}", local, exc)
+        return None
+    _assurer_dossier_distant(
+        hote,
+        distant,
+        log,
+        ssh=ssh if ssh is not None else shutil.which("ssh"),
+        sshpass=sshpass if sshpass is not None else shutil.which("sshpass"),
+    )
+    commande = commande_auth(
+        options.get(OPT_CLE, "").strip(),
+        hote.password,
+        commande_montage(
+            binaire,
+            hote.port,
+            hote.user or utilisateur_courant,
+            hote.host or hote.name,
+            distant,
+            local,
+            options.get(OPT_CLE, "").strip(),
+        ),
+        sshpass if sshpass is not None else shutil.which("sshpass"),
+    )
+    if commande is None:
+        log.warning("pas de clé privée ni de sshpass, montage ignoré pour {}", hote.path)
+        return None
+    try:
+        subprocess.Popen(commande, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except OSError as exc:
+        log.warning("échec du lancement du montage pour {} : {}", hote.path, exc)
+        return None
+    logger.debug("demarrer_montage: {} -> {}", distant, local)
+    return local
+
+
+def _assurer_dossier_distant(
+    hote: Host, distant: str, log, *, ssh: str | None, sshpass: str | None
+) -> None:
+    """``mkdir -p`` du dossier distant par ssh, juste avant le montage (GTK3)."""
+    logger.debug("_assurer_dossier_distant: {!r}", distant)
+    if distant in ("", ".", "~") or not ssh:
+        logger.debug("_assurer_dossier_distant: sortie | rien à faire")
+        return
+    commande = [ssh, "-p", str(hote.port or PORT_DEFAUT), "-o", "ConnectTimeout=8"]
+    cle = hote.protocol_options.get("ssh", {}).get(OPT_CLE, "").strip()
+    if cle:
+        commande += ["-i", os.path.expanduser(cle), "-o", "BatchMode=yes"]
+    commande += [f"{hote.user or getpass.getuser()}@{hote.host}", "mkdir", "-p", distant]
+    final = commande_auth(cle, hote.password, commande, sshpass)
+    if final is None:
+        log.warning("mkdir distant ignoré pour {} : aucune auth non interactive", hote.path)
+        logger.debug("_assurer_dossier_distant: sortie | sans auth")
+        return
+    try:
+        subprocess.run(final, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=10)
+    except (OSError, subprocess.SubprocessError) as exc:
+        log.warning("échec du mkdir distant {} pour {} : {}", distant, hote.path, exc)
+    logger.debug("_assurer_dossier_distant: fin")
+
+
+def arreter_montage(local: str | None, log, *, fusermount: str | None = None) -> None:
+    """Démonte (``fusermount -u``) le montage sshfs, comme GTK3 à la fin de session.
+
+    Args:
+        local: point de montage local, ou ``None`` (rien à démonter).
+        log: journal du plugin (``warning``/``debug``).
+        fusermount: chemin de ``fusermount3``/``fusermount`` ; ``None`` : ``PATH``.
+    """
+    logger.debug("arreter_montage: {!r}", local)
+    if not local:
+        logger.debug("arreter_montage: sortie | rien à démonter")
+        return
+    binaire = fusermount
+    if binaire is None:
+        binaire = shutil.which("fusermount3") or shutil.which("fusermount")
+    if not binaire:
+        log.warning("fusermount introuvable, démontage manuel requis pour {}", local)
+        logger.debug("arreter_montage: sortie | fusermount absent")
+        return
+    try:
+        subprocess.run([binaire, "-u", local], capture_output=True, timeout=10)
+    except (OSError, subprocess.SubprocessError) as exc:
+        log.warning("échec du démontage de {} : {}", local, exc)
+    logger.debug("arreter_montage: fin")

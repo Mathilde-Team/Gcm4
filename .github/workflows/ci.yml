@@ -504,14 +504,15 @@ jobs:
       # ne peut pas y fonctionner. Ses tests (tests/gtk4/test_plugin_telnet.py)
       # sont écartés nommément ; l'étape suivante vérifie à la place qu'il est
       # signalé en erreur (Préférences > Extensions) sans empêcher le démarrage.
-      - name: Plugin telnet signalé en erreur, faute de VTE GTK4
+      - name: Plugins telnet et ssh signalés en erreur, faute de VTE GTK4
         run: |
           /tmp/venv/bin/python - <<'EOF'
           from gcm4.core import registre
           etats = {e.name: e for e in registre.decouvrir(lambda nom: None).etats}
-          erreur = etats["telnet"].erreur or ""
-          print("telnet :", erreur)
-          assert etats["telnet"].plugin is None and "Vte" in erreur, erreur
+          for nom in ("telnet", "ssh"):
+              erreur = etats[nom].erreur or ""
+              print(nom, ":", erreur)
+              assert etats[nom].plugin is None and "Vte" in erreur, erreur
           EOF
 
       - name: Tests gcm4 sous Xvfb (tests/gtk4, tests/test_gcm4_*.py), aucun test sauté
@@ -526,7 +527,11 @@ jobs:
             --ignore=tests/gtk4/test_plugin_serial.py \
             --ignore=tests/gtk4/test_plugin_ipmisol.py \
             --ignore=tests/gtk4/test_plugin_web_webkit.py \
-            --ignore=tests/gtk4/test_host_dialog_local.py | tee /tmp/rocky9.txt
+            --ignore=tests/gtk4/test_host_dialog_local.py \
+            --ignore=tests/gtk4/test_plugin_ssh.py \
+            --ignore=tests/gtk4/test_ssh_editeur_config.py \
+            --ignore=tests/gtk4/test_ssh_selecteur_cle.py \
+            --ignore=tests/gtk4/test_ssh_gestionnaire_cles.py | tee /tmp/rocky9.txt
           # test_plugin_local.py, test_plugin_serial.py,
           # test_plugin_ipmisol.py et
           # test_host_dialog_local.py ignorés comme
@@ -536,6 +541,11 @@ jobs:
           # installé). test_plugin_web_webkit.py : WebKitGTK 6.0 n'est pas
           # dans les dépôts de base de Rocky 9 ; le repli navigateur du
           # plugin web y reste testé (test_plugin_web.py, #397).
+          # test_plugin_ssh.py, test_ssh_editeur_config.py,
+          # test_ssh_selecteur_cle.py et test_ssh_gestionnaire_cles.py :
+          # la session SSH (#396) donne au plugin ssh le terminal commun,
+          # qui exige VTE GTK4 — le plugin entier (gestionnaire de clés
+          # compris) est signalé en erreur sur Rocky 9, comme telnet.
           sautes=$(grep -c '^SKIPPED' /tmp/rocky9.txt || true)
           echo "### Tests gcm4 sautés sur Rocky 9 : ${sautes}" >> "$GITHUB_STEP_SUMMARY"
           if [ "${sautes}" != "0" ]; then
