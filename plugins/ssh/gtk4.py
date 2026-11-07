@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import shutil
 import threading
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -34,7 +34,7 @@ from loguru import logger  # noqa: E402
 
 from gcm4.core.i18n import _  # noqa: E402
 from gcm4.core.model import Host  # noqa: E402
-from gcm4.core.plugins import ConnectionPlugin  # noqa: E402
+from gcm4.core.plugins import ConnectionPlugin, MenuItem  # noqa: E402
 from gcm4.core.terminal import Lancement  # noqa: E402
 from gcm4.ui import dialogues, fichiers  # noqa: E402
 from gcm4.ui.terminal import SessionTerminal, zone_options  # noqa: E402
@@ -3197,7 +3197,12 @@ class SshKeyManager(Gtk.Window):
 
 
 class SshSession(SessionTerminal):
-    """Onglet ssh : session terminal commune, commandes envoyées au bout de 3 s."""
+    """Onglet ssh : session terminal commune, commandes envoyées au bout de 3 s.
+
+    Montage sshfs éventuel : lancé à la construction, démonté à la fin de la
+    session (signal ``child-exited``, comme GTK3 dans
+    ``_stop_sshfs_mount``).
+    """
 
     def __init__(
         self,
@@ -3205,6 +3210,7 @@ class SshSession(SessionTerminal):
         lancement: Lancement,
         log,
         notifier: Callable[[str], None] | None = None,
+        options: Mapping[str, str] | None = None,
     ) -> None:
         """Construit le terminal et lance ``lancement`` (asynchrone, rien ne bloque).
 
@@ -3213,10 +3219,25 @@ class SshSession(SessionTerminal):
             lancement: commande à lancer (:func:`session.lancement`).
             log: journal du plugin.
             notifier: toast d'échec de connexion (#80, ``context.notify``).
+            options: options ssh de l'hôte (``host.protocol_options["ssh"]``) ;
+                le montage sshfs y est lu.
         """
         logger.debug("SshSession.__init__: {!r}", host.path)
         super().__init__(host, "ssh", lancement, log, session.DELAI_COMMANDES_MS, notifier)
+        self.montage_sshfs: str | None = None
+        self.montage_sshfs = session.demarrer_montage(
+            host, options if options is not None else {}, log
+        )
         logger.debug("SshSession.__init__: fait")
+
+    def _fin(self, terminal, statut: int) -> None:
+        """Démonte le montage sshfs avant l'affichage de fin de session."""
+        logger.debug("SshSession._fin: {}", statut)
+        if self.montage_sshfs is not None:
+            session.arreter_montage(self.montage_sshfs, self.log)
+            self.montage_sshfs = None
+        super()._fin(terminal, statut)
+        logger.debug("SshSession._fin: fait")
 
 
 def _bascule_booleen(options: dict[str, str], cle: str, changed: Callable[[], None]) -> Callable:
@@ -3582,6 +3603,57 @@ def _page_redirections(options: dict[str, str], changed: Callable[[], None]) -> 
     return boite
 
 
+def _page_sshfs(options: dict[str, str], changed: Callable[[], None]) -> Gtk.Widget:
+    """Page « SSHFS » : montage automatique du système de fichiers distant.
+
+    Reprend ``_build_sshfs_page`` de GTK3, en écrivant directement les
+    options du protocole (mêmes clés INI : ``ssh_sshfs_*``).
+    """
+    logger.debug("_page_sshfs: entrée | {} option(s)", len(options))
+    grille = Gtk.Grid(
+        column_spacing=6,
+        row_spacing=4,
+        margin_start=8,
+        margin_end=8,
+        margin_top=8,
+        margin_bottom=8,
+    )
+
+    def bascule(bouton: Gtk.CheckButton) -> None:
+        """La case change : l'option suit (« True » / « False », comme GTK3)."""
+        logger.debug("_page_sshfs.bascule: {}", bouton.get_active())
+        options[session.OPT_SSHFS_MONTAGE] = "True" if bouton.get_active() else "False"
+        changed()
+        logger.debug("_page_sshfs.bascule: fait")
+
+    def saisie(entree: Gtk.Entry, cle: str) -> None:
+        """Un champ change : l'option suit."""
+        logger.debug("_page_sshfs.saisie: {} caractère(s)", len(entree.get_text()))
+        options[cle] = entree.get_text().strip()
+        changed()
+        logger.debug("_page_sshfs.saisie: fait")
+
+    case = Gtk.CheckButton(
+        label=_("Mount remote filesystem via SSHFS on connect"),
+        active=session.booleen(options.get(session.OPT_SSHFS_MONTAGE, "")),
+    )
+    case.connect("toggled", bascule)
+    grille.attach(case, 0, 0, 2, 1)
+
+    grille.attach(Gtk.Label(label=_("Remote path"), halign=Gtk.Align.START), 0, 1, 1, 1)
+    distant = Gtk.Entry(hexpand=True, text=options.get(session.OPT_SSHFS_DISTANT, ""))
+    distant.connect("changed", saisie, session.OPT_SSHFS_DISTANT)
+    grille.attach(distant, 1, 1, 1, 1)
+
+    grille.attach(Gtk.Label(label=_("Local mount point"), halign=Gtk.Align.START), 0, 2, 1, 1)
+    local = Gtk.Entry(hexpand=True, text=options.get(session.OPT_SSHFS_LOCAL, ""))
+    local.connect("changed", saisie, session.OPT_SSHFS_LOCAL)
+    grille.attach(local, 1, 2, 1, 1)
+
+    logger.debug("_page_sshfs: sortie")
+    return grille
+
+
 class SshPlugin(ConnectionPlugin):
     """Protocole ``ssh`` : terminal VTE, mots de passe par expect, redirections."""
 
@@ -3598,7 +3670,7 @@ class SshPlugin(ConnectionPlugin):
     def build_host_options_widget(
         self, host: Host, options: dict[str, str], changed: Callable[[], None]
     ) -> Gtk.Widget:
-        """Options ssh de l'hôte : Advanced, Port forwarding, puis zone commune."""
+        """Options ssh de l'hôte : Advanced, Port forwarding, SSHFS, puis zone commune."""
         logger.debug("SshPlugin.build_host_options_widget: {!r}", host.path)
         zone = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         carnet = Gtk.Notebook()
@@ -3606,6 +3678,7 @@ class SshPlugin(ConnectionPlugin):
         carnet.append_page(
             _page_redirections(options, changed), Gtk.Label(label=_("Port forwarding"))
         )
+        carnet.append_page(_page_sshfs(options, changed), Gtk.Label(label=_("SSHFS")))
         zone.append(carnet)
         zone.append(zone_options(options, changed))
         logger.debug("SshPlugin.build_host_options_widget: fait")
@@ -3651,9 +3724,35 @@ class SshPlugin(ConnectionPlugin):
         except FileNotFoundError as exc:
             logger.debug("SshPlugin.open: {} absent", exc.args[0])
             raise FileNotFoundError(_("{program} not found").format(program=exc.args[0])) from None
-        session_ouverte = SshSession(host, lance, self.context.log, notifier=self.context.notify)
+        session_ouverte = SshSession(
+            host, lance, self.context.log, notifier=self.context.notify, options=options
+        )
         logger.debug("SshPlugin.open: session ouverte")
         return session_ouverte
+
+    def context_menu_items(self, host: Host) -> list[MenuItem]:
+        """Outils de #97 exposés au menu contextuel d'un hôte ssh (#396, 3/3).
+
+        L'éditeur de ``~/.ssh/config`` et le gestionnaire de clés sont des
+        fenêtres indépendantes (GTK3 les épinglait en onglets de la console).
+        """
+        logger.debug("SshPlugin.context_menu_items: {!r}", host.path)
+        return [
+            MenuItem(label=_("Edit ~/.ssh/config…"), activate=self.editer_ssh_config),
+            MenuItem(label=_("Manage SSH Keys…"), activate=self.gerer_cles_ssh),
+        ]
+
+    def editer_ssh_config(self) -> None:
+        """Ouvre l'éditeur visuel de ``~/.ssh/config`` et du fichier partagé (#97)."""
+        logger.debug("SshPlugin.editer_ssh_config: entrée")
+        SshConfigEditor(gestionnaire=self.gerer_cles_ssh).present()
+        logger.debug("SshPlugin.editer_ssh_config: fait")
+
+    def gerer_cles_ssh(self) -> None:
+        """Ouvre le gestionnaire de clés SSH (#97) ; les alias de ``~/.ssh/config`` y suffisent."""
+        logger.debug("SshPlugin.gerer_cles_ssh: entrée")
+        SshKeyManager().present()
+        logger.debug("SshPlugin.gerer_cles_ssh: fait")
 
 
 PLUGIN = SshPlugin

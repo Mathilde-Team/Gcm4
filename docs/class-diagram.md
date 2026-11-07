@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-97 modules · 173 classes · 368 fonctions publiques de module.
+97 modules · 173 classes · 372 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -24,7 +24,7 @@ flowchart TD
     g1["gcm4"]
     g2["gcm4.core"]
     g3["gcm4.ui"]
-    g0 -->|44| g2
+    g0 -->|45| g2
     g0 -->|8| g3
     g1 -->|4| g2
     g1 -->|1| g3
@@ -1041,6 +1041,9 @@ classDiagram
         +default_port(protocol) int None
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) SshSession
+        +context_menu_items(host) list~MenuItem~
+        +editer_ssh_config() None
+        +gerer_cles_ssh() None
     }
     plugins_plugin_base_ConnectionPlugin <|-- plugins_ssh_gtk4_SshPlugin
     class mod_plugins_ssh_session {
@@ -1053,6 +1056,10 @@ classDiagram
         +cle_absente(options) str None
         +lancement(adresse, port, utilisateur, mot_de_passe, parametres, options, ssh, expect, script) Lancement
         +etapes(commandes) list~tuple~int, str~~
+        +commande_auth(cle, mot_de_passe, commande, sshpass) list~str~ None
+        +commande_montage(sshfs, port, utilisateur, adresse, distant, local, cle) list~str~
+        +demarrer_montage(hote, options, log, sshfs, ssh, sshpass, utilisateur_courant) str None
+        +arreter_montage(local, log, fusermount) None
     }
     class mod_plugins_telnet_core {
         <<module>>
