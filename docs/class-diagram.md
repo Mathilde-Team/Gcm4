@@ -20,230 +20,32 @@ Nombre d'instructions `import` d'un groupe vers un autre. Le cœur n'importe ni 
 
 ```mermaid
 flowchart TD
-    g0["Cœur (sans GTK)"]
-    g1["Application GTK"]
-    g2["Plugins"]
-    g3["gcm4"]
-    g4["gcm4.core"]
-    g5["gcm4.ui"]
-    g2 -->|4| g1
-    g2 -->|3| g0
-    g2 -->|41| g4
-    g2 -->|7| g5
-    g3 -->|4| g4
-    g3 -->|1| g5
-    g4 -->|1| g2
-    g4 -->|1| g3
-    g5 -->|2| g3
-    g5 -->|62| g4
-```
-
-## Cœur (sans GTK)
-
-| Module | Fichier | Rôle |
-|---|---|---|
-| `netmiko_bulk_core` | `netmiko_bulk_core.py` | Cœur métier (sans GTK) du plugin de déploiement de configuration en masse via Netmiko pour GCM. |
-| `putty_import_core` | `putty_import_core.py` | Cœur métier (sans GTK) de l'import de sessions PuTTY pour GCM. |
-| `snmp_bulk_core` | `snmp_bulk_core.py` | Cœur métier (sans GTK) du déploiement SNMP pour GCM. |
-
-```mermaid
-classDiagram
-    class mod_netmiko_bulk_core {
-        <<module>>
-        +iter_all_device_types() list~tuple~str, str, str~~
-        +load_inventory(path) list~InventoryRow~
-        +find_missing_variables(template_text, context) list~str~
-        +render_template(template_text, context) str
-        +scan_output_for_errors(output_text) list~str~
-        +push_to_device(row, profile, rendered_config, save) PushResult
-        +run_bulk_push(rows, profiles, template_text, log_dir, save, max_workers, on_row_start, on_row_done, cancel_event) list~PushResult~
-        +summarize_results(results) dict
-    }
-    class DeviceProfile {
-        <<dataclass>>
-        +str name
-        +str device_type
-        +str vendor
-        +str username
-        +str password
-        +str secret
-        +int port
-        +int timeout
-        +str save_command
-        +to_netmiko_kwargs(host) dict
-    }
-    class ProfileStore {
-        +reload() None
-        +get(name) DeviceProfile None
-        +names() list~str~
-        +all() list~DeviceProfile~
-        +set(profile) None
-        +delete(name) None
-        +save() None
-        +write_template(path)$ None
-    }
-    class netmiko_bulk_core_InventoryRow {
-        <<dataclass>>
-        +str ip
-        +str profile_name
-        +dict~str, str~ variables
-        +int line_no
-        +render_context() dict~str, str~
-    }
-    class netmiko_bulk_core_PushResult {
-        <<dataclass>>
-        +InventoryRow row
-        +str status
-        +str output
-        +str error
-        +list~str~ config_errors
-        +str log_path
-        +float duration_s
-        +ok() bool
-    }
-    class PushResultLike {
-        <<Protocol>>
-        +InventoryRow row
-        +str status
-        +str output
-        +str error
-        +list~str~ config_errors
-        +str log_path
-        +float duration_s
-    }
-    class mod_putty_import_core {
-        <<module>>
-        +decode_putty_session_name(raw_filename) str
-        +parse_putty_session_file(path) dict~str, str~
-        +putty_session_to_row(session_name, raw) tuple~dict~str, str~ None, str None~
-        +scan_putty_sessions(directory) tuple~list~dict~str, str~~, list~str~~
-    }
-    class mod_snmp_bulk_core {
-        <<module>>
-        +load_inventory(csv_path) list~InventoryRow~
-        +find_missing_variables(template, available) set~str~
-        +render_template(template, variables) str
-        +upload_config_file(cfg, filename, content) str
-        +push_to_device(row, profile, rendered_config, log_dir, server_ip, transfer) PushResult
-        +run_bulk_push(rows, profiles, template_text, log_dir, max_workers, on_row_start, on_row_done, cancel_event, server_ip, transfer) list~PushResult~
-        +summarize_results(results) dict~str, int~
-    }
-    class SnmpAuth {
-        <<dataclass>>
-        +str version
-        +str community
-        +str None username
-        +str None auth_password
-        +str auth_protocol
-        +str None priv_password
-        +str priv_protocol
-        +str security_level
-        +session_kwargs(host, port, timeout, retries) dict
-    }
-    class SnmpProfile {
-        <<dataclass>>
-        +str name
-        +str vendor
-        +SnmpAuth auth
-        +int port
-        +int timeout
-        +int retries
-        +float poll_interval
-        +float poll_timeout
-    }
-    class SnmpProfileStore {
-        +load() None
-        +save() None
-        +get(name) SnmpProfile None
-        +all() list~SnmpProfile~
-        +set(name, profile) None
-        +delete(name) None
-    }
-    class snmp_bulk_core_InventoryRow {
-        <<dataclass>>
-        +int line_no
-        +str ip
-        +str profile_name
-        +dict~str, str~ variables
-    }
-    class snmp_bulk_core_PushResult {
-        <<dataclass>>
-        +InventoryRow row
-        +str status
-        +str error
-        +str log_path
-        +float duration_s
-    }
-    class TransferError {
-        <<RuntimeError>>
-    }
-    class FileTransferConfig {
-        <<dataclass>>
-        +str protocol
-        +str host
-        +int port
-        +str username
-        +str password
-        +str remote_dir
-        +str fetch_protocol
-        +str fetch_path
-        +str known_hosts
-        +effective_port() int
-        +effective_fetch_protocol() str
-        +remote_path(filename) str
-        +device_filename(filename) str
-    }
-    class SnmpDriver {
-        +str vendor_id
-        +str display_name
-        +dict~str, int~ FETCH_PROTOCOLS
-        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
-        +protocol_value(protocol) int None
-    }
-    class H3cComwareDriver {
-        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
-    }
-    SnmpDriver <|-- H3cComwareDriver
-    class CiscoConfigCopyDriver {
-        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
-    }
-    SnmpDriver <|-- CiscoConfigCopyDriver
-    class HuaweiVrpDriver {
-        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
-    }
-    SnmpDriver <|-- HuaweiVrpDriver
-```
-
-## Application GTK
-
-| Module | Fichier | Rôle |
-|---|---|---|
-| `hypervisor_import_common` | `hypervisor_import_common.py` | Helpers partagés par les imports hyperviseurs (libvirt / Proxmox). |
-
-```mermaid
-classDiagram
-    class mod_hypervisor_import_common {
-        <<module>>
-        +dep_install_hint(pkg_debian, pkg_fedora, pkg_arch)
-        +vm_name_split(vm_name)
-        +collect_ssh_keys()
-        +paramiko_connect(hostname, port, username, log_fn)
-        +libvirt_get_uris_from_dconf()
-        +libvirt_ssh_run(client, cmd, timeout)
-        +libvirt_nmap_scan(client, run_fn, log_fn)
-        +check_port_open(client, run_fn, ip, port, timeout)
-    }
+    g0["Plugins"]
+    g1["gcm4"]
+    g2["gcm4.core"]
+    g3["gcm4.ui"]
+    g0 -->|41| g2
+    g0 -->|7| g3
+    g1 -->|4| g2
+    g1 -->|1| g3
+    g2 -->|1| g0
+    g2 -->|1| g1
+    g3 -->|2| g1
+    g3 -->|62| g2
 ```
 
 ## Plugins
 
 | Module | Fichier | Rôle |
 |---|---|---|
+| `plugins.import_hyperviseurs.core` | `plugins/import_hyperviseurs/core.py` | Helpers partagés par les imports hyperviseurs (libvirt / Proxmox). |
+| `plugins.import_putty.core` | `plugins/import_putty/core.py` | Cœur métier (sans GTK) de l'import de sessions PuTTY pour GCM. |
 | `plugins.ipmisol` | `plugins/ipmisol/__init__.py` | Plugin ipmisol : SOL (console série des cartes de gestion) dans un terminal. |
 | `plugins.ipmisol.core` | `plugins/ipmisol/core.py` | Partie métier du plugin ipmisol (sans GTK) — portage #179. |
 | `plugins.ipmisol.gtk4` | `plugins/ipmisol/gtk4.py` | Plugin ipmisol de gcm4 (contrat v1, ``docs/plugins.md``) : SOL dans un terminal VTE GTK4. |
 | `plugins.local.core` | `plugins/local/core.py` | Logique du plugin local, sans GTK : shell à lancer et délai des commandes. |
 | `plugins.local.gtk4` | `plugins/local/gtk4.py` | Plugin local de gcm4 (contrat v1, ``docs/plugins.md``) : shell local dans un terminal VTE GTK4. |
+| `plugins.netmiko_push.core` | `plugins/netmiko_push/core.py` | Cœur métier (sans GTK) du plugin de déploiement de configuration en masse via Netmiko pour GCM. |
 | `plugins.plugin_base` | `plugins/plugin_base.py` | Contrats plugin pour GCM. |
 | `plugins.plugin_import_libvirt` | `plugins/plugin_import_libvirt.py` | Outil « Import from libvirt » (BatchPlugin) pour GCM. |
 | `plugins.plugin_import_ovirt` | `plugins/plugin_import_ovirt.py` | Outil « Import from oVirt » (BatchPlugin) pour GCM. |
@@ -270,6 +72,7 @@ classDiagram
 | `plugins.serial.gtk4` | `plugins/serial/gtk4.py` | Plugin serial de gcm4 (contrat v1, ``docs/plugins.md``) : port série dans un terminal VTE GTK4. |
 | `plugins.sftp.core` | `plugins/sftp/core.py` | Logique du plugin SFTP (#75), sans GTK : connexion, navigation, transferts. |
 | `plugins.sftp.gtk4` | `plugins/sftp/gtk4.py` | Plugin SFTP de gcm4 (contrat v1, ``docs/plugins.md``) : navigateur de fichiers distant (#75). |
+| `plugins.snmp_push.core` | `plugins/snmp_push/core.py` | Cœur métier (sans GTK) du déploiement SNMP pour GCM. |
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
 | `plugins.ssh.core` | `plugins/ssh/core.py` | Logique métier SSH de gcm4, zéro dépendance GTK — parsing de ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf. |
 | `plugins.ssh.gtk4` | `plugins/ssh/gtk4.py` | Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, éditeur de ``~/.ssh/config`` (personnel + partagé) et gestionnaire de clés. |
@@ -282,6 +85,24 @@ classDiagram
 
 ```mermaid
 classDiagram
+    class mod_plugins_import_hyperviseurs_core {
+        <<module>>
+        +dep_install_hint(pkg_debian, pkg_fedora, pkg_arch)
+        +vm_name_split(vm_name)
+        +collect_ssh_keys()
+        +paramiko_connect(hostname, port, username, log_fn)
+        +libvirt_get_uris_from_dconf()
+        +libvirt_ssh_run(client, cmd, timeout)
+        +libvirt_nmap_scan(client, run_fn, log_fn)
+        +check_port_open(client, run_fn, ip, port, timeout)
+    }
+    class mod_plugins_import_putty_core {
+        <<module>>
+        +decode_putty_session_name(raw_filename) str
+        +parse_putty_session_file(path) dict~str, str~
+        +putty_session_to_row(session_name, raw) tuple~dict~str, str~ None, str None~
+        +scan_putty_sessions(directory) tuple~list~dict~str, str~~, list~str~~
+    }
     class mod_plugins_ipmisol_core {
         <<module>>
         +chemin(environnement) str None
@@ -315,6 +136,69 @@ classDiagram
         +open(host) LocalSession
     }
     plugins_plugin_base_ConnectionPlugin <|-- plugins_local_gtk4_LocalPlugin
+    class mod_plugins_netmiko_push_core {
+        <<module>>
+        +iter_all_device_types() list~tuple~str, str, str~~
+        +load_inventory(path) list~InventoryRow~
+        +find_missing_variables(template_text, context) list~str~
+        +render_template(template_text, context) str
+        +scan_output_for_errors(output_text) list~str~
+        +push_to_device(row, profile, rendered_config, save) PushResult
+        +run_bulk_push(rows, profiles, template_text, log_dir, save, max_workers, on_row_start, on_row_done, cancel_event) list~PushResult~
+        +summarize_results(results) dict
+    }
+    class DeviceProfile {
+        <<dataclass>>
+        +str name
+        +str device_type
+        +str vendor
+        +str username
+        +str password
+        +str secret
+        +int port
+        +int timeout
+        +str save_command
+        +to_netmiko_kwargs(host) dict
+    }
+    class ProfileStore {
+        +reload() None
+        +get(name) DeviceProfile None
+        +names() list~str~
+        +all() list~DeviceProfile~
+        +set(profile) None
+        +delete(name) None
+        +save() None
+        +write_template(path)$ None
+    }
+    class plugins_netmiko_push_core_InventoryRow {
+        <<dataclass>>
+        +str ip
+        +str profile_name
+        +dict~str, str~ variables
+        +int line_no
+        +render_context() dict~str, str~
+    }
+    class plugins_netmiko_push_core_PushResult {
+        <<dataclass>>
+        +InventoryRow row
+        +str status
+        +str output
+        +str error
+        +list~str~ config_errors
+        +str log_path
+        +float duration_s
+        +ok() bool
+    }
+    class PushResultLike {
+        <<Protocol>>
+        +InventoryRow row
+        +str status
+        +str output
+        +str error
+        +list~str~ config_errors
+        +str log_path
+        +float duration_s
+    }
     class plugins_plugin_base_ConnectionPlugin {
         <<ABC>>
         +str protocol_id
@@ -800,6 +684,100 @@ classDiagram
         +open(host) SessionSftp
     }
     plugins_plugin_base_ConnectionPlugin <|-- SftpPlugin
+    class mod_plugins_snmp_push_core {
+        <<module>>
+        +load_inventory(csv_path) list~InventoryRow~
+        +find_missing_variables(template, available) set~str~
+        +render_template(template, variables) str
+        +upload_config_file(cfg, filename, content) str
+        +push_to_device(row, profile, rendered_config, log_dir, server_ip, transfer) PushResult
+        +run_bulk_push(rows, profiles, template_text, log_dir, max_workers, on_row_start, on_row_done, cancel_event, server_ip, transfer) list~PushResult~
+        +summarize_results(results) dict~str, int~
+    }
+    class SnmpAuth {
+        <<dataclass>>
+        +str version
+        +str community
+        +str None username
+        +str None auth_password
+        +str auth_protocol
+        +str None priv_password
+        +str priv_protocol
+        +str security_level
+        +session_kwargs(host, port, timeout, retries) dict
+    }
+    class SnmpProfile {
+        <<dataclass>>
+        +str name
+        +str vendor
+        +SnmpAuth auth
+        +int port
+        +int timeout
+        +int retries
+        +float poll_interval
+        +float poll_timeout
+    }
+    class SnmpProfileStore {
+        +load() None
+        +save() None
+        +get(name) SnmpProfile None
+        +all() list~SnmpProfile~
+        +set(name, profile) None
+        +delete(name) None
+    }
+    class plugins_snmp_push_core_InventoryRow {
+        <<dataclass>>
+        +int line_no
+        +str ip
+        +str profile_name
+        +dict~str, str~ variables
+    }
+    class plugins_snmp_push_core_PushResult {
+        <<dataclass>>
+        +InventoryRow row
+        +str status
+        +str error
+        +str log_path
+        +float duration_s
+    }
+    class TransferError {
+        <<RuntimeError>>
+    }
+    class FileTransferConfig {
+        <<dataclass>>
+        +str protocol
+        +str host
+        +int port
+        +str username
+        +str password
+        +str remote_dir
+        +str fetch_protocol
+        +str fetch_path
+        +str known_hosts
+        +effective_port() int
+        +effective_fetch_protocol() str
+        +remote_path(filename) str
+        +device_filename(filename) str
+    }
+    class SnmpDriver {
+        +str vendor_id
+        +str display_name
+        +dict~str, int~ FETCH_PROTOCOLS
+        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
+        +protocol_value(protocol) int None
+    }
+    class H3cComwareDriver {
+        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
+    }
+    SnmpDriver <|-- H3cComwareDriver
+    class CiscoConfigCopyDriver {
+        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
+    }
+    SnmpDriver <|-- CiscoConfigCopyDriver
+    class HuaweiVrpDriver {
+        +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
+    }
+    SnmpDriver <|-- HuaweiVrpDriver
     class mod_plugins_ssh_core {
         <<module>>
         +is_shared_target(path) bool

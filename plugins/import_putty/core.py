@@ -13,7 +13,7 @@ confirmé par les scripts de conversion PuTTY→autres clients existants et par
 la documentation Unix de PuTTY sur l'emplacement ``~/.putty``).
 
 Ce module ne dépend ni de GTK ni du reste de GCM au niveau du import
-top-level, à l'image de ``netmiko_bulk_core.py``/``snmp_bulk_core.py`` : il
+top-level, à l'image de ``plugins/netmiko_push/core.py``/``plugins/snmp_push/core.py`` : il
 scanne un dossier de sessions PuTTY et produit des dicts « row » au format
 attendu par ``Wmain._dict_to_host`` (mêmes clés que l'import CSV/JSON —
 ``name``/``host``/``user``/``port``/``type``/``protocol``/``description``),

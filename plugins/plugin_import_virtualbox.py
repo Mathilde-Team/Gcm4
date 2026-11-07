@@ -15,7 +15,7 @@ utilise `VBoxManage list vms` / `showvminfo --machinereadable` via SSH ; le
 RDP natif de VirtualBox (VRDE) est sondé comme pour les autres imports. Pas
 de SPICE (non supporté par VirtualBox). La logique bas niveau commune
 (connexion SSH par clé, scan réseau, sonde de port) vit dans
-``hypervisor_import_common.py``, partagée avec les autres imports
+``plugins/import_hyperviseurs/core.py``, partagée avec les autres imports
 d'hyperviseur.
 """
 
@@ -31,7 +31,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import GLib, Gtk  # noqa: E402
 
 # isort: split
-import hypervisor_import_common as hv_common  # noqa: E402, I001
+from plugins.import_hyperviseurs import core as hv_common  # noqa: E402, I001
 from plugin_base import BatchPlugin  # noqa: E402, I001
 from utils import GCMBase, msgbox  # noqa: E402, I001
 

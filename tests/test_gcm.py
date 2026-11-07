@@ -692,7 +692,7 @@ with patch("os.system", return_value=0):
     import gnome_connection_manager as gcm
 
 # Modules vers lesquels le code testé a été déplacé depuis l'écriture de ce
-# fichier (plugins/, hypervisor_import_common.py, widgets.py) -- issue #112.
+# fichier (plugins/, plugins/import_hyperviseurs/core.py, widgets.py) -- issue #112.
 import plugin_import_libvirt  # noqa: E402
 import plugin_import_proxmox  # noqa: E402
 import plugin_local  # noqa: E402
@@ -703,8 +703,8 @@ import plugin_ssh  # noqa: E402
 import plugin_telnet  # noqa: E402
 import plugin_vnc  # noqa: E402
 
-import hypervisor_import_common as hic  # noqa: E402
 import widgets  # noqa: E402
+from plugins.import_hyperviseurs import core as hic  # noqa: E402
 
 # SpiceTab._build_cmd() relit gcm.conf et réécrit /etc/hosts (HostsUpdater) à
 # chaque appel : neutralisé ici, un test ne doit jamais toucher au système.

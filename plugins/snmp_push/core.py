@@ -3,7 +3,7 @@
 """Cœur métier (sans GTK) du déploiement SNMP pour GCM.
 
 Core simple et synchrone pour le plugin Push SNMP, adapté du style
-``netmiko_bulk_core.py``. Utilise **EzSnmp** (bindings natifs libnetsnmp)
+``plugins/netmiko_push/core.py``. Utilise **EzSnmp** (bindings natifs libnetsnmp)
 pour de meilleures performances sur volumes.
 
 Structure : profils SNMP → inventaire CSV → gabarit → push par lot.

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Profils, inventaire et gabarits de snmp_bulk_core.py (cœur sans GTK).
+"""Profils, inventaire et gabarits de plugins/snmp_push/core.py (cœur sans GTK).
 
 Complète les tests existants (test_snmp_bulk_core.py, test_snmp_bulk_transferts.py)
 sur les chemins restés sans couverture : authentification v3, magasin de

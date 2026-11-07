@@ -8,9 +8,9 @@ automatiquement par ``BatchPluginRegistry.autoload()`` via
 
 Toute la logique de scan/parsing (sans mot de passe : PuTTY ne stocke jamais
 de mot de passe en clair dans un fichier de session) vit dans
-``putty_import_core.py`` (zéro GTK, testable directement) — ce module ne fait
+``plugins/import_putty/core.py`` (zéro GTK, testable directement) — ce module ne fait
 que le choix du dossier et l'appel au cœur métier, à l'image de
-``plugin_netmiko_push.py``/``netmiko_bulk_core.py``.
+``plugin_netmiko_push.py``/``plugins/netmiko_push/core.py``.
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ from gi.repository import Gtk  # noqa: E402
 
 # isort: split
 from plugin_base import BatchPlugin  # noqa: E402, I001
-from putty_import_core import DEFAULT_SESSIONS_DIR, scan_putty_sessions  # noqa: E402, I001
+from plugins.import_putty.core import DEFAULT_SESSIONS_DIR, scan_putty_sessions  # noqa: E402, I001
 from utils import msgbox  # noqa: E402, I001
 
 # Fallback gettext: injected by GCM at startup if available, no-op otherwise.

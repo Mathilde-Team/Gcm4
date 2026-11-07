@@ -22,7 +22,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import hypervisor_import_common as hic  # noqa: E402
+from plugins.import_hyperviseurs import core as hic  # noqa: E402
 
 CLE_PRIVEE = b"-----BEGIN OPENSSH PRIVATE KEY-----\n"
 

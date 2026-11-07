@@ -52,7 +52,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import GLib, Gtk  # noqa: E402
 from plugin_base import BatchPlugin  # noqa: E402
 
-from netmiko_bulk_core import (  # noqa: E402
+from plugins.netmiko_push.core import (  # noqa: E402
     STATUS_FAILED,
     STATUS_OK,
     STATUS_REJECTED,

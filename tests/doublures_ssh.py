@@ -14,7 +14,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import hypervisor_import_common as hv  # noqa: E402
+from plugins.import_hyperviseurs import core as hv  # noqa: E402
 
 
 class ClientFaux:

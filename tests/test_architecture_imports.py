@@ -87,9 +87,17 @@ class TestContratsImports(unittest.TestCase):
 
     def test_perimetre_non_vide(self):
         """Garde-fou : les globs trouvent bien des modules."""
-        self.assertGreaterEqual(len(MODULES_COEUR), 10)
+        self.assertGreaterEqual(len(MODULES_COEUR), 9)
         self.assertGreaterEqual(len(NOMS_PLUGINS), 15)
         self.assertIn("plugins/ssh/core.py", CORES_DE_PLUGINS)
+        # Cœurs des outils GTK3 rangés dans leur plugin (#427, lot 3).
+        for coeur in (
+            "plugins/import_hyperviseurs/core.py",
+            "plugins/import_putty/core.py",
+            "plugins/netmiko_push/core.py",
+            "plugins/snmp_push/core.py",
+        ):
+            self.assertIn(coeur, CORES_DE_PLUGINS)
 
     def test_coeur_sans_gtk(self):
         """Une PR qui fait importer GTK au cœur échoue."""
