@@ -219,6 +219,7 @@ coroutine depuis n'importe quel callback GTK, y compris depuis `open` :
 ```python
 from gcm4.ui import boucle
 
+
 def open(self, host):
     if not boucle.asyncio_disponible():
         raise RuntimeError(_("asyncio is not running"))
