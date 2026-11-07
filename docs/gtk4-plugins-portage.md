@@ -92,7 +92,7 @@ toutes les lignes suivantes.
 | import_ovirt | 1045 | idem | **porté** : `plugins/import_ovirt/` (contrat v1 outil, #439) ; API REST `urllib` dans `core.py`, résolution de route (direct → rebond moteur → rebond hyperviseur → question manuelle via `dialogues.creer`) | contrat « outil » |
 | import_proxmox | 1029 | idem | **porté** : `plugins/import_proxmox/` (contrat v1 outil, #439) ; `qm list/config/guest cmd` dans `core.py`, IP par l'agent QEMU puis ipconfig/ARP/nmap, SPICE si `vga: qxl` | contrat « outil » |
 | import_virtualbox | 1039 | idem, `VBoxManage` | **porté** : `plugins/import_virtualbox/` (contrat v1 outil, #439) ; `VBoxManage` dans `core.py`, IP par guestproperty puis ARP/nmap, RDP VRDE prioritaire, VNC invité sondé | contrat « outil » |
-| netmiko_push | 932 | `BatchPlugin`, `Gtk.TreeView`, `plugins/netmiko_push/core.py` | type « outil » ; le cœur existe déjà sans GTK | contrat « outil » |
+| netmiko_push | 932 | `BatchPlugin`, `Gtk.TreeView`, `plugins/netmiko_push/core.py` | **porté** : `plugins/netmiko_push/` (contrat v1 outil, #441) ; onglet « Netmiko » en trois phases (`Gtk.Stack` Configuration / Suivi / Résultats), inventaire en `ColumnView` cochable, éditeur de profils en cascade constructeur → modèle, envoi via `core.run_bulk_push` avec annulation et journaux ouverts par `FileLauncher` | contrat « outil » |
 | snmp_push | 1146 | idem, `plugins/snmp_push/core.py` | type « outil » ; le cœur existe sans GTK, dépôt SFTP/FTP/TFTP compris (#74) | contrat « outil » ; formulaire de dépôt (protocole, identifiants, dossier) à ajouter |
 
 ## Ordre proposé
@@ -114,7 +114,7 @@ toutes les lignes suivantes.
    voie avec le service `import_hosts` du contexte. Les quatre imports
    d'hyperviseurs (**libvirt, Proxmox, VirtualBox, oVirt**) sont portés
    (#439) sur un onglet générique partagé (`plugins/import_hyperviseurs/`).
-   Reste **netmiko_push**, et **snmp_push** après #74.
+   **netmiko_push** est porté (#441). Reste **snmp_push** après #74.
 6. **vnc** (fusion pluginvnc2, #104), **rdp** (#71, #105) et **spice** (choix
    de la voie) : ils dépendent de projets ou de décisions extérieurs.
 

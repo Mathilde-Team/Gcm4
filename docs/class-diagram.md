@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-103 modules · 175 classes · 387 fonctions publiques de module.
+103 modules · 178 classes · 385 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -24,8 +24,8 @@ flowchart TD
     g1["gcm4"]
     g2["gcm4.core"]
     g3["gcm4.ui"]
-    g0 -->|62| g2
-    g0 -->|10| g3
+    g0 -->|64| g2
+    g0 -->|11| g3
     g1 -->|4| g2
     g1 -->|1| g3
     g2 -->|1| g0
@@ -57,10 +57,10 @@ flowchart TD
 | `plugins.local.core` | `plugins/local/core.py` | Logique du plugin local, sans GTK : shell à lancer et délai des commandes. |
 | `plugins.local.gtk4` | `plugins/local/gtk4.py` | Plugin local de gcm4 (contrat v1, ``docs/plugins.md``) : shell local dans un terminal VTE GTK4. |
 | `plugins.netmiko_push.core` | `plugins/netmiko_push/core.py` | Cœur métier (sans GTK) du plugin de déploiement de configuration en masse via Netmiko pour GCM. |
+| `plugins.netmiko_push.gtk4` | `plugins/netmiko_push/gtk4.py` | Outil « Déploiement Netmiko » (contrat v1, #441, portage #179). |
 | `plugins.plugin_base` | `plugins/plugin_base.py` | Contrats plugin pour GCM. |
 | `plugins.plugin_ipmisol` | `plugins/plugin_ipmisol.py` | Plugin de connexion IPMI Serial-over-LAN (console BMC : iLO, iDRAC, IMM…). |
 | `plugins.plugin_local` | `plugins/plugin_local.py` | Plugin de connexion "Local" (shell local, sans hôte distant). |
-| `plugins.plugin_netmiko_push` | `plugins/plugin_netmiko_push.py` | Onglet « Netmiko » (déploiement de configuration en masse) pour GCM. |
 | `plugins.plugin_rdp` | `plugins/plugin_rdp.py` | Plugin de connexion RDP (GtkFrdp.Display embarqué). |
 | `plugins.plugin_serial` | `plugins/plugin_serial.py` | Plugin de connexion série (port local via picocom/minicom/screen). |
 | `plugins.plugin_snmp_push` | `plugins/plugin_snmp_push.py` | Onglet « Push SNMP » (déploiement de configuration en masse par SNMP) pour GCM. |
@@ -295,6 +295,24 @@ classDiagram
         +str log_path
         +float duration_s
     }
+    class LigneSuivi
+    class plugins_netmiko_push_gtk4_Element {
+        <<GObject.Object>>
+    }
+    class VueListe {
+        <<Gtk.ScrolledWindow>>
+        +remplir(valeurs) None
+        +rafraichir() None
+        +elements() list~Element~
+        +selectionnees() list~Any~
+    }
+    class OngletNetmiko {
+        <<Gtk.Box>>
+    }
+    class NetmikoPushPlugin {
+        <<ToolPlugin>>
+        +activate() None
+    }
     class plugins_plugin_base_ConnectionPlugin {
         <<ABC>>
         +str protocol_id
@@ -372,18 +390,6 @@ classDiagram
         +save_host_fields(host) None
     }
     plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_local_LocalPlugin
-    class mod_plugins_plugin_netmiko_push {
-        <<module>>
-        +open_netmiko_tab(wmain) NetmikoTab
-        +get_batch_plugin() NetmikoPushBatchPlugin
-    }
-    class NetmikoTab {
-        +get_root_widget() Gtk.Widget
-    }
-    class NetmikoPushBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- NetmikoPushBatchPlugin
     class mod_plugins_plugin_rdp {
         <<module>>
         +get_plugin() RdpPlugin

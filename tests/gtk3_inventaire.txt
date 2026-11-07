@@ -9,7 +9,6 @@ GTK3.OLD/utils.py
 GTK3.OLD/widgets.py
 plugins/plugin_ipmisol.py
 plugins/plugin_local.py
-plugins/plugin_netmiko_push.py
 plugins/plugin_rdp.py
 plugins/plugin_serial.py
 plugins/plugin_snmp_push.py
