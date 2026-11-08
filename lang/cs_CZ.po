@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "Název VM"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Čekání…"
 
@@ -864,13 +864,13 @@ msgstr "Vzdálený"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Sdílet složku"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Cesta ke sdílené složce"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Vyberte složku ke sdílení."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Chyba: Je vyžadován uzel Proxmox a VMID"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Chyba: Je vyžadováno URI libvirt"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Neplatné další parametry: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "Chyba lístku SPICE: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "Port TLS musí být číslo od 1 do 65535."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "neúplný lístek"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "Certifikát CA"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "Přímé URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Odpojit"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Skončeno (kód {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Chyba při spouštění prohlížeče"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Otevřeno v programu {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Uzel Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Znovu připojit"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "Vyžádání lístku SPICE…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "Chyba SSH: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Relace skončila"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "Sdílet zařízení USB"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Sdílet zvuk"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "Port TLS"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "Relace SPICE se otevře v samostatném okně remote-viewer."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Přes Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "Přes libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "URI libvirt"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "Program {program} nebyl nalezen: nainstalujte balíček virt-viewer"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3949,10 +4067,6 @@ msgid "Send commands after login"
 msgstr "Odeslat příkazy po přihlášení"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Relace skončila"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3984,7 +4098,6 @@ msgid "Show window"
 msgstr "Zobrazit okno"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Odpojit"
 
@@ -4049,7 +4162,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Klastr"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Klastr"
 
@@ -4080,12 +4192,10 @@ msgstr "Zobrazit okno"
 #~ msgstr "Připojit k vybranému hostiteli nebo všem hostitelům ve vybrané skupině"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Připojit"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Připojování…"
 
@@ -4096,7 +4206,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Režim nepřetržitého protokolování je aktivní a nelze jej vypnout pro jednotlivé záložky."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Klastr"
 
@@ -4122,7 +4231,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Vlastní příkazy"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Vlastní příkazy"
 
@@ -4137,9 +4245,6 @@ msgstr "Zobrazit okno"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Detekované cíle Proxmox (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Odpojit"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Opravdu chcete odebrat všechny hostitele ve skupině"
@@ -4156,10 +4261,6 @@ msgstr "Zobrazit okno"
 #~ msgid "Enable logging"
 #~ msgstr "Povolit protokolování"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Skončeno (kód {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Zadejte nový název"
 
@@ -4170,11 +4271,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Zadejte text k odeslání do konzolí: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Chyba při připojování k serveru"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Chyba při připojování k serveru"
 
 #~ msgid "Error saving host. Description"
@@ -4193,7 +4289,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Exportovat seznam serverů do souboru"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Exportovat servery"
 
@@ -4201,7 +4296,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Další argumenty pro příkazový řádek"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "Další argumenty"
 
@@ -4212,7 +4306,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Tok"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Řízení toku:"
 
@@ -4236,12 +4329,10 @@ msgstr "Zobrazit okno"
 #~ msgstr "Barva popředí:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "Předávání X11"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Skupina"
 
@@ -4249,7 +4340,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Název hostitele"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Název hostitele"
 
@@ -4275,7 +4365,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Importováno"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "Importováno"
 
@@ -4298,7 +4387,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "Název VM"
 
@@ -4321,12 +4409,10 @@ msgstr "Zobrazit okno"
 #~ msgstr "Cesta k protokolům"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Přidat nového hostitele"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "Název VM"
 
@@ -4346,7 +4432,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Počet datových bitů na byte (8 = standard)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Přidat"
 
@@ -4375,7 +4460,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Domovská stránka projektu"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Příkaz"
 
@@ -4383,7 +4467,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Znovu připojit k hostiteli"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Příkaz"
 
@@ -4403,7 +4486,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "SPICE  (zde není k dispozici: Proxmox vyžaduje API ticket/proxy)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Není vybrán žádný typ připojení."
 
@@ -4442,7 +4524,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Odeslat příkazy více hostitelům najednou"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "sériový"
 
@@ -4456,7 +4537,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Seznam serverů bude přepsán, pokračovat?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Servery"
 
@@ -4485,7 +4565,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Stop"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Stop bity:"
 
@@ -4493,12 +4572,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Stop bity: 1 = standard, 2 = RS-485 / starší hardware"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Sériový port:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Šablona:"
 
@@ -4528,11 +4601,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "Použít výchozí písmo s pevnou šířkou"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4547,7 +4615,6 @@ msgstr "Zobrazit okno"
 #~ msgstr "_Upravit"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "Importováno"
 
@@ -4575,11 +4642,6 @@ msgstr "Zobrazit okno"
 #~ msgid "label"
 #~ msgstr "popisek"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "Detekováno URI libvirt"
-
 #~ msgid "local"
 #~ msgstr "místní"
 
@@ -4596,12 +4658,10 @@ msgstr "Zobrazit okno"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp nebyl nalezen"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "Volby xfreerdp:"
 
