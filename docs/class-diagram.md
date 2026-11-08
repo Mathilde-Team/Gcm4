@@ -1088,6 +1088,8 @@ classDiagram
         +context_menu_items(host) list~MenuItem~
         +editer_ssh_config() None
         +gerer_cles_ssh() None
+        +deplacer_vers_ssh_config(host) None
+        +importer_depuis_ssh_config() None
     }
     plugins_plugin_base_ConnectionPlugin <|-- plugins_ssh_gtk4_SshPlugin
     class mod_plugins_ssh_session {
@@ -1593,6 +1595,9 @@ classDiagram
         +notify(message) None
         +open_tab(title, widget) None
         +import_hosts(hotes, conflit) Any
+        +question(titre, corps, reponses, defaut, fermeture, rappel) None
+        +chemin_configuration() str None
+        +recharger() None
     }
     class Session {
         <<Protocol>>
@@ -1868,6 +1873,9 @@ classDiagram
         +notify(message) None
         +open_tab(title, widget) None
         +import_hosts(hotes, conflit) Rapport
+        +question(titre, corps, reponses, defaut, fermeture, rappel) None
+        +chemin_configuration() str None
+        +recharger() None
     }
     class mod_gcm4_ui_couleurs {
         <<module>>
@@ -1922,6 +1930,7 @@ classDiagram
     }
     class MainWindow {
         <<Adw.ApplicationWindow>>
+        +recharger_configuration() None
         +enregistrer_config() None
         +notifier(message) None
         +ajouter_onglet(titre, contenu, session) int

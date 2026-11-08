@@ -23,6 +23,7 @@ import shutil
 import threading
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
+from functools import partial
 from pathlib import Path
 
 import gi
@@ -3735,11 +3736,22 @@ class SshPlugin(ConnectionPlugin):
 
         L'éditeur de ``~/.ssh/config`` et le gestionnaire de clés sont des
         fenêtres indépendantes (GTK3 les épinglait en onglets de la console).
+        « Déplacer vers ssh_config… » et « Importer depuis ssh_config… »
+        complètent #97 : elles écrivent ``gcm4.conf`` en direct puis
+        demandent son rechargement via le contexte.
         """
         logger.debug("SshPlugin.context_menu_items: {!r}", host.path)
         return [
             MenuItem(label=_("Edit ~/.ssh/config…"), activate=self.editer_ssh_config),
             MenuItem(label=_("Manage SSH Keys…"), activate=self.gerer_cles_ssh),
+            MenuItem(
+                label=_("Move to ssh_config…"),
+                activate=partial(self.deplacer_vers_ssh_config, host),
+            ),
+            MenuItem(
+                label=_("Import from ssh_config…"),
+                activate=self.importer_depuis_ssh_config,
+            ),
         ]
 
     def editer_ssh_config(self) -> None:
@@ -3753,6 +3765,181 @@ class SshPlugin(ConnectionPlugin):
         logger.debug("SshPlugin.gerer_cles_ssh: entrée")
         SshKeyManager().present()
         logger.debug("SshPlugin.gerer_cles_ssh: fait")
+
+    def deplacer_vers_ssh_config(self, host: Host) -> None:
+        """Déplace ``host`` de ``gcm4.conf`` vers le ssh_config choisi (#97).
+
+        Deux questions successives via le contexte : la cible (personnelle
+        ou partagée), puis la confirmation. La migration écrit les deux
+        fichiers (sauvegardes horodatées créées par
+        :func:`plugins.ssh.core.migrate_ssh_hosts`) et ``gcm4.conf`` est
+        relu à la fin (``recharger``) pour que l'arbre montre l'état réel.
+        """
+        logger.debug("SshPlugin.deplacer_vers_ssh_config: entrée | {!r}", host.path)
+        self._demander_cible_ssh_config(partial(self._confirmer_deplacement, host))
+        logger.debug("SshPlugin.deplacer_vers_ssh_config: question posée")
+
+    def _demander_cible_ssh_config(self, rappel: Callable[[Path | None], None]) -> None:
+        """Demande la cible ssh_config (personnelle ou partagée) ; ``rappel(cible)``.
+
+        ``rappel(None)`` si l'utilisateur annule.
+        """
+        logger.debug("SshPlugin._demander_cible_ssh_config: entrée")
+        self.context.question(
+            _("Which file?"),
+            _(
+                "Personal: only for you, ~/.ssh/config.\n"
+                "Shared: visible and usable by every user of this machine "
+                "(team bastion), %s — requires root privileges."
+            )
+            % core.SHARED_SSH_CONFIG_PATH,
+            [
+                ("annuler", _("Cancel")),
+                ("partage", _("Shared (everyone)")),
+                ("perso", _("Personal (me)")),
+            ],
+            "perso",
+            "annuler",
+            partial(self._cible_ssh_config_choisie, rappel),
+        )
+        logger.debug("SshPlugin._demander_cible_ssh_config: question posée")
+
+    def _cible_ssh_config_choisie(
+        self, rappel: Callable[[Path | None], None], reponse: str
+    ) -> None:
+        """Traduit la réponse du dialogue en chemin cible, ou ``None`` si annulé."""
+        logger.debug("SshPlugin._cible_ssh_config_choisie: {!r}", reponse)
+        if reponse == "perso":
+            rappel(Path.home() / ".ssh" / "config")
+            logger.debug("SshPlugin._cible_ssh_config_choisie: cible personnelle")
+        elif reponse == "partage":
+            rappel(core.SHARED_SSH_CONFIG_PATH)
+            logger.debug("SshPlugin._cible_ssh_config_choisie: cible partagée")
+        else:
+            rappel(None)
+            logger.debug("SshPlugin._cible_ssh_config_choisie: annulé")
+
+    def _confirmer_deplacement(self, host: Host, cible: Path | None) -> None:
+        """Demande confirmation après le choix de la cible ; ``None`` = annulé."""
+        logger.debug("SshPlugin._confirmer_deplacement: entrée | {!r}", cible)
+        if cible is None:
+            logger.debug("SshPlugin._confirmer_deplacement: annulé")
+            return
+        chemin = self.context.chemin_configuration()
+        if chemin is None:
+            self.context.notify(_("Configuration not loaded"))
+            logger.debug("SshPlugin._confirmer_deplacement: aucune configuration")
+            return
+        if core.is_shared_target(cible):
+            corps = _(
+                "Move host «%s» from gcm.conf to the SHARED file %s?\n"
+                "This will be usable by every user of this machine and requires root "
+                "privileges (a polkit prompt may appear). A timestamped backup of both "
+                "files will be created."
+            ) % (host.name, cible)
+        else:
+            corps = _(
+                "Move host «%s» from gcm.conf to %s?\nA backup of both files will be created."
+            ) % (
+                host.name,
+                cible,
+            )
+        self.context.question(
+            _("Confirm"),
+            corps,
+            [("annuler", _("Cancel")), ("deplacer", _("OK"))],
+            "deplacer",
+            "annuler",
+            partial(self._deplacer_vers_cible, host, cible, chemin),
+        )
+        logger.debug("SshPlugin._confirmer_deplacement: confirmation demandée")
+
+    def _deplacer_vers_cible(self, host: Host, cible: Path, chemin: str, reponse: str) -> None:
+        """Exécute la migration après confirmation, puis notifie et recharge."""
+        logger.debug("SshPlugin._deplacer_vers_cible: {!r}", reponse)
+        if reponse != "deplacer":
+            logger.debug("SshPlugin._deplacer_vers_cible: annulé")
+            return
+        try:
+            result = core.migrate_ssh_hosts(
+                gcm_conf=chemin, ssh_config=cible, only_names={host.name}
+            )
+        except Exception as exc:
+            self.context.notify(_("Migration failed: %s") % exc)
+            logger.exception("SshPlugin._deplacer_vers_cible: migration échouée")
+            return
+        if result["migrated"]:
+            self.context.notify(_("Host «%s» moved to %s.") % (host.name, cible))
+        elif result["already"]:
+            self.context.notify(
+                _(
+                    "Host «%s» is already managed by a ssh_config file — "
+                    "it cannot be moved a 2nd time."
+                )
+                % host.name
+            )
+        elif result["errors"]:
+            self.context.notify(_("Migration failed: %s") % "; ".join(result["errors"]))
+        else:
+            self.context.notify(_("Host «%s» was not migrated (not an SSH host?).") % host.name)
+        self.context.recharger()
+        logger.debug("SshPlugin._deplacer_vers_cible: fait")
+
+    def importer_depuis_ssh_config(self) -> None:
+        """Importe les alias d'un fichier ssh_config vers ``gcm4.conf`` (#97).
+
+        Règle de :func:`plugins.ssh.core.import_ssh_config` : ``name`` et
+        ``host`` valent l'alias du fichier, dé-duplication sur tous les
+        groupes. Le fichier est relu à la fin (``recharger``).
+        """
+        logger.debug("SshPlugin.importer_depuis_ssh_config: entrée")
+        self.context.question(
+            _("Import from which file?"),
+            _(
+                "Connections will be added to the « ssh_config » group, with name = host = SSH alias."
+            ),
+            [
+                ("annuler", _("Cancel")),
+                ("partage", _("Shared")),
+                ("perso", _("Personal (~/.ssh/config)")),
+            ],
+            "perso",
+            "annuler",
+            self._importer_depuis_source,
+        )
+        logger.debug("SshPlugin.importer_depuis_ssh_config: question posée")
+
+    def _importer_depuis_source(self, reponse: str) -> None:
+        """Importe depuis la source choisie, puis notifie et recharge."""
+        logger.debug("SshPlugin._importer_depuis_source: {!r}", reponse)
+        if reponse == "perso":
+            source = Path.home() / ".ssh" / "config"
+        elif reponse == "partage":
+            source = core.SHARED_SSH_CONFIG_PATH
+        else:
+            logger.debug("SshPlugin._importer_depuis_source: annulé")
+            return
+        chemin = self.context.chemin_configuration()
+        if chemin is None:
+            self.context.notify(_("No configuration is open: nothing to import into."))
+            logger.debug("SshPlugin._importer_depuis_source: aucune configuration")
+            return
+        try:
+            result = core.import_ssh_config(source, gcm_conf=chemin)
+        except Exception as exc:
+            self.context.notify(_("Import failed: %s") % exc)
+            logger.exception("SshPlugin._importer_depuis_source: import échoué")
+            return
+        self.context.notify(
+            _("Import done — imported: %d, already present: %d, errors: %d")
+            % (
+                len(result["imported"]),
+                len(result["skipped_existing"]),
+                len(result["errors"]),
+            )
+        )
+        self.context.recharger()
+        logger.debug("SshPlugin._importer_depuis_source: fait")
 
 
 PLUGIN = SshPlugin
