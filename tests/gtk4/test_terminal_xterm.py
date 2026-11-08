@@ -99,6 +99,27 @@ def test_focus_natif_transmis_a_la_saisie(terminal):
     assert t.recherche.get_search_mode()
 
 
+@pytest.mark.parametrize("touche", ["c", "v", "f"])
+def test_raccourcis_annulent_le_comportement_webkit(terminal, touche):
+    """Le pont traite les raccourcis, pas un second collage natif WebKit (#76)."""
+    t, _ = terminal
+    assert js(
+        t,
+        """(() => {
+            const event = new KeyboardEvent("keydown", {
+                key: %s, ctrlKey: true, shiftKey: true,
+                bubbles: true, cancelable: true
+            });
+            const accepted = document.querySelector(".xterm-helper-textarea")
+                .dispatchEvent(event);
+            return [accepted, event.defaultPrevented];
+        })()"""
+        % json.dumps(touche),
+    ) == [False, True]
+    # L'événement synthétique ne doit demander ni presse-papiers ni recherche.
+    assert not t.recherche.get_search_mode()
+
+
 def test_vrai_pty_entree_et_taille(terminal):
     """Saisie par le pont xterm et redimensionnement transmis au vrai programme."""
     t, fenetre = terminal
@@ -139,6 +160,9 @@ def test_recherche_et_presse_papiers_reels(terminal):
     attendre(lambda: "aiguille" in texte(t))
     message(t, "search")
     assert t.recherche.get_search_mode()
+    # L'animation redimensionne xterm et efface légitimement sa sélection.
+    # Attendre sa fin avant de chercher, pas après avoir lancé la copie.
+    attendre(lambda: t.recherche.get_first_child().get_child_revealed())
     t.champ.set_text("aiguille")
     t.champ.emit("activate")
     attendre(lambda: js(t, "gcmTerminal.selection()") == "aiguille")
