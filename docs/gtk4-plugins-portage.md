@@ -68,7 +68,7 @@ et c'est à l'autrice de trancher, sur #223 :
 | ipmisol | 246 | `Vte.Terminal` 2.91, `ipmitool sol activate` | **porté** : `plugins/ipmisol/` (contrat v1, #179) ; mot de passe via `IPMI_PASSWORD` (`Lancement.env`), `sol deactivate` à la fermeture ; `plugin_ipmisol.py` (GTK3) retiré le 08/11/2026 (#179) | Rocky 9 sans VTE GTK4 |
 | web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | **porté** : `plugins/web/` (contrat v1, #397) ; `WebKit.WebView` 6.0 chargé à l'ouverture seulement, certificat refusé accepté pour l'hôte de l'URL seulement (`allow_tls_certificate_for_host`, GTK3 coupait la vérification pour tout le contexte), repli vers le navigateur par défaut par `Gio.AppInfo` (présent dès GTK 4.8, `Gtk.UriLauncher` n'apporterait rien ici) ; mêmes clés `web_url` et `web_ignore_cert` que GTK3 ; `plugin_web.py` (GTK3) retiré le 08/11/2026 (#179) | Rocky 9 : repli externe seulement (tests WebKit écartés, repli testé) |
 | vnc | 701 | `GtkVnc.Display` (gtk-vnc, GTK3 seulement partout) | **fusion avec `plugins/pluginvnc2`** (déjà GTK4, client asyncvnc2), comme prévu par #104 | #104 ; aucune version GTK4 de gtk-vnc dans les distributions |
-| spice | 1424 | `SpiceClientGtk.Display` 3.0 (GTK3 seulement partout) | aucun widget SPICE GTK4. Deux voies : affichage maison sur `SpiceClientGLib` (canal d'affichage vers `Gdk.MemoryTexture`, comme pluginvnc2), ou visionneuse externe (`remote-viewer`) | **choix à faire** (sous-issue au moment du portage) ; spice-gtk absent de Rocky 9 |
+| spice | 1424 | `SpiceClientGtk.Display` 3.0 (GTK3 seulement partout) | aucun widget SPICE GTK4. Deux voies : affichage maison sur `SpiceClientGLib` (canal d'affichage vers `Gdk.MemoryTexture`, comme pluginvnc2), ou visionneuse externe (`remote-viewer`) | **porté** : `plugins/spice/` (#179), voie de la visionneuse externe choisie le 08/11/2026 — `remote-viewer` (URI, Proxmox) ou `virt-viewer` (libvirt) lancés par `Gio.Subprocess`, onglet d'état et de reconnexion ; paquet `virt-viewer` (présent sur Rocky 9, contrairement à spice-gtk) |
 | rdp | 614 | `GtkFrdp.Display` (`Gtk.Socket`/XEmbed, supprimé en GTK4) | **porté** : `plugins/rdp/` sur AsyncRdp (contrat v1, #105) ; mêmes clés INI que GTK3, `RdpSession` et `RdpView` des intégrations GTK4 d'AsyncRdp4, boucle asyncio sur GLib (`gcm4.ui.boucle`). gtk-frdp abandonné (décision du 2026-11-01, #71) ; `plugin_rdp.py` (GTK3) retiré le 08/11/2026 (#179) | #71 (retrait de gtk-frdp, menu contextuel) ; FreeRDP 3 absent de Debian 12 et de Rocky 9 |
 
 ### Plugins d'import, d'export et de traitement par lots (`BatchPlugin` GTK3)
@@ -117,14 +117,16 @@ toutes les lignes suivantes.
    **netmiko_push** est porté (#441). **snmp_push** est porté (#445), avec
    son formulaire de dépôt (#74) : le lot #179 est terminé — tous les
    plugins `plugin_*.py` encore en GTK3 ont leur équivalent outil.
-6. **vnc** (fusion pluginvnc2, #104), **rdp** (#71, #105) et **spice** (choix
-   de la voie) : ils dépendent de projets ou de décisions extérieurs.
+6. **vnc** (fusion pluginvnc2, #104), **rdp** (#71, #105, porté) et **spice**
+   (porté par la visionneuse externe, #179) : vnc dépend encore d'un projet
+   extérieur.
 
 Les six plugins de connexion déjà portés (telnet, local, ipmisol, serial,
 web, rdp) ont vu leur fichier GTK3 retiré le 08/11/2026 (#179). Les trois
 derniers fichiers (`plugin_ssh.py`, `plugin_vnc.py`, `plugin_spice.py`),
 ainsi que `plugin_base.py` et l'inventaire `tests/gtk3_inventaire.txt`,
-ont été supprimés avec le cœur GTK3 (#182) : plus aucun `plugin_*.py`
+ont été supprimés avec le cœur GTK3 (#182) ; spice est porté dans
+`plugins/spice/` (#179) : plus aucun `plugin_*.py`
 GTK3 dans `plugins/`, le garde-fou impose désormais « zéro fichier GTK3 ».
 
 Le tableau ci-dessous décrit l'état au moment des décisions : il est

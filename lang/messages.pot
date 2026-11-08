@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,7 +52,7 @@ msgstr ""
 msgid "1. Configuration"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr ""
 
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Proto"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr ""
 
@@ -744,11 +744,11 @@ msgstr ""
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
 msgstr ""
 
@@ -1134,6 +1134,124 @@ msgstr ""
 
 #: plugins/snmp_push/gtk4.py
 msgid "Push SNMP"
+msgstr ""
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr ""
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr ""
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr ""
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr ""
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr ""
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr ""
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr ""
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
 msgstr ""
 
 #: plugins/ssh/gtk4.py
@@ -3708,10 +3826,6 @@ msgstr ""
 #: src/gcm4/ui/terminal.py
 #, python-brace-format
 msgid "Encoding {name} is not available, UTF-8 is used."
-msgstr ""
-
-#: src/gcm4/ui/terminal.py
-msgid "Session ended"
 msgstr ""
 
 #: src/gcm4/ui/terminal.py

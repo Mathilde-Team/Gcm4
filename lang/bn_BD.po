@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM নাম"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "অপেক্ষা করা হচ্ছে…"
 
@@ -864,13 +864,13 @@ msgstr "রিমোট"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "ফোল্ডার শেয়ার করুন"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "শেয়ার করা ফোল্ডারের পাথ"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "শেয়ার করার জন্য ফোল্ডার বেছে নিন।"
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "ত্রুটি: Proxmox নোড এবং VMID আবশ্যক"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "ত্রুটি: libvirt URI আবশ্যক"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "অতিরিক্ত প্যারামিটার অবৈধ: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "SPICE টিকিটে ত্রুটি: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "TLS পোর্টের মান 1 থেকে 65535-এর মধ্যে একটি সংখ্যা হতে হবে।"
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "অসম্পূর্ণ টিকিট"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "CA সার্টিফিকেট"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "সরাসরি URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "সংযোগ বিচ্ছিন্ন করুন"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "সমাপ্ত (কোড {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "ভিউয়ার চালু করতে ত্রুটি"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "{program}-এ খোলা হয়েছে"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Proxmox নোড"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "আবার সংযোগ করুন"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "SPICE টিকিটের জন্য অনুরোধ করা হচ্ছে…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "SSH ত্রুটি: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "সেশন শেষ হয়েছে"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "USB ডিভাইস শেয়ার করুন"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "অডিও শেয়ার করুন"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "TLS পোর্ট"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "SPICE সেশনটি একটি পৃথক remote-viewer উইন্ডোতে খোলে।"
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Proxmox-এর মাধ্যমে"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "libvirt-এর মাধ্যমে"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "libvirt URI"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program} পাওয়া যায়নি: virt-viewer প্যাকেজ ইনস্টল করুন"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3949,10 +4067,6 @@ msgid "Send commands after login"
 msgstr "লগইনের পরে কমান্ড পাঠান"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "সেশন শেষ হয়েছে"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3984,7 +4098,6 @@ msgid "Show window"
 msgstr "উইন্ডো দেখান"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "সংযোগ বিচ্ছিন্ন করুন"
 
@@ -4049,7 +4162,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "ক্লাস্টার"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "ক্লাস্টার"
 
@@ -4080,12 +4192,10 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "নির্বাচিত হোস্ট বা নির্বাচিত গ্রুপের সব হোস্টে সংযোগ করুন"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "সংযোগ করুন"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "সংযোগ করা হচ্ছে…"
 
@@ -4096,7 +4206,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "কন্টিনিউয়াস লগ মোড সক্রিয় এবং প্রতি ট্যাবে নিষ্ক্রিয় করা যায় না।"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "ক্লাস্টার"
 
@@ -4122,7 +4231,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "কাস্টম কমান্ড"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "কাস্টম কমান্ড"
 
@@ -4137,9 +4245,6 @@ msgstr "উইন্ডো দেখান"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "সনাক্ত করা Proxmox লক্ষ্য (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "সংযোগ বিচ্ছিন্ন করুন"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "আপনি কি সত্যিই গ্রুপের সমস্ত হোস্ট অপসারণ করতে চান"
@@ -4156,10 +4261,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Enable logging"
 #~ msgstr "লগিং সক্ষম করুন"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "সমাপ্ত (কোড {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "নতুন নাম লিখুন"
 
@@ -4170,11 +4271,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "কনসোলে পাঠানোর জন্য টেক্সট লিখুন: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "সার্ভারের সাথে সংযোগ করতে ত্রুটি"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "সার্ভারের সাথে সংযোগ করতে ত্রুটি"
 
 #~ msgid "Error saving host. Description"
@@ -4193,7 +4289,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "ফাইলে সার্ভার তালিকা এক্সপোর্ট করুন"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "সার্ভার এক্সপোর্ট করুন"
 
@@ -4201,7 +4296,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "কমান্ড লাইনে পাস করার জন্য অতিরিক্ত আর্গুমেন্ট"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "অতিরিক্ত আর্গুমেন্ট"
 
@@ -4212,7 +4306,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "ফ্লো"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "ফ্লো কন্ট্রোল:"
 
@@ -4236,12 +4329,10 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "ফোরগ্রাউন্ড রঙ:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "X11 ফরওয়ার্ডিং"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "গ্রুপ"
 
@@ -4249,7 +4340,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "হোস্টের নাম"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "হোস্টের নাম"
 
@@ -4275,7 +4365,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "আমদানি করা হয়েছে"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "আমদানি করা হয়েছে"
 
@@ -4298,7 +4387,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "VM নাম"
 
@@ -4321,12 +4409,10 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "লগের পথ"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "নতুন হোস্ট যুক্ত করুন"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "VM নাম"
 
@@ -4346,7 +4432,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "প্রতি বাইটে ডেটা বিটের সংখ্যা (8 = স্ট্যান্ডার্ড)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "যোগ করুন"
 
@@ -4375,7 +4460,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "প্রজেক্টের হোমপেজ"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "কমান্ড"
 
@@ -4383,7 +4467,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "হোস্টে পুনরায় সংযোগ করুন"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "কমান্ড"
 
@@ -4403,7 +4486,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "SPICE  (এখানে উপলব্ধ নয়: Proxmox-এর জন্য API টিকিট/প্রক্সি প্রয়োজন)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "কোনো সংযোগ প্রকার নির্বাচিত নয়।"
 
@@ -4442,7 +4524,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "একসাথে একাধিক হোস্টে কমান্ড পাঠান"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "সিরিয়াল"
 
@@ -4456,7 +4537,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "সার্ভার তালিকা ওভাররাইট হবে, চালিয়ে যাবেন?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_সার্ভার"
 
@@ -4485,7 +4565,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "স্টপ"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "স্টপ বিট:"
 
@@ -4493,12 +4572,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "স্টপ বিট: 1 = স্ট্যান্ডার্ড, 2 = RS-485 / লেগ্যাসি হার্ডওয়্যার"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "সিরিয়াল পোর্ট:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "টেমপ্লেট:"
 
@@ -4528,11 +4601,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "ডিফল্ট ফিক্সড-উইডথ ফন্ট ব্যবহার করুন"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4547,7 +4615,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "_সম্পাদনা"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "আমদানি করা হয়েছে"
 
@@ -4575,11 +4642,6 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "label"
 #~ msgstr "লেবেল"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "সনাক্ত করা libvirt URI"
-
 #~ msgid "local"
 #~ msgstr "লোকাল"
 
@@ -4596,12 +4658,10 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp খুঁজে পাওয়া যায়নি"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "xfreerdp অপশন:"
 

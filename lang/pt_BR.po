@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "Nome da VM"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Aguardando…"
 
@@ -864,13 +864,13 @@ msgstr "Remoto"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Compartilhar pasta"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Caminho da pasta compartilhada"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Escolha a pasta para compartilhar."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Erro: nó Proxmox e VMID são obrigatórios"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Erro: URI do libvirt obrigatória"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Parâmetros extras inválidos: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "Erro no ticket SPICE: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "A porta TLS deve ser um número de 1 a 65535."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "ticket incompleto"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "Certificado CA"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "URI direta"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Desconectar"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Encerrado (código {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Erro ao iniciar o visualizador"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Aberto em {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Nó Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Reconectar"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "Solicitando o ticket SPICE…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "Erro de SSH: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Sessão encerrada"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "Compartilhar dispositivos USB"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Compartilhar áudio"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "Porta TLS"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "A sessão SPICE é aberta em uma janela separada do remote-viewer."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Via Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "Via libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "URI do libvirt"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program} não encontrado: instale o pacote virt-viewer"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3949,10 +4067,6 @@ msgid "Send commands after login"
 msgstr "Enviar comandos após o login"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Sessão encerrada"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3984,7 +4098,6 @@ msgid "Show window"
 msgstr "Mostrar janela"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Desconectar"
 
@@ -4049,7 +4162,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Cluster"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Cluster"
 
@@ -4080,12 +4192,10 @@ msgstr "Mostrar janela"
 #~ msgstr "Conectar ao host selecionado ou a todos os hosts no grupo selecionado"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Conectar"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Conectando…"
 
@@ -4096,7 +4206,6 @@ msgstr "Mostrar janela"
 #~ msgstr "O modo de log contínuo está ativo e não pode ser desativado por aba."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Cluster"
 
@@ -4122,7 +4231,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Comandos personalizados"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Comandos personalizados"
 
@@ -4137,9 +4245,6 @@ msgstr "Mostrar janela"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Destinos Proxmox detectados (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Desconectar"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Você realmente deseja remover todos os hosts no grupo"
@@ -4156,10 +4261,6 @@ msgstr "Mostrar janela"
 #~ msgid "Enable logging"
 #~ msgstr "Ativar registro de log"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Encerrado (código {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Digite o novo nome"
 
@@ -4170,11 +4271,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Digite o texto a ser enviado para os consoles: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Erro ao conectar ao servidor"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Erro ao conectar ao servidor"
 
 #~ msgid "Error saving host. Description"
@@ -4193,7 +4289,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Exportar lista de servidores para arquivo"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Exportar servidores"
 
@@ -4201,7 +4296,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Argumentos extras a serem passados para a linha de comando"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "Argumentos extras"
 
@@ -4212,7 +4306,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Fluxo"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Controle de fluxo:"
 
@@ -4236,12 +4329,10 @@ msgstr "Mostrar janela"
 #~ msgstr "Cor do texto:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "Encaminhamento X11"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Grupo"
 
@@ -4249,7 +4340,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Nome do host"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Nome do host"
 
@@ -4275,7 +4365,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Importado"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "Importado"
 
@@ -4298,7 +4387,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "Nome da VM"
 
@@ -4321,12 +4409,10 @@ msgstr "Mostrar janela"
 #~ msgstr "Caminho dos logs"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Adicionar novo host"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "Nome da VM"
 
@@ -4346,7 +4432,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Número de bits de dados por byte (8 = padrão)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Adicionar"
 
@@ -4375,7 +4460,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Página inicial do projeto"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Comando"
 
@@ -4383,7 +4467,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Reconectar ao host"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Comando"
 
@@ -4403,7 +4486,6 @@ msgstr "Mostrar janela"
 #~ msgstr "SPICE  (não disponível aqui: o Proxmox requer ticket de API/proxy)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Nenhum tipo de conexão selecionado."
 
@@ -4442,7 +4524,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Enviar comandos para vários hosts ao mesmo tempo"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "serial"
 
@@ -4456,7 +4537,6 @@ msgstr "Mostrar janela"
 #~ msgstr "A lista de servidores será substituída, continuar?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Servidores"
 
@@ -4485,7 +4565,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Parada"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Bits de parada:"
 
@@ -4493,12 +4572,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Bits de parada: 1 = padrão, 2 = RS-485 / hardware legado"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Porta serial:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Modelo:"
 
@@ -4528,11 +4601,6 @@ msgstr "Mostrar janela"
 #~ msgstr "Usar fonte de largura fixa padrão"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4547,7 +4615,6 @@ msgstr "Mostrar janela"
 #~ msgstr "_Editar"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "Importado"
 
@@ -4575,11 +4642,6 @@ msgstr "Mostrar janela"
 #~ msgid "label"
 #~ msgstr "rótulo"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "URI libvirt detectada"
-
 #~ msgid "local"
 #~ msgstr "local"
 
@@ -4596,12 +4658,10 @@ msgstr "Mostrar janela"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp não encontrado"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "Opções do xfreerdp:"
 
