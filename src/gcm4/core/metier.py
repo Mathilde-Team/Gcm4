@@ -66,7 +66,7 @@ import os
 import random
 import re
 import shutil
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, Protocol, cast
 
 from loguru import logger as app_logger
 
@@ -77,7 +77,18 @@ app_logger.disable(__name__)
 from gcm4.core import pyaes as pyAES
 
 if TYPE_CHECKING:
-    from plugins.plugin_base import PluginRegistry
+
+    class PluginRegistry(Protocol):
+        """Registre de plugins chargé (``wMain.plugin_registry`` côté appelant GTK4).
+
+        Remplace le type historique ``plugins.plugin_base.PluginRegistry``,
+        supprimé avec le cœur GTK3 (#182) : seul ``.get(proto)`` est requis.
+        """
+
+        def get(self, proto: str) -> Any | None:
+            """Plugin du protocole, ou ``None`` si aucun ne le gère."""
+            ...
+
 
 # État jamais relu ailleurs dans le dépôt (vérifié), conservé tel quel par
 # fidélité de portage — voir bindtextdomain() ci-dessous. Nettoyage éventuel

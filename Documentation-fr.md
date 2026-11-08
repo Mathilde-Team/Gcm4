@@ -71,28 +71,17 @@ PuTTY) et les outils de déploiement de masse (Netmiko, SNMP) suivent le même
 principe via un registre séparé (`BatchPluginRegistry`).
 
 ```
-GTK3.OLD/gnome_connection_manager.py   ← application principale (interface GTK3)
-├── GCMBase                   ← fenêtre principale, arbre hôtes, onglets
-├── Host                      ← modèle de données d’une connexion (générique,
-│                                sans champ codé en dur par protocole)
-├── HostUtils                 ← lecture/écriture du fichier de config INI
-├── PluginRegistry             ← découverte/dispatch des plugins de connexion
-├── BatchPluginRegistry         ← découverte/dispatch des imports et push en masse
-├── LibvirtImportDialog       ← dialogue import 2 phases (scan → prévisualisation)
-├── SerialTemplatesTab        ← onglet templates série dans les préférences
-├── Whost                     ← formulaire édition hôte
-└── Wconfig                   ← fenêtre préférences
+src/gcm4/                     ← application GTK4 (gcm4)
+├── core/                     ← cœur métier sans GTK (modèle, config, échange…)
+└── ui/                       ← interface GTK4 (seul endroit autorisé à importer gi)
 
-src/gcm4/core/metier.py                  ← cœur métier extrait, sans dépendance GTK
-                                 (préalable à la migration GTK4)
+plugins/                      ← un dossier par plugin (contrat v1)
+├── ssh/, rdp/, serial/, telnet/, local/, ipmisol/, web/  ← connexion
+├── import_libvirt/, import_proxmox/, import_virtualbox/, import_ovirt/,
+│   import_putty/, sftp/      ← imports/exports
+└── netmiko_push/, snmp_push/ ← déploiement de masse
 
-plugins/                      ← un fichier par plugin, chargé automatiquement
-├── plugin_ssh.py, plugin_vnc.py, plugin_spice.py  ← plugins de connexion GTK3
-├── rdp/, serial/, telnet/, local/, ipmisol/, web/, ssh/  ← plugins GTK4 (contrat v1)
-├── plugin_import_libvirt.py, plugin_import_proxmox.py,
-│   plugin_import_virtualbox.py, plugin_import_ovirt.py,
-│   plugin_import_csv.py, plugin_import_json.py, plugin_import_putty.py,
-│   plugin_export_csv.py, plugin_export_json.py  ← imports/exports (batch)
+(L'application GTK3 de GTK3.OLD/ a été supprimée avec le cœur GTK3, #182.)
 └── plugin_netmiko_push.py, plugin_snmp_push.py  ← déploiement en masse (batch)
 
 tools/
@@ -159,7 +148,8 @@ pip3 install paramiko
 ```bash
 git clone https://github.com/MathildeDec/gnome-connection-manager
 cd gnome-connection-manager
-./GTK3.OLD/gnome_connection_manager.py
+uv sync
+uv run gcm4
 ```
 
 ---
@@ -773,8 +763,8 @@ Depuis v1.3.3, GCM suit automatiquement le thème GTK du bureau :
 
 Pour forcer un thème en ligne de commande :
 ```bash
-GTK_THEME=Adwaita:dark ./GTK3.OLD/gnome_connection_manager.py
-GTK_THEME=Yaru        ./GTK3.OLD/gnome_connection_manager.py
+GTK_THEME=Adwaita:dark uv run gcm4
+GTK_THEME=Yaru        uv run gcm4
 ```
 
 ### Police du terminal
@@ -826,9 +816,9 @@ GCM détecte automatiquement la langue via la variable `LANG` du système.
 ### Forcer une langue
 
 ```bash
-LANG=en_US.UTF-8 ./GTK3.OLD/gnome_connection_manager.py
-LANG=de_DE.UTF-8 ./GTK3.OLD/gnome_connection_manager.py
-LANG=ja_JP.UTF-8 ./GTK3.OLD/gnome_connection_manager.py
+LANG=en_US.UTF-8 uv run gcm4
+LANG=de_DE.UTF-8 uv run gcm4
+LANG=ja_JP.UTF-8 uv run gcm4
 ```
 
 ---

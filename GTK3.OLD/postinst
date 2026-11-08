@@ -1,6 +1,0 @@
-#!/bin/bash
-# SPDX-License-Identifier: GPL-3.0-only
-
-set -e
-
-sudo xdg-desktop-menu install /usr/share/applications/gnome-connection-manager.desktop

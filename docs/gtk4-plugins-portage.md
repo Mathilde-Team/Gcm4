@@ -121,10 +121,11 @@ toutes les lignes suivantes.
    de la voie) : ils dépendent de projets ou de décisions extérieurs.
 
 Les six plugins de connexion déjà portés (telnet, local, ipmisol, serial,
-web, rdp) ont vu leur fichier GTK3 retiré le 08/11/2026 (#179). Restent
-`plugin_ssh.py` (après #97), `plugin_vnc.py` (fusion pluginvnc2) et
-`plugin_spice.py` (choix de la voie).
+web, rdp) ont vu leur fichier GTK3 retiré le 08/11/2026 (#179). Les trois
+derniers fichiers (`plugin_ssh.py`, `plugin_vnc.py`, `plugin_spice.py`),
+ainsi que `plugin_base.py` et l'inventaire `tests/gtk3_inventaire.txt`,
+ont été supprimés avec le cœur GTK3 (#182) : plus aucun `plugin_*.py`
+GTK3 dans `plugins/`, le garde-fou impose désormais « zéro fichier GTK3 ».
 
-Chaque portage retire son fichier de `tests/gtk3_inventaire.txt` (#178). La
-case « plus aucun plugin GTK3 dans `plugins/` » de #179 est cochée quand
-l'inventaire ne contient plus aucun `plugins/plugin_*.py`.
+Le tableau ci-dessous décrit l'état au moment des décisions : il est
+conservé comme archive (les fichiers et l'inventaire GTK3 n'existent plus).

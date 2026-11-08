@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:20+0000\n"
+"POT-Creation-Date: 2026-11-08 11:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,2286 +18,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "+ Add"
-msgstr "+ যুক্ত করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid ""
-"<i>Double-click a cell to edit it.\n"
-"File format: <tt>[serial_templates]</tt> in <tt>gcm.conf</tt>\n"
-"<tt>My device = 9600,n,n,8,1</tt>  (baud,flow,parity,bits,stop)</i>"
-msgstr ""
-"<i>সম্পাদনা করতে একটি সেলে ডাবল-ক্লিক করুন।\n"
-"ফাইল ফরম্যাট: <tt>gcm.conf</tt>-এ <tt>[serial_templates]</tt>\n"
-"<tt>My device = 9600,n,n,8,1</tt>  (বড,ফ্লো,প্যারিটি,বিট,স্টপ)</i>"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "<span size=\"smaller\">CTRL+UP/CTRL+DOWN for history</span>"
-msgstr "<span size=\"smaller\">ইতিহাসের জন্য CTRL+UP/CTRL+DOWN</span>"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid ""
-"<span size='smaller'>Use ##D=milliseconds to add a delay.\n"
-"Ex: ##D=1000</span>"
-msgstr ""
-"<span size='smaller'>বিলম্ব যুক্ত করতে ##D=মিলিসেকেন্ড ব্যবহার করুন।\n"
-"উদাহরণ: ##D=1000</span>"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "A favorite is stored in clear text: remove the #P= password first"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, python-brace-format
-msgid "A group named '{src_leaf}' already exists in '{dest_full}'."
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "A new version is available: https://github.com/MathildeDec/gnome-connection-manager/releases"
-msgstr "একটি নতুন সংস্করণ উপলব্ধ: https://github.com/MathildeDec/gnome-connection-manager/releases"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/application.py
-msgid "A simple ssh connection manager for gnome"
-msgstr "Gnome-এর জন্য একটি সহজ SSH সংযোগ ম্যানেজার"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "ASCII Backspace \t[Ctrl+H 0x08]"
-msgstr "ASCII Backspace \t[Ctrl+H 0x08]"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "ASCII Delete    \t[Ctrl+? 0x7F]"
-msgstr "ASCII Delete    \t[Ctrl+? 0x7F]"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-msgid "About"
-msgstr "সম্পর্কে"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Action"
-msgstr "অ্যাকশন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Activate"
-msgstr "সক্রিয় করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-#: src/gcm4/core/menu_arbre.py
-msgid "Add Host"
-msgstr "হোস্ট যুক্ত করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Add the text area content to the favorite commands"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Add to favorites"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "After disconnecting"
-msgstr "সংযোগ বিচ্ছিন্নের পরে"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Always"
-msgstr "সবসময়"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "Automatic"
-msgstr "স্বয়ংক্রিয়"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Background color:"
-msgstr "ব্যাকগ্রাউন্ড রঙ:"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "Backspace:"
-msgstr "Backspace:"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Baud rate"
-msgstr "বড রেট"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Before connecting"
-msgstr "সংযোগের আগে"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
-#: plugins/ssh/gtk4.py
-msgid "Browse existing SSH keys in ~/.ssh/"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Browse filesystem for a private key file"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Buffer size"
-msgstr "বাফার আকার"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, python-brace-format
-msgid "CSV export error: {e}"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Can't open file for writting"
-msgstr "ফাইল লেখার জন্য খোলা যাচ্ছে না"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Can't open log file for writting"
-msgstr "লগ ফাইল লেখার জন্য খোলা যাচ্ছে না"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py GTK3.OLD/widgets.py
-#: plugins/import_ovirt/gtk4.py plugins/plugin_spice.py plugins/plugin_ssh.py
-#: plugins/sftp/gtk4.py plugins/ssh/gtk4.py src/gcm4/ui/contexte.py
-#: src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
-#: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
-#: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/raccourcis.py
-msgid "Cancel"
-msgstr "বাতিল"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Check updates"
-msgstr "আপডেট পরীক্ষা করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Choose Group Color"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Choose a favorite command to put it in the text area above"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Choose the favorite to remove in the list first"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Circle around tabs when going to the previous/next tab"
-msgstr "পূর্ববর্তী/পরবর্তী ট্যাবে যাওয়ার সময় ট্যাবের মধ্যে চক্রাকারে ঘুরুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Clear selection"
-msgstr "নির্বাচন পরিষ্কার করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#: src/gcm4/ui/echange.py src/gcm4/ui/main_window.py
-msgid "Close"
-msgstr "বন্ধ করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
-msgid "Close console"
-msgstr "কনসোল বন্ধ করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Cluster"
-msgstr "ক্লাস্টার"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, fuzzy
-#| msgid "Cluster"
-msgid "Cluster…"
-msgstr "ক্লাস্টার"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Colors"
-msgstr "রঙ"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Command"
-msgstr "কমান্ড"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Confirm on close console"
-msgstr "কনসোল বন্ধ করার সময় নিশ্চিত করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Confirm on close console with middle click"
-msgstr "মধ্য-ক্লিকে কনসোল বন্ধ করার সময় নিশ্চিত করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Confirm on exit"
-msgstr "প্রস্থানে নিশ্চিত করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Continuous VTE tab logging mode"
-msgstr "কন্টিনিউয়াস VTE ট্যাব লগিং মোড"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Continuous log mode is active and cannot be disabled per tab."
-msgstr "কন্টিনিউয়াস লগ মোড সক্রিয় এবং প্রতি ট্যাবে নিষ্ক্রিয় করা যায় না।"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-msgid "Copy"
-msgstr "কপি করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-msgid "Copy all"
-msgstr "সব কপি করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-msgid "Copy and Paste"
-msgstr "কপি এবং পেস্ট করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Copy selection to clipboard"
-msgstr "নির্বাচিত অংশ ক্লিপবোর্ডে কপি করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Custom Commands"
-msgstr "কাস্টম কমান্ড"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, fuzzy
-#| msgid "Custom commands"
-msgid "Custom commands…"
-msgstr "কাস্টম কমান্ড"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-#: src/gcm4/ui/preferences.py
-msgid "Dark"
-msgstr "গাঢ়"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Data bits"
-msgstr "ডেটা বিট"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Default colors"
-msgstr "ডিফল্ট রঙ"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "Delete Sequence \t[@7]"
-msgstr "ডিলিট সিকোয়েন্স \t[@7]"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "Delete:"
-msgstr "Delete:"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Description"
-msgstr "বিবরণ"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Disable alternating stripes in hosts window"
-msgstr "হোস্ট উইন্ডোতে অল্টারনেটিং স্ট্রাইপ নিষ্ক্রিয় করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Disable desktop notifications when a terminal disconnects"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Disable keyboard shortcuts in terminals (pass every key through)"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Do you really want to remove all hosts in group"
-msgstr "আপনি কি সত্যিই গ্রুপের সমস্ত হোস্ট অপসারণ করতে চান"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Do you really want to remove host"
-msgstr "আপনি কি সত্যিই হোস্ট অপসারণ করতে চান"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Dynamic title"
-msgstr "ডায়নামিক শিরোনাম"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-#: src/gcm4/core/menu.py src/gcm4/core/menu_arbre.py
-msgid "Edit"
-msgstr "সম্পাদনা করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#: data/io.github.MathildeDec.gcm4.metainfo.xml src/gcm4/ui/host_dialog.py
-msgid "Edit Host"
-msgstr "হোস্ট সম্পাদনা করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Enable Logging"
-msgstr "লগিং সক্ষম করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Enter new name"
-msgstr "নতুন নাম লিখুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Enter password"
-msgstr "পাসওয়ার্ড লিখুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Enter the text to send to consoles: "
-msgstr "কনসোলে পাঠানোর জন্য টেক্সট লিখুন: "
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Error connecting to server"
-msgstr "সার্ভারের সাথে সংযোগ করতে ত্রুটি"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Error saving host. Description"
-msgstr "হোস্ট সংরক্ষণে ত্রুটি। বিবরণ"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Execute"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Export Servers"
-msgstr "সার্ভার এক্সপোর্ট করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-#: src/gcm4/ui/echange.py
-msgid "Export servers"
-msgstr "সার্ভার রপ্তানি"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Export to CSV"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Export to CSV…"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Export to JSON"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Export to JSON…"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, fuzzy
-#| msgid "Export Servers"
-msgid "Exports"
-msgstr "সার্ভার এক্সপোর্ট করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Favorites:"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Fields group, name and host are required"
-msgstr "গ্রুপ, নাম এবং হোস্ট ফিল্ড আবশ্যক"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-msgid "File"
-msgstr "ফাইল"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Flow"
-msgstr "ফ্লো"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Font:"
-msgstr "ফন্ট:"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Foreground color:"
-msgstr "ফোরগ্রাউন্ড রঙ:"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "GTK Theme:"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "General"
-msgstr "সাধারণ"
-
-#: GTK3.OLD/gnome_connection_manager.py data/io.github.MathildeDec.gcm4.desktop
-#: data/io.github.MathildeDec.gcm4.metainfo.xml
-msgid "Gnome Connection Manager"
-msgstr "Gnome Connection Manager"
-
-#: GTK3.OLD/gnome_connection_manager.py plugins/import_hyperviseurs/ui.py
-#: src/gcm4/ui/host_dialog.py src/gcm4/ui/menu_arbre.py
-msgid "Group"
-msgstr "গ্রুপ"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, python-brace-format
-msgid "Group '{full_name}' already exists."
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, python-brace-format
-msgid "Group '{new_full}' already exists."
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, fuzzy
-#| msgid "Group"
-msgid "Group name:"
-msgstr "গ্রুপ"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-msgid "Help"
-msgstr "সাহায্য"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#: src/gcm4/ui/host_dialog.py
-msgid "Host"
-msgstr "হোস্ট"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Host name"
-msgstr "হোস্টের নাম"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Import Servers"
-msgstr "সার্ভার আমদানি করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-#: src/gcm4/ui/echange.py
-msgid "Import servers"
-msgstr "সার্ভার আমদানি"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, fuzzy
-#| msgid "Imported"
-msgid "Imports"
-msgstr "আমদানি করা হয়েছে"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Include this host in the workspace (Tools > Open Workspace)"
-msgstr "এই হোস্টকে ওয়ার্কস্পেসে রাখুন (টুলস > ওয়ার্কস্পেস খুলুন)"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Invalid entry in configuration file"
-msgstr "কনফিগারেশন ফাইলে অবৈধ এন্ট্রি"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Invalid file"
-msgstr "অবৈধ ফাইল"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Invalid password"
-msgstr "অবৈধ পাসওয়ার্ড"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Invalid port"
-msgstr "অবৈধ পোর্ট"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Invert selection"
-msgstr "নির্বাচন উল্টান"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, python-brace-format
-msgid "JSON export error: {e}"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Key sequences"
-msgstr "কী সিকোয়েন্স"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, python-brace-format
-msgid ""
-"L'outil « {name} » n'a pas pu s'ouvrir.\n"
-"\n"
-"Cause : {error}\n"
-"\n"
-"Détails complets dans le journal de l'application."
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Leave blank for passwordless/public key authentication"
-msgstr "পাসওয়ার্ডহীন/পাবলিক কী অথেন্টিকেশনের জন্য খালি রাখুন"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-#: src/gcm4/ui/preferences.py
-msgid "Light"
-msgstr "হালকা"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Log local console sessions"
-msgstr "লোকাল কনসোল সেশন লগ করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Logs path"
-msgstr "লগের পথ"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/main_window.py
-msgid "Menu"
-msgstr "মেনু"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_key_manager_dialog.py
-#: plugins/ssh/gtk4.py src/gcm4/ui/host_dialog.py
-msgid "Name"
-msgstr "নাম"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Never"
-msgstr "কখনও না"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
-msgid "New Group"
-msgstr "নতুন গ্রুপ"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, fuzzy
-#| msgid "Add new host"
-msgid "New host"
-msgstr "নতুন হোস্ট যুক্ত করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, fuzzy
-#| msgid "VM name"
-msgid "New name:"
-msgstr "VM নাম"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "New template"
-msgstr "নতুন টেমপ্লেট"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Next match"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "No hosts in the workspace yet — check \"Workspace\" in Edit Host to add one"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "No open consoles"
-msgstr "কোনো খোলা কনসোল নেই"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-#: plugins/netmiko_push/gtk4.py plugins/plugin_spice.py
-#: plugins/snmp_push/gtk4.py plugins/ssh/gtk4.py
-msgid "OK"
-msgstr "ঠিক আছে"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Only on clean exit"
-msgstr "শুধুমাত্র ক্লিন এক্সিটে"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py
-#: src/gcm4/ui/mises_a_jour.py src/gcm4/ui/preferences.py
-msgid "Open"
-msgstr "খুলুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
-#: plugins/ssh/gtk4.py
-msgid "Open SSH Key Manager (generate / import / delete)"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Open Workspace"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Open local console on startup"
-msgstr "স্টার্টআপে লোকাল কনসোল খুলুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Overrides the global \"Close console\" preference for this host only"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Parity"
-msgstr "প্যারিটি"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/contexte.py
-#: src/gcm4/ui/host_dialog.py
-msgid "Password"
-msgstr "পাসওয়ার্ড"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-msgid "Paste"
-msgstr "পেস্ট করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Paste on right click"
-msgstr "রাইট-ক্লিকে পেস্ট করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
-#: src/gcm4/ui/host_dialog.py src/gcm4/ui/menu_arbre.py
-msgid "Port"
-msgstr "পোর্ট"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Previous match"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py plugins/ssh/gtk4.py
-msgid "Private key"
-msgstr "প্রাইভেট কী"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Project's Homepage"
-msgstr "প্রজেক্টের হোমপেজ"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-#: src/gcm4/ui/main_window.py src/gcm4/ui/zone_notification.py
-msgid "Quit"
-msgstr "প্রস্থান"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Remove from favorites"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Remove the chosen command from the favorites"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/menu_arbre.py
-msgid "Rename Group"
-msgstr "গ্রুপের নাম বদলান"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-msgid "Rename tab"
-msgstr "ট্যাব নাম পরিবর্তন করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Restore defaults"
-msgstr "ডিফল্ট পুনরুদ্ধার করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Restore open tabs from the previous session on startup"
-msgstr "চালুর সময় আগের সেশনের খোলা ট্যাবগুলো পুনরুদ্ধার করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py
-#: src/gcm4/ui/host_dialog.py
-msgid "Save"
-msgstr "সংরক্ষণ"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Save as"
-msgstr "নামসহ সংরক্ষণ করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Save buffer as"
-msgstr "বাফার নামসহ সংরক্ষণ করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-msgid "Select all"
-msgstr "সব নির্বাচন করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Select background color"
-msgstr "ব্যাকগ্রাউন্ড রঙ নির্বাচন করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Select consoles to use:"
-msgstr "ব্যবহারের জন্য কনসোল নির্বাচন করুন:"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Select font"
-msgstr "ফন্ট নির্বাচন করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Select foreground color"
-msgstr "ফোরগ্রাউন্ড রঙ নির্বাচন করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "Send commands after login"
-msgstr "লগইনের পরে কমান্ড পাঠান"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Send the command above to every checked host (same as pressing Enter)"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Serial Templates"
-msgstr "সিরিয়াল টেমপ্লেট"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Server list will be overwritten, continue?"
-msgstr "সার্ভার তালিকা ওভাররাইট হবে, চালিয়ে যাবেন?"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, fuzzy
-#| msgid "_Servers"
-msgid "Servers"
-msgstr "_সার্ভার"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#: data/io.github.MathildeDec.gcm4.metainfo.xml src/gcm4/core/menu.py
-#: src/gcm4/ui/preferences.py
-msgid "Settings"
-msgstr "সেটিংস"
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, python-brace-format
-msgid "Shell command run locally, in the background, right after this connection ends. Currently only triggered for terminal-based protocols (SSH/Telnet/Local/Serial/IPMI SOL). Leave blank to disable. Placeholders: {name} {address} {group} {protocol}"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-#, python-brace-format
-msgid "Shell command run locally, in the background, right before this connection opens (any protocol). Leave blank to disable. Placeholders: {name} {address} {group} {protocol}"
-msgstr "এই সংযোগ খোলার ঠিক আগে স্থানীয়ভাবে পটভূমিতে চলা শেল কমান্ড (যেকোনো প্রোটোকল)। বন্ধ করতে ফাঁকা রাখুন। প্লেসহোল্ডার: {name} {address} {group} {protocol}"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Shortcut"
-msgstr "শর্টকাট"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Shortcuts"
-msgstr "শর্টকাট"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-#: src/gcm4/ui/preferences.py
-msgid "Show Panel"
-msgstr "প্যানেল দেখান"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Standard Commands"
-msgstr "স্ট্যান্ডার্ড কমান্ড"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Stop"
-msgstr "স্টপ"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-#: src/gcm4/ui/preferences.py
-msgid "System"
-msgstr "সিস্টেম"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "TERM"
-msgstr "TERM"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/terminal.py
-msgid "TTY Erase"
-msgstr "TTY মুছুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Template name"
-msgstr "টেমপ্লেট নাম"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "There are"
-msgstr "আছে"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid ""
-"This is gnome-connection-manager, written and maintained by\n"
-"Copyright © 2012 Renzo Bertuzzi L. <kuthulu@gmail.com> - Chile"
-msgstr ""
-"এটি gnome-connection-manager, যা লিখেছেন এবং পরিচালনা করেন\n"
-"Copyright © 2012 Renzo Bertuzzi L. <kuthulu@gmail.com> - চিলি"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Tip: use #P=password to send a password without keeping it in clear text in the command history"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/preferences.py
-msgid "Title"
-msgstr "শিরোনাম"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "To create subgroups use format group1/group2/group3"
-msgstr "সাবগ্রুপ তৈরি করতে group1/group2/group3 ফরম্যাট ব্যবহার করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Transparency"
-msgstr "স্বচ্ছতা"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/key_picker_dialog.py
-#: GTK3.OLD/ssh_config_editor.py GTK3.OLD/ssh_key_manager_dialog.py
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Type"
-msgstr "প্রকার"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Type a command in the text area first"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Use default fixed width font"
-msgstr "ডিফল্ট ফিক্সড-উইডথ ফন্ট ব্যবহার করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Use global preference"
-msgstr "সাধারণ পছন্দ ব্যবহার করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
-#: src/gcm4/ui/host_dialog.py
-msgid "User"
-msgstr "ব্যবহারকারী"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/core/menu.py
-msgid "View"
-msgstr "দৃশ্য"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "Word separator"
-msgstr "শব্দ বিভাজক"
-
-#: GTK3.OLD/gnome_connection_manager.py src/gcm4/ui/host_dialog.py
-msgid "Workspace"
-msgstr "ওয়ার্কস্পেস"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "already exists for group"
-msgstr "গ্রুপের জন্য ইতিমধ্যে বিদ্যমান"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "open consoles, exit anyway?"
-msgstr "টি কনসোল খোলা আছে, তবুও বের হবেন?"
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "search..."
-msgstr "অনুসন্ধান করুন..."
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, python-brace-format
-msgid "{count} connection(s) exported to {filename}."
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-#, python-brace-format
-msgid ""
-"{n} outil(s) n'ont pas pu se charger au démarrage :\n"
-"\n"
-"{details}\n"
-"\n"
-"L'application continue de fonctionner normalement sans eux. Détails complets dans le journal de l'application."
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py
-msgid "− Remove"
-msgstr "− অপসারণ করুন"
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
-#: plugins/ssh/gtk4.py
-msgid "⚙"
-msgstr ""
-
-#: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/ssh_config_editor.py
-#: plugins/ssh/gtk4.py
-msgid "🔑 Pick…"
-msgstr ""
-
-#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
-msgid ""
-"<i>No SSH key found in ~/.ssh/.\n"
-"Click <b>Generate…</b> to create one.</i>"
-msgstr ""
-
-#: GTK3.OLD/key_picker_dialog.py GTK3.OLD/ssh_key_manager_dialog.py
-#: plugins/ssh/gtk4.py
-msgid "Fingerprint"
-msgstr ""
-
-#: GTK3.OLD/key_picker_dialog.py
-#, fuzzy
-#| msgid "VM name"
-msgid "Key name"
-msgstr "VM নাম"
-
-#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
-msgid "Keys found in <b>~/.ssh/</b> — select one (or several with Ctrl/Shift-click) then click <i>Use</i>:"
-msgstr ""
-
-#: GTK3.OLD/key_picker_dialog.py
-msgid "Permissions"
-msgstr ""
-
-#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
-msgid "Select SSH Key"
-msgstr ""
-
-#: GTK3.OLD/key_picker_dialog.py GTK3.OLD/ssh_key_manager_dialog.py
-#: plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Cancel"
-msgid "_Cancel"
-msgstr "বাতিল"
-
-#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
-msgid "_Use"
-msgstr ""
-
-#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Private key"
-msgid "private"
-msgstr "প্রাইভেট কী"
-
-#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
-msgid "public"
-msgstr ""
-
-#: GTK3.OLD/key_picker_dialog.py plugins/ssh/gtk4.py
-msgid "⚙ Generate…"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, fuzzy, python-brace-format
-#| msgid "Ended (code {rc})"
-msgid ""
-"\n"
-"Exit code: {rc}"
-msgstr "সমাপ্ত (কোড {rc})"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid ""
-"\n"
-"[Error: {exc}]"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid ""
-"\n"
-"[Timeout after 10 s]"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "(no output)\n"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Add new host"
-msgid "Add a new empty host"
-msgstr "নতুন হোস্ট যুক্ত করুন"
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "AddKeysToAgent"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Alias(es)"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "At least one alias is required"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "Compression"
-msgstr "কম্প্রেশন"
-
-#: GTK3.OLD/ssh_config_editor.py
-#, fuzzy
-#| msgid "Connect"
-msgid "ConnectTimeout"
-msgstr "সংযোগ করুন"
-
-#: GTK3.OLD/ssh_config_editor.py
-#, fuzzy
-#| msgid "Cluster"
-msgid "ControlMaster"
-msgstr "ক্লাস্টার"
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "ControlPersist"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Copied: {cmd}"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Copy selection to clipboard"
-msgid "Copy full ssh command to clipboard"
-msgstr "নির্বাচিত অংশ ক্লিপবোর্ডে কপি করুন"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Copy ssh cmd"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Diff (original → current):"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Dynamic"
-msgstr "ডায়নামিক"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Dynamic"
-msgid "Dynamic (SOCKS)"
-msgstr "ডায়নামিক"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Edit SSH config (personal + shared)"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Edit raw ssh_config — changes here override the Visual tab on Save."
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Enter remote host"
-msgstr "রিমোট হোস্ট লিখুন"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "_File"
-msgid "File:"
-msgstr "_ফাইল"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Filter hosts…"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py
-#, fuzzy
-#| msgid "X11 Forwarding"
-msgid "ForwardAgent"
-msgstr "X11 ফরওয়ার্ডিং"
-
-#: GTK3.OLD/ssh_config_editor.py
-#, fuzzy
-#| msgid "Host name"
-msgid "HostName"
-msgstr "হোস্টের নাম"
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "IdentitiesOnly"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "IdentityFile"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Local"
-msgstr "লোকাল"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Local"
-msgid "Local (-L)"
-msgstr "লোকাল"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Local Port"
-msgstr "লোকাল পোর্ট"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "localhost"
-msgid "Local target host"
-msgstr "localhost"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Local Port"
-msgid "Local target port"
-msgstr "লোকাল পোর্ট"
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "LogLevel"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Multiple values possible: separate them with commas (one line per value in the file)"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "No changes."
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "PasswordAuthentication"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Personal (~/.ssh/config)"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Port must be an integer between 1 and 65535"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Properties"
-msgstr "প্রপার্টিজ"
-
-#: GTK3.OLD/ssh_config_editor.py
-#, fuzzy
-#| msgid "Command"
-msgid "ProxyCommand"
-msgstr "কমান্ড"
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "ProxyJump"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "PubkeyAuthentication"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "QUIET/ERROR/INFO/VERBOSE/DEBUG"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Raw / Diff"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Redirection de port"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Remote"
-msgstr "রিমোট"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Remote"
-msgid "Remote (-R)"
-msgstr "রিমোট"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Remote Host"
-msgstr "রিমোট হোস্ট"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Remote Port"
-msgstr "রিমোট পোর্ট"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Remote Port"
-msgid "Remote listen port"
-msgstr "রিমোট পোর্ট"
-
-#: GTK3.OLD/ssh_config_editor.py
-#, fuzzy
-#| msgid "Command"
-msgid "RemoteCommand"
-msgstr "কমান্ড"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Remote Host"
-msgid "Remove host?"
-msgstr "রিমোট হোস্ট"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Remove selected host"
-msgstr "নির্বাচিত হোস্ট অপসারণ করুন"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Remove «{alias}» from {path}?"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "RequestTTY"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid ""
-"Running: {cmd}\n"
-"\n"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "ServerAliveCountMax"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "ServerAliveInterval"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Shared — bastion, all users (/etc/ssh/ssh_config.d/config_gcm.conf)"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "StrictHostKeyChecking"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "No connection type selected."
-msgid "Test SSH connection to selected host"
-msgstr "কোনো সংযোগ প্রকার নির্বাচিত নয়।"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Test connection — {alias}"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py
-msgid "UserKnownHostsFile"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "Visual"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "auto / yes / no"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : 10"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : 10m"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : 192.168.1.10 ou example.com"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : 22"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : 3"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : 60"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : root"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : ssh -W %h:%p bastion, ou corkscrew proxy 8080 %h %p"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : tmux attach || tmux new"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : user@bastion.example.com, user@server1.example.com"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : web1 ou web1 web1.example.com"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : ~/.ssh/id_ed25519, ~/.ssh/id_rsa"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "ex : ~/.ssh/known_hosts"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "yes / no / ask / accept-new"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#: plugins/ssh/session.py
-msgid "yes / no / ask / confirm"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#: plugins/ssh/session.py
-msgid "yes / no / force / auto"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "yes ou no"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "{path} does not exist yet — it will be created when saving."
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "← Select or create a host"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "⚡ Test"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Cancel"
-msgid "✕ Cancel"
-msgstr "বাতিল"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "− Remove"
-msgid "✕ Remove"
-msgstr "− অপসারণ করুন"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-msgid "⟳ Refresh diff"
-msgstr ""
-
-#: GTK3.OLD/ssh_config_editor.py GTK3.OLD/ssh_key_manager_dialog.py
-#: plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "+ Add"
-msgid "＋ Add"
-msgstr "+ যুক্ত করুন"
-
-#: GTK3.OLD/ssh_config_editor.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Save"
-msgid "💾 Save"
-msgstr "সংরক্ষণ"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "#"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "(empty = no passphrase)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "(empty = remove passphrase)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "(empty if none)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "(hashed)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "(none — keys are generated unsigned)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "A certificate named {name} already exists"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "A file named {name} already exists"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Add Authorized Key"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Add {name} to ssh-agent?"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Added to ssh-agent"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-msgid "All files"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Authorized Keys"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "CA deleted: {name}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "CA deletion failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "CA import failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "CA imported and designated: {name}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "CA signing failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "CA signing timed out — CA key may require a passphrase (unsupported non-interactively)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy, python-brace-format
-#| msgid "Can't open file for writting"
-msgid "Cannot open file manager: {err}"
-msgstr "ফাইল লেখার জন্য খোলা যাচ্ছে না"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Cannot read public key: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Certificate identity:"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Change Passphrase — {name}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Change the passphrase of this private key (ssh-keygen -p)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Check ~/.ssh/config (and GCM hosts, if wired in) against known_hosts"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Choose an existing local key pair as the signing CA"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-msgid "Clipboard unavailable — key content logged"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Command"
-msgid "Comment"
-msgstr "কমান্ড"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Command"
-msgid "Comment:"
-msgstr "কমান্ড"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Confirm new passphrase:"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Connected to {t} — Known Hosts / Authorized Keys now read from there"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Connection failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-msgid "Connection timed out"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Copy failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Copy selection to clipboard"
-msgid "Copy the public key content to clipboard"
-msgstr "নির্বাচিত অংশ ক্লিপবোর্ডে কপি করুন"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Created"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Current passphrase:"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Delete failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Designate Signing CA"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Designated CA: {name}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Disable"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Enabled"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Entry not found (file may have changed) — refreshing"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Failed to add key"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Failed to add to agent (passphrase required?): {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Failed to remove from agent: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Failed to update authorized_keys"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Failed to update known_hosts"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "File changed on disk — refreshing"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Template name"
-msgid "File name:"
-msgstr "টেমপ্লেট নাম"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "File {name} already exists in ~/.ssh/ — overwrite?"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Fingerprint copied to clipboard"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Found"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Generate SSH Key"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Generate a new SSH key pair (ssh-keygen)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Generation failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Hashed"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Private key"
-msgid "Import CA Private Key"
-msgstr "প্রাইভেট কী"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Private key"
-msgid "Import Private Key"
-msgstr "প্রাইভেট কী"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Import an existing private key file into ~/.ssh/"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Import an external CA key pair into ~/.ssh/ and designate it"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Import failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Info (matching known_hosts line)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Invalid name — must not contain a path separator"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Invalid target — expected user@host or user@host:port"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Key added to authorized_keys"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Key deleted: {name}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Key generated: {name}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy, python-brace-format
-#| msgid "Template name"
-msgid "Key imported: {name}"
-msgstr "টেমপ্লেট নাম"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Key signed by CA {ca} (identity={id})"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Key type:"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Keys are saved in <b>~/.ssh/</b> with permissions 600."
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Known Hosts"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Known Hosts Test — {n}/{total} found on {target}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Load/unload this key in ssh-agent (ssh-add / ssh-add -d)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "New name for {name}:"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "New passphrase and confirmation do not match"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "New passphrase:"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "No CA currently designated"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-msgid "No CA designated — key generated unsigned"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "No Public key available for selected entry"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "No authorized_keys entry selected"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "No candidate hosts found in ~/.ssh/config (and no GCM host list wired in)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "No fingerprint available for this entry"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "No URI selected."
-msgid "No key selected"
-msgstr "কোনো URI নির্বাচিত নয়।"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "No connection type selected."
-msgid "No known_hosts entry selected"
-msgstr "কোনো সংযোগ প্রকার নির্বাচিত নয়।"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "No matching .pub file found next to {name} — cannot import as CA"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "No matching .pub file found next to {name} — cannot use as CA"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "No URI selected."
-msgid "No private key selected"
-msgstr "কোনো URI নির্বাচিত নয়।"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "No public key available for selected entry"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "No public key available to identify this key in the agent"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-msgid "Nothing to rename"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Open ~/.ssh/ in the file manager"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Orphan Public key"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Orphan Public keys"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Passphrase change failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Passphrase changed for {name}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Passphrase:"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Paste the full public key line (options, type, base64 key, comment):"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid ""
-"Permanently delete <b>{name}</b> (and its Orphan Public key if present)?\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid ""
-"Permanently delete the CA key pair <b>{name}</b>?\n"
-"Certificates already signed by this CA will no longer be trustable to verify.\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Permanently delete the designated CA key pair"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Permanently delete the selected key"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Perms"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Principals (comma-separated):"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Private key"
-msgid "Private keys"
-msgstr "প্রাইভেট কী"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Public Key — {name}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Public key copied to clipboard"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-#, python-brace-format
-msgid "Public key file not found: {p}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "RSA size:"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Re-enable"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Remote target (Known Hosts / Authorized Keys):"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid ""
-"Remove this authorized_keys entry?\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid ""
-"Remove this known_hosts entry?\n"
-"<b>This cannot be undone.</b>"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Remove {name} from ssh-agent?"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Removed from ssh-agent"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Rename tab"
-msgid "Rename Key"
-msgstr "ট্যাব নাম পরিবর্তন করুন"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Rename failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Rename this key (and its .pub / certificate, if any)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Renamed {old} to {new}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "SSH Key Manager"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "No connection type selected."
-msgid "SSH connection failed"
-msgstr "কোনো সংযোগ প্রকার নির্বাচিত নয়।"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Saved in ~/.ssh/ — leave blank for default name"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Select the private key file, not the .pub file"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Show the full public key content in a dedicated window"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Sign with designated CA ({name})"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Signed by"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Signing CA:"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Switched back to local machine"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "Testing connection to {t}…"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "This does not look like a valid public key line"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "Validity"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Parity:"
-msgid "Validity:"
-msgstr "প্যারিটি:"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "_Add"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "_Change"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Close"
-msgid "_Close"
-msgstr "বন্ধ করুন"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-msgid "_Designate"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py
-#, fuzzy
-#| msgid "Imported"
-msgid "_Import"
-msgstr "আমদানি করা হয়েছে"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Rename tab"
-msgid "_Rename"
-msgstr "ট্যাব নাম পরিবর্তন করুন"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "add a key to authorized_keys"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "authorized_keys entry removed"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "authorized_keys entry updated"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "authorized_keys not found on {t}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "enable/disable an authorized_keys entry"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Never"
-msgid "forever"
-msgstr "কখনও না"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "known_hosts entry removed"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "known_hosts not found on {t}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "local machine"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "remove a known_hosts entry"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "remove an authorized_keys entry"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "ssh-add failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "ssh-add timed out — the key may require a passphrase (no terminal available here)"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "ssh-keygen -V syntax, e.g. +52w (1 year), +30d, or 'always:forever'"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "ssh-keygen failed: {err}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "ssh-keygen not found — install openssh-client"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "unknown CA"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "until {end}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "user@host or root@host[:port]"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "{action} this authorized_keys entry?"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "{n} authorized_keys entries loaded from {t}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "{n} known_hosts entries loaded from {t}"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid "{priv} private key(s), {pub} Orphan Public key(s) loaded from ~/.ssh/"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "~/.ssh/ not found — no keys loaded"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "✓ Imported"
-msgid "↑ Import"
-msgstr "✓ আমদানি করা হয়েছে"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "⎘ Copy fingerprint"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "⎘ Copy public key"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Copy selection to clipboard"
-msgid "⎘ Copy to clipboard"
-msgstr "নির্বাচিত অংশ ক্লিপবোর্ডে কপি করুন"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "General"
-msgid "⚙ Generate"
-msgstr "সাধারণ"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, python-brace-format
-msgid ""
-"⚠ You are about to {action} on the <b>root</b> account of {target}.\n"
-"This can affect SSH access to the whole system.\n"
-"<b>Are you sure?</b>"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Rename tab"
-msgid "✎ Rename"
-msgstr "ট্যাব নাম পরিবর্তন করুন"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "⟳ Refresh"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "✓ Imported"
-msgid "⬆ Import CA"
-msgstr "✓ আমদানি করা হয়েছে"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Local"
-msgid "🏠 Local"
-msgstr "লোকাল"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "👁 View public key"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "📂 Reveal"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Connect"
-msgid "🔌 Connect"
-msgstr "সংযোগ করুন"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "🔏 Designate"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "🔑 Agent"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "🔒 Passphrase"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Delete:"
-msgid "🗑 Delete"
-msgstr "Delete:"
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "🗑 Delete CA"
-msgstr ""
-
-#: GTK3.OLD/ssh_key_manager_dialog.py plugins/ssh/gtk4.py
-msgid "🧪 Test known hosts"
-msgstr ""
-
-#: GTK3.OLD/widgets.py
-#, fuzzy, python-format
-#| msgid "Disconnect"
-msgid "%s has disconnected."
-msgstr "সংযোগ বিচ্ছিন্ন করুন"
-
-#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
-msgid "Choose Color…"
-msgstr "রং বেছে নিন…"
-
-#: GTK3.OLD/widgets.py
-msgid "Clone console"
-msgstr "কনসোল ক্লোন করুন"
-
-#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
-msgid "Collapse all"
-msgstr "সব সংকুচিত করুন"
-
-#: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
-#: src/gcm4/ui/contexte.py
-msgid "Connect"
-msgstr "সংযোগ করুন"
-
-#: GTK3.OLD/widgets.py
-#, fuzzy
-#| msgid "Connecting…"
-msgid "Connection closed"
-msgstr "সংযোগ করা হচ্ছে…"
-
-#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
-msgid "Copy Address"
-msgstr "ঠিকানা কপি করুন"
-
-#: GTK3.OLD/widgets.py
-msgid "Custom commands"
-msgstr "কাস্টম কমান্ড"
-
-#: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
-msgid "Disconnect"
-msgstr "সংযোগ বিচ্ছিন্ন করুন"
-
-#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py
-msgid "Duplicate Host"
-msgstr "হোস্ট ডুপ্লিকেট করুন"
-
-#: GTK3.OLD/widgets.py
-msgid "Enable logging"
-msgstr "লগিং সক্ষম করুন"
-
-#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
-msgid "Expand all"
-msgstr "সব বিস্তৃত করুন"
-
-#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
-msgid "New Group…"
-msgstr "নতুন গ্রুপ…"
-
-#: GTK3.OLD/widgets.py
-msgid "Reconnect to host"
-msgstr "হোস্টে পুনরায় সংযোগ করুন"
-
-#: GTK3.OLD/widgets.py plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
-#: src/gcm4/ui/menu_arbre.py
-msgid "Remove"
-msgstr "অপসারণ করুন"
-
-#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
-msgid "Rename Group…"
-msgstr "গ্রুপের নাম বদলান…"
-
-#: GTK3.OLD/widgets.py src/gcm4/core/menu_arbre.py
-msgid "Reset Color"
-msgstr "রং রিসেট করুন"
-
-#: GTK3.OLD/widgets.py
-msgid "Reset and Clear console"
-msgstr "কনসোল রিসেট এবং পরিষ্কার করুন"
-
-#: GTK3.OLD/widgets.py
-msgid "Reset console"
-msgstr "কনসোল রিসেট করুন"
-
-#: GTK3.OLD/widgets.py
-msgid "Save buffer to file"
-msgstr "বাফার ফাইলে সংরক্ষণ করুন"
-
-#: GTK3.OLD/widgets.py
-msgid "Special keys"
-msgstr ""
-
-#: GTK3.OLD/widgets.py
-msgid "Split H"
-msgstr "বিভক্ত H"
-
-#: GTK3.OLD/widgets.py
-msgid "Split V"
-msgstr "বিভক্ত V"
-
-#: GTK3.OLD/widgets.py
-msgid "Unsplit all consoles"
-msgstr "সব কনসোলের বিভক্তি বাতিল করুন"
-
 #: data/io.github.MathildeDec.gcm4.desktop
 msgid "Connection Manager"
 msgstr "সংযোগ ব্যবস্থাপক"
+
+#: data/io.github.MathildeDec.gcm4.desktop
+#: data/io.github.MathildeDec.gcm4.metainfo.xml
+msgid "Gnome Connection Manager"
+msgstr "Gnome Connection Manager"
 
 #: data/io.github.MathildeDec.gcm4.desktop
 #: data/io.github.MathildeDec.gcm4.metainfo.xml
@@ -2315,6 +43,10 @@ msgstr "gcm4 (ডিবাগ মোড)"
 #: data/io.github.MathildeDec.gcm4.metainfo.xml
 msgid "Connection protocols provided by plugins"
 msgstr "সংযোগ প্রোটোকল এক্সটেনশন থেকে আসে"
+
+#: data/io.github.MathildeDec.gcm4.metainfo.xml src/gcm4/ui/host_dialog.py
+msgid "Edit Host"
+msgstr "হোস্ট সম্পাদনা করুন"
 
 #: data/io.github.MathildeDec.gcm4.metainfo.xml
 msgid "Gnome Connection Manager keeps your hosts in groups and opens each connection in a tab of a single window."
@@ -2340,6 +72,11 @@ msgstr "GTK3 অ্যাপ্লিকেশনের সর্বশেষ �
 msgid "Open tabs restored at the next start"
 msgstr "পরের বার চালুর সময় খোলা ট্যাবগুলো পুনরুদ্ধার"
 
+#: data/io.github.MathildeDec.gcm4.metainfo.xml src/gcm4/core/menu.py
+#: src/gcm4/ui/preferences.py
+msgid "Settings"
+msgstr "সেটিংস"
+
 #: data/io.github.MathildeDec.gcm4.metainfo.xml
 msgid "The base application provides no protocol by itself: connections need the corresponding plugin."
 msgstr "মূল অ্যাপ্লিকেশন নিজে কোনো প্রোটোকল দেয় না: সংযোগের জন্য সংশ্লিষ্ট এক্সটেনশন প্রয়োজন।"
@@ -2360,7 +97,7 @@ msgid "3. Résultats"
 msgstr ""
 
 #: plugins/import_hyperviseurs/ui.py plugins/import_ovirt/gtk4.py
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
+#: plugins/ssh/gtk4.py
 msgid "Add"
 msgstr "যোগ করুন"
 
@@ -2368,6 +105,11 @@ msgstr "যোগ করুন"
 #, python-brace-format
 msgid "Connections found: {count}."
 msgstr "পাওয়া গেছে {count}টি সংযোগ।"
+
+#: plugins/import_hyperviseurs/ui.py src/gcm4/ui/host_dialog.py
+#: src/gcm4/ui/menu_arbre.py
+msgid "Group"
+msgstr "গ্রুপ"
 
 #: plugins/import_hyperviseurs/ui.py
 msgid "IP / Host"
@@ -2420,12 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+#: plugins/import_hyperviseurs/ui.py
 msgid "VM name"
 msgstr "VM নাম"
 
-#: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "অপেক্ষা করা হচ্ছে…"
 
@@ -2510,6 +251,14 @@ msgstr "RDP  (হাইপারভাইজার থেকে nc/nmap এর �
 #| msgid "🔍  Scan hypervisors"
 msgid "🔍  Scan Libvirt hypervisors"
 msgstr "🔍  হাইপারভাইজার স্ক্যান করুন"
+
+#: plugins/import_ovirt/gtk4.py plugins/sftp/gtk4.py plugins/ssh/gtk4.py
+#: src/gcm4/ui/contexte.py src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/menu_arbre.py src/gcm4/ui/mot_de_passe_maitre.py
+#: src/gcm4/ui/raccourcis.py
+msgid "Cancel"
+msgstr "বাতিল"
 
 #: plugins/import_ovirt/gtk4.py
 #, python-brace-format
@@ -2889,6 +638,10 @@ msgstr ""
 msgid "Nouveau"
 msgstr ""
 
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py plugins/ssh/gtk4.py
+msgid "OK"
+msgstr "ঠিক আছে"
+
 #: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "OK : {n}"
@@ -3020,461 +773,6 @@ msgstr ""
 msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
 
-#: plugins/plugin_spice.py
-#, python-brace-format
-msgid ""
-"Additional remote-viewer parameters\n"
-"E.g.: {example}"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "CA certificate"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "Configuration SPICE invalide"
-msgstr ""
-
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/web/gtk4.py
-msgid "Connecting…"
-msgstr "সংযোগ করা হচ্ছে…"
-
-#: plugins/plugin_spice.py
-msgid "Direct URI"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "Drag and drop a file here to send it to the VM (requires spice-vdagent)"
-msgstr ""
-
-#: plugins/plugin_spice.py plugins/plugin_vnc.py
-#, python-brace-format
-msgid "Ended (code {rc})"
-msgstr "সমাপ্ত (কোড {rc})"
-
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Error connecting to server"
-msgid "Error launching viewer"
-msgstr "সার্ভারের সাথে সংযোগ করতে ত্রুটি"
-
-#: plugins/plugin_spice.py
-msgid "Error: Proxmox node and VMID required"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "Error: VM name required"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "Error: could not mount the ISO"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "Error: libvirt URI required"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "Fermer"
-msgstr ""
-
-#: plugins/plugin_spice.py
-#, python-brace-format
-msgid "No SPICE console for {vm}"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "Proxmox node"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "SPICE"
-msgstr ""
-
-#: plugins/plugin_spice.py
-#, python-brace-format
-msgid "SPICE disabled for {vm}"
-msgstr ""
-
-#: plugins/plugin_spice.py
-#, python-brace-format
-msgid "SPICE ticket error: {out}"
-msgstr ""
-
-#: plugins/plugin_spice.py
-#, python-brace-format
-msgid "SSH error: {exc}"
-msgstr ""
-
-#: plugins/plugin_spice.py plugins/plugin_vnc.py src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "সেশন শেষ হয়েছে"
-
-#: plugins/plugin_spice.py
-msgid "Share USB devices"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "Share audio"
-msgstr ""
-
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
-msgid "Share clipboard"
-msgstr ""
-
-#: plugins/plugin_spice.py plugins/rdp/gtk4.py
-msgid "Share folder"
-msgstr ""
-
-#: plugins/plugin_spice.py plugins/rdp/gtk4.py
-msgid "Shared folder path"
-msgstr ""
-
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Serial port:"
-msgid "TLS port"
-msgstr "সিরিয়াল পোর্ট:"
-
-#: plugins/plugin_spice.py
-#, python-brace-format
-msgid "USB devices — {host}"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "USB devices…"
-msgstr ""
-
-#: plugins/plugin_spice.py
-#, python-brace-format
-msgid "VM introuvable : {vm}"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "VMID"
-msgstr ""
-
-#: plugins/plugin_spice.py
-msgid "Via Proxmox"
-msgstr ""
-
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Libvirt"
-msgid "Via libvirt"
-msgstr "Libvirt"
-
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Detected libvirt URI"
-msgid "libvirt URI"
-msgstr "সনাক্ত করা libvirt URI"
-
-#: plugins/plugin_spice.py
-#, python-brace-format
-msgid "libvirt XML parsing error: {exc}"
-msgstr ""
-
-#: plugins/plugin_spice.py
-#, python-brace-format
-msgid "libvirt error: {exc}"
-msgstr ""
-
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "xfreerdp not found"
-msgid "remote-viewer not found"
-msgstr "xfreerdp খুঁজে পাওয়া যায়নি"
-
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "xfreerdp options:"
-msgid "remote-viewer options:"
-msgstr "xfreerdp অপশন:"
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Advanced"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Agent Forwarding"
-msgid "Agent forwarding (-A)"
-msgstr "এজেন্ট ফরওয়ার্ডিং"
-
-#: plugins/plugin_ssh.py plugins/ssh/session.py
-msgid "Arbitrary command to reach the target, e.g. via corkscrew or nc"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/session.py
-msgid "Bastion host(s) to hop through, e.g. user@bastion"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/session.py
-msgid "Command to run instead of a shell"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Compression"
-msgid "Compression (-C)"
-msgstr "কম্প্রেশন"
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Connections will be added to the « ssh_config » group, with name = host = SSH alias."
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Dynamic / SOCKS (-D)"
-msgstr ""
-
-#: plugins/plugin_ssh.py
-msgid "Edit SSH config"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Edit ~/.ssh/config…"
-msgstr ""
-
-#: plugins/plugin_ssh.py
-#, fuzzy
-#| msgid "Extra arguments"
-msgid "Extra ssh args"
-msgstr "অতিরিক্ত আর্গুমেন্ট"
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, python-format
-msgid "Host «%s» is already managed by a ssh_config file — it cannot be moved a 2nd time."
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, python-format
-msgid "Host «%s» moved to %s."
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, python-format
-msgid "Host «%s» was not migrated (not an SSH host?)."
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, python-format
-msgid "Import done — imported: %d, already present: %d, errors: %d"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy, python-format
-#| msgid "Imported"
-msgid "Import failed: %s"
-msgstr "আমদানি করা হয়েছে"
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Import from ssh_config…"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Import from libvirt"
-msgid "Import from which file?"
-msgstr "libvirt থেকে আমদানি করুন"
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Keep alive (seconds)"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Local mount point"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Manage SSH Keys…"
-msgstr ""
-
-#: plugins/plugin_ssh.py
-#, python-format
-msgid "Migration done — moved: %d, skipped: %d, already managed: %d, errors: %d"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, python-format
-msgid "Migration failed: %s"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Mount remote filesystem via SSHFS on connect"
-msgstr ""
-
-#: plugins/plugin_ssh.py
-#, python-format
-msgid ""
-"Move all SSH hosts from gcm.conf to %s?\n"
-"A backup of both files will be created."
-msgstr ""
-
-#: plugins/plugin_ssh.py
-#, python-format
-msgid ""
-"Move all SSH hosts from gcm.conf to the SHARED file %s?\n"
-"This will be usable by every user of this machine and requires root privileges (a polkit prompt may appear). A timestamped backup of both files will be created."
-msgstr ""
-
-#: plugins/plugin_ssh.py
-msgid "Move all to ssh_config…"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, python-format
-msgid ""
-"Move host «%s» from gcm.conf to %s?\n"
-"A backup of both files will be created."
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, python-format
-msgid ""
-"Move host «%s» from gcm.conf to the SHARED file %s?\n"
-"This will be usable by every user of this machine and requires root privileges (a polkit prompt may appear). A timestamped backup of both files will be created."
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Move to ssh_config…"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Personal (me)"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, python-format
-msgid ""
-"Personal: only for you, ~/.ssh/config.\n"
-"Shared: visible and usable by every user of this machine (team bastion), %s — requires root privileges."
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Port forwarding"
-msgstr "পোর্ট ফরওয়ার্ডিং"
-
-#: plugins/plugin_ssh.py plugins/ssh/session.py
-msgid "QUIET / ERROR / INFO / VERBOSE / DEBUG…"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "Remote Host"
-msgid "Remote path"
-msgstr "রিমোট হোস্ট"
-
-#: plugins/plugin_ssh.py
-msgid "SSH"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid ""
-"SSH private key file not found:\n"
-"\n"
-"{}\n"
-"\n"
-"Please check the key path configuration."
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "SSHFS"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/session.py
-msgid "Seconds before giving up on the connection"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Shared"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Shared (everyone)"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-msgid "Which file?"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
-#, fuzzy
-#| msgid "X11 Forwarding"
-msgid "X11 forwarding (-X)"
-msgstr "X11 ফরওয়ার্ডিং"
-
-#: plugins/plugin_ssh.py plugins/ssh/session.py
-msgid "e.g. 10m, or yes"
-msgstr ""
-
-#: plugins/plugin_ssh.py
-msgid ""
-"ssh_config_editor module not found.\n"
-"Make sure ssh_config_editor.py and ssh_config_parser.py are in the same directory as gnome_connection_manager.py."
-msgstr ""
-
-#: plugins/plugin_ssh.py
-msgid ""
-"ssh_key_manager_dialog module not found.\n"
-"Make sure ssh_key_manager_dialog.py is in the same directory as gnome_connection_manager.py."
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/session.py
-msgid "yes / no"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/session.py
-msgid "yes / no / accept-new"
-msgstr ""
-
-#: plugins/plugin_ssh.py plugins/ssh/session.py
-msgid "yes / no / ask / auto"
-msgstr ""
-
-#: plugins/plugin_vnc.py
-#, python-brace-format
-msgid ""
-"Additional vncviewer parameters\n"
-"E.g.: {example}"
-msgstr ""
-
-#: plugins/plugin_vnc.py plugins/sftp/gtk4.py
-msgid "Authentication failed"
-msgstr ""
-
-#: plugins/plugin_vnc.py src/gcm4/ui/host_dialog.py
-msgid "Display"
-msgstr "প্রদর্শন"
-
-#: plugins/plugin_vnc.py
-msgid "Fullscreen"
-msgstr ""
-
-#: plugins/plugin_vnc.py
-msgid "VNC"
-msgstr ""
-
-#: plugins/plugin_vnc.py
-msgid "View only"
-msgstr ""
-
-#: plugins/plugin_vnc.py
-msgid "Viewer (fallback)"
-msgstr ""
-
-#: plugins/plugin_vnc.py
-msgid "e.g. 0 for :0, leave empty for default"
-msgstr ""
-
-#: plugins/plugin_vnc.py
-msgid "xfreerdp not found"
-msgstr "xfreerdp খুঁজে পাওয়া যায়নি"
-
-#: plugins/plugin_vnc.py
-msgid "xfreerdp options:"
-msgstr "xfreerdp অপশন:"
-
 #: plugins/rdp/core.py
 msgid "Choose the folder to share"
 msgstr ""
@@ -3563,6 +861,18 @@ msgid "RemoteApp"
 msgstr "রিমোট"
 
 #: plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Share folder"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Shared folder path"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
 msgid "Size"
 msgstr ""
 
@@ -3616,6 +926,10 @@ msgstr ""
 
 #: plugins/sftp/gtk4.py
 msgid "Authentication cancelled."
+msgstr ""
+
+#: plugins/sftp/gtk4.py
+msgid "Authentication failed"
 msgstr ""
 
 #: plugins/sftp/gtk4.py
@@ -3961,6 +1275,194 @@ msgstr ""
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
 
+#: plugins/ssh/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Ended (code {rc})"
+msgid ""
+"\n"
+"Exit code: {rc}"
+msgstr "সমাপ্ত (কোড {rc})"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid ""
+"\n"
+"[Error: {exc}]"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid ""
+"\n"
+"[Timeout after 10 s]"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "#"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "(empty = no passphrase)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "(empty = remove passphrase)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "(empty if none)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "(hashed)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "(no output)\n"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "(none — keys are generated unsigned)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid ""
+"<i>No SSH key found in ~/.ssh/.\n"
+"Click <b>Generate…</b> to create one.</i>"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "A file named {name} already exists"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Add Authorized Key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Add new host"
+msgid "Add a new empty host"
+msgstr "নতুন হোস্ট যুক্ত করুন"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Add {name} to ssh-agent?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Added to ssh-agent"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Advanced"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Agent Forwarding"
+msgid "Agent forwarding (-A)"
+msgstr "এজেন্ট ফরওয়ার্ডিং"
+
+#: plugins/ssh/gtk4.py
+msgid "Alias(es)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "At least one alias is required"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Authorized Keys"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Browse existing SSH keys in ~/.ssh/"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "CA deleted: {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "CA deletion failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "CA import failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "CA imported and designated: {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "CA signing failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "CA signing timed out — CA key may require a passphrase (unsupported non-interactively)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Can't open file for writting"
+msgid "Cannot open file manager: {err}"
+msgstr "ফাইল লেখার জন্য খোলা যাচ্ছে না"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Cannot read public key: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Certificate identity:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Change Passphrase — {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Change the passphrase of this private key (ssh-keygen -p)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Check ~/.ssh/config (and GCM hosts, if wired in) against known_hosts"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Choose an existing local key pair as the signing CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py src/gcm4/ui/echange.py src/gcm4/ui/main_window.py
+msgid "Close"
+msgstr "বন্ধ করুন"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Command"
+msgid "Comment"
+msgstr "কমান্ড"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Command"
+msgid "Comment:"
+msgstr "কমান্ড"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Compression"
+msgid "Compression (-C)"
+msgstr "কম্প্রেশন"
+
 #: plugins/ssh/gtk4.py src/gcm4/ui/main_window.py
 msgid "Configuration not loaded"
 msgstr "কনফিগারেশন লোড হয়নি"
@@ -3969,21 +1471,1224 @@ msgstr "কনফিগারেশন লোড হয়নি"
 msgid "Confirm"
 msgstr "নিশ্চিত করুন"
 
+#: plugins/ssh/gtk4.py
+msgid "Confirm new passphrase:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Connected to {t} — Known Hosts / Authorized Keys now read from there"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Connection failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Connections will be added to the « ssh_config » group, with name = host = SSH alias."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Copied: {cmd}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Copy selection to clipboard"
+msgid "Copy full ssh command to clipboard"
+msgstr "নির্বাচিত অংশ ক্লিপবোর্ডে কপি করুন"
+
+#: plugins/ssh/gtk4.py
+msgid "Copy ssh cmd"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Copy selection to clipboard"
+msgid "Copy the public key content to clipboard"
+msgstr "নির্বাচিত অংশ ক্লিপবোর্ডে কপি করুন"
+
+#: plugins/ssh/gtk4.py
+msgid "Created"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Current passphrase:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Delete failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Designate Signing CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Designated CA: {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Diff (original → current):"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Disable"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Dynamic"
+msgstr "ডায়নামিক"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Dynamic"
+msgid "Dynamic (SOCKS)"
+msgstr "ডায়নামিক"
+
+#: plugins/ssh/gtk4.py
+msgid "Dynamic / SOCKS (-D)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Edit SSH config (personal + shared)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Edit raw ssh_config — changes here override the Visual tab on Save."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Edit ~/.ssh/config…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Enabled"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Enter remote host"
+msgstr "রিমোট হোস্ট লিখুন"
+
+#: plugins/ssh/gtk4.py
+msgid "Entry not found (file may have changed) — refreshing"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Failed to add key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Failed to add to agent (passphrase required?): {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Failed to remove from agent: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Failed to update authorized_keys"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Failed to update known_hosts"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "File changed on disk — refreshing"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Template name"
+msgid "File name:"
+msgstr "টেমপ্লেট নাম"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "File {name} already exists in ~/.ssh/ — overwrite?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "_File"
+msgid "File:"
+msgstr "_ফাইল"
+
+#: plugins/ssh/gtk4.py
+msgid "Filter hosts…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Fingerprint"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Fingerprint copied to clipboard"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Found"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Generate SSH Key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Generate a new SSH key pair (ssh-keygen)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Generation failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Hashed"
+msgstr ""
+
+#: plugins/ssh/gtk4.py src/gcm4/ui/host_dialog.py
+msgid "Host"
+msgstr "হোস্ট"
+
+#: plugins/ssh/gtk4.py
+#, python-format
+msgid "Host «%s» is already managed by a ssh_config file — it cannot be moved a 2nd time."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-format
+msgid "Host «%s» moved to %s."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-format
+msgid "Host «%s» was not migrated (not an SSH host?)."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Import CA Private Key"
+msgstr "প্রাইভেট কী"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Import Private Key"
+msgstr "প্রাইভেট কী"
+
+#: plugins/ssh/gtk4.py
+msgid "Import an existing private key file into ~/.ssh/"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Import an external CA key pair into ~/.ssh/ and designate it"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-format
+msgid "Import done — imported: %d, already present: %d, errors: %d"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy, python-format
+#| msgid "Imported"
+msgid "Import failed: %s"
+msgstr "আমদানি করা হয়েছে"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Import failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Import from ssh_config…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Import from libvirt"
+msgid "Import from which file?"
+msgstr "libvirt থেকে আমদানি করুন"
+
+#: plugins/ssh/gtk4.py
+msgid "Info (matching known_hosts line)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Invalid name — must not contain a path separator"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Invalid target — expected user@host or user@host:port"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Keep alive (seconds)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Key added to authorized_keys"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Key deleted: {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Key generated: {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy, python-brace-format
+#| msgid "Template name"
+msgid "Key imported: {name}"
+msgstr "টেমপ্লেট নাম"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Key signed by CA {ca} (identity={id})"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Key type:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Keys are saved in <b>~/.ssh/</b> with permissions 600."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Keys found in <b>~/.ssh/</b> — select one (or several with Ctrl/Shift-click) then click <i>Use</i>:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Known Hosts"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Known Hosts Test — {n}/{total} found on {target}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Load/unload this key in ssh-agent (ssh-add / ssh-add -d)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Local"
+msgstr "লোকাল"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Local"
+msgid "Local (-L)"
+msgstr "লোকাল"
+
+#: plugins/ssh/gtk4.py
+msgid "Local Port"
+msgstr "লোকাল পোর্ট"
+
+#: plugins/ssh/gtk4.py
+msgid "Local mount point"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "localhost"
+msgid "Local target host"
+msgstr "localhost"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Local Port"
+msgid "Local target port"
+msgstr "লোকাল পোর্ট"
+
+#: plugins/ssh/gtk4.py
+msgid "Manage SSH Keys…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-format
+msgid "Migration failed: %s"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Mount remote filesystem via SSHFS on connect"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-format
+msgid ""
+"Move host «%s» from gcm.conf to %s?\n"
+"A backup of both files will be created."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-format
+msgid ""
+"Move host «%s» from gcm.conf to the SHARED file %s?\n"
+"This will be usable by every user of this machine and requires root privileges (a polkit prompt may appear). A timestamped backup of both files will be created."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Move to ssh_config…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Multiple values possible: separate them with commas (one line per value in the file)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py src/gcm4/ui/host_dialog.py
+msgid "Name"
+msgstr "নাম"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "New name for {name}:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "New passphrase and confirmation do not match"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "New passphrase:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "No CA currently designated"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "No Public key available for selected entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "No authorized_keys entry selected"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "No candidate hosts found in ~/.ssh/config (and no GCM host list wired in)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "No changes."
+msgstr ""
+
 #: plugins/ssh/gtk4.py src/gcm4/ui/contexte.py
 msgid "No configuration is open: nothing to import into."
 msgstr "কোনো কনফিগারেশন খোলা নেই: এতে আমদানি করার কিছু নেই।"
+
+#: plugins/ssh/gtk4.py
+msgid "No fingerprint available for this entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "No URI selected."
+msgid "No key selected"
+msgstr "কোনো URI নির্বাচিত নয়।"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "No connection type selected."
+msgid "No known_hosts entry selected"
+msgstr "কোনো সংযোগ প্রকার নির্বাচিত নয়।"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "No matching .pub file found next to {name} — cannot import as CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "No matching .pub file found next to {name} — cannot use as CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "No URI selected."
+msgid "No private key selected"
+msgstr "কোনো URI নির্বাচিত নয়।"
+
+#: plugins/ssh/gtk4.py
+msgid "No public key available for selected entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "No public key available to identify this key in the agent"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Open SSH Key Manager (generate / import / delete)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Open ~/.ssh/ in the file manager"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Orphan Public key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Orphan Public keys"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Passphrase change failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Passphrase changed for {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Passphrase:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Paste the full public key line (options, type, base64 key, comment):"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid ""
+"Permanently delete <b>{name}</b> (and its Orphan Public key if present)?\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid ""
+"Permanently delete the CA key pair <b>{name}</b>?\n"
+"Certificates already signed by this CA will no longer be trustable to verify.\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Permanently delete the designated CA key pair"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Permanently delete the selected key"
+msgstr ""
 
 #: plugins/ssh/gtk4.py
 msgid "Permissions too open: ssh will refuse this key"
 msgstr "অনুমতি অতিরিক্ত উন্মুক্ত: ssh এই কী প্রত্যাখ্যান করবে"
 
 #: plugins/ssh/gtk4.py
+msgid "Perms"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Personal (me)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Personal (~/.ssh/config)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-format
+msgid ""
+"Personal: only for you, ~/.ssh/config.\n"
+"Shared: visible and usable by every user of this machine (team bastion), %s — requires root privileges."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Port forwarding"
+msgstr "পোর্ট ফরওয়ার্ডিং"
+
+#: plugins/ssh/gtk4.py
+msgid "Port must be an integer between 1 and 65535"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Principals (comma-separated):"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Private key"
+msgstr "প্রাইভেট কী"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "Private keys"
+msgstr "প্রাইভেট কী"
+
+#: plugins/ssh/gtk4.py
+msgid "Properties"
+msgstr "প্রপার্টিজ"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Public Key — {name}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Public key copied to clipboard"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "QUIET/ERROR/INFO/VERBOSE/DEBUG"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "RSA size:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Raw / Diff"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Re-enable"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Redirection de port"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Remote"
+msgstr "রিমোট"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Remote"
+msgid "Remote (-R)"
+msgstr "রিমোট"
+
+#: plugins/ssh/gtk4.py
+msgid "Remote Host"
+msgstr "রিমোট হোস্ট"
+
+#: plugins/ssh/gtk4.py
+msgid "Remote Port"
+msgstr "রিমোট পোর্ট"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Remote Port"
+msgid "Remote listen port"
+msgstr "রিমোট পোর্ট"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Remote Host"
+msgid "Remote path"
+msgstr "রিমোট হোস্ট"
+
+#: plugins/ssh/gtk4.py
+msgid "Remote target (Known Hosts / Authorized Keys):"
+msgstr ""
+
+#: plugins/ssh/gtk4.py src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
+#: src/gcm4/ui/menu_arbre.py
+msgid "Remove"
+msgstr "অপসারণ করুন"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Remote Host"
+msgid "Remove host?"
+msgstr "রিমোট হোস্ট"
+
+#: plugins/ssh/gtk4.py
+msgid "Remove selected host"
+msgstr "নির্বাচিত হোস্ট অপসারণ করুন"
+
+#: plugins/ssh/gtk4.py
+msgid ""
+"Remove this authorized_keys entry?\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid ""
+"Remove this known_hosts entry?\n"
+"<b>This cannot be undone.</b>"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Remove {name} from ssh-agent?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Remove «{alias}» from {path}?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Removed from ssh-agent"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Rename tab"
+msgid "Rename Key"
+msgstr "ট্যাব নাম পরিবর্তন করুন"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Rename failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Rename this key (and its .pub / certificate, if any)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Renamed {old} to {new}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid ""
+"Running: {cmd}\n"
+"\n"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "SSH Key Manager"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid ""
+"SSH private key file not found:\n"
+"\n"
+"{}\n"
+"\n"
+"Please check the key path configuration."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "SSHFS"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Saved in ~/.ssh/ — leave blank for default name"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Select SSH Key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Select the private key file, not the .pub file"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Shared"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Shared (everyone)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
 msgid "Shared session (tmux)"
 msgstr "ভাগ করা সেশন (tmux)"
+
+#: plugins/ssh/gtk4.py
+msgid "Shared — bastion, all users (/etc/ssh/ssh_config.d/config_gcm.conf)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Show the full public key content in a dedicated window"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Sign with designated CA ({name})"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Signed by"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Signing CA:"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Switched back to local machine"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "No connection type selected."
+msgid "Test SSH connection to selected host"
+msgstr "কোনো সংযোগ প্রকার নির্বাচিত নয়।"
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Test connection — {alias}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "Testing connection to {t}…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "This does not look like a valid public key line"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Type"
+msgstr "প্রকার"
+
+#: plugins/ssh/gtk4.py
+msgid "Validity"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Parity:"
+msgid "Validity:"
+msgstr "প্যারিটি:"
+
+#: plugins/ssh/gtk4.py
+msgid "Visual"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "Which file?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "X11 Forwarding"
+msgid "X11 forwarding (-X)"
+msgstr "X11 ফরওয়ার্ডিং"
+
+#: plugins/ssh/gtk4.py
+msgid "_Add"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Cancel"
+msgid "_Cancel"
+msgstr "বাতিল"
+
+#: plugins/ssh/gtk4.py
+msgid "_Change"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Close"
+msgid "_Close"
+msgstr "বন্ধ করুন"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Rename tab"
+msgid "_Rename"
+msgstr "ট্যাব নাম পরিবর্তন করুন"
+
+#: plugins/ssh/gtk4.py
+msgid "_Use"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "add a key to authorized_keys"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "authorized_keys entry removed"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "authorized_keys entry updated"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "authorized_keys not found on {t}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "auto / yes / no"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "enable/disable an authorized_keys entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : 10"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : 10m"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : 192.168.1.10 ou example.com"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : 22"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : 3"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : 60"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : root"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : ssh -W %h:%p bastion, ou corkscrew proxy 8080 %h %p"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : tmux attach || tmux new"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : user@bastion.example.com, user@server1.example.com"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : web1 ou web1 web1.example.com"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : ~/.ssh/id_ed25519, ~/.ssh/id_rsa"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ex : ~/.ssh/known_hosts"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Never"
+msgid "forever"
+msgstr "কখনও না"
+
+#: plugins/ssh/gtk4.py
+msgid "known_hosts entry removed"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "known_hosts not found on {t}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "local machine"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Private key"
+msgid "private"
+msgstr "প্রাইভেট কী"
+
+#: plugins/ssh/gtk4.py
+msgid "public"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "remove a known_hosts entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "remove an authorized_keys entry"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "ssh-add failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ssh-add timed out — the key may require a passphrase (no terminal available here)"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ssh-keygen -V syntax, e.g. +52w (1 year), +30d, or 'always:forever'"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "ssh-keygen failed: {err}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "ssh-keygen not found — install openssh-client"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "unknown CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "until {end}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "user@host or root@host[:port]"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "yes / no / ask / accept-new"
+msgstr ""
+
+#: plugins/ssh/gtk4.py plugins/ssh/session.py
+msgid "yes / no / ask / confirm"
+msgstr ""
+
+#: plugins/ssh/gtk4.py plugins/ssh/session.py
+msgid "yes / no / force / auto"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "yes ou no"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "{action} this authorized_keys entry?"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "{n} authorized_keys entries loaded from {t}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "{n} known_hosts entries loaded from {t}"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "{path} does not exist yet — it will be created when saving."
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid "{priv} private key(s), {pub} Orphan Public key(s) loaded from ~/.ssh/"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "~/.ssh/ not found — no keys loaded"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "← Select or create a host"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "✓ Imported"
+msgid "↑ Import"
+msgstr "✓ আমদানি করা হয়েছে"
+
+#: plugins/ssh/gtk4.py
+msgid "⎘ Copy fingerprint"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "⎘ Copy public key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Copy selection to clipboard"
+msgid "⎘ Copy to clipboard"
+msgstr "নির্বাচিত অংশ ক্লিপবোর্ডে কপি করুন"
+
+#: plugins/ssh/gtk4.py
+msgid "⚙"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "General"
+msgid "⚙ Generate"
+msgstr "সাধারণ"
+
+#: plugins/ssh/gtk4.py
+msgid "⚙ Generate…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, python-brace-format
+msgid ""
+"⚠ You are about to {action} on the <b>root</b> account of {target}.\n"
+"This can affect SSH access to the whole system.\n"
+"<b>Are you sure?</b>"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "⚡ Test"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Rename tab"
+msgid "✎ Rename"
+msgstr "ট্যাব নাম পরিবর্তন করুন"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Cancel"
+msgid "✕ Cancel"
+msgstr "বাতিল"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "− Remove"
+msgid "✕ Remove"
+msgstr "− অপসারণ করুন"
+
+#: plugins/ssh/gtk4.py
+msgid "⟳ Refresh"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "⟳ Refresh diff"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "✓ Imported"
+msgid "⬆ Import CA"
+msgstr "✓ আমদানি করা হয়েছে"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "+ Add"
+msgid "＋ Add"
+msgstr "+ যুক্ত করুন"
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Local"
+msgid "🏠 Local"
+msgstr "লোকাল"
+
+#: plugins/ssh/gtk4.py
+msgid "👁 View public key"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Save"
+msgid "💾 Save"
+msgstr "সংরক্ষণ"
+
+#: plugins/ssh/gtk4.py
+msgid "📂 Reveal"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Connect"
+msgid "🔌 Connect"
+msgstr "সংযোগ করুন"
+
+#: plugins/ssh/gtk4.py
+msgid "🔏 Designate"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "🔑 Agent"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "🔑 Pick…"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "🔒 Passphrase"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+#, fuzzy
+#| msgid "Delete:"
+msgid "🗑 Delete"
+msgstr "Delete:"
+
+#: plugins/ssh/gtk4.py
+msgid "🗑 Delete CA"
+msgstr ""
+
+#: plugins/ssh/gtk4.py
+msgid "🧪 Test known hosts"
+msgstr ""
+
+#: plugins/ssh/session.py
+msgid "Arbitrary command to reach the target, e.g. via corkscrew or nc"
+msgstr ""
+
+#: plugins/ssh/session.py
+msgid "Bastion host(s) to hop through, e.g. user@bastion"
+msgstr ""
+
+#: plugins/ssh/session.py
+msgid "Command to run instead of a shell"
+msgstr ""
+
+#: plugins/ssh/session.py
+msgid "QUIET / ERROR / INFO / VERBOSE / DEBUG…"
+msgstr ""
+
+#: plugins/ssh/session.py
+msgid "Seconds before giving up on the connection"
+msgstr ""
 
 #: plugins/ssh/session.py
 msgid "Session name: use 1 to 64 ASCII letters, digits, underscores or hyphens."
 msgstr "সেশনের নাম: ১ থেকে ৬৪টি ASCII অক্ষর, সংখ্যা, আন্ডারস্কোর বা হাইফেন ব্যবহার করুন।"
+
+#: plugins/ssh/session.py
+msgid "e.g. 10m, or yes"
+msgstr ""
+
+#: plugins/ssh/session.py
+msgid "yes / no"
+msgstr ""
+
+#: plugins/ssh/session.py
+msgid "yes / no / accept-new"
+msgstr ""
+
+#: plugins/ssh/session.py
+msgid "yes / no / ask / auto"
+msgstr ""
 
 #: plugins/web/core.py
 msgid "The URL must start with http:// or https://"
@@ -4000,6 +2705,10 @@ msgstr ""
 #: plugins/web/gtk4.py
 msgid "Certificate"
 msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Connecting…"
+msgstr "সংযোগ করা হচ্ছে…"
 
 #: plugins/web/gtk4.py
 msgid "Error: could not open the URL"
@@ -4181,8 +2890,40 @@ msgid "unsupported format or version"
 msgstr "অসমর্থিত ফরম্যাট বা সংস্করণ"
 
 #: src/gcm4/core/menu.py
+msgid "About"
+msgstr "সম্পর্কে"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
+msgid "Dark"
+msgstr "গাঢ়"
+
+#: src/gcm4/core/menu.py src/gcm4/core/menu_arbre.py
+msgid "Edit"
+msgstr "সম্পাদনা করুন"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/echange.py
+msgid "Export servers"
+msgstr "সার্ভার রপ্তানি"
+
+#: src/gcm4/core/menu.py
+msgid "File"
+msgstr "ফাইল"
+
+#: src/gcm4/core/menu.py
+msgid "Help"
+msgstr "সাহায্য"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/echange.py
+msgid "Import servers"
+msgstr "সার্ভার আমদানি"
+
+#: src/gcm4/core/menu.py
 msgid "Keyboard Shortcuts"
 msgstr "কিবোর্ড শর্টকাট"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
+msgid "Light"
+msgstr "হালকা"
 
 #: src/gcm4/core/menu.py
 msgid "Next tab"
@@ -4192,6 +2933,11 @@ msgstr "পরবর্তী ট্যাব"
 msgid "Previous tab"
 msgstr "পূর্ববর্তী ট্যাব"
 
+#: src/gcm4/core/menu.py src/gcm4/ui/main_window.py
+#: src/gcm4/ui/zone_notification.py
+msgid "Quit"
+msgstr "প্রস্থান"
+
 #: src/gcm4/core/menu.py src/gcm4/ui/echange.py
 msgid "Save configuration as…"
 msgstr "কনফিগারেশন এভাবে সংরক্ষণ…"
@@ -4199,6 +2945,14 @@ msgstr "কনফিগারেশন এভাবে সংরক্ষণ…"
 #: src/gcm4/core/menu.py
 msgid "Search"
 msgstr "অনুসন্ধান"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
+msgid "Show Panel"
+msgstr "প্যানেল দেখান"
+
+#: src/gcm4/core/menu.py src/gcm4/ui/preferences.py
+msgid "System"
+msgstr "সিস্টেম"
 
 #: src/gcm4/core/menu.py
 msgid "Tools"
@@ -4208,9 +2962,54 @@ msgstr "সরঞ্জাম"
 msgid "User Guide"
 msgstr "ব্যবহারকারী নির্দেশিকা"
 
+#: src/gcm4/core/menu.py
+msgid "View"
+msgstr "দৃশ্য"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Add Host"
+msgstr "হোস্ট যুক্ত করুন"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Choose Color…"
+msgstr "রং বেছে নিন…"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Collapse all"
+msgstr "সব সংকুচিত করুন"
+
+#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
+#: src/gcm4/ui/contexte.py
+msgid "Connect"
+msgstr "সংযোগ করুন"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Copy Address"
+msgstr "ঠিকানা কপি করুন"
+
+#: src/gcm4/core/menu_arbre.py src/gcm4/ui/host_dialog.py
+msgid "Duplicate Host"
+msgstr "হোস্ট ডুপ্লিকেট করুন"
+
 #: src/gcm4/core/menu_arbre.py
 msgid "Edit Selected Hosts…"
 msgstr "নির্বাচিত হোস্ট সম্পাদনা…"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Expand all"
+msgstr "সব বিস্তৃত করুন"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "New Group…"
+msgstr "নতুন গ্রুপ…"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Rename Group…"
+msgstr "গ্রুপের নাম বদলান…"
+
+#: src/gcm4/core/menu_arbre.py
+msgid "Reset Color"
+msgstr "রং রিসেট করুন"
 
 #: src/gcm4/core/plugins.py
 msgid "It declares no menu label."
@@ -4330,9 +3129,17 @@ msgid "Main window"
 msgstr "প্রধান উইন্ডো"
 
 #: src/gcm4/ui/application.py
+msgid "A simple ssh connection manager for gnome"
+msgstr "Gnome-এর জন্য একটি সহজ SSH সংযোগ ম্যানেজার"
+
+#: src/gcm4/ui/application.py
 #, python-brace-format
 msgid "gcm4 is already running with another configuration folder: close it to use {requested}."
 msgstr "gcm4 ইতিমধ্যে অন্য একটি কনফিগারেশন ফোল্ডার নিয়ে চলছে: {requested} ব্যবহার করতে এটি বন্ধ করুন।"
+
+#: src/gcm4/ui/contexte.py src/gcm4/ui/host_dialog.py
+msgid "Password"
+msgstr "পাসওয়ার্ড"
 
 #: src/gcm4/ui/contexte.py
 #, python-brace-format
@@ -4370,8 +3177,24 @@ msgid "This file contains passwords in clear text."
 msgstr "এই ফাইলে সাধারণ লেখায় পাসওয়ার্ড আছে।"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "After disconnecting"
+msgstr "সংযোগ বিচ্ছিন্নের পরে"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Always"
+msgstr "সবসময়"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Background color"
 msgstr "পটভূমির রং"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Before connecting"
+msgstr "সংযোগের আগে"
+
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/main_window.py
+msgid "Close console"
+msgstr "কনসোল বন্ধ করুন"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Commands"
@@ -4386,12 +3209,24 @@ msgid "Connection type; its options are shown below"
 msgstr "সংযোগের ধরন; এর বিকল্পগুলো নিচে দেখানো হয়"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Default colors"
+msgstr "ডিফল্ট রঙ"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Description"
+msgstr "বিবরণ"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Discard"
 msgstr "বাতিল করুন"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Discard changes?"
 msgstr "পরিবর্তনগুলো বাতিল করবেন?"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Display"
+msgstr "প্রদর্শন"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Errors"
@@ -4418,8 +3253,16 @@ msgid "Host name or IP address of the server"
 msgstr "সার্ভারের হোস্ট নাম বা IP ঠিকানা"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Include this host in the workspace (Tools > Open Workspace)"
+msgstr "এই হোস্টকে ওয়ার্কস্পেসে রাখুন (টুলস > ওয়ার্কস্পেস খুলুন)"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Keep Editing"
 msgstr "সম্পাদনা চালিয়ে যান"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Leave blank for passwordless/public key authentication"
+msgstr "পাসওয়ার্ডহীন/পাবলিক কী অথেন্টিকেশনের জন্য খালি রাখুন"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Leave blank to use the default port of the protocol"
@@ -4428,6 +3271,10 @@ msgstr "প্রোটোকলের ডিফল্ট পোর্ট ব্
 #: src/gcm4/ui/host_dialog.py
 msgid "Name shown in the host list, unique within its group"
 msgstr "হোস্ট তালিকায় দেখানো নাম, নিজের গ্রুপে অনন্য"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Never"
+msgstr "কখনও না"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "New Host"
@@ -4450,6 +3297,14 @@ msgid "Note shown in the tooltip of the host list"
 msgstr "হোস্ট তালিকার টুলটিপে দেখানো নোট"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Only on clean exit"
+msgstr "শুধুমাত্র ক্লিন এক্সিটে"
+
+#: src/gcm4/ui/host_dialog.py src/gcm4/ui/menu_arbre.py
+msgid "Port"
+msgstr "পোর্ট"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Protocol"
 msgstr "প্রোটোকল"
 
@@ -4458,17 +3313,38 @@ msgid "Protocol options"
 msgstr "প্রোটোকলের অপশন"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "Save"
+msgstr "সংরক্ষণ"
+
+#: src/gcm4/ui/host_dialog.py
 #, python-brace-format
 msgid "Shell command run locally, in the background, right after this connection ends, by the protocols that support it. Leave blank to disable. Placeholders: {name} {address} {group} {protocol}"
 msgstr "এই সংযোগ শেষ হওয়ার ঠিক পরে, সমর্থনকারী প্রোটোকলগুলো স্থানীয়ভাবে পটভূমিতে চালায় এমন শেল কমান্ড। বন্ধ করতে ফাঁকা রাখুন। প্লেসহোল্ডার: {name} {address} {group} {protocol}"
+
+#: src/gcm4/ui/host_dialog.py
+#, python-brace-format
+msgid "Shell command run locally, in the background, right before this connection opens (any protocol). Leave blank to disable. Placeholders: {name} {address} {group} {protocol}"
+msgstr "এই সংযোগ খোলার ঠিক আগে স্থানীয়ভাবে পটভূমিতে চলা শেল কমান্ড (যেকোনো প্রোটোকল)। বন্ধ করতে ফাঁকা রাখুন। প্লেসহোল্ডার: {name} {address} {group} {protocol}"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "The changes to this host have not been saved."
 msgstr "এই হোস্টের পরিবর্তনগুলো সংরক্ষিত হয়নি।"
 
 #: src/gcm4/ui/host_dialog.py
+msgid "To create subgroups use format group1/group2/group3"
+msgstr "সাবগ্রুপ তৈরি করতে group1/group2/group3 ফরম্যাট ব্যবহার করুন"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Use global preference"
+msgstr "সাধারণ পছন্দ ব্যবহার করুন"
+
+#: src/gcm4/ui/host_dialog.py
 msgid "Use the console colors of the settings instead of the colors below"
 msgstr "নিচের রঙের বদলে সেটিংসের কনসোল রং ব্যবহার করুন"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "User"
+msgstr "ব্যবহারকারী"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "User name on the remote host"
@@ -4477,6 +3353,10 @@ msgstr "দূরবর্তী হোস্টে ব্যবহারকা�
 #: src/gcm4/ui/host_dialog.py
 msgid "What to do with the console tab when the connection ends"
 msgstr "সংযোগ শেষ হলে কনসোল ট্যাবের কী হবে"
+
+#: src/gcm4/ui/host_dialog.py
+msgid "Workspace"
+msgstr "ওয়ার্কস্পেস"
 
 #: src/gcm4/ui/host_tree.py
 #, python-brace-format
@@ -4512,6 +3392,10 @@ msgstr "হোস্ট পাওয়া যায়নি: {hosts}"
 #: src/gcm4/ui/main_window.py
 msgid "Hosts and groups will appear in the left panel."
 msgstr "হোস্ট ও গ্রুপগুলো বাম প্যানেলে দেখা যাবে।"
+
+#: src/gcm4/ui/main_window.py
+msgid "Menu"
+msgstr "মেনু"
 
 #: src/gcm4/ui/main_window.py
 #, python-brace-format
@@ -4604,6 +3488,10 @@ msgid "Move to group"
 msgstr "গ্রুপে সরান"
 
 #: src/gcm4/ui/menu_arbre.py
+msgid "New Group"
+msgstr "নতুন গ্রুপ"
+
+#: src/gcm4/ui/menu_arbre.py
 #, python-brace-format
 msgid "Parent group: {parent}"
 msgstr "মূল গ্রুপ: {parent}"
@@ -4617,6 +3505,10 @@ msgstr "'{name}' গ্রুপ মুছবেন?"
 #, python-brace-format
 msgid "Remove host «{name}»?"
 msgstr "'{name}' হোস্ট মুছবেন?"
+
+#: src/gcm4/ui/menu_arbre.py
+msgid "Rename Group"
+msgstr "গ্রুপের নাম বদলান"
 
 #: src/gcm4/ui/menu_arbre.py
 msgid "This cannot be undone."
@@ -4641,6 +3533,10 @@ msgstr "হালনাগাদ পরীক্ষা করবেন?"
 #: src/gcm4/ui/mises_a_jour.py
 msgid "No"
 msgstr "না"
+
+#: src/gcm4/ui/mises_a_jour.py src/gcm4/ui/preferences.py
+msgid "Open"
+msgstr "খুলুন"
 
 #: src/gcm4/ui/mises_a_jour.py
 #, python-brace-format
@@ -4817,12 +3713,40 @@ msgid "Ask before quitting while connections are open"
 msgstr "সংযোগ খোলা থাকলে প্রস্থান করার আগে জিজ্ঞেস করুন"
 
 #: src/gcm4/ui/preferences.py
+msgid "Check updates"
+msgstr "আপডেট পরীক্ষা করুন"
+
+#: src/gcm4/ui/preferences.py
+msgid "Circle around tabs when going to the previous/next tab"
+msgstr "পূর্ববর্তী/পরবর্তী ট্যাবে যাওয়ার সময় ট্যাবের মধ্যে চক্রাকারে ঘুরুন"
+
+#: src/gcm4/ui/preferences.py
 msgid "Click a shortcut to change it, or press Backspace in the dialog to disable it."
 msgstr "পরিবর্তন করতে একটি শর্টকাটে ক্লিক করুন, অথবা নিষ্ক্রিয় করতে ডায়ালগে Backspace চাপুন।"
 
 #: src/gcm4/ui/preferences.py
+msgid "Confirm on close console"
+msgstr "কনসোল বন্ধ করার সময় নিশ্চিত করুন"
+
+#: src/gcm4/ui/preferences.py
+msgid "Confirm on close console with middle click"
+msgstr "মধ্য-ক্লিকে কনসোল বন্ধ করার সময় নিশ্চিত করুন"
+
+#: src/gcm4/ui/preferences.py
+msgid "Confirm on exit"
+msgstr "প্রস্থানে নিশ্চিত করুন"
+
+#: src/gcm4/ui/preferences.py
 msgid "Default log level"
 msgstr "ডিফল্ট লগ স্তর"
+
+#: src/gcm4/ui/preferences.py
+msgid "Disable alternating stripes in hosts window"
+msgstr "হোস্ট উইন্ডোতে অল্টারনেটিং স্ট্রাইপ নিষ্ক্রিয় করুন"
+
+#: src/gcm4/ui/preferences.py
+msgid "Dynamic title"
+msgstr "ডায়নামিক শিরোনাম"
 
 #: src/gcm4/ui/preferences.py
 msgid "Error"
@@ -4839,6 +3763,10 @@ msgstr "সিস্টেমের শৈলী অনুসরণ করুন
 #: src/gcm4/ui/preferences.py
 msgid "Font of the host list"
 msgstr "হোস্ট তালিকার ফন্ট"
+
+#: src/gcm4/ui/preferences.py
+msgid "General"
+msgstr "সাধারণ"
 
 #: src/gcm4/ui/preferences.py
 msgid "KDE Plasma, XFCE, Cinnamon, MATE, LXQt, or GNOME with the AppIndicator extension"
@@ -4883,8 +3811,20 @@ msgid "Reconnect the hosts that were open when the application was closed"
 msgstr "অ্যাপ্লিকেশন বন্ধ করার সময় খোলা হোস্টগুলোতে আবার সংযোগ করুন"
 
 #: src/gcm4/ui/preferences.py
+msgid "Restore open tabs from the previous session on startup"
+msgstr "চালুর সময় আগের সেশনের খোলা ট্যাবগুলো পুনরুদ্ধার করুন"
+
+#: src/gcm4/ui/preferences.py
 msgid "Security"
 msgstr "নিরাপত্তা"
+
+#: src/gcm4/ui/preferences.py
+msgid "Select font"
+msgstr "ফন্ট নির্বাচন করুন"
+
+#: src/gcm4/ui/preferences.py
+msgid "Shortcuts"
+msgstr "শর্টকাট"
 
 #: src/gcm4/ui/preferences.py
 msgid "Show an icon in the notification area"
@@ -4905,6 +3845,10 @@ msgstr "কনসোলের পাশে হোস্ট তালিকা �
 #: src/gcm4/ui/preferences.py
 msgid "Theme"
 msgstr "থিম"
+
+#: src/gcm4/ui/preferences.py
+msgid "Title"
+msgstr "শিরোনাম"
 
 #: src/gcm4/ui/preferences.py
 msgid "Tree font"
@@ -4959,6 +3903,30 @@ msgid "Use Ctrl, Alt or Super with this key."
 msgstr "এই কী-এর সাথে Ctrl, Alt বা Super ব্যবহার করুন।"
 
 #: src/gcm4/ui/terminal.py
+msgid ""
+"<span size='smaller'>Use ##D=milliseconds to add a delay.\n"
+"Ex: ##D=1000</span>"
+msgstr ""
+"<span size='smaller'>বিলম্ব যুক্ত করতে ##D=মিলিসেকেন্ড ব্যবহার করুন।\n"
+"উদাহরণ: ##D=1000</span>"
+
+#: src/gcm4/ui/terminal.py
+msgid "ASCII Backspace \t[Ctrl+H 0x08]"
+msgstr "ASCII Backspace \t[Ctrl+H 0x08]"
+
+#: src/gcm4/ui/terminal.py
+msgid "ASCII Delete    \t[Ctrl+? 0x7F]"
+msgstr "ASCII Delete    \t[Ctrl+? 0x7F]"
+
+#: src/gcm4/ui/terminal.py
+msgid "Automatic"
+msgstr "স্বয়ংক্রিয়"
+
+#: src/gcm4/ui/terminal.py
+msgid "Backspace:"
+msgstr "Backspace:"
+
+#: src/gcm4/ui/terminal.py
 msgid "Character encoding of the remote system; UTF-8 if unsure."
 msgstr "দূরবর্তী সিস্টেমের অক্ষর এনকোডিং; নিশ্চিত না হলে UTF-8।"
 
@@ -4968,6 +3936,14 @@ msgid "Connection to {name} failed ({detail})"
 msgstr "{name}-এ সংযোগ ব্যর্থ ({detail})"
 
 #: src/gcm4/ui/terminal.py
+msgid "Delete Sequence \t[@7]"
+msgstr "ডিলিট সিকোয়েন্স \t[@7]"
+
+#: src/gcm4/ui/terminal.py
+msgid "Delete:"
+msgstr "Delete:"
+
+#: src/gcm4/ui/terminal.py
 #, python-brace-format
 msgid "Encoding {name} is not available, UTF-8 is used."
 msgstr "এনকোডিং {name} উপলব্ধ নয়, UTF-8 ব্যবহার করা হচ্ছে।"
@@ -4975,6 +3951,22 @@ msgstr "এনকোডিং {name} উপলব্ধ নয়, UTF-8 ব্�
 #: src/gcm4/ui/terminal.py
 msgid "Encoding:"
 msgstr "এনকোডিং:"
+
+#: src/gcm4/ui/terminal.py
+msgid "Send commands after login"
+msgstr "লগইনের পরে কমান্ড পাঠান"
+
+#: src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "সেশন শেষ হয়েছে"
+
+#: src/gcm4/ui/terminal.py
+msgid "TERM"
+msgstr "TERM"
+
+#: src/gcm4/ui/terminal.py
+msgid "TTY Erase"
+msgstr "TTY মুছুন"
 
 #: src/gcm4/ui/terminal.py
 #, python-brace-format
@@ -4999,6 +3991,35 @@ msgstr "উইন্ডো লুকান"
 msgid "Show window"
 msgstr "উইন্ডো দেখান"
 
+#, fuzzy, python-format
+#~| msgid "Disconnect"
+#~ msgid "%s has disconnected."
+#~ msgstr "সংযোগ বিচ্ছিন্ন করুন"
+
+#~ msgid "+ Add"
+#~ msgstr "+ যুক্ত করুন"
+
+#~ msgid ""
+#~ "<i>Double-click a cell to edit it.\n"
+#~ "File format: <tt>[serial_templates]</tt> in <tt>gcm.conf</tt>\n"
+#~ "<tt>My device = 9600,n,n,8,1</tt>  (baud,flow,parity,bits,stop)</i>"
+#~ msgstr ""
+#~ "<i>সম্পাদনা করতে একটি সেলে ডাবল-ক্লিক করুন।\n"
+#~ "ফাইল ফরম্যাট: <tt>gcm.conf</tt>-এ <tt>[serial_templates]</tt>\n"
+#~ "<tt>My device = 9600,n,n,8,1</tt>  (বড,ফ্লো,প্যারিটি,বিট,স্টপ)</i>"
+
+#~ msgid "<span size=\"smaller\">CTRL+UP/CTRL+DOWN for history</span>"
+#~ msgstr "<span size=\"smaller\">ইতিহাসের জন্য CTRL+UP/CTRL+DOWN</span>"
+
+#~ msgid "A new version is available: https://github.com/MathildeDec/gnome-connection-manager/releases"
+#~ msgstr "একটি নতুন সংস্করণ উপলব্ধ: https://github.com/MathildeDec/gnome-connection-manager/releases"
+
+#~ msgid "Action"
+#~ msgstr "অ্যাকশন"
+
+#~ msgid "Activate"
+#~ msgstr "সক্রিয় করুন"
+
 #~ msgid "Add a Proxmox target:"
 #~ msgstr "একটি Proxmox লক্ষ্য যুক্ত করুন:"
 
@@ -5011,8 +4032,46 @@ msgstr "উইন্ডো দেখান"
 #~ "উদাহরণ: --logfile /tmp/serial.log  (picocom)\n"
 #~ "     -o -x  (minicom)"
 
+#~ msgid "Background color:"
+#~ msgstr "ব্যাকগ্রাউন্ড রঙ:"
+
+#~ msgid "Baud rate"
+#~ msgstr "বড রেট"
+
+#~ msgid "Buffer size"
+#~ msgstr "বাফার আকার"
+
+#~ msgid "Can't open file for writting"
+#~ msgstr "ফাইল লেখার জন্য খোলা যাচ্ছে না"
+
+#~ msgid "Can't open log file for writting"
+#~ msgstr "লগ ফাইল লেখার জন্য খোলা যাচ্ছে না"
+
+#~ msgid "Clear selection"
+#~ msgstr "নির্বাচন পরিষ্কার করুন"
+
+#~ msgid "Clone console"
+#~ msgstr "কনসোল ক্লোন করুন"
+
+#~ msgid "Cluster"
+#~ msgstr "ক্লাস্টার"
+
+#, fuzzy
+#~| msgid "Cluster"
+#~ msgid "Cluster…"
+#~ msgstr "ক্লাস্টার"
+
+#~ msgid "Colors"
+#~ msgstr "রঙ"
+
 #~ msgid "Colors and Keys"
 #~ msgstr "রঙ এবং কী"
+
+#~ msgid "Command"
+#~ msgstr "কমান্ড"
+
+#~ msgid "Compression"
+#~ msgstr "কম্প্রেশন"
 
 #~ msgid ""
 #~ "Compression level: \n"
@@ -5028,8 +4087,55 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Connect to selected host or all hosts in selected group"
 #~ msgstr "নির্বাচিত হোস্ট বা নির্বাচিত গ্রুপের সব হোস্টে সংযোগ করুন"
 
+#, fuzzy
+#~| msgid "Connect"
+#~ msgid "ConnectTimeout"
+#~ msgstr "সংযোগ করুন"
+
+#, fuzzy
+#~| msgid "Connecting…"
+#~ msgid "Connection closed"
+#~ msgstr "সংযোগ করা হচ্ছে…"
+
+#~ msgid "Continuous VTE tab logging mode"
+#~ msgstr "কন্টিনিউয়াস VTE ট্যাব লগিং মোড"
+
+#~ msgid "Continuous log mode is active and cannot be disabled per tab."
+#~ msgstr "কন্টিনিউয়াস লগ মোড সক্রিয় এবং প্রতি ট্যাবে নিষ্ক্রিয় করা যায় না।"
+
+#, fuzzy
+#~| msgid "Cluster"
+#~ msgid "ControlMaster"
+#~ msgstr "ক্লাস্টার"
+
+#~ msgid "Copy"
+#~ msgstr "কপি করুন"
+
+#~ msgid "Copy all"
+#~ msgstr "সব কপি করুন"
+
+#~ msgid "Copy and Paste"
+#~ msgstr "কপি এবং পেস্ট করুন"
+
+#~ msgid "Copy selection to clipboard"
+#~ msgstr "নির্বাচিত অংশ ক্লিপবোর্ডে কপি করুন"
+
 #~ msgid "Create dynamic port forwarding"
 #~ msgstr "ডায়নামিক পোর্ট ফরওয়ার্ডিং তৈরি করুন"
+
+#~ msgid "Custom Commands"
+#~ msgstr "কাস্টম কমান্ড"
+
+#~ msgid "Custom commands"
+#~ msgstr "কাস্টম কমান্ড"
+
+#, fuzzy
+#~| msgid "Custom commands"
+#~ msgid "Custom commands…"
+#~ msgstr "কাস্টম কমান্ড"
+
+#~ msgid "Data bits"
+#~ msgstr "ডেটা বিট"
 
 #~ msgid "Default SSH user (VMs):"
 #~ msgstr "ডিফল্ট SSH ব্যবহারকারী (VM):"
@@ -5040,8 +4146,47 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "সনাক্ত করা Proxmox লক্ষ্য (dconf):"
 
+#~ msgid "Disconnect"
+#~ msgstr "সংযোগ বিচ্ছিন্ন করুন"
+
+#~ msgid "Do you really want to remove all hosts in group"
+#~ msgstr "আপনি কি সত্যিই গ্রুপের সমস্ত হোস্ট অপসারণ করতে চান"
+
+#~ msgid "Do you really want to remove host"
+#~ msgstr "আপনি কি সত্যিই হোস্ট অপসারণ করতে চান"
+
 #~ msgid "Edit hosts properties"
 #~ msgstr "হোস্টের প্রপার্টিজ সম্পাদনা করুন"
+
+#~ msgid "Enable Logging"
+#~ msgstr "লগিং সক্ষম করুন"
+
+#~ msgid "Enable logging"
+#~ msgstr "লগিং সক্ষম করুন"
+
+#, python-brace-format
+#~ msgid "Ended (code {rc})"
+#~ msgstr "সমাপ্ত (কোড {rc})"
+
+#~ msgid "Enter new name"
+#~ msgstr "নতুন নাম লিখুন"
+
+#~ msgid "Enter password"
+#~ msgstr "পাসওয়ার্ড লিখুন"
+
+#~ msgid "Enter the text to send to consoles: "
+#~ msgstr "কনসোলে পাঠানোর জন্য টেক্সট লিখুন: "
+
+#~ msgid "Error connecting to server"
+#~ msgstr "সার্ভারের সাথে সংযোগ করতে ত্রুটি"
+
+#, fuzzy
+#~| msgid "Error connecting to server"
+#~ msgid "Error launching viewer"
+#~ msgstr "সার্ভারের সাথে সংযোগ করতে ত্রুটি"
+
+#~ msgid "Error saving host. Description"
+#~ msgstr "হোস্ট সংরক্ষণে ত্রুটি। বিবরণ"
 
 #~ msgid "Ex : /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
 #~ msgstr "উদাহরণ: /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
@@ -5049,11 +4194,30 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
 #~ msgstr "উদাহরণ: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
 
+#~ msgid "Export Servers"
+#~ msgstr "সার্ভার এক্সপোর্ট করুন"
+
 #~ msgid "Export server list to file"
 #~ msgstr "ফাইলে সার্ভার তালিকা এক্সপোর্ট করুন"
 
+#, fuzzy
+#~| msgid "Export Servers"
+#~ msgid "Exports"
+#~ msgstr "সার্ভার এক্সপোর্ট করুন"
+
 #~ msgid "Extra arguments to pass to command line"
 #~ msgstr "কমান্ড লাইনে পাস করার জন্য অতিরিক্ত আর্গুমেন্ট"
+
+#, fuzzy
+#~| msgid "Extra arguments"
+#~ msgid "Extra ssh args"
+#~ msgstr "অতিরিক্ত আর্গুমেন্ট"
+
+#~ msgid "Fields group, name and host are required"
+#~ msgstr "গ্রুপ, নাম এবং হোস্ট ফিল্ড আবশ্যক"
+
+#~ msgid "Flow"
+#~ msgstr "ফ্লো"
 
 #, fuzzy
 #~| msgid "Flow control:"
@@ -5073,6 +4237,33 @@ msgstr "উইন্ডো দেখান"
 #~ "  RTS/CTS = হার্ডওয়্যার (পূর্ণ ক্যাবল)\n"
 #~ "  DSR/DTR = লেগ্যাসি হার্ডওয়্যার"
 
+#~ msgid "Font:"
+#~ msgstr "ফন্ট:"
+
+#~ msgid "Foreground color:"
+#~ msgstr "ফোরগ্রাউন্ড রঙ:"
+
+#, fuzzy
+#~| msgid "X11 Forwarding"
+#~ msgid "ForwardAgent"
+#~ msgstr "X11 ফরওয়ার্ডিং"
+
+#, fuzzy
+#~| msgid "Group"
+#~ msgid "Group name:"
+#~ msgstr "গ্রুপ"
+
+#~ msgid "Host name"
+#~ msgstr "হোস্টের নাম"
+
+#, fuzzy
+#~| msgid "Host name"
+#~ msgid "HostName"
+#~ msgstr "হোস্টের নাম"
+
+#~ msgid "Import Servers"
+#~ msgstr "সার্ভার আমদানি করুন"
+
 #, fuzzy
 #~ msgid "Import from CSV"
 #~ msgstr "libvirt থেকে আমদানি করুন"
@@ -5091,8 +4282,36 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Imported"
 #~ msgstr "আমদানি করা হয়েছে"
 
+#, fuzzy
+#~| msgid "Imported"
+#~ msgid "Imports"
+#~ msgstr "আমদানি করা হয়েছে"
+
+#~ msgid "Invalid entry in configuration file"
+#~ msgstr "কনফিগারেশন ফাইলে অবৈধ এন্ট্রি"
+
+#~ msgid "Invalid file"
+#~ msgstr "অবৈধ ফাইল"
+
+#~ msgid "Invalid password"
+#~ msgstr "অবৈধ পাসওয়ার্ড"
+
+#~ msgid "Invalid port"
+#~ msgstr "অবৈধ পোর্ট"
+
+#~ msgid "Invert selection"
+#~ msgstr "নির্বাচন উল্টান"
+
 #~ msgid "Keep-Alive"
 #~ msgstr "Keep-Alive"
+
+#, fuzzy
+#~| msgid "VM name"
+#~ msgid "Key name"
+#~ msgstr "VM নাম"
+
+#~ msgid "Key sequences"
+#~ msgstr "কী সিকোয়েন্স"
 
 #~ msgid "Libvirt"
 #~ msgstr "Libvirt"
@@ -5103,11 +4322,33 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Local port already assigned"
 #~ msgstr "লোকাল পোর্ট ইতিমধ্যে নির্ধারিত"
 
+#~ msgid "Log local console sessions"
+#~ msgstr "লোকাল কনসোল সেশন লগ করুন"
+
+#~ msgid "Logs path"
+#~ msgstr "লগের পথ"
+
+#, fuzzy
+#~| msgid "Add new host"
+#~ msgid "New host"
+#~ msgstr "নতুন হোস্ট যুক্ত করুন"
+
+#, fuzzy
+#~| msgid "VM name"
+#~ msgid "New name:"
+#~ msgstr "VM নাম"
+
+#~ msgid "New template"
+#~ msgstr "নতুন টেমপ্লেট"
+
 #~ msgid "No host imported."
 #~ msgstr "কোনো হোস্ট আমদানি করা হয়নি।"
 
 #~ msgid "No new host (duplicates ignored)."
 #~ msgstr "কোনো নতুন হোস্ট নেই (ডুপ্লিকেট উপেক্ষা করা হয়েছে)।"
+
+#~ msgid "No open consoles"
+#~ msgstr "কোনো খোলা কনসোল নেই"
 
 #~ msgid "Number of data bits per byte (8 = standard)"
 #~ msgstr "প্রতি বাইটে ডেটা বিটের সংখ্যা (8 = স্ট্যান্ডার্ড)"
@@ -5120,17 +4361,71 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Open local console"
 #~ msgstr "লোকাল কনসোল খুলুন"
 
+#~ msgid "Open local console on startup"
+#~ msgstr "স্টার্টআপে লোকাল কনসোল খুলুন"
+
 #~ msgid "Overwrite existing connections with the same name and protocol"
 #~ msgstr "একই নাম এবং প্রোটোকলের বিদ্যমান সংযোগ ওভাররাইট করুন"
+
+#~ msgid "Parity"
+#~ msgstr "প্যারিটি"
 
 #~ msgid "Parity bit: None (N) = standard, Even (E), Odd (O)"
 #~ msgstr "প্যারিটি বিট: কোনোটি নয় (N) = স্ট্যান্ডার্ড, জোড় (E), বিজোড় (O)"
 
+#~ msgid "Paste"
+#~ msgstr "পেস্ট করুন"
+
+#~ msgid "Paste on right click"
+#~ msgstr "রাইট-ক্লিকে পেস্ট করুন"
+
+#~ msgid "Project's Homepage"
+#~ msgstr "প্রজেক্টের হোমপেজ"
+
+#, fuzzy
+#~| msgid "Command"
+#~ msgid "ProxyCommand"
+#~ msgstr "কমান্ড"
+
+#~ msgid "Reconnect to host"
+#~ msgstr "হোস্টে পুনরায় সংযোগ করুন"
+
+#, fuzzy
+#~| msgid "Command"
+#~ msgid "RemoteCommand"
+#~ msgstr "কমান্ড"
+
+#~ msgid "Rename tab"
+#~ msgstr "ট্যাব নাম পরিবর্তন করুন"
+
+#~ msgid "Reset and Clear console"
+#~ msgstr "কনসোল রিসেট এবং পরিষ্কার করুন"
+
+#~ msgid "Reset console"
+#~ msgstr "কনসোল রিসেট করুন"
+
+#~ msgid "Restore defaults"
+#~ msgstr "ডিফল্ট পুনরুদ্ধার করুন"
+
 #~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
 #~ msgstr "SPICE  (এখানে উপলব্ধ নয়: Proxmox-এর জন্য API টিকিট/প্রক্সি প্রয়োজন)"
 
+#, fuzzy
+#~| msgid "No connection type selected."
+#~ msgid "SSH connection failed"
+#~ msgstr "কোনো সংযোগ প্রকার নির্বাচিত নয়।"
+
 #~ msgid "Save active console buffer to file"
 #~ msgstr "অ্যাক্টিভ কনসোল বাফার ফাইলে সংরক্ষণ করুন"
+
+#~ msgid "Save as"
+#~ msgstr "নামসহ সংরক্ষণ করুন"
+
+#~ msgid "Save buffer as"
+#~ msgstr "বাফার নামসহ সংরক্ষণ করুন"
+
+#~ msgid "Save buffer to file"
+#~ msgstr "বাফার ফাইলে সংরক্ষণ করুন"
 
 #, fuzzy
 #~ msgid "Scanning…"
@@ -5138,6 +4433,18 @@ msgstr "উইন্ডো দেখান"
 
 #~ msgid "Seconds between keep-alive packets"
 #~ msgstr "Keep-alive প্যাকেটের মধ্যে সেকেন্ড"
+
+#~ msgid "Select all"
+#~ msgstr "সব নির্বাচন করুন"
+
+#~ msgid "Select background color"
+#~ msgstr "ব্যাকগ্রাউন্ড রঙ নির্বাচন করুন"
+
+#~ msgid "Select consoles to use:"
+#~ msgstr "ব্যবহারের জন্য কনসোল নির্বাচন করুন:"
+
+#~ msgid "Select foreground color"
+#~ msgstr "ফোরগ্রাউন্ড রঙ নির্বাচন করুন"
 
 #~ msgid "Send commands to several hosts at the same time"
 #~ msgstr "একসাথে একাধিক হোস্টে কমান্ড পাঠান"
@@ -5147,17 +4454,43 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Serial"
 #~ msgstr "সিরিয়াল"
 
+#~ msgid "Serial Templates"
+#~ msgstr "সিরিয়াল টেমপ্লেট"
+
 #~ msgid "Serial port:"
 #~ msgstr "সিরিয়াল পোর্ট:"
 
+#~ msgid "Server list will be overwritten, continue?"
+#~ msgstr "সার্ভার তালিকা ওভাররাইট হবে, চালিয়ে যাবেন?"
+
+#, fuzzy
+#~| msgid "_Servers"
+#~ msgid "Servers"
+#~ msgstr "_সার্ভার"
+
+#~ msgid "Shortcut"
+#~ msgstr "শর্টকাট"
+
 #~ msgid "Show Toolbar"
 #~ msgstr "টুলবার দেখান"
+
+#~ msgid "Split H"
+#~ msgstr "বিভক্ত H"
+
+#~ msgid "Split V"
+#~ msgstr "বিভক্ত V"
 
 #~ msgid "Split console horizontally"
 #~ msgstr "কনসোল আনুভূমিকভাবে বিভক্ত করুন"
 
 #~ msgid "Split console vertically"
 #~ msgstr "কনসোল উলম্বভাবে বিভক্ত করুন"
+
+#~ msgid "Standard Commands"
+#~ msgstr "স্ট্যান্ডার্ড কমান্ড"
+
+#~ msgid "Stop"
+#~ msgstr "স্টপ"
 
 #, fuzzy
 #~| msgid "Stop bits:"
@@ -5168,12 +4501,44 @@ msgstr "উইন্ডো দেখান"
 #~ msgstr "স্টপ বিট: 1 = স্ট্যান্ডার্ড, 2 = RS-485 / লেগ্যাসি হার্ডওয়্যার"
 
 #, fuzzy
+#~| msgid "Serial port:"
+#~ msgid "TLS port"
+#~ msgstr "সিরিয়াল পোর্ট:"
+
+#, fuzzy
 #~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "টেমপ্লেট:"
 
+#~ msgid "Template name"
+#~ msgstr "টেমপ্লেট নাম"
+
+#~ msgid "There are"
+#~ msgstr "আছে"
+
+#~ msgid ""
+#~ "This is gnome-connection-manager, written and maintained by\n"
+#~ "Copyright © 2012 Renzo Bertuzzi L. <kuthulu@gmail.com> - Chile"
+#~ msgstr ""
+#~ "এটি gnome-connection-manager, যা লিখেছেন এবং পরিচালনা করেন\n"
+#~ "Copyright © 2012 Renzo Bertuzzi L. <kuthulu@gmail.com> - চিলি"
+
 #~ msgid "Transmission speed in baud"
 #~ msgstr "বড-এ ট্রান্সমিশন গতি"
+
+#~ msgid "Transparency"
+#~ msgstr "স্বচ্ছতা"
+
+#~ msgid "Unsplit all consoles"
+#~ msgstr "সব কনসোলের বিভক্তি বাতিল করুন"
+
+#~ msgid "Use default fixed width font"
+#~ msgstr "ডিফল্ট ফিক্সড-উইডথ ফন্ট ব্যবহার করুন"
+
+#, fuzzy
+#~| msgid "Libvirt"
+#~ msgid "Via libvirt"
+#~ msgstr "Libvirt"
 
 #, fuzzy
 #~ msgid ""
@@ -5183,8 +4548,16 @@ msgstr "উইন্ডো দেখান"
 #~ "dconf-এ কোনো URI পাওয়া যায়নি (virt-manager কনফিগার করা হয়নি?)।\n"
 #~ "নিচে ম্যানুয়ালি আপনার URI যুক্ত করুন।"
 
+#~ msgid "Word separator"
+#~ msgstr "শব্দ বিভাজক"
+
 #~ msgid "_Edit"
 #~ msgstr "_সম্পাদনা"
+
+#, fuzzy
+#~| msgid "Imported"
+#~ msgid "_Import"
+#~ msgstr "আমদানি করা হয়েছে"
 
 #~ msgid "__glade_unnamed_28"
 #~ msgstr "__glade_unnamed_28"
@@ -5204,11 +4577,22 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "__glade_unnamed_37"
 #~ msgstr "__glade_unnamed_37"
 
+#~ msgid "already exists for group"
+#~ msgstr "গ্রুপের জন্য ইতিমধ্যে বিদ্যমান"
+
 #~ msgid "label"
 #~ msgstr "লেবেল"
 
+#, fuzzy
+#~| msgid "Detected libvirt URI"
+#~ msgid "libvirt URI"
+#~ msgstr "সনাক্ত করা libvirt URI"
+
 #~ msgid "local"
 #~ msgstr "লোকাল"
+
+#~ msgid "open consoles, exit anyway?"
+#~ msgstr "টি কনসোল খোলা আছে, তবুও বের হবেন?"
 
 #~ msgid "page 1"
 #~ msgstr "পৃষ্ঠা ১"
@@ -5218,6 +4602,19 @@ msgstr "উইন্ডো দেখান"
 
 #~ msgid "rdp"
 #~ msgstr "rdp"
+
+#, fuzzy
+#~| msgid "xfreerdp not found"
+#~ msgid "remote-viewer not found"
+#~ msgstr "xfreerdp খুঁজে পাওয়া যায়নি"
+
+#, fuzzy
+#~| msgid "xfreerdp options:"
+#~ msgid "remote-viewer options:"
+#~ msgstr "xfreerdp অপশন:"
+
+#~ msgid "search..."
+#~ msgstr "অনুসন্ধান করুন..."
 
 #~ msgid "spice"
 #~ msgstr "spice"
@@ -5234,6 +4631,12 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "xfreerdp log:"
 #~ msgstr "xfreerdp লগ:"
 
+#~ msgid "xfreerdp not found"
+#~ msgstr "xfreerdp খুঁজে পাওয়া যায়নি"
+
+#~ msgid "xfreerdp options:"
+#~ msgstr "xfreerdp অপশন:"
+
 #, fuzzy, python-brace-format
 #~ msgid "{n} connection(s) imported from Proxmox."
 #~ msgstr "Proxmox থেকে আমদানি করুন"
@@ -5245,6 +4648,9 @@ msgstr "উইন্ডো দেখান"
 #, fuzzy, python-brace-format
 #~ msgid "{n} connection(s) imported from libvirt."
 #~ msgstr "libvirt থেকে আমদানি করুন"
+
+#~ msgid "− Remove"
+#~ msgstr "− অপসারণ করুন"
 
 #~ msgid "✓ Imported"
 #~ msgstr "✓ আমদানি করা হয়েছে"

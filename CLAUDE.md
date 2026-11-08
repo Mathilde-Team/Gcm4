@@ -24,7 +24,7 @@ le fichier est absent sur `dev`, le chercher sur `main`).
   Voir `docs/partage-sessions.md`.
 
 GCM est un gestionnaire de connexions distantes multi-protocoles (SSH, RDP,
-VNC, SPICE, série, telnet, local, IPMI SOL, Web/BMC) pour GNOME/GTK3, en
+VNC, SPICE, série, telnet, local, IPMI SOL, Web/BMC) pour GNOME/GTK4, en
 onglets dans une fenêtre unique, avec import d'infrastructure virtualisée
 (libvirt, Proxmox, VirtualBox, oVirt) et outils de déploiement de
 configuration en masse (Netmiko, SNMP). Fork de kuthulux/gnome-connection-manager,
@@ -64,7 +64,7 @@ générique de migration de config livrés et testés (session-30,
   **Python ≥ 3.12**, paquet `src/gcm4/` (détail dans #118).
 - **D3 remplacée (#99)** : configuration dans `~/.config/gcm4/gcm4.conf`
   (`XDG_CONFIG_HOME` respecté), migration automatique depuis `~/.gcm/` par
-  copie (0600, ancien dossier jamais supprimé tant que GTK3 existe, #177).
+  copie (0600, l'ancien dossier n'est jamais supprimé, #177).
 - Dialogues de fichiers : `Gtk.FileDialog`, avec un repli pour GTK < 4.10
   (#97, comme dans SwitchCapture).
 - **Distributions cibles** : Debian 12 (Python 3.11) et Rocky 9 (Python
@@ -103,18 +103,13 @@ sans IPMI SOL/Web, sans VirtualBox/oVirt, sans Netmiko/SNMP push, et
 n'annonçait que 16 langues alors que 29 existent — README, CHANGELOG et
 désormais `Documentation-fr.md` (session-24, 2026-09-09) sont à jour.
 
-## 🎯 Chantier prioritaire : migration GTK4
+## 🎯 Migration GTK4 : terminée
 
-Le portage GTK3 → GTK4 est **le plus gros chantier à venir** et n'a
-toujours pas commencé concrètement. Points de rupture déjà identifiés
-(`Gtk.Dialog.run()`, `GtkMenuBar`/`GtkMenu`, `Gtk.Widget.reparent()`, et
-surtout `GtkFrdp.Display` pour le RDP embarqué — widget natif sans
-dépendance X11, mais vendorisé (`gtk-frdp/`) toujours épinglé GTK3,
-statut GTK4 en amont non confirmé ; **pas** de dépendance `Gtk.Socket`/
-XEmbed dans le code réellement chargé, contrairement à ce qui était
-compris jusqu'à la session-45 — voir §3.4/§3.8 de
-`docs/gtk4-migration.md`, corrigés en session-46), stratégie retenue et
-recherche sur l'écosystème GTK4 : tout est dans `docs/gtk4-migration.md`.
+Le portage GTK3 → GTK4 est **achevé** : l'application GTK3
+(`GTK3.OLD/`), ses plugins et ses tests ont été supprimés (#179, #182) ;
+le garde-fou `tests/test_gtk3_retrait.py` impose désormais « zéro fichier
+GTK3 ». L'historique complet (points de rupture, décisions, sessions) est
+dans `docs/gtk4-migration.md`, clôturé.
 
 ## Prochaine étape
 
@@ -520,7 +515,7 @@ recherche sur l'écosystème GTK4 : tout est dans `docs/gtk4-migration.md`.
 ```bash
 ruff check <fichier> && ruff format <fichier>   # sur tout fichier neuf ou touché
 make test      # python3 -m pytest tests/ -v
-make lint      # ruff check . + flake8 GTK3.OLD/gnome_connection_manager.py
+make lint      # ruff check .
 make validate  # .po (+ .xml/.glade/.json si le dépôt en contient un jour)
 make check     # validate + lint + test + check-gitignore
 ```
@@ -574,16 +569,12 @@ conséquence à `ruff check .` (couvrait seulement 3 chemins auparavant).
 (référence à un `gnome-connection-manager.glade` supprimé du dépôt) —
 corrigé session-30, voir `docs/gcm4-rename.md` §4.
 
-⚠️ **GTK3/VTE non installés dans cet environnement de travail** :
-`tests/test_gcm.py` ne s'importe pas ici. Tout code métier sans GTK a ses
-propres fichiers de test indépendants et importables directement
-(`test_gcm4_core.py`, `test_snmp_bulk_core.py`, etc.) — c'est là qu'ajouter
-les tests de tout nouveau code cœur. `test_gtk4_core_rupture_points.py`
-(session-28) suit un principe différent pour les rares cas où même ça n'est
-pas possible : au lieu d'importer le module GTK, il scanne son texte source
-(comme `test_plugin_base.py::test_no_require_version_call_in_source`) —
-utile pour verrouiller l'absence d'un point de rupture GTK4 précis sans
-attendre que tout `gnome_connection_manager.py` soit importable ici.
+ℹ️ **GTK3 supprimé (#182)** : `tests/test_gcm.py` et l'inventaire GTK3 ont
+disparu avec le cœur GTK3. Tout code métier sans GTK a ses propres
+fichiers de test importables directement (`test_gcm4_core.py`,
+`test_snmp_bulk_core.py`, etc.) — c'est là qu'ajouter les tests de tout
+nouveau code cœur ; l'interface GTK4 se teste dans `tests/gtk4/` sous
+Xvfb (`GCM_TESTS_GTK4=1`).
 
 Pre-commit (une fois) : `pip install pre-commit --break-system-packages &&
 pre-commit install` — imports circulaires interdits
@@ -594,8 +585,8 @@ tests pour le code des plugins : `CONSIGNES-AGENTS-IA.md`.
 consultable pour de la documentation à jour sur une bibliothèque/API tierce
 (PyGObject/GTK, Vte, Netmiko, paramiko, cryptography, etc.) quand un doute
 porte sur une signature, un comportement récent ou une dépréciation — utile
-en particulier ici où l'environnement de travail n'a pas GTK3/VTE réels
-pour vérifier empiriquement. Ne remplace pas la lecture du code source du
+en particulier ici où l'environnement de travail n'a pas de session
+graphique pour vérifier empiriquement. Ne remplace pas la lecture du code source du
 dépôt lui-même ni les décisions déjà actées dans cette documentation.
 
 ## Jobs CI (`.github/workflows/ci.yml`, issue #159)

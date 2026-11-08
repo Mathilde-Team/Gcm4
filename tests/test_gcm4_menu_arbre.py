@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import pytest
 
-import folder_context_menu_core
 from gcm4.core import menu_arbre
 from gcm4.core.host_tree import construire
 from gcm4.core.model import Host, HostStore
@@ -31,10 +30,50 @@ def _noeud(store, chemin):
     raise KeyError(chemin)
 
 
-@pytest.mark.parametrize("cible", folder_context_menu_core.CLICK_TARGETS)
-def test_parite_avec_gtk3(cible):
-    """Disposition portée identique à folder_context_menu_core (tant qu'il existe, #182)."""
-    attendu = folder_context_menu_core.build_folder_context_menu_layout(click_target=cible)
+@pytest.mark.parametrize(
+    "cible,attendu",
+    [
+        (
+            "empty",
+            [
+                ["connect", "add", "new-group", "group-color", "group-color-reset"],
+                ["expand", "collapse"],
+            ],
+        ),
+        (
+            "folder",
+            [
+                [
+                    "connect",
+                    "add",
+                    "new-group",
+                    "rename-group",
+                    "group-color",
+                    "group-color-reset",
+                ],
+                ["delete"],
+                ["expand", "collapse"],
+            ],
+        ),
+        (
+            "host",
+            [
+                [
+                    "connect",
+                    "copy-address",
+                    "add",
+                    "new-group",
+                    "group-color",
+                    "group-color-reset",
+                ],
+                ["edit", "duplicate", "delete"],
+                ["expand", "collapse"],
+            ],
+        ),
+    ],
+)
+def test_dispositions_figees(cible, attendu):
+    """Dispositions figées du portage (référence GTK3 supprimée en #182)."""
     assert menu_arbre.disposition_gtk3(cible) == attendu
     with pytest.raises(ValueError):
         menu_arbre.disposition_gtk3("autre")
