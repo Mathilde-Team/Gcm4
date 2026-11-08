@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:33+0000\n"
+"POT-Creation-Date: 2026-11-08 11:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -467,8 +467,8 @@ msgstr ""
 msgid "🔍  Scan VirtualBox hosts"
 msgstr "🔍  Scanner les hôtes Proxmox"
 
-#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/pluginvnc2/gtk4.py
+#: plugins/serial/gtk4.py plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "{program} introuvable"
@@ -773,6 +773,34 @@ msgstr ""
 msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
 
+#: plugins/pluginvnc2/core.py
+msgid "VNC display number must be between 0 and 59635."
+msgstr "Le numéro d’affichage VNC doit être compris entre 0 et 59635."
+
+#: plugins/pluginvnc2/gtk4.py src/gcm4/ui/host_dialog.py
+msgid "Display"
+msgstr "Affichage"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "Fullscreen"
+msgstr "Plein écran"
+
+#: plugins/pluginvnc2/gtk4.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr "Partager le presse-papier"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "Shared session (VNC)"
+msgstr "Session partagée (VNC)"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "VNC needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
+msgstr "VNC nécessite asyncio dans la boucle principale GTK (PyGObject 3.50 ou ultérieur)"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "View only"
+msgstr "Lecture seule"
+
 #: plugins/rdp/core.py
 msgid "Choose the folder to share"
 msgstr ""
@@ -860,10 +888,6 @@ msgstr ""
 #| msgid "Remote"
 msgid "RemoteApp"
 msgstr "Distant"
-
-#: plugins/rdp/gtk4.py
-msgid "Share clipboard"
-msgstr ""
 
 #: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
@@ -3321,10 +3345,6 @@ msgstr "Abandonner"
 #: src/gcm4/ui/host_dialog.py
 msgid "Discard changes?"
 msgstr "Abandonner les modifications ?"
-
-#: src/gcm4/ui/host_dialog.py
-msgid "Display"
-msgstr "Affichage"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Errors"

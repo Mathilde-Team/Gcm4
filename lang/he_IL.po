@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:33+0000\n"
+"POT-Creation-Date: 2026-11-08 11:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -467,8 +467,8 @@ msgstr ""
 msgid "🔍  Scan VirtualBox hosts"
 msgstr "🔍  סרוק מארחי Proxmox"
 
-#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/pluginvnc2/gtk4.py
+#: plugins/serial/gtk4.py plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "{program} לא נמצא"
@@ -773,6 +773,34 @@ msgstr ""
 msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
 
+#: plugins/pluginvnc2/core.py
+msgid "VNC display number must be between 0 and 59635."
+msgstr "מספר תצוגת VNC חייב להיות בין 0 ל־59635."
+
+#: plugins/pluginvnc2/gtk4.py src/gcm4/ui/host_dialog.py
+msgid "Display"
+msgstr "תצוגה"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "Fullscreen"
+msgstr "מסך מלא"
+
+#: plugins/pluginvnc2/gtk4.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr "שיתוף לוח הגזירים"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "Shared session (VNC)"
+msgstr "הפעלה משותפת (VNC)"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "VNC needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
+msgstr "VNC דורש asyncio בלולאה הראשית של GTK ‏(PyGObject 3.50 ומעלה)"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "View only"
+msgstr "תצוגה בלבד"
+
 #: plugins/rdp/core.py
 msgid "Choose the folder to share"
 msgstr ""
@@ -859,10 +887,6 @@ msgstr ""
 #| msgid "Remote"
 msgid "RemoteApp"
 msgstr "מרוחק"
-
-#: plugins/rdp/gtk4.py
-msgid "Share clipboard"
-msgstr ""
 
 #: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
@@ -3341,10 +3365,6 @@ msgstr "לבטל"
 #: src/gcm4/ui/host_dialog.py
 msgid "Discard changes?"
 msgstr "לבטל את השינויים?"
-
-#: src/gcm4/ui/host_dialog.py
-msgid "Display"
-msgstr "תצוגה"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Errors"

@@ -161,6 +161,7 @@ files = [
     "plugins/sftp/core.py",
     "plugins/telnet/core.py",
     "plugins/spice/core.py",
+    "plugins/pluginvnc2/core.py",
 ]
 ignore_missing_imports = true
 follow_imports = "silent"

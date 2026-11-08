@@ -23,6 +23,7 @@ MODULES_TYPES_MINIMUM = {
     "plugins/snmp_push/core.py",
     "plugins/ssh/core.py",
     "plugins/spice/core.py",
+    "plugins/pluginvnc2/core.py",
 }
 
 

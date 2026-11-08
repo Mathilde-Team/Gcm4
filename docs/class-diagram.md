@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-96 modules · 161 classes · 393 fonctions publiques de module.
+98 modules · 164 classes · 399 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -24,8 +24,8 @@ flowchart TD
     g1["gcm4"]
     g2["gcm4.core"]
     g3["gcm4.ui"]
-    g0 -->|73| g2
-    g0 -->|12| g3
+    g0 -->|79| g2
+    g0 -->|13| g3
     g1 -->|4| g2
     g1 -->|1| g3
     g2 -->|1| g1
@@ -57,6 +57,8 @@ flowchart TD
 | `plugins.local.gtk4` | `plugins/local/gtk4.py` | Plugin local de gcm4 (contrat v1, ``docs/plugins.md``) : shell local dans un terminal VTE GTK4. |
 | `plugins.netmiko_push.core` | `plugins/netmiko_push/core.py` | Cœur métier (sans GTK) du plugin de déploiement de configuration en masse via Netmiko pour GCM. |
 | `plugins.netmiko_push.gtk4` | `plugins/netmiko_push/gtk4.py` | Outil « Déploiement Netmiko » (contrat v1, #441, portage #179). |
+| `plugins.pluginvnc2.core` | `plugins/pluginvnc2/core.py` | Options de l'adaptateur VNC v1, sans GTK ni client réseau (#179, #82). |
+| `plugins.pluginvnc2.gtk4` | `plugins/pluginvnc2/gtk4.py` | Adaptateur v1 du composant monofichier vnc_tab, laissé autonome (#179). |
 | `plugins.pluginvnc2.vnc_tab` | `plugins/pluginvnc2/vnc_tab.py` | vnc_tab.py — Onglet VNC complet pour gnome-connection-manager (fork GTK4) |
 | `plugins.rdp` | `plugins/rdp/__init__.py` | Plugin rdp : bureau à distance RDP sur AsyncRdp (FreeRDP 3), sans gtk-frdp. |
 | `plugins.rdp.core` | `plugins/rdp/core.py` | Partie métier du plugin rdp (sans GTK) — portage #105. |
@@ -305,6 +307,37 @@ classDiagram
         <<ToolPlugin>>
         +activate() None
     }
+    class mod_plugins_pluginvnc2_core {
+        <<module>>
+        +options_defaut() dict~str, str~
+        +booleen(options, cle, defaut) bool
+        +valider(options) list~FieldError~
+        +reglages(host) Reglages
+    }
+    class plugins_pluginvnc2_core_Reglages {
+        <<dataclass>>
+        +int port
+        +bool lecture_seule
+        +bool plein_ecran
+        +bool presse_papier
+        +bool partage
+    }
+    class mod_plugins_pluginvnc2_gtk4 {
+        <<module>>
+        +charger_widget() ModuleType
+        +zone_options(options, changed) Gtk.Box
+    }
+    class VncSession {
+        +close() None
+    }
+    class VncPlugin {
+        <<ConnectionPlugin>>
+        +default_port(protocol) int
+        +default_options(protocol) dict~str, str~
+        +validate_options(protocol, options) list
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) VncSession
+    }
     class mod_plugins_pluginvnc2_vnc_tab {
         <<module>>
         +build_vnc_tab_label(tab) Gtk.Box
@@ -334,6 +367,7 @@ classDiagram
         +str ws_path
         +Optional~str~ tls_ca_file
         +bool reverse
+        +bool view_only
     }
     class VncStatus {
         <<enum.Enum>>
@@ -371,7 +405,7 @@ classDiagram
         +suit_onglet(options) bool
         +reglages(host) Reglages
     }
-    class Reglages {
+    class plugins_rdp_core_Reglages {
         <<dataclass>>
         +str hote
         +int port
