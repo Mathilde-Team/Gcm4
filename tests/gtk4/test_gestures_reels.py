@@ -254,6 +254,16 @@ def _clic_sur(
         f"CLIC {type(widget).__name__} fenetre=({ox},{oy}) "
         f"dans_fenetre=({x},{y}) abs=({int(ox + x)},{int(oy + y)})"
     )
+    from gi.repository import Gtk
+
+    racine = widget
+    while racine.get_parent() is not None:
+        racine = racine.get_parent()
+    pique = racine.pick(x, y, Gtk.PickFlags.DEFAULT)
+    print(
+        f"PICK ({x},{y}): {type(pique).__name__ if pique is not None else None} "
+        f"vs visé {type(widget).__name__}"
+    )
     _xdotool("mousemove", str(int(ox + x)), str(int(oy + y)))
     try:
         print("POINTEUR: " + _xdotool("getmouselocation").replace("\n", " "))
@@ -483,23 +493,28 @@ def _afficher_arbre(widget, profondeur: int = 0) -> None:
 
 
 def _bouton(racine, libelle: str):
-    """Premier ``Gtk.Button`` de l'arbre de ``racine`` portant ``libelle``.
+    """Premier ``Gtk.Button`` alloué de l'arbre de ``racine`` portant ``libelle``.
 
     ``Adw.AlertDialog`` n'expose pas ses boutons de réponse : ils sont
-    retrouvés en parcourant l'arbre des enfants.
+    retrouvés en parcourant l'arbre des enfants. Le repli vertical du
+    ``AdwMessageDialog`` (vieilles libadwaita) garde aussi une copie de
+    taille nulle : on préfère un bouton réellement alloué.
     """
     from gi.repository import Gtk
 
     pile = [racine]
+    de_repli: Gtk.Button | None = None
     while pile:
         widget = pile.pop()
         if isinstance(widget, Gtk.Button) and widget.get_label() == libelle:
-            return widget
+            if widget.get_width() > 0 and widget.get_height() > 0:
+                return widget
+            de_repli = de_repli or widget
         enfant = widget.get_first_child()
         while enfant is not None:
             pile.append(enfant)
             enfant = enfant.get_next_sibling()
-    return None
+    return de_repli
 
 
 def test_selection_mot_et_ligne_du_terminal(app_fixture, pomper):
@@ -622,6 +637,7 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
         racine = racine.get_parent()
     assert _est_dans(racine.get_focus(), entree)
     _activer(entree)  # vieux Adw : fenêtre X séparée, le clavier X y va
+    print("X FOCUS: " + _xdotool("getwindowfocus").strip())
     _touche("a", avec_ctrl=True)
     _xdotool("type", "--delay", "30", "LABO")
     print(f"ETAT: entrée={entree.get_text()!r} après frappe")
