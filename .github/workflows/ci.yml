@@ -198,10 +198,14 @@ jobs:
             --combinee .coverage >> "$GITHUB_STEP_SUMMARY"
 
       - name: Total combiné, seuil bloquant (fail_under)
-        # Même seuil que le job Qualité (pyproject.toml), appliqué ici au
-        # total fusionné ; l'étape échoue s'il passe dessous.
+        # Un seul seuil dans pyproject.toml : appliqué séparément aux lignes
+        # et branches du total fusionné (#293), puis au rapport historique.
         run: |
+          set -o pipefail
           uv run coverage xml -o coverage-combinee.xml --fail-under=0
+          uv run coverage json -o coverage-combinee.json --fail-under=0
+          uv run python scripts/verifier_couverture.py coverage-combinee.json \
+            | tee -a "$GITHUB_STEP_SUMMARY"
           uv run coverage report --skip-covered
 
       - name: Publication du rapport combiné (artifact)
@@ -209,7 +213,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report-combinee
-          path: coverage-combinee.xml
+          path: |
+            coverage-combinee.xml
+            coverage-combinee.json
           if-no-files-found: warn
 
   types:
@@ -309,7 +315,7 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
             git ca-certificates python3 python3-venv python3-gi \
             gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 \
-            expect xvfb xauth dbus-daemon
+            expect xvfb xauth dbus-daemon weston
 
       - name: Checkout du dépôt
         uses: actions/checkout@v7
@@ -325,6 +331,11 @@ jobs:
         # paramiko : plugin sftp (#75), testé contre un serveur paramiko local.
         run: |
           /tmp/venv/bin/pip install -q -e . pytest pytest-cov "paramiko>=3.4.0,<5"
+
+      - name: Wayland natif (Weston headless, sans DISPLAY ni XWayland)
+        env:
+          GCM_PYTHON: /tmp/venv/bin/python
+        run: bash scripts/test-wayland.sh
 
       - name: Tests de l'interface gcm4 sous Xvfb (tests/gtk4), aucun test sauté
         # GCM_TESTS_GTK4=1 : tests/gtk4/conftest.py collecte toujours ces
