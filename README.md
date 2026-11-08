@@ -9,7 +9,7 @@
 [![Ruff](https://img.shields.io/badge/ruff-pass-brightgreen.svg)](pyproject.toml)
 
 **Fork de [kuthulux/gnome-connection-manager](https://github.com/kuthulux/gnome-connection-manager)**
-maintenu par [MathildeDec](https://github.com/MathildeDec/gnome-connection-manager).
+maintenu par [MathildeDec](https://github.com/Mathilde-Team/Gcm4).
 
 ---
 
@@ -144,7 +144,7 @@ ko · nb · nl · pl · pt · ro · ru · sv · th · tr · uk · vi · zh
 ### Depuis les sources
 
 ```bash
-git clone https://github.com/MathildeDec/gnome-connection-manager
+git clone https://github.com/Mathilde-Team/Gcm4
 cd gnome-connection-manager
 uv sync
 uv run gcm4
@@ -278,7 +278,7 @@ sudo gem install fpm
 | `make help` | Affiche l'aide |
 
 ```bash
-git clone https://github.com/MathildeDec/gnome-connection-manager
+git clone https://github.com/Mathilde-Team/Gcm4
 cd gnome-connection-manager
 make deb        # deb de gcm4
 make rpm-gcm4   # rpm de gcm4
