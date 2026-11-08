@@ -41,7 +41,7 @@ PREFIX="/usr/share/gcm4"
 DOMAIN="gcm-lang"
 ICON_SIZES=(16x16 22x22 24x24 32x32 48x48 64x64 128x128)
 # Dépendances propres aux plugins de connexion : jamais dans la base.
-PLUGIN_DEPS_RE='vte|gtk-?vnc|spice|freerdp|expect|paramiko'
+PLUGIN_DEPS_RE='vte|webkit|gtk-?vnc|spice|freerdp|expect|paramiko'
 # Délai laissé à gcm4 pour démarrer sous Xvfb avant d'être arrêté.
 LAUNCH_SECONDS="${GCM4_SMOKE_LAUNCH_SECONDS:-20}"
 
@@ -92,7 +92,10 @@ sys.path.insert(0, str(root))
 # sans empêcher gcm4 de démarrer (la base ne l'importe jamais). La
 # fonctionnalité est couverte ailleurs : job GTK4 (tests/gtk4/
 # test_plugin_local.py, VTE installé).
-OPTIONNELS = {"gcm4.ui.terminal": "VTE GTK4 (Vte-3.91), absent du paquet de base (D1 #118, #223)"}
+OPTIONNELS = {
+    "gcm4.ui.terminal": "WebKitGTK 6.0, absent du paquet de base (D1 #118, #76)",
+    "gcm4.ui.xterm": "WebKitGTK 6.0, absent du paquet de base (D1 #118, #76)",
+}
 
 mods, errors, optionnels = [], [], []
 for py in sorted(root.rglob("*.py")):

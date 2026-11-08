@@ -14,7 +14,12 @@ configurations existantes s'ouvrent sans conversion :
 - ``rdp_remote_app`` : programme RemoteApp (``||notepad``) ;
 - ``rdp_share_clipboard`` : presse-papier partagé (vrai par défaut) ;
 - ``rdp_share_folder`` / ``rdp_shared_folder_path`` : dossier local
-  redirigé (canal RDPDR « drive »).
+  redirigé (canal RDPDR « drive ») ;
+- ``rdp_share_audio`` : son du bureau distant (vrai par défaut) ;
+- ``rdp_audio_capture`` : capter le micro local côté distant (faux) ;
+- ``rdp_usb_devices`` : périphériques USB redirigés, chaînes façon
+  ``/usb:`` de xfreerdp (``id:046d:0825``) séparées par des virgules ;
+- ``rdp_multimon`` : multi-écran (un moniteur virtuel par écran local).
 
 Les booléens s'écrivent ``True``/``False`` comme GTK3 ; à la lecture,
 ``true``, ``1`` et ``yes`` (sans casse) valent vrai (``_bool_from_str``
@@ -47,6 +52,10 @@ OPT_REMOTE_APP = "rdp_remote_app"
 OPT_PRESSE_PAPIER = "rdp_share_clipboard"
 OPT_PARTAGE_DOSSIER = "rdp_share_folder"
 OPT_CHEMIN_DOSSIER = "rdp_shared_folder_path"
+OPT_AUDIO = "rdp_share_audio"
+OPT_AUDIO_CAPTURE = "rdp_audio_capture"
+OPT_USB = "rdp_usb_devices"
+OPT_MULTI_ECRAN = "rdp_multimon"
 
 #: Géométries du dialogue GTK3 (``_GEOMETRY_ITEMS``), dans le même ordre.
 GEOMETRIE_PLEIN_ECRAN = "fullscreen"
@@ -103,6 +112,10 @@ def options_defaut() -> dict[str, str]:
         OPT_PRESSE_PAPIER: "True",
         OPT_PARTAGE_DOSSIER: "False",
         OPT_CHEMIN_DOSSIER: "",
+        OPT_AUDIO: "True",
+        OPT_AUDIO_CAPTURE: "False",
+        OPT_USB: "",
+        OPT_MULTI_ECRAN: "False",
     }
     logger.debug("options_defaut: {} clé(s)", len(resultat))
     return resultat
@@ -214,6 +227,33 @@ def suit_onglet(options: Mapping[str, str]) -> bool:
     return resultat
 
 
+def peripheriques_usb(options: Mapping[str, str]) -> list[str]:
+    """Chaînes ``/usb:`` de ``rdp_usb_devices``, séparées par des virgules.
+
+    L'énumération des périphériques (libusb côté UI) reste à la charge de
+    l'utilisateur : il saisit les chaînes façon xfreerdp (``id:046d:0825``).
+    Les entrées vides sont ignorées.
+    """
+    logger.debug("peripheriques_usb: entrée")
+    brut = options.get(OPT_USB, "")
+    resultat = [morceau.strip() for morceau in brut.split(",")]
+    resultat = [morceau for morceau in resultat if morceau]
+    logger.debug("peripheriques_usb: {} périphérique(s)", len(resultat))
+    return resultat
+
+
+def multi_ecran(options: Mapping[str, str]) -> bool:
+    """Multi-écran demandé (``rdp_multimon``) ?
+
+    Vrai : la session demande un moniteur virtuel par écran local
+    (``RdpOptions.monitors``, construit par :mod:`gtk4` depuis Gdk).
+    """
+    logger.debug("multi_ecran: entrée")
+    resultat = booleen(options.get(OPT_MULTI_ECRAN, "False"))
+    logger.debug("multi_ecran: {}", resultat)
+    return resultat
+
+
 @dataclass(frozen=True)
 class Reglages:
     """Paramètres de connexion, sans asyncrdp ; le mot de passe n'est pas dans ``repr`` (#145)."""
@@ -226,6 +266,7 @@ class Reglages:
     dossier: tuple[str, str] | None
     remote_app: str | None
     suit_onglet: bool
+    multimon: bool
 
 
 def reglages(host: Host) -> Reglages:
@@ -233,8 +274,10 @@ def reglages(host: Host) -> Reglages:
 
     ``options`` contient les champs de ``asyncrdp.RdpOptions`` à fixer
     (``width``, ``height``, ``ignore_certificate``, ``redirect_clipboard``,
-    ``redirect_drives``) ; ``dossier`` est le couple (nom côté serveur,
-    chemin local) du lecteur redirigé.
+    ``redirect_drives``, ``audio_playback``, ``audio_capture``,
+    ``usb_devices``) ; ``dossier`` est le couple (nom côté serveur,
+    chemin local) du lecteur redirigé, ``multimon`` demande le
+    multi-écran (moniteurs locaux convertis par :mod:`gtk4`).
 
     Raises:
         ValueError: options invalides (:func:`valider`), message traduit.
@@ -256,6 +299,9 @@ def reglages(host: Host) -> Reglages:
         "ignore_certificate": booleen(options[OPT_CERTIFICAT]),
         "redirect_clipboard": booleen(options[OPT_PRESSE_PAPIER]),
         "redirect_drives": False,
+        "audio_playback": booleen(options[OPT_AUDIO]),
+        "audio_capture": booleen(options[OPT_AUDIO_CAPTURE]),
+        "usb_devices": peripheriques_usb(options),
     }
     resultat = Reglages(
         hote=host.host,
@@ -266,6 +312,7 @@ def reglages(host: Host) -> Reglages:
         dossier=dossier,
         remote_app=options[OPT_REMOTE_APP].strip() or None,
         suit_onglet=suit_onglet(options),
+        multimon=multi_ecran(options),
     )
     logger.debug(
         "reglages: {}:{} {}x{}, dossier {}, RemoteApp {}",

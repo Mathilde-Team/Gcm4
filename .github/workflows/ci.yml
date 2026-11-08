@@ -40,6 +40,14 @@ jobs:
       - name: Installation des dépendances (groupe dev)
         run: uv sync
 
+      - name: Node pour les tests du frontend terminal, pas pour l'application
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22.16.0"
+
+      - name: Terminal JavaScript (lignes et branches, seuil du dépôt)
+        run: bash scripts/test-xterm.sh
+
       - name: gettext (validation des catalogues .po)
         run: |
           SUDO=""; if [ "$(id -u)" != "0" ]; then SUDO="sudo -n"; fi
@@ -316,7 +324,7 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt-get update -qq
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
             git ca-certificates python3 python3-venv python3-gi \
-            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 \
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-webkit-6.0 \
             expect xvfb xauth dbus-daemon weston \
             xdotool libxtst6
 
@@ -348,10 +356,11 @@ jobs:
         # le seuil s'applique au total fusionné du job « Couverture combinée ».
         env:
           GCM_TESTS_GTK4: "1"
+          GCM_TESTS_VNC: "1"
           COVERAGE_FILE: .coverage.gtk4
         run: |
           set -o pipefail
-          xvfb-run -a /tmp/venv/bin/python -m pytest tests/gtk4 -q -rs -p no:cacheprovider \
+          xvfb-run -a /tmp/venv/bin/python -m pytest tests/gtk4 tests/vnc -q -rs -p no:cacheprovider \
             --cov --cov-report= --cov-fail-under=0 \
             | tee /tmp/gcm4-gtk4.txt
           sautes=$(grep -c '^SKIPPED' /tmp/gcm4-gtk4.txt || true)
@@ -362,20 +371,16 @@ jobs:
             exit 1
           fi
 
-      - name: Données de couverture de tests/gtk4 (artifact, issue #163)
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-data-gtk4
-          path: .coverage.gtk4
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 7
-
       - name: Tests pluginvnc2 sous Xvfb, aucun test sauté
-        working-directory: plugins/pluginvnc2
+        # Mesurer le module de production, pas les tests du sous-projet.
+        # Même configuration de branches que gcm4, ajout au même artifact.
+        env:
+          COVERAGE_FILE: .coverage.gtk4
         run: |
           set -o pipefail
-          xvfb-run -a /tmp/venv/bin/python -m pytest tests -q -rs -p no:cacheprovider \
+          PYTHONPATH=plugins/pluginvnc2:src xvfb-run -a /tmp/venv/bin/python -m pytest \
+            plugins/pluginvnc2/tests -q -rs -p no:cacheprovider \
+            --cov=vnc_tab --cov-config=pyproject.toml --cov-append --cov-report= --cov-fail-under=0 \
             | tee /tmp/gtk4.txt
           sautes=$(grep -c '^SKIPPED' /tmp/gtk4.txt || true)
           echo "### Tests GTK4 sautés : ${sautes}" >> "$GITHUB_STEP_SUMMARY"
@@ -385,6 +390,15 @@ jobs:
             exit 1
           fi
           echo "tests GTK4 : tous exécutés"
+
+      - name: Données de couverture de tests/gtk4 et du widget VNC (artifact, issue #163)
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-data-gtk4
+          path: .coverage.gtk4
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
 
   debian12:
     # Issue #223 : Debian 12 reste une cible (GTK 4.8, libadwaita 1.2,
@@ -403,17 +417,17 @@ jobs:
         shell: bash
 
     steps:
-      - name: Paquets Debian 12 (GTK 4.8, libadwaita 1.2, VTE 0.70, python3-gi)
-        # VTE GTK4 et expect : plugin telnet (#290) testé avec un vrai
-        # Vte.Terminal, comme dans le job « Tests GTK4 (Xvfb) ».
+      - name: Paquets Debian 12 (GTK 4.8, libadwaita 1.2, WebKitGTK 6.0, python3-gi)
+        # xterm.js et expect : vrais terminaux et vraie authentification,
+        # comme dans le job « Tests GTK4 (Xvfb) », sans installer VTE (#76).
         run: |
           DEBIAN_FRONTEND=noninteractive apt-get update -qq
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
             git ca-certificates python3 python3-venv python3-gi \
-            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 expect xvfb xauth \
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-webkit-6.0 expect xvfb xauth \
             xdotool libxtst6
           dpkg-query -W -f='- ${Package} ${Version}\n' python3 python3-gi \
-            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 expect \
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-webkit-6.0 expect \
             | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Checkout du dépôt
@@ -515,11 +529,11 @@ jobs:
             exit 1
           fi
 
-      # EL9 n'a pas VTE GTK4 (vte291 0.64 est GTK3, #223) : le plugin telnet
+      # EL9 n'a pas WebKitGTK 6.0 dans ses dépôts de base (#76) : le plugin telnet
       # ne peut pas y fonctionner. Ses tests (tests/gtk4/test_plugin_telnet.py)
       # sont écartés nommément ; l'étape suivante vérifie à la place qu'il est
       # signalé en erreur (Préférences > Extensions) sans empêcher le démarrage.
-      - name: Plugins telnet et ssh signalés en erreur, faute de VTE GTK4
+      - name: Plugins telnet et ssh signalés en erreur, faute de WebKitGTK 6.0
         run: |
           /tmp/venv/bin/python - <<'EOF'
           from gcm4.core import registre
@@ -527,7 +541,7 @@ jobs:
           for nom in ("telnet", "ssh"):
               erreur = etats[nom].erreur or ""
               print(nom, ":", erreur)
-              assert etats[nom].plugin is None and "Vte" in erreur, erreur
+              assert etats[nom].plugin is None and "WebKit" in erreur, erreur
           EOF
 
       - name: Tests gcm4 sous Xvfb (tests/gtk4, tests/test_gcm4_*.py), aucun test sauté
@@ -542,12 +556,14 @@ jobs:
             --ignore=tests/gtk4/test_plugin_serial.py \
             --ignore=tests/gtk4/test_plugin_ipmisol.py \
             --ignore=tests/gtk4/test_plugin_web_webkit.py \
+            --ignore=tests/gtk4/test_terminal_xterm.py \
             --ignore=tests/gtk4/test_host_dialog_local.py \
             --ignore=tests/gtk4/test_plugin_ssh.py \
             --ignore=tests/gtk4/test_ssh_editeur_config.py \
             --ignore=tests/gtk4/test_ssh_selecteur_cle.py \
-            --ignore=tests/gtk4/test_ssh_gestionnaire_cles.py \
-            --ignore=tests/gtk4/test_gestes_terminal.py | tee /tmp/rocky9.txt
+            --ignore=tests/gtk4/test_ssh_gestionnaire_cles.py | tee /tmp/rocky9.txt
+          # test_terminal_xterm.py : vrai WebKitGTK 6.0 absent d'EL9,
+          # exécuté sans saut sur Debian 12 et dans le job GTK4 requis.
           # test_plugin_local.py, test_plugin_serial.py,
           # test_plugin_ipmisol.py et
           # test_host_dialog_local.py ignorés comme
@@ -562,9 +578,6 @@ jobs:
           # la session SSH (#396) donne au plugin ssh le terminal commun,
           # qui exige VTE GTK4 — le plugin entier (gestionnaire de clés
           # compris) est signalé en erreur sur Rocky 9, comme telnet.
-          # test_gestes_terminal.py : gestes dans un Vte.Terminal (#72),
-          # même raison — la typelib VTE manque, les gestes sont couverts
-          # par le job GTK4.
           sautes=$(grep -c '^SKIPPED' /tmp/rocky9.txt || true)
           echo "### Tests gcm4 sautés sur Rocky 9 : ${sautes}" >> "$GITHUB_STEP_SUMMARY"
           if [ "${sautes}" != "0" ]; then

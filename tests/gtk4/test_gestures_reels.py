@@ -13,9 +13,10 @@ la fenêtre :
   défaut, directe quand l'option est désactivée ;
 - F2 sur un groupe sélectionné : dialogue de renommage, frappe réelle.
 
-Les gestes dans un ``Vte.Terminal`` (sélection mot/ligne, focus du clic
-simple) sont dans ``test_gestes_terminal.py`` : ils exigent la typelib
-VTE, absente de Rocky 9 (#223).
+Les gestes dans le terminal (sélection mot/ligne, focus du clic
+simple) ne sont pas testés ici : le terminal est passé à xterm.js dans
+WebKitGTK (#76), dont la sélection vit dans le DOM — à vérifier
+empiriquement séparément (voir l'issue #72).
 
 Les menus contextuels du terminal et de l'étiquette d'onglet portés en
 sessions 39-41 vivaient dans le cœur GTK3 (``widgets.py``), retiré du
@@ -538,6 +539,44 @@ def _bouton(racine, libelle: str):
             pile.append(enfant)
             enfant = enfant.get_next_sibling()
     return de_repli
+
+
+def test_clic_milieu_ferme_l_onglet(app_fixture, pomper):
+    """Clic milieu : confirmation par défaut (Échap annule), directe sans l'option."""
+    from gi.repository import Gtk
+
+    app, _dossier = app_fixture
+    fenetre = app.get_active_window()
+    contenu = Gtk.Label(label=_("Manual"))
+    fenetre.ajouter_onglet(_("Manual"), contenu)
+    pomper(5)
+    etiquettes = fenetre.onglets.get_n_pages()
+    assert etiquettes >= 2  # « Home » + l'onglet
+    etiquette = fenetre.onglets.get_tab_label(contenu)
+    assert etiquette is not None
+    _attendre_allocation(etiquette, pomper)
+
+    # Clic sur la zone de texte de l'étiquette : le bouton « fermer » est à
+    # l'extrémité droite, et un clic-milieu dessus déclencherait la
+    # confirmation « fermer l'onglet » (bouton ordinaire), pas celle du
+    # clic-milieu.
+    _clic_sur(etiquette, etiquette.get_width() // 4, etiquette.get_height() // 2, 2, pomper)
+    # comportement par défaut : confirmation demandée, onglet encore là
+    assert contenu in fenetre.confirmations_onglets
+    dialogue = fenetre.confirmations_onglets[contenu]
+    annuler = _bouton(dialogue, _("Cancel"))
+    assert annuler is not None
+    _attendre_presentation(dialogue, pomper)
+    _clic_sur(annuler, annuler.get_width() // 2, annuler.get_height() // 2, 1, pomper)
+    assert fenetre.onglets.get_n_pages() == etiquettes
+    # le rappel « annuler » a tourné, l'animation de fermeture est finie
+    assert contenu not in fenetre.confirmations_onglets
+    _attendre_disparition(dialogue, pomper)
+
+    # option désactivée : fermeture directe
+    fenetre.config.options.confirm_close_tab_middle = False
+    _clic_sur(etiquette, etiquette.get_width() // 4, etiquette.get_height() // 2, 2, pomper)
+    assert fenetre.onglets.get_n_pages() == etiquettes - 1
 
 
 def test_f2_renomme_un_groupe(app_fixture, pomper):

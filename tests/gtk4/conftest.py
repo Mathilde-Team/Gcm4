@@ -17,6 +17,14 @@ from pathlib import Path
 
 import pytest
 
+# Les terminaux utilisent aussi WebKit (#76), y compris dans les sous-suites
+# local/Wayland et Debian 12 qui ne collectent pas les tests du plugin web.
+# bubblewrap ne peut pas créer ses espaces de noms dans les conteneurs CI :
+# conserver ici le réglage auparavant posé par ces seuls modules de test,
+# avant toute création de WebView. Seulement le processus pytest en hérite ;
+# l'application conserve son sandbox. Pages embarquées et serveurs locaux.
+os.environ.setdefault("WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS", "1")
+
 
 def _gtk4_disponible() -> bool:
     try:

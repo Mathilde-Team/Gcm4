@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:33+0000\n"
+"POT-Creation-Date: 2026-11-08 13:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -467,8 +467,8 @@ msgstr ""
 msgid "🔍  Scan VirtualBox hosts"
 msgstr "🔍  Proxmox होस्ट स्कैन करें"
 
-#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/pluginvnc2/gtk4.py
+#: plugins/serial/gtk4.py plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "{program} नहीं मिला"
@@ -773,6 +773,34 @@ msgstr ""
 msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
 
+#: plugins/pluginvnc2/core.py
+msgid "VNC display number must be between 0 and 59635."
+msgstr "VNC डिस्प्ले संख्या 0 से 59635 के बीच होनी चाहिए।"
+
+#: plugins/pluginvnc2/gtk4.py src/gcm4/ui/host_dialog.py
+msgid "Display"
+msgstr "प्रदर्शन"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "Fullscreen"
+msgstr "पूर्ण स्क्रीन"
+
+#: plugins/pluginvnc2/gtk4.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr "क्लिपबोर्ड साझा करें"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "Shared session (VNC)"
+msgstr "साझा सत्र (VNC)"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "VNC needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
+msgstr "VNC के लिए GTK मुख्य लूप में asyncio आवश्यक है (PyGObject 3.50 या नया)"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "View only"
+msgstr "केवल देखें"
+
 #: plugins/rdp/core.py
 msgid "Choose the folder to share"
 msgstr ""
@@ -804,6 +832,10 @@ msgstr ""
 #: plugins/rdp/gtk4.py
 #, python-brace-format
 msgid "AsyncRdp is not available ({error}). Install asyncrdp and set 'integrations' in the [plugin rdp] section to the integrations/gtk4 folder of AsyncRdp4."
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Audio capture"
 msgstr ""
 
 #: plugins/rdp/gtk4.py plugins/sftp/gtk4.py
@@ -845,6 +877,12 @@ msgid "Ignore certificate errors"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Fullscreen"
+msgid "Multi-screen"
+msgstr "पूर्ण स्क्रीन"
+
+#: plugins/rdp/gtk4.py
 #, fuzzy, python-brace-format
 #| msgid "Initialization failed: {error}"
 msgid "RDP connection to {host} failed: {error}"
@@ -860,9 +898,9 @@ msgstr ""
 msgid "RemoteApp"
 msgstr "रिमोट"
 
-#: plugins/rdp/gtk4.py
-msgid "Share clipboard"
-msgstr ""
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "ऑडियो साझा करें"
 
 #: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
@@ -874,6 +912,16 @@ msgstr "साझा किए गए फ़ोल्डर का पथ"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Share USB devices"
+msgid "USB devices"
+msgstr "USB डिवाइस साझा करें"
+
+#: plugins/rdp/gtk4.py
+msgid "id:046d:0825, id:046d:0826"
 msgstr ""
 
 #: plugins/serial/gtk4.py
@@ -1359,10 +1407,6 @@ msgstr "सत्र समाप्त हुआ"
 #: plugins/spice/gtk4.py
 msgid "Share USB devices"
 msgstr "USB डिवाइस साझा करें"
-
-#: plugins/spice/gtk4.py
-msgid "Share audio"
-msgstr "ऑडियो साझा करें"
 
 #: plugins/spice/gtk4.py
 msgid "TLS port"
@@ -3060,7 +3104,7 @@ msgstr "छोड़ें"
 msgid "Save configuration as…"
 msgstr "कॉन्फ़िगरेशन इस रूप में सहेजें…"
 
-#: src/gcm4/core/menu.py
+#: src/gcm4/core/menu.py src/gcm4/ui/xterm.py
 msgid "Search"
 msgstr "खोजें"
 
@@ -3341,10 +3385,6 @@ msgstr "छोड़ें"
 #: src/gcm4/ui/host_dialog.py
 msgid "Discard changes?"
 msgstr "बदलाव छोड़ें?"
-
-#: src/gcm4/ui/host_dialog.py
-msgid "Display"
-msgstr "प्रदर्शन"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Errors"
@@ -3866,7 +3906,7 @@ msgstr "होस्ट विंडो में वैकल्पिक स�
 msgid "Dynamic title"
 msgstr "डायनामिक शीर्षक"
 
-#: src/gcm4/ui/preferences.py
+#: src/gcm4/ui/preferences.py src/gcm4/ui/xterm.py
 msgid "Error"
 msgstr "त्रुटि"
 
