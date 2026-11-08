@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 20:18+0000\n"
+"POT-Creation-Date: 2026-11-08 08:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -567,8 +567,8 @@ msgid "No open consoles"
 msgstr "Ei avoimia konsoleja"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
-#: plugins/plugin_spice.py
+#: plugins/netmiko_push/gtk4.py plugins/plugin_spice.py
+#: plugins/snmp_push/gtk4.py
 msgid "OK"
 msgstr "OK"
 
@@ -2347,17 +2347,17 @@ msgid "The base application provides no protocol by itself: connections need the
 msgstr "Perussovellus ei itse tarjoa yhtään protokollaa: yhteydet tarvitsevat vastaavan laajennuksen."
 
 #: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
-#: plugins/plugin_snmp_push.py
+#: plugins/snmp_push/gtk4.py
 msgid "1. Configuration"
 msgstr ""
 
 #: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
-#: plugins/plugin_snmp_push.py
+#: plugins/snmp_push/gtk4.py
 msgid "2. Suivi"
 msgstr ""
 
 #: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
-#: plugins/plugin_snmp_push.py
+#: plugins/snmp_push/gtk4.py
 msgid "3. Résultats"
 msgstr ""
 
@@ -2727,7 +2727,7 @@ msgstr "🔍  Etsi Proxmox-isännät"
 msgid "{program} not found"
 msgstr "Ohjelmaa {program} ei löydy"
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "0 / {n}"
 msgstr ""
@@ -2736,23 +2736,23 @@ msgstr ""
 msgid "Afficher les mots de passe"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Annuler l'envoi"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Aucune ligne cochée."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Charger l'inventaire"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Chargez d'abord un inventaire."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Choisir un fichier…"
 msgstr "Valitse tiedosto…"
 
@@ -2760,7 +2760,7 @@ msgstr "Valitse tiedosto…"
 msgid "Choisissez d'abord un fichier profiles.ini."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Choisissez l'inventaire CSV et le gabarit."
 msgstr ""
 
@@ -2776,7 +2776,7 @@ msgstr ""
 msgid "Connexions en parallèle :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Constructeur"
 msgstr ""
 
@@ -2784,7 +2784,7 @@ msgstr ""
 msgid "Constructeur :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Durée (s)"
 msgstr ""
 
@@ -2792,75 +2792,75 @@ msgstr ""
 msgid "Déploiement Netmiko…"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Détail"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "En attente"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "En attente : {n}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "En cours"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Enregistrer ce profil"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Erreur d'écriture : {e}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Erreur de chargement : {e}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Fichier :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, fuzzy
 #| msgid "Invalid entry in configuration file"
 msgid "Gabarit de configuration :"
 msgstr "Virheellinen merkintä asetustiedostossa"
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, fuzzy
 #| msgid "IP / Host"
 msgid "IP / hôte"
 msgstr "IP / Isäntä"
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Ignoré"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Impossible de lire le journal : {e}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Inventaire (CSV) :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Lancer le déploiement →"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Le profil doit avoir un nom."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Ligne"
 msgstr ""
 
@@ -2880,24 +2880,24 @@ msgstr ""
 msgid "Netmiko"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Nom"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Nom du profil (= colonne 'type'/'profile' du CSV) :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Nouveau"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "OK : {n}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Ouvrir le dossier des journaux"
 msgstr ""
 
@@ -2907,11 +2907,11 @@ msgstr ""
 msgid "Port :"
 msgstr "Portti"
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Profil"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Profil '{n}' mis à jour (en mémoire)."
 msgstr ""
@@ -2925,16 +2925,16 @@ msgstr ""
 msgid "Profils de connexion (constructeur, identifiants…)"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Profils écrits dans {p}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Rejeté"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Rejetés : {n}"
 msgstr ""
@@ -2943,13 +2943,13 @@ msgstr ""
 msgid "Sauvegarder la configuration après envoi"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, fuzzy
 #| msgid "State"
 msgid "Statut"
 msgstr "Tila"
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Supprimer"
 msgstr ""
 
@@ -2957,12 +2957,12 @@ msgstr ""
 msgid "Timeout (s) :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Total : {total}  |  OK : {ok}  |  Rejetés : {rejected}  |  Échecs : {failed}  |  Ignorés : {skipped}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Utilisateur"
 msgstr ""
 
@@ -2970,7 +2970,7 @@ msgstr ""
 msgid "Utilisateur :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Validation : {ok} prêt(s), {err} en erreur."
 msgstr ""
@@ -2979,11 +2979,11 @@ msgstr ""
 msgid "Valider (à blanc, sans se connecter)"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Variables"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Voir les résultats →"
 msgstr ""
 
@@ -2991,21 +2991,21 @@ msgstr ""
 msgid "device_type"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "{d} / {n}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "{n} hôte(s) chargé(s) depuis {csv}."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Échec"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Échecs : {n}"
 msgstr ""
@@ -3014,11 +3014,11 @@ msgstr ""
 msgid "Écrire profiles.ini sur disque"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "← Nouveau déploiement"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
@@ -3269,153 +3269,6 @@ msgstr "xfreerdp-asetukset:"
 
 #: plugins/plugin_serial.py
 msgid "— custom —"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "(aucun)"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "(aucune)"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Afficher les secrets"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Aucune exécution pour le moment."
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Choisissez d'abord un fichier snmp_profiles.ini."
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Choisissez un constructeur."
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Clé d'authentification (v3) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Clé de confidentialité (v3) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Communauté (v2c, en écriture — jamais 'public') :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Constructeur (driver de push SNMP) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Déploiement SNMP…"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "En attente : 0"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Envois en parallèle :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Envoyer"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "IP du serveur de dépôt (TFTP/FTP/SFTP) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "OK : 0"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Port SNMP :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Profils SNMP (constructeur, identifiants…)"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Profils SNMP chargés depuis {p}"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Protocole d'authentification (v3) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Protocole de confidentialité (v3) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Push SNMP"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Rejetés : 0"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "SNMP"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Serveur de dépôt du fichier (SFTP / FTP / TFTP)"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Timeout requête SNMP (s) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Utilisateur USM (v3) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Valider (à blanc, sans envoyer)"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Version SNMP :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "snmp_profiles.ini"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Échecs : 0"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Écrire snmp_profiles.ini sur disque"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "⚠ L'équipement doit pouvoir joindre ce serveur pour aller chercher le fichier de configuration. Les paramètres de transfert (protocole, credentials) doivent être configurés à part."
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "⚠ profil inconnu : {p}"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "⚠ variables manquantes : {v}"
 msgstr ""
 
 #: plugins/plugin_spice.py
@@ -4164,7 +4017,155 @@ msgstr ""
 msgid "{path}: {count} items"
 msgstr ""
 
-#
+#: plugins/snmp_push/gtk4.py
+msgid "(aucun)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "(aucune)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "(automatique)"
+msgstr "(Automaattinen)"
+
+#: plugins/snmp_push/gtk4.py
+msgid "Adresse du serveur de dépôt :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Afficher les secrets"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Choisissez d'abord un fichier snmp_profiles.ini."
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Choisissez un constructeur."
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Clé d'authentification (v3) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Clé de confidentialité (v3) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Communauté (v2c, en écriture — jamais 'public') :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Constructeur (driver de push SNMP) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Dossier distant du dépôt :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Déploiement SNMP…"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Déposer le fichier rendu sur ce serveur avant l'envoi SNMP"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Envois en parallèle :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Mot de passe (SFTP/FTP) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Port (0 = défaut du protocole) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Port SNMP :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Profils SNMP (constructeur, identifiants…)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+#, python-brace-format
+msgid "Profils SNMP chargés depuis {p}"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Protocole d'authentification (v3) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Protocole de confidentialité (v3) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Protocole de dépôt :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Protocole de récupération par l'équipement :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Push SNMP"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "SNMP"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "SNMPv2c (communauté)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "SNMPv3 (USM, auth+priv)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Serveur de dépôt du fichier (SFTP / FTP / TFTP)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Timeout requête SNMP (s) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Utilisateur (SFTP/FTP) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Utilisateur USM (v3) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Valider (à blanc, sans envoyer)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Version SNMP :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Écrire snmp_profiles.ini sur disque"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "⚠ L'équipement doit pouvoir joindre ce serveur pour aller chercher le fichier de configuration. Les paramètres de transfert (protocole, credentials) doivent être configurés à part."
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
+msgstr ""
+
 #: plugins/ssh/gtk4.py src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm"
 msgstr "Vahvista"
@@ -4208,7 +4209,6 @@ msgstr "gcm4: asetuksia {old} ei voitu kopioida kohteeseen {new} ({error})."
 msgid "A stored password is corrupted."
 msgstr "Tallennettu salasana on vioittunut."
 
-#
 #: src/gcm4/core/chiffrement.py
 msgid "Incorrect master password."
 msgstr "Väärä pääsalasana."
@@ -4236,7 +4236,6 @@ msgstr "Salausavain %s on suojattu pääsalasanalla."
 msgid "The encryption key is already protected by a master password."
 msgstr "Salausavain on jo suojattu pääsalasanalla."
 
-#
 #: src/gcm4/core/chiffrement.py
 msgid "The encryption key is not protected by a master password."
 msgstr "Salausavainta ei ole suojattu pääsalasanalla."
@@ -4812,7 +4811,6 @@ msgstr "Ei"
 msgid "Version {version} is available"
 msgstr "Versio {version} on saatavilla"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Change the master password"
 msgstr "Vaihda pääsalasana"
@@ -4821,17 +4819,14 @@ msgstr "Vaihda pääsalasana"
 msgid "Change…"
 msgstr "Vaihda…"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm the new master password"
 msgstr "Vahvista uusi pääsalasana"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Current master password"
 msgstr "Nykyinen pääsalasana"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable the master password"
 msgstr "Poista pääsalasana käytöstä"
@@ -4841,12 +4836,10 @@ msgstr "Poista pääsalasana käytöstä"
 msgid "Disabled"
 msgstr "Ei käytössä"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Disable…"
 msgstr "Poista käytöstä…"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Enable the master password"
 msgstr "Ota pääsalasana käyttöön"
@@ -4871,12 +4864,10 @@ msgstr "Avaa tallennetut salasanat antamalla pääsalasana."
 msgid "Enter the recovery code, then choose a new master password."
 msgstr "Anna palautuskoodi ja valitse sitten uusi pääsalasana."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password"
 msgstr "Unohtunut salasana"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Forgot password?"
 msgstr "Unohtuiko salasana?"
@@ -4885,27 +4876,22 @@ msgstr "Unohtuiko salasana?"
 msgid "I have written it down"
 msgstr "Olen kirjoittanut sen muistiin"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password"
 msgstr "Pääsalasana"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password changed."
 msgstr "Pääsalasana vaihdettu."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password disabled."
 msgstr "Pääsalasana poistettu käytöstä."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Master password enabled."
 msgstr "Pääsalasana otettu käyttöön."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "New master password"
 msgstr "Uusi pääsalasana"
@@ -4926,7 +4912,6 @@ msgstr "Uusi palautuskoodi…"
 msgid "Optional. Protects the key that encrypts the stored passwords: it will be asked at startup. A recovery code is shown once when it is enabled."
 msgstr "Valinnainen. Suojaa avaimen, joka salaa tallennetut salasanat: se kysytään käynnistettäessä. Palautuskoodi näytetään kerran käyttöönoton yhteydessä."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Passwords locked"
 msgstr "Salasanat lukittu"
@@ -4935,7 +4920,6 @@ msgstr "Salasanat lukittu"
 msgid "Recovery code"
 msgstr "Palautuskoodi"
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Status"
 msgstr "Tila"
@@ -4960,7 +4944,6 @@ msgstr "Palautuskoodi pysyy voimassa."
 msgid "The two passwords do not match."
 msgstr "Salasanat eivät täsmää."
 
-#
 #: src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Unavailable: the configuration is not loaded."
 msgstr "Ei käytettävissä: asetuksia ei ole ladattu."
@@ -5225,17 +5208,14 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Komentoriville välitettävät lisäargumentit"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from CSV"
 #~ msgstr "Tuo libvirtistä"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from JSON"
 #~ msgstr "Tuo libvirtistä"
 
 #, fuzzy
-#~| msgid "Import from libvirt"
 #~ msgid "Import from JSON…"
 #~ msgstr "Tuo libvirtistä"
 
@@ -5273,7 +5253,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Tallenna aktiivisen konsolin puskuri tiedostoon"
 
 #, fuzzy
-#~| msgid "Waiting…"
 #~ msgid "Scanning…"
 #~ msgstr "Odotetaan…"
 
@@ -5293,9 +5272,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Jaa konsoli pystysuunnassa"
 
 #, fuzzy
-#~| msgid ""
-#~| "No URI found in dconf (virt-manager not configured?).\n"
-#~| "Add your URIs manually below."
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -5355,17 +5331,14 @@ msgstr "Näytä ikkuna"
 #~ msgstr "xfreerdp-loki:"
 
 #, fuzzy, python-brace-format
-#~| msgid "Import from Proxmox"
 #~ msgid "{n} connection(s) imported from Proxmox."
 #~ msgstr "Tuo Proxmoxista"
 
 #, fuzzy, python-brace-format
-#~| msgid "Import from libvirt"
 #~ msgid "{n} connection(s) imported from VirtualBox."
 #~ msgstr "Tuo libvirtistä"
 
 #, fuzzy, python-brace-format
-#~| msgid "Import from libvirt"
 #~ msgid "{n} connection(s) imported from libvirt."
 #~ msgstr "Tuo libvirtistä"
 
