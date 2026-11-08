@@ -110,6 +110,7 @@ ci:
 	GCM_TESTS_EXIGES=gettext uv run python -m pytest tests/ -q -rs --cov --cov-report=term-missing:skip-covered --cov-fail-under=0
 	uv run coverage report --include='src/gcm4/core/*' --fail-under=95
 	uv run mypy
+	bash scripts/test-wayland.sh
 	uv run python tools/validate_po.py lang/*.po
 	scripts/i18n-update.sh --check
 	scripts/check-desktop.sh
