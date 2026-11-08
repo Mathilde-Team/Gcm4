@@ -25,14 +25,12 @@ testés ici — voir l'issue #72 pour le suivi.
 from __future__ import annotations
 
 import ctypes
-import os
 import shutil
 import subprocess
 import time
 from collections.abc import Callable
 
 import pytest
-from gi.repository import Gtk  # noqa: E402  (après require_version)
 
 import gcm4.ui  # noqa: F401  (require_version avant gi.repository)
 from gcm4.core.i18n import _
@@ -89,40 +87,6 @@ def _xdotool(*arguments: str) -> str:
     return resultat.stdout
 
 
-def _etat_pointeur() -> str:
-    """État des modificateurs et boutons du serveur X (masque XQueryPointer).
-
-    Diagnostic #72 : un bouton ou un modificateur resté enfoncé fausse tout
-    le clavier et la souris XTEST qui suivent. ``xdotool`` ne le révèle pas.
-    """
-    x11 = ctypes.CDLL("libX11.so.6")
-    affichage = x11.XOpenDisplay(None)
-    assert affichage, "serveur X du test inaccessible"
-    try:
-        racine = ctypes.c_ulong()
-        enfant = ctypes.c_ulong()
-        racine_x = ctypes.c_int()
-        racine_y = ctypes.c_int()
-        x = ctypes.c_int()
-        y = ctypes.c_int()
-        masque = ctypes.c_uint()
-        fenetre = x11.XDefaultRootWindow(affichage)
-        x11.XQueryPointer(
-            affichage,
-            fenetre,
-            ctypes.byref(racine),
-            ctypes.byref(enfant),
-            ctypes.byref(racine_x),
-            ctypes.byref(racine_y),
-            ctypes.byref(x),
-            ctypes.byref(y),
-            ctypes.byref(masque),
-        )
-        return hex(masque.value)
-    finally:
-        x11.XCloseDisplay(affichage)
-
-
 def _position_fenetre(widget) -> tuple[int, int]:
     """Origine écran de la zone cliente de la fenêtre de ``widget``.
 
@@ -139,11 +103,6 @@ def _position_fenetre(widget) -> tuple[int, int]:
     marge_y = (surface.get_height() - fenetre.get_height()) // 2
     coquille = _xdotool("getwindowgeometry", "--shell", str(surface.get_xid()))
     valeurs = dict(ligne.split("=", 1) for ligne in coquille.splitlines() if "=" in ligne)
-    print(
-        f"GEOMETRIE: surface=({surface.get_width()},{surface.get_height()}) "
-        f"widget=({fenetre.get_width()},{fenetre.get_height()}) marge=({marge_x},{marge_y}) "
-        f"X11=({valeurs['X']},{valeurs['Y']}) client=({int(valeurs['X']) + marge_x},{int(valeurs['Y']) + marge_y})"
-    )
     return int(valeurs["X"]) + marge_x, int(valeurs["Y"]) + marge_y
 
 
@@ -279,6 +238,13 @@ def _clic_sur(
     serveur X du test coalesce parfois les pressions et VTE ne voit qu'un
     clic simple. Un widget d'un dialogue qui vient de s'ouvrir attend
     sa première allocation (nulle le temps de l'animation d'ouverture).
+
+    Les clics visant l'enfant droit du ``Gtk.Paned`` restent à distance
+    du séparateur : jusqu'à GTK 4.12, le geste de glissement du panneau
+    revendique les pressions bouton-1 tombant dans la marge de sa
+    poignée ; la pression est alors consommée et n'atteint jamais
+    l'enfant (constaté #72 : un clic à 10 px du bord gauche du terminal
+    ne lui donne jamais le focus sous Debian 12 / GTK 4.8).
     """
     _attendre_allocation(widget, pomper)
     _activer(widget)
@@ -290,36 +256,16 @@ def _clic_sur(
     for _essai in range(10):
         x, y = _position_dans_fenetre(widget, dx, dy)
         pique = racine.pick(x, y, Gtk.PickFlags.DEFAULT)
-        print(
-            f"PICK: essai={_essai} à ({x},{y}) "
-            f"pique={type(pique).__name__ if pique is not None else None}"
-        )
         if pique is None or _est_dans(pique, widget):
             break
         pomper(2)  # la mise en page bouge encore : on la laisse se calmer
     ox, oy = _position_fenetre(widget)
-    # diagnostic : où le clic part-il vraiment ? (visible dans le journal
-    # des tests échoués)
-    print(
-        f"CLIC {type(widget).__name__} fenetre=({ox},{oy}) "
-        f"dans_fenetre=({x},{y}) abs=({int(ox + x)},{int(oy + y)})"
-    )
-    print("ETAT SOURIS: " + _etat_pointeur())
     _xdotool("mousemove", str(int(ox + x)), str(int(oy + y)))
-    try:
-        print("POINTEUR: " + _xdotool("getmouselocation").replace("\n", " "))
-    except Exception as erreur:  # diagnostic purement informatif
-        print(f"POINTEUR: échec ({erreur!r})")
     if repetitions == 1:
         _xdotool("click", str(bouton))
     else:
         _xdotool("click", "--repeat", str(repetitions), "--delay", "250", str(bouton))
     pomper()
-    pique_apres = racine.pick(x, y, Gtk.PickFlags.DEFAULT)
-    print(
-        f"PICK APRÈS CLIC: {type(pique_apres).__name__ if pique_apres is not None else None} "
-        f"à ({x},{y})"
-    )
 
 
 #: Keycodes du serveur X, lus une seule fois (valeur keysym → keycode).
@@ -529,20 +475,6 @@ def _terminal_en_onglet(fenetre, pomper):
     return terminal
 
 
-def _afficher_arbre(widget, profondeur: int = 0) -> None:
-    """Diagnostic : arbre des enfants avec tailles (journal des échecs)."""
-    print(
-        "  "
-        * profondeur
-        + f"{type(widget).__name__} ({widget.get_width()}x{widget.get_height()}) "
-        f"visible={widget.get_visible()}"
-    )
-    enfant = widget.get_first_child()
-    while enfant is not None:
-        _afficher_arbre(enfant, profondeur + 1)
-        enfant = enfant.get_next_sibling()
-
-
 def _bouton(racine, libelle: str):
     """Premier ``Gtk.Button`` alloué de l'arbre de ``racine`` portant ``libelle``.
 
@@ -580,17 +512,9 @@ def test_selection_mot_et_ligne_du_terminal(app_fixture, pomper):
 
     # clic simple de prise de focus, sur une zone sans texte : les
     # pressions suivantes, à une autre position, repartent d'un clic
-    # simple (le déplacement remet le compteur de clics à zéro)
-    _clic_sur(terminal, 10, terminal.get_height() - 10, 1, pomper)
-    chaine: list[str] = []
-    courant_focus = fenetre.get_focus()
-    while courant_focus is not None:
-        chaine.append(type(courant_focus).__name__)
-        courant_focus = courant_focus.get_parent()
-    print(
-        f"ETAT: focus={' < '.join(chaine)} "
-        f"terminal taille=({terminal.get_width()},{terminal.get_height()})"
-    )
+    # simple (le déplacement remet le compteur de clics à zéro) ; assez
+    # loin du séparateur pour échapper au geste de glissement du panneau
+    _clic_sur(terminal, 60, terminal.get_height() - 10, 1, pomper)
     assert terminal.has_focus()
 
     # triple-clic sur la ligne « gamma delta » (ligne 1) : ligne entière
@@ -609,53 +533,17 @@ def test_focus_apres_clic_simple(app_fixture, pomper):
     app, _dossier = app_fixture
     fenetre = app.get_active_window()
     terminal = _terminal_en_onglet(fenetre, pomper)
-    # DIAGNOSTIC #72 : jusqu'où le clic XTEST descend-il dans l'arbre ?
-    _sonde = terminal
-    _cibles_sonde: list[Gtk.Widget] = []
-    while _sonde is not None:
-        _cibles_sonde.append(_sonde)
-        _sonde = _sonde.get_parent()
-    for _cible in _cibles_sonde:
-        _geste = Gtk.GestureClick()
-        _geste.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
-        if _cible is fenetre:
-
-            def _sonde_presse(_g, _n, _x, _y):
-                _p = fenetre.pick(_x, _y, Gtk.PickFlags.DEFAULT)
-                print(
-                    f"SONDE CAPTURE (fenêtre): pressé n={_n} à ({_x:.0f},{_y:.0f}) "
-                    f"cible_réelle={type(_p).__name__ if _p is not None else None}"
-                )
-
-        else:
-
-            def _sonde_presse(_g, _n, _x, _y, _c=_cible):
-                print(f"SONDE CAPTURE ({type(_c).__name__}): pressé n={_n} à ({_x:.0f},{_y:.0f})")
-
-        _geste.connect("pressed", _sonde_presse)
-        _cible.add_controller(_geste)
     # le focus part de la recherche, pas du terminal
     _clic_sur(fenetre.arbre.recherche, 30, 10, 1, pomper)
     assert not terminal.has_focus()
-    _clic_sur(terminal, 10, 10, 1, pomper)
-    print(f"SONDE: has_focus={terminal.has_focus()} focus={type(fenetre.get_focus()).__name__}")
-    _avant_grab = terminal.has_focus()
-    print(f"SONDE: grab_focus direct → {terminal.grab_focus()}")
-    pomper()
-    print(f"SONDE: après grab direct, has_focus={terminal.has_focus()}")
-    if not _avant_grab:
-        # remettre le focus d'avant la sonde : le test doit mesurer le geste
-        fenetre.arbre.recherche.grab_focus()
-        pomper()
-    chaine: list[str] = []
-    courant_focus = fenetre.get_focus()
-    while courant_focus is not None:
-        chaine.append(type(courant_focus).__name__)
-        courant_focus = courant_focus.get_parent()
+    # clic au milieu du terminal : le bord gauche est trop proche du
+    # séparateur, que le geste de glissement du ``Gtk.Paned`` revendique
+    # jusque GTK 4.12 (la pression y est consommée, sans focus)
     print(
-        f"ETAT: focus={' < '.join(chaine)} "
-        f"terminal taille=({terminal.get_width()},{terminal.get_height()})"
+        f"SONDE: séparateur={fenetre.separateur.get_position()}px "
+        f"terminal={terminal.get_width()}x{terminal.get_height()}"
     )
+    _clic_sur(terminal, terminal.get_width() // 2, terminal.get_height() // 2, 1, pomper)
     assert terminal.has_focus()
 
 
@@ -680,7 +568,6 @@ def test_clic_milieu_ferme_l_onglet(app_fixture, pomper):
     annuler = _bouton(dialogue, _("Cancel"))
     assert annuler is not None
     _attendre_presentation(dialogue, pomper)
-    _afficher_arbre(dialogue)
     _clic_sur(annuler, annuler.get_width() // 2, annuler.get_height() // 2, 1, pomper)
     assert fenetre.onglets.get_n_pages() == etiquettes
     # le rappel « annuler » a tourné, l'animation de fermeture est finie
@@ -722,47 +609,16 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
         racine = racine.get_parent()
     assert _est_dans(racine.get_focus(), entree)
     _activer(entree)  # vieux Adw : fenêtre X séparée, le clavier X y va
-    print("X FOCUS: " + _xdotool("getwindowfocus").strip())
-    # DIAGNOSTIC #72 : où les lettres meurent-elles ?
-    print(
-        "SONDE CLAVIER: "
-        f"GTK_IM_MODULE={os.environ.get('GTK_IM_MODULE')!r} "
-        f"XMODIFIERS={os.environ.get('XMODIFIERS')!r} "
-        f"gtk-im-module={Gtk.Settings.get_default().get_property('gtk-im-module')!r}"
-    )
-    _texte_focus = racine.get_focus()
-    _sonde_texte = Gtk.EventControllerKey()
-    _sonde_texte.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
-    _sonde_texte.connect(
-        "key-pressed",
-        lambda _c, valeur, _code, etat: (
-            print(f"SONDE CLAVIER (focus, capture): {valeur} état={etat:x}"),
-            False,
-        )[1],
-    )
-    _texte_focus.add_controller(_sonde_texte)
-    # DIAGNOSTIC #72 : l'entrée reçoit-elle jamais une insertion ?
-    _historique: list[str] = []
-    entree.connect("changed", lambda *_: _historique.append(f"changed→{entree.get_text()!r}"))
-    entree.connect("insert-text", lambda _e, texte, *_: _historique.append(f"insert {texte!r}"))
-    for _cible, _nom in ((racine, "dialogue"), (fenetre, "principale")):
-        _controleur = Gtk.EventControllerKey()
-        for _signal in ("key-pressed", "key-released"):
-            _controleur.connect(
-                _signal,
-                lambda _c, valeur, _code, _etat, _nom=_nom, _signal=_signal: (
-                    print(f"TOUCHE {_signal[4:]} ({_nom}): {valeur}"),
-                    False,
-                )[1],
-            )
-        _cible.add_controller(_controleur)
     _touche("a", avec_ctrl=True)
     _xdotool("type", "--delay", "30", "LABO")
-    print(f"ETAT: entrée={entree.get_text()!r} après frappe")
+    # la frappe doit être inscrite avant la validation : sans cette pompe,
+    # les lettres et le Return se jouent dans le même lot d'événements et
+    # la réponse du dialogue peut être lue avant les insertions (constaté
+    # #72 sous GTK 4.8 : renommage en « LAB », donc sans effet)
+    pomper()
+    assert entree.get_text() == "LABO"
     _touche("Return")
     pomper()
-    print(f"SONDE INSERTION: historique={_historique}")
-    print(f"ETAT FINAL: entrée={entree.get_text()!r}")
     _attendre_disparition(menu.dialogue, pomper)
     visibles = {chemin for _, chemin in arbre.lignes_visibles()}
     assert "LABO" in visibles
