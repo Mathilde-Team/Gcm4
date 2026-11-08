@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2230,6 +2230,7 @@ msgid "Custom commands"
 msgstr "Lệnh tùy chỉnh"
 
 #: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/spice/gtk4.py
 msgid "Disconnect"
 msgstr "Ngắt kết nối"
 
@@ -2421,11 +2422,12 @@ msgid "Target already present: {uri}"
 msgstr ""
 
 #: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+#: plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "Tên VM"
 
 #: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/web/gtk4.py
+#: plugins/plugin_vnc.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Đang chờ…"
 
@@ -3027,9 +3029,9 @@ msgid ""
 "E.g.: {example}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "CA certificate"
-msgstr ""
+msgstr "Chứng chỉ CA"
 
 #: plugins/plugin_spice.py
 msgid "Configuration SPICE invalide"
@@ -3039,28 +3041,26 @@ msgstr ""
 msgid "Connecting…"
 msgstr "Đang kết nối…"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Direct URI"
-msgstr ""
+msgstr "URI trực tiếp"
 
 #: plugins/plugin_spice.py
 msgid "Drag and drop a file here to send it to the VM (requires spice-vdagent)"
 msgstr ""
 
-#: plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/spice/gtk4.py
 #, python-brace-format
 msgid "Ended (code {rc})"
 msgstr "Đã kết thúc (mã {rc})"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Error connecting to server"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Error launching viewer"
-msgstr "Lỗi kết nối đến server"
+msgstr "Lỗi khi khởi chạy trình xem"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/core.py
 msgid "Error: Proxmox node and VMID required"
-msgstr ""
+msgstr "Lỗi: Cần có nút Proxmox và VMID"
 
 #: plugins/plugin_spice.py
 msgid "Error: VM name required"
@@ -3070,9 +3070,9 @@ msgstr ""
 msgid "Error: could not mount the ISO"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/core.py
 msgid "Error: libvirt URI required"
-msgstr ""
+msgstr "Lỗi: Cần có URI libvirt"
 
 #: plugins/plugin_spice.py
 msgid "Fermer"
@@ -3083,58 +3083,57 @@ msgstr ""
 msgid "No SPICE console for {vm}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Proxmox node"
-msgstr ""
+msgstr "Nút Proxmox"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "SPICE"
-msgstr ""
+msgstr "SPICE"
 
 #: plugins/plugin_spice.py
 #, python-brace-format
 msgid "SPICE disabled for {vm}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/core.py
 #, python-brace-format
 msgid "SPICE ticket error: {out}"
-msgstr ""
+msgstr "Lỗi vé SPICE: {out}"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 #, python-brace-format
 msgid "SSH error: {exc}"
-msgstr ""
+msgstr "Lỗi SSH: {exc}"
 
-#: plugins/plugin_spice.py plugins/plugin_vnc.py src/gcm4/ui/terminal.py
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/spice/gtk4.py
+#: src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "Phiên đã kết thúc"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Share USB devices"
-msgstr ""
+msgstr "Chia sẻ thiết bị USB"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Share audio"
-msgstr ""
+msgstr "Chia sẻ âm thanh"
 
 #: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Chia sẻ thư mục"
 
-#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Đường dẫn thư mục được chia sẻ"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Serial port:"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "TLS port"
-msgstr "Cổng serial:"
+msgstr "Cổng TLS"
 
 #: plugins/plugin_spice.py
 #, python-brace-format
@@ -3150,25 +3149,21 @@ msgstr ""
 msgid "VM introuvable : {vm}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "VMID"
-msgstr ""
+msgstr "VMID"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Via Proxmox"
-msgstr ""
+msgstr "Qua Proxmox"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Libvirt"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Via libvirt"
-msgstr "Libvirt"
+msgstr "Qua libvirt"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Detected libvirt URI"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "libvirt URI"
-msgstr "URI libvirt được phát hiện"
+msgstr "URI libvirt"
 
 #: plugins/plugin_spice.py
 #, python-brace-format
@@ -3960,6 +3955,45 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Chọn thư mục để chia sẻ."
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Tham số bổ sung không hợp lệ: {error}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "Cổng TLS phải là một số từ 1 đến 65535."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "vé chưa hoàn chỉnh"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Đã mở bằng {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Kết nối lại"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "Đang yêu cầu vé SPICE…"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "Phiên SPICE sẽ mở trong một cửa sổ remote-viewer riêng."
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "Không tìm thấy {program}: hãy cài đặt gói virt-viewer"
 
 #: plugins/ssh/gtk4.py src/gcm4/ui/main_window.py
 msgid "Configuration not loaded"
@@ -5048,7 +5082,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Đối số bổ sung truyền cho dòng lệnh"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Điều khiển luồng:"
 
@@ -5105,7 +5138,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Số bit dữ liệu trên mỗi byte (8 = chuẩn)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Thêm"
 
@@ -5135,7 +5167,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Gửi lệnh đến nhiều host cùng lúc"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "serial"
 
@@ -5152,7 +5183,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Chia console theo chiều dọc"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Bit stop:"
 
@@ -5160,7 +5190,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Bit stop: 1 = chuẩn, 2 = RS-485 / phần cứng cũ"
 
 #, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Mẫu:"
 

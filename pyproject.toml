@@ -167,6 +167,7 @@ files = [
     "plugins/ssh/session.py",
     "plugins/sftp/core.py",
     "plugins/telnet/core.py",
+    "plugins/spice/core.py",
 ]
 ignore_missing_imports = true
 follow_imports = "silent"

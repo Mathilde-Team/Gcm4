@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2230,6 +2230,7 @@ msgid "Custom commands"
 msgstr "Özel komutlar"
 
 #: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/spice/gtk4.py
 msgid "Disconnect"
 msgstr "Bağlantıyı kes"
 
@@ -2421,11 +2422,12 @@ msgid "Target already present: {uri}"
 msgstr ""
 
 #: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+#: plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM adı"
 
 #: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/web/gtk4.py
+#: plugins/plugin_vnc.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Bekleniyor…"
 
@@ -3027,9 +3029,9 @@ msgid ""
 "E.g.: {example}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "CA certificate"
-msgstr ""
+msgstr "CA sertifikası"
 
 #: plugins/plugin_spice.py
 msgid "Configuration SPICE invalide"
@@ -3039,28 +3041,26 @@ msgstr ""
 msgid "Connecting…"
 msgstr "Bağlanıyor…"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Direct URI"
-msgstr ""
+msgstr "Doğrudan URI"
 
 #: plugins/plugin_spice.py
 msgid "Drag and drop a file here to send it to the VM (requires spice-vdagent)"
 msgstr ""
 
-#: plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/spice/gtk4.py
 #, python-brace-format
 msgid "Ended (code {rc})"
 msgstr "Sona erdi (kod {rc})"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Error connecting to server"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Error launching viewer"
-msgstr "Sunucuya bağlanırken hata"
+msgstr "Görüntüleyici başlatılırken hata oluştu"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/core.py
 msgid "Error: Proxmox node and VMID required"
-msgstr ""
+msgstr "Hata: Proxmox düğümü ve VMID gerekli"
 
 #: plugins/plugin_spice.py
 msgid "Error: VM name required"
@@ -3070,9 +3070,9 @@ msgstr ""
 msgid "Error: could not mount the ISO"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/core.py
 msgid "Error: libvirt URI required"
-msgstr ""
+msgstr "Hata: libvirt URI gerekli"
 
 #: plugins/plugin_spice.py
 msgid "Fermer"
@@ -3083,58 +3083,57 @@ msgstr ""
 msgid "No SPICE console for {vm}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Proxmox node"
-msgstr ""
+msgstr "Proxmox düğümü"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "SPICE"
-msgstr ""
+msgstr "SPICE"
 
 #: plugins/plugin_spice.py
 #, python-brace-format
 msgid "SPICE disabled for {vm}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/core.py
 #, python-brace-format
 msgid "SPICE ticket error: {out}"
-msgstr ""
+msgstr "SPICE bileti hatası: {out}"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 #, python-brace-format
 msgid "SSH error: {exc}"
-msgstr ""
+msgstr "SSH hatası: {exc}"
 
-#: plugins/plugin_spice.py plugins/plugin_vnc.py src/gcm4/ui/terminal.py
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/spice/gtk4.py
+#: src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "Oturum sona erdi"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Share USB devices"
-msgstr ""
+msgstr "USB aygıtlarını paylaş"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Share audio"
-msgstr ""
+msgstr "Sesi paylaş"
 
 #: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Klasörü paylaş"
 
-#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Paylaşılan klasör yolu"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Serial port:"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "TLS port"
-msgstr "Seri port:"
+msgstr "TLS bağlantı noktası"
 
 #: plugins/plugin_spice.py
 #, python-brace-format
@@ -3150,25 +3149,21 @@ msgstr ""
 msgid "VM introuvable : {vm}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "VMID"
-msgstr ""
+msgstr "VMID"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Via Proxmox"
-msgstr ""
+msgstr "Proxmox üzerinden"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Libvirt"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Via libvirt"
-msgstr "Libvirt"
+msgstr "libvirt üzerinden"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Detected libvirt URI"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "libvirt URI"
-msgstr "Tespit edilen libvirt URI'si"
+msgstr "libvirt URI"
 
 #: plugins/plugin_spice.py
 #, python-brace-format
@@ -3960,6 +3955,45 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Paylaşılacak klasörü seçin."
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Ek parametreler geçersiz: {error}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "TLS bağlantı noktası 1 ile 65535 arasında bir sayı olmalıdır."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "eksik bilet"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "{program} içinde açıldı"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Yeniden bağlan"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "SPICE bileti isteniyor…"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "SPICE oturumu ayrı bir remote-viewer penceresinde açılır."
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program} bulunamadı: virt-viewer paketini yükleyin"
 
 #: plugins/ssh/gtk4.py src/gcm4/ui/main_window.py
 msgid "Configuration not loaded"
@@ -5048,7 +5082,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Komut satırına geçirilecek ek argümanlar"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Akış kontrolü:"
 
@@ -5105,7 +5138,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Bayt başına veri biti sayısı (8 = standart)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Ekle"
 
@@ -5135,7 +5167,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Birden çok sunucuya aynı anda komut gönder"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "seri"
 
@@ -5152,7 +5183,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Konsolu dikey olarak böl"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Durdurma bitleri:"
 
@@ -5160,7 +5190,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Durdurma bitleri: 1 = standart, 2 = RS-485 / eski donanım"
 
 #, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Şablon:"
 

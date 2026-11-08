@@ -59,7 +59,7 @@ Chaque protocole est découvert automatiquement par `PluginRegistry.autoload()`.
 | SSH | `plugin_ssh.py` | ✅ Terminal VTE, agent, tunnels, cluster ; encapsule `SSHConfigParser`/`SSHKeyManagerDialog`/`KeyPickerDialog` |
 | RDP | `plugins/rdp/` (GTK4) | ✅ FreeRDP 3 (AsyncRdp) — `plugin_rdp.py` (GTK3, `GtkFrdp.Display`) retiré le 08/11/2026 (#179) |
 | VNC | `plugin_vnc.py` | ✅ Widget natif `GtkVnc.Display` si `gtk-vnc` dispo, sinon vncviewer/vinagre/remmina |
-| SPICE | `plugin_spice.py` | ✅ Widget natif `SpiceClientGtk.Display`, mode libvirt natif si `libvirt-python` dispo, sinon remote-viewer/virt-viewer |
+| SPICE | `plugins/spice/` (GTK4) | ✅ Visionneuse externe `remote-viewer` (URI, ticket Proxmox) ou `virt-viewer` (libvirt), suivie depuis l'onglet (#179) — `plugin_spice.py` (GTK3, `SpiceClientGtk.Display`) en place jusqu'à #182 |
 | Série RS-232/485 | `plugins/serial/` (GTK4) | ✅ picocom/minicom/screen, templates constructeurs — `plugin_serial.py` (GTK3) retiré (#179) |
 | Telnet | `plugins/telnet/` (GTK4) | ✅ — `plugin_telnet.py` (GTK3) retiré (#179) |
 | Local | `plugins/local/` (GTK4) | ✅ Terminal shell local — `plugin_local.py` (GTK3) retiré (#179) |

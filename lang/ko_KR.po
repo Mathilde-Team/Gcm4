@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2230,6 +2230,7 @@ msgid "Custom commands"
 msgstr "사용자 지정 명령"
 
 #: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/spice/gtk4.py
 msgid "Disconnect"
 msgstr "연결 해제"
 
@@ -2421,11 +2422,12 @@ msgid "Target already present: {uri}"
 msgstr ""
 
 #: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+#: plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM 이름"
 
 #: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py plugins/web/gtk4.py
+#: plugins/plugin_vnc.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "대기 중…"
 
@@ -3027,9 +3029,9 @@ msgid ""
 "E.g.: {example}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "CA certificate"
-msgstr ""
+msgstr "CA 인증서"
 
 #: plugins/plugin_spice.py
 msgid "Configuration SPICE invalide"
@@ -3039,28 +3041,26 @@ msgstr ""
 msgid "Connecting…"
 msgstr "연결 중…"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Direct URI"
-msgstr ""
+msgstr "직접 URI"
 
 #: plugins/plugin_spice.py
 msgid "Drag and drop a file here to send it to the VM (requires spice-vdagent)"
 msgstr ""
 
-#: plugins/plugin_spice.py plugins/plugin_vnc.py
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/spice/gtk4.py
 #, python-brace-format
 msgid "Ended (code {rc})"
 msgstr "종료됨 (코드 {rc})"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Error connecting to server"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Error launching viewer"
-msgstr "서버 연결 오류"
+msgstr "뷰어 실행 오류"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/core.py
 msgid "Error: Proxmox node and VMID required"
-msgstr ""
+msgstr "오류: Proxmox 노드와 VMID가 필요합니다"
 
 #: plugins/plugin_spice.py
 msgid "Error: VM name required"
@@ -3070,9 +3070,9 @@ msgstr ""
 msgid "Error: could not mount the ISO"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/core.py
 msgid "Error: libvirt URI required"
-msgstr ""
+msgstr "오류: libvirt URI가 필요합니다"
 
 #: plugins/plugin_spice.py
 msgid "Fermer"
@@ -3083,58 +3083,57 @@ msgstr ""
 msgid "No SPICE console for {vm}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Proxmox node"
-msgstr ""
+msgstr "Proxmox 노드"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "SPICE"
-msgstr ""
+msgstr "SPICE"
 
 #: plugins/plugin_spice.py
 #, python-brace-format
 msgid "SPICE disabled for {vm}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/core.py
 #, python-brace-format
 msgid "SPICE ticket error: {out}"
-msgstr ""
+msgstr "SPICE 티켓 오류: {out}"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 #, python-brace-format
 msgid "SSH error: {exc}"
-msgstr ""
+msgstr "SSH 오류: {exc}"
 
-#: plugins/plugin_spice.py plugins/plugin_vnc.py src/gcm4/ui/terminal.py
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/spice/gtk4.py
+#: src/gcm4/ui/terminal.py
 msgid "Session ended"
 msgstr "세션 종료됨"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Share USB devices"
-msgstr ""
+msgstr "USB 장치 공유"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Share audio"
-msgstr ""
+msgstr "오디오 공유"
 
 #: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "폴더 공유"
 
-#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "공유 폴더 경로"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Serial port:"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "TLS port"
-msgstr "시리얼 포트:"
+msgstr "TLS 포트"
 
 #: plugins/plugin_spice.py
 #, python-brace-format
@@ -3150,25 +3149,21 @@ msgstr ""
 msgid "VM introuvable : {vm}"
 msgstr ""
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "VMID"
-msgstr ""
+msgstr "VMID"
 
-#: plugins/plugin_spice.py
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Via Proxmox"
-msgstr ""
+msgstr "Proxmox 사용"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Libvirt"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "Via libvirt"
-msgstr "Libvirt"
+msgstr "libvirt 사용"
 
-#: plugins/plugin_spice.py
-#, fuzzy
-#| msgid "Detected libvirt URI"
+#: plugins/plugin_spice.py plugins/spice/gtk4.py
 msgid "libvirt URI"
-msgstr "감지된 libvirt URI"
+msgstr "libvirt URI"
 
 #: plugins/plugin_spice.py
 #, python-brace-format
@@ -3960,6 +3955,45 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "공유할 폴더를 선택하세요."
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "잘못된 추가 매개변수: {error}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "TLS 포트는 1에서 65535 사이의 숫자여야 합니다."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "불완전한 티켓"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "{program}에서 열림"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "다시 연결"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "SPICE 티켓 요청 중…"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "SPICE 세션은 별도의 remote-viewer 창에서 열립니다."
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program}을(를) 찾을 수 없습니다: virt-viewer 패키지를 설치하세요"
 
 #: plugins/ssh/gtk4.py src/gcm4/ui/main_window.py
 msgid "Configuration not loaded"
@@ -5048,7 +5082,6 @@ msgstr "창 표시"
 #~ msgstr "명령줄에 전달할 추가 인수"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "흐름 제어:"
 
@@ -5105,7 +5138,6 @@ msgstr "창 표시"
 #~ msgstr "바이트당 데이터 비트 수 (8 = 표준)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "추가"
 
@@ -5135,7 +5167,6 @@ msgstr "창 표시"
 #~ msgstr "여러 호스트에 동시에 명령 보내기"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "시리얼"
 
@@ -5152,7 +5183,6 @@ msgstr "창 표시"
 #~ msgstr "콘솔을 수직으로 분할"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "정지 비트:"
 
@@ -5160,7 +5190,6 @@ msgstr "창 표시"
 #~ msgstr "정지 비트: 1 = 표준, 2 = RS-485 / 구형 하드웨어"
 
 #, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "템플릿:"
 

@@ -29,6 +29,7 @@ MODULES_TYPES_MINIMUM = {
     "GTK3.OLD/tab_context_menu_core.py",
     "plugins/plugin_base.py",
     "plugins/ssh/core.py",
+    "plugins/spice/core.py",
 }
 
 

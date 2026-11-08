@@ -93,6 +93,7 @@ class TestContratsImports(unittest.TestCase):
         # ont perdu leur plugin_*.py GTK3 ; restent ssh, vnc et spice.
         self.assertGreaterEqual(len(NOMS_PLUGINS), 3)
         self.assertIn("plugins/ssh/core.py", CORES_DE_PLUGINS)
+        self.assertIn("plugins/spice/core.py", CORES_DE_PLUGINS)  # portage #179
         # Cœurs des outils GTK3 rangés dans leur plugin (#427, lot 3).
         for coeur in (
             "plugins/import_hyperviseurs/core.py",

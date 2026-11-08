@@ -179,7 +179,7 @@ sudo ninja -C build install
 sudo apt install tigervnc-viewer       # ou vinagre, remmina
 
 # SPICE
-sudo apt install gir1.2-spiceclientgtk-3.0       # fournit remote-viewer
+sudo apt install virt-viewer       # remote-viewer et virt-viewer (gcm4 et GTK3)
 
 # Console série
 sudo apt install picocom               # ou minicom
