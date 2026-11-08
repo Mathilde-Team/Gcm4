@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-103 modules · 178 classes · 385 fonctions publiques de module.
+103 modules · 181 classes · 383 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -24,8 +24,8 @@ flowchart TD
     g1["gcm4"]
     g2["gcm4.core"]
     g3["gcm4.ui"]
-    g0 -->|64| g2
-    g0 -->|11| g3
+    g0 -->|66| g2
+    g0 -->|12| g3
     g1 -->|4| g2
     g1 -->|1| g3
     g2 -->|1| g0
@@ -63,7 +63,6 @@ flowchart TD
 | `plugins.plugin_local` | `plugins/plugin_local.py` | Plugin de connexion "Local" (shell local, sans hôte distant). |
 | `plugins.plugin_rdp` | `plugins/plugin_rdp.py` | Plugin de connexion RDP (GtkFrdp.Display embarqué). |
 | `plugins.plugin_serial` | `plugins/plugin_serial.py` | Plugin de connexion série (port local via picocom/minicom/screen). |
-| `plugins.plugin_snmp_push` | `plugins/plugin_snmp_push.py` | Onglet « Push SNMP » (déploiement de configuration en masse par SNMP) pour GCM. |
 | `plugins.plugin_spice` | `plugins/plugin_spice.py` | Plugin de connexion SPICE (SpiceClientGtk.Display natif, ou fallback subprocess). |
 | `plugins.plugin_ssh` | `plugins/plugin_ssh.py` | Plugin de connexion SSH. |
 | `plugins.plugin_telnet` | `plugins/plugin_telnet.py` | Plugin de connexion Telnet. |
@@ -79,6 +78,7 @@ flowchart TD
 | `plugins.sftp.core` | `plugins/sftp/core.py` | Logique du plugin SFTP (#75), sans GTK : connexion, navigation, transferts. |
 | `plugins.sftp.gtk4` | `plugins/sftp/gtk4.py` | Plugin SFTP de gcm4 (contrat v1, ``docs/plugins.md``) : navigateur de fichiers distant (#75). |
 | `plugins.snmp_push.core` | `plugins/snmp_push/core.py` | Cœur métier (sans GTK) du déploiement SNMP pour GCM. |
+| `plugins.snmp_push.gtk4` | `plugins/snmp_push/gtk4.py` | Outil « Déploiement SNMP » (contrat v1, #445, portage #179, après #74). |
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
 | `plugins.ssh.core` | `plugins/ssh/core.py` | Logique métier SSH de gcm4, zéro dépendance GTK — parsing de ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf. |
 | `plugins.ssh.gtk4` | `plugins/ssh/gtk4.py` | Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, éditeur de ``~/.ssh/config`` (personnel + partagé) et gestionnaire de clés. |
@@ -295,11 +295,11 @@ classDiagram
         +str log_path
         +float duration_s
     }
-    class LigneSuivi
+    class plugins_netmiko_push_gtk4_LigneSuivi
     class plugins_netmiko_push_gtk4_Element {
         <<GObject.Object>>
     }
-    class VueListe {
+    class plugins_netmiko_push_gtk4_VueListe {
         <<Gtk.ScrolledWindow>>
         +remplir(valeurs) None
         +rafraichir() None
@@ -423,18 +423,6 @@ classDiagram
         +host_fields() list~tuple~str, object~~
     }
     plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_serial_SerialPlugin
-    class mod_plugins_plugin_snmp_push {
-        <<module>>
-        +open_snmp_push_tab(wmain) SnmpPushTab
-        +get_batch_plugin() SnmpPushBatchPlugin
-    }
-    class SnmpPushTab {
-        +get_root_widget() Gtk.Widget
-    }
-    class SnmpPushBatchPlugin {
-        +activate() None
-    }
-    BatchPlugin <|-- SnmpPushBatchPlugin
     class mod_plugins_plugin_spice {
         <<module>>
         +parse_spice_hosts(conf_path) list~tuple~str, str~~
@@ -816,6 +804,24 @@ classDiagram
         +push(host, server_ip, filename, username, password, protocol) tuple~bool, str~
     }
     SnmpDriver <|-- HuaweiVrpDriver
+    class plugins_snmp_push_gtk4_LigneSuivi
+    class plugins_snmp_push_gtk4_Element {
+        <<GObject.Object>>
+    }
+    class plugins_snmp_push_gtk4_VueListe {
+        <<Gtk.ScrolledWindow>>
+        +remplir(valeurs) None
+        +rafraichir() None
+        +elements() list~Element~
+        +selectionnees() list~Any~
+    }
+    class OngletSnmp {
+        <<Gtk.Box>>
+    }
+    class SnmpPushPlugin {
+        <<ToolPlugin>>
+        +activate() None
+    }
     class mod_plugins_ssh_core {
         <<module>>
         +is_shared_target(path) bool
