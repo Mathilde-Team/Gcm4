@@ -42,29 +42,36 @@ pytestmark = pytest.mark.skipif(XDOTOOL is None, reason="xdotool absent : clics 
 
 @pytest.fixture(autouse=True)
 def _refermer_dialogues_oublies(pomper):
-    """Referme les dialogues laissés ouverts par les tests précédents.
+    """Referme les fenêtres laissées ouvertes par les tests précédents.
 
-    Les dialogues des tests précédents (couleur de groupe, messages…)
-    restent mappés sur le serveur X avec leur grab modal : toute l'entrée
-    XTEST — clics comme clavier — leur serait déviée silencieusement.
-    Ils n'apparaissent pas dans ``app.get_windows()``, que la fixture
-    ``app_fixture`` détruit pourtant correctement.
+    Les dialogues et fenêtres annexes des tests précédents (couleur de
+    groupe, messages, « à propos »…) restent mappés sur le serveur X avec
+    leur grab modal : toute l'entrée XTEST — clics comme clavier — leur
+    serait déviée silencieusement. Certains n'apparaissent pas dans
+    ``app.get_windows()``, que la fixture ``app_fixture`` détruit pourtant
+    correctement.
     """
     from gi.repository import GObject, Gtk
 
-    # La hiérarchie des dialogues libadwaita récents remonte à
-    # ``GtkWindow`` et non à ``Gtk.Dialog`` : on retient les fenêtres de
-    # premier niveau dont le type contient « Dialog ». La fenêtre de
-    # l'application (``MainWindow``) n'y ressemble pas.
-    for fenetre in list(Gtk.Window.list_toplevels()):
-        if "Dialog" in GObject.type_name(fenetre):
-            fenetre.destroy()
-            pomper(2)
+    # Cette fixture s'exécute avant ``app_fixture`` : toute fenêtre de
+    # premier niveau encore vivante à ce stade est un vestige d'un test
+    # précédent (dialogue, « à propos », fenêtre principale non détruite…).
+    # Sur les anciennes libadwaita, ces fenêtres sont de vraies fenêtres X
+    # mappées avec leur grab modal : toute l'entrée XTEST — clics comme
+    # clavier — leur serait déviée silencieusement. On referme tout, du
+    # plus récemment ouvert au plus ancien.
+    for fenetre in reversed(list(Gtk.Window.list_toplevels())):
+        print(f"VESTIGE: {GObject.type_name(fenetre)}")
+        fenetre.destroy()
+        pomper(2)
     try:
-        visibles = _xdotool("search", "--onlyvisible", "--name", ".").split()
+        visibles = _xdotool("search", "--onlyvisible", ".").split()
+        for identifiant in visibles:
+            coquille = _xdotool("getwindowgeometry", "--shell", identifiant)
+            nom = _xdotool("getwindowname", identifiant).strip()
+            print(f"X RESTANT: {identifiant} {nom!r} {coquille.replace(chr(10), ' ')}")
     except Exception as erreur:  # diagnostic purement informatif
-        visibles = [f"échec ({erreur!r})"]
-    print("X VISIBLES: " + " ".join(visibles))
+        print(f"X RESTANT: échec ({erreur!r})")
     yield
 
 
