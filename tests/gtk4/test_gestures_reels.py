@@ -31,6 +31,7 @@ import time
 from collections.abc import Callable
 
 import pytest
+from gi.repository import Gtk  # noqa: E402  (après require_version)
 
 import gcm4.ui  # noqa: F401  (require_version avant gi.repository)
 from gcm4.core.i18n import _
@@ -246,23 +247,23 @@ def _clic_sur(
     """
     _attendre_allocation(widget, pomper)
     _activer(widget)
-    x, y = _position_dans_fenetre(widget, dx, dy)
+    from gi.repository import Gtk
+
+    racine = widget
+    while racine.get_parent() is not None:
+        racine = racine.get_parent()
+    for _essai in range(10):
+        x, y = _position_dans_fenetre(widget, dx, dy)
+        pique = racine.pick(x, y, Gtk.PickFlags.DEFAULT)
+        if pique is None or _est_dans(pique, widget):
+            break
+        pomper(2)  # la mise en page bouge encore : on la laisse se calmer
     ox, oy = _position_fenetre(widget)
     # diagnostic : où le clic part-il vraiment ? (visible dans le journal
     # des tests échoués)
     print(
         f"CLIC {type(widget).__name__} fenetre=({ox},{oy}) "
         f"dans_fenetre=({x},{y}) abs=({int(ox + x)},{int(oy + y)})"
-    )
-    from gi.repository import Gtk
-
-    racine = widget
-    while racine.get_parent() is not None:
-        racine = racine.get_parent()
-    pique = racine.pick(x, y, Gtk.PickFlags.DEFAULT)
-    print(
-        f"PICK ({x},{y}): {type(pique).__name__ if pique is not None else None} "
-        f"vs visé {type(widget).__name__}"
     )
     _xdotool("mousemove", str(int(ox + x)), str(int(oy + y)))
     try:
@@ -474,7 +475,12 @@ def _terminal_en_onglet(fenetre, pomper):
 
     terminal = Vte.Terminal()
     fenetre.ajouter_onglet("Manuel", terminal)
-    pomper()
+    for _essai in range(50):  # la page prend sa taille définitive tard
+        pomper(2)
+        if terminal.get_height() > 100:
+            break
+        time.sleep(0.05)
+    pomper(5)
     return terminal
 
 
@@ -638,6 +644,16 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
     assert _est_dans(racine.get_focus(), entree)
     _activer(entree)  # vieux Adw : fenêtre X séparée, le clavier X y va
     print("X FOCUS: " + _xdotool("getwindowfocus").strip())
+    for _cible, _nom in ((racine, "dialogue"), (fenetre, "principale")):
+        _controleur = Gtk.EventControllerKey()
+        _controleur.connect(
+            "key-pressed",
+            lambda _c, valeur, _code, _etat, _nom=_nom: (
+                print(f"TOUCHE REÇUE ({_nom}): {valeur}"),
+                False,
+            )[1],
+        )
+        _cible.add_controller(_controleur)
     _touche("a", avec_ctrl=True)
     _xdotool("type", "--delay", "30", "LABO")
     print(f"ETAT: entrée={entree.get_text()!r} après frappe")
