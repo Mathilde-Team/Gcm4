@@ -15,6 +15,11 @@ habituelles. Avec le Python système dans un venv `--system-site-packages` :
 GCM_PYTHON=/chemin/du/venv/bin/python bash scripts/test-wayland.sh
 ```
 
+La même commande figure dans `make ci` pour conserver la parité avec
+GitHub Actions. Pour cette cible, exporter aussi `GCM_PYTHON` vers le
+venv disposant de GTK4 ; Weston et les bibliothèques système doivent
+être installés sur le poste.
+
 Le script démarre Weston headless avec rendu logiciel Pixman, un dossier
 d'exécution privé et un socket propre au contrôle. Il supprime `DISPLAY`
 et `WAYLAND_SOCKET`, impose `GDK_BACKEND=wayland` et vérifie le type réel
