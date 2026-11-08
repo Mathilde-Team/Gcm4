@@ -62,8 +62,8 @@ def _refermer_dialogues_oublies(pomper):
             pomper(2)
     try:
         visibles = _xdotool("search", "--onlyvisible", "--name", ".").split()
-    except subprocess.CalledProcessError:
-        visibles = []  # aucune fenêtre mappée : le serveur X sort en erreur
+    except Exception as erreur:  # diagnostic purement informatif
+        visibles = [f"échec ({erreur!r})"]
     print("X VISIBLES: " + " ".join(visibles))
     yield
 
@@ -75,6 +75,7 @@ def _xdotool(*arguments: str) -> str:
         check=True,
         capture_output=True,
         text=True,  # type: ignore[list-item]
+        timeout=10,
     )
     return resultat.stdout
 
@@ -242,7 +243,10 @@ def _clic_sur(
         f"dans_fenetre=({x},{y}) abs=({int(ox + x)},{int(oy + y)})"
     )
     _xdotool("mousemove", str(int(ox + x)), str(int(oy + y)))
-    print("POINTEUR: " + _xdotool("getmouselocation").replace("\n", " "))
+    try:
+        print("POINTEUR: " + _xdotool("getmouselocation").replace("\n", " "))
+    except Exception as erreur:  # diagnostic purement informatif
+        print(f"POINTEUR: échec ({erreur!r})")
     if repetitions == 1:
         _xdotool("click", str(bouton))
     else:
