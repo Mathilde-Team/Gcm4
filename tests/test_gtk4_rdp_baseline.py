@@ -108,7 +108,6 @@ import unittest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 CORE_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "gnome_connection_manager.py")
-RDP_PLUGIN_FILE = os.path.join(REPO_ROOT, "plugins", "plugin_rdp.py")
 VNC_PLUGIN_FILE = os.path.join(REPO_ROOT, "plugins", "plugin_vnc.py")
 SPICE_PLUGIN_FILE = os.path.join(REPO_ROOT, "plugins", "plugin_spice.py")
 WIDGETS_FILE = os.path.join(REPO_ROOT, "GTK3.OLD", "widgets.py")
@@ -140,14 +139,6 @@ EXPECTED_XEMBED_MARKER_COUNTS = {
         "Gtk.Socket": 0,
         "GtkSocket": 0,
         "XEmbed": 0,
-        "/parent-window:": 0,
-    },
-    RDP_PLUGIN_FILE: {
-        "Gtk.Socket": 0,
-        "GtkSocket": 0,
-        # 1 commentaire comparant le traitement TLS actuel à celui de
-        # « l'ancien mode XEmbed » (/cert:ignore) — pas du code actif.
-        "XEmbed": 1,
         "/parent-window:": 0,
     },
     VNC_PLUGIN_FILE: {
@@ -220,29 +211,11 @@ class TestRdpXEmbedRuptureAlreadyResolved(unittest.TestCase):
 
 
 class TestRdpPluginUsesGtkFrdpNatively(unittest.TestCase):
-    """Le plugin RDP actuel ne dépend que de `GtkFrdp.Display` (GTK3 pour l'instant)."""
+    """`gtk-frdp` vendorisé reste GTK3 ; le plugin GTK4 ``plugins/rdp/`` ne l'utilise pas.
 
-    def test_plugin_rdp_requires_gtkfrdp_and_builds_native_widget(self):
-        """`plugins/plugin_rdp.py` verrouille `GtkFrdp` 0.2 et construit le widget natif.
-
-        Chacun des deux marqueurs doit apparaître exactement une fois —
-        toute variation (site dupliqué, renommage) mérite une relecture
-        consciente avant d'ajuster ce test.
-        """
-        source = _read(RDP_PLUGIN_FILE)
-        for needle in (
-            'gi.require_version("GtkFrdp", "0.2")',
-            "GtkFrdp.Display.new()",
-        ):
-            with self.subTest(needle=needle):
-                actual = source.count(needle)
-                self.assertEqual(
-                    actual,
-                    1,
-                    f"plugins/plugin_rdp.py : {actual} occurrence(s) de "
-                    f"{needle!r} trouvée(s), 1 attendue (baseline "
-                    "session-46).",
-                )
+    L'ancien plugin GTK3 ``plugins/plugin_rdp.py`` a été retiré (#179) : ses
+    verrous textuels ont disparu avec lui.
+    """
 
     def test_vendored_gtk_frdp_still_pinned_to_gtk3(self):
         """`gtk-frdp/src/meson.build` (vendorisé) dépend encore de `gtk+-3.0`, pas GTK4.
@@ -254,8 +227,8 @@ class TestRdpPluginUsesGtkFrdpNatively(unittest.TestCase):
         sur la migration GTK4 de GNOME Boxes, son principal consommateur
         réel). Si ce test échoue après une mise à jour délibérée du
         sous-projet vendorisé (upgrade vers une version GTK4), c'est le
-        signal attendu qu'un chemin de portage vient de s'ouvrir pour
-        `plugins/plugin_rdp.py` — pas une régression.
+        signal attendu qu'un chemin de portage GTK4 vient de s'ouvrir pour
+        gtk-frdp — pas une régression.
         """
         source = _read(GTK_FRDP_MESON)
         self.assertIn(
@@ -280,7 +253,7 @@ class TestRemoteDesktopContextMenuPorted(unittest.TestCase):
     Porté en session-53 (``widgets.RemoteDesktopContextMenu``,
     ``Gio.Menu``/``Gio.SimpleActionGroup``/``Gtk.Popover``) : ce fichier
     verrouille désormais l'état *porté* — plus aucun ``Gtk.Menu()``
-    dans ``widgets.py`` pour ce menu, et les trois plugins continuent
+    dans ``widgets.py`` pour ce menu, et les plugins GTK3 restants (VNC, SPICE) continuent
     d'appeler le constructeur commun une fois chacun (signature
     inchangée).
     """
@@ -301,9 +274,12 @@ class TestRemoteDesktopContextMenuPorted(unittest.TestCase):
             "Gio.Menu). Voir docs/gtk4-migration.md §3.8.",
         )
 
-    def test_three_plugins_still_call_the_builder(self):
-        """RDP, VNC et SPICE appellent chacun `build_remote_desktop_context_menu()` une fois."""
-        for path in (RDP_PLUGIN_FILE, VNC_PLUGIN_FILE, SPICE_PLUGIN_FILE):
+    def test_two_plugins_still_call_the_builder(self):
+        """VNC et SPICE (GTK3) appellent chacun `build_remote_desktop_context_menu()` une fois.
+
+        RDP en faisait partie jusqu'au retrait de ``plugins/plugin_rdp.py`` (#179).
+        """
+        for path in (VNC_PLUGIN_FILE, SPICE_PLUGIN_FILE):
             source = _read(path)
             relpath = os.path.relpath(path, REPO_ROOT)
             with self.subTest(file=relpath):

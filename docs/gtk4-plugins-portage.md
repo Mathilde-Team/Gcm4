@@ -62,14 +62,14 @@ et c'est à l'autrice de trancher, sur #223 :
 | Plugin | Lignes | Technique GTK3 | Portage GTK4 | Bloquant ou décision liée |
 |---|---|---|---|---|
 | ssh | 1087 (+ `plugins/ssh/core.py`, 1700) | `Vte.Terminal` 2.91 | `plugins/ssh/gtk4.py`, `Vte.Terminal` 3.91. Le cœur `core.py` existe déjà, sans GTK | #97 (portage), #180 (dialogues de clés et de `ssh_config` à la racine) ; Rocky 9 sans VTE GTK4 |
-| telnet | 216 | `Vte.Terminal` 2.91, commande `telnet` | `Vte.Terminal` 3.91 ; même schéma que ssh, en plus court | Rocky 9 sans VTE GTK4. **Premier portage conseillé** : le plus petit plugin terminal, il permet de valider le contrat v1 avec un vrai terminal |
-| local | 192 | `Vte.Terminal` 2.91, shell local | `Vte.Terminal` 3.91 | Rocky 9 sans VTE GTK4 |
-| serial | 689 | `Vte.Terminal` 2.91, `picocom`/`minicom`/`screen` | **porté** : `plugins/serial/` (contrat v1, #179) ; détection des outils et construction de la commande sans GTK (`core.py`), paramètres série dans la zone d'options du protocole (repli du débit sur le champ Port, héritage GTK3) | Rocky 9 sans VTE GTK4 ; `picocom` vient d'EPEL sur Rocky 9 |
-| ipmisol | 246 | `Vte.Terminal` 2.91, `ipmitool sol activate` | **porté** : `plugins/ipmisol/` (contrat v1, #179) ; mot de passe via `IPMI_PASSWORD` (`Lancement.env`), `sol deactivate` à la fermeture | Rocky 9 sans VTE GTK4 |
-| web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | **porté** : `plugins/web/` (contrat v1, #397) ; `WebKit.WebView` 6.0 chargé à l'ouverture seulement, certificat refusé accepté pour l'hôte de l'URL seulement (`allow_tls_certificate_for_host`, GTK3 coupait la vérification pour tout le contexte), repli vers le navigateur par défaut par `Gio.AppInfo` (présent dès GTK 4.8, `Gtk.UriLauncher` n'apporterait rien ici) ; mêmes clés `web_url` et `web_ignore_cert` que GTK3 | Rocky 9 : repli externe seulement (tests WebKit écartés, repli testé) |
+| telnet | 216 | `Vte.Terminal` 2.91, commande `telnet` | **porté** : `plugins/telnet/` (contrat v1, #179) ; `Vte.Terminal` 3.91, session VTE et zone d'options partagées (`gcm4.ui.terminal`, `gcm4.core.terminal`) ; `plugin_telnet.py` (GTK3) retiré le 08/11/2026 | Rocky 9 sans VTE GTK4. **Premier portage conseillé** : le plus petit plugin terminal, il permet de valider le contrat v1 avec un vrai terminal |
+| local | 192 | `Vte.Terminal` 2.91, shell local | **porté** : `plugins/local/` (contrat v1, #295) ; `Vte.Terminal` 3.91 ; `plugin_local.py` (GTK3) retiré le 08/11/2026 | Rocky 9 sans VTE GTK4 |
+| serial | 689 | `Vte.Terminal` 2.91, `picocom`/`minicom`/`screen` | **porté** : `plugins/serial/` (contrat v1, #179) ; détection des outils et construction de la commande sans GTK (`core.py`), paramètres série dans la zone d'options du protocole (repli du débit sur le champ Port, héritage GTK3) ; `plugin_serial.py` (GTK3) retiré le 08/11/2026 (#179) | Rocky 9 sans VTE GTK4 ; `picocom` vient d'EPEL sur Rocky 9 |
+| ipmisol | 246 | `Vte.Terminal` 2.91, `ipmitool sol activate` | **porté** : `plugins/ipmisol/` (contrat v1, #179) ; mot de passe via `IPMI_PASSWORD` (`Lancement.env`), `sol deactivate` à la fermeture ; `plugin_ipmisol.py` (GTK3) retiré le 08/11/2026 (#179) | Rocky 9 sans VTE GTK4 |
+| web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | **porté** : `plugins/web/` (contrat v1, #397) ; `WebKit.WebView` 6.0 chargé à l'ouverture seulement, certificat refusé accepté pour l'hôte de l'URL seulement (`allow_tls_certificate_for_host`, GTK3 coupait la vérification pour tout le contexte), repli vers le navigateur par défaut par `Gio.AppInfo` (présent dès GTK 4.8, `Gtk.UriLauncher` n'apporterait rien ici) ; mêmes clés `web_url` et `web_ignore_cert` que GTK3 ; `plugin_web.py` (GTK3) retiré le 08/11/2026 (#179) | Rocky 9 : repli externe seulement (tests WebKit écartés, repli testé) |
 | vnc | 701 | `GtkVnc.Display` (gtk-vnc, GTK3 seulement partout) | **fusion avec `plugins/pluginvnc2`** (déjà GTK4, client asyncvnc2), comme prévu par #104 | #104 ; aucune version GTK4 de gtk-vnc dans les distributions |
 | spice | 1424 | `SpiceClientGtk.Display` 3.0 (GTK3 seulement partout) | aucun widget SPICE GTK4. Deux voies : affichage maison sur `SpiceClientGLib` (canal d'affichage vers `Gdk.MemoryTexture`, comme pluginvnc2), ou visionneuse externe (`remote-viewer`) | **choix à faire** (sous-issue au moment du portage) ; spice-gtk absent de Rocky 9 |
-| rdp | 614 | `GtkFrdp.Display` (`Gtk.Socket`/XEmbed, supprimé en GTK4) | **porté** : `plugins/rdp/` sur AsyncRdp (contrat v1, #105) ; mêmes clés INI que GTK3, `RdpSession` et `RdpView` des intégrations GTK4 d'AsyncRdp4, boucle asyncio sur GLib (`gcm4.ui.boucle`). gtk-frdp abandonné (décision du 2026-11-01, #71) | #71 (retrait de gtk-frdp, menu contextuel) ; FreeRDP 3 absent de Debian 12 et de Rocky 9 |
+| rdp | 614 | `GtkFrdp.Display` (`Gtk.Socket`/XEmbed, supprimé en GTK4) | **porté** : `plugins/rdp/` sur AsyncRdp (contrat v1, #105) ; mêmes clés INI que GTK3, `RdpSession` et `RdpView` des intégrations GTK4 d'AsyncRdp4, boucle asyncio sur GLib (`gcm4.ui.boucle`). gtk-frdp abandonné (décision du 2026-11-01, #71) ; `plugin_rdp.py` (GTK3) retiré le 08/11/2026 (#179) | #71 (retrait de gtk-frdp, menu contextuel) ; FreeRDP 3 absent de Debian 12 et de Rocky 9 |
 
 ### Plugins d'import, d'export et de traitement par lots (`BatchPlugin` GTK3)
 
@@ -119,6 +119,11 @@ toutes les lignes suivantes.
    plugins `plugin_*.py` encore en GTK3 ont leur équivalent outil.
 6. **vnc** (fusion pluginvnc2, #104), **rdp** (#71, #105) et **spice** (choix
    de la voie) : ils dépendent de projets ou de décisions extérieurs.
+
+Les six plugins de connexion déjà portés (telnet, local, ipmisol, serial,
+web, rdp) ont vu leur fichier GTK3 retiré le 08/11/2026 (#179). Restent
+`plugin_ssh.py` (après #97), `plugin_vnc.py` (fusion pluginvnc2) et
+`plugin_spice.py` (choix de la voie).
 
 Chaque portage retire son fichier de `tests/gtk3_inventaire.txt` (#178). La
 case « plus aucun plugin GTK3 dans `plugins/` » de #179 est cochée quand

@@ -7,12 +7,6 @@ GTK3.OLD/ssh_config_editor.py
 GTK3.OLD/ssh_key_manager_dialog.py
 GTK3.OLD/utils.py
 GTK3.OLD/widgets.py
-plugins/plugin_ipmisol.py
-plugins/plugin_local.py
-plugins/plugin_rdp.py
-plugins/plugin_serial.py
 plugins/plugin_spice.py
 plugins/plugin_ssh.py
-plugins/plugin_telnet.py
 plugins/plugin_vnc.py
-plugins/plugin_web.py

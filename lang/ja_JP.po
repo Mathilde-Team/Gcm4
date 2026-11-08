@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 09:59+0000\n"
+"POT-Creation-Date: 2026-11-08 10:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,7 +114,7 @@ msgstr "背景色:"
 msgid "Backspace:"
 msgstr "バックスペース:"
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+#: GTK3.OLD/gnome_connection_manager.py
 msgid "Baud rate"
 msgstr "ボーレート"
 
@@ -261,7 +261,7 @@ msgstr "カスタムコマンド"
 msgid "Dark"
 msgstr "ダーク"
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+#: GTK3.OLD/gnome_connection_manager.py
 msgid "Data bits"
 msgstr "データビット"
 
@@ -598,7 +598,7 @@ msgstr "起動時にローカルコンソールを開く"
 msgid "Overrides the global \"Close console\" preference for this host only"
 msgstr ""
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+#: GTK3.OLD/gnome_connection_manager.py
 msgid "Parity"
 msgstr "パリティ"
 
@@ -2209,10 +2209,9 @@ msgstr "コンソールを複製"
 msgid "Collapse all"
 msgstr "すべて折りたたむ"
 
-#: GTK3.OLD/widgets.py plugins/plugin_ipmisol.py plugins/plugin_rdp.py
-#: plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: plugins/plugin_web.py src/gcm4/core/menu_arbre.py
-#: src/gcm4/core/preferences.py src/gcm4/ui/contexte.py
+#: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
+#: src/gcm4/ui/contexte.py
 msgid "Connect"
 msgstr "接続"
 
@@ -2230,8 +2229,7 @@ msgstr "アドレスをコピー"
 msgid "Custom commands"
 msgstr "カスタムコマンド"
 
-#: GTK3.OLD/widgets.py plugins/plugin_ipmisol.py plugins/plugin_rdp.py
-#: plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
 msgid "Disconnect"
 msgstr "切断"
 
@@ -2426,9 +2424,8 @@ msgstr ""
 msgid "VM name"
 msgstr "VM名"
 
-#: plugins/import_hyperviseurs/ui.py plugins/plugin_ipmisol.py
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: plugins/plugin_web.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "待機中…"
 
@@ -3023,254 +3020,6 @@ msgstr ""
 msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
-#: plugins/web/gtk4.py
-msgid "Connecting…"
-msgstr "接続中…"
-
-#: plugins/plugin_ipmisol.py
-msgid "IPMI (SOL)"
-msgstr ""
-
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "セッション終了"
-
-#: plugins/plugin_ipmisol.py
-msgid "ipmitool introuvable"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
-msgid "Authentication failed"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Custom…"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Domain"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-#, fuzzy
-#| msgid "Dynamic title"
-msgid "Dynamic resolution"
-msgstr "動的なタイトル"
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
-msgid "Error: could not mount the ISO"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/web/gtk4.py
-#, python-brace-format
-msgid "Error: {msg}"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
-msgid "Fullscreen"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Geometry"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Height"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_web.py plugins/rdp/gtk4.py
-#: plugins/web/gtk4.py
-msgid "Ignore certificate errors"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "RDP"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-#, fuzzy
-#| msgid "Remote"
-msgid "RemoteApp"
-msgstr "リモート"
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: plugins/rdp/gtk4.py
-msgid "Share clipboard"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
-msgid "Share folder"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
-msgid "Shared folder path"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Width"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid ""
-"Additional raw options passed to the binary\n"
-"Ex: --logfile /tmp/serial.log  (picocom)\n"
-"     -o -x  (minicom)"
-msgstr ""
-"バイナリに渡す追加のオプション\n"
-"例: --logfile /tmp/serial.log（picocom）\n"
-"     -o -x（minicom）"
-
-#: plugins/plugin_serial.py
-msgid "Aruba (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "BMC/iDRAC (115200 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Baud rate:"
-msgstr "ボーレート:"
-
-#: plugins/plugin_serial.py
-msgid "Cisco IOS (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "DTR/DSR"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Data bits:"
-msgstr "データビット:"
-
-#: plugins/plugin_serial.py
-msgid "Even"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Ex : /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
-msgstr "例: /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
-
-#: plugins/plugin_serial.py
-#, fuzzy
-#| msgid "Flow control:"
-msgid "Flow control"
-msgstr "フロー制御:"
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Flow control:"
-msgstr "フロー制御:"
-
-#: plugins/plugin_serial.py
-msgid ""
-"Flow control:\n"
-"  None = standard console\n"
-"  XON/XOFF = software (Ctrl-Q/Ctrl-S)\n"
-"  RTS/CTS = hardware (full cable)\n"
-"  DSR/DTR = legacy hardware"
-msgstr ""
-"フロー制御:\n"
-"  なし = 標準コンソール\n"
-"  XON/XOFF = ソフトウェア (Ctrl-Q/Ctrl-S)\n"
-"  RTS/CTS = ハードウェア（全結線ケーブル）\n"
-"  DSR/DTR = 旧式ハードウェア"
-
-#: plugins/plugin_serial.py
-msgid "H3C/HPE Comware (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Juniper (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Load vendor-recommended serial settings"
-msgstr "ベンダー推奨のシリアル設定を読み込む"
-
-#: plugins/plugin_serial.py
-msgid "None"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Number of data bits per byte (8 = standard)"
-msgstr "1バイトあたりのデータビット数（8 = 標準）"
-
-#: plugins/plugin_serial.py
-#, fuzzy
-#| msgid "Add"
-msgid "Odd"
-msgstr "追加"
-
-#: plugins/plugin_serial.py
-msgid "Parity bit: None (N) = standard, Even (E), Odd (O)"
-msgstr "パリティビット: なし (N) = 標準、偶数 (E)、奇数 (O)"
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Parity:"
-msgstr "パリティ:"
-
-#: plugins/plugin_serial.py
-msgid "RTS/CTS (hardware)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-#, fuzzy
-#| msgid "serial"
-msgid "Serial"
-msgstr "シリアル"
-
-#: plugins/plugin_serial.py
-msgid "Serial port:"
-msgstr "シリアルポート:"
-
-#: plugins/plugin_serial.py
-#, fuzzy
-#| msgid "Stop bits:"
-msgid "Stop bits"
-msgstr "ストップビット:"
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Stop bits:"
-msgstr "ストップビット:"
-
-#: plugins/plugin_serial.py
-msgid "Stop bits: 1 = standard, 2 = RS-485 / legacy hardware"
-msgstr "ストップビット: 1 = 標準、2 = RS-485 / 旧式ハードウェア"
-
-#: plugins/plugin_serial.py
-#, fuzzy
-#| msgid "Template:"
-msgid "Template"
-msgstr "テンプレート:"
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Template:"
-msgstr "テンプレート:"
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
-msgid "Tool"
-msgstr "ツール"
-
-#: plugins/plugin_serial.py
-msgid "Transmission speed in baud"
-msgstr "ボー単位の通信速度"
-
-#: plugins/plugin_serial.py
-msgid "XON/XOFF (software)"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/plugin_vnc.py
-msgid "xfreerdp options:"
-msgstr "xfreerdp オプション:"
-
-#: plugins/plugin_serial.py
-msgid "— custom —"
-msgstr ""
-
 #: plugins/plugin_spice.py
 #, python-brace-format
 msgid ""
@@ -3285,6 +3034,10 @@ msgstr ""
 #: plugins/plugin_spice.py
 msgid "Configuration SPICE invalide"
 msgstr ""
+
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/web/gtk4.py
+msgid "Connecting…"
+msgstr "接続中…"
 
 #: plugins/plugin_spice.py
 msgid "Direct URI"
@@ -3311,6 +3064,10 @@ msgstr ""
 
 #: plugins/plugin_spice.py
 msgid "Error: VM name required"
+msgstr ""
+
+#: plugins/plugin_spice.py
+msgid "Error: could not mount the ISO"
 msgstr ""
 
 #: plugins/plugin_spice.py
@@ -3349,12 +3106,28 @@ msgstr ""
 msgid "SSH error: {exc}"
 msgstr ""
 
+#: plugins/plugin_spice.py plugins/plugin_vnc.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "セッション終了"
+
 #: plugins/plugin_spice.py
 msgid "Share USB devices"
 msgstr ""
 
 #: plugins/plugin_spice.py
 msgid "Share audio"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Share folder"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Shared folder path"
 msgstr ""
 
 #: plugins/plugin_spice.py
@@ -3666,9 +3439,17 @@ msgid ""
 "E.g.: {example}"
 msgstr ""
 
+#: plugins/plugin_vnc.py plugins/sftp/gtk4.py
+msgid "Authentication failed"
+msgstr ""
+
 #: plugins/plugin_vnc.py src/gcm4/ui/host_dialog.py
 msgid "Display"
 msgstr "表示"
+
+#: plugins/plugin_vnc.py
+msgid "Fullscreen"
+msgstr ""
 
 #: plugins/plugin_vnc.py
 msgid "VNC"
@@ -3690,51 +3471,9 @@ msgstr ""
 msgid "xfreerdp not found"
 msgstr "xfreerdp が見つかりません"
 
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "BMC web console (iLO, iDRAC, IMM…) or any web interface (Proxmox, switch, TrueNAS…)"
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid "Error: URL not configured"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Error: could not open the URL"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Opened in the system browser"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "URL"
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid "URL is required for a Web connection."
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/core.py
-msgid "URL is required."
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid "URL not configured"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Useful for self-signed certificates on BMC interfaces"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Web"
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid ""
-"WebKitGTK unavailable (gir1.2-webkit2-4.1 package missing).\n"
-"The web console will open in the system browser."
-msgstr ""
+#: plugins/plugin_vnc.py
+msgid "xfreerdp options:"
+msgstr "xfreerdp オプション:"
 
 #: plugins/rdp/core.py
 msgid "Choose the folder to share"
@@ -3782,7 +3521,29 @@ msgid "Connection cancelled"
 msgstr "接続中…"
 
 #: plugins/rdp/gtk4.py
+msgid "Custom…"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Domain"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Dynamic title"
+msgid "Dynamic resolution"
+msgstr "動的なタイトル"
+
+#: plugins/rdp/gtk4.py
 msgid "Fit to tab"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Geometry"
+msgstr ""
+
+#: plugins/rdp/gtk4.py plugins/web/gtk4.py
+msgid "Ignore certificate errors"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
@@ -3796,8 +3557,42 @@ msgid "RDP needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Remote"
+msgid "RemoteApp"
+msgstr "リモート"
+
+#: plugins/rdp/gtk4.py
 msgid "Size"
 msgstr ""
+
+#: plugins/serial/gtk4.py
+msgid "Baud rate:"
+msgstr "ボーレート:"
+
+#: plugins/serial/gtk4.py
+msgid "Data bits:"
+msgstr "データビット:"
+
+#: plugins/serial/gtk4.py
+msgid "Flow control:"
+msgstr "フロー制御:"
+
+#: plugins/serial/gtk4.py
+msgid "Parity:"
+msgstr "パリティ:"
+
+#: plugins/serial/gtk4.py
+msgid "Stop bits:"
+msgstr "ストップビット:"
+
+#: plugins/serial/gtk4.py
+msgid "Template:"
+msgstr "テンプレート:"
+
+#: plugins/serial/gtk4.py src/gcm4/ui/preferences.py
+msgid "Tool"
+msgstr "ツール"
 
 #: plugins/sftp/core.py
 msgid "B"
@@ -4186,8 +3981,25 @@ msgstr "権限が緩すぎます: ssh はこの鍵を拒否します"
 msgid "The URL must start with http:// or https://"
 msgstr ""
 
+#: plugins/web/core.py
+msgid "URL is required."
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "BMC web console (iLO, iDRAC, IMM…) or any web interface (Proxmox, switch, TrueNAS…)"
+msgstr ""
+
 #: plugins/web/gtk4.py
 msgid "Certificate"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Error: could not open the URL"
+msgstr ""
+
+#: plugins/web/gtk4.py
+#, python-brace-format
+msgid "Error: {msg}"
 msgstr ""
 
 #: plugins/web/gtk4.py src/gcm4/ui/preferences.py
@@ -4196,6 +4008,22 @@ msgstr "読み込み済み"
 
 #: plugins/web/gtk4.py
 msgid "Open in the system browser"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Opened in the system browser"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "URL"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Useful for self-signed certificates on BMC interfaces"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Web"
 msgstr ""
 
 #: plugins/web/gtk4.py
@@ -5166,6 +4994,15 @@ msgstr "ウィンドウを表示"
 #~ msgid "Add a Proxmox target:"
 #~ msgstr "Proxmox ターゲットを追加:"
 
+#~ msgid ""
+#~ "Additional raw options passed to the binary\n"
+#~ "Ex: --logfile /tmp/serial.log  (picocom)\n"
+#~ "     -o -x  (minicom)"
+#~ msgstr ""
+#~ "バイナリに渡す追加のオプション\n"
+#~ "例: --logfile /tmp/serial.log（picocom）\n"
+#~ "     -o -x（minicom）"
+
 #~ msgid "Colors and Keys"
 #~ msgstr "色とキー"
 
@@ -5198,6 +5035,9 @@ msgstr "ウィンドウを表示"
 #~ msgid "Edit hosts properties"
 #~ msgstr "ホストのプロパティを編集"
 
+#~ msgid "Ex : /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
+#~ msgstr "例: /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
+
 #~ msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
 #~ msgstr "例: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
 
@@ -5206,6 +5046,24 @@ msgstr "ウィンドウを表示"
 
 #~ msgid "Extra arguments to pass to command line"
 #~ msgstr "コマンドラインに渡す追加の引数"
+
+#, fuzzy
+#~| msgid "Flow control:"
+#~ msgid "Flow control"
+#~ msgstr "フロー制御:"
+
+#~ msgid ""
+#~ "Flow control:\n"
+#~ "  None = standard console\n"
+#~ "  XON/XOFF = software (Ctrl-Q/Ctrl-S)\n"
+#~ "  RTS/CTS = hardware (full cable)\n"
+#~ "  DSR/DTR = legacy hardware"
+#~ msgstr ""
+#~ "フロー制御:\n"
+#~ "  なし = 標準コンソール\n"
+#~ "  XON/XOFF = ソフトウェア (Ctrl-Q/Ctrl-S)\n"
+#~ "  RTS/CTS = ハードウェア（全結線ケーブル）\n"
+#~ "  DSR/DTR = 旧式ハードウェア"
 
 #, fuzzy
 #~ msgid "Import from CSV"
@@ -5231,6 +5089,9 @@ msgstr "ウィンドウを表示"
 #~ msgid "Libvirt"
 #~ msgstr "Libvirt"
 
+#~ msgid "Load vendor-recommended serial settings"
+#~ msgstr "ベンダー推奨のシリアル設定を読み込む"
+
 #~ msgid "Local port already assigned"
 #~ msgstr "ローカルポートは既に割り当てられています"
 
@@ -5240,11 +5101,22 @@ msgstr "ウィンドウを表示"
 #~ msgid "No new host (duplicates ignored)."
 #~ msgstr "新しいホストはありません（重複は無視されました）。"
 
+#~ msgid "Number of data bits per byte (8 = standard)"
+#~ msgstr "1バイトあたりのデータビット数（8 = 標準）"
+
+#, fuzzy
+#~| msgid "Add"
+#~ msgid "Odd"
+#~ msgstr "追加"
+
 #~ msgid "Open local console"
 #~ msgstr "ローカルコンソールを開く"
 
 #~ msgid "Overwrite existing connections with the same name and protocol"
 #~ msgstr "同じ名前とプロトコルの既存の接続を上書きする"
+
+#~ msgid "Parity bit: None (N) = standard, Even (E), Odd (O)"
+#~ msgstr "パリティビット: なし (N) = 標準、偶数 (E)、奇数 (O)"
 
 #~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
 #~ msgstr "SPICE（ここでは利用できません: Proxmox には API チケット/プロキシが必要です）"
@@ -5262,6 +5134,14 @@ msgstr "ウィンドウを表示"
 #~ msgid "Send commands to several hosts at the same time"
 #~ msgstr "複数のホストに同時にコマンドを送信"
 
+#, fuzzy
+#~| msgid "serial"
+#~ msgid "Serial"
+#~ msgstr "シリアル"
+
+#~ msgid "Serial port:"
+#~ msgstr "シリアルポート:"
+
 #~ msgid "Show Toolbar"
 #~ msgstr "ツールバーを表示"
 
@@ -5270,6 +5150,22 @@ msgstr "ウィンドウを表示"
 
 #~ msgid "Split console vertically"
 #~ msgstr "コンソールを垂直に分割"
+
+#, fuzzy
+#~| msgid "Stop bits:"
+#~ msgid "Stop bits"
+#~ msgstr "ストップビット:"
+
+#~ msgid "Stop bits: 1 = standard, 2 = RS-485 / legacy hardware"
+#~ msgstr "ストップビット: 1 = 標準、2 = RS-485 / 旧式ハードウェア"
+
+#, fuzzy
+#~| msgid "Template:"
+#~ msgid "Template"
+#~ msgstr "テンプレート:"
+
+#~ msgid "Transmission speed in baud"
+#~ msgstr "ボー単位の通信速度"
 
 #, fuzzy
 #~ msgid ""

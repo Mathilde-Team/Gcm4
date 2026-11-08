@@ -46,10 +46,9 @@ Changelog = "https://github.com/MathildeDec/gnome-connection-manager/blob/main/C
 #                  `Cryptodome` importé par le code (pycryptodome n'installe
 #                  parfois que le namespace legacy `Crypto`).
 #
-# NOTE — plugin_rdp.py (GtkFrdp.Display) n'a pas d'extra correspondant : le
-# namespace GObject Introspection "GtkFrdp" provient du sous-projet local
-# gtk-frdp/ (à compiler via meson et installer au niveau système), ce n'est
-# pas un paquet PyPI.
+# NOTE — le plugin RDP GTK4 (plugins/rdp/) n'a pas d'extra correspondant :
+# il s'appuie sur FreeRDP 3 côté système. L'ancien plugin GTK3 plugin_rdp.py
+# (GtkFrdp, sous-projet GTK3.OLD/gtk-frdp/) a été retiré (#179).
 [project.optional-dependencies]
 netmiko = ["netmiko>=4.2.0"]
 paramiko = ["paramiko>=3.4.0"]
