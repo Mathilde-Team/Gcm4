@@ -356,9 +356,11 @@ skip_covered = false
 # tests du sélecteur de clé SSH GTK3 (#418, 10,6 % → 100 %), soit 73.
 # Palier 17 de #293 (07/11/2026) : 79,6 % en mesure combinée avec les
 # tests des widgets GTK3 (widgets.py 13,7 % → 90,0 %), soit 79.
+# Palier 18 de #293 (08/11/2026) : 81,0 % en mesure combinée avec les
+# tests des limites des préférences GTK4 (preferences.py 98,2 %), soit 81.
 # Relever ce chiffre quand la base monte, ne jamais le baisser
 # pour faire passer une PR. Cible de l'équipe : 95 % (Mathilde-Team/.github#9).
-fail_under = 79
+fail_under = 81
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",

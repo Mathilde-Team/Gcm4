@@ -88,6 +88,24 @@ Mesure de `dev` + PR de tests (reproduction locale du job : suite Qualité + sui
 
 Suite complète : 1959 tests (1730 hors GTK4, 229 GTK4). `fail_under` passe de 50 à **51** (entier inférieur de la nouvelle mesure combinée, 0,4 pt de marge).
 
+### Palier 18 (issue #293, 08/11/2026)
+
+Reproduction locale des suites Qualité et GTK4 sous Xvfb, puis fusion de leurs
+données dans un répertoire isolé : **81,0 %** au total (23 230 instructions
+et 4 250 branches couvertes, sur 28 181 instructions et 5 742 branches).
+Les 16 tests de `tests/gtk4/test_preferences_limites.py` exercent le code actif :
+actions absentes ou sans état, polices modernes et repli GTK 4.8, CSS en pixels
+sans famille, lancement de dossier moderne et ancien avec leurs erreurs,
+absence de configuration chargée, sélections invalides, échec de stockage d'un
+raccourci, application sans helpers optionnels et titre des pages de plugins.
+
+`src/gcm4/ui/preferences.py` atteint **98,2 %** lignes et branches combinées
+(460/462 instructions, 92/100 branches). Suites complètes : **2 585 tests**
+hors GTK4 (+252 sous-tests) et **486 tests GTK4**. Le lint, le format et mypy
+passent également. Aucun code de production, périmètre de couverture ou
+exclusion n'est modifié. `fail_under` passe de 79 à **81**, entier inférieur
+de la mesure combinée locale ; la CI doit confirmer ce palier avant fusion.
+
 ## Où le voir
 
 - **job Couverture combinée** (`ci.yml`) : total fusionné Qualité + GTK4 et tableau par périmètre dans le résumé du job ;
