@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:33+0000\n"
+"POT-Creation-Date: 2026-11-08 11:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -370,8 +370,8 @@ msgstr ""
 msgid "Import from VirtualBox"
 msgstr ""
 
-#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/pluginvnc2/gtk4.py
+#: plugins/serial/gtk4.py plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr ""
@@ -668,6 +668,34 @@ msgstr ""
 msgid "Netmiko"
 msgstr ""
 
+#: plugins/pluginvnc2/core.py
+msgid "VNC display number must be between 0 and 59635."
+msgstr ""
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "Shared session (VNC)"
+msgstr ""
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "View only"
+msgstr ""
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "Fullscreen"
+msgstr ""
+
+#: plugins/pluginvnc2/gtk4.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr ""
+
+#: plugins/pluginvnc2/gtk4.py src/gcm4/ui/host_dialog.py
+msgid "Display"
+msgstr ""
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "VNC needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
+msgstr ""
+
 #: plugins/rdp/core.py
 msgid "Unknown geometry"
 msgstr ""
@@ -738,10 +766,6 @@ msgstr ""
 
 #: plugins/rdp/gtk4.py
 msgid "Dynamic resolution"
-msgstr ""
-
-#: plugins/rdp/gtk4.py
-msgid "Share clipboard"
 msgstr ""
 
 #: plugins/rdp/gtk4.py plugins/spice/gtk4.py
@@ -3132,10 +3156,6 @@ msgstr ""
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Protocol options"
-msgstr ""
-
-#: src/gcm4/ui/host_dialog.py
-msgid "Display"
 msgstr ""
 
 #: src/gcm4/ui/host_dialog.py

@@ -15,12 +15,18 @@ le fichier est absent sur `dev`, le chercher sur `main`).
 
 ## État courant
 
-- **Partage SSH, #82 (08/11/2026)** : option d'hôte GTK4
+- **Partage SSH et VNC, #82 (08/11/2026)** : option d'hôte SSH GTK4
   `shared_session` (désactivée par défaut), nom `shared_session_name`
   (vide : `gcm4`, 1–64 caractères ASCII alphanumériques, `_`, `-`).
   Lance tmux sur le serveur sous pseudo-terminal, sans toucher à l'éditeur
-  SSH #97. Le réglage VNC demandé reste à exposer après intégration du
-  composant pluginvnc2 dans le contrat v1 ; ne pas déclarer #82 terminée.
+  SSH #97. VNC intégré au contrat v1 dans `plugins/pluginvnc2/`
+  (adaptateur `core.py` + `gtk4.py`, composant existant toujours monofichier),
+  case `vnc_shared` active par défaut, options historiques conservées,
+  mode lecture seule sans entrée distante. Import du composant au
+  lancement seulement ; PyGObject ≥ 3.50 requis pour ouvrir VNC, pas
+  pour démarrer gcm4 ni éditer les hôtes. Tests natifs `tests/vnc`
+  obligatoires dans le job GTK4, plus tests de compatibilité dans
+  `tests/gtk4` sur les anciennes distributions.
   Voir `docs/partage-sessions.md`.
 
 GCM est un gestionnaire de connexions distantes multi-protocoles (SSH, RDP,

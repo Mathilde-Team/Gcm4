@@ -40,23 +40,46 @@ Sans activation explicite, le lancement SSH est strictement inchangé.
 L'absence de tmux s'affiche comme une erreur distante, sans repli qui
 ferait croire à tort qu'une session est partagée.
 
-## VNC : volet non encore livré au formulaire d'hôte
+## VNC : partage dans le formulaire d'hôte
 
-`plugins/pluginvnc2/vnc_tab.py` possède déjà le champ de profil booléen
-`VncConnectionInfo.shared`, vrai par défaut, transmis au connecteur
-asyncvnc2. Le composant n'est pas encore enregistré comme plugin de
-connexion du contrat v1 : aucun formulaire d'hôte GTK4 VNC actif ne peut
-donc recevoir ce réglage dans ce lot.
+L'adaptateur `plugins/pluginvnc2/core.py` + `gtk4.py` expose le composant
+monofichier existant au contrat v1 (#179). La case « Session partagée
+(VNC) » est active par défaut ; sa valeur est persistée dans la clé
+`vnc_shared` et transmise à `VncConnectionInfo.shared`, puis au
+`ClientInit` RFB d'AsyncVnc4. Un client ancien sans argument `shared=`
+ne peut pas lancer une session demandée non partagée : le lancement
+échoue plutôt que d'ignorer ce choix.
 
-Le portage/intégration est suivi par
-[#179](https://github.com/Mathilde-Team/Gcm4/issues/179) et
-[#107](https://github.com/Mathilde-Team/Gcm4/issues/107).
-Ce lot ne modifie pas ce chantier réservé à un autre intervenant.
-Après intégration, le formulaire devra exposer `shared`, conserver vrai
-comme valeur par défaut et vérifier sa transmission au connecteur.
 Le serveur VNC reste décisionnaire : `shared=True` demande le maintien
 des autres clients, sans créer de droits d'accès ; `shared=False` peut
 déconnecter les autres clients selon la politique du serveur.
 
-L'issue #82 reste ouverte : la livraison SSH seule ne constitue pas
-une réalisation complète des options 1+2.
+Les options historiques `vnc_display`, `vnc_view_only`, `vnc_fullscreen`
+et `vnc_share_clipboard` restent utilisables. Un affichage renseigné
+remplace le port par `5900 + affichage` ; seules les valeurs ASCII de
+0 à 59635 sont acceptées. La lecture seule supprime les contrôleurs
+clavier/souris et interdit frappe, Ctrl+Alt+Suppr, commande d'alimentation
+et presse-papier sortant. Fermer l'onglet arrête connexion et reconnexion.
+La clé historique `vnc_viewer` est conservée, mais ne sélectionne plus
+de programme externe : l'intégration retenue est le widget GTK4 embarqué.
+
+AsyncVnc4 est importé à l'ouverture, pas à la découverte du plugin.
+Sans sa dépendance ou sans asyncio natif dans la boucle GTK
+(PyGObject ≥ 3.50), le démarrage de gcm4 et le formulaire restent
+utilisables ; ouvrir VNC affiche une erreur explicite. Les anciennes
+distributions ne sont pas retirées des cibles.
+
+## Vérification et limites
+
+Le job GTK4 requis lance les tests de contrat dans `tests/gtk4`,
+la suite native `tests/vnc` avec `GCM_TESTS_VNC=1`, puis les tests
+existants du composant. La mesure de ce dernier cible `vnc_tab`
+(pas les tests du sous-projet) et s'ajoute à `.coverage.gtk4` avant
+publication de l'artifact. Le total est soumis aux mêmes seuils ;
+aucune exclusion de production n'est ajoutée.
+
+Les tests natifs vérifient les deux valeurs du drapeau partagé sur une
+connexion RFB 3.8 locale, une image brute, l'envoi de touche en contrôle,
+la lecture seule, le cycle de fermeture et les interactions du widget.
+Ils ne certifient pas les politiques d'exclusivité de tous les serveurs,
+les équipements physiques, ni les variantes propriétaires d'authentification.
