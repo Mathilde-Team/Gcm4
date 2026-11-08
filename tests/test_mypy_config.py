@@ -24,6 +24,7 @@ MODULES_TYPES_MINIMUM = {
     "plugins/ssh/core.py",
     "plugins/spice/core.py",
     "plugins/pluginvnc2/core.py",
+    "scripts/verifier_couverture.py",
 }
 
 
