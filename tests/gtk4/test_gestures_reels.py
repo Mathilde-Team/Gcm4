@@ -175,29 +175,33 @@ def _est_dans(widget, ancetre) -> bool:
 
 
 def _attendre_presentation(dialogue, pomper: Callable) -> None:
-    """Attend la fin de la présentation du ``Adw.Dialog`` (fondu d'ouverture).
+    """Attend la fin de la présentation du dialogue (fondu d'ouverture).
 
     Pendant la présentation, le dialogue ignore toute entrée — clics comme
     clavier. Le focus par défaut (bouton de réponse par défaut) n'est posé
     qu'au terme de l'animation : c'est le signal de fin de présentation.
+    Avec le repli ``Adw.MessageDialog`` des vieilles libadwaita (< 1.5),
+    fenêtre séparée, aucun focus n'est garanti : un délai fixe borne alors
+    l'attente, la présentation durant ~250 ms.
     """
     fenetre = dialogue
     while fenetre.get_parent() is not None:
         fenetre = fenetre.get_parent()
-    for _essai in range(40):  # ~2 s au pire
+    for _essai in range(20):  # ~1 s
         focus = fenetre.get_focus()
         if focus is not None and _est_dans(focus, dialogue):
             pomper(5)
             return
         pomper(1)
         time.sleep(0.05)
-    pytest.fail("dialogue jamais prêt à recevoir l'entrée")
+    time.sleep(0.4)
+    pomper(10)
 
 
 def _attendre_disparition(dialogue, pomper: Callable) -> None:
-    """Attend la fin de l'animation de fermeture (dialogue déparenté)."""
+    """Attend la fermeture du dialogue (déparenté ou caché, selon la version)."""
     for _essai in range(40):  # ~2 s au pire
-        if dialogue.get_parent() is None:
+        if not dialogue.get_visible() or dialogue.get_parent() is None:
             pomper(5)
             return
         pomper(1)
@@ -234,52 +238,76 @@ def _clic_sur(
     pomper()
 
 
-#: Keycodes du serveur X, lus une seule fois (keysym → keycode de base).
-_KEYCODES: dict[str, int] | None = None
+#: Keycodes du serveur X, lus une seule fois (valeur keysym → keycode).
+_KEYCODES: dict[int, int] | None = None
 
 
-def _keycodes() -> dict[str, int]:
-    """Keycodes X (keysym de base → keycode) lus dans la table du serveur."""
+def _keycodes() -> dict[int, int]:
+    """Keycodes X (valeur keysym → keycode) lus dans la table du serveur.
+
+    ``XGetKeyboardMapping`` plutôt que ``xmodmap`` : absent des images
+    minimales (conteneurs CI), le binaire ne se trouve pas partout. Le
+    premier keycode portant le keysym gagne (colonne de base d'abord,
+    comme le ``xmodmap -pke`` jadis parsé).
+    """
     global _KEYCODES
-    if _KEYCODES is None:
-        table = subprocess.run(
-            ["xmodmap", "-pke"], check=True, capture_output=True, text=True
-        ).stdout
-        codes: dict[str, int] = {}
-        for ligne in table.splitlines():
-            if not ligne.startswith("keycode"):
-                continue
-            morceaux = ligne.split()
-            premier = next(
-                (s for s in morceaux[3:] if s != "NoSymbol"), None
-            )  # keysym de base, sans modificateur
-            if premier is not None:
-                codes.setdefault(premier, int(morceaux[1]))
-        _KEYCODES = codes
-    return _KEYCODES
+    if _KEYCODES is not None:
+        return _KEYCODES
+    x11 = ctypes.CDLL("libX11.so.6")
+    affichage = x11.XOpenDisplay(None)
+    assert affichage, "serveur X du test inaccessible"
+    try:
+        code_min, code_max = ctypes.c_int(), ctypes.c_int()
+        x11.XDisplayKeycodes(affichage, ctypes.byref(code_min), ctypes.byref(code_max))
+        par_code = ctypes.c_int()
+        x11.XGetKeyboardMapping.restype = ctypes.POINTER(ctypes.c_ulong)
+        table = x11.XGetKeyboardMapping(
+            affichage,
+            code_min.value,
+            code_max.value - code_min.value + 1,
+            ctypes.byref(par_code),
+        )
+        assert table, "table des keycodes illisible"
+        codes: dict[int, int] = {}
+        for keycode in range(code_min.value, code_max.value + 1):
+            for colonne in range(par_code.value):
+                keysym = table[(keycode - code_min.value) * par_code.value + colonne]
+                if keysym and keysym not in codes:
+                    codes[keysym] = keycode
+        x11.XFree(table)
+    finally:
+        x11.XCloseDisplay(affichage)
+    _KEYCODES = codes
+    return codes
 
 
 def _touche(symbole: str, avec_ctrl: bool = False) -> None:
-    """Presse puis relâche une touche par keysym, XTEST direct.
+    """Presse puis relâche une touche par nom keysym, XTEST direct.
 
     ``xdotool key`` envoie un ``Alt_L`` pressé avant la touche (constaté
     contre le serveur X du test) : un raccourci strict comme ``F2`` ne
     l'entendrait pas, Alt étant un modificateur actif.
     """
-    codes = _keycodes()
-    assert symbole in codes, f"keysym {symbole} absent du serveur X"
     x11 = ctypes.CDLL("libX11.so.6")
     xtst = ctypes.CDLL("libXtst.so.6")
     affichage = x11.XOpenDisplay(None)
     assert affichage, "serveur X du test inaccessible"
-    if avec_ctrl:
-        xtst.XTestFakeKeyEvent(affichage, codes["Control_L"], True, 0)
-    xtst.XTestFakeKeyEvent(affichage, codes[symbole], True, 0)
-    xtst.XTestFakeKeyEvent(affichage, codes[symbole], False, 0)
-    if avec_ctrl:
-        xtst.XTestFakeKeyEvent(affichage, codes["Control_L"], False, 0)
-    x11.XSync(affichage, False)
-    x11.XCloseDisplay(affichage)
+    try:
+        codes = _keycodes()
+        keysym = x11.XStringToKeysym(symbole.encode())
+        assert keysym, f"keysym {symbole} inconnu du serveur X"
+        assert keysym in codes, f"keysym {symbole} absent du serveur X"
+        ctrl = x11.XStringToKeysym(b"Control_L")
+        assert ctrl in codes, "Control_L absent du serveur X"
+        if avec_ctrl:
+            xtst.XTestFakeKeyEvent(affichage, codes[ctrl], True, 0)
+        xtst.XTestFakeKeyEvent(affichage, codes[keysym], True, 0)
+        xtst.XTestFakeKeyEvent(affichage, codes[keysym], False, 0)
+        if avec_ctrl:
+            xtst.XTestFakeKeyEvent(affichage, codes[ctrl], False, 0)
+        x11.XSync(affichage, False)
+    finally:
+        x11.XCloseDisplay(affichage)
 
 
 def _lignes_de_l_arbre(arbre) -> dict[str, int]:
@@ -525,8 +553,13 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
     assert entree is not None
     assert entree.get_text() == "LAB"
     _clic_sur(entree, entree.get_width() // 2, entree.get_height() // 2, 1, pomper)
-    # en GTK4, le focus tient dans le ``Gtk.Text`` interne de l'entrée
-    assert _est_dans(fenetre.get_focus(), entree)
+    # en GTK4, le focus tient dans le ``Gtk.Text`` interne de l'entrée ;
+    # il peut se trouver dans la fenêtre principale (dialogue interne aux
+    # libadwaita récentes) ou dans la fenêtre du repli ``MessageDialog``
+    racine = entree
+    while racine.get_parent() is not None:
+        racine = racine.get_parent()
+    assert _est_dans(racine.get_focus(), entree)
     _touche("a", avec_ctrl=True)
     _xdotool("type", "--delay", "30", "LABO")
     _touche("Return")
