@@ -89,6 +89,40 @@ def _xdotool(*arguments: str) -> str:
     return resultat.stdout
 
 
+def _etat_pointeur() -> str:
+    """État des modificateurs et boutons du serveur X (masque XQueryPointer).
+
+    Diagnostic #72 : un bouton ou un modificateur resté enfoncé fausse tout
+    le clavier et la souris XTEST qui suivent. ``xdotool`` ne le révèle pas.
+    """
+    x11 = ctypes.CDLL("libX11.so.6")
+    affichage = x11.XOpenDisplay(None)
+    assert affichage, "serveur X du test inaccessible"
+    try:
+        racine = ctypes.c_ulong()
+        enfant = ctypes.c_ulong()
+        racine_x = ctypes.c_int()
+        racine_y = ctypes.c_int()
+        x = ctypes.c_int()
+        y = ctypes.c_int()
+        masque = ctypes.c_uint()
+        fenetre = x11.XDefaultRootWindow(affichage)
+        x11.XQueryPointer(
+            affichage,
+            fenetre,
+            ctypes.byref(racine),
+            ctypes.byref(enfant),
+            ctypes.byref(racine_x),
+            ctypes.byref(racine_y),
+            ctypes.byref(x),
+            ctypes.byref(y),
+            ctypes.byref(masque),
+        )
+        return hex(masque.value)
+    finally:
+        x11.XCloseDisplay(affichage)
+
+
 def _position_fenetre(widget) -> tuple[int, int]:
     """Origine écran de la zone cliente de la fenêtre de ``widget``.
 
@@ -266,6 +300,7 @@ def _clic_sur(
         f"CLIC {type(widget).__name__} fenetre=({ox},{oy}) "
         f"dans_fenetre=({x},{y}) abs=({int(ox + x)},{int(oy + y)})"
     )
+    print("ETAT SOURIS: " + _etat_pointeur())
     _xdotool("mousemove", str(int(ox + x)), str(int(oy + y)))
     try:
         print("POINTEUR: " + _xdotool("getmouselocation").replace("\n", " "))
@@ -586,9 +621,14 @@ def test_focus_apres_clic_simple(app_fixture, pomper):
     assert not terminal.has_focus()
     _clic_sur(terminal, 10, 10, 1, pomper)
     print(f"SONDE: has_focus={terminal.has_focus()} focus={type(fenetre.get_focus()).__name__}")
+    _avant_grab = terminal.has_focus()
     print(f"SONDE: grab_focus direct → {terminal.grab_focus()}")
     pomper()
     print(f"SONDE: après grab direct, has_focus={terminal.has_focus()}")
+    if not _avant_grab:
+        # remettre le focus d'avant la sonde : le test doit mesurer le geste
+        fenetre.arbre.recherche.grab_focus()
+        pomper()
     chaine: list[str] = []
     courant_focus = fenetre.get_focus()
     while courant_focus is not None:
@@ -677,8 +717,8 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
     _sonde_texte.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
     _sonde_texte.connect(
         "key-pressed",
-        lambda _c, valeur, _code, _etat: (
-            print(f"SONDE CLAVIER (focus, capture): {valeur}"),
+        lambda _c, valeur, _code, etat: (
+            print(f"SONDE CLAVIER (focus, capture): {valeur} état={etat:x}"),
             False,
         )[1],
     )
