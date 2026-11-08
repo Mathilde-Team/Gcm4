@@ -114,6 +114,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.panneau.set_size_request(120, -1)
         self.config = None
         self.arbre: HostTree | None = None
+        self.erreur_config: Adw.StatusPage | None = None
         self.chiffrement = ChiffrementGcm(config_dir)
         #: Page de saisie du mot de passe maître (#98), sinon ``None``.
         self.verrou: PageVerrou | None = None
@@ -211,6 +212,30 @@ class MainWindow(Adw.ApplicationWindow):
         if hasattr(application, "set_group_colors"):
             application.set_group_colors(couleurs)
         logger.debug("_charger_configuration: {} hôte(s)", len(self.config.store.hosts))
+
+    def recharger_configuration(self) -> None:
+        """Relit ``gcm4.conf`` depuis le disque et reconstruit l'arbre (#97).
+
+        Appelé par le contexte des plugins (``recharger``) après qu'un
+        plugin a réécrit le fichier en direct — migration ou import
+        ssh_config : le magasin en mémoire est remplacé par l'état réel
+        du fichier. Sans configuration chargée : sans effet.
+        """
+        logger.debug("recharger_configuration: entrée")
+        if self.config is None and self.erreur_config is None:
+            logger.debug("recharger_configuration: rien à recharger")
+            return
+        for enfant in (self.arbre, self.erreur_config):
+            if enfant is not None:
+                self.panneau.remove(enfant)
+        self.arbre = None
+        self.erreur_config = None
+        self._charger_configuration()
+        action = self.lookup_action("search")
+        if action is not None:
+            action.set_enabled(self.arbre is not None)
+        self.maj_titre()
+        logger.debug("recharger_configuration: fait")
 
     def _on_deverrouille(self) -> None:
         """Mot de passe maître accepté (#98) : la configuration est chargée."""
