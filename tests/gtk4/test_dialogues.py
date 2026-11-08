@@ -62,3 +62,33 @@ def test_repli_message_dialog_sans_racine(monkeypatch, pomper):
     dialogue.emit("response", "ok")
     assert recus == ["ok"]
     pomper()
+
+
+def test_repli_message_dialog_return_entree(monkeypatch, pomper):
+    """Sans AlertDialog : le Return dans l'entrée répond « valider » une seule fois.
+
+    Sous vieux libadwaita, le Return d'une entrée du repli MessageDialog
+    peut n'activer ni le bouton par défaut ni le dialogue (#72) : un idle
+    répond alors directement — et une seule fois, même si le signal
+    « activate » est émis plusieurs fois.
+    """
+    monkeypatch.setattr(dialogues, "Adw", _VueAdwMessageDialog)
+    recus: list[str] = []
+    entree = Gtk.Entry()
+    dialogue = dialogues.creer(
+        Gtk.Box(),
+        "Titre",
+        "Corps",
+        [("annuler", "Annuler", None), ("valider", "Valider", Adw.ResponseAppearance.SUGGESTED)],
+        "valider",
+        "annuler",
+        recus.append,
+        extra=entree,
+    )
+    assert isinstance(dialogue, Adw.MessageDialog)
+    entree.emit("activate")
+    entree.emit("activate")  # deux Retour : la réponse reste unique
+    pomper(50)  # l'idle passe après les événements de mise en page du dialogue
+    assert recus == ["valider"]
+    assert not dialogue.get_visible()
+    pomper()
