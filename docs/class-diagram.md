@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-93 modules · 158 classes · 374 fonctions publiques de module.
+96 modules · 161 classes · 393 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -24,7 +24,7 @@ flowchart TD
     g1["gcm4"]
     g2["gcm4.core"]
     g3["gcm4.ui"]
-    g0 -->|66| g2
+    g0 -->|73| g2
     g0 -->|12| g3
     g1 -->|4| g2
     g1 -->|1| g3
@@ -68,6 +68,9 @@ flowchart TD
 | `plugins.sftp.gtk4` | `plugins/sftp/gtk4.py` | Plugin SFTP de gcm4 (contrat v1, ``docs/plugins.md``) : navigateur de fichiers distant (#75). |
 | `plugins.snmp_push.core` | `plugins/snmp_push/core.py` | Cœur métier (sans GTK) du déploiement SNMP pour GCM. |
 | `plugins.snmp_push.gtk4` | `plugins/snmp_push/gtk4.py` | Outil « Déploiement SNMP » (contrat v1, #445, portage #179, après #74). |
+| `plugins.spice` | `plugins/spice/__init__.py` | Plugin spice : bureau à distance SPICE dans la visionneuse externe ``remote-viewer``. |
+| `plugins.spice.core` | `plugins/spice/core.py` | Partie métier du plugin spice (sans GTK) — portage #179. |
+| `plugins.spice.gtk4` | `plugins/spice/gtk4.py` | Plugin spice de gcm4 (contrat v1, ``docs/plugins.md``) : session dans ``remote-viewer``. |
 | `plugins.ssh` | `plugins/ssh/__init__.py` | Plugin SSH — dossier pilote de la migration GTK4 (découpage par plugin). |
 | `plugins.ssh.core` | `plugins/ssh/core.py` | Logique métier SSH de gcm4, zéro dépendance GTK — parsing de ``~/.ssh/config`` et migration/import des hôtes SSH de gcm.conf. |
 | `plugins.ssh.gtk4` | `plugins/ssh/gtk4.py` | Outils SSH GTK4 de gcm4 (#97) : sélecteur de clé, éditeur de ``~/.ssh/config`` (personnel + partagé) et gestionnaire de clés. |
@@ -603,6 +606,48 @@ classDiagram
     class SnmpPushPlugin {
         <<ToolPlugin>>
         +activate() None
+    }
+    class mod_plugins_spice_core {
+        <<module>>
+        +options_defaut() dict~str, str~
+        +ecrire_booleen(valeur) str
+        +lire_booleen(options, cle, defaut) bool
+        +texte(options, cle) str
+        +mode(options) str
+        +valider(options) list~FieldError~
+        +trouver_visionneuse(choisi, which) str None
+        +options_partage(options) list~str~
+        +parametres_supplementaires(host) list~str~
+        +titre(host) str
+        +champs_vv_direct(host, options) dict~str, str~
+        +contenu_vv(champs) str
+        +ecrire_vv(champs, dossier) Path
+        +commande_vv(binaire, chemin_vv, host, options, ca) list~str~
+        +commande_libvirt(binaire, host, options) list~str~
+        +port_ssh(host) int
+        +commande_ticket(host, options) list~str~
+        +lire_ticket(sortie) dict~str, str~
+    }
+    class ErreurTicket {
+        <<ValueError>>
+    }
+    class mod_plugins_spice_gtk4 {
+        <<module>>
+        +zone_options(options, changed) Gtk.Box
+    }
+    class SessionSpice {
+        +en_cours() bool
+        +connecter() None
+        +arreter() None
+        +close() None
+    }
+    class SpicePlugin {
+        <<ConnectionPlugin>>
+        +default_port(protocol) int None
+        +default_options(protocol) dict~str, str~
+        +validate_options(protocol, options) list~FieldError~
+        +build_host_options_widget(host, options, changed) Gtk.Widget
+        +open(host) SessionSpice
     }
     class mod_plugins_ssh_core {
         <<module>>

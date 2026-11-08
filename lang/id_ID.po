@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "Nama VM"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Menunggu…"
 
@@ -864,13 +864,13 @@ msgstr "Remote"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Bagikan folder"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Jalur folder yang dibagikan"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Pilih folder yang akan dibagikan."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Kesalahan: node Proxmox dan VMID wajib diisi"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Kesalahan: URI libvirt wajib diisi"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Parameter tambahan tidak valid: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "Kesalahan tiket SPICE: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "Port TLS harus berupa angka dari 1 hingga 65535."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "tiket tidak lengkap"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "Sertifikat CA"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "URI langsung"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Putuskan"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Berakhir (kode {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Gagal menjalankan penampil"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Dibuka di {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Node Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Sambungkan kembali"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "Meminta tiket SPICE…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "Kesalahan SSH: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Sesi berakhir"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "Bagikan perangkat USB"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Bagikan audio"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "Port TLS"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "Sesi SPICE terbuka di jendela remote-viewer terpisah."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Melalui Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "Melalui libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "URI libvirt"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program} tidak ditemukan: instal paket virt-viewer"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3957,10 +4075,6 @@ msgid "Send commands after login"
 msgstr "Kirim perintah setelah login"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Sesi berakhir"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3992,7 +4106,6 @@ msgid "Show window"
 msgstr "Tampilkan jendela"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Putuskan"
 
@@ -4057,7 +4170,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Cluster"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Cluster"
 
@@ -4088,12 +4200,10 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Hubungkan ke host yang dipilih atau semua host dalam grup yang dipilih"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Hubungkan"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Menghubungkan…"
 
@@ -4104,7 +4214,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Mode log berkelanjutan aktif dan tidak dapat dinonaktifkan per tab."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Cluster"
 
@@ -4130,7 +4239,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Perintah khusus"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Perintah khusus"
 
@@ -4145,9 +4253,6 @@ msgstr "Tampilkan jendela"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Target Proxmox terdeteksi (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Putuskan"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Apakah Anda benar-benar ingin menghapus semua host dalam grup"
@@ -4164,10 +4269,6 @@ msgstr "Tampilkan jendela"
 #~ msgid "Enable logging"
 #~ msgstr "Aktifkan pencatatan"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Berakhir (kode {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Masukkan nama baru"
 
@@ -4178,11 +4279,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Masukkan teks yang akan dikirim ke konsol: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Kesalahan menghubungkan ke server"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Kesalahan menghubungkan ke server"
 
 #~ msgid "Error saving host. Description"
@@ -4201,7 +4297,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Ekspor daftar server ke file"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Ekspor Server"
 
@@ -4209,7 +4304,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Argumen tambahan untuk diteruskan ke baris perintah"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "Argumen tambahan"
 
@@ -4220,7 +4314,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Aliran"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Kontrol aliran:"
 
@@ -4244,12 +4337,10 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Warna teks:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "Penerusan X11"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Grup"
 
@@ -4257,7 +4348,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Nama host"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Nama host"
 
@@ -4283,7 +4373,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Diimpor"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "Diimpor"
 
@@ -4306,7 +4395,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "Nama VM"
 
@@ -4329,12 +4417,10 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Path log"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Tambah host baru"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "Nama VM"
 
@@ -4354,7 +4440,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Jumlah bit data per byte (8 = standar)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Tambah"
 
@@ -4383,7 +4468,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Halaman utama proyek"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Perintah"
 
@@ -4391,7 +4475,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Hubungkan kembali ke host"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Perintah"
 
@@ -4411,7 +4494,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "SPICE  (tidak tersedia di sini: Proxmox memerlukan tiket/proxy API)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Tidak ada jenis koneksi yang dipilih."
 
@@ -4450,7 +4532,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Kirim perintah ke beberapa host sekaligus"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "serial"
 
@@ -4464,7 +4545,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Daftar server akan ditimpa, lanjutkan?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Server"
 
@@ -4493,7 +4573,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Stop"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Bit stop:"
 
@@ -4501,12 +4580,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Bit stop: 1 = standar, 2 = RS-485 / perangkat keras lama"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Port serial:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Templat:"
 
@@ -4536,11 +4609,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "Gunakan font lebar tetap default"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4555,7 +4623,6 @@ msgstr "Tampilkan jendela"
 #~ msgstr "_Edit"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "Diimpor"
 
@@ -4583,11 +4650,6 @@ msgstr "Tampilkan jendela"
 #~ msgid "label"
 #~ msgstr "label"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "URI libvirt terdeteksi"
-
 #~ msgid "local"
 #~ msgstr "lokal"
 
@@ -4604,12 +4666,10 @@ msgstr "Tampilkan jendela"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp tidak ditemukan"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "Opsi xfreerdp:"
 

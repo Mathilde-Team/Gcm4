@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM:n nimi"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Odotetaan…"
 
@@ -864,13 +864,13 @@ msgstr "Etä"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Jaa kansio"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Jaetun kansion polku"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Valitse jaettava kansio."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Virhe: Proxmox-solmu ja VMID vaaditaan"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Virhe: libvirt URI vaaditaan"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Virheelliset lisäparametrit: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "SPICE-tiketin virhe: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "TLS-portin on oltava luku väliltä 1–65535."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "puutteellinen tiketti"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "CA-varmenne"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "Suora URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Katkaise yhteys"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Päättyi (koodi {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Virhe käynnistettäessä katseluohjelmaa"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Avattu ohjelmassa {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Proxmox-solmu"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Yhdistä uudelleen"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "Pyydetään SPICE-tikettiä…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "SSH-virhe: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Istunto päättyi"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "Jaa USB-laitteet"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Jaa ääni"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "TLS-portti"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "SPICE-istunto avautuu erilliseen remote-viewer-ikkunaan."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Proxmoxin kautta"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "libvirtin kautta"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "libvirt URI"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "Ohjelmaa {program} ei löydy: asenna virt-viewer-paketti"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3957,10 +4075,6 @@ msgid "Send commands after login"
 msgstr "Lähetä komennot kirjautumisen jälkeen"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Istunto päättyi"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3992,7 +4106,6 @@ msgid "Show window"
 msgstr "Näytä ikkuna"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Katkaise yhteys"
 
@@ -4057,7 +4170,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Klusteri"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Klusteri"
 
@@ -4088,12 +4200,10 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Yhdistä valittuun isäntään tai valitun ryhmän kaikkiin isäntiin"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Yhdistä"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Yhdistetään…"
 
@@ -4104,7 +4214,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Jatkuva lokitustila on käytössä, eikä sitä voi poistaa käytöstä välilehtikohtaisesti."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Klusteri"
 
@@ -4130,7 +4239,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Mukautetut komennot"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Mukautetut komennot"
 
@@ -4145,9 +4253,6 @@ msgstr "Näytä ikkuna"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Havaitut Proxmox-kohteet (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Katkaise yhteys"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Haluatko varmasti poistaa kaikki ryhmän isännät"
@@ -4164,10 +4269,6 @@ msgstr "Näytä ikkuna"
 #~ msgid "Enable logging"
 #~ msgstr "Ota lokitus käyttöön"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Päättyi (koodi {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Anna uusi nimi"
 
@@ -4178,11 +4279,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Anna konsoleille lähetettävä teksti: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Virhe yhdistettäessä palvelimeen"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Virhe yhdistettäessä palvelimeen"
 
 #~ msgid "Error saving host. Description"
@@ -4201,7 +4297,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Vie palvelinlista tiedostoon"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Vie palvelimet"
 
@@ -4209,7 +4304,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Komentoriville välitettävät lisäargumentit"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "Lisäargumentit"
 
@@ -4220,7 +4314,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Vuo"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Vuonohjaus:"
 
@@ -4244,12 +4337,10 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Edustaväri:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "X11-välitys"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Ryhmä"
 
@@ -4257,7 +4348,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Isäntänimi"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Isäntänimi"
 
@@ -4283,7 +4373,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Tuotu"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "Tuotu"
 
@@ -4306,7 +4395,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "VM:n nimi"
 
@@ -4329,12 +4417,10 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Lokien polku"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Lisää uusi isäntä"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "VM:n nimi"
 
@@ -4354,7 +4440,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Databittien määrä per tavu (8 = vakio)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Lisää"
 
@@ -4383,7 +4468,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Projektin kotisivu"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Komento"
 
@@ -4391,7 +4475,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Yhdistä isäntään uudelleen"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Komento"
 
@@ -4411,7 +4494,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "SPICE  (ei käytettävissä tässä: Proxmox vaatii API-tiketin/proxyn)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Yhteystyyppiä ei valittu."
 
@@ -4450,7 +4532,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Lähetä komennot useille isännille samanaikaisesti"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "sarja"
 
@@ -4464,7 +4545,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Palvelinlista korvataan, jatketaanko?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Palvelimet"
 
@@ -4493,7 +4573,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Stop"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Stop-bitit:"
 
@@ -4501,12 +4580,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Stop-bitit: 1 = vakio, 2 = RS-485 / vanha laitteisto"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Sarjaportti:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Malli:"
 
@@ -4536,11 +4609,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "Käytä oletusfonttina tasalevyistä fonttia"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4555,7 +4623,6 @@ msgstr "Näytä ikkuna"
 #~ msgstr "_Muokkaa"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "Tuotu"
 
@@ -4583,11 +4650,6 @@ msgstr "Näytä ikkuna"
 #~ msgid "label"
 #~ msgstr "nimike"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "Havaittu libvirt-URI"
-
 #~ msgid "local"
 #~ msgstr "paikallinen"
 
@@ -4604,12 +4666,10 @@ msgstr "Näytä ikkuna"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp-ohjelmaa ei löydy"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "xfreerdp-asetukset:"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM नाम"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "प्रतीक्षा…"
 
@@ -864,13 +864,13 @@ msgstr "रिमोट"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "फ़ोल्डर साझा करें"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "साझा किए गए फ़ोल्डर का पथ"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "साझा करने के लिए फ़ोल्डर चुनें।"
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "त्रुटि: Proxmox नोड और VMID आवश्यक हैं"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "त्रुटि: libvirt URI आवश्यक है"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "अमान्य अतिरिक्त पैरामीटर: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "SPICE टिकट त्रुटि: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "TLS पोर्ट 1 से 65535 तक की संख्या होनी चाहिए।"
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "अधूरा टिकट"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "CA प्रमाणपत्र"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "प्रत्यक्ष URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "डिस्कनेक्ट करें"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "समाप्त (कोड {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "व्यूअर शुरू करने में त्रुटि"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "{program} में खोला गया"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Proxmox नोड"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "फिर से कनेक्ट करें"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "SPICE टिकट का अनुरोध किया जा रहा है…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "SSH त्रुटि: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "सत्र समाप्त हुआ"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "USB डिवाइस साझा करें"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "ऑडियो साझा करें"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "TLS पोर्ट"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "SPICE सत्र एक अलग remote-viewer विंडो में खुलता है।"
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Proxmox के माध्यम से"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "libvirt के माध्यम से"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "libvirt URI"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program} नहीं मिला: virt-viewer पैकेज इंस्टॉल करें"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3957,10 +4075,6 @@ msgid "Send commands after login"
 msgstr "लॉगिन के बाद कमांड भेजें"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "सत्र समाप्त हुआ"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3992,7 +4106,6 @@ msgid "Show window"
 msgstr "विंडो दिखाएँ"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "डिस्कनेक्ट करें"
 
@@ -4057,7 +4170,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "क्लस्टर"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "क्लस्टर"
 
@@ -4088,12 +4200,10 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "चयनित होस्ट या चयनित समूह के सभी होस्ट से कनेक्ट करें"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "कनेक्ट करें"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "कनेक्ट हो रहा है…"
 
@@ -4104,7 +4214,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "निरंतर लॉग मोड सक्रिय है और इसे प्रति टैब अक्षम नहीं किया जा सकता।"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "क्लस्टर"
 
@@ -4130,7 +4239,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "कस्टम कमांड"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "कस्टम कमांड"
 
@@ -4145,9 +4253,6 @@ msgstr "विंडो दिखाएँ"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "पहचाने गए Proxmox लक्ष्य (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "डिस्कनेक्ट करें"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "क्या आप वास्तव में समूह में सभी होस्ट को हटाना चाहते हैं"
@@ -4164,10 +4269,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgid "Enable logging"
 #~ msgstr "लॉगिंग सक्षम करें"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "समाप्त (कोड {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "नया नाम दर्ज करें"
 
@@ -4178,11 +4279,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "कंसोल पर भेजने के लिए टेक्स्ट दर्ज करें: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "सर्वर से कनेक्ट करने में त्रुटि"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "सर्वर से कनेक्ट करने में त्रुटि"
 
 #~ msgid "Error saving host. Description"
@@ -4201,7 +4297,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "सर्वर सूची को फ़ाइल में निर्यात करें"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "सर्वर निर्यात करें"
 
@@ -4209,7 +4304,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "कमांड लाइन पर पास करने के लिए अतिरिक्त आर्गुमेंट"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "अतिरिक्त आर्गुमेंट"
 
@@ -4220,7 +4314,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "फ्लो"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "फ्लो कंट्रोल:"
 
@@ -4244,12 +4337,10 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "फ़ोरग्राउंड रंग:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "X11 फॉरवर्डिंग"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "समूह"
 
@@ -4257,7 +4348,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "होस्ट नाम"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "होस्ट नाम"
 
@@ -4283,7 +4373,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "आयातित"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "आयातित"
 
@@ -4306,7 +4395,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "VM नाम"
 
@@ -4329,12 +4417,10 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "लॉग पथ"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "नया होस्ट जोड़ें"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "VM नाम"
 
@@ -4354,7 +4440,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "प्रति बाइट डेटा बिट्स की संख्या (8 = स्टैंडर्ड)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "जोड़ें"
 
@@ -4383,7 +4468,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "प्रोजेक्ट का होमपेज"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "कमांड"
 
@@ -4391,7 +4475,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "होस्ट से पुनः कनेक्ट करें"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "कमांड"
 
@@ -4411,7 +4494,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "SPICE (यहाँ उपलब्ध नहीं: Proxmox को API टिकट/प्रॉक्सी की आवश्यकता है)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "कोई कनेक्शन प्रकार चयनित नहीं है।"
 
@@ -4450,7 +4532,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "एक साथ कई होस्ट को कमांड भेजें"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "सीरियल"
 
@@ -4464,7 +4545,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "सर्वर सूची अधिलेखित हो जाएगी, जारी रखें?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_सर्वर"
 
@@ -4493,7 +4573,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "स्टॉप"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "स्टॉप बिट्स:"
 
@@ -4501,12 +4580,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "स्टॉप बिट्स: 1 = स्टैंडर्ड, 2 = RS-485 / लीगेसी हार्डवेयर"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "सीरियल पोर्ट:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "टेम्पलेट:"
 
@@ -4536,11 +4609,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "डिफ़ॉल्ट फिक्स्ड-विड्थ फ़ॉन्ट का उपयोग करें"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4555,7 +4623,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "_संपादन"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "आयातित"
 
@@ -4583,11 +4650,6 @@ msgstr "विंडो दिखाएँ"
 #~ msgid "label"
 #~ msgstr "लेबल"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "पहचाना गया libvirt URI"
-
 #~ msgid "local"
 #~ msgstr "लोकल"
 
@@ -4604,12 +4666,10 @@ msgstr "विंडो दिखाएँ"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp नहीं मिला"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "xfreerdp विकल्प:"
 

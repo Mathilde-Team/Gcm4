@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM 이름"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "대기 중…"
 
@@ -864,13 +864,13 @@ msgstr "원격"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "폴더 공유"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "공유 폴더 경로"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "공유할 폴더를 선택하세요."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "오류: Proxmox 노드와 VMID가 필요합니다"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "오류: libvirt URI가 필요합니다"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "잘못된 추가 매개변수: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "SPICE 티켓 오류: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "TLS 포트는 1에서 65535 사이의 숫자여야 합니다."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "불완전한 티켓"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "CA 인증서"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "직접 URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "연결 해제"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "종료됨 (코드 {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "뷰어 실행 오류"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "{program}에서 열림"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Proxmox 노드"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "다시 연결"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "SPICE 티켓 요청 중…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "SSH 오류: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "세션 종료됨"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "USB 장치 공유"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "오디오 공유"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "TLS 포트"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "SPICE 세션은 별도의 remote-viewer 창에서 열립니다."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Proxmox 사용"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "libvirt 사용"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "libvirt URI"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program}을(를) 찾을 수 없습니다: virt-viewer 패키지를 설치하세요"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3957,10 +4075,6 @@ msgid "Send commands after login"
 msgstr "로그인 후 명령 보내기"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "세션 종료됨"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3992,7 +4106,6 @@ msgid "Show window"
 msgstr "창 표시"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "연결 해제"
 
@@ -4057,7 +4170,6 @@ msgstr "창 표시"
 #~ msgstr "클러스터"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "클러스터"
 
@@ -4088,12 +4200,10 @@ msgstr "창 표시"
 #~ msgstr "선택한 호스트 또는 선택한 그룹의 모든 호스트에 연결"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "연결"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "연결 중…"
 
@@ -4104,7 +4214,6 @@ msgstr "창 표시"
 #~ msgstr "연속 로그 모드가 활성화되어 있으며 탭별로 비활성화할 수 없습니다."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "클러스터"
 
@@ -4130,7 +4239,6 @@ msgstr "창 표시"
 #~ msgstr "사용자 지정 명령"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "사용자 지정 명령"
 
@@ -4145,9 +4253,6 @@ msgstr "창 표시"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "감지된 Proxmox 대상 (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "연결 해제"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "정말로 그룹의 모든 호스트를 제거하시겠습니까"
@@ -4164,10 +4269,6 @@ msgstr "창 표시"
 #~ msgid "Enable logging"
 #~ msgstr "로깅 활성화"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "종료됨 (코드 {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "새 이름 입력"
 
@@ -4178,11 +4279,6 @@ msgstr "창 표시"
 #~ msgstr "콘솔에 보낼 텍스트를 입력하세요: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "서버 연결 오류"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "서버 연결 오류"
 
 #~ msgid "Error saving host. Description"
@@ -4201,7 +4297,6 @@ msgstr "창 표시"
 #~ msgstr "서버 목록을 파일로 내보내기"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "서버 내보내기"
 
@@ -4209,7 +4304,6 @@ msgstr "창 표시"
 #~ msgstr "명령줄에 전달할 추가 인수"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "추가 인수"
 
@@ -4220,7 +4314,6 @@ msgstr "창 표시"
 #~ msgstr "흐름 제어"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "흐름 제어:"
 
@@ -4244,12 +4337,10 @@ msgstr "창 표시"
 #~ msgstr "전경색:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "X11 포워딩"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "그룹"
 
@@ -4257,7 +4348,6 @@ msgstr "창 표시"
 #~ msgstr "호스트 이름"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "호스트 이름"
 
@@ -4283,7 +4373,6 @@ msgstr "창 표시"
 #~ msgstr "가져옴"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "가져옴"
 
@@ -4306,7 +4395,6 @@ msgstr "창 표시"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "VM 이름"
 
@@ -4329,12 +4417,10 @@ msgstr "창 표시"
 #~ msgstr "로그 경로"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "새 호스트 추가"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "VM 이름"
 
@@ -4354,7 +4440,6 @@ msgstr "창 표시"
 #~ msgstr "바이트당 데이터 비트 수 (8 = 표준)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "추가"
 
@@ -4383,7 +4468,6 @@ msgstr "창 표시"
 #~ msgstr "프로젝트 홈페이지"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "명령"
 
@@ -4391,7 +4475,6 @@ msgstr "창 표시"
 #~ msgstr "호스트에 다시 연결"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "명령"
 
@@ -4411,7 +4494,6 @@ msgstr "창 표시"
 #~ msgstr "SPICE (여기서는 사용 불가: Proxmox는 API 티켓/프록시가 필요함)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "선택된 연결 유형이 없습니다."
 
@@ -4450,7 +4532,6 @@ msgstr "창 표시"
 #~ msgstr "여러 호스트에 동시에 명령 보내기"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "시리얼"
 
@@ -4464,7 +4545,6 @@ msgstr "창 표시"
 #~ msgstr "서버 목록이 덮어쓰여집니다. 계속하시겠습니까?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_서버"
 
@@ -4493,7 +4573,6 @@ msgstr "창 표시"
 #~ msgstr "정지"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "정지 비트:"
 
@@ -4501,12 +4580,6 @@ msgstr "창 표시"
 #~ msgstr "정지 비트: 1 = 표준, 2 = RS-485 / 구형 하드웨어"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "시리얼 포트:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "템플릿:"
 
@@ -4536,11 +4609,6 @@ msgstr "창 표시"
 #~ msgstr "기본 고정폭 글꼴 사용"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4555,7 +4623,6 @@ msgstr "창 표시"
 #~ msgstr "_편집"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "가져옴"
 
@@ -4583,11 +4650,6 @@ msgstr "창 표시"
 #~ msgid "label"
 #~ msgstr "레이블"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "감지된 libvirt URI"
-
 #~ msgid "local"
 #~ msgstr "로컬"
 
@@ -4604,12 +4666,10 @@ msgstr "창 표시"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp를 찾을 수 없음"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "xfreerdp 옵션:"
 

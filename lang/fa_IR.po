@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "نام ماشین مجازی"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "در حال انتظار…"
 
@@ -864,13 +864,13 @@ msgstr "ریموت"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "اشتراک‌گذاری پوشه"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "مسیر پوشهٔ اشتراک‌گذاری‌شده"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "پوشه‌ای را برای اشتراک‌گذاری انتخاب کنید."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "خطا: گره Proxmox و VMID لازم است"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "خطا: URI مربوط به libvirt لازم است"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "پارامترهای اضافی نامعتبر: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "خطای بلیت SPICE: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "درگاه TLS باید عددی بین ۱ تا ۶۵۵۳۵ باشد."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "بلیت ناقص"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "گواهی CA"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "URI مستقیم"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "قطع اتصال"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "پایان یافت (کد {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "خطا در اجرای نمایشگر"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "در {program} باز شد"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "گره Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "اتصال مجدد"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "در حال درخواست بلیت SPICE…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "خطای SSH: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "نشست پایان یافت"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "اشتراک‌گذاری دستگاه‌های USB"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "اشتراک‌گذاری صدا"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "درگاه TLS"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "جلسهٔ SPICE در پنجره‌ای جداگانه از remote-viewer باز می‌شود."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "از طریق Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "از طریق libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "URI مربوط به libvirt"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program} پیدا نشد: بستهٔ virt-viewer را نصب کنید"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3957,10 +4075,6 @@ msgid "Send commands after login"
 msgstr "ارسال دستورات پس از ورود"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "نشست پایان یافت"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3992,7 +4106,6 @@ msgid "Show window"
 msgstr "نمایش پنجره"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "قطع اتصال"
 
@@ -4057,7 +4170,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "خوشه"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "خوشه"
 
@@ -4088,12 +4200,10 @@ msgstr "نمایش پنجره"
 #~ msgstr "اتصال به میزبان انتخاب‌شده یا تمام میزبان‌های گروه انتخاب‌شده"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "اتصال"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "در حال اتصال…"
 
@@ -4104,7 +4214,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "حالت ثبت گزارش مداوم فعال است و نمی‌توان آن را به‌صورت جداگانه برای هر برگه غیرفعال کرد."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "خوشه"
 
@@ -4130,7 +4239,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "دستورات سفارشی"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "دستورات سفارشی"
 
@@ -4145,9 +4253,6 @@ msgstr "نمایش پنجره"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "اهداف Proxmox شناسایی‌شده (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "قطع اتصال"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "آیا واقعاً می‌خواهید همه میزبان‌های گروه را حذف کنید"
@@ -4164,10 +4269,6 @@ msgstr "نمایش پنجره"
 #~ msgid "Enable logging"
 #~ msgstr "فعال‌سازی ثبت گزارش"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "پایان یافت (کد {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "نام جدید را وارد کنید"
 
@@ -4178,11 +4279,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "متنی که باید به کنسول‌ها ارسال شود را وارد کنید: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "خطا در اتصال به سرور"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "خطا در اتصال به سرور"
 
 #~ msgid "Error saving host. Description"
@@ -4201,7 +4297,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "صدور فهرست سرورها به فایل"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "صدور سرورها"
 
@@ -4209,7 +4304,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "آرگومان‌های اضافی برای ارسال به خط فرمان"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "آرگومان‌های اضافی"
 
@@ -4220,7 +4314,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "جریان"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "کنترل جریان:"
 
@@ -4244,12 +4337,10 @@ msgstr "نمایش پنجره"
 #~ msgstr "رنگ پیش‌زمینه:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "هدایت X11"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "گروه"
 
@@ -4257,7 +4348,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "نام میزبان"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "نام میزبان"
 
@@ -4283,7 +4373,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "وارد شد"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "وارد شد"
 
@@ -4306,7 +4395,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "نام ماشین مجازی"
 
@@ -4329,12 +4417,10 @@ msgstr "نمایش پنجره"
 #~ msgstr "مسیر گزارش‌ها"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "افزودن میزبان جدید"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "نام ماشین مجازی"
 
@@ -4354,7 +4440,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "تعداد بیت‌های داده در هر بایت (۸ = استاندارد)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "افزودن"
 
@@ -4383,7 +4468,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "صفحه اصلی پروژه"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "دستور"
 
@@ -4391,7 +4475,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "اتصال مجدد به میزبان"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "دستور"
 
@@ -4411,7 +4494,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "SPICE  (در اینجا در دسترس نیست: Proxmox به تیکت/پراکسی API نیاز دارد)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "هیچ نوع اتصالی انتخاب نشده است."
 
@@ -4450,7 +4532,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "ارسال دستورات به چند میزبان به‌طور همزمان"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "سریال"
 
@@ -4464,7 +4545,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "فهرست سرورها بازنویسی خواهد شد، ادامه می‌دهید؟"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_سرورها"
 
@@ -4493,7 +4573,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "توقف"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "بیت‌های توقف:"
 
@@ -4501,12 +4580,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "بیت‌های توقف: ۱ = استاندارد، ۲ = RS-485 / سخت‌افزار قدیمی"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "پورت سریال:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "قالب:"
 
@@ -4536,11 +4609,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "استفاده از فونت پیش‌فرض با عرض ثابت"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4555,7 +4623,6 @@ msgstr "نمایش پنجره"
 #~ msgstr "_ویرایش"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "وارد شد"
 
@@ -4583,11 +4650,6 @@ msgstr "نمایش پنجره"
 #~ msgid "label"
 #~ msgstr "برچسب"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "URI شناسایی‌شده libvirt"
-
 #~ msgid "local"
 #~ msgstr "محلی"
 
@@ -4604,12 +4666,10 @@ msgstr "نمایش پنجره"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp یافت نشد"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "گزینه‌های xfreerdp:"
 

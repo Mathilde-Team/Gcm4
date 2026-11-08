@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "اسم الجهاز الافتراضي"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "في الانتظار…"
 
@@ -864,13 +864,13 @@ msgstr "بعيد"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "مشاركة مجلد"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "مسار المجلد المشترك"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "اختر المجلد لمشاركته."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "خطأ: يلزم تحديد عقدة Proxmox وVMID"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "خطأ: يلزم تحديد URI الخاص بـ libvirt"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "معلمات إضافية غير صالحة: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "خطأ في تذكرة SPICE: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "يجب أن يكون منفذ TLS رقمًا من 1 إلى 65535."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "تذكرة غير مكتملة"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "شهادة CA"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "URI مباشر"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "قطع الاتصال"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "انتهى (الرمز {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "خطأ في تشغيل العارض"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "فُتح في {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "عقدة Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "إعادة الاتصال"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "جارٍ طلب تذكرة SPICE…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "خطأ SSH: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "انتهت الجلسة"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "مشاركة أجهزة USB"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "مشاركة الصوت"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "منفذ TLS"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "تُفتح جلسة SPICE في نافذة remote-viewer منفصلة."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "عبر Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "عبر libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "URI الخاص بـ libvirt"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "لم يُعثر على {program}: ثبّت حزمة virt-viewer"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3957,10 +4075,6 @@ msgid "Send commands after login"
 msgstr "إرسال أوامر بعد تسجيل الدخول"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "انتهت الجلسة"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3992,7 +4106,6 @@ msgid "Show window"
 msgstr "إظهار النافذة"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "قطع الاتصال"
 
@@ -4057,7 +4170,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "المجموعة"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "المجموعة"
 
@@ -4088,12 +4200,10 @@ msgstr "إظهار النافذة"
 #~ msgstr "الاتصال بالمضيف المحدد أو جميع المضيفين في المجموعة المحددة"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "اتصال"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "جارٍ الاتصال…"
 
@@ -4104,7 +4214,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "وضع التسجيل المستمر نشط ولا يمكن تعطيله لكل علامة تبويب."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "المجموعة"
 
@@ -4130,7 +4239,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "أوامر مخصصة"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "أوامر مخصصة"
 
@@ -4145,9 +4253,6 @@ msgstr "إظهار النافذة"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "أهداف Proxmox المكتشفة (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "قطع الاتصال"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "هل تريد بالفعل إزالة جميع المضيفين في المجموعة"
@@ -4164,10 +4269,6 @@ msgstr "إظهار النافذة"
 #~ msgid "Enable logging"
 #~ msgstr "تمكين التسجيل"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "انتهى (الرمز {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "أدخل اسمًا جديدًا"
 
@@ -4178,11 +4279,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "أدخل النص المراد إرساله إلى وحدات التحكم: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "خطأ في الاتصال بالخادم"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "خطأ في الاتصال بالخادم"
 
 #~ msgid "Error saving host. Description"
@@ -4201,7 +4297,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "تصدير قائمة الخوادم إلى ملف"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "تصدير الخوادم"
 
@@ -4209,7 +4304,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "وسائط إضافية تُمرَّر إلى سطر الأوامر"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "وسائط إضافية"
 
@@ -4220,7 +4314,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "التدفق"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "التحكم في التدفق:"
 
@@ -4244,12 +4337,10 @@ msgstr "إظهار النافذة"
 #~ msgstr "لون المقدمة:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "إعادة توجيه X11"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "المجموعة"
 
@@ -4257,7 +4348,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "اسم المضيف"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "اسم المضيف"
 
@@ -4283,7 +4373,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "تم الاستيراد"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "تم الاستيراد"
 
@@ -4306,7 +4395,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "اسم الجهاز الافتراضي"
 
@@ -4329,12 +4417,10 @@ msgstr "إظهار النافذة"
 #~ msgstr "مسار السجلات"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "إضافة مضيف جديد"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "اسم الجهاز الافتراضي"
 
@@ -4354,7 +4440,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "عدد بتات البيانات لكل بايت (8 = قياسي)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "إضافة"
 
@@ -4383,7 +4468,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "الصفحة الرئيسية للمشروع"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "الأمر"
 
@@ -4391,7 +4475,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "إعادة الاتصال بالمضيف"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "الأمر"
 
@@ -4411,7 +4494,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "SPICE  (غير متاح هنا: يتطلب Proxmox تذكرة/وكيل API)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "لم يتم تحديد نوع الاتصال."
 
@@ -4450,7 +4532,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "إرسال أوامر إلى عدة مضيفين في نفس الوقت"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "تسلسلي"
 
@@ -4464,7 +4545,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "ستتم استبدال قائمة الخوادم، هل تريد الاستمرار؟"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "ال_خوادم"
 
@@ -4493,7 +4573,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "التوقف"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "بتات التوقف:"
 
@@ -4501,12 +4580,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "بتات التوقف: 1 = قياسي، 2 = RS-485 / أجهزة قديمة"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "المنفذ التسلسلي:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "القالب:"
 
@@ -4536,11 +4609,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "استخدام خط ذو عرض ثابت افتراضي"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4555,7 +4623,6 @@ msgstr "إظهار النافذة"
 #~ msgstr "_تحرير"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "تم الاستيراد"
 
@@ -4583,11 +4650,6 @@ msgstr "إظهار النافذة"
 #~ msgid "label"
 #~ msgstr "تسمية"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "تم اكتشاف عنوان URI لـ libvirt"
-
 #~ msgid "local"
 #~ msgstr "محلي"
 
@@ -4604,12 +4666,10 @@ msgstr "إظهار النافذة"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp غير موجود"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "خيارات xfreerdp:"
 

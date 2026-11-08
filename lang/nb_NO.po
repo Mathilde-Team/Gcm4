@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM-navn"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Venter…"
 
@@ -864,13 +864,13 @@ msgstr "Ekstern"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Del mappe"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Bane til delt mappe"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Velg mappen som skal deles."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Feil: Proxmox-node og VMID kreves"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Feil: libvirt-URI kreves"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Ugyldige tilleggsparametere: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "Feil med SPICE-billett: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "TLS-porten må være et tall fra 1 til 65535."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "ufullstendig billett"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "CA-sertifikat"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "Direkte URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Koble fra"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Avsluttet (kode {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Feil ved oppstart av visningsprogrammet"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Åpnet i {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Proxmox-node"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Koble til på nytt"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "Ber om SPICE-billetten…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "SSH-feil: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Sesjonen er avsluttet"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "Del USB-enheter"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Del lyd"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "TLS-port"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "SPICE-økten åpnes i et eget remote-viewer-vindu."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Via Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "Via libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "libvirt-URI"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "Fant ikke {program}: installer virt-viewer-pakken"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3957,10 +4075,6 @@ msgid "Send commands after login"
 msgstr "Send kommandoer etter innlogging"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Sesjonen er avsluttet"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3992,7 +4106,6 @@ msgid "Show window"
 msgstr "Vis vindu"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Koble fra"
 
@@ -4057,7 +4170,6 @@ msgstr "Vis vindu"
 #~ msgstr "Klynge"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Klynge"
 
@@ -4088,12 +4200,10 @@ msgstr "Vis vindu"
 #~ msgstr "Koble til valgt vert eller alle verter i valgt gruppe"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Koble til"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Kobler til…"
 
@@ -4104,7 +4214,6 @@ msgstr "Vis vindu"
 #~ msgstr "Kontinuerlig loggmodus er aktiv og kan ikke deaktiveres per fane."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Klynge"
 
@@ -4130,7 +4239,6 @@ msgstr "Vis vindu"
 #~ msgstr "Egendefinerte kommandoer"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Egendefinerte kommandoer"
 
@@ -4145,9 +4253,6 @@ msgstr "Vis vindu"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Oppdagede Proxmox-mål (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Koble fra"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Vil du virkelig fjerne alle verter i gruppen"
@@ -4164,10 +4269,6 @@ msgstr "Vis vindu"
 #~ msgid "Enable logging"
 #~ msgstr "Aktiver logging"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Avsluttet (kode {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Skriv inn nytt navn"
 
@@ -4178,11 +4279,6 @@ msgstr "Vis vindu"
 #~ msgstr "Skriv inn teksten som skal sendes til konsollene: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Feil ved tilkobling til server"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Feil ved tilkobling til server"
 
 #~ msgid "Error saving host. Description"
@@ -4201,7 +4297,6 @@ msgstr "Vis vindu"
 #~ msgstr "Eksporter serverliste til fil"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Eksporter servere"
 
@@ -4209,7 +4304,6 @@ msgstr "Vis vindu"
 #~ msgstr "Ekstra argumenter som skal sendes til kommandolinjen"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "Ekstra argumenter"
 
@@ -4220,7 +4314,6 @@ msgstr "Vis vindu"
 #~ msgstr "Flyt"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Flytkontroll:"
 
@@ -4244,12 +4337,10 @@ msgstr "Vis vindu"
 #~ msgstr "Forgrunnsfarge:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "X11-videresending"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Gruppe"
 
@@ -4257,7 +4348,6 @@ msgstr "Vis vindu"
 #~ msgstr "Vertsnavn"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Vertsnavn"
 
@@ -4283,7 +4373,6 @@ msgstr "Vis vindu"
 #~ msgstr "Importert"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "Importert"
 
@@ -4306,7 +4395,6 @@ msgstr "Vis vindu"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "VM-navn"
 
@@ -4329,12 +4417,10 @@ msgstr "Vis vindu"
 #~ msgstr "Loggsti"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Legg til ny vert"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "VM-navn"
 
@@ -4354,7 +4440,6 @@ msgstr "Vis vindu"
 #~ msgstr "Antall databits per byte (8 = standard)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Legg til"
 
@@ -4383,7 +4468,6 @@ msgstr "Vis vindu"
 #~ msgstr "Prosjektets hjemmeside"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Kommando"
 
@@ -4391,7 +4475,6 @@ msgstr "Vis vindu"
 #~ msgstr "Koble til vert på nytt"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Kommando"
 
@@ -4411,7 +4494,6 @@ msgstr "Vis vindu"
 #~ msgstr "SPICE  (ikke tilgjengelig her: Proxmox krever API-ticket/proxy)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Ingen tilkoblingstype valgt."
 
@@ -4450,7 +4532,6 @@ msgstr "Vis vindu"
 #~ msgstr "Send kommandoer til flere verter samtidig"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "seriell"
 
@@ -4464,7 +4545,6 @@ msgstr "Vis vindu"
 #~ msgstr "Serverlisten vil bli overskrevet, fortsette?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Servere"
 
@@ -4493,7 +4573,6 @@ msgstr "Vis vindu"
 #~ msgstr "Stopp"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Stoppbits:"
 
@@ -4501,12 +4580,6 @@ msgstr "Vis vindu"
 #~ msgstr "Stoppbits: 1 = standard, 2 = RS-485 / eldre maskinvare"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Serieport:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Mal:"
 
@@ -4536,11 +4609,6 @@ msgstr "Vis vindu"
 #~ msgstr "Bruk standard skrift med fast bredde"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4555,7 +4623,6 @@ msgstr "Vis vindu"
 #~ msgstr "_Rediger"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "Importert"
 
@@ -4583,11 +4650,6 @@ msgstr "Vis vindu"
 #~ msgid "label"
 #~ msgstr "etikett"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "Oppdaget libvirt-URI"
-
 #~ msgid "local"
 #~ msgstr "lokal"
 
@@ -4604,12 +4666,10 @@ msgstr "Vis vindu"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp ikke funnet"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "xfreerdp-alternativer:"
 

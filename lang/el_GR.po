@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "Όνομα VM"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Αναμονή…"
 
@@ -864,13 +864,13 @@ msgstr "Απομακρυσμένο"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Κοινή χρήση φακέλου"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Διαδρομή κοινόχρηστου φακέλου"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Επιλέξτε τον φάκελο προς κοινή χρήση."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Σφάλμα: απαιτούνται κόμβος Proxmox και VMID"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Σφάλμα: απαιτείται URI libvirt"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Μη έγκυρες πρόσθετες παράμετροι: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "Σφάλμα εισιτηρίου SPICE: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "Η θύρα TLS πρέπει να είναι αριθμός από 1 έως 65535."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "ελλιπές εισιτήριο"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "Πιστοποιητικό CA"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "Άμεσο URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Αποσύνδεση"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Έληξε (κωδικός {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Σφάλμα κατά την εκκίνηση του προγράμματος προβολής"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Άνοιξε στο {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Κόμβος Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Επανασύνδεση"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "Γίνεται αίτημα για το εισιτήριο SPICE…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "Σφάλμα SSH: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Η συνεδρία έληξε"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "Κοινή χρήση συσκευών USB"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Κοινή χρήση ήχου"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "Θύρα TLS"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "Η συνεδρία SPICE ανοίγει σε ξεχωριστό παράθυρο remote-viewer."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Μέσω Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "Μέσω libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "URI libvirt"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "Δεν βρέθηκε το {program}: εγκαταστήστε το πακέτο virt-viewer"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3957,10 +4075,6 @@ msgid "Send commands after login"
 msgstr "Αποστολή εντολών μετά τη σύνδεση"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Η συνεδρία έληξε"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3992,7 +4106,6 @@ msgid "Show window"
 msgstr "Εμφάνιση παραθύρου"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Αποσύνδεση"
 
@@ -4057,7 +4170,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Συμπλέγμα"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Συμπλέγμα"
 
@@ -4088,12 +4200,10 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Σύνδεση στον επιλεγμένο κεντρικό υπολογιστή ή σε όλους τους κεντρικούς υπολογιστές της επιλεγμένης ομάδας"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Σύνδεση"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Σύνδεση σε εξέλιξη…"
 
@@ -4104,7 +4214,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Η λειτουργία συνεχόμενης καταγραφής είναι ενεργή και δεν μπορεί να απενεργοποιηθεί ανά καρτέλα."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Συμπλέγμα"
 
@@ -4130,7 +4239,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Προσαρμοσμένες εντολές"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Προσαρμοσμένες εντολές"
 
@@ -4145,9 +4253,6 @@ msgstr "Εμφάνιση παραθύρου"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Εντοπισμένοι στόχοι Proxmox (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Αποσύνδεση"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Θέλετε πραγματικά να αφαιρέσετε όλους τους κεντρικούς υπολογιστές στην ομάδα"
@@ -4164,10 +4269,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgid "Enable logging"
 #~ msgstr "Ενεργοποίηση καταγραφής"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Έληξε (κωδικός {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Εισαγάγετε νέο όνομα"
 
@@ -4178,11 +4279,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Εισαγάγετε το κείμενο που θα σταλεί στις κονσόλες: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Σφάλμα σύνδεσης με τον διακομιστή"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Σφάλμα σύνδεσης με τον διακομιστή"
 
 #~ msgid "Error saving host. Description"
@@ -4201,7 +4297,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Εξαγωγή λίστας διακομιστών σε αρχείο"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Εξαγωγή Διακομιστών"
 
@@ -4209,7 +4304,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Πρόσθετα ορίσματα προς τη γραμμή εντολών"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "Πρόσθετα ορίσματα"
 
@@ -4220,7 +4314,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Ροή"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Έλεγχος ροής:"
 
@@ -4244,12 +4337,10 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Χρώμα προσκηνίου:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "Προώθηση X11"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Ομάδα"
 
@@ -4257,7 +4348,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Όνομα κεντρικού υπολογιστή"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Όνομα κεντρικού υπολογιστή"
 
@@ -4283,7 +4373,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Έγινε εισαγωγή"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "Έγινε εισαγωγή"
 
@@ -4306,7 +4395,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "Όνομα VM"
 
@@ -4329,12 +4417,10 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Διαδρομή αρχείων καταγραφής"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Προσθήκη νέου κεντρικού υπολογιστή"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "Όνομα VM"
 
@@ -4354,7 +4440,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Αριθμός bits δεδομένων ανά byte (8 = τυπικό)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Προσθήκη"
 
@@ -4383,7 +4468,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Αρχική σελίδα του έργου"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Εντολή"
 
@@ -4391,7 +4475,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Επανασύνδεση στον κεντρικό υπολογιστή"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Εντολή"
 
@@ -4411,7 +4494,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "SPICE  (μη διαθέσιμο εδώ: το Proxmox απαιτεί API ticket/proxy)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Δεν επιλέχθηκε τύπος σύνδεσης."
 
@@ -4450,7 +4532,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Αποστολή εντολών σε πολλούς κεντρικούς υπολογιστές ταυτόχρονα"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "σειριακό"
 
@@ -4464,7 +4545,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Η λίστα διακομιστών θα αντικατασταθεί, συνέχεια;"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Διακομιστές"
 
@@ -4493,7 +4573,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Διακοπή"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Bits διακοπής:"
 
@@ -4501,12 +4580,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Bits διακοπής: 1 = τυπικό, 2 = RS-485 / παλαιό υλικό"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Σειριακή θύρα:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Πρότυπο:"
 
@@ -4536,11 +4609,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "Χρήση προεπιλεγμένης γραμματοσειράς σταθερού πλάτους"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4555,7 +4623,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "_Επεξεργασία"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "Έγινε εισαγωγή"
 
@@ -4583,11 +4650,6 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgid "label"
 #~ msgstr "ετικέτα"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "Εντοπίστηκε URI libvirt"
-
 #~ msgid "local"
 #~ msgstr "τοπικό"
 
@@ -4604,12 +4666,10 @@ msgstr "Εμφάνιση παραθύρου"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "Το xfreerdp δεν βρέθηκε"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "Επιλογές xfreerdp:"
 
