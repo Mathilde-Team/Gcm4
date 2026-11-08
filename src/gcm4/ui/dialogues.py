@@ -12,7 +12,7 @@ from __future__ import annotations
 from collections.abc import Callable, Sequence
 from typing import Optional
 
-from gi.repository import Adw, Gtk
+from gi.repository import Adw, GLib, Gtk
 from loguru import logger
 
 #: (identifiant, libellé traduit, apparence ou None). ``Optional`` et non
@@ -51,24 +51,7 @@ def creer(
     dialogue.set_close_response(fermeture)
     if extra is not None:
         dialogue.set_extra_child(extra)
-    # la réponse du dialogue n'est jouée qu'une fois : le Return d'une
-    # entrée peut la déclencher directement (voir _valider_par_return)
-    # alors que le chemin normal du bouton par défaut l'émet aussi — le
-    # drapeau garde le renommage/la connexion uniques
-    deja_repondu = False
-
-    def _reponse_unique(_d: Adw.AlertDialog | Adw.MessageDialog, reponse: str) -> None:
-        """Rappel du dialogue joué une seule fois, première réponse gagnante."""
-        logger.debug("dialogue: réponse « {} »", reponse)
-        nonlocal deja_repondu
-        if deja_repondu:
-            logger.debug("dialogue: réponse déjà jouée, ignorée")
-            return
-        deja_repondu = True
-        rappel(reponse)
-        logger.debug("dialogue: réponse « {} » traitée", reponse)
-
-    dialogue.connect("response", _reponse_unique)
+    dialogue.connect("response", lambda _d, reponse: rappel(reponse))
     if (
         isinstance(dialogue, Adw.MessageDialog)
         and extra is not None
@@ -77,22 +60,31 @@ def creer(
         # Vieux libadwaita (< 1.5) : dans le repli ``AdwMessageDialog``
         # (fenêtre GtkWindow), le Return de l'entrée peut n'activer ni le
         # bouton par défaut ni le dialogue — constaté #72 sous GTK 4.8 /
-        # Adw 1.2 : signal « activate » émis, aucune réponse, dialogue
-        # laissé ouvert. On répond alors directement ; le drapeau rend
-        # l'activation unique si le chemin normal fonctionne aussi. Sans
-        # objet pour ``Adw.AlertDialog`` (libadwaita ≥ 1.5), qui gère le
-        # Return lui-même.
+        # Adw 1.2 comme sous GTK 4.12 / Adw 1.4 : signal « activate » de
+        # l'entrée émis, aucune réponse, dialogue laissé ouvert. On
+        # laisse d'abord le chemin normal se jouer, puis un idle répond
+        # directement si aucune réponse n'est partie — le rappel reste
+        # unique dans tous les cas. Sans objet pour ``Adw.AlertDialog``
+        # (libadwaita ≥ 1.5), qui gère le Return lui-même.
+        repondu = {"deja": False}
+        dialogue.connect("response", lambda *_a: repondu.__setitem__("deja", True))
+
         def _valider_par_return(*_args: object) -> None:
-            """Return dans l'entrée : réponse directe sous vieux libadwaita."""
+            """Return dans l'entrée : réponse en idle si le dialogue reste muet."""
             logger.debug("_valider_par_return: Return dans l'entrée du dialogue")
-            nonlocal deja_repondu
-            if deja_repondu or not dialogue.get_response_enabled(defaut):
-                logger.debug("_valider_par_return: sans effet, ignoré")
-                return
-            deja_repondu = True
-            dialogue.response(defaut)
-            dialogue.set_visible(False)
-            logger.debug("_valider_par_return: réponse « {} » émise", defaut)
+
+            def _repondre_si_muet() -> bool:
+                """Idle après le Return : répond seulement si rien n'est parti."""
+                logger.debug("_repondre_si_muet: contrôle du dialogue")
+                if not repondu["deja"] and dialogue.get_response_enabled(defaut):
+                    logger.debug("_repondre_si_muet: réponse « {} » émise", defaut)
+                    dialogue.response(defaut)
+                    dialogue.set_visible(False)
+                logger.debug("_repondre_si_muet: fait")
+                return GLib.SOURCE_REMOVE
+
+            GLib.idle_add(_repondre_si_muet)
+            logger.debug("_valider_par_return: idle planifié")
 
         extra.connect("activate", _valider_par_return)
     if isinstance(dialogue, Adw.MessageDialog):

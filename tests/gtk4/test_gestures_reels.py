@@ -212,9 +212,19 @@ def _attendre_presentation(dialogue, pomper: Callable) -> None:
 
 
 def _attendre_disparition(dialogue, pomper: Callable) -> None:
-    """Attend la fermeture du dialogue (déparenté ou caché, selon la version)."""
+    """Attend la fermeture du dialogue (déparenté ou caché, selon la version).
+
+    ``Adw.AlertDialog`` (libadwaita ≥ 1.5) vit sans parent dans la fenêtre ;
+    le repli ``AdwMessageDialog`` est une fenêtre X à part — ``get_parent``
+    y est toujours ``None``, seule l'invisibilité prouve la fermeture.
+    """
+    from gi.repository import Gtk
+
     for _essai in range(40):  # ~2 s au pire
-        if not dialogue.get_visible() or dialogue.get_parent() is None:
+        ferme = not dialogue.get_visible() or (
+            not isinstance(dialogue, Gtk.Window) and dialogue.get_parent() is None
+        )
+        if ferme:
             pomper(5)
             return
         pomper(1)
@@ -504,6 +514,19 @@ def test_clic_droit_groupe_et_zone_vide(app_fixture, pomper):
     pomper()
 
 
+def _vte_disponible() -> bool:
+    """VTE est-il introspectable ? Rocky 9 n'offre pas la typelib Vte."""
+    try:
+        from gi.repository import Vte  # noqa: F401 (simple sonde d'import)
+    except (ImportError, ValueError):
+        return False
+    return True
+
+
+#: Tests exigeant un terminal : sautés sans VTE (Rocky 9, #72).
+VTE = pytest.mark.skipif(not _vte_disponible(), reason="Vte absent : terminal indisponible")
+
+
 def _terminal_en_onglet(fenetre, pomper):
     """Onglet « Manuel » contenant un ``Vte.Terminal`` nu, comme gcm4 le crée."""
     from gi.repository import Vte
@@ -544,6 +567,7 @@ def _bouton(racine, libelle: str):
     return de_repli
 
 
+@VTE
 def test_selection_mot_et_ligne_du_terminal(app_fixture, pomper):
     """Double-clic : mot seul ; triple-clic : ligne entière (sélection VTE native)."""
     app, _dossier = app_fixture
@@ -572,6 +596,7 @@ def test_selection_mot_et_ligne_du_terminal(app_fixture, pomper):
     assert _presse_papiers_primaire() == "beta"
 
 
+@VTE
 def test_focus_apres_clic_simple(app_fixture, pomper):
     """Clic simple : le focus suit le clic (le contournement GTK3 est mort)."""
     app, _dossier = app_fixture
@@ -591,6 +616,7 @@ def test_focus_apres_clic_simple(app_fixture, pomper):
     assert terminal.has_focus()
 
 
+@VTE
 def test_clic_milieu_ferme_l_onglet(app_fixture, pomper):
     """Clic milieu : confirmation par défaut (Échap annule), directe sans l'option."""
     app, _dossier = app_fixture
