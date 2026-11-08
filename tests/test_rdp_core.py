@@ -41,7 +41,7 @@ def test_booleen(valeur, attendu):
 
 
 def test_options_defaut_cles_gtk3():
-    """Mêmes clés et défauts que ``host_fields`` GTK3 (presse-papier partagé)."""
+    """Clés GTK3 plus les nouvelles (audio, USB, multi-écran, #105)."""
     defaut = core.options_defaut()
     assert set(defaut) == {
         "rdp_domain",
@@ -54,9 +54,17 @@ def test_options_defaut_cles_gtk3():
         "rdp_share_clipboard",
         "rdp_share_folder",
         "rdp_shared_folder_path",
+        "rdp_share_audio",
+        "rdp_audio_capture",
+        "rdp_usb_devices",
+        "rdp_multimon",
     }
     assert defaut["rdp_geometry"] == "fullscreen"
     assert defaut["rdp_share_clipboard"] == "True"
+    assert defaut["rdp_share_audio"] == "True"
+    assert defaut["rdp_audio_capture"] == "False"
+    assert defaut["rdp_usb_devices"] == ""
+    assert defaut["rdp_multimon"] == "False"
     assert core.valider(defaut) == []
 
 
@@ -142,10 +150,14 @@ def test_reglages_complets(tmp_path):
         "ignore_certificate": True,
         "redirect_clipboard": False,
         "redirect_drives": False,
+        "audio_playback": True,
+        "audio_capture": False,
+        "usb_devices": [],
     }
     assert r.dossier == ("gcm4", str(tmp_path))
     assert r.remote_app == "||notepad"
     assert r.suit_onglet is False
+    assert r.multimon is False
     assert "s3cret" not in repr(r)
 
 
@@ -163,3 +175,41 @@ def test_reglages_invalides():
     """Options invalides : ValueError avec le message de validation."""
     with pytest.raises(ValueError):
         core.reglages(_hote({"rdp_geometry": "custom"}))
+
+
+@pytest.mark.parametrize(
+    ("brut", "attendu"),
+    [
+        ("", []),
+        ("id:046d:0825", ["id:046d:0825"]),
+        (" id:046d:0825 , id:046d:0826 ", ["id:046d:0825", "id:046d:0826"]),
+        (",,addr:1:2:3,", ["addr:1:2:3"]),
+    ],
+)
+def test_peripheriques_usb(brut, attendu):
+    """Chaînes ``/usb:`` séparées par des virgules, entrées vides ignorées."""
+    assert core.peripheriques_usb({"rdp_usb_devices": brut}) == attendu
+
+
+def test_reglages_audio_usb_multiecran():
+    """Son coupé, micro capté, USB redirigés, multi-écran demandé."""
+    r = core.reglages(
+        _hote(
+            {
+                "rdp_share_audio": "False",
+                "rdp_audio_capture": "yes",
+                "rdp_usb_devices": "id:046d:0825, id:046d:0826",
+                "rdp_multimon": "True",
+            }
+        )
+    )
+    assert r.options["audio_playback"] is False
+    assert r.options["audio_capture"] is True
+    assert r.options["usb_devices"] == ["id:046d:0825", "id:046d:0826"]
+    assert r.multimon is True
+
+
+def test_multi_ecran_defaut():
+    """Sans ``rdp_multimon`` : pas de multi-écran."""
+    assert core.multi_ecran({}) is False
+    assert core.multi_ecran({"rdp_multimon": "True"}) is True

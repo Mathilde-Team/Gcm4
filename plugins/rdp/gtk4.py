@@ -25,7 +25,11 @@ dans la variable d'environnement ``ASYNCRDP_GTK4_DIR``, puis dans le
 - le partage d'une image ISO (montée par ``udisksctl`` en GTK3) est refusé
   par la validation ;
 - le glisser-déposer de fichiers et l'envoi de combinaisons de touches
-  (Ctrl+Alt+Suppr) du menu GTK3 ne sont pas encore repris.
+  (Ctrl+Alt+Suppr) du menu GTK3 ne sont pas encore repris ;
+- l'énumération des périphériques USB (libusb côté UI) n'est pas faite :
+  ``rdp_usb_devices`` prend des chaînes façon ``/usb:`` de xfreerdp
+  (``id:046d:0825``), séparées par des virgules ;
+- ``rdp_multimon`` construit un moniteur virtuel par écran local (Gdk).
 """
 
 from __future__ import annotations
@@ -146,8 +150,32 @@ def classe_vue(base: type) -> type:
     return resultat
 
 
+def moniteurs_multiecran(module: Any, affichage: Gdk.Display) -> list[Any]:
+    """``MonitorDef`` de chaque écran local, pour ``rdp_multimon``.
+
+    La géométrie et la position de chaque écran sont celles vues par Gdk.
+    GTK4 ne connaît plus d'écran principal : le premier de la liste est
+    marqué ``is_primary`` (le bureau RDP en exige un). Un écran seul
+    donne un moniteur virtuel plein écran.
+    """
+    logger.debug("moniteurs_multiecran: entrée")
+    moniteurs = affichage.get_monitors()
+    resultat = [
+        module.MonitorDef(
+            x=moniteur.get_geometry().x,
+            y=moniteur.get_geometry().y,
+            width=moniteur.get_geometry().width,
+            height=moniteur.get_geometry().height,
+            is_primary=indice == 0,
+        )
+        for indice, moniteur in enumerate(moniteurs)
+    ]
+    logger.debug("moniteurs_multiecran: {} écran(s)", len(resultat))
+    return resultat
+
+
 def options_asyncrdp(module: Any, reglages: core.Reglages) -> Any:
-    """``asyncrdp.RdpOptions`` des réglages (dossier partagé, RemoteApp compris)."""
+    """``asyncrdp.RdpOptions`` des réglages (dossier, RemoteApp, écrans compris)."""
     logger.debug("options_asyncrdp: entrée")
     champs = dict(reglages.options)
     if reglages.dossier is not None:
@@ -155,6 +183,8 @@ def options_asyncrdp(module: Any, reglages: core.Reglages) -> Any:
         champs["drives"] = [module.DriveMapping(name=nom, path=chemin)]
     if reglages.remote_app:
         champs["remoteapp"] = module.RemoteAppOptions(program=reglages.remote_app)
+    if reglages.multimon:
+        champs["monitors"] = moniteurs_multiecran(module, Gdk.Display.get_default())
     resultat = module.RdpOptions(**champs)
     logger.debug("options_asyncrdp: {} champ(s)", len(champs))
     return resultat
@@ -348,10 +378,16 @@ def zone_options(options: dict[str, str], changed: Callable[[], None]) -> Gtk.Wi
         (core.OPT_RESOLUTION_DYNAMIQUE, _("Dynamic resolution")),
         (core.OPT_PRESSE_PAPIER, _("Share clipboard")),
         (core.OPT_PARTAGE_DOSSIER, _("Share folder")),
+        (core.OPT_AUDIO, _("Share audio")),
+        (core.OPT_AUDIO_CAPTURE, _("Audio capture")),
+        (core.OPT_MULTI_ECRAN, _("Multi-screen")),
     ):
         grille.attach(case(cle, libelle), 1, rang, 1, 1)
         rang += 1
-    _ligne(grille, rang, _("Shared folder path"), entree(core.OPT_CHEMIN_DOSSIER))
+    usb = entree(core.OPT_USB)
+    usb.set_placeholder_text(_("id:046d:0825, id:046d:0826"))
+    _ligne(grille, rang, _("USB devices"), usb)
+    _ligne(grille, rang + 1, _("Shared folder path"), entree(core.OPT_CHEMIN_DOSSIER))
     logger.debug("zone_options: fait")
     return grille
 
