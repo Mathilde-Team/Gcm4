@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-103 modules · 181 classes · 383 fonctions publiques de module.
+97 modules · 169 classes · 377 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -59,15 +59,9 @@ flowchart TD
 | `plugins.netmiko_push.core` | `plugins/netmiko_push/core.py` | Cœur métier (sans GTK) du plugin de déploiement de configuration en masse via Netmiko pour GCM. |
 | `plugins.netmiko_push.gtk4` | `plugins/netmiko_push/gtk4.py` | Outil « Déploiement Netmiko » (contrat v1, #441, portage #179). |
 | `plugins.plugin_base` | `plugins/plugin_base.py` | Contrats plugin pour GCM. |
-| `plugins.plugin_ipmisol` | `plugins/plugin_ipmisol.py` | Plugin de connexion IPMI Serial-over-LAN (console BMC : iLO, iDRAC, IMM…). |
-| `plugins.plugin_local` | `plugins/plugin_local.py` | Plugin de connexion "Local" (shell local, sans hôte distant). |
-| `plugins.plugin_rdp` | `plugins/plugin_rdp.py` | Plugin de connexion RDP (GtkFrdp.Display embarqué). |
-| `plugins.plugin_serial` | `plugins/plugin_serial.py` | Plugin de connexion série (port local via picocom/minicom/screen). |
 | `plugins.plugin_spice` | `plugins/plugin_spice.py` | Plugin de connexion SPICE (SpiceClientGtk.Display natif, ou fallback subprocess). |
 | `plugins.plugin_ssh` | `plugins/plugin_ssh.py` | Plugin de connexion SSH. |
-| `plugins.plugin_telnet` | `plugins/plugin_telnet.py` | Plugin de connexion Telnet. |
 | `plugins.plugin_vnc` | `plugins/plugin_vnc.py` | Plugin de connexion VNC (GtkVnc.Display natif, ou fallback subprocess). |
-| `plugins.plugin_web` | `plugins/plugin_web.py` | Plugin de connexion Web (console BMC HTML5 : iLO/iDRAC/IMM, ou toute URL). |
 | `plugins.pluginvnc2.vnc_tab` | `plugins/pluginvnc2/vnc_tab.py` | vnc_tab.py — Onglet VNC complet pour gnome-connection-manager (fork GTK4) |
 | `plugins.rdp` | `plugins/rdp/__init__.py` | Plugin rdp : bureau à distance RDP sur AsyncRdp (FreeRDP 3), sans gtk-frdp. |
 | `plugins.rdp.core` | `plugins/rdp/core.py` | Partie métier du plugin rdp (sans GTK) — portage #105. |
@@ -210,12 +204,12 @@ classDiagram
         <<SessionTerminal>>
         +close() None
     }
-    class plugins_ipmisol_gtk4_IpmiSolPlugin {
+    class IpmiSolPlugin {
         +default_port(protocol) int None
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) IpmiSolSession
     }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_ipmisol_gtk4_IpmiSolPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- IpmiSolPlugin
     class mod_plugins_local_core {
         <<module>>
         +shell(environ) str
@@ -225,13 +219,13 @@ classDiagram
     class LocalSession {
         <<SessionTerminal>>
     }
-    class plugins_local_gtk4_LocalPlugin {
+    class LocalPlugin {
         +default_port(protocol) int None
         +requires_address(protocol) bool
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) LocalSession
     }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_local_gtk4_LocalPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- LocalPlugin
     class mod_plugins_netmiko_push_core {
         <<module>>
         +iter_all_device_types() list~tuple~str, str, str~~
@@ -360,69 +354,6 @@ classDiagram
         +tool_ids() list~str~
         +autoload(directory, package) list~str~
     }
-    class mod_plugins_plugin_ipmisol {
-        <<module>>
-        +get_plugin() IpmiSolPlugin
-    }
-    class IpmiSolTab {
-        <<Gtk.Box>>
-        +connect_ipmi()
-    }
-    class plugins_plugin_ipmisol_IpmiSolPlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_ipmisol_IpmiSolPlugin
-    class mod_plugins_plugin_local {
-        <<module>>
-        +get_plugin() LocalPlugin
-    }
-    class LocalTab {
-        <<Gtk.Box>>
-        +connect_local() None
-    }
-    class plugins_plugin_local_LocalPlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_local_LocalPlugin
-    class mod_plugins_plugin_rdp {
-        <<module>>
-        +get_plugin() RdpPlugin
-    }
-    class FreeRdpTab {
-        <<Gtk.Box>>
-        +connect_rdp()
-        +build_context_menu()
-    }
-    class plugins_plugin_rdp_RdpPlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-        +host_fields() list~tuple~str, object~~
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_rdp_RdpPlugin
-    class mod_plugins_plugin_serial {
-        <<module>>
-        +get_plugin() SerialPlugin
-    }
-    class SerialTab {
-        <<Gtk.Box>>
-        +connect_serial()
-    }
-    class plugins_plugin_serial_SerialPlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-        +host_fields() list~tuple~str, object~~
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_serial_SerialPlugin
     class mod_plugins_plugin_spice {
         <<module>>
         +parse_spice_hosts(conf_path) list~tuple~str, str~~
@@ -469,21 +400,6 @@ classDiagram
         +patch_edit_host_dialog(builder, host_section, cp) None
     }
     plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_ssh_SshPlugin
-    class mod_plugins_plugin_telnet {
-        <<module>>
-        +get_plugin() TelnetPlugin
-    }
-    class TelnetTab {
-        <<Gtk.Box>>
-        +connect_telnet() None
-    }
-    class plugins_plugin_telnet_TelnetPlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_telnet_TelnetPlugin
     class mod_plugins_plugin_vnc {
         <<module>>
         +get_plugin() VncPlugin
@@ -503,23 +419,6 @@ classDiagram
         +host_fields() list~tuple~str, object~~
     }
     plugins_plugin_base_ConnectionPlugin <|-- VncPlugin
-    class mod_plugins_plugin_web {
-        <<module>>
-        +get_plugin() WebPlugin
-    }
-    class WebTab {
-        <<Gtk.Box>>
-        +connect_web()
-    }
-    class plugins_plugin_web_WebPlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-        +host_fields() list~tuple~str, object~~
-        +validate() list~str~
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_web_WebPlugin
     class mod_plugins_pluginvnc2_vnc_tab {
         <<module>>
         +build_vnc_tab_label(tab) Gtk.Box
@@ -610,14 +509,14 @@ classDiagram
         +echec(message) None
         +close() None
     }
-    class plugins_rdp_gtk4_RdpPlugin {
+    class RdpPlugin {
         +default_port(protocol) int None
         +default_options(protocol) dict~str, str~
         +validate_options(protocol, options) list
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) RdpOnglet
     }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_rdp_gtk4_RdpPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- RdpPlugin
     class mod_plugins_serial_core {
         <<module>>
         +outil(environ, prefere) str None
@@ -628,12 +527,12 @@ classDiagram
     class SerialSession {
         <<SessionTerminal>>
     }
-    class plugins_serial_gtk4_SerialPlugin {
+    class SerialPlugin {
         +default_port(protocol) int None
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) SerialSession
     }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_serial_gtk4_SerialPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- SerialPlugin
     class mod_plugins_sftp_core {
         <<module>>
         +empreinte(cle) str
@@ -1113,12 +1012,12 @@ classDiagram
     class TelnetSession {
         <<SessionTerminal>>
     }
-    class plugins_telnet_gtk4_TelnetPlugin {
+    class TelnetPlugin {
         +default_port(protocol) int None
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) TelnetSession
     }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_telnet_gtk4_TelnetPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- TelnetPlugin
     class mod_plugins_web_core {
         <<module>>
         +options_defaut() dict~str, str~
@@ -1137,7 +1036,7 @@ classDiagram
         +ouvrir_navigateur() bool
         +close() None
     }
-    class plugins_web_gtk4_WebPlugin {
+    class WebPlugin {
         +default_port(protocol) int None
         +requires_address(protocol) bool
         +default_options(protocol) dict~str, str~
@@ -1145,7 +1044,7 @@ classDiagram
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) SessionWeb
     }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_web_gtk4_WebPlugin
+    plugins_plugin_base_ConnectionPlugin <|-- WebPlugin
 ```
 
 ## gcm4

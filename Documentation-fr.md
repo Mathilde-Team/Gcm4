@@ -87,9 +87,8 @@ src/gcm4/core/metier.py                  ← cœur métier extrait, sans dépend
                                  (préalable à la migration GTK4)
 
 plugins/                      ← un fichier par plugin, chargé automatiquement
-├── plugin_ssh.py, plugin_rdp.py, plugin_vnc.py, plugin_spice.py,
-│   plugin_serial.py, plugin_telnet.py, plugin_local.py,
-│   plugin_ipmisol.py, plugin_web.py        ← plugins de connexion
+├── plugin_ssh.py, plugin_vnc.py, plugin_spice.py  ← plugins de connexion GTK3
+├── rdp/, serial/, telnet/, local/, ipmisol/, web/, ssh/  ← plugins GTK4 (contrat v1)
 ├── plugin_import_libvirt.py, plugin_import_proxmox.py,
 │   plugin_import_virtualbox.py, plugin_import_ovirt.py,
 │   plugin_import_csv.py, plugin_import_json.py, plugin_import_putty.py,

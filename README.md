@@ -300,11 +300,11 @@ Dépendances Python gérées par [uv](https://docs.astral.sh/uv/) (`pyproject.to
 automatisée, paquets système GTK/VTE inclus :
 
 ```bash
-./bootstrap-dev.sh              # installe tout, support RDP+SNMP inclus
+./bootstrap-dev.sh              # installe tout, support SNMP inclus
 uv run python3 GTK3.OLD/gnome_connection_manager.py
 ```
 
-Voir `bootstrap-dev.sh --help` pour les options (`--without-rdp`,
+Voir `bootstrap-dev.sh --help` pour les options (`--with-rdp` pour gtk-frdp hérité,
 `--without-snmp`, `--no-apt`).
 
 #### Nouvelle interface GTK4 (`gcm4`, en cours de migration)
