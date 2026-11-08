@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import getpass
 import os
+import re
 import shlex
 import shutil
 import subprocess
@@ -35,7 +36,7 @@ from typing import TYPE_CHECKING
 
 from loguru import logger
 
-from gcm4.core.i18n import N_
+from gcm4.core.i18n import N_, _
 from gcm4.core.terminal import Lancement
 from gcm4.core.terminal import etapes as _etapes
 
@@ -50,6 +51,8 @@ __all__ = [
     "OPT_COMPRESSION",
     "OPT_KEEPALIVE",
     "OPT_NIVEAU_COMPRESSION",
+    "OPT_SESSION_PARTAGEE",
+    "OPT_NOM_SESSION",
     "OPT_TUNNELS",
     "OPT_X11",
     "OPT_SSHFS_MONTAGE",
@@ -68,6 +71,7 @@ __all__ = [
     "etapes",
     "lancement",
     "lire_tunnels",
+    "nom_session",
     "redirection",
 ]
 
@@ -100,6 +104,10 @@ OPT_SSHFS_MONTAGE = "ssh_sshfs_mount"
 OPT_SSHFS_DISTANT = "ssh_sshfs_remote_path"
 #: Point de montage local de sshfs (clé INI de GTK3).
 OPT_SSHFS_LOCAL = "ssh_sshfs_local_mount"
+#: Session tmux distante, désactivée si la clé est absente.
+OPT_SESSION_PARTAGEE = "shared_session"
+#: Nom tmux, limité aux caractères ASCII sûrs ; vide : ``gcm4``.
+OPT_NOM_SESSION = "shared_session_name"
 
 #: Options ``-o`` avancées : (clé INI, option ssh, aide), dans l'ordre de GTK3
 #: (``_ADVANCED_FIELDS`` de ``plugins/plugin_ssh.py``).
@@ -221,6 +229,29 @@ def cle_absente(options: Mapping[str, str]) -> str | None:
     return resultat
 
 
+def nom_session(options: Mapping[str, str]) -> str:
+    """Nom tmux sûr ; une valeur vide sélectionne ``gcm4``.
+
+    Args:
+        options: options SSH du profil.
+
+    Returns:
+        Nom ASCII de 1 à 64 caractères, sans métacaractère de shell ou tmux.
+
+    Raises:
+        ValueError: nom non vide hors de l'alphabet autorisé.
+    """
+    logger.debug("nom_session: entrée")
+    nom = options.get(OPT_NOM_SESSION, "").strip() or "gcm4"
+    if re.fullmatch(r"[A-Za-z0-9_-]{1,64}", nom) is None:
+        logger.debug("nom_session: sortie | nom refusé")
+        raise ValueError(
+            _("Session name: use 1 to 64 ASCII letters, digits, underscores or hyphens.")
+        )
+    logger.debug("nom_session: sortie | nom valide")
+    return nom
+
+
 def lancement(
     adresse: str,
     port: int | None,
@@ -246,17 +277,28 @@ def lancement(
         script: script expect.
 
     Raises:
-        ValueError: ``parametres`` mal formé (guillemet non fermé).
+        ValueError: ``parametres`` mal formé ou nom de session tmux invalide.
         FileNotFoundError: mot de passe donné sans ``expect`` ; ``args[0]``
             est le nom du programme manquant.
     """
     logger.debug("lancement: {}:{} utilisateur={!r}", adresse, port, utilisateur)
     args: list[str] = []
+    partage = booleen(options.get(OPT_SESSION_PARTAGEE, ""))
+    # La première valeur RemoteCommand gagne dans OpenSSH : neutraliser
+    # explicitement celle du profil et de ~/.ssh/config avant la commande tmux.
+    if partage:
+        args += ["-o", "RemoteCommand=none"]
     if utilisateur:
         args += ["-l", utilisateur]
     if port is not None:
         args += ["-p", str(port)]
-    args += [*arguments(options), *shlex.split(parametres), adresse]
+    args += [*arguments(options), *shlex.split(parametres)]
+    if partage:
+        # -tt après les options du profil impose le pseudo-terminal nécessaire
+        # à tmux. Le nom validé ne peut injecter ni commande ni cible tmux.
+        args += ["-tt", "--", adresse, f"exec tmux new-session -A -s {nom_session(options)}"]
+    else:
+        args.append(adresse)
     if mot_de_passe:
         if expect is None:
             logger.debug("lancement: expect absent")

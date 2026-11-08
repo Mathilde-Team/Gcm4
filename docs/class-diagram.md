@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-96 modules · 161 classes · 392 fonctions publiques de module.
+96 modules · 161 classes · 393 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -24,7 +24,7 @@ flowchart TD
     g1["gcm4"]
     g2["gcm4.core"]
     g3["gcm4.ui"]
-    g0 -->|72| g2
+    g0 -->|73| g2
     g0 -->|12| g3
     g1 -->|4| g2
     g1 -->|1| g3
@@ -910,6 +910,7 @@ classDiagram
     }
     class SshPlugin {
         <<ConnectionPlugin>>
+        +validate_options(protocol, options) list~FieldError~
         +default_port(protocol) int None
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) SshSession
@@ -927,6 +928,7 @@ classDiagram
         +redirection(tunnel) list~str~
         +arguments(options) list~str~
         +cle_absente(options) str None
+        +nom_session(options) str
         +lancement(adresse, port, utilisateur, mot_de_passe, parametres, options, ssh, expect, script) Lancement
         +etapes(commandes) list~tuple~int, str~~
         +commande_auth(cle, mot_de_passe, commande, sshpass) list~str~ None

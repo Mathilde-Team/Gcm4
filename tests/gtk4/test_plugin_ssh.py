@@ -435,6 +435,46 @@ def test_zone_options_structure(plugin):
     assert isinstance(zone_commune(options, lambda: None), Gtk.Widget)
 
 
+def test_zone_partage_tmux(plugin):
+    """La case et le nom écrivent le profil sans activer tmux par défaut."""
+    options = {}
+    changements = []
+    zone, _carnet = _zone(plugin, options, changements)
+    case = next(
+        e
+        for e in _enfants(zone)
+        if isinstance(e, Gtk.CheckButton) and e.get_label() == "Shared session (tmux)"
+    )
+    ligne = case.get_parent()
+    nom = next(e for e in _enfants(ligne) if isinstance(e, Gtk.Entry))
+    assert not case.get_active() and not nom.get_sensitive()
+    assert not options and not changements
+    case.set_active(True)
+    assert nom.get_sensitive() and options[session.OPT_SESSION_PARTAGEE] == "True"
+    nom.set_text("equipe-42")
+    assert options[session.OPT_NOM_SESSION] == "equipe-42" and len(changements) == 2
+    assert plugin.validate_options("ssh", options) == []
+    nom.set_text("a;id")
+    erreurs = plugin.validate_options("ssh", options)
+    assert len(erreurs) == 1 and erreurs[0].champ == session.OPT_NOM_SESSION
+    case.set_active(False)
+    assert not nom.get_sensitive() and options[session.OPT_NOM_SESSION] == "a;id"
+    assert plugin.validate_options("ssh", options) == []
+
+
+def test_zone_partage_recharge_profil(plugin):
+    """La reconstruction du formulaire conserve l'activation et le nom."""
+    options = {session.OPT_SESSION_PARTAGEE: "True", session.OPT_NOM_SESSION: "atelier"}
+    zone, _carnet = _zone(plugin, options, [])
+    case = next(
+        e
+        for e in _enfants(zone)
+        if isinstance(e, Gtk.CheckButton) and e.get_label() == "Shared session (tmux)"
+    )
+    nom = next(e for e in _enfants(case.get_parent()) if isinstance(e, Gtk.Entry))
+    assert case.get_active() and nom.get_sensitive() and nom.get_text() == "atelier"
+
+
 FAUX_SSHFS = """#!{python}
 import os, sys
 trace = open(os.environ["FAUX_SSHFS_TRACE"], "a")
