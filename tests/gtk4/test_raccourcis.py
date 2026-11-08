@@ -4,8 +4,9 @@
 from __future__ import annotations
 
 import configparser
+import time
 
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, GLib, Gtk
 
 import gcm4.ui  # noqa: F401  (require_version avant gi.repository)
 from gcm4.core import menu
@@ -264,6 +265,7 @@ def test_entree_valide_une_saisie_prete(app_fixture, pomper):
     clavier.emit("key-pressed", Gdk.KEY_j, 0, CTRL)
     assert clavier.emit("key-pressed", Gdk.KEY_KP_Enter, 0, AUCUN)
     pomper()
+    _attendre_demappage(saisie.dialogue)
     assert saisie.traite and not saisie.dialogue.get_mapped()
     assert _ini(dossier).get("shortcuts", "gcm4_search") == "CTRL+J"
     assert app.get_accels_for_action("app.quit") == ["<Control>q"]
@@ -272,3 +274,26 @@ def test_entree_valide_une_saisie_prete(app_fixture, pomper):
     assert saisie.proposer(Gdk.KEY_Return, CTRL) and saisie.pret
     assert "Ctrl" in saisie.touches.get_label() and not saisie.traite
     _repondre(saisie, "cancel", pomper)
+
+
+def _attendre_demappage(dialogue):
+    """Attend les trames de fermeture Adw, sans désactiver les animations (#458).
+
+    L'attente prend fin dès le démappage, ou échoue après trois secondes.
+    Les itérations non bloquantes de ``pomper`` seules ne garantissent
+    pas que l'horloge des animations ait avancé.
+    """
+    if dialogue.get_mapped():
+        boucle = GLib.MainLoop()
+        limite = time.monotonic() + 3
+
+        def verifier():
+            """Arrête la boucle sur fermeture réelle ou expiration de la borne."""
+            if not dialogue.get_mapped() or time.monotonic() >= limite:
+                boucle.quit()
+                return GLib.SOURCE_REMOVE
+            return GLib.SOURCE_CONTINUE
+
+        GLib.timeout_add(10, verifier)
+        boucle.run()
+    assert not dialogue.get_mapped(), "Le dialogue reste affiché après validation"
