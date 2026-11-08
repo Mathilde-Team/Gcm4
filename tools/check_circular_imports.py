@@ -103,13 +103,12 @@ def discover_local_modules(root: str) -> dict[str, str]:
 
     Returns:
         dict[str, str]: Nom de module -> chemin du fichier .py, pour la
-        racine du dépôt, ``GTK3.OLD/`` (ancienne application GTK3, #427) et
-        le dossier ``plugins/`` (tous ajoutés à ``sys.path`` par
-        l'application, voir ``GTK3.OLD/gnome_connection_manager.py``).
+        racine du dépôt et le dossier ``plugins/`` (tous ajoutés à
+        ``sys.path`` par l'application, voir ``pyproject.toml``).
     """
     logger.debug("discover_local_modules: entrée")
     modules: dict[str, str] = {}
-    search_dirs = [root, os.path.join(root, "GTK3.OLD"), os.path.join(root, "plugins")]
+    search_dirs = [root, os.path.join(root, "plugins")]
     for directory in search_dirs:
         if not os.path.isdir(directory):
             continue
