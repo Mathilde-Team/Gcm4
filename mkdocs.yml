@@ -64,6 +64,7 @@ nav:
       - Import et export des hôtes: echange-hotes.md
       - Langue de l'interface: i18n.md
       - Journaux et mode debug: journalisation.md
+      - Partage de sessions SSH et VNC: partage-sessions.md
   - Développement:
       - Architecture: architecture.md
       - Diagramme de classes: class-diagram.md
