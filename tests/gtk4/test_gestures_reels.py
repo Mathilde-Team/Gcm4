@@ -609,6 +609,9 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
         racine = racine.get_parent()
     assert _est_dans(racine.get_focus(), entree)
     _activer(entree)  # vieux Adw : fenêtre X séparée, le clavier X y va
+    # DIAGNOSTIC #72 : quelle réponse le Return déclenche-t-il ?
+    menu.dialogue.connect("response", lambda _d, reponse: print(f"REPONSE: {reponse!r}"))
+    entree.connect("activate", lambda *_: print("ENTREE: activate"))
     _touche("a", avec_ctrl=True)
     _xdotool("type", "--delay", "30", "LABO")
     # la frappe doit être inscrite avant la validation : sans cette pompe,
@@ -617,10 +620,18 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
     # #72 sous GTK 4.8 : renommage en « LAB », donc sans effet)
     pomper()
     assert entree.get_text() == "LABO"
+    _bouton_valider = _bouton(menu.dialogue, _("Rename"))
+    print(
+        f"SONDE: focus={type(racine.get_focus()).__name__} "
+        f"bouton={type(_bouton_valider).__name__} sensible="
+        f"{_bouton_valider.get_sensitive() if _bouton_valider is not None else None}"
+    )
     _touche("Return")
     pomper()
+    print("SONDE: après Return")
     _attendre_disparition(menu.dialogue, pomper)
     visibles = {chemin for _, chemin in arbre.lignes_visibles()}
+    print(f"SONDE: visibles={sorted(visibles)[:10]}")
     assert "LABO" in visibles
     assert "LAB" not in visibles
     assert "LABO/web" in visibles  # le contenu suit le groupe renommé
