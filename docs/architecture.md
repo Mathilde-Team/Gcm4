@@ -7,6 +7,11 @@
 > fait/pas fait. Contenu repris de l'ancien `claude.md`/`features.md` lors de
 > la réorganisation de la documentation (2026-09-08) — non réédité depuis
 > sauf mention contraire.
+>
+> **Mise à jour du 08/11/2026 (#182)** : l'application GTK3 (`GTK3.OLD/`)
+> a été supprimée. Les sections décrivant ses modules (§1 en particulier)
+> sont un inventaire historique — le code vivant est `src/gcm4/` et les
+> plugins GTK4 du dossier `plugins/`.
 
 ## 1. Vue d'ensemble des modules
 
@@ -59,7 +64,7 @@ Chaque protocole est découvert automatiquement par `PluginRegistry.autoload()`.
 | SSH | `plugin_ssh.py` | ✅ Terminal VTE, agent, tunnels, cluster ; encapsule `SSHConfigParser`/`SSHKeyManagerDialog`/`KeyPickerDialog` |
 | RDP | `plugins/rdp/` (GTK4) | ✅ FreeRDP 3 (AsyncRdp) — `plugin_rdp.py` (GTK3, `GtkFrdp.Display`) retiré le 08/11/2026 (#179) |
 | VNC | `plugin_vnc.py` | ✅ Widget natif `GtkVnc.Display` si `gtk-vnc` dispo, sinon vncviewer/vinagre/remmina |
-| SPICE | `plugins/spice/` (GTK4) | ✅ Visionneuse externe `remote-viewer` (URI, ticket Proxmox) ou `virt-viewer` (libvirt), suivie depuis l'onglet (#179) — `plugin_spice.py` (GTK3, `SpiceClientGtk.Display`) en place jusqu'à #182 |
+| SPICE | `plugins/spice/` (GTK4) | ✅ Visionneuse externe `remote-viewer` (URI, ticket Proxmox) ou `virt-viewer` (libvirt), suivie depuis l'onglet (#179) — `plugin_spice.py` (GTK3, `SpiceClientGtk.Display`) retiré (#182) |
 | Série RS-232/485 | `plugins/serial/` (GTK4) | ✅ picocom/minicom/screen, templates constructeurs — `plugin_serial.py` (GTK3) retiré (#179) |
 | Telnet | `plugins/telnet/` (GTK4) | ✅ — `plugin_telnet.py` (GTK3) retiré (#179) |
 | Local | `plugins/local/` (GTK4) | ✅ Terminal shell local — `plugin_local.py` (GTK3) retiré (#179) |

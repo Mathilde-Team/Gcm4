@@ -58,15 +58,12 @@ _TRUE = frozenset({"1", "true", "yes", "oui", "on"})
 # chaque ``*_core.py`` qui journalise figure ici et se désactive.
 CORE_MODULES = (
     "gcm4",  # paquet src/gcm4 et ses sous-modules (#133)
-    "folder_context_menu_core",
-    "gesture_trigger_core",
-    "inline_editor_core",
+    # Cœurs des outils rangés dans leur plugin (#427, lot 3) ; les
+    # ``*_core.py`` historiques (racine et GTK3.OLD/) ont été supprimés
+    # avec le cœur GTK3 (#182).
     "plugins.netmiko_push.core",
-    "popup_menu_core",
     "plugins.import_putty.core",
-    "remote_desktop_menu_core",
     "plugins.snmp_push.core",
-    "tab_context_menu_core",
 )
 
 _FORMAT = (

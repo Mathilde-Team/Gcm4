@@ -59,7 +59,7 @@ class TestDiagrammeDeClasses(unittest.TestCase):
     def test_groupes(self):
         """Classement cœur / application / plugins / src/gcm4."""
         self.assertEqual(GEN.group_of("src/gcm4/core/metier.py"), "gcm4.core")
-        self.assertEqual(GEN.group_of("GTK3.OLD/popup_menu_core.py"), GEN.GROUP_CORE)
+        self.assertEqual(GEN.group_of("popup_menu_core.py"), GEN.GROUP_CORE)
         self.assertEqual(GEN.group_of("plugins/snmp_push/core.py"), GEN.GROUP_PLUGINS)
         self.assertEqual(GEN.group_of("gnome_connection_manager.py"), GEN.GROUP_APP)
         self.assertEqual(GEN.group_of("plugins/ssh/core.py"), GEN.GROUP_PLUGINS)
@@ -70,15 +70,8 @@ class TestDiagrammeDeClasses(unittest.TestCase):
         """Ni tests, ni outils, ni sous-projets."""
         files = GEN.source_files()
         self.assertIn("src/gcm4/core/metier.py", files)
-        self.assertIn("plugins/plugin_base.py", files)
         self.assertFalse(
-            [
-                f
-                for f in files
-                if f.startswith(
-                    ("tests/", "tools/", "scripts/", "SSH-Studio/", "GTK3.OLD/gtk-frdp/")
-                )
-            ]
+            [f for f in files if f.startswith(("tests/", "tools/", "scripts/", "SSH-Studio/"))]
         )
 
     def test_blocs_sous_la_limite_mermaid(self):

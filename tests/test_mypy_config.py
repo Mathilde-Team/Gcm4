@@ -17,17 +17,10 @@ CONFIG = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["t
 MODULES_TYPES_MINIMUM = {
     "src/gcm4/core/metier.py",
     "src/gcm4/core/journal.py",
-    "GTK3.OLD/models.py",
     "src/gcm4/core/mot_de_passe.py",
-    "GTK3.OLD/folder_context_menu_core.py",
-    "GTK3.OLD/gesture_trigger_core.py",
-    "GTK3.OLD/inline_editor_core.py",
     "plugins/netmiko_push/core.py",
-    "GTK3.OLD/popup_menu_core.py",
     "plugins/import_putty/core.py",
     "plugins/snmp_push/core.py",
-    "GTK3.OLD/tab_context_menu_core.py",
-    "plugins/plugin_base.py",
     "plugins/ssh/core.py",
     "plugins/spice/core.py",
 }

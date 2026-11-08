@@ -55,8 +55,8 @@ class TestRuffExcludesVendoredDirectories(unittest.TestCase):
         self.assertIn("SSH-Studio", _load_ruff_exclude())
 
     def test_gtk_frdp_excluded(self):
-        """`gtk-frdp/` (sous-module meson vendoré) est exclu du lint ruff."""
-        self.assertIn("GTK3.OLD/gtk-frdp", _load_ruff_exclude())
+        """gtk-frdp/ (vendorisé pendant la migration) a été supprimé (#182)."""
+        self.assertNotIn("GTK3.OLD/gtk-frdp", _load_ruff_exclude())
 
     def test_own_source_not_excluded(self):
         """Le code GCM lui-même (plugins/, tests/) reste couvert, pas exclu par erreur."""

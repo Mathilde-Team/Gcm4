@@ -1,9 +1,9 @@
 # Gnome Connection Manager (GCM) — v1.3.3
 
-> **Le gestionnaire de connexions multi-protocoles le plus complet pour GNOME / GTK3.**
+> **Le gestionnaire de connexions multi-protocoles le plus complet pour GNOME / GTK4.**
 
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://python.org)
-[![GTK 3](https://img.shields.io/badge/GTK-3.24-green.svg)](https://gtk.org)
+[![GTK 4](https://img.shields.io/badge/GTK-4.0-green.svg)](https://gtk.org)
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-780-brightgreen.svg)](tests/)
 [![Ruff](https://img.shields.io/badge/ruff-pass-brightgreen.svg)](pyproject.toml)
@@ -130,14 +130,12 @@ ko · nb · nl · pl · pt · ro · ru · sv · th · tr · uk · vi · zh
 - Mode sombre activé si `color-scheme = prefer-dark`
 
 ### 🧙 Qualité du code
-- **ruff** (linter + formateur, style Google docstring) + **flake8**
+- **ruff** (linter + formateur, style Google docstring)
 - **pre-commit** : hooks automatisés à chaque commit (`pre-commit install`)
-- 780 tests unitaires pytest — 506 dans `tests/test_gcm.py` (nécessitent
-  GTK3/VTE réels), 274 répartis sur 19 autres fichiers sans dépendance GTK
-  (chiffrement, Host, HostUtils, Serial, RDP, VNC, SPICE, libvirt, Proxmox,
-  proto-icons, validation port, gestes/menus contextuels GTK4, éditeur
-  inline, audit `plugins/ssh/gtk4.py` — voir `docs/architecture.md` §2.8 ;
-  chiffres réels vérifiés session-45, `docs/sessions/session-45.md`)
+- 1491 tests unitaires pytest dans `tests/` (sans dépendance GTK) et 449
+  tests d'interface dans `tests/gtk4/` (GTK4 réels sous Xvfb) —
+  l'ancienne suite `tests/test_gcm.py` de l'application GTK3 a été
+  supprimée avec le cœur GTK3 (#182)
 
 ---
 
@@ -148,7 +146,8 @@ ko · nb · nl · pl · pt · ro · ru · sv · th · tr · uk · vi · zh
 ```bash
 git clone https://github.com/MathildeDec/gnome-connection-manager
 cd gnome-connection-manager
-./GTK3.OLD/gnome_connection_manager.py
+uv sync
+uv run gcm4
 ```
 
 ### Dossier de configuration alternatif
@@ -157,24 +156,18 @@ Par défaut, GCM stocke sa configuration dans `~/.gcm/`. Pour utiliser un autre
 emplacement (poste partagé, tests, profils multiples) :
 
 ```bash
-./GTK3.OLD/gnome_connection_manager.py --config /chemin/vers/dossier
-./GTK3.OLD/gnome_connection_manager.py -c /chemin/vers/dossier
+uv run gcm4 --config /chemin/vers/dossier
+uv run gcm4 -c /chemin/vers/dossier
 ```
 
 ### Dépendances (Debian / Ubuntu)
 
 ```bash
 # Obligatoires
-sudo apt install python3 python3-gi gir1.2-vte-2.91 gir1.2-gtk-3.0 expect python3-pycryptodome
+sudo apt install python3 python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 expect python3-pycryptodome
 
-# RDP
-sudo apt install meson valac ninja-build pkg-config gobject-introspection libgirepository1.0-dev libgtk-3-dev freerdp3-dev libfuse3-dev
-libfuse3-dev
-git clone https://gitlab.gnome.org/GNOME/gtk-frdp.git
-cd gtk-frdp  # ou freerdp3-x11
-meson setup build --prefix=/usr
-ninja -C build
-sudo ninja -C build install
+# RDP : FreeRDP 3 côté système (le plugin GTK4 plugins/rdp/ s'en charge,
+# plus besoin de la bibliothèque gtk-frdp héritée, supprimée en #182)
 # VNC
 sudo apt install tigervnc-viewer       # ou vinagre, remmina
 
@@ -246,8 +239,8 @@ pre-commit run --all-files  # vérification manuelle
 GCM détecte automatiquement la langue du système. Pour forcer :
 
 ```bash
-LANG=en_US.UTF-8 ./GTK3.OLD/gnome_connection_manager.py
-LANG=de_DE.UTF-8 ./GTK3.OLD/gnome_connection_manager.py
+LANG=en_US.UTF-8 uv run gcm4
+LANG=de_DE.UTF-8 uv run gcm4
 ```
 
 ---
@@ -278,8 +271,8 @@ sudo gem install fpm
 | `make i18n-update` | Extrait les chaînes (`lang/messages.pot`) et met à jour les `.po` |
 | `make i18n-check` | Échoue si le `.pot` ou un `.po` est périmé (CI) |
 | `make validate` | Valide `.po` (msgfmt) + `.glade` / `.xml` / `.json` |
-| `make test` | Lance la suite pytest (777 tests) |
-| `make lint` | ruff + flake8 |
+| `make test` | Lance la suite pytest |
+| `make lint` | ruff |
 | `make check` | validate + lint + test + vérification git propre |
 | `make clean` | Supprime paquets et `__pycache__` |
 | `make help` | Affiche l'aide |
@@ -287,10 +280,9 @@ sudo gem install fpm
 ```bash
 git clone https://github.com/MathildeDec/gnome-connection-manager
 cd gnome-connection-manager
-make            # deb + rpm Fedora
-make deb        # deb de gcm4 seulement
-make opensuse   # rpm openSUSE
-make validate   # valider .po + .glade avant commit
+make deb        # deb de gcm4
+make rpm-gcm4   # rpm de gcm4
+make validate   # valider .po avant commit
 ```
 
 ### Environnement de développement Python
@@ -301,13 +293,12 @@ automatisée, paquets système GTK/VTE inclus :
 
 ```bash
 ./bootstrap-dev.sh              # installe tout, support SNMP inclus
-uv run python3 GTK3.OLD/gnome_connection_manager.py
+uv run gcm4
 ```
 
-Voir `bootstrap-dev.sh --help` pour les options (`--with-rdp` pour gtk-frdp hérité,
-`--without-snmp`, `--no-apt`).
+Voir `bootstrap-dev.sh --help` pour les options (`--without-snmp`, `--no-apt`).
 
-#### Nouvelle interface GTK4 (`gcm4`, en cours de migration)
+#### Interface GTK4 (`gcm4`)
 
 PyGObject, GTK 4 et libadwaita ne s'installent **pas** avec uv : ils
 viennent des paquets système, et le venv doit les voir. `bootstrap-dev.sh`
@@ -407,8 +398,8 @@ pre-commit run --all-files  # vérification manuelle
 ## Journaux et mode debug
 
 ```bash
-./GTK3.OLD/gnome_connection_manager.py --debug          # ou GCM_DEBUG=1
-GCM_LOG_LEVEL=TRACE ./GTK3.OLD/gnome_connection_manager.py
+uv run gcm4 --debug          # ou GCM_DEBUG=1
+GCM_LOG_LEVEL=TRACE uv run gcm4
 ```
 
 Le journal permanent est `~/.gcm/log/gcm-app.log`. Niveaux, variables
