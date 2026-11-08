@@ -1,14 +1,13 @@
-# Migration GTK4 — dette structurelle majeure, stratégie
+# Migration GTK4 — clôturée
 
-> Chantier prioritaire du projet (voir `../CLAUDE.md`). Contenu déplacé tel
-> quel depuis l'ancien `features.md` §3 lors de la réorganisation de la
-> documentation — non réédité depuis.
-
-C'est le plus gros chantier à venir. Le portage réel **n'a pas commencé** ; le code
-actuel ne fait qu'anticiper certains points de rupture. Cette section sert de base
-de décision : elle inventorie les points de rupture connus, pose les deux stratégies
-possibles, et sera complétée avec les travaux séparés déjà réalisés sur les
-approches VNC/RDP/SPICE en GTK4 dès leur dépôt dans le projet.
+> **Chantier terminé.** La migration GTK4 est achevée : l'application GTK3
+> (`GTK3.OLD/`), ses plugins et ses tests ont été supprimés (#179, #182,
+> 08/11/2026), le garde-fou `tests/test_gtk3_retrait.py` impose « zéro
+> fichier GTK3 » et la mission #177 est close. Ce document est conservé tel
+> quel comme archive des décisions (contenu déplacé depuis l'ancien
+> `features.md` §3 lors de la réorganisation de la documentation, non
+> réédité depuis) : les sections ci-dessous décrivent l'état du dépôt avant
+> la migration et n'en rendent plus compte.
 
 ## 3.0 Décisions actées (2026-08-29)
 - **Stratégie retenue : B — refactoring complet / réécriture** (voir §3.3).

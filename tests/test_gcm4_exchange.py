@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import ast
 import configparser
 import csv
 import io
@@ -36,17 +35,33 @@ from gcm4.core.model import Host, HostStore
 RACINE = Path(__file__).resolve().parents[1]
 
 
-def _colonnes_gtk3() -> list[str]:
-    """``Wmain._CSV_CORE_FIELDS`` lu dans le code GTK3 (sans l'importer : il charge GTK)."""
-    arbre = ast.parse(
-        (RACINE / "GTK3.OLD" / "gnome_connection_manager.py").read_text(encoding="utf-8")
-    )
-    for noeud in ast.walk(arbre):
-        if isinstance(noeud, (ast.AnnAssign, ast.Assign)):  # noqa: UP038 (Python 3.9, #223)
-            cibles = [noeud.target] if isinstance(noeud, ast.AnnAssign) else noeud.targets
-            if any(getattr(c, "id", "") == "_CSV_CORE_FIELDS" for c in cibles):
-                return list(ast.literal_eval(noeud.value))
-    raise AssertionError("_CSV_CORE_FIELDS introuvable")
+#: Colonnes du format CSV/JSON historique (``Wmain._CSV_CORE_FIELDS`` de
+#: l'application GTK3, gelées lors de la suppression du cœur GTK3 — #182).
+#: La lecture AST du fichier source n'est plus possible : ce format est
+#: une donnée figée, garantie par le garde-fou ci-dessous.
+COLONNES_GTK3 = [
+    "group",
+    "name",
+    "description",
+    "host",
+    "user",
+    "port",
+    "type",
+    "protocol",
+    "extra_params",
+    "commands",
+    "keep_alive",
+    "font_color",
+    "back_color",
+    "x11",
+    "agent",
+    "compression",
+    "compressionLevel",
+    "log",
+    "backspace_key",
+    "delete_key",
+    "term",
+]
 
 
 #: Champs déclarés par des plugins GTK3 (host_fields), exportés après les champs core.
@@ -55,7 +70,7 @@ CHAMPS_PLUGINS_GTK3 = ["rdp_cert_ignore", "vnc_view_only", "serial_baudrate"]
 
 def _ligne_gtk3(**valeurs: str) -> dict[str, str]:
     """Ligne d'export GTK3 : ``str(getattr(h, f, "") or "")`` pour chaque colonne."""
-    ligne = dict.fromkeys(_colonnes_gtk3() + CHAMPS_PLUGINS_GTK3, "")
+    ligne = dict.fromkeys(COLONNES_GTK3 + CHAMPS_PLUGINS_GTK3, "")
     ligne.update(valeurs)
     return ligne
 
@@ -109,10 +124,10 @@ def _hote_complet() -> Host:
 # --- export GTK3 → gcm4 -----------------------------------------------------
 
 
-def test_colonnes_gtk3_lues_dans_le_code():
-    """Garde-fou : la fixture suit les colonnes réellement exportées par GTK3."""
-    assert _colonnes_gtk3()[:2] == ["group", "name"]
-    assert {"keep_alive", "compressionLevel", "backspace_key", "commands"} <= set(_colonnes_gtk3())
+def test_colonnes_gtk3_gelées():
+    """Garde-fou : la constante figée reste le format d'export/import GTK3."""
+    assert COLONNES_GTK3[:2] == ["group", "name"]
+    assert {"keep_alive", "compressionLevel", "backspace_key", "commands"} <= set(COLONNES_GTK3)
 
 
 def test_export_csv_gtk3_importe_sans_perte():

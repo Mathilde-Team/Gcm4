@@ -5,36 +5,19 @@ PKG_DESCRIPTION = "Multi-protocol tabbed connection manager (SSH/RDP/VNC/SPICE/S
 PKG_VENDOR  = MathildeDec
 PKG_URL     = https://github.com/MathildeDec/gnome-connection-manager
 PKG_ARCH    = all
-PKG_ARCH_RPM = noarch
 PKG_LICENSE = GPLv3
-PKG_RPM     = $(PKG_NAME)-$(PKG_VERSION).$(PKG_ARCH_RPM).rpm
-PKG_OPENSUSE = $(PKG_NAME)-opensuse-$(PKG_VERSION).$(PKG_ARCH_RPM).rpm
 
-TMPINSTALLDIR = /tmp/$(PKG_NAME)-fpm-install
-
-# Modules embarqués (issue #162) : TOUS les .py de la racine et les .py de
-# plugins/ hors tests. Avant, seuls gnome_connection_manager.py, src/gcm4/core/pyaes.py et
-# urlregex.py étaient copiés : le paquet installé échouait à l'import de
-# gcm4_core, logging_config, models, utils, widgets... et n'avait aucun
-# plugin. tests/test_paquet_contenu.py vérifie que chaque module importé est
-# bien installé.
-# Ancienne application GTK3 rangée dans GTK3.OLD/ (#427) : installée à plat,
-# comme avant. Les cœurs des outils (lot 3) sont dans plugins/<dossier>/core.py
-# et suivent PLUGINS_PY. Plus aucun module à la racine.
-RUNTIME_PY  = $(sort $(wildcard GTK3.OLD/*.py))
+# Modules embarqués : les .py de src/gcm4 (paquet GTK4, #133) et les .py de
+# plugins/ hors tests. L'application GTK3 (GTK3.OLD/, cible `install` fpm)
+# a été supprimée avec le cœur GTK3 (#182) : les paquets vivants sont
+# build-deb/ et build-rpm/ (cibles deb / rpm-gcm4).
 GCM4_PY     = $(sort $(shell git ls-files 'src/gcm4/*.py' 'src/gcm4/*.css'))
 PLUGINS_PY  = $(sort $(shell find plugins -name '*.py' -not -path '*/tests/*' -not -name 'conftest.py' -not -path '*/__pycache__/*'))
 
-FPM_COMMON = -s dir -n $(PKG_NAME) -v $(PKG_VERSION) -C $(TMPINSTALLDIR) \
-	--maintainer $(PKG_MAINTAINER) \
-	--description "$$(printf '$(PKG_DESCRIPTION)')" \
-	--license $(PKG_LICENSE) --vendor $(PKG_VENDOR) \
-	--category net --url $(PKG_URL)
-
 # ── Cibles principales ────────────────────────────────────────────────────────
-.PHONY: all run-gtk4 deb deb-gcm4 smoke-deb rpm rpm-gcm4 smoke-rpm opensuse install translate i18n-update i18n-check i18n-report class-diagram ci check-desktop icons test lint validate clean help docs
+.PHONY: all run-gtk4 deb deb-gcm4 smoke-deb rpm-gcm4 smoke-rpm translate i18n-update i18n-check i18n-report class-diagram ci check-desktop icons test lint validate clean help docs
 
-all:  test lint deb rpm opensuse translate validate
+all:  test lint deb rpm-gcm4 translate validate
 
 help:
 	@echo "Cibles disponibles :"
@@ -56,7 +39,7 @@ help:
 	@echo "  make icons   → régénère data/icons/hicolor/ depuis data/icon.png"
 	@echo "  make docs     → construit la documentation MkDocs (site/, strict)"
 	@echo "  make test     → lance la suite pytest"
-	@echo "  make lint     → ruff + flake8"
+	@echo "  make lint     → ruff"
 	@echo "  make validate → valide .po (msgfmt) + .glade/.xml/.json"
 	@echo "  make clean    → supprime les paquets et répertoires temporaires"
 
@@ -89,30 +72,6 @@ run-gtk4:
 class-diagram:
 	@uv run python scripts/generate_class_diagram.py
 
-# ── Installation dans un répertoire temporaire ────────────────────────────────
-install: translate
-	mkdir -p $(DESTDIR)/usr/share/$(PKG_NAME)
-	mkdir -p $(DESTDIR)/usr/share/applications
-	mkdir -p $(DESTDIR)/usr/share/doc/$(PKG_NAME)
-	echo "$(PKG_NAME) ($(PKG_VERSION)) all; urgency=low" \
-		> $(DESTDIR)/usr/share/doc/$(PKG_NAME)/changelog
-	git log --no-merges --format="* %s" \
-		>> $(DESTDIR)/usr/share/doc/$(PKG_NAME)/changelog
-	gzip -9 $(DESTDIR)/usr/share/doc/$(PKG_NAME)/changelog
-	cp GTK3.OLD/gnome-connection-manager.desktop $(DESTDIR)/usr/share/applications/
-	cat NOTICE LICENSE > $(DESTDIR)/usr/share/doc/$(PKG_NAME)/copyright
-	cp -r lang data/icon.png GTK3.OLD/ssh.expect GTK3.OLD/style.css $(RUNTIME_PY) \
-		$(DESTDIR)/usr/share/$(PKG_NAME)/
-	for f in $(PLUGINS_PY); do \
-		install -D -m 644 "$$f" "$(DESTDIR)/usr/share/$(PKG_NAME)/$$f"; \
-	done
-	# Modules sans GTK passés de la racine à src/gcm4/core (#427) : l'application
-	# GTK3 les importe par « gcm4.core », le paquet gcm4 est donc copié à côté.
-	for f in $(GCM4_PY); do \
-		install -D -m 644 "$$f" "$(DESTDIR)/usr/share/$(PKG_NAME)/$${f#src/}"; \
-	done
-	chmod 755 $(DESTDIR)/usr/share/$(PKG_NAME)/gnome_connection_manager.py
-
 # ── Paquet .deb de gcm4 (#156) ───────────────────────────────────────────────
 # build-deb/build.sh (dpkg-buildpackage) : paquet gcm4 de la base GTK4, sans
 # aucun plugin, version lue dans pyproject.toml. Plus de .deb de l'application
@@ -137,58 +96,12 @@ rpm-gcm4:
 smoke-rpm:
 	scripts/smoke-test-packages.sh rpm $(wildcard build-rpm/dist/gcm4-*.noarch.rpm)
 
-# ── Paquet .rpm (Fedora / RHEL / CentOS) ─────────────────────────────────────
-rpm:
-	rm -rf $(TMPINSTALLDIR) $(PKG_RPM)
-	chmod -R g-w *
-	$(MAKE) install DESTDIR=$(TMPINSTALLDIR)
-	fpm -t rpm -p $(PKG_RPM) $(FPM_COMMON) \
-		-a $(PKG_ARCH_RPM) \
-		-d python3 \
-		-d python3-gobject \
-		-d vte291 \
-		-d gtk-vnc2 \
-		-d spice-gtk3 \
-		-d freerdp \
-		-d expect \
-		-d python3-paramiko \
-		-d python3-loguru \
-		--after-install GTK3.OLD/postinst \
-		usr
-	@echo "\033[92mOK: $(PKG_RPM)\033[0m"
-
-# ── Paquet .rpm (openSUSE / SLES) ────────────────────────────────────────────
-# Les noms de paquets openSUSE diffèrent de Fedora :
-#   python3-gobject → python3-gobject (identique)
-#   vte291          → typelib-1_0-Vte-2.91 + libvte-2_91-0
-#   expect          → expect (identique)
-opensuse:
-	rm -rf $(TMPINSTALLDIR) $(PKG_OPENSUSE)
-	chmod -R g-w *
-	$(MAKE) install DESTDIR=$(TMPINSTALLDIR)
-	fpm -t rpm -p $(PKG_OPENSUSE) $(FPM_COMMON) \
-		-a $(PKG_ARCH_RPM) \
-		--rpm-dist "opensuse" \
-		-d python3 \
-		-d python3-gobject \
-		-d "typelib-1_0-Vte-2.91" \
-		-d "typelib-1_0-GtkVnc-2.0" \
-		-d "typelib-1_0-SpiceClientGtk-3.0" \
-		-d freerdp \
-		-d expect \
-		-d python3-paramiko \
-		-d python3-loguru \
-		--after-install GTK3.OLD/postinst \
-		usr
-	@echo "\033[92mOK: $(PKG_OPENSUSE) (openSUSE)\033[0m"
-
 # ── make ci (issue #162) : rejoue localement les étapes du job Qualité ───────
 # Même ordre et mêmes commandes que .github/workflows/ci.yml (jobs Qualité,
 # Types, i18n et documentation) ; tests/test_make_ci.py vérifie que chaque commande `run:`
 # de ces jobs figure ici.
 ci:
 	uv run ruff check .
-	uv run --with flake8 flake8 GTK3.OLD/gnome_connection_manager.py
 	uv run python scripts/generate_class_diagram.py --check
 	uv run ruff format --check .
 	uvx pre-commit run --all-files --show-diff-on-failure
@@ -218,26 +131,12 @@ docs:
 test:
 	python3 -m pytest tests/ -v
 
-# ── Lint (ruff + flake8) ──────────────────────────────────────────────────────
-# session-35 (2026-09-14) : la cible ne couvrait que gnome_connection_manager.py,
-# src/gcm4/core/metier.py et tests/ — les plugins/, models.py, plugins/netmiko_push/core.py,
-# utils.py et widgets.py n'étaient jamais vérifiés. Élargi à tout le dépôt
-# (respecte l'exclude de pyproject.toml, dont SSH-Studio/gtk-frdp, vendorisés
-# et hors périmètre GCM).
-# session-36 (2026-09-16) : `ruff check .` passe désormais sans aucune erreur
-# (les 423 erreurs pré-existantes de tests/test_gcm.py, docstrings manquantes,
-# ont été comblées). `make lint` échoue néanmoins toujours aujourd'hui, pour
-# une raison distincte nouvellement découverte : flake8 n'a jamais été
-# configuré pour ce dépôt (pas de .flake8/setup.cfg avant cette session) et
-# tournait donc avec sa limite par défaut de 79 caractères au lieu des 99
-# déclarés partout ailleurs — corrigé (.flake8 ajouté), mais 182 erreurs
-# flake8 réelles restent sur gnome_connection_manager.py (97 lignes >99
-# caractères + 85 constats de code légué déjà ignorés par ruff pour ce
-# fichier), non corrigées cette session (hors périmètre de la demande
-# « erreurs ruff », voir docs/sessions/session-36.md).
+# ── Lint (ruff) ───────────────────────────────────────────────────────────────
+# Historique : flake8 ne couvrait que le fichier principal de l'application
+# GTK3 (supprimée en #182) ; ruff couvre désormais tout le dépôt (hors
+# sous-projets vendorisés, voir l'exclude de pyproject.toml).
 lint:
 	ruff check .
-	flake8 GTK3.OLD/gnome_connection_manager.py
 
 # ── Validation .po (+ .xml/.glade/.json si le dépôt en contient un jour) ─────
 # session-30 (2026-09-10) : cette cible appelait tools/validate_xml_json.py
@@ -255,9 +154,7 @@ validate:
 
 # ── Nettoyage ─────────────────────────────────────────────────────────────────
 clean:
-	rm -rf $(TMPINSTALLDIR)
-	rm -rf build-deb/_build build-deb/dist
-	rm -f $(PKG_RPM)
+	rm -rf build-deb/_build build-deb/dist build-rpm/dist
 	find . -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 	find . -name "*.pyc" -delete 2>/dev/null || true
 

@@ -108,19 +108,15 @@ Issue #157, même contenu que le .deb.
 - CI : « Paquet .rpm (construction) » sur Fedora 44 ; « Paquets (.rpm, …) »
   l'installe dans un conteneur Fedora 44 propre.
 
-## Paquets de l'application GTK3
+## Application GTK3 : supprimée
 
 - Plus de `.deb` de l'application GTK3 (décision du 2026-10-22, #156) :
   `make deb` construit le paquet gcm4 ci-dessus, et le workflow Release le
   joint aux releases à la place de l'ancien.
-- `make rpm`, `make opensuse` (fpm) emballent l'arborescence
-  produite par `make install` : tous les modules `.py` de la racine,
-  `plugins/` hors tests, les traductions compilées, l'icône et le
-  `.desktop`.
-- `tests/test_paquet_contenu.py` lance `make install` et vérifie que chaque
-  module local importé, même dans une fonction, est installé. Avant cette
-  issue, seuls trois modules étaient copiés et l'application installée ne
-  démarrait pas.
+- Les cibles fpm (`make install`, `make rpm`, `make opensuse`) et leur test
+  `tests/test_paquet_contenu.py` ont été supprimés avec le cœur GTK3
+  (#182) : les paquets vivants sont ceux de `build-deb/` (`.deb`) et
+  `build-rpm/` (`.rpm`), vérifiés par `make smoke-deb` / `make smoke-rpm`.
 - `python3-loguru` est une dépendance de chaque paquet. Les versions des
   distributions peuvent être plus anciennes que la 0.7.3 de
   `pyproject.toml` (Debian bookworm, Ubuntu jammy) : à vérifier au premier

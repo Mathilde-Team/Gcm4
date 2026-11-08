@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-97 modules · 169 classes · 377 fonctions publiques de module.
+93 modules · 158 classes · 373 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -24,11 +24,10 @@ flowchart TD
     g1["gcm4"]
     g2["gcm4.core"]
     g3["gcm4.ui"]
-    g0 -->|66| g2
+    g0 -->|65| g2
     g0 -->|12| g3
     g1 -->|4| g2
     g1 -->|1| g3
-    g2 -->|1| g0
     g2 -->|1| g1
     g3 -->|2| g1
     g3 -->|64| g2
@@ -58,10 +57,6 @@ flowchart TD
 | `plugins.local.gtk4` | `plugins/local/gtk4.py` | Plugin local de gcm4 (contrat v1, ``docs/plugins.md``) : shell local dans un terminal VTE GTK4. |
 | `plugins.netmiko_push.core` | `plugins/netmiko_push/core.py` | Cœur métier (sans GTK) du plugin de déploiement de configuration en masse via Netmiko pour GCM. |
 | `plugins.netmiko_push.gtk4` | `plugins/netmiko_push/gtk4.py` | Outil « Déploiement Netmiko » (contrat v1, #441, portage #179). |
-| `plugins.plugin_base` | `plugins/plugin_base.py` | Contrats plugin pour GCM. |
-| `plugins.plugin_spice` | `plugins/plugin_spice.py` | Plugin de connexion SPICE (SpiceClientGtk.Display natif, ou fallback subprocess). |
-| `plugins.plugin_ssh` | `plugins/plugin_ssh.py` | Plugin de connexion SSH. |
-| `plugins.plugin_vnc` | `plugins/plugin_vnc.py` | Plugin de connexion VNC (GtkVnc.Display natif, ou fallback subprocess). |
 | `plugins.pluginvnc2.vnc_tab` | `plugins/pluginvnc2/vnc_tab.py` | vnc_tab.py — Onglet VNC complet pour gnome-connection-manager (fork GTK4) |
 | `plugins.rdp` | `plugins/rdp/__init__.py` | Plugin rdp : bureau à distance RDP sur AsyncRdp (FreeRDP 3), sans gtk-frdp. |
 | `plugins.rdp.core` | `plugins/rdp/core.py` | Partie métier du plugin rdp (sans GTK) — portage #105. |
@@ -205,11 +200,11 @@ classDiagram
         +close() None
     }
     class IpmiSolPlugin {
+        <<ConnectionPlugin>>
         +default_port(protocol) int None
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) IpmiSolSession
     }
-    plugins_plugin_base_ConnectionPlugin <|-- IpmiSolPlugin
     class mod_plugins_local_core {
         <<module>>
         +shell(environ) str
@@ -220,12 +215,12 @@ classDiagram
         <<SessionTerminal>>
     }
     class LocalPlugin {
+        <<ConnectionPlugin>>
         +default_port(protocol) int None
         +requires_address(protocol) bool
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) LocalSession
     }
-    plugins_plugin_base_ConnectionPlugin <|-- LocalPlugin
     class mod_plugins_netmiko_push_core {
         <<module>>
         +iter_all_device_types() list~tuple~str, str, str~~
@@ -307,118 +302,6 @@ classDiagram
         <<ToolPlugin>>
         +activate() None
     }
-    class plugins_plugin_base_ConnectionPlugin {
-        <<ABC>>
-        +str protocol_id
-        +str display_name
-        +int None default_port
-        +str icon_name
-        +int ui_order
-        +bool is_terminal
-        +bool self_scrolling
-        +object None app
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-        +host_fields() list~tuple~str, object~~
-        +build_folder_context_menu_items() list~tuple~str, Callable~~~, None~~~
-        +validate() list~str~
-        +menu_actions() list
-        +patch_edit_host_dialog(builder, host_section, cp) None
-    }
-    class plugins_plugin_base_PluginRegistry {
-        +register(plugin) None
-        +get(protocol_id) ConnectionPlugin None
-        +all() list~ConnectionPlugin~
-        +all_sorted() list~ConnectionPlugin~
-        +bind_app(app) None
-        +protocol_ids() list~str~
-        +all_host_fields() list~tuple~str, object~~
-        +autoload(directory, package) list~str~
-    }
-    class BatchPlugin {
-        <<ABC>>
-        +str tool_id
-        +str display_name
-        +str icon_name
-        +str menu_section
-        +object None app
-        +activate() None
-    }
-    class BatchPluginRegistry {
-        +register(plugin) None
-        +get(tool_id) BatchPlugin None
-        +all() list~BatchPlugin~
-        +bind_app(app) None
-        +tool_ids() list~str~
-        +autoload(directory, package) list~str~
-    }
-    class mod_plugins_plugin_spice {
-        <<module>>
-        +parse_spice_hosts(conf_path) list~tuple~str, str~~
-        +get_plugin() SpicePlugin
-    }
-    class HostsUpdater {
-        +update(pairs) int
-    }
-    class SpiceTab {
-        <<Gtk.Box>>
-        +connect_spice()
-        +build_context_menu()
-    }
-    class SpicePlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-        +host_fields() list~tuple~str, object~~
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- SpicePlugin
-    class mod_plugins_plugin_ssh {
-        <<module>>
-        +get_plugin() SshPlugin
-    }
-    class SshTab {
-        <<Gtk.Box>>
-        +connect_ssh() None
-    }
-    class plugins_plugin_ssh_SshPlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-        +host_fields() list~tuple~str, object~~
-        +validate() list~str~
-        +menu_actions() list~tuple~str, str, Callable~~
-        +build_folder_context_menu_items() list~tuple~str, Callable~~
-        +edit_ssh_config() None
-        +manage_ssh_keys() None
-        +migrate_all_ssh() None
-        +migrate_ssh_host(host) None
-        +import_ssh_config_action() None
-        +patch_edit_host_dialog(builder, host_section, cp) None
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_plugin_ssh_SshPlugin
-    class mod_plugins_plugin_vnc {
-        <<module>>
-        +get_plugin() VncPlugin
-    }
-    class plugins_plugin_vnc_VncTab {
-        <<Gtk.Box>>
-        +make_vnc_passwd(password, path) None
-        +reverse_bits(b) int
-        +connect_vnc()
-        +build_context_menu()
-    }
-    class VncPlugin {
-        +build_tab(host, get_password) Gtk.Widget
-        +build_edit_page() Gtk.Widget
-        +load_host_fields(host) None
-        +save_host_fields(host) None
-        +host_fields() list~tuple~str, object~~
-    }
-    plugins_plugin_base_ConnectionPlugin <|-- VncPlugin
     class mod_plugins_pluginvnc2_vnc_tab {
         <<module>>
         +build_vnc_tab_label(tab) Gtk.Box
@@ -470,7 +353,7 @@ classDiagram
         +widget_to_remote(x, y)
         +set_continuous_updates(enable)
     }
-    class plugins_pluginvnc2_vnc_tab_VncTab {
+    class VncTab {
         <<Gtk.Box>>
         +close()
     }
@@ -510,13 +393,13 @@ classDiagram
         +close() None
     }
     class RdpPlugin {
+        <<ConnectionPlugin>>
         +default_port(protocol) int None
         +default_options(protocol) dict~str, str~
         +validate_options(protocol, options) list
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) RdpOnglet
     }
-    plugins_plugin_base_ConnectionPlugin <|-- RdpPlugin
     class mod_plugins_serial_core {
         <<module>>
         +outil(environ, prefere) str None
@@ -528,11 +411,11 @@ classDiagram
         <<SessionTerminal>>
     }
     class SerialPlugin {
+        <<ConnectionPlugin>>
         +default_port(protocol) int None
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) SerialSession
     }
-    plugins_plugin_base_ConnectionPlugin <|-- SerialPlugin
     class mod_plugins_sftp_core {
         <<module>>
         +empreinte(cle) str
@@ -602,13 +485,13 @@ classDiagram
         +close() None
     }
     class SftpPlugin {
+        <<ConnectionPlugin>>
         +default_port(protocol) int None
         +default_options(protocol) dict~str, str~
         +validate_options(protocol, options) list~FieldError~
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) SessionSftp
     }
-    plugins_plugin_base_ConnectionPlugin <|-- SftpPlugin
     class mod_plugins_snmp_push_core {
         <<module>>
         +load_inventory(csv_path) list~InventoryRow~
@@ -980,7 +863,8 @@ classDiagram
     class SshSession {
         <<SessionTerminal>>
     }
-    class plugins_ssh_gtk4_SshPlugin {
+    class SshPlugin {
+        <<ConnectionPlugin>>
         +default_port(protocol) int None
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) SshSession
@@ -990,7 +874,6 @@ classDiagram
         +deplacer_vers_ssh_config(host) None
         +importer_depuis_ssh_config() None
     }
-    plugins_plugin_base_ConnectionPlugin <|-- plugins_ssh_gtk4_SshPlugin
     class mod_plugins_ssh_session {
         <<module>>
         +booleen(texte) bool
@@ -1015,11 +898,11 @@ classDiagram
         <<SessionTerminal>>
     }
     class TelnetPlugin {
+        <<ConnectionPlugin>>
         +default_port(protocol) int None
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) TelnetSession
     }
-    plugins_plugin_base_ConnectionPlugin <|-- TelnetPlugin
     class mod_plugins_web_core {
         <<module>>
         +options_defaut() dict~str, str~
@@ -1039,6 +922,7 @@ classDiagram
         +close() None
     }
     class WebPlugin {
+        <<ConnectionPlugin>>
         +default_port(protocol) int None
         +requires_address(protocol) bool
         +default_options(protocol) dict~str, str~
@@ -1046,7 +930,6 @@ classDiagram
         +build_host_options_widget(host, options, changed) Gtk.Widget
         +open(host) SessionWeb
     }
-    plugins_plugin_base_ConnectionPlugin <|-- WebPlugin
 ```
 
 ## gcm4
@@ -1508,7 +1391,7 @@ classDiagram
         +str label
         +Callable~~~, None~ activate
     }
-    class gcm4_core_plugins_ConnectionPlugin {
+    class ConnectionPlugin {
         <<ABC>>
         +ClassVar~int~ api_version
         +ClassVar~str~ name
@@ -1643,7 +1526,7 @@ classDiagram
         +str source
         +Callable~~~, Any~ charger
     }
-    class gcm4_core_registre_PluginRegistry {
+    class PluginRegistry {
         +plugins() list~ConnectionPlugin~
         +outils() list~ToolPlugin~
         +outil(nom) ToolPlugin None

@@ -10,31 +10,24 @@
 # lors de cette migration ; à re-signaler si un cas reproductible apparaît.
 #
 # Automatise :
-#   1. Paquets système (typelibs GTK 3 et 4, libadwaita, VTE/VNC/SPICE) via apt
+#   1. Paquets système (typelibs GTK 4, libadwaita) via apt
 #   2. Création du venv avec accès aux paquets système (`uv venv
 #      --system-site-packages`, obligatoire pour `import gi`)
 #   3. `uv sync` avec tous les extras (netmiko, paramiko, libvirt, vnc) et
 #      le groupe de dépendances de développement (ruff, black, pytest)
-#   4. (optionnel, --with-rdp) compilation de GTK3.OLD/gtk-frdp/ via meson —
-#      inutile depuis le retrait de plugins/plugin_rdp.py (#179) : le plugin
-#      GTK4 plugins/rdp/ s'appuie sur FreeRDP 3 (AsyncRdp), pas sur gtk-frdp
-#   5. (optionnel, --with-snmp) libsnmp-dev + ezsnmp (plugin_snmp_push.py)
+#   4. (optionnel, --with-snmp) libsnmp-dev + ezsnmp (plugins/snmp_push/)
 #
 # Usage :
 #   ./bootstrap-dev.sh              # installe tout, support SNMP inclus
-#   ./bootstrap-dev.sh --with-rdp   # compile en plus gtk-frdp (GTK3, hérité)
 #   ./bootstrap-dev.sh --without-snmp # n'installe pas le support SNMP (ezsnmp)
 #   ./bootstrap-dev.sh --no-apt     # ne touche pas aux paquets système (sudo)
 # ─────────────────────────────────────────────────────────────────────────────
 set -euo pipefail
 
-WITH_RDP=0
 WITH_SNMP=1
 NO_APT=0
 for arg in "$@"; do
     case "$arg" in
-        --with-rdp) WITH_RDP=1 ;;
-        --without-rdp) WITH_RDP=0 ;;
         --with-snmp) WITH_SNMP=1 ;;
         --without-snmp) WITH_SNMP=0 ;;
         --no-apt) NO_APT=1 ;;
@@ -62,12 +55,8 @@ if [[ "$NO_APT" -eq 0 ]]; then
         info "Installation des dépendances système (sudo apt-get install ...)"
         APT_PKGS=(
             python3-gi
-            gir1.2-gtk-3.0
             gir1.2-gtk-4.0
             gir1.2-adw-1
-            gir1.2-vte-2.91
-            gir1.2-gtk-vnc-2.0
-            gir1.2-spiceclientgtk-3.0
             python3-venv
             expect
             python3-paramiko
@@ -79,18 +68,6 @@ if [[ "$NO_APT" -eq 0 ]]; then
         PYVER="$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
         if apt-cache show "python${PYVER}-venv" >/dev/null 2>&1; then
             APT_PKGS+=("python${PYVER}-venv")
-        fi
-        if [[ "$WITH_RDP" -eq 1 ]]; then
-            APT_PKGS+=(
-                meson
-                ninja-build
-                valac
-                libgirepository1.0-dev
-                libfuse3-dev
-                libgtk-3-dev
-                gtk-doc-tools
-                freerdp3-dev
-            )
         fi
         if [[ "$WITH_SNMP" -eq 1 ]]; then
             APT_PKGS+=(
@@ -147,11 +124,6 @@ ok "Dépendances Python installées"
 
 # ── 5. Vérification rapide des imports critiques ─────────────────────────────
 info "Vérification des imports (gi, Cryptodome)"
-if uv run python3 -c "import gi; gi.require_version('Gtk', '3.0'); from gi.repository import Gtk, Vte" 2>/dev/null; then
-    ok "gi / Gtk / Vte OK"
-else
-    warn "gi/Gtk/Vte indisponible — vérifiez python3-gi, gir1.2-gtk-3.0, gir1.2-vte-2.91"
-fi
 if uv run python3 -c "import gi; gi.require_version('Gtk', '4.0'); gi.require_version('Adw', '1'); from gi.repository import Adw, Gtk" 2>/dev/null; then
     ok "gi / Gtk 4 / libadwaita OK (uv run gcm4)"
 else
@@ -163,43 +135,21 @@ else
     warn "Cryptodome indisponible — relancez : uv sync --extra vnc"
 fi
 
-# ── 8. Support RDP optionnel (gtk-frdp) ──────────────────────────────────────
-if [[ "$WITH_RDP" -eq 1 ]]; then
-    info "Compilation de GTK3.OLD/gtk-frdp/ (meson, bibliothèque GTK3 héritée)"
-    if ! command -v meson >/dev/null 2>&1 || ! command -v valac >/dev/null 2>&1; then
-        fail "meson/valac manquants — relancez avec --with-rdp sans --no-apt, ou installez-les manuellement."
-    else
-        # --prefix=/usr (et non /usr/local, le défaut de meson) : le typelib est
-        # ainsi installé dans /usr/lib/.../girepository-1.0, le chemin que
-        # GObject-Introspection scanne par défaut. Avec /usr/local, l'import
-        # `from gi.repository import GtkFrdp` échoue (ValueError: Namespace
-        # GtkFrdp not available) sauf à exporter GI_TYPELIB_PATH manuellement.
-        rm -rf GTK3.OLD/gtk-frdp/build
-        meson setup --prefix=/usr GTK3.OLD/gtk-frdp/build GTK3.OLD/gtk-frdp
-        ninja -C GTK3.OLD/gtk-frdp/build
-        sudo ninja -C GTK3.OLD/gtk-frdp/build install
-        sudo ldconfig
-        ok "gtk-frdp compilé et installé"
-    fi
-else
-    info "gtk-frdp (GTK3) non compilé : le plugin GTK4 plugins/rdp/ n'en a pas besoin."
-fi
-
-# ── 9. Support SNMP optionnel (ezsnmp, plugin_snmp_push.py) ─────────────────
+# ── 8. Support SNMP optionnel (ezsnmp, plugins/snmp_push/) ────────────────
 if [[ "$WITH_SNMP" -eq 1 ]]; then
     info "apt install libsnmp-dev snmp-mibs-downloader && pip install ezsnmp loguru --break-system-packages"
     if [[ "$NO_APT" -eq 1 ]] && ! command -v snmpget >/dev/null 2>&1; then
         warn "libsnmp-dev absent et --no-apt actif : installez-le manuellement avant ezsnmp."
     fi
     if uv run pip install ezsnmp loguru --break-system-packages; then
-        ok "ezsnmp installé (relancez l'app pour activer plugin_snmp_push)"
+        ok "ezsnmp installé (relancez l'app pour activer le plugin snmp_push)"
     else
         fail "échec de l'installation d'ezsnmp — vérifiez que libsnmp-dev est bien installé."
     fi
 else
-    warn "Support SNMP (plugin_snmp_push / ezsnmp) non installé — relancez avec --with-snmp pour l'activer."
+    warn "Support SNMP (snmp_push / ezsnmp) non installé — relancez avec --with-snmp pour l'activer."
 fi
 
 echo
 ok "Environnement prêt. Lancez l'application avec :"
-echo "    uv run python3 gnome_connection_manager.py"
+echo "    uv run gcm4"

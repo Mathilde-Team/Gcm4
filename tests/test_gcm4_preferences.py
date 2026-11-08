@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import ast
 from pathlib import Path
 
 import pytest
@@ -14,27 +13,43 @@ from gcm4.core.config import ConfigError
 ROOT = Path(__file__).resolve().parents[1]
 
 
+#: Options de la classe ``Wconfig`` de l'application GTK3, gelées lors de
+#: la suppression du cœur GTK3 (#182) — la lecture AST du fichier source
+#: n'est plus possible. Critère de #147 : aucune ne disparaît sans classement.
+OPTIONS_WCONFIG = {
+    "APP_TITLE",
+    "AUTO_CLOSE_TAB",
+    "AUTO_COPY_SELECTION",
+    "BACK_COLOR",
+    "BUFFER_LINES",
+    "CHECK_UPDATES",
+    "CONFIRM_ON_CLOSE_TAB",
+    "CONFIRM_ON_CLOSE_TAB_MIDDLE",
+    "CONFIRM_ON_EXIT",
+    "CONTINUOUS_TAB_LOG",
+    "CYCLE_TABS",
+    "DARK_MODE",
+    "DISABLE_HOSTS_STRIPES",
+    "DISABLE_NOTIFICATIONS",
+    "DISABLE_SHORTCUTS",
+    "FONT",
+    "FONT_COLOR",
+    "LOG_LOCAL",
+    "LOG_PATH",
+    "PASTE_ON_RIGHT_CLICK",
+    "RESTORE_OPEN_TABS",
+    "STARTUP_LOCAL",
+    "TERM",
+    "THEME_MODE",
+    "TRANSPARENCY",
+    "UPDATE_TITLE",
+    "WORD_SEPARATORS",
+}
+
+
 def _options_de_wconfig() -> set[str]:
-    """Noms ``conf.X`` utilisés dans la classe GTK3 ``Wconfig``."""
-    arbre = ast.parse(
-        (ROOT / "GTK3.OLD" / "gnome_connection_manager.py").read_text(encoding="utf-8")
-    )
-    classe = next(
-        n for n in ast.walk(arbre) if isinstance(n, ast.ClassDef) and n.name == "Wconfig"
-    )
-    noms = set()
-    for noeud in ast.walk(classe):
-        if (
-            isinstance(noeud, ast.Attribute)
-            and isinstance(noeud.value, ast.Name)
-            and noeud.value.id == "conf"
-            and noeud.attr.isupper()
-        ):
-            noms.add(noeud.attr)
-        if isinstance(noeud, ast.Constant) and isinstance(noeud.value, str):
-            if noeud.value.startswith("conf.") and noeud.value[5:].isupper():
-                noms.add(noeud.value[5:])
-    return noms
+    """Options historiques de la classe GTK3 ``Wconfig`` (constante figée)."""
+    return set(OPTIONS_WCONFIG)
 
 
 def test_chaque_option_de_wconfig_est_classee():
