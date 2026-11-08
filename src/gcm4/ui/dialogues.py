@@ -51,24 +51,48 @@ def creer(
     dialogue.set_close_response(fermeture)
     if extra is not None:
         dialogue.set_extra_child(extra)
-    dialogue.connect("response", lambda _d, reponse: rappel(reponse))
-    if extra is not None and isinstance(extra, (Gtk.Entry, Gtk.PasswordEntry)):
-        # Vieux libadwaita (< 1.5) : le repli ``AdwMessageDialog`` ne pose
-        # le widget par défaut de sa fenêtre qu'au premier changement
-        # d'enfant visible du squeezer ; s'il est absent, le Return de
-        # l'entrée n'active rien (constaté #72 sous Adw 1.2/1.4). On
-        # valide alors le dialogue directement — inopérant dès que le
-        # défaut est posé, et pour ``Adw.AlertDialog`` (libadwaita ≥ 1.5)
-        # qui gère le Return lui-même.
+    # la réponse du dialogue n'est jouée qu'une fois : le Return d'une
+    # entrée peut la déclencher directement (voir _valider_par_return)
+    # alors que le chemin normal du bouton par défaut l'émet aussi — le
+    # drapeau garde le renommage/la connexion uniques
+    deja_repondu = False
+
+    def _reponse_unique(_d: Adw.AlertDialog | Adw.MessageDialog, reponse: str) -> None:
+        """Rappel du dialogue joué une seule fois, première réponse gagnante."""
+        nonlocal deja_repondu
+        logger.debug("dialogue: réponse « {} »", reponse)
+        if deja_repondu:
+            logger.debug("dialogue: réponse déjà jouée, ignorée")
+            return
+        deja_repondu = True
+        rappel(reponse)
+        logger.debug("dialogue: réponse « {} » traitée", reponse)
+
+    dialogue.connect("response", _reponse_unique)
+    if (
+        isinstance(dialogue, Adw.MessageDialog)
+        and extra is not None
+        and isinstance(extra, (Gtk.Entry, Gtk.PasswordEntry))
+    ):
+        # Vieux libadwaita (< 1.5) : dans le repli ``AdwMessageDialog``
+        # (fenêtre GtkWindow), le Return de l'entrée peut n'activer ni le
+        # bouton par défaut ni le dialogue — constaté #72 sous GTK 4.8 /
+        # Adw 1.2 : signal « activate » émis, aucune réponse, dialogue
+        # laissé ouvert. On répond alors directement ; le drapeau rend
+        # l'activation unique si le chemin normal fonctionne aussi. Sans
+        # objet pour ``Adw.AlertDialog`` (libadwaita ≥ 1.5), qui gère le
+        # Return lui-même.
         def _valider_par_return(*_args: object) -> None:
-            if (
-                hasattr(dialogue, "get_default_widget")
-                and dialogue.get_default_widget() is None
-                and dialogue.get_response_enabled(defaut)
-            ):
-                logger.debug("_valider_par_return: défaut absent, réponse directe")
-                dialogue.response(defaut)
-                dialogue.set_visible(False)
+            """Return dans l'entrée : réponse directe sous vieux libadwaita."""
+            nonlocal deja_repondu
+            logger.debug("_valider_par_return: Return dans l'entrée du dialogue")
+            if deja_repondu or not dialogue.get_response_enabled(defaut):
+                logger.debug("_valider_par_return: sans effet, ignoré")
+                return
+            deja_repondu = True
+            dialogue.response(defaut)
+            dialogue.set_visible(False)
+            logger.debug("_valider_par_return: réponse « {} » émise", defaut)
 
         extra.connect("activate", _valider_par_return)
     if isinstance(dialogue, Adw.MessageDialog):

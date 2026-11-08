@@ -271,6 +271,52 @@ def _clic_sur(
 #: Keycodes du serveur X, lus une seule fois (valeur keysym → keycode).
 _KEYCODES: dict[int, int] | None = None
 
+#: Bibliothèques X (libX11, libXtst) chargées une seule fois, signatures posées.
+_X_XTST: tuple[ctypes.CDLL, ctypes.CDLL] | None = None
+
+
+def _x11_xtst() -> tuple[ctypes.CDLL, ctypes.CDLL]:
+    """libX11 et libXtst avec leurs signatures ctypes, une seule fois.
+
+    Sans ``restype``/``argtypes``, ctypes traite ``XOpenDisplay`` comme
+    renvoyant un ``int`` : le pointeur ``Display *`` 64 bits est tronqué
+    et l'appel suivant segfaulte (constaté #72 sur Rocky 9, où le
+    segment du tas dépasse 4 Go — Debian 12 y échappait par chance
+    d'adresse). Tout handle passe donc par ``c_void_p``.
+    """
+    global _X_XTST
+    if _X_XTST is not None:
+        return _X_XTST
+    x11 = ctypes.CDLL("libX11.so.6")
+    xtst = ctypes.CDLL("libXtst.so.6")
+    x11.XOpenDisplay.restype = ctypes.c_void_p
+    x11.XOpenDisplay.argtypes = [ctypes.c_char_p]
+    x11.XCloseDisplay.argtypes = [ctypes.c_void_p]
+    x11.XSync.argtypes = [ctypes.c_void_p, ctypes.c_bool]
+    x11.XFree.argtypes = [ctypes.c_void_p]
+    x11.XStringToKeysym.restype = ctypes.c_ulong
+    x11.XStringToKeysym.argtypes = [ctypes.c_char_p]
+    x11.XDisplayKeycodes.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_int),
+        ctypes.POINTER(ctypes.c_int),
+    ]
+    x11.XGetKeyboardMapping.restype = ctypes.POINTER(ctypes.c_ulong)
+    x11.XGetKeyboardMapping.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_uint8,
+        ctypes.c_int,
+        ctypes.POINTER(ctypes.c_int),
+    ]
+    xtst.XTestFakeKeyEvent.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_uint,
+        ctypes.c_bool,
+        ctypes.c_ulong,
+    ]
+    _X_XTST = (x11, xtst)
+    return _X_XTST
+
 
 def _keycodes() -> dict[int, int]:
     """Keycodes X (valeur keysym → keycode) lus dans la table du serveur.
@@ -283,14 +329,13 @@ def _keycodes() -> dict[int, int]:
     global _KEYCODES
     if _KEYCODES is not None:
         return _KEYCODES
-    x11 = ctypes.CDLL("libX11.so.6")
+    x11, _ = _x11_xtst()
     affichage = x11.XOpenDisplay(None)
     assert affichage, "serveur X du test inaccessible"
     try:
         code_min, code_max = ctypes.c_int(), ctypes.c_int()
         x11.XDisplayKeycodes(affichage, ctypes.byref(code_min), ctypes.byref(code_max))
         par_code = ctypes.c_int()
-        x11.XGetKeyboardMapping.restype = ctypes.POINTER(ctypes.c_ulong)
         table = x11.XGetKeyboardMapping(
             affichage,
             code_min.value,
@@ -318,8 +363,7 @@ def _touche(symbole: str, avec_ctrl: bool = False) -> None:
     contre le serveur X du test) : un raccourci strict comme ``F2`` ne
     l'entendrait pas, Alt étant un modificateur actif.
     """
-    x11 = ctypes.CDLL("libX11.so.6")
-    xtst = ctypes.CDLL("libXtst.so.6")
+    x11, xtst = _x11_xtst()
     affichage = x11.XOpenDisplay(None)
     assert affichage, "serveur X du test inaccessible"
     try:
@@ -627,6 +671,7 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
     _defaut = racine.get_default_widget() if hasattr(racine, "get_default_widget") else None
     print(
         f"SONDE: défaut={type(_defaut).__name__ if _defaut is not None else None} "
+        f"reçoit_défaut={racine.get_focus().get_receives_default() if racine.get_focus() is not None else None} "
         f"focus={type(racine.get_focus()).__name__} "
         f"bouton={type(_bouton_valider).__name__} sensible="
         f"{_bouton_valider.get_sensitive() if _bouton_valider is not None else None}"
