@@ -290,6 +290,10 @@ def _clic_sur(
     for _essai in range(10):
         x, y = _position_dans_fenetre(widget, dx, dy)
         pique = racine.pick(x, y, Gtk.PickFlags.DEFAULT)
+        print(
+            f"PICK: essai={_essai} à ({x},{y}) "
+            f"pique={type(pique).__name__ if pique is not None else None}"
+        )
         if pique is None or _est_dans(pique, widget):
             break
         pomper(2)  # la mise en page bouge encore : on la laisse se calmer
@@ -311,6 +315,11 @@ def _clic_sur(
     else:
         _xdotool("click", "--repeat", str(repetitions), "--delay", "250", str(bouton))
     pomper()
+    pique_apres = racine.pick(x, y, Gtk.PickFlags.DEFAULT)
+    print(
+        f"PICK APRÈS CLIC: {type(pique_apres).__name__ if pique_apres is not None else None} "
+        f"à ({x},{y})"
+    )
 
 
 #: Keycodes du serveur X, lus une seule fois (valeur keysym → keycode).
@@ -609,12 +618,21 @@ def test_focus_apres_clic_simple(app_fixture, pomper):
     for _cible in _cibles_sonde:
         _geste = Gtk.GestureClick()
         _geste.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
-        _geste.connect(
-            "pressed",
-            lambda _g, _n, _x, _y, _c=_cible: print(
-                f"SONDE CAPTURE ({type(_c).__name__}): pressé n={_n} à ({_x:.0f},{_y:.0f})"
-            ),
-        )
+        if _cible is fenetre:
+
+            def _sonde_presse(_g, _n, _x, _y):
+                _p = fenetre.pick(_x, _y, Gtk.PickFlags.DEFAULT)
+                print(
+                    f"SONDE CAPTURE (fenêtre): pressé n={_n} à ({_x:.0f},{_y:.0f}) "
+                    f"cible_réelle={type(_p).__name__ if _p is not None else None}"
+                )
+
+        else:
+
+            def _sonde_presse(_g, _n, _x, _y, _c=_cible):
+                print(f"SONDE CAPTURE ({type(_c).__name__}): pressé n={_n} à ({_x:.0f},{_y:.0f})")
+
+        _geste.connect("pressed", _sonde_presse)
         _cible.add_controller(_geste)
     # le focus part de la recherche, pas du terminal
     _clic_sur(fenetre.arbre.recherche, 30, 10, 1, pomper)
@@ -723,6 +741,10 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
         )[1],
     )
     _texte_focus.add_controller(_sonde_texte)
+    # DIAGNOSTIC #72 : l'entrée reçoit-elle jamais une insertion ?
+    _historique: list[str] = []
+    entree.connect("changed", lambda *_: _historique.append(f"changed→{entree.get_text()!r}"))
+    entree.connect("insert-text", lambda _e, texte, *_: _historique.append(f"insert {texte!r}"))
     for _cible, _nom in ((racine, "dialogue"), (fenetre, "principale")):
         _controleur = Gtk.EventControllerKey()
         for _signal in ("key-pressed", "key-released"):
@@ -738,6 +760,9 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
     _xdotool("type", "--delay", "30", "LABO")
     print(f"ETAT: entrée={entree.get_text()!r} après frappe")
     _touche("Return")
+    pomper()
+    print(f"SONDE INSERTION: historique={_historique}")
+    print(f"ETAT FINAL: entrée={entree.get_text()!r}")
     _attendre_disparition(menu.dialogue, pomper)
     visibles = {chemin for _, chemin in arbre.lignes_visibles()}
     assert "LABO" in visibles
