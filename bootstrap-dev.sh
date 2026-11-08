@@ -15,18 +15,20 @@
 #      --system-site-packages`, obligatoire pour `import gi`)
 #   3. `uv sync` avec tous les extras (netmiko, paramiko, libvirt, vnc) et
 #      le groupe de dépendances de développement (ruff, black, pytest)
-#   4. (optionnel, --with-rdp) compilation de gtk-frdp/ via meson
+#   4. (optionnel, --with-rdp) compilation de GTK3.OLD/gtk-frdp/ via meson —
+#      inutile depuis le retrait de plugins/plugin_rdp.py (#179) : le plugin
+#      GTK4 plugins/rdp/ s'appuie sur FreeRDP 3 (AsyncRdp), pas sur gtk-frdp
 #   5. (optionnel, --with-snmp) libsnmp-dev + ezsnmp (plugin_snmp_push.py)
 #
 # Usage :
-#   ./bootstrap-dev.sh              # installe tout, support RDP+SNMP inclus
-#   ./bootstrap-dev.sh --without-rdp # n'installe pas le support RDP
+#   ./bootstrap-dev.sh              # installe tout, support SNMP inclus
+#   ./bootstrap-dev.sh --with-rdp   # compile en plus gtk-frdp (GTK3, hérité)
 #   ./bootstrap-dev.sh --without-snmp # n'installe pas le support SNMP (ezsnmp)
 #   ./bootstrap-dev.sh --no-apt     # ne touche pas aux paquets système (sudo)
 # ─────────────────────────────────────────────────────────────────────────────
 set -euo pipefail
 
-WITH_RDP=1
+WITH_RDP=0
 WITH_SNMP=1
 NO_APT=0
 for arg in "$@"; do
@@ -163,7 +165,7 @@ fi
 
 # ── 8. Support RDP optionnel (gtk-frdp) ──────────────────────────────────────
 if [[ "$WITH_RDP" -eq 1 ]]; then
-    info "Compilation de gtk-frdp/ (meson) pour activer plugin_rdp"
+    info "Compilation de GTK3.OLD/gtk-frdp/ (meson, bibliothèque GTK3 héritée)"
     if ! command -v meson >/dev/null 2>&1 || ! command -v valac >/dev/null 2>&1; then
         fail "meson/valac manquants — relancez avec --with-rdp sans --no-apt, ou installez-les manuellement."
     else
@@ -172,15 +174,15 @@ if [[ "$WITH_RDP" -eq 1 ]]; then
         # GObject-Introspection scanne par défaut. Avec /usr/local, l'import
         # `from gi.repository import GtkFrdp` échoue (ValueError: Namespace
         # GtkFrdp not available) sauf à exporter GI_TYPELIB_PATH manuellement.
-        rm -rf gtk-frdp/build
-        meson setup --prefix=/usr gtk-frdp/build gtk-frdp
-        ninja -C gtk-frdp/build
-        sudo ninja -C gtk-frdp/build install
+        rm -rf GTK3.OLD/gtk-frdp/build
+        meson setup --prefix=/usr GTK3.OLD/gtk-frdp/build GTK3.OLD/gtk-frdp
+        ninja -C GTK3.OLD/gtk-frdp/build
+        sudo ninja -C GTK3.OLD/gtk-frdp/build install
         sudo ldconfig
-        ok "gtk-frdp compilé et installé (relancez l'app pour activer plugin_rdp)"
+        ok "gtk-frdp compilé et installé"
     fi
 else
-    warn "Support RDP (plugin_rdp / GtkFrdp) non installé — relancez avec --with-rdp pour l'activer."
+    info "gtk-frdp (GTK3) non compilé : le plugin GTK4 plugins/rdp/ n'en a pas besoin."
 fi
 
 # ── 9. Support SNMP optionnel (ezsnmp, plugin_snmp_push.py) ─────────────────

@@ -57,14 +57,14 @@ Chaque protocole est découvert automatiquement par `PluginRegistry.autoload()`.
 | Protocole | Plugin | État |
 |---|---|---|
 | SSH | `plugin_ssh.py` | ✅ Terminal VTE, agent, tunnels, cluster ; encapsule `SSHConfigParser`/`SSHKeyManagerDialog`/`KeyPickerDialog` |
-| RDP | `plugin_rdp.py` | ✅ `GtkFrdp.Display` natif (widget `GtkDrawingArea`, aucun repli `Gtk.Socket`/XEmbed dans le code chargé — corrigé session-46, voir §5 point 8) |
+| RDP | `plugins/rdp/` (GTK4) | ✅ FreeRDP 3 (AsyncRdp) — `plugin_rdp.py` (GTK3, `GtkFrdp.Display`) retiré le 08/11/2026 (#179) |
 | VNC | `plugin_vnc.py` | ✅ Widget natif `GtkVnc.Display` si `gtk-vnc` dispo, sinon vncviewer/vinagre/remmina |
 | SPICE | `plugin_spice.py` | ✅ Widget natif `SpiceClientGtk.Display`, mode libvirt natif si `libvirt-python` dispo, sinon remote-viewer/virt-viewer |
-| Série RS-232/485 | `plugin_serial.py` | ✅ picocom/minicom/screen, 11 templates constructeurs |
-| Telnet | `plugin_telnet.py` | ✅ |
-| Local | `plugin_local.py` | ✅ Terminal shell local |
-| IPMI SOL | `plugin_ipmisol.py` | ✅ Console BMC Serial-over-LAN (iLO/iDRAC/IMM…) — non documenté dans README/CHANGELOG |
-| Web | `plugin_web.py` | ✅ Visualiseur console BMC HTML5 (iLO/iDRAC/IMM ou URL quelconque) — premier plugin implémenté (preuve de concept), non documenté |
+| Série RS-232/485 | `plugins/serial/` (GTK4) | ✅ picocom/minicom/screen, templates constructeurs — `plugin_serial.py` (GTK3) retiré (#179) |
+| Telnet | `plugins/telnet/` (GTK4) | ✅ — `plugin_telnet.py` (GTK3) retiré (#179) |
+| Local | `plugins/local/` (GTK4) | ✅ Terminal shell local — `plugin_local.py` (GTK3) retiré (#179) |
+| IPMI SOL | `plugins/ipmisol/` (GTK4) | ✅ Console BMC Serial-over-LAN (iLO/iDRAC/IMM…) — `plugin_ipmisol.py` (GTK3) retiré (#179) |
+| Web | `plugins/web/` (GTK4) | ✅ Visualiseur console BMC HTML5 (iLO/iDRAC/IMM ou URL quelconque) — `plugin_web.py` (GTK3) retiré (#179) |
 
 ### 2.2 Outils de traitement en masse (`BatchPlugin`, menu Fichier/Outils)
 
@@ -650,12 +650,12 @@ plugins/                         découverts par autoload() (cf. plugin_base.py)
 │                                  propre version GTK — voir gtk4-migration.md §3.6.
 ├── plugin_ssh.py                  → SSHConfigParser/SSHKeyManagerDialog/
 │                                    KeyPickerDialog ; manage_ssh_keys()
-├── plugin_vnc.py / plugin_spice.py / plugin_rdp.py / plugin_serial.py
-├── plugin_telnet.py / plugin_local.py
-├── plugin_ipmisol.py              console BMC SOL (pas de page d'édition dédiée,
-│                                   utilise seulement les champs communs de Whost)
-├── plugin_web.py                  visualiseur console BMC HTML5 / URL quelconque
-│                                   (1er plugin implémenté, preuve de concept)
+├── plugin_vnc.py / plugin_spice.py
+├── (plugin_rdp.py, plugin_serial.py, plugin_telnet.py, plugin_local.py,
+│    plugin_ipmisol.py, plugin_web.py supprimés le 08/11/2026, #179 :
+│                                   portés au contrat v1 GTK4 dans
+│                                   plugins/{rdp,serial,telnet,local,
+│                                   ipmisol,web}/)
 ├── plugin_import_libvirt.py / plugin_import_proxmox.py
 ├── plugin_import_virtualbox.py    URI vbox+ssh:// saisie manuelle
 ├── plugin_import_ovirt.py         Engine oVirt (URL + API REST + user SSH)
@@ -684,7 +684,7 @@ models.py         Host — _CORE_FIELDS communs + champs par protocole appris
                   dur par protocole : le refactor annoncé dans
                   gcm_plugin_architecture.html est terminé)
 widgets.py        widgets GTK custom (dont WebTab, la classe la plus simple, 104
-                  lignes, utilisée comme base de plugin_web.py)
+                  lignes, base de l'ancien plugin_web.py, retiré par #179)
 utils.py          run_dialog_sync() — palliatif documenté pour Gtk.Dialog.run()
                   (supprimé en GTK4) ; classe de base GCMBase
 src/gcm4/core/pyaes.py          AES-256/OFB pur Python (mots de passe)

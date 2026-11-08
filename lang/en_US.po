@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 09:59+0000\n"
+"POT-Creation-Date: 2026-11-08 10:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Backspace:"
 msgstr "Backspace:"
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+#: GTK3.OLD/gnome_connection_manager.py
 msgid "Baud rate"
 msgstr ""
 
@@ -253,7 +253,7 @@ msgstr ""
 msgid "Dark"
 msgstr "Dark"
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+#: GTK3.OLD/gnome_connection_manager.py
 msgid "Data bits"
 msgstr ""
 
@@ -580,7 +580,7 @@ msgstr ""
 msgid "Overrides the global \"Close console\" preference for this host only"
 msgstr ""
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+#: GTK3.OLD/gnome_connection_manager.py
 msgid "Parity"
 msgstr ""
 
@@ -2085,10 +2085,9 @@ msgstr ""
 msgid "Collapse all"
 msgstr "Collapse all"
 
-#: GTK3.OLD/widgets.py plugins/plugin_ipmisol.py plugins/plugin_rdp.py
-#: plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: plugins/plugin_web.py src/gcm4/core/menu_arbre.py
-#: src/gcm4/core/preferences.py src/gcm4/ui/contexte.py
+#: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
+#: src/gcm4/ui/contexte.py
 msgid "Connect"
 msgstr "Connect"
 
@@ -2104,8 +2103,7 @@ msgstr "Copy Address"
 msgid "Custom commands"
 msgstr ""
 
-#: GTK3.OLD/widgets.py plugins/plugin_ipmisol.py plugins/plugin_rdp.py
-#: plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
 msgid "Disconnect"
 msgstr ""
 
@@ -2300,9 +2298,8 @@ msgstr ""
 msgid "VM name"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py plugins/plugin_ipmisol.py
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: plugins/plugin_web.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr ""
 
@@ -2856,232 +2853,6 @@ msgstr ""
 msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
-#: plugins/web/gtk4.py
-msgid "Connecting…"
-msgstr "Connecting…"
-
-#: plugins/plugin_ipmisol.py
-msgid "IPMI (SOL)"
-msgstr ""
-
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Session ended"
-
-#: plugins/plugin_ipmisol.py
-msgid "ipmitool introuvable"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
-msgid "Authentication failed"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Custom…"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Domain"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Dynamic resolution"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
-msgid "Error: could not mount the ISO"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/web/gtk4.py
-#, python-brace-format
-msgid "Error: {msg}"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
-msgid "Fullscreen"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Geometry"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Height"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_web.py plugins/rdp/gtk4.py
-#: plugins/web/gtk4.py
-msgid "Ignore certificate errors"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "RDP"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "RemoteApp"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: plugins/rdp/gtk4.py
-msgid "Share clipboard"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
-msgid "Share folder"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
-msgid "Shared folder path"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Width"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid ""
-"Additional raw options passed to the binary\n"
-"Ex: --logfile /tmp/serial.log  (picocom)\n"
-"     -o -x  (minicom)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Aruba (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "BMC/iDRAC (115200 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Baud rate:"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Cisco IOS (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "DTR/DSR"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Data bits:"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Even"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Ex : /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Flow control"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Flow control:"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid ""
-"Flow control:\n"
-"  None = standard console\n"
-"  XON/XOFF = software (Ctrl-Q/Ctrl-S)\n"
-"  RTS/CTS = hardware (full cable)\n"
-"  DSR/DTR = legacy hardware"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "H3C/HPE Comware (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Juniper (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Load vendor-recommended serial settings"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "None"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Number of data bits per byte (8 = standard)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Odd"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Parity bit: None (N) = standard, Even (E), Odd (O)"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Parity:"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "RTS/CTS (hardware)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Serial"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Serial port:"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Stop bits"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Stop bits:"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Stop bits: 1 = standard, 2 = RS-485 / legacy hardware"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Template"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Template:"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
-msgid "Tool"
-msgstr "Tool"
-
-#: plugins/plugin_serial.py
-msgid "Transmission speed in baud"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "XON/XOFF (software)"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/plugin_vnc.py
-msgid "xfreerdp options:"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "— custom —"
-msgstr ""
-
 #: plugins/plugin_spice.py
 #, python-brace-format
 msgid ""
@@ -3096,6 +2867,10 @@ msgstr ""
 #: plugins/plugin_spice.py
 msgid "Configuration SPICE invalide"
 msgstr ""
+
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/web/gtk4.py
+msgid "Connecting…"
+msgstr "Connecting…"
 
 #: plugins/plugin_spice.py
 msgid "Direct URI"
@@ -3120,6 +2895,10 @@ msgstr ""
 
 #: plugins/plugin_spice.py
 msgid "Error: VM name required"
+msgstr ""
+
+#: plugins/plugin_spice.py
+msgid "Error: could not mount the ISO"
 msgstr ""
 
 #: plugins/plugin_spice.py
@@ -3158,12 +2937,28 @@ msgstr ""
 msgid "SSH error: {exc}"
 msgstr ""
 
+#: plugins/plugin_spice.py plugins/plugin_vnc.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Session ended"
+
 #: plugins/plugin_spice.py
 msgid "Share USB devices"
 msgstr ""
 
 #: plugins/plugin_spice.py
 msgid "Share audio"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Share folder"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Shared folder path"
 msgstr ""
 
 #: plugins/plugin_spice.py
@@ -3452,9 +3247,17 @@ msgid ""
 "E.g.: {example}"
 msgstr ""
 
+#: plugins/plugin_vnc.py plugins/sftp/gtk4.py
+msgid "Authentication failed"
+msgstr ""
+
 #: plugins/plugin_vnc.py src/gcm4/ui/host_dialog.py
 msgid "Display"
 msgstr "Display"
+
+#: plugins/plugin_vnc.py
+msgid "Fullscreen"
+msgstr ""
 
 #: plugins/plugin_vnc.py
 msgid "VNC"
@@ -3476,50 +3279,8 @@ msgstr ""
 msgid "xfreerdp not found"
 msgstr ""
 
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "BMC web console (iLO, iDRAC, IMM…) or any web interface (Proxmox, switch, TrueNAS…)"
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid "Error: URL not configured"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Error: could not open the URL"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Opened in the system browser"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "URL"
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid "URL is required for a Web connection."
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/core.py
-msgid "URL is required."
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid "URL not configured"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Useful for self-signed certificates on BMC interfaces"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Web"
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid ""
-"WebKitGTK unavailable (gir1.2-webkit2-4.1 package missing).\n"
-"The web console will open in the system browser."
+#: plugins/plugin_vnc.py
+msgid "xfreerdp options:"
 msgstr ""
 
 #: plugins/rdp/core.py
@@ -3565,7 +3326,27 @@ msgid "Connection cancelled"
 msgstr "Connection Manager"
 
 #: plugins/rdp/gtk4.py
+msgid "Custom…"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Domain"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Dynamic resolution"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
 msgid "Fit to tab"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Geometry"
+msgstr ""
+
+#: plugins/rdp/gtk4.py plugins/web/gtk4.py
+msgid "Ignore certificate errors"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
@@ -3579,8 +3360,40 @@ msgid "RDP needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
+msgid "RemoteApp"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
 msgid "Size"
 msgstr ""
+
+#: plugins/serial/gtk4.py
+msgid "Baud rate:"
+msgstr ""
+
+#: plugins/serial/gtk4.py
+msgid "Data bits:"
+msgstr ""
+
+#: plugins/serial/gtk4.py
+msgid "Flow control:"
+msgstr ""
+
+#: plugins/serial/gtk4.py
+msgid "Parity:"
+msgstr ""
+
+#: plugins/serial/gtk4.py
+msgid "Stop bits:"
+msgstr ""
+
+#: plugins/serial/gtk4.py
+msgid "Template:"
+msgstr ""
+
+#: plugins/serial/gtk4.py src/gcm4/ui/preferences.py
+msgid "Tool"
+msgstr "Tool"
 
 #: plugins/sftp/core.py
 msgid "B"
@@ -3962,9 +3775,26 @@ msgstr "Permissions too open: ssh will refuse this key"
 msgid "The URL must start with http:// or https://"
 msgstr "The URL must start with http:// or https://"
 
+#: plugins/web/core.py
+msgid "URL is required."
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "BMC web console (iLO, iDRAC, IMM…) or any web interface (Proxmox, switch, TrueNAS…)"
+msgstr ""
+
 #: plugins/web/gtk4.py
 msgid "Certificate"
 msgstr "Certificate"
+
+#: plugins/web/gtk4.py
+msgid "Error: could not open the URL"
+msgstr ""
+
+#: plugins/web/gtk4.py
+#, python-brace-format
+msgid "Error: {msg}"
+msgstr ""
 
 #: plugins/web/gtk4.py src/gcm4/ui/preferences.py
 msgid "Loaded"
@@ -3973,6 +3803,22 @@ msgstr "Loaded"
 #: plugins/web/gtk4.py
 msgid "Open in the system browser"
 msgstr "Open in the system browser"
+
+#: plugins/web/gtk4.py
+msgid "Opened in the system browser"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "URL"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Useful for self-signed certificates on BMC interfaces"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Web"
+msgstr ""
 
 #: plugins/web/gtk4.py
 msgid ""
