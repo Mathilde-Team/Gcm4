@@ -2,8 +2,8 @@
 """Règles loguru vérifiées par AST (issue #171, modèle : Netcross
 ``tests/test_loguru_regles.py``).
 
-Périmètre : fichiers Python suivis par git, hors ``tests/`` et des
-sous-projets ``SSH-Studio/`` et ``gtk-frdp/``. Aucun module n'est importé.
+Périmètre : fichiers Python suivis par git, hors ``tests/`` et le
+sous-projet ``SSH-Studio/``. Aucun module n'est importé.
 
 1. Chaque ``except`` contient un appel de journal. Les manques existants
    sont listés par fichier dans ``EXCEPT_SANS_JOURNAL`` : le compte doit
@@ -36,7 +36,7 @@ import warnings
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-EXCLUDED = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/", "tests/")
+EXCLUDED = ("SSH-Studio/", "tests/")
 LOGGER_NAMES = {"logger", "app_logger", "_logger", "log", "_log", "_loguru_logger"}
 LOG_METHODS = {"trace", "debug", "info", "success", "warning", "error", "exception", "critical"}
 SECRET_NAMES = re.compile(

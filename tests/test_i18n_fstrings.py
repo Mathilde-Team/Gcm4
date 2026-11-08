@@ -17,7 +17,7 @@ import warnings
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-EXCLUDED = ("tests/", "tools/", "scripts/", "SSH-Studio/", "GTK3.OLD/gtk-frdp/")
+EXCLUDED = ("tests/", "tools/", "scripts/", "SSH-Studio/")
 
 
 _GETTEXT = {"_", "N_", "ngettext", "pgettext"}

@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Helpers d'import hyperviseur de ``hypervisor_import_common.py`` (#293, palier 2).
 
-``tests/test_gcm.py`` couvre déjà ``vm_name_split``, une partie de
-``dep_install_hint`` et ``check_port_open``. Ici : collecte des clés SSH,
+``vm_name_split``, ``dep_install_hint`` et ``check_port_open`` sont couverts
+ici (l'ancienne suite tests/test_gcm.py, application GTK3, a été supprimée
+en #182). Ici : collecte des clés SSH,
 ``paramiko_connect`` (paramiko remplacé par une doublure : clés illisibles,
 authentification refusée, erreur réseau, repli sur l'agent), scan nmap des
 sous-réseaux, lecture dconf, et repli quand paramiko est absent. Aucun
