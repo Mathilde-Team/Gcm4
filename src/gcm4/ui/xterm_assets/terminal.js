@@ -20,6 +20,8 @@
   term.attachCustomKeyEventHandler(event => {
     if (event.type !== "keydown") return true;
     if (event.ctrlKey && event.shiftKey && ["C", "V", "F"].includes(event.key.toUpperCase())) {
+      // return false arrête xterm, pas le collage natif WebKit : une seule action.
+      event.preventDefault();
       // Seul un vrai geste clavier demande un accès au presse-papiers natif.
       if (event.isTrusted) post({ C: "copy", V: "paste", F: "search" }[event.key.toUpperCase()]);
       return false;
