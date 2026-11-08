@@ -1,7 +1,7 @@
 # GCM — Documentation utilisateur (français)
 
 **Gnome Connection Manager v1.3.3**
-Fork maintenu par [MathildeDec](https://github.com/MathildeDec/gnome-connection-manager)
+Fork maintenu par [MathildeDec](https://github.com/Mathilde-Team/Gcm4)
 
 ---
 
@@ -146,7 +146,7 @@ pip3 install paramiko
 ### Lancement
 
 ```bash
-git clone https://github.com/MathildeDec/gnome-connection-manager
+git clone https://github.com/Mathilde-Team/Gcm4
 cd gnome-connection-manager
 uv sync
 uv run gcm4
@@ -1217,4 +1217,4 @@ session par machine. Indépendants de la liste d'hôtes GCM : ils travaillent
 
 ---
 
-*Documentation GCM v1.3.3 — [github.com/MathildeDec/gnome-connection-manager](https://github.com/MathildeDec/gnome-connection-manager)*
+*Documentation GCM v1.3.3 — [github.com/MathildeDec/gnome-connection-manager](https://github.com/Mathilde-Team/Gcm4)*
