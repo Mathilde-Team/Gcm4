@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM名"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "待機中…"
 
@@ -864,13 +864,13 @@ msgstr "リモート"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "フォルダーを共有"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "共有フォルダーのパス"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "共有するフォルダーを選択してください。"
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "エラー：ProxmoxノードとVMIDが必要です"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "エラー：libvirt URIが必要です"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "追加パラメーターが無効です：{error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "SPICEチケットエラー：{out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "TLSポートには1～65535の数値を指定してください。"
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "不完全なチケット"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "CA証明書"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "直接URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "切断"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "終了（コード {rc}）"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "ビューアーの起動エラー"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "{program}で開きました"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Proxmoxノード"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "再接続"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "SPICEチケットを要求しています…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "SSHエラー：{exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "セッション終了"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "USBデバイスを共有"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "オーディオを共有"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "TLSポート"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "SPICEセッションは別のremote-viewerウィンドウで開きます。"
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Proxmox経由"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "libvirt経由"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "libvirt URI"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program}が見つかりません：virt-viewerパッケージをインストールしてください"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3949,10 +4067,6 @@ msgid "Send commands after login"
 msgstr "ログイン後にコマンドを送信"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "セッション終了"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3984,7 +4098,6 @@ msgid "Show window"
 msgstr "ウィンドウを表示"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "切断"
 
@@ -4049,7 +4162,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "クラスター"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "クラスター"
 
@@ -4080,12 +4192,10 @@ msgstr "ウィンドウを表示"
 #~ msgstr "選択したホスト、または選択したグループ内のすべてのホストに接続する"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "接続"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "接続中…"
 
@@ -4096,7 +4206,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "連続ログモードが有効になっており、タブ単位で無効にすることはできません。"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "クラスター"
 
@@ -4122,7 +4231,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "カスタムコマンド"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "カスタムコマンド"
 
@@ -4137,9 +4245,6 @@ msgstr "ウィンドウを表示"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "検出された Proxmox ターゲット (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "切断"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "グループ内のすべてのホストを本当に削除しますか"
@@ -4156,10 +4261,6 @@ msgstr "ウィンドウを表示"
 #~ msgid "Enable logging"
 #~ msgstr "ロギングを有効にする"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "終了（コード {rc}）"
-
 #~ msgid "Enter new name"
 #~ msgstr "新しい名前を入力"
 
@@ -4170,11 +4271,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "コンソールに送信するテキストを入力してください: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "サーバーへの接続エラー"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "サーバーへの接続エラー"
 
 #~ msgid "Error saving host. Description"
@@ -4193,7 +4289,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "サーバーリストをファイルにエクスポート"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "サーバーをエクスポート"
 
@@ -4201,7 +4296,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "コマンドラインに渡す追加の引数"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "追加の引数"
 
@@ -4212,7 +4306,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "フロー制御"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "フロー制御:"
 
@@ -4236,12 +4329,10 @@ msgstr "ウィンドウを表示"
 #~ msgstr "文字色:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "X11 フォワーディング"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "グループ"
 
@@ -4249,7 +4340,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "ホスト名"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "ホスト名"
 
@@ -4275,7 +4365,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "インポート済み"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "インポート済み"
 
@@ -4298,7 +4387,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "キープアライブ"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "VM名"
 
@@ -4321,12 +4409,10 @@ msgstr "ウィンドウを表示"
 #~ msgstr "ログのパス"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "新しいホストを追加"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "VM名"
 
@@ -4346,7 +4432,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "1バイトあたりのデータビット数（8 = 標準）"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "追加"
 
@@ -4375,7 +4460,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "プロジェクトのホームページ"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "コマンド"
 
@@ -4383,7 +4467,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "ホストに再接続"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "コマンド"
 
@@ -4403,7 +4486,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "SPICE（ここでは利用できません: Proxmox には API チケット/プロキシが必要です）"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "接続タイプが選択されていません。"
 
@@ -4442,7 +4524,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "複数のホストに同時にコマンドを送信"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "シリアル"
 
@@ -4456,7 +4537,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "サーバーリストが上書きされます。続行しますか？"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_サーバー"
 
@@ -4485,7 +4565,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "ストップ"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "ストップビット:"
 
@@ -4493,12 +4572,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "ストップビット: 1 = 標準、2 = RS-485 / 旧式ハードウェア"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "シリアルポート:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "テンプレート:"
 
@@ -4528,11 +4601,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "デフォルトの固定幅フォントを使用する"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4547,7 +4615,6 @@ msgstr "ウィンドウを表示"
 #~ msgstr "_編集"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "インポート済み"
 
@@ -4575,11 +4642,6 @@ msgstr "ウィンドウを表示"
 #~ msgid "label"
 #~ msgstr "ラベル"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "検出された libvirt URI"
-
 #~ msgid "local"
 #~ msgstr "ローカル"
 
@@ -4596,12 +4658,10 @@ msgstr "ウィンドウを表示"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp が見つかりません"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "xfreerdp オプション:"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM-naam"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Wachten…"
 
@@ -864,13 +864,13 @@ msgstr "Extern"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Map delen"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Pad van gedeelde map"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Kies de map om te delen."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Fout: Proxmox-node en VMID zijn vereist"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Fout: libvirt-URI is vereist"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Ongeldige extra parameters: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "Fout met SPICE-ticket: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "De TLS-poort moet een getal van 1 tot en met 65535 zijn."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "onvolledig ticket"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "CA-certificaat"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "Directe URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Verbinding verbreken"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Beëindigd (code {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Fout bij het starten van de viewer"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Geopend in {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Proxmox-node"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Opnieuw verbinden"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "SPICE-ticket wordt aangevraagd…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "SSH-fout: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Sessie beëindigd"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "USB-apparaten delen"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Audio delen"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "TLS-poort"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "De SPICE-sessie wordt geopend in een apart remote-viewer-venster."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Via Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "Via libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "libvirt-URI"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program} niet gevonden: installeer het pakket virt-viewer"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3949,10 +4067,6 @@ msgid "Send commands after login"
 msgstr "Opdrachten verzenden na inloggen"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Sessie beëindigd"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3984,7 +4098,6 @@ msgid "Show window"
 msgstr "Venster tonen"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Verbinding verbreken"
 
@@ -4049,7 +4162,6 @@ msgstr "Venster tonen"
 #~ msgstr "Cluster"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Cluster"
 
@@ -4080,12 +4192,10 @@ msgstr "Venster tonen"
 #~ msgstr "Verbinden met geselecteerde host of alle hosts in geselecteerde groep"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Verbinden"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Verbinden…"
 
@@ -4096,7 +4206,6 @@ msgstr "Venster tonen"
 #~ msgstr "Continue logmodus is actief en kan niet per tabblad worden uitgeschakeld."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Cluster"
 
@@ -4122,7 +4231,6 @@ msgstr "Venster tonen"
 #~ msgstr "Aangepaste opdrachten"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Aangepaste opdrachten"
 
@@ -4137,9 +4245,6 @@ msgstr "Venster tonen"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Gedetecteerde Proxmox-doelen (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Verbinding verbreken"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Wilt u alle hosts in groep echt verwijderen"
@@ -4156,10 +4261,6 @@ msgstr "Venster tonen"
 #~ msgid "Enable logging"
 #~ msgstr "Logboekregistratie inschakelen"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Beëindigd (code {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Voer nieuwe naam in"
 
@@ -4170,11 +4271,6 @@ msgstr "Venster tonen"
 #~ msgstr "Voer de tekst in die naar de consoles moet worden verzonden: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Fout bij verbinden met server"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Fout bij verbinden met server"
 
 #~ msgid "Error saving host. Description"
@@ -4193,7 +4289,6 @@ msgstr "Venster tonen"
 #~ msgstr "Serverlijst exporteren naar bestand"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Servers exporteren"
 
@@ -4201,7 +4296,6 @@ msgstr "Venster tonen"
 #~ msgstr "Extra argumenten om door te geven aan de opdrachtregel"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "Extra argumenten"
 
@@ -4212,7 +4306,6 @@ msgstr "Venster tonen"
 #~ msgstr "Flow"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Flowcontrol:"
 
@@ -4236,12 +4329,10 @@ msgstr "Venster tonen"
 #~ msgstr "Voorgrondkleur:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "X11-doorsturen"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Groep"
 
@@ -4249,7 +4340,6 @@ msgstr "Venster tonen"
 #~ msgstr "Hostnaam"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Hostnaam"
 
@@ -4275,7 +4365,6 @@ msgstr "Venster tonen"
 #~ msgstr "Geïmporteerd"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "Geïmporteerd"
 
@@ -4298,7 +4387,6 @@ msgstr "Venster tonen"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "VM-naam"
 
@@ -4321,12 +4409,10 @@ msgstr "Venster tonen"
 #~ msgstr "Logpad"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Nieuwe host toevoegen"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "VM-naam"
 
@@ -4346,7 +4432,6 @@ msgstr "Venster tonen"
 #~ msgstr "Aantal databits per byte (8 = standaard)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Toevoegen"
 
@@ -4375,7 +4460,6 @@ msgstr "Venster tonen"
 #~ msgstr "Homepage van het project"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Opdracht"
 
@@ -4383,7 +4467,6 @@ msgstr "Venster tonen"
 #~ msgstr "Opnieuw verbinden met host"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Opdracht"
 
@@ -4403,7 +4486,6 @@ msgstr "Venster tonen"
 #~ msgstr "SPICE  (hier niet beschikbaar: Proxmox vereist API-ticket/proxy)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Geen verbindingstype geselecteerd."
 
@@ -4442,7 +4524,6 @@ msgstr "Venster tonen"
 #~ msgstr "Opdrachten naar meerdere hosts gelijktijdig verzenden"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "serieel"
 
@@ -4456,7 +4537,6 @@ msgstr "Venster tonen"
 #~ msgstr "Serverlijst wordt overschreven, doorgaan?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Servers"
 
@@ -4485,7 +4565,6 @@ msgstr "Venster tonen"
 #~ msgstr "Stop"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Stopbits:"
 
@@ -4493,12 +4572,6 @@ msgstr "Venster tonen"
 #~ msgstr "Stopbits: 1 = standaard, 2 = RS-485 / oudere hardware"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Seriële poort:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Sjabloon:"
 
@@ -4528,11 +4601,6 @@ msgstr "Venster tonen"
 #~ msgstr "Standaard breedte-vaste lettertype gebruiken"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4547,7 +4615,6 @@ msgstr "Venster tonen"
 #~ msgstr "Be_werken"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "Geïmporteerd"
 
@@ -4575,11 +4642,6 @@ msgstr "Venster tonen"
 #~ msgid "label"
 #~ msgstr "label"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "Gedetecteerde libvirt-URI"
-
 #~ msgid "local"
 #~ msgstr "lokaal"
 
@@ -4596,12 +4658,10 @@ msgstr "Venster tonen"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp niet gevonden"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "xfreerdp-opties:"
 

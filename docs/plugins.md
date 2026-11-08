@@ -284,6 +284,14 @@ plugin se charge quand même et l'onglet ouvre l'URL dans le navigateur par
 défaut. Il déclare aussi `requires_address` à `False` : l'adresse est dans
 l'option `web_url`.
 
+Le plugin spice (#179) montre le modèle d'une **visionneuse externe** : la
+session SPICE s'ouvre dans `remote-viewer` (ou `virt-viewer` en mode
+libvirt), lancé par `Gio.Subprocess` ; l'onglet ne fait que suivre le
+processus (état, reconnexion, arrêt par SIGTERM) et `close()` le termine.
+Le mot de passe passe par un fichier `.vv` en `0600` (`delete-this-file=1`),
+jamais par la ligne de commande. Sans visionneuse, `open()` lève
+`FileNotFoundError` avec le paquet à installer.
+
 ## Plugins asyncio
 
 La base lance `Gtk.Application.run` avec une boucle asyncio branchée sur la
