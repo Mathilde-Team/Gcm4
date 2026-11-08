@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 09:59+0000\n"
+"POT-Creation-Date: 2026-11-08 10:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,7 +114,7 @@ msgstr "ব্যাকগ্রাউন্ড রঙ:"
 msgid "Backspace:"
 msgstr "Backspace:"
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+#: GTK3.OLD/gnome_connection_manager.py
 msgid "Baud rate"
 msgstr "বড রেট"
 
@@ -261,7 +261,7 @@ msgstr "কাস্টম কমান্ড"
 msgid "Dark"
 msgstr "গাঢ়"
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+#: GTK3.OLD/gnome_connection_manager.py
 msgid "Data bits"
 msgstr "ডেটা বিট"
 
@@ -598,7 +598,7 @@ msgstr "স্টার্টআপে লোকাল কনসোল খুল
 msgid "Overrides the global \"Close console\" preference for this host only"
 msgstr ""
 
-#: GTK3.OLD/gnome_connection_manager.py plugins/plugin_serial.py
+#: GTK3.OLD/gnome_connection_manager.py
 msgid "Parity"
 msgstr "প্যারিটি"
 
@@ -2209,10 +2209,9 @@ msgstr "কনসোল ক্লোন করুন"
 msgid "Collapse all"
 msgstr "সব সংকুচিত করুন"
 
-#: GTK3.OLD/widgets.py plugins/plugin_ipmisol.py plugins/plugin_rdp.py
-#: plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: plugins/plugin_web.py src/gcm4/core/menu_arbre.py
-#: src/gcm4/core/preferences.py src/gcm4/ui/contexte.py
+#: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: src/gcm4/core/menu_arbre.py src/gcm4/core/preferences.py
+#: src/gcm4/ui/contexte.py
 msgid "Connect"
 msgstr "সংযোগ করুন"
 
@@ -2230,8 +2229,7 @@ msgstr "ঠিকানা কপি করুন"
 msgid "Custom commands"
 msgstr "কাস্টম কমান্ড"
 
-#: GTK3.OLD/widgets.py plugins/plugin_ipmisol.py plugins/plugin_rdp.py
-#: plugins/plugin_serial.py plugins/plugin_spice.py plugins/plugin_vnc.py
+#: GTK3.OLD/widgets.py plugins/plugin_spice.py plugins/plugin_vnc.py
 msgid "Disconnect"
 msgstr "সংযোগ বিচ্ছিন্ন করুন"
 
@@ -2426,9 +2424,8 @@ msgstr ""
 msgid "VM name"
 msgstr "VM নাম"
 
-#: plugins/import_hyperviseurs/ui.py plugins/plugin_ipmisol.py
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: plugins/plugin_web.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/plugin_spice.py
+#: plugins/plugin_vnc.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "অপেক্ষা করা হচ্ছে…"
 
@@ -3023,254 +3020,6 @@ msgstr ""
 msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
 
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_serial.py
-#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/plugin_web.py
-#: plugins/web/gtk4.py
-msgid "Connecting…"
-msgstr "সংযোগ করা হচ্ছে…"
-
-#: plugins/plugin_ipmisol.py
-msgid "IPMI (SOL)"
-msgstr ""
-
-#: plugins/plugin_ipmisol.py plugins/plugin_rdp.py plugins/plugin_spice.py
-#: plugins/plugin_vnc.py src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "সেশন শেষ হয়েছে"
-
-#: plugins/plugin_ipmisol.py
-msgid "ipmitool introuvable"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py plugins/sftp/gtk4.py
-msgid "Authentication failed"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Custom…"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Domain"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-#, fuzzy
-#| msgid "Dynamic title"
-msgid "Dynamic resolution"
-msgstr "ডায়নামিক শিরোনাম"
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py
-msgid "Error: could not mount the ISO"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/web/gtk4.py
-#, python-brace-format
-msgid "Error: {msg}"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_vnc.py
-msgid "Fullscreen"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-msgid "Geometry"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Height"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_web.py plugins/rdp/gtk4.py
-#: plugins/web/gtk4.py
-msgid "Ignore certificate errors"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "RDP"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/rdp/gtk4.py
-#, fuzzy
-#| msgid "Remote"
-msgid "RemoteApp"
-msgstr "রিমোট"
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/plugin_vnc.py
-#: plugins/rdp/gtk4.py
-msgid "Share clipboard"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
-msgid "Share folder"
-msgstr ""
-
-#: plugins/plugin_rdp.py plugins/plugin_spice.py plugins/rdp/gtk4.py
-msgid "Shared folder path"
-msgstr ""
-
-#: plugins/plugin_rdp.py
-msgid "Width"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid ""
-"Additional raw options passed to the binary\n"
-"Ex: --logfile /tmp/serial.log  (picocom)\n"
-"     -o -x  (minicom)"
-msgstr ""
-"বাইনারিতে পাঠানো অতিরিক্ত র‍্য বিকল্প\n"
-"উদাহরণ: --logfile /tmp/serial.log  (picocom)\n"
-"     -o -x  (minicom)"
-
-#: plugins/plugin_serial.py
-msgid "Aruba (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "BMC/iDRAC (115200 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Baud rate:"
-msgstr "বড রেট:"
-
-#: plugins/plugin_serial.py
-msgid "Cisco IOS (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "DTR/DSR"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Data bits:"
-msgstr "ডেটা বিট:"
-
-#: plugins/plugin_serial.py
-msgid "Even"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Ex : /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
-msgstr "উদাহরণ: /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
-
-#: plugins/plugin_serial.py
-#, fuzzy
-#| msgid "Flow control:"
-msgid "Flow control"
-msgstr "ফ্লো কন্ট্রোল:"
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Flow control:"
-msgstr "ফ্লো কন্ট্রোল:"
-
-#: plugins/plugin_serial.py
-msgid ""
-"Flow control:\n"
-"  None = standard console\n"
-"  XON/XOFF = software (Ctrl-Q/Ctrl-S)\n"
-"  RTS/CTS = hardware (full cable)\n"
-"  DSR/DTR = legacy hardware"
-msgstr ""
-"ফ্লো কন্ট্রোল:\n"
-"  কোনোটি নয় = স্ট্যান্ডার্ড কনসোল\n"
-"  XON/XOFF = সফটওয়্যার (Ctrl-Q/Ctrl-S)\n"
-"  RTS/CTS = হার্ডওয়্যার (পূর্ণ ক্যাবল)\n"
-"  DSR/DTR = লেগ্যাসি হার্ডওয়্যার"
-
-#: plugins/plugin_serial.py
-msgid "H3C/HPE Comware (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Juniper (9600 8N1)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Load vendor-recommended serial settings"
-msgstr "প্রস্তুতকারক সুপারিশকৃত সিরিয়াল সেটিংস লোড করুন"
-
-#: plugins/plugin_serial.py
-msgid "None"
-msgstr ""
-
-#: plugins/plugin_serial.py
-msgid "Number of data bits per byte (8 = standard)"
-msgstr "প্রতি বাইটে ডেটা বিটের সংখ্যা (8 = স্ট্যান্ডার্ড)"
-
-#: plugins/plugin_serial.py
-#, fuzzy
-#| msgid "Add"
-msgid "Odd"
-msgstr "যোগ করুন"
-
-#: plugins/plugin_serial.py
-msgid "Parity bit: None (N) = standard, Even (E), Odd (O)"
-msgstr "প্যারিটি বিট: কোনোটি নয় (N) = স্ট্যান্ডার্ড, জোড় (E), বিজোড় (O)"
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Parity:"
-msgstr "প্যারিটি:"
-
-#: plugins/plugin_serial.py
-msgid "RTS/CTS (hardware)"
-msgstr ""
-
-#: plugins/plugin_serial.py
-#, fuzzy
-#| msgid "serial"
-msgid "Serial"
-msgstr "সিরিয়াল"
-
-#: plugins/plugin_serial.py
-msgid "Serial port:"
-msgstr "সিরিয়াল পোর্ট:"
-
-#: plugins/plugin_serial.py
-#, fuzzy
-#| msgid "Stop bits:"
-msgid "Stop bits"
-msgstr "স্টপ বিট:"
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Stop bits:"
-msgstr "স্টপ বিট:"
-
-#: plugins/plugin_serial.py
-msgid "Stop bits: 1 = standard, 2 = RS-485 / legacy hardware"
-msgstr "স্টপ বিট: 1 = স্ট্যান্ডার্ড, 2 = RS-485 / লেগ্যাসি হার্ডওয়্যার"
-
-#: plugins/plugin_serial.py
-#, fuzzy
-#| msgid "Template:"
-msgid "Template"
-msgstr "টেমপ্লেট:"
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py
-msgid "Template:"
-msgstr "টেমপ্লেট:"
-
-#: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
-msgid "Tool"
-msgstr "সরঞ্জাম"
-
-#: plugins/plugin_serial.py
-msgid "Transmission speed in baud"
-msgstr "বড-এ ট্রান্সমিশন গতি"
-
-#: plugins/plugin_serial.py
-msgid "XON/XOFF (software)"
-msgstr ""
-
-#: plugins/plugin_serial.py plugins/plugin_vnc.py
-msgid "xfreerdp options:"
-msgstr "xfreerdp অপশন:"
-
-#: plugins/plugin_serial.py
-msgid "— custom —"
-msgstr ""
-
 #: plugins/plugin_spice.py
 #, python-brace-format
 msgid ""
@@ -3285,6 +3034,10 @@ msgstr ""
 #: plugins/plugin_spice.py
 msgid "Configuration SPICE invalide"
 msgstr ""
+
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/web/gtk4.py
+msgid "Connecting…"
+msgstr "সংযোগ করা হচ্ছে…"
 
 #: plugins/plugin_spice.py
 msgid "Direct URI"
@@ -3311,6 +3064,10 @@ msgstr ""
 
 #: plugins/plugin_spice.py
 msgid "Error: VM name required"
+msgstr ""
+
+#: plugins/plugin_spice.py
+msgid "Error: could not mount the ISO"
 msgstr ""
 
 #: plugins/plugin_spice.py
@@ -3349,12 +3106,28 @@ msgstr ""
 msgid "SSH error: {exc}"
 msgstr ""
 
+#: plugins/plugin_spice.py plugins/plugin_vnc.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "সেশন শেষ হয়েছে"
+
 #: plugins/plugin_spice.py
 msgid "Share USB devices"
 msgstr ""
 
 #: plugins/plugin_spice.py
 msgid "Share audio"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/plugin_vnc.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Share folder"
+msgstr ""
+
+#: plugins/plugin_spice.py plugins/rdp/gtk4.py
+msgid "Shared folder path"
 msgstr ""
 
 #: plugins/plugin_spice.py
@@ -3666,9 +3439,17 @@ msgid ""
 "E.g.: {example}"
 msgstr ""
 
+#: plugins/plugin_vnc.py plugins/sftp/gtk4.py
+msgid "Authentication failed"
+msgstr ""
+
 #: plugins/plugin_vnc.py src/gcm4/ui/host_dialog.py
 msgid "Display"
 msgstr "প্রদর্শন"
+
+#: plugins/plugin_vnc.py
+msgid "Fullscreen"
+msgstr ""
 
 #: plugins/plugin_vnc.py
 msgid "VNC"
@@ -3690,51 +3471,9 @@ msgstr ""
 msgid "xfreerdp not found"
 msgstr "xfreerdp খুঁজে পাওয়া যায়নি"
 
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "BMC web console (iLO, iDRAC, IMM…) or any web interface (Proxmox, switch, TrueNAS…)"
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid "Error: URL not configured"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Error: could not open the URL"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Opened in the system browser"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "URL"
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid "URL is required for a Web connection."
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/core.py
-msgid "URL is required."
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid "URL not configured"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Useful for self-signed certificates on BMC interfaces"
-msgstr ""
-
-#: plugins/plugin_web.py plugins/web/gtk4.py
-msgid "Web"
-msgstr ""
-
-#: plugins/plugin_web.py
-msgid ""
-"WebKitGTK unavailable (gir1.2-webkit2-4.1 package missing).\n"
-"The web console will open in the system browser."
-msgstr ""
+#: plugins/plugin_vnc.py
+msgid "xfreerdp options:"
+msgstr "xfreerdp অপশন:"
 
 #: plugins/rdp/core.py
 msgid "Choose the folder to share"
@@ -3782,7 +3521,29 @@ msgid "Connection cancelled"
 msgstr "সংযোগ করা হচ্ছে…"
 
 #: plugins/rdp/gtk4.py
+msgid "Custom…"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Domain"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Dynamic title"
+msgid "Dynamic resolution"
+msgstr "ডায়নামিক শিরোনাম"
+
+#: plugins/rdp/gtk4.py
 msgid "Fit to tab"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Geometry"
+msgstr ""
+
+#: plugins/rdp/gtk4.py plugins/web/gtk4.py
+msgid "Ignore certificate errors"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
@@ -3796,8 +3557,42 @@ msgid "RDP needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Remote"
+msgid "RemoteApp"
+msgstr "রিমোট"
+
+#: plugins/rdp/gtk4.py
 msgid "Size"
 msgstr ""
+
+#: plugins/serial/gtk4.py
+msgid "Baud rate:"
+msgstr "বড রেট:"
+
+#: plugins/serial/gtk4.py
+msgid "Data bits:"
+msgstr "ডেটা বিট:"
+
+#: plugins/serial/gtk4.py
+msgid "Flow control:"
+msgstr "ফ্লো কন্ট্রোল:"
+
+#: plugins/serial/gtk4.py
+msgid "Parity:"
+msgstr "প্যারিটি:"
+
+#: plugins/serial/gtk4.py
+msgid "Stop bits:"
+msgstr "স্টপ বিট:"
+
+#: plugins/serial/gtk4.py
+msgid "Template:"
+msgstr "টেমপ্লেট:"
+
+#: plugins/serial/gtk4.py src/gcm4/ui/preferences.py
+msgid "Tool"
+msgstr "সরঞ্জাম"
 
 #: plugins/sftp/core.py
 msgid "B"
@@ -4186,8 +3981,25 @@ msgstr "অনুমতি অতিরিক্ত উন্মুক্ত: ss
 msgid "The URL must start with http:// or https://"
 msgstr ""
 
+#: plugins/web/core.py
+msgid "URL is required."
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "BMC web console (iLO, iDRAC, IMM…) or any web interface (Proxmox, switch, TrueNAS…)"
+msgstr ""
+
 #: plugins/web/gtk4.py
 msgid "Certificate"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Error: could not open the URL"
+msgstr ""
+
+#: plugins/web/gtk4.py
+#, python-brace-format
+msgid "Error: {msg}"
 msgstr ""
 
 #: plugins/web/gtk4.py src/gcm4/ui/preferences.py
@@ -4196,6 +4008,22 @@ msgstr "লোড হয়েছে"
 
 #: plugins/web/gtk4.py
 msgid "Open in the system browser"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Opened in the system browser"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "URL"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Useful for self-signed certificates on BMC interfaces"
+msgstr ""
+
+#: plugins/web/gtk4.py
+msgid "Web"
 msgstr ""
 
 #: plugins/web/gtk4.py
@@ -5166,6 +4994,15 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Add a Proxmox target:"
 #~ msgstr "একটি Proxmox লক্ষ্য যুক্ত করুন:"
 
+#~ msgid ""
+#~ "Additional raw options passed to the binary\n"
+#~ "Ex: --logfile /tmp/serial.log  (picocom)\n"
+#~ "     -o -x  (minicom)"
+#~ msgstr ""
+#~ "বাইনারিতে পাঠানো অতিরিক্ত র‍্য বিকল্প\n"
+#~ "উদাহরণ: --logfile /tmp/serial.log  (picocom)\n"
+#~ "     -o -x  (minicom)"
+
 #~ msgid "Colors and Keys"
 #~ msgstr "রঙ এবং কী"
 
@@ -5198,6 +5035,9 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Edit hosts properties"
 #~ msgstr "হোস্টের প্রপার্টিজ সম্পাদনা করুন"
 
+#~ msgid "Ex : /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
+#~ msgstr "উদাহরণ: /dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0"
+
 #~ msgid "Ex: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
 #~ msgstr "উদাহরণ: 192.168.105.41 | root@192.168.105.41 | qemu+ssh://root@192.168.105.41/system"
 
@@ -5206,6 +5046,24 @@ msgstr "উইন্ডো দেখান"
 
 #~ msgid "Extra arguments to pass to command line"
 #~ msgstr "কমান্ড লাইনে পাস করার জন্য অতিরিক্ত আর্গুমেন্ট"
+
+#, fuzzy
+#~| msgid "Flow control:"
+#~ msgid "Flow control"
+#~ msgstr "ফ্লো কন্ট্রোল:"
+
+#~ msgid ""
+#~ "Flow control:\n"
+#~ "  None = standard console\n"
+#~ "  XON/XOFF = software (Ctrl-Q/Ctrl-S)\n"
+#~ "  RTS/CTS = hardware (full cable)\n"
+#~ "  DSR/DTR = legacy hardware"
+#~ msgstr ""
+#~ "ফ্লো কন্ট্রোল:\n"
+#~ "  কোনোটি নয় = স্ট্যান্ডার্ড কনসোল\n"
+#~ "  XON/XOFF = সফটওয়্যার (Ctrl-Q/Ctrl-S)\n"
+#~ "  RTS/CTS = হার্ডওয়্যার (পূর্ণ ক্যাবল)\n"
+#~ "  DSR/DTR = লেগ্যাসি হার্ডওয়্যার"
 
 #, fuzzy
 #~ msgid "Import from CSV"
@@ -5231,6 +5089,9 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Libvirt"
 #~ msgstr "Libvirt"
 
+#~ msgid "Load vendor-recommended serial settings"
+#~ msgstr "প্রস্তুতকারক সুপারিশকৃত সিরিয়াল সেটিংস লোড করুন"
+
 #~ msgid "Local port already assigned"
 #~ msgstr "লোকাল পোর্ট ইতিমধ্যে নির্ধারিত"
 
@@ -5240,11 +5101,22 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "No new host (duplicates ignored)."
 #~ msgstr "কোনো নতুন হোস্ট নেই (ডুপ্লিকেট উপেক্ষা করা হয়েছে)।"
 
+#~ msgid "Number of data bits per byte (8 = standard)"
+#~ msgstr "প্রতি বাইটে ডেটা বিটের সংখ্যা (8 = স্ট্যান্ডার্ড)"
+
+#, fuzzy
+#~| msgid "Add"
+#~ msgid "Odd"
+#~ msgstr "যোগ করুন"
+
 #~ msgid "Open local console"
 #~ msgstr "লোকাল কনসোল খুলুন"
 
 #~ msgid "Overwrite existing connections with the same name and protocol"
 #~ msgstr "একই নাম এবং প্রোটোকলের বিদ্যমান সংযোগ ওভাররাইট করুন"
+
+#~ msgid "Parity bit: None (N) = standard, Even (E), Odd (O)"
+#~ msgstr "প্যারিটি বিট: কোনোটি নয় (N) = স্ট্যান্ডার্ড, জোড় (E), বিজোড় (O)"
 
 #~ msgid "SPICE  (not available here: Proxmox requires API ticket/proxy)"
 #~ msgstr "SPICE  (এখানে উপলব্ধ নয়: Proxmox-এর জন্য API টিকিট/প্রক্সি প্রয়োজন)"
@@ -5262,6 +5134,14 @@ msgstr "উইন্ডো দেখান"
 #~ msgid "Send commands to several hosts at the same time"
 #~ msgstr "একসাথে একাধিক হোস্টে কমান্ড পাঠান"
 
+#, fuzzy
+#~| msgid "serial"
+#~ msgid "Serial"
+#~ msgstr "সিরিয়াল"
+
+#~ msgid "Serial port:"
+#~ msgstr "সিরিয়াল পোর্ট:"
+
 #~ msgid "Show Toolbar"
 #~ msgstr "টুলবার দেখান"
 
@@ -5270,6 +5150,22 @@ msgstr "উইন্ডো দেখান"
 
 #~ msgid "Split console vertically"
 #~ msgstr "কনসোল উলম্বভাবে বিভক্ত করুন"
+
+#, fuzzy
+#~| msgid "Stop bits:"
+#~ msgid "Stop bits"
+#~ msgstr "স্টপ বিট:"
+
+#~ msgid "Stop bits: 1 = standard, 2 = RS-485 / legacy hardware"
+#~ msgstr "স্টপ বিট: 1 = স্ট্যান্ডার্ড, 2 = RS-485 / লেগ্যাসি হার্ডওয়্যার"
+
+#, fuzzy
+#~| msgid "Template:"
+#~ msgid "Template"
+#~ msgstr "টেমপ্লেট:"
+
+#~ msgid "Transmission speed in baud"
+#~ msgstr "বড-এ ট্রান্সমিশন গতি"
 
 #, fuzzy
 #~ msgid ""
