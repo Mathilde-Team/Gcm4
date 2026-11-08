@@ -9,8 +9,10 @@ et du job GTK4 (``.coverage.gtk4``, ``tests/gtk4`` sous Xvfb). Ce script
 données : on voit ce que le job GTK4 ajoute, en particulier pour
 ``src/gcm4/ui/`` que seul ``tests/gtk4`` exécute.
 
-Le seuil bloquant reste celui de ``coverage report`` (``fail_under`` de
-pyproject.toml), appliqué par le workflow au total combiné.
+Le seuil bloquant ``fail_under`` de pyproject.toml est appliqué par le
+workflow au total combiné : ``verifier_couverture.py`` contrôle les lignes
+et branches séparément (#293), puis ``coverage report`` conserve le
+rapport historique lignes et branches agrégées.
 
 Appel :
     uv run python scripts/couverture_combinee.py \
