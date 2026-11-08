@@ -103,6 +103,11 @@ def _position_fenetre(widget) -> tuple[int, int]:
     marge_y = (surface.get_height() - fenetre.get_height()) // 2
     coquille = _xdotool("getwindowgeometry", "--shell", str(surface.get_xid()))
     valeurs = dict(ligne.split("=", 1) for ligne in coquille.splitlines() if "=" in ligne)
+    print(
+        f"GEOMETRIE: surface=({surface.get_width()},{surface.get_height()}) "
+        f"widget=({fenetre.get_width()},{fenetre.get_height()}) marge=({marge_x},{marge_y}) "
+        f"X11=({valeurs['X']},{valeurs['Y']}) client=({int(valeurs['X']) + marge_x},{int(valeurs['Y']) + marge_y})"
+    )
     return int(valeurs["X"]) + marge_x, int(valeurs["Y"]) + marge_y
 
 
