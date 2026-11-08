@@ -21,9 +21,9 @@ Homepage = "https://github.com/Mathilde-Team/Gcm4"
 Repository = "https://github.com/Mathilde-Team/Gcm4"
 Changelog = "https://github.com/Mathilde-Team/Gcm4/blob/main/CHANGELOG.md"
 
-# NOTE — GTK4/VTE (PyGObject, `import gi` + `gi.repository.{Gtk,Vte,Gdk,...}`)
+# NOTE — GTK4/WebKit (PyGObject, `import gi` + `gi.repository.{Gtk,WebKit,Gdk,...}`)
 # ne figurent pas ci-dessous : ces bindings doivent correspondre aux typelibs
-# système (gir1.2-gtk-4.0, gir1.2-vte-3.0…) installés via le gestionnaire de
+# système (gir1.2-gtk-4.0, gir1.2-webkit-6.0…) installés via le gestionnaire de
 # paquets de la distribution (voir Makefile : python3-gi).
 # Un `pip install PyGObject` isolé ne fournit pas ces typelibs et peut échouer
 # sans les en-têtes système (libgirepository-dev, libcairo-dev…) ; ce n'est
@@ -146,6 +146,8 @@ files = [
     "src/gcm4/core/raccourcis.py",
     "src/gcm4/core/registre.py",
     "src/gcm4/core/terminal.py",
+    "src/gcm4/core/pty_process.py",
+    "src/gcm4/core/pty_child.py",
     "src/gcm4/core/theme.py",
     "src/gcm4/core/validation.py",
     "src/gcm4/core/window_state.py",

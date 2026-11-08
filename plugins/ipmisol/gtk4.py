@@ -30,7 +30,6 @@ from collections.abc import Callable
 import gi
 
 gi.require_version("Gtk", "4.0")  # déjà fixé par gcm4 ; déclare le fichier GTK4 (#178)
-gi.require_version("Vte", "3.91")
 
 from gi.repository import Gtk  # noqa: E402
 from loguru import logger  # noqa: E402

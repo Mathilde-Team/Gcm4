@@ -29,7 +29,7 @@ PYPROJECT = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
 APP_ID = "io.github.MathildeDec.gcm4"
 # Bibliothèques des plugins de connexion (VTE, gtk-vnc, spice, freerdp,
 # expect, paramiko) : jamais dans la base (#126).
-DEPENDANCES_DE_PLUGIN = re.compile(r"vte|gtk-?vnc|spice|freerdp|expect|paramiko", re.I)
+DEPENDANCES_DE_PLUGIN = re.compile(r"vte|webkit|gtk-?vnc|spice|freerdp|expect|paramiko", re.I)
 
 
 def paragraphe_binaire() -> dict[str, str]:

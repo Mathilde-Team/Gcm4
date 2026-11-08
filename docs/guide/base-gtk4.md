@@ -32,6 +32,11 @@ publiés. Avec la base seule :
 
 ## Installation
 
+Les plugins terminaux du dépôt utilisent désormais xterm.js embarqué dans
+WebKitGTK 6.0 (#76), et non VTE. Ce backend reste optionnel pour la base :
+voir [le guide du terminal](terminal-xterm.md) pour son installation et les
+limites des dépôts Rocky.
+
 Distributions testées par la CI (job « Paquets ») : **Debian 13**,
 **Ubuntu 24.04**, **Ubuntu 26.04** et **Fedora 44**. Il faut Python 3.12 ou
 plus récent : Ubuntu 22.04, Debian 12 et EL 9 ne conviennent pas.

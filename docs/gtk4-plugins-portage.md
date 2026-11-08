@@ -45,15 +45,26 @@ Outils et modules Python appelés par les plugins :
 **Conséquence pour Rocky 9** (#223) : avec les paquets de la distribution,
 aucun plugin terminal ni le mode intégré du plugin Web ne peut y fonctionner
 en GTK4. La base gcm4 y démarre (#286), mais l'utilisateur n'aurait ni SSH, ni
-Telnet, ni terminal local. Passer à Rocky 10 ne règle pas le problème. Rocky 10.2 fournit Python 3.12,
-GTK 4.16 et libadwaita 1.6, mais pas non plus `Vte-3.91` ni `WebKit-6.0`
-(BaseOS, AppStream, CRB et EPEL, relevé du même jour). Il reste deux options,
+Telnet, ni terminal local. Le relevé historique concluait aussi à l'absence
+de backend dans Rocky 10. Le remplacement de VTE par xterm.js (#76) change
+cette analyse : le [catalogue Fedora/EPEL](https://packages.fedoraproject.org/pkgs/webkitgtk/webkitgtk6.0/index.html)
+présente désormais `webkitgtk6.0` pour EPEL 10. Cela ne certifie pas
+l'application complète sur Rocky 10 ; le blocage vérifié ici reste Rocky 9.
+Pour cette dernière cible, il reste deux options,
 et c'est à l'autrice de trancher, sur #223 :
 
 - garder la famille EL comme cible de la base seule ;
-- fournir VTE GTK4 autrement (Flatpak, ou paquet construit par le projet).
+- fournir WebKitGTK 6.0 autrement (Flatpak, ou paquet construit par le projet).
 
 ## Tableau par plugin
+
+**Mise à jour #76 (08/11/2026)** : les portages terminaux ci-dessous sont
+maintenant rendus par xterm.js local dans WebKitGTK 6.0, via
+`gcm4.ui.terminal` et `gcm4.ui.xterm`. Les mentions VTE dans la colonne GTK3
+et dans l'ordre historique de portage décrivent la migration précédente,
+pas une dépendance actuelle. La contrainte Rocky reste l'absence du backend
+WebKitGTK 6.0, sans réintroduire GTK3.
+Voir [le guide du terminal xterm.js](guide/terminal-xterm.md).
 
 « Lignes » = taille de `plugins/plugin_<nom>.py` sur `dev` (ad32608).
 
@@ -61,11 +72,11 @@ et c'est à l'autrice de trancher, sur #223 :
 
 | Plugin | Lignes | Technique GTK3 | Portage GTK4 | Bloquant ou décision liée |
 |---|---|---|---|---|
-| ssh | 1087 (+ `plugins/ssh/core.py`, 1700) | `Vte.Terminal` 2.91 | `plugins/ssh/gtk4.py`, `Vte.Terminal` 3.91. Le cœur `core.py` existe déjà, sans GTK | #97 (portage), #180 (dialogues de clés et de `ssh_config` à la racine) ; Rocky 9 sans VTE GTK4 |
-| telnet | 216 | `Vte.Terminal` 2.91, commande `telnet` | **porté** : `plugins/telnet/` (contrat v1, #179) ; `Vte.Terminal` 3.91, session VTE et zone d'options partagées (`gcm4.ui.terminal`, `gcm4.core.terminal`) ; `plugin_telnet.py` (GTK3) retiré le 08/11/2026 | Rocky 9 sans VTE GTK4. **Premier portage conseillé** : le plus petit plugin terminal, il permet de valider le contrat v1 avec un vrai terminal |
-| local | 192 | `Vte.Terminal` 2.91, shell local | **porté** : `plugins/local/` (contrat v1, #295) ; `Vte.Terminal` 3.91 ; `plugin_local.py` (GTK3) retiré le 08/11/2026 | Rocky 9 sans VTE GTK4 |
-| serial | 689 | `Vte.Terminal` 2.91, `picocom`/`minicom`/`screen` | **porté** : `plugins/serial/` (contrat v1, #179) ; détection des outils et construction de la commande sans GTK (`core.py`), paramètres série dans la zone d'options du protocole (repli du débit sur le champ Port, héritage GTK3) ; `plugin_serial.py` (GTK3) retiré le 08/11/2026 (#179) | Rocky 9 sans VTE GTK4 ; `picocom` vient d'EPEL sur Rocky 9 |
-| ipmisol | 246 | `Vte.Terminal` 2.91, `ipmitool sol activate` | **porté** : `plugins/ipmisol/` (contrat v1, #179) ; mot de passe via `IPMI_PASSWORD` (`Lancement.env`), `sol deactivate` à la fermeture ; `plugin_ipmisol.py` (GTK3) retiré le 08/11/2026 (#179) | Rocky 9 sans VTE GTK4 |
+| ssh | 1087 (+ `plugins/ssh/core.py`, 1700) | `Vte.Terminal` 2.91 | `plugins/ssh/gtk4.py`, terminal commun xterm.js/WebKitGTK 6 (#76). Le cœur `core.py` reste sans GTK | #97 (portage), #180 (dialogues de clés et de `ssh_config` à la racine) ; Rocky 9 sans WebKitGTK 6 |
+| telnet | 216 | `Vte.Terminal` 2.91, commande `telnet` | **porté** : `plugins/telnet/` (contrat v1, #179) ; session xterm.js et options partagées (`gcm4.ui.terminal`, `gcm4.core.terminal`) ; `plugin_telnet.py` (GTK3) retiré le 08/11/2026 | Rocky 9 sans WebKitGTK 6. Le premier plugin terminal porté a permis de valider le contrat v1 avec un vrai terminal |
+| local | 192 | `Vte.Terminal` 2.91, shell local | **porté** : `plugins/local/` (contrat v1, #295) ; xterm.js/WebKitGTK 6 (#76) ; `plugin_local.py` (GTK3) retiré le 08/11/2026 | Rocky 9 sans WebKitGTK 6 |
+| serial | 689 | `Vte.Terminal` 2.91, `picocom`/`minicom`/`screen` | **porté** : `plugins/serial/` (contrat v1, #179) ; terminal xterm.js partagé (#76), détection des outils et commande sans GTK (`core.py`), paramètres série dans les options (repli du débit sur le champ Port) ; `plugin_serial.py` (GTK3) retiré le 08/11/2026 | Rocky 9 sans WebKitGTK 6 ; `picocom` vient d'EPEL sur Rocky 9 |
+| ipmisol | 246 | `Vte.Terminal` 2.91, `ipmitool sol activate` | **porté** : `plugins/ipmisol/` (contrat v1, #179) ; terminal xterm.js partagé (#76), mot de passe via `IPMI_PASSWORD` (`Lancement.env`), `sol deactivate` à la fermeture ; `plugin_ipmisol.py` (GTK3) retiré le 08/11/2026 | Rocky 9 sans WebKitGTK 6 |
 | web | 298 | `WebKit2.WebView` 4.1 ou navigateur externe (`Gio.AppInfo`) | **porté** : `plugins/web/` (contrat v1, #397) ; `WebKit.WebView` 6.0 chargé à l'ouverture seulement, certificat refusé accepté pour l'hôte de l'URL seulement (`allow_tls_certificate_for_host`, GTK3 coupait la vérification pour tout le contexte), repli vers le navigateur par défaut par `Gio.AppInfo` (présent dès GTK 4.8, `Gtk.UriLauncher` n'apporterait rien ici) ; mêmes clés `web_url` et `web_ignore_cert` que GTK3 ; `plugin_web.py` (GTK3) retiré le 08/11/2026 (#179) | Rocky 9 : repli externe seulement (tests WebKit écartés, repli testé) |
 | vnc | 701 | `GtkVnc.Display` (gtk-vnc, GTK3 seulement partout) | **fusion avec `plugins/pluginvnc2`** (déjà GTK4, client asyncvnc2), comme prévu par #104 | #104 ; aucune version GTK4 de gtk-vnc dans les distributions |
 | spice | 1424 | `SpiceClientGtk.Display` 3.0 (GTK3 seulement partout) | aucun widget SPICE GTK4. Deux voies : affichage maison sur `SpiceClientGLib` (canal d'affichage vers `Gdk.MemoryTexture`, comme pluginvnc2), ou visionneuse externe (`remote-viewer`) | **porté** : `plugins/spice/` (#179), voie de la visionneuse externe choisie le 08/11/2026 — `remote-viewer` (URI, Proxmox) ou `virt-viewer` (libvirt) lancés par `Gio.Subprocess`, onglet d'état et de reconnexion ; paquet `virt-viewer` (présent sur Rocky 9, contrairement à spice-gtk) |
