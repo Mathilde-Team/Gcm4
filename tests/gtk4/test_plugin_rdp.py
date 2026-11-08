@@ -43,6 +43,17 @@ class RemoteAppOptions:
 
 
 @dataclass
+class MonitorDef:
+    """Doublure de ``asyncrdp.MonitorDef``."""
+
+    x: int
+    y: int
+    width: int
+    height: int
+    is_primary: bool = False
+
+
+@dataclass
 class RdpOptions:
     """Doublure de ``asyncrdp.RdpOptions`` (champs utilisés par le plugin)."""
 
@@ -53,6 +64,10 @@ class RdpOptions:
     redirect_drives: bool = False
     drives: list = field(default_factory=list)
     remoteapp: object = None
+    audio_playback: bool = True
+    audio_capture: bool = False
+    usb_devices: list = field(default_factory=list)
+    monitors: list = field(default_factory=list)
 
 
 class FausseVue(Gtk.Box):
@@ -132,7 +147,7 @@ def faux_asyncrdp(monkeypatch):
     """Modules ``asyncrdp``, ``gcm_gtk4_rdp_session``, ``gcm_gtk4_display_bridge`` simulés."""
     module = types.ModuleType("asyncrdp")
     module.RdpOptions, module.DriveMapping = RdpOptions, DriveMapping
-    module.RemoteAppOptions = RemoteAppOptions
+    module.RemoteAppOptions, module.MonitorDef = RemoteAppOptions, MonitorDef
     module.connect = object()
     session = types.ModuleType("gcm_gtk4_rdp_session")
     session.RdpSession = FausseSession
@@ -238,6 +253,45 @@ def test_connexion(chargement, boucle_glib, faux_asyncrdp, tmp_path):
     assert contexte.notifications == []
 
 
+def test_connexion_redirections_multiecran(chargement, boucle_glib, faux_asyncrdp):
+    """Audio, capture, USB et multi-écran passent dans ``RdpOptions`` (#105)."""
+    plugin, _contexte = chargement
+    hote = _hote(
+        {
+            "rdp_share_audio": "False",
+            "rdp_audio_capture": "True",
+            "rdp_usb_devices": "id:046d:0825, id:046d:0826",
+            "rdp_multimon": "True",
+        },
+        password="pw",
+    )
+    onglet = plugin.open(hote)
+    assert _finir(boucle_glib, onglet._tache) is True
+    options = FausseSession.instances[0].appels[0][5]
+    assert options.audio_playback is False
+    assert options.audio_capture is True
+    assert options.usb_devices == ["id:046d:0825", "id:046d:0826"]
+    # Xvfb : au moins un écran, géométrie positive, l'écran principal est marqué.
+    assert options.monitors, "aucun écran local détecté sous Xvfb"
+    assert all(m.width > 0 and m.height > 0 for m in options.monitors)
+    assert any(m.is_primary for m in options.monitors)
+    onglet.close()
+    _finir(boucle_glib, onglet._fermeture)
+
+
+def test_connexion_sans_multiecran(chargement, boucle_glib, faux_asyncrdp):
+    """Sans ``rdp_multimon`` : ``RdpOptions.monitors`` reste vide."""
+    plugin, _contexte = chargement
+    onglet = plugin.open(_hote(password="pw"))
+    assert _finir(boucle_glib, onglet._tache) is True
+    options = FausseSession.instances[0].appels[0][5]
+    assert options.monitors == []
+    assert options.audio_playback is True
+    assert options.usb_devices == []
+    onglet.close()
+    _finir(boucle_glib, onglet._fermeture)
+
+
 def test_plein_ecran_suit_onglet(chargement, boucle_glib, faux_asyncrdp):
     """``fullscreen`` : la vue redemande la taille de l'onglet."""
     plugin, _contexte = chargement
@@ -316,4 +370,20 @@ def test_zone_options(chargement):
     )
     case.set_active(True)
     assert options["rdp_cert_ignore"] == "True"
+    # Nouvelles cases (#105) : audio, capture, multi-écran, USB.
+    for libelle, cle in (
+        ("Share audio", "rdp_share_audio"),
+        ("Audio capture", "rdp_audio_capture"),
+        ("Multi-screen", "rdp_multimon"),
+    ):
+        case = next(
+            w for w in widgets if isinstance(w, Gtk.CheckButton) and w.get_label() == libelle
+        )
+        case.set_active(True)
+        assert options[cle] == "True"
+        case.set_active(False)
+        assert options[cle] == "False"
+    champ_usb = next(w for w in widgets if isinstance(w, Gtk.Entry) and w.get_placeholder_text())
+    champ_usb.set_text("id:046d:0825, id:046d:0826")
+    assert options["rdp_usb_devices"] == "id:046d:0825, id:046d:0826"
     assert changements

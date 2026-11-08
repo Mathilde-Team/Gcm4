@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 12:49+0000\n"
+"POT-Creation-Date: 2026-11-08 13:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -834,6 +834,10 @@ msgstr ""
 msgid "AsyncRdp is not available ({error}). Install asyncrdp and set 'integrations' in the [plugin rdp] section to the integrations/gtk4 folder of AsyncRdp4."
 msgstr ""
 
+#: plugins/rdp/gtk4.py
+msgid "Audio capture"
+msgstr ""
+
 #: plugins/rdp/gtk4.py plugins/sftp/gtk4.py
 #, fuzzy, python-brace-format
 #| msgid "Connecting…"
@@ -873,6 +877,12 @@ msgid "Ignore certificate errors"
 msgstr ""
 
 #: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Fullscreen"
+msgid "Multi-screen"
+msgstr "เต็มหน้าจอ"
+
+#: plugins/rdp/gtk4.py
 #, fuzzy, python-brace-format
 #| msgid "Initialization failed: {error}"
 msgid "RDP connection to {host} failed: {error}"
@@ -889,6 +899,10 @@ msgid "RemoteApp"
 msgstr "รีโมต"
 
 #: plugins/rdp/gtk4.py plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "แชร์เสียง"
+
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
 msgstr "แชร์โฟลเดอร์"
 
@@ -898,6 +912,16 @@ msgstr "เส้นทางโฟลเดอร์ที่แชร์"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+#, fuzzy
+#| msgid "Share USB devices"
+msgid "USB devices"
+msgstr "แชร์อุปกรณ์ USB"
+
+#: plugins/rdp/gtk4.py
+msgid "id:046d:0825, id:046d:0826"
 msgstr ""
 
 #: plugins/serial/gtk4.py
@@ -1383,10 +1407,6 @@ msgstr "เซสชันสิ้นสุดลง"
 #: plugins/spice/gtk4.py
 msgid "Share USB devices"
 msgstr "แชร์อุปกรณ์ USB"
-
-#: plugins/spice/gtk4.py
-msgid "Share audio"
-msgstr "แชร์เสียง"
 
 #: plugins/spice/gtk4.py
 msgid "TLS port"
