@@ -60,6 +60,11 @@ def _refermer_dialogues_oublies(pomper):
         if "Dialog" in GObject.type_name(fenetre):
             fenetre.destroy()
             pomper(2)
+    try:
+        visibles = _xdotool("search", "--onlyvisible", "--name", ".").split()
+    except subprocess.CalledProcessError:
+        visibles = []  # aucune fenêtre mappée : le serveur X sort en erreur
+    print("X VISIBLES: " + " ".join(visibles))
     yield
 
 
@@ -230,7 +235,14 @@ def _clic_sur(
     _activer(widget)
     x, y = _position_dans_fenetre(widget, dx, dy)
     ox, oy = _position_fenetre(widget)
+    # diagnostic : où le clic part-il vraiment ? (visible dans le journal
+    # des tests échoués)
+    print(
+        f"CLIC {type(widget).__name__} fenetre=({ox},{oy}) "
+        f"dans_fenetre=({x},{y}) abs=({int(ox + x)},{int(oy + y)})"
+    )
     _xdotool("mousemove", str(int(ox + x)), str(int(oy + y)))
+    print("POINTEUR: " + _xdotool("getmouselocation").replace("\n", " "))
     if repetitions == 1:
         _xdotool("click", str(bouton))
     else:
