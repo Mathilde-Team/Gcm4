@@ -373,4 +373,5 @@ addopts = ["--strict-markers"]
 markers = [
     "requires_gettext: a besoin de msgfmt ; échoue au lieu d'être sauté si GCM_TESTS_EXIGES contient gettext",
     "requires_gtk4: a besoin de GTK4/libadwaita et d'un écran ; échoue au lieu d'être sauté si GCM_TESTS_EXIGES contient gtk4",
+    "requires_vte: a besoin de la typelib VTE ; échoue au lieu d'être sauté si GCM_TESTS_EXIGES contient vte",
 ]

@@ -11,11 +11,13 @@ Les tests de traduction gardent la main : ils posent leur propre LANGUAGE avec
 
 Dépendances externes (#160, ``tests/exigences.py``) : un test qui a besoin de gettext (``msgfmt``)
 porte le marqueur ``requires_gettext`` ; les tests de ``tests/gtk4``
-reçoivent ``requires_gtk4``. Un job qui installe ces dépendances les
-déclare dans ``GCM_TESTS_EXIGES`` (``gettext``, ``gtk4``, séparés par des
+reçoivent ``requires_gtk4`` ; ceux exigeant la typelib VTE portent
+``requires_vte``. Un job qui installe ces dépendances les déclare dans
+``GCM_TESTS_EXIGES`` (``gettext``, ``gtk4``, ``vte``, séparés par des
 virgules ; ``GCM_TESTS_GTK4=1`` vaut ``gtk4``) : un test marqué qui y est
-sauté devient alors un échec. Ailleurs, le saut reste possible et
-``-rs`` en donne la raison.
+sauté devient alors un échec — sauf si une dépendance marquée manque à
+l'appel du job (le saut peut venir d'elle). Ailleurs, le saut reste
+possible et ``-rs`` en donne la raison.
 """
 
 import os
