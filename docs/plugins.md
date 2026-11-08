@@ -120,6 +120,9 @@ surchargez `__init__`, appelez `super().__init__(context)`).
 | `context.ask_password(host, done)` | demande un mot de passe ; `done(texte)` ou `done(None)` si l'utilisateur annule ; asynchrone |
 | `context.notify(message)` | message bref à l'utilisateur (toast) |
 | `context.open_tab(title, widget)` | onglet supplémentaire (la connexion elle-même passe par `open`) |
+| `context.question(titre, corps, reponses, defaut, fermeture, rappel)` | question modale au-dessus de la fenêtre : `reponses` est une liste de couples `(identifiant, libellé)`, `rappel(identifiant)` reçoit la réponse — ou `fermeture` si le dialogue est fermé ; sans fenêtre, `rappel(fermeture)` est appelé immédiatement (#97) |
+| `context.chemin_configuration()` | chemin du `gcm4.conf` ouvert, ou `None` si aucune configuration n'est chargée (#97) |
+| `context.recharger()` | relit `gcm4.conf` depuis le disque et reconstruit l'arbre — à appeler après une écriture directe du fichier (migration ssh_config, #97) |
 
 ## Méthodes
 

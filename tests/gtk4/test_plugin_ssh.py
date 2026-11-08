@@ -11,6 +11,7 @@ commandes, encodage) sont dans ``test_plugin_telnet.py``.
 
 from __future__ import annotations
 
+import configparser
 import os
 import shutil
 import sys
@@ -83,6 +84,19 @@ class Journal:
         """Ignoré."""
 
 
+class Question:
+    """Question posée via le contexte : rappel joué par le test."""
+
+    def __init__(self, titre, corps, reponses, defaut, fermeture, rappel):
+        """Garde la question telle que posée au plugin."""
+        self.titre = titre
+        self.corps = corps
+        self.reponses = list(reponses)
+        self.defaut = defaut
+        self.fermeture = fermeture
+        self.rappel = rappel
+
+
 class Contexte:
     """Contexte minimal du contrat v1 (``docs/plugins.md``)."""
 
@@ -90,6 +104,9 @@ class Contexte:
         """Journal vide, notifications vides, configuration vide."""
         self.log = Journal()
         self.notifications: list[str] = []
+        self.questions: list[Question] = []
+        self.rechargements = 0
+        self.chemin: str | None = None
 
     def config(self):
         """Section ``[plugin ssh]`` vide."""
@@ -98,6 +115,18 @@ class Contexte:
     def notify(self, message):
         """Notification notée (#80 : toasts d'échec de connexion)."""
         self.notifications.append(message)
+
+    def question(self, titre, corps, reponses, defaut, fermeture, rappel):
+        """Question notée ; le test joue le rappel (#97)."""
+        self.questions.append(Question(titre, corps, reponses, defaut, fermeture, rappel))
+
+    def chemin_configuration(self):
+        """Chemin posé par le test, ou ``None`` (aucune configuration)."""
+        return self.chemin
+
+    def recharger(self):
+        """Rechargement compté (#97)."""
+        self.rechargements += 1
 
 
 @pytest.fixture
@@ -523,9 +552,14 @@ def test_montage_sshfs_desactive(plugin, faux_ssh, tmp_path, monkeypatch):
 
 
 def test_menu_contextuel_outils(plugin):
-    """Le menu contextuel d'un hôte ssh expose l'éditeur et le gestionnaire de clés (#97)."""
+    """Le menu contextuel d'un hôte ssh expose les quatre outils de #97."""
     items = plugin.context_menu_items(_hote())
-    assert [i.label for i in items] == ["Edit ~/.ssh/config…", "Manage SSH Keys…"]
+    assert [i.label for i in items] == [
+        "Edit ~/.ssh/config…",
+        "Manage SSH Keys…",
+        "Move to ssh_config…",
+        "Import from ssh_config…",
+    ]
     items[1].activate()
     gestionnaires = [
         f for f in Gtk.Window.list_toplevels() if "SSH Key Manager" in (f.get_title() or "")
@@ -533,3 +567,216 @@ def test_menu_contextuel_outils(plugin):
     assert len(gestionnaires) == 1
     for fenetre in gestionnaires:
         fenetre.destroy()
+
+
+def _conf_gcm4(tmp_path, *sections: str) -> Path:
+    """``gcm4.conf`` factice : une section INI par chaîne."""
+    conf = tmp_path / "gcm4.conf"
+    conf.write_text("\n".join(sections) + "\n", encoding="utf-8")
+    return conf
+
+
+def test_deplacer_vers_ssh_config(plugin, tmp_path, monkeypatch):
+    """Déplacement complet : cible personnelle, confirmation, fichiers, rechargement."""
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    conf = _conf_gcm4(
+        tmp_path,
+        "[host bastion]",
+        "name = bastion",
+        "host = bastion.example.com",
+        "type = 0",
+        "group = PROD",
+    )
+    plugin.context.chemin = str(conf)
+
+    plugin.deplacer_vers_ssh_config(_hote(name="bastion", host="bastion.example.com"))
+
+    cible = plugin.context.questions[0]
+    assert cible.titre == "Which file?"
+    assert [i for i, _l in cible.reponses] == ["annuler", "partage", "perso"]
+    cible.rappel("perso")
+    confirmation = plugin.context.questions[1]
+    assert confirmation.titre == "Confirm"
+    assert "bastion" in confirmation.corps and str(tmp_path / ".ssh" / "config") in confirmation.corps
+    confirmation.rappel("deplacer")
+
+    ssh_config = tmp_path / ".ssh" / "config"
+    assert "Host bastion" in ssh_config.read_text(encoding="utf-8")
+    relu = configparser.RawConfigParser()
+    relu.read(conf, encoding="utf-8")
+    assert relu.get("host bastion", "ssh_config_managed") == "true"
+    assert plugin.context.notifications == [f"Host «bastion» moved to {ssh_config}."]
+    assert plugin.context.rechargements == 1
+
+
+def test_deplacer_annule_aux_deux_questions(plugin, tmp_path, monkeypatch):
+    """Annulation à la cible, puis à la confirmation (cible partagée) : rien n'écrit."""
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    conf = _conf_gcm4(
+        tmp_path,
+        "[host bastion]",
+        "name = bastion",
+        "host = bastion.example.com",
+        "type = 0",
+    )
+    plugin.context.chemin = str(conf)
+
+    plugin.deplacer_vers_ssh_config(_hote(name="bastion"))
+    plugin.context.questions[0].rappel("annuler")
+    assert len(plugin.context.questions) == 1
+
+    plugin.deplacer_vers_ssh_config(_hote(name="bastion"))
+    plugin.context.questions[-1].rappel("partage")
+    confirmation = plugin.context.questions[-1]
+    assert "SHARED" in confirmation.corps
+    confirmation.rappel("annuler")
+
+    assert not (tmp_path / ".ssh").exists()
+    assert plugin.context.notifications == []
+    assert plugin.context.rechargements == 0
+
+
+def test_deplacer_sans_configuration_ouverte(plugin):
+    """Aucune configuration ouverte : notification, aucune question de confirmation."""
+    plugin.deplacer_vers_ssh_config(_hote())
+    plugin.context.questions[0].rappel("perso")
+    assert len(plugin.context.questions) == 1
+    assert plugin.context.notifications == ["Configuration not loaded"]
+    assert plugin.context.rechargements == 0
+
+
+def test_deplacer_hote_deja_gere(plugin, tmp_path, monkeypatch):
+    """Hôte déjà managé par ssh_config : refus, rien n'écrit, pas de rechargement."""
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    conf = _conf_gcm4(
+        tmp_path,
+        "[host bastion]",
+        "name = bastion",
+        "host = bastion.example.com",
+        "type = 0",
+        "ssh_config_managed = true",
+    )
+    plugin.context.chemin = str(conf)
+
+    plugin.deplacer_vers_ssh_config(_hote(name="bastion"))
+    plugin.context.questions[0].rappel("perso")
+    plugin.context.questions[-1].rappel("deplacer")
+
+    assert plugin.context.notifications == [
+        "Host «bastion» is already managed by a ssh_config file — it cannot be moved a 2nd time."
+    ]
+    assert plugin.context.rechargements == 1
+
+
+def test_deplacer_echec_de_migration(plugin, tmp_path, monkeypatch):
+    """Le cœur échoue (gcm4.conf introuvable) : l'erreur est notifiée, rien de rechargé."""
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    plugin.context.chemin = str(tmp_path / "absent.conf")
+
+    plugin.deplacer_vers_ssh_config(_hote(name="bastion"))
+    plugin.context.questions[0].rappel("perso")
+    plugin.context.questions[-1].rappel("deplacer")
+
+    assert len(plugin.context.notifications) == 1
+    assert plugin.context.notifications[0].startswith("Migration failed: ")
+    assert plugin.context.rechargements == 0
+
+
+def test_deplacer_hote_sans_hostname(plugin, tmp_path, monkeypatch):
+    """Hôte sans hostname : erreur du cœur remontée dans la notification."""
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    conf = _conf_gcm4(tmp_path, "[host vide]", "name = vide", "type = 0")
+    plugin.context.chemin = str(conf)
+
+    plugin.deplacer_vers_ssh_config(_hote(name="vide"))
+    plugin.context.questions[0].rappel("perso")
+    plugin.context.questions[-1].rappel("deplacer")
+
+    assert len(plugin.context.notifications) == 1
+    assert plugin.context.notifications[0].startswith("Migration failed: ")
+    assert plugin.context.rechargements == 1
+
+
+def test_deplacer_hote_non_ssh(plugin, tmp_path, monkeypatch):
+    """Hôte non SSH dans gcm4.conf : refus signalé, pas d'écriture du ssh_config."""
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    conf = _conf_gcm4(
+        tmp_path,
+        "[host telnet]",
+        "name = telnet",
+        "host = t.example.com",
+        "type = 1",
+    )
+    plugin.context.chemin = str(conf)
+
+    plugin.deplacer_vers_ssh_config(_hote(name="telnet"))
+    plugin.context.questions[0].rappel("perso")
+    plugin.context.questions[-1].rappel("deplacer")
+
+    assert plugin.context.notifications == ["Host «telnet» was not migrated (not an SSH host?)."]
+    assert not (tmp_path / ".ssh" / "config").exists()
+    assert plugin.context.rechargements == 1
+
+
+def test_importer_depuis_ssh_config(plugin, tmp_path, monkeypatch):
+    """Import complet : alias du ssh_config ajouté à gcm4.conf, rechargement."""
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    (tmp_path / ".ssh").mkdir()
+    (tmp_path / ".ssh" / "config").write_text(
+        "Host bastion\n  HostName bastion.example.com\n", encoding="utf-8"
+    )
+    conf = _conf_gcm4(
+        tmp_path,
+        "[host existant]",
+        "name = existant",
+        "host = existant",
+        "type = 0",
+    )
+    plugin.context.chemin = str(conf)
+
+    plugin.importer_depuis_ssh_config()
+    question = plugin.context.questions[0]
+    assert question.titre == "Import from which file?"
+    assert [i for i, _l in question.reponses] == ["annuler", "partage", "perso"]
+    question.rappel("perso")
+
+    relu = configparser.RawConfigParser()
+    relu.read(conf, encoding="utf-8")
+    assert relu.has_section("host bastion")
+    assert relu.get("host bastion", "name") == "bastion"
+    assert relu.get("host bastion", "group") == "ssh_config"
+    assert relu.get("host bastion", "ssh_config_managed") == "true"
+    assert plugin.context.notifications == ["Import done — imported: 1, already present: 0, errors: 0"]
+    assert plugin.context.rechargements == 1
+
+
+def test_importer_echec_de_l_import(plugin, tmp_path, monkeypatch):
+    """Le cœur échoue (chemin de configuration invalide) : erreur notifiée, rien de rechargé."""
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    (tmp_path / ".ssh").mkdir()
+    (tmp_path / ".ssh" / "config").write_text("Host bastion\n  HostName b.example.com\n", encoding="utf-8")
+    plugin.context.chemin = str(tmp_path / ".ssh")  # un dossier : écriture impossible
+
+    plugin.importer_depuis_ssh_config()
+    plugin.context.questions[0].rappel("perso")
+
+    assert len(plugin.context.notifications) == 1
+    assert plugin.context.notifications[0].startswith("Import failed: ")
+    assert plugin.context.rechargements == 0
+
+
+def test_importer_annule_et_sans_configuration(plugin, tmp_path, monkeypatch):
+    """Annulation : rien ; sans configuration ouverte : notification, rien d'écrit."""
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    conf = _conf_gcm4(tmp_path, "[host existant]", "name = existant", "host = existant")
+    plugin.context.chemin = str(conf)
+
+    plugin.importer_depuis_ssh_config()
+    plugin.context.questions[0].rappel("annuler")
+    assert plugin.context.rechargements == 0
+
+    plugin.context.chemin = None
+    plugin.importer_depuis_ssh_config()
+    plugin.context.questions[-1].rappel("perso")
+    assert plugin.context.notifications == ["No configuration is open: nothing to import into."]
+    assert plugin.context.rechargements == 0

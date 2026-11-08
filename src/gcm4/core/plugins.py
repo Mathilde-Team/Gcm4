@@ -97,6 +97,50 @@ class PluginContext(Protocol):
         """
         ...
 
+    def question(
+        self,
+        titre: str,
+        corps: str,
+        reponses: Sequence[tuple[str, str]],
+        defaut: str,
+        fermeture: str,
+        rappel: Callable[[str], None],
+    ) -> None:
+        """Pose une question modale à l'utilisateur (#97).
+
+        Le dialogue s'affiche au-dessus de la fenêtre principale ; le
+        ``rappel`` reçoit l'identifiant du bouton choisi, ou ``fermeture``
+        si le dialogue est fermé sans réponse. Sans fenêtre, le
+        ``rappel(fermeture)`` est appelé immédiatement (annulation).
+
+        :param titre: titre du dialogue.
+        :param corps: texte du dialogue (marqueurs Pango acceptés).
+        :param reponses: couples ``(identifiant, libellé)`` des boutons.
+        :param defaut: identifiant du bouton activé par Entrée.
+        :param fermeture: identifiant renvoyé si le dialogue est fermé.
+        :param rappel: fonction appelée avec l'identifiant de réponse.
+        """
+        ...
+
+    def chemin_configuration(self) -> str | None:
+        """Chemin du fichier de configuration ouvert (#97).
+
+        :return: chemin de ``gcm4.conf``, ou ``None`` si aucune
+            configuration n'est chargée (application verrouillée ou
+            configuration illisible).
+        """
+        ...
+
+    def recharger(self) -> None:
+        """Relit ``gcm4.conf`` et reconstruit l'arbre (#97).
+
+        À appeler après avoir réécrit le fichier de configuration en
+        direct (migration ssh_config, import ssh_config) pour que l'arbre
+        affiche l'état réel du disque. Sans configuration ouverte : sans
+        effet.
+        """
+        ...
+
 
 @runtime_checkable
 class Session(Protocol):
