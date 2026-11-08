@@ -88,9 +88,9 @@ class TestContratsImports(unittest.TestCase):
     def test_perimetre_non_vide(self):
         """Garde-fou : les globs trouvent bien des modules."""
         self.assertGreaterEqual(len(MODULES_COEUR), 9)
-        # 10 depuis #441 : les outils portés (putty, hyperviseurs, netmiko)
+        # 9 depuis #445 : les outils portés (putty, hyperviseurs, netmiko, snmp)
         # ne sont plus des plugin_*.py GTK3 mais des plugins outils plugins/*/.
-        self.assertGreaterEqual(len(NOMS_PLUGINS), 10)
+        self.assertGreaterEqual(len(NOMS_PLUGINS), 9)
         self.assertIn("plugins/ssh/core.py", CORES_DE_PLUGINS)
         # Cœurs des outils GTK3 rangés dans leur plugin (#427, lot 3).
         for coeur in (
