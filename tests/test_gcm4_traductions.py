@@ -83,3 +83,23 @@ def test_textes_gcm4_traduits(po):
         m for m in _msgids_gcm4() if entrees.get(m, ('""', False))[0] == '""' or entrees[m][1]
     ]
     assert manquants == []
+
+
+@pytest.mark.parametrize("po", sorted(LANG.glob("*.po")), ids=lambda p: p.stem)
+def test_textes_adaptateur_vnc_traduits(po):
+    """Les huit textes du nouvel adaptateur sont traduits, sans imposer le monofichier legacy."""
+    ids = []
+    for bloc in (LANG / "messages.pot").read_text(encoding="utf-8").split("\n\n"):
+        lignes = bloc.splitlines()
+        if any(
+            ligne.startswith("#:")
+            and ("plugins/pluginvnc2/core.py" in ligne or "plugins/pluginvnc2/gtk4.py" in ligne)
+            for ligne in lignes
+        ):
+            mid = _champ(lignes, "msgid")
+            if mid:
+                ids.append(mid)
+    assert len(ids) == 8
+    entrees = _entrees(po)
+    manquants = [m for m in ids if entrees.get(m, ('""', False))[0] == '""' or entrees[m][1]]
+    assert manquants == []

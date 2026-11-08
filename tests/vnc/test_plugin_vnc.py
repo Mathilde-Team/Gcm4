@@ -10,11 +10,14 @@ import sys
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
 
+import gi
 import pytest
-from gi.repository import Gtk
 
 from gcm4.core import registre
 from gcm4.core.model import Host
+
+gi.require_version("Gtk", "4.0")
+from gi.repository import Gtk  # noqa: E402
 
 RACINE = Path(__file__).resolve().parents[2]
 

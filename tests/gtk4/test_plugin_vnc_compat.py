@@ -20,7 +20,11 @@ def adaptateur_vnc():
     candidat = next(
         c for c in registre.candidats_dossier(RACINE / "plugins") if c.nom == "pluginvnc2"
     )
-    classe = candidat.charger()
+    registre_vnc = registre.decouvrir(lambda _nom: SimpleNamespace(), [candidat])
+    assert registre_vnc.erreurs() == []
+    plugin = registre_vnc.get("vnc")
+    assert plugin is not None and plugin.name == "vnc"
+    classe = type(plugin)
     import sys
 
     yield sys.modules[classe.__module__]

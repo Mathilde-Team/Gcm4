@@ -40,6 +40,6 @@ def test_suite_native_ne_masque_pas_une_dependance_absente():
     from unittest.mock import patch
 
     with patch.dict(os.environ, {"GCM_TESTS_VNC": "1"}):
-        exec(compile(conftest, "conftest_vnc", "exec"), obligatoire)
+        exec(compile(conftest, str(RACINE / "tests/vnc/conftest.py"), "exec"), obligatoire)
     assert "collect_ignore_glob" not in obligatoire
     assert "skip" not in conftest

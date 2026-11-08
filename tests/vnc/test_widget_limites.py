@@ -7,11 +7,14 @@ import asyncio
 from contextlib import contextmanager
 from types import SimpleNamespace
 
+import gi
 import numpy as np
 import pytest
-from gi.repository import Gtk
 
 from plugins.pluginvnc2.gtk4 import charger_widget
+
+gi.require_version("Gtk", "4.0")
+from gi.repository import Gtk  # noqa: E402
 
 
 @pytest.fixture
