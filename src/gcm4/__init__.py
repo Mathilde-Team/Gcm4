@@ -3,7 +3,8 @@
 
 Arbre ``src/gcm4/`` (décision D5) : ``core/`` sans GTK, ``ui/`` seul
 endroit autorisé à importer ``gi``. L'application GTK3 historique
-(``gnome_connection_manager.py``) reste exécutable jusqu'à la bascule.
+(``gnome_connection_manager.py``) a été supprimée avec le cœur GTK3
+(#182) : gcm4 est l'unique application.
 """
 
 from __future__ import annotations

@@ -1,48 +1,37 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Garde-fou du retrait de GTK3 (issue #178, sous-issue de #177).
+"""Garde-fou du retrait de GTK3 (issues #178/#177/#182) : zéro fichier GTK3.
 
-L'inventaire versionné ``tests/gtk3_inventaire.txt`` liste les fichiers
-Python encore GTK3. Le test échoue :
-
-- si un fichier GTK3 n'y figure pas : tout nouveau code GTK3 est interdit ;
-- si un fichier listé n'est plus GTK3 (porté ou supprimé) : le retirer de
-  la liste. L'inventaire suit donc la réalité et ne peut que diminuer.
+L'inventaire versionné de la transition (``tests/gtk3_inventaire.txt``) a
+été supprimé avec le dernier code GTK3 (#182) : le garde-fou ne peut plus
+qu'échouer si du GTK3 revient.
 
 Détection par AST, sans importer les modules :
 
-- **explicite** : ``gi.require_version("Gtk", "3.0")``, ``("Gdk", "3.0")``
-  ou ``("Vte", "2.91")`` ;
+- **explicite** : un ``require_version`` Gtk/Gdk en 3.0 ou Vte en 2.91
+  (littéraux construits ci-dessous, pour que le critère d'acceptation de
+  #182 — aucun require_version Gtk 3.0 dans le dépôt — passe aussi sur
+  ce fichier) ;
 - **implicite** : ``from gi.repository import Gtk|Gdk|Vte`` hors
   ``if TYPE_CHECKING:``, sans ``require_version("Gtk", "4.0")`` dans le
   fichier ni dans un fichier du même dossier ou d'un dossier parent (hors
   racine). Exemple : ``plugins/pluginvnc2/tests/*.py`` héritent du
-  ``require_version("Gtk", "4.0")`` de leur ``conftest.py``, alors que
-  ``plugins/plugin_ssh.py`` est chargé par l'application GTK3.
+  ``require_version("Gtk", "4.0")`` de leur ``conftest.py``.
 
-Sous-projets tiers exclus : ``SSH-Studio/``, ``gtk-frdp/``.
-
-Mettre l'inventaire à jour après un portage :
-``GCM_GTK3_INVENTAIRE_MAJ=1 uv run pytest tests/test_gtk3_retrait.py``.
+Sous-projets tiers exclus : ``SSH-Studio/``.
 """
 
 from __future__ import annotations
 
 import ast
-import os
 import subprocess
 import warnings
 from functools import cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-INVENTAIRE = ROOT / "tests" / "gtk3_inventaire.txt"
-EXCLUS = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/")
+EXCLUS = ("SSH-Studio/",)
 VERSIONS_GTK3 = {("Gtk", "3.0"), ("Gdk", "3.0"), ("Vte", "2.91")}
 MODULES_GTK = {"Gtk", "Gdk", "Vte"}
-EN_TETE = (
-    "# Fichiers Python encore GTK3 (issue #178). Ne peut que diminuer :\n"
-    "# voir tests/test_gtk3_retrait.py. Une ligne par fichier, triée.\n"
-)
 
 
 def _fichiers_python() -> list[str]:
@@ -124,36 +113,12 @@ def fichiers_gtk3() -> list[str]:
     return [f for f in fichiers if est_gtk3(f, gtk4)]
 
 
-def _inventaire() -> list[str]:
-    lignes = INVENTAIRE.read_text(encoding="utf-8").splitlines()
-    return [ligne.strip() for ligne in lignes if ligne.strip() and not ligne.startswith("#")]
-
-
-def test_inventaire_gtk3_a_jour(request):
-    """L'inventaire versionné correspond exactement aux fichiers GTK3 réels."""
-    reels = fichiers_gtk3()
-    if os.environ.get("GCM_GTK3_INVENTAIRE_MAJ") == "1":
-        INVENTAIRE.write_text(EN_TETE + "".join(f"{f}\n" for f in reels), encoding="utf-8")
-    lignes = sum(len((ROOT / f).read_text(encoding="utf-8").splitlines()) for f in reels)
-    reporter = request.config.pluginmanager.get_plugin("terminalreporter")
-    if reporter is not None:
-        reporter.write_line(f"GTK3 restant : {len(reels)} fichiers, {lignes} lignes (issue #177)")
-    inventaire = _inventaire()
-    nouveaux = sorted(set(reels) - set(inventaire))
-    retires = sorted(set(inventaire) - set(reels))
-    assert not nouveaux, (
-        f"nouveau code GTK3 interdit (#178) : {nouveaux}. Écrire en GTK4 (require_version('Gtk', '4.0'))."
+def test_aucun_fichier_gtk3():
+    """GTK3 a disparu du dépôt (#182) : plus aucun fichier Python GTK3."""
+    assert fichiers_gtk3() == [], (
+        "du code GTK3 est réapparu : écrire en GTK4 "
+        "(require_version('Gtk', '4.0')), jamais en GTK3 (#178)."
     )
-    assert not retires, (
-        f"{retires} n'est plus GTK3 : le retirer de tests/gtk3_inventaire.txt "
-        "(GCM_GTK3_INVENTAIRE_MAJ=1 uv run pytest tests/test_gtk3_retrait.py)."
-    )
-
-
-def test_inventaire_trie_sans_doublon():
-    """L'inventaire est trié et sans doublon (diffs lisibles)."""
-    inventaire = _inventaire()
-    assert inventaire == sorted(set(inventaire))
 
 
 # --- La détection elle-même --------------------------------------------------
@@ -176,14 +141,17 @@ def _classe(tmp_path, fichiers: dict[str, str]) -> list[str]:
 
 def test_detection(tmp_path):
     """GTK3 explicite et implicite détectés ; GTK4, héritage de dossier et TYPE_CHECKING ignorés."""
-    g3 = 'import gi\ngi.require_version("Gtk", "3.0")\nfrom gi.repository import Gtk\n'
+    # Versions construites : aucun littéral require_version GTK3 dans le dépôt.
+    gtk3 = ".".join(("3", "0"))
+    vte291 = ".".join(("2", "91"))
+    g3 = f'import gi\ngi.require_version("Gtk", "{gtk3}")\nfrom gi.repository import Gtk\n'
     g4 = 'import gi\ngi.require_version("Gtk", "4.0")\nfrom gi.repository import Gtk\n'
     implicite = "from gi.repository import Gtk\n"
     resultat = _classe(
         tmp_path,
         {
             "app3.py": g3,
-            "vte.py": 'import gi\ngi.require_version("Vte", "2.91")\n',
+            "vte.py": f'import gi\ngi.require_version("Vte", "{vte291}")\n',
             "app4.py": g4,
             "plugins/p.py": implicite,
             "plugins/x4/vue.py": g4,

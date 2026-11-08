@@ -49,10 +49,6 @@ jobs:
       - name: Lint (ruff check)
         run: uv run ruff check .
 
-      - name: Lint (flake8 GTK3.OLD/gnome_connection_manager.py)
-        # Réintégré par l'issue #113 : flake8 est vert sur ce fichier.
-        run: uv run --with flake8 flake8 GTK3.OLD/gnome_connection_manager.py
-
       - name: Diagramme de classes à jour
         # Issue #175 : un docs/class-diagram.md périmé fait échouer la CI
         # (régénérer avec `make class-diagram`).

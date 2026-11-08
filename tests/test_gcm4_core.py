@@ -1,14 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Tests unitaires pour src/gcm4/core/metier.py.
 
-Contrairement à tests/test_gcm.py (qui doit stubber GTK/VTE pour importer
-gnome_connection_manager.py), ce fichier importe gcm4_core directement —
-aucun stub nécessaire, ce qui est exactement le but de l'extraction du
-2026-08-30 (voir src/gcm4/core/metier.py, docstring de module).
+Ce fichier importe gcm4_core directement — aucun stub GTK/VTE nécessaire,
+ce qui est exactement le but de l'extraction du 2026-08-30 (voir
+src/gcm4/core/metier.py, docstring de module). L'ancienne suite
+tests/test_gcm.py (application GTK3) a été supprimée avec le cœur GTK3
+(#182) ; les tests historiques pertinents vivent ici.
 
-Couvre en priorité le comportement NOUVEAU/MODIFIÉ par l'extraction (pas
-seulement un déplacement des tests existants de test_gcm.py, qui restent
-valides via les alias de compatibilité dans gnome_connection_manager.py) :
+Couvre en priorité le comportement NOUVEAU/MODIFIÉ par l'extraction :
 - load_encryption_key/initialise_encyption_key lèvent une exception au lieu
   d'appeler msgbox (impossible sans GTK) — §1 de la demande du 2026-08-30.
 - proto_default_port/all_default_ports reçoivent plugin_registry en
@@ -20,9 +19,9 @@ valides via les alias de compatibilité dans gnome_connection_manager.py) :
 
 Les templates série (_SERIAL_TEMPLATES) ne sont PAS couverts ici : après
 relecture (2026-08-30), ce sont des données spécifiques au protocole série,
-qui n'ont pas leur place dans src/gcm4/core/metier.py (cœur neutre de protocole) — elles
-restent dans gnome_connection_manager.py, couvertes par
-tests/test_gcm.py::TestSerialTemplatesSaveLoad.
+qui n'ont pas leur place dans src/gcm4/core/metier.py (cœur neutre de
+protocole) — ils sont couverts par tests/test_serial_core.py et le présent
+fichier (portage de TestSerialTemplatesSaveLoad).
 """
 
 import os
@@ -42,7 +41,7 @@ class FakePlugin:
 
 
 class FakePluginRegistry:
-    """Simule un PluginRegistry minimal (voir plugins/plugin_base.py)."""
+    """Simule un PluginRegistry minimal (contrat ``.get(proto)``)."""
 
     def __init__(self, plugins: dict):
         """Initialise avec le dict de plugins simulés."""
@@ -87,10 +86,10 @@ class FakePluginContratV1:
 
 
 class TestResolveConfigDir(unittest.TestCase):
-    """Smoke test — couverture complète déjà dans tests/test_gcm.py::TestResolveConfigDir."""
+    """Smoke test — résolution du dossier de configuration."""
 
     def test_default_and_override(self):
-        """--config explicite vs dossier par défaut (couverture complète : test_gcm.py)."""
+        """--config explicite vs dossier par défaut."""
         config_dir, remaining = gcm4_core._resolve_config_dir([], "/home/alice")
         self.assertEqual(config_dir, os.path.join("/home/alice", ".gcm"))
         self.assertEqual(remaining, [])
@@ -178,7 +177,7 @@ class TestColorToHex(unittest.TestCase):
 
 
 class TestEncryption(unittest.TestCase):
-    """xor/encrypt_old/decrypt_old/encrypt/decrypt — portage fidèle de test_gcm.py::TestEncryption."""
+    """xor/encrypt_old/decrypt_old/encrypt/decrypt — portage fidèle de TestEncryption."""
 
     def test_xor_roundtrip(self):
         """xor() est son propre inverse."""
@@ -485,10 +484,10 @@ class TestProtoDefaultPort(unittest.TestCase):
 
 
 class TestComputeZoomSize(unittest.TestCase):
-    """Smoke test — couverture complète déjà dans tests/test_gcm.py::TestComputeZoomSize."""
+    """Smoke test — calcul de la taille de zoom."""
 
     def test_default_bounds(self):
-        """Bornes par défaut (couverture complète : test_gcm.py)."""
+        """Bornes par défaut du calcul de zoom."""
         self.assertEqual(gcm4_core.compute_zoom_size(10, 5), 15)
         self.assertEqual(gcm4_core.compute_zoom_size(10, 1000), 72)
         self.assertEqual(gcm4_core.compute_zoom_size(10, -1000), 4)

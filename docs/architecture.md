@@ -7,6 +7,11 @@
 > fait/pas fait. Contenu repris de l'ancien `claude.md`/`features.md` lors de
 > la réorganisation de la documentation (2026-09-08) — non réédité depuis
 > sauf mention contraire.
+>
+> **Mise à jour du 08/11/2026 (#182)** : l'application GTK3 (`GTK3.OLD/`)
+> a été supprimée. Les sections décrivant ses modules (§1 en particulier)
+> sont un inventaire historique — le code vivant est `src/gcm4/` et les
+> plugins GTK4 du dossier `plugins/`.
 
 ## 1. Vue d'ensemble des modules
 

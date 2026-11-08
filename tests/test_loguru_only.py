@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Un seul système de journalisation : loguru (issue #170).
 
-Analyse ``ast`` de tous les fichiers Python du dépôt (hors sous-projets
-SSH-Studio/ et gtk-frdp/, qui ont leur propre outillage) : aucun
+Analyse ``ast`` de tous les fichiers Python du dépôt (hors sous-projet
+SSH-Studio/, qui a son propre outillage) : aucun
 ``import logging`` ni ``from logging import ...``, et aucun appel à
 ``logger.add(...)`` en dehors de ``src/gcm4/core/journal.py`` et du point d'entrée
 des outils autonomes de ``tools/`` (``_configure_logging``, appelée par
@@ -18,7 +18,7 @@ import warnings
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-EXCLUDED_DIRS = ("SSH-Studio/", "GTK3.OLD/gtk-frdp/")
+EXCLUDED_DIRS = ("SSH-Studio/",)
 # Exclusions documentées (docs/journalisation.md) : aucune à ce jour.
 ALLOWED_STDLIB_LOGGING: set[str] = set()
 # Points d'entrée autonomes (lancés hors de l'application) qui configurent

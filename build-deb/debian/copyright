@@ -11,9 +11,7 @@ Files: *
 Copyright: 2026 MathildeDec <mathilde.deuscher@gmail.com>
 License: GPL-3+
 
-Files: src/gcm4/core/metier.py GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
- GTK3.OLD/models.py GTK3.OLD/utils.py GTK3.OLD/urlregex.py GTK3.OLD/ssh.expect
- GTK3.OLD/style.css GTK3.OLD/postinst
+Files: src/gcm4/core/metier.py
 Copyright: 2020 Renzo Bertuzzi L. <kuthulu@gmail.com>
  2026 MathildeDec <mathilde.deuscher@gmail.com>
 License: GPL-3
