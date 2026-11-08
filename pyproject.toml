@@ -17,9 +17,9 @@ gcm4 = "gcm4.app:main"
 
 
 [project.urls]
-Homepage = "https://github.com/MathildeDec/gnome-connection-manager"
-Repository = "https://github.com/MathildeDec/gnome-connection-manager"
-Changelog = "https://github.com/MathildeDec/gnome-connection-manager/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/Mathilde-Team/Gcm4"
+Repository = "https://github.com/Mathilde-Team/Gcm4"
+Changelog = "https://github.com/Mathilde-Team/Gcm4/blob/main/CHANGELOG.md"
 
 # NOTE — GTK4/VTE (PyGObject, `import gi` + `gi.repository.{Gtk,Vte,Gdk,...}`)
 # ne figurent pas ci-dessous : ces bindings doivent correspondre aux typelibs
