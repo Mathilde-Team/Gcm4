@@ -497,6 +497,10 @@ def test_selection_mot_et_ligne_du_terminal(app_fixture, pomper):
     # pressions suivantes, à une autre position, repartent d'un clic
     # simple (le déplacement remet le compteur de clics à zéro)
     _clic_sur(terminal, 10, terminal.get_height() - 10, 1, pomper)
+    print(
+        f"ETAT: terminal mappé={terminal.get_mapped()} réalisé={terminal.get_realized()} "
+        f"taille=({terminal.get_width()},{terminal.get_height()}) focus fenêtre={fenetre.get_focus()}"
+    )
     assert terminal.has_focus()
 
     # triple-clic sur la ligne « gamma delta » (ligne 1) : ligne entière
@@ -519,6 +523,10 @@ def test_focus_apres_clic_simple(app_fixture, pomper):
     _clic_sur(fenetre.arbre.recherche, 30, 10, 1, pomper)
     assert not terminal.has_focus()
     _clic_sur(terminal, 10, 10, 1, pomper)
+    print(
+        f"ETAT: terminal mappé={terminal.get_mapped()} réalisé={terminal.get_realized()} "
+        f"taille=({terminal.get_width()},{terminal.get_height()}) focus fenêtre={fenetre.get_focus()}"
+    )
     assert terminal.has_focus()
 
 
@@ -543,6 +551,10 @@ def test_clic_milieu_ferme_l_onglet(app_fixture, pomper):
     annuler = _bouton(dialogue, _("Cancel"))
     assert annuler is not None
     _attendre_presentation(dialogue, pomper)
+    print(
+        f"ETAT: dialogue visible={dialogue.get_visible()} mappé={dialogue.get_mapped()} "
+        f"taille=({dialogue.get_width()},{dialogue.get_height()}) bouton=({annuler.get_width()},{annuler.get_height()})"
+    )
     _clic_sur(annuler, annuler.get_width() // 2, annuler.get_height() // 2, 1, pomper)
     assert fenetre.onglets.get_n_pages() == etiquettes
     # le rappel « annuler » a tourné, l'animation de fermeture est finie
@@ -585,6 +597,7 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
     assert _est_dans(racine.get_focus(), entree)
     _touche("a", avec_ctrl=True)
     _xdotool("type", "--delay", "30", "LABO")
+    print(f"ETAT: entrée={entree.get_text()!r} après frappe")
     _touche("Return")
     _attendre_disparition(menu.dialogue, pomper)
     visibles = {chemin for _, chemin in arbre.lignes_visibles()}
