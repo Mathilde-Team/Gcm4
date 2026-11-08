@@ -292,6 +292,16 @@ Le mot de passe passe par un fichier `.vv` en `0600` (`delete-this-file=1`),
 jamais par la ligne de commande. Sans visionneuse, `open()` lève
 `FileNotFoundError` avec le paquet à installer.
 
+Le plugin VNC (#179, #82) montre l'intégration d'un **composant embarqué
+autonome** : `plugins/pluginvnc2/core.py` porte les options du contrat,
+`gtk4.py` adapte `VncTab` à `Session`. Le fichier existant `vnc_tab.py`
+reste monofichier. Il est chargé à la demande sous un nom stable afin
+qu'une redécouverte du registre ne réenregistre pas ses types GObject.
+La dépendance AsyncVnc4 n'est pas nécessaire à la découverte ni au
+formulaire ; `open()` exige sa présence et la boucle asyncio native.
+Voir [Partage de sessions](partage-sessions.md) pour les clés INI et les
+limites de compatibilité.
+
 ## Plugins asyncio
 
 La base lance `Gtk.Application.run` avec une boucle asyncio branchée sur la

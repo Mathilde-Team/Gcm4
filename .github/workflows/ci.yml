@@ -345,10 +345,11 @@ jobs:
         # le seuil s'applique au total fusionné du job « Couverture combinée ».
         env:
           GCM_TESTS_GTK4: "1"
+          GCM_TESTS_VNC: "1"
           COVERAGE_FILE: .coverage.gtk4
         run: |
           set -o pipefail
-          xvfb-run -a /tmp/venv/bin/python -m pytest tests/gtk4 -q -rs -p no:cacheprovider \
+          xvfb-run -a /tmp/venv/bin/python -m pytest tests/gtk4 tests/vnc -q -rs -p no:cacheprovider \
             --cov --cov-report= --cov-fail-under=0 \
             | tee /tmp/gcm4-gtk4.txt
           sautes=$(grep -c '^SKIPPED' /tmp/gcm4-gtk4.txt || true)
@@ -359,20 +360,16 @@ jobs:
             exit 1
           fi
 
-      - name: Données de couverture de tests/gtk4 (artifact, issue #163)
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-data-gtk4
-          path: .coverage.gtk4
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 7
-
       - name: Tests pluginvnc2 sous Xvfb, aucun test sauté
-        working-directory: plugins/pluginvnc2
+        # Mesurer le module de production, pas les tests du sous-projet.
+        # Même configuration de branches que gcm4, ajout au même artifact.
+        env:
+          COVERAGE_FILE: .coverage.gtk4
         run: |
           set -o pipefail
-          xvfb-run -a /tmp/venv/bin/python -m pytest tests -q -rs -p no:cacheprovider \
+          PYTHONPATH=plugins/pluginvnc2:src xvfb-run -a /tmp/venv/bin/python -m pytest \
+            plugins/pluginvnc2/tests -q -rs -p no:cacheprovider \
+            --cov=vnc_tab --cov-config=pyproject.toml --cov-append --cov-report= --cov-fail-under=0 \
             | tee /tmp/gtk4.txt
           sautes=$(grep -c '^SKIPPED' /tmp/gtk4.txt || true)
           echo "### Tests GTK4 sautés : ${sautes}" >> "$GITHUB_STEP_SUMMARY"
@@ -382,6 +379,15 @@ jobs:
             exit 1
           fi
           echo "tests GTK4 : tous exécutés"
+
+      - name: Données de couverture de tests/gtk4 et du widget VNC (artifact, issue #163)
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-data-gtk4
+          path: .coverage.gtk4
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
 
   debian12:
     # Issue #223 : Debian 12 reste une cible (GTK 4.8, libadwaita 1.2,

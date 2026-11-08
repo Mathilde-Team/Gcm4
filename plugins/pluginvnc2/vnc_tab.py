@@ -289,6 +289,9 @@ class VncConnectionInfo:
     #: UltraVNC ``-connect``…). Port conventionnel : 5500. Le pinning de clé
     #: hôte est désactivé dans ce mode (cf. ``_resolve_connection_mode``).
     reverse: bool = False
+    #: Mode historique vnc_view_only de l'hôte gcm4 : aucune entrée
+    #: clavier/souris, frappe, commande xvp ni écriture de presse-papier.
+    view_only: bool = False
 
 
 class VncStatus(enum.Enum):
@@ -747,6 +750,37 @@ class VncDisplay(Gtk.Picture):
         logger.debug("VncDisplay._describe_connection_error | sortie {m}", m=message)
         return message
 
+    async def _open_shared_client(self, opener, connect_kwargs):
+        """Ouvre le client sans ignorer une demande shared=False (#82).
+
+        Args:
+            opener: Fabrique de contexte asyncvnc2, connect ou listen.
+            connect_kwargs: Options déjà validées, jamais journalisées.
+
+        Raises:
+            TypeError: Le client ancien ne respecte pas shared=False.
+
+        Returns:
+            Le client issu de l'entrée du contexte asynchrone.
+        """
+        logger.debug("VncDisplay._open_shared_client: entrée")
+        try:
+            self._ctx = opener(self.info.host, self.info.port, shared=self.info.shared, **connect_kwargs)
+            client = await self._ctx.__aenter__()
+        except TypeError:
+            logger.debug("VncDisplay._open_shared_client: signature shared non supportée")
+            # Un client ancien ne sait pas respecter shared=False.
+            # Ne jamais annoncer une session non partagée puis démarrer
+            # silencieusement avec son défaut partagé.
+            if not self.info.shared:
+                logger.debug("VncDisplay._open_shared_client: sortie client sans shared=False")
+                raise
+            logger.debug("VncDisplay._open_shared_client: repli partagé historique")
+            self._ctx = opener(self.info.host, self.info.port, **connect_kwargs)
+            client = await self._ctx.__aenter__()
+        logger.debug("VncDisplay._open_shared_client: sortie")
+        return client
+
     async def _connect_and_run(self):
         logger.debug("VncDisplay._connect_and_run: entrée")
         logger.debug(
@@ -791,19 +825,7 @@ class VncDisplay(Gtk.Picture):
             return
 
         try:
-            try:
-                self._ctx = opener(self.info.host, self.info.port, shared=self.info.shared, **connect_kwargs)
-                self.client = await self._ctx.__aenter__()
-            except TypeError:
-                # ton asyncvnc2 n'a pas encore shared_flag_patch.py appliqué —
-                # on retombe sur le comportement historique (session partagée).
-                logger.debug(
-                    "VncDisplay._connect_and_run | connect() ne supporte pas shared= | "
-                    "host={host} | repli sans ce paramètre",
-                    host=self.info.host,
-                )
-                self._ctx = opener(self.info.host, self.info.port, **connect_kwargs)
-                self.client = await self._ctx.__aenter__()
+            self.client = await self._open_shared_client(opener, connect_kwargs)
         except PermissionError as exc:
             logger.error(
                 "VncDisplay._connect_and_run | authentification refusée | "
@@ -1128,7 +1150,7 @@ class VncDisplay(Gtk.Picture):
         if action not in self.POWER_ACTIONS:
             logger.debug("VncDisplay.send_power_action | sortie action inconnue")
             raise ValueError(action)
-        if not self.client:
+        if not self.client or self.info.view_only:
             logger.debug("VncDisplay.send_power_action | sortie sans connexion")
             return False
         asyncio.ensure_future(self._send_power_action(action))
@@ -1153,7 +1175,7 @@ class VncDisplay(Gtk.Picture):
 
     def send_ctrl_alt_del(self):
         logger.debug("VncDisplay.send_ctrl_alt_del: entrée")
-        if self.client:
+        if self.client and not self.info.view_only:
             asyncio.ensure_future(self._send_cad())
         logger.debug("VncDisplay.send_ctrl_alt_del: fin")
 
@@ -1194,7 +1216,7 @@ class VncDisplay(Gtk.Picture):
         établie -- même garde que send_ctrl_alt_del() ci-dessus.
         """
         logger.debug("VncDisplay.send_text: entrée")
-        if self.client and text:
+        if self.client and text and not self.info.view_only:
             asyncio.ensure_future(self._send_text(text))
         logger.debug("VncDisplay.send_text: fin")
 
@@ -1242,7 +1264,7 @@ class VncDisplay(Gtk.Picture):
         'realize'), pour surveiller les changements du presse-papiers
         système et les relayer vers le serveur."""
         logger.debug("VncDisplay._watch_local_clipboard: entrée")
-        if not self.info.sync_clipboard:
+        if not self.info.sync_clipboard or self.info.view_only:
             logger.debug("VncDisplay._watch_local_clipboard: sortie")
             return
         display = self.get_display()
@@ -1309,7 +1331,7 @@ class VncDisplay(Gtk.Picture):
             logger.trace("VncDisplay._on_local_clipboard_read | contenu non textuel ou illisible, ignoré")
             logger.debug("VncDisplay._on_local_clipboard_read | sortie contenu non textuel")
             return
-        if not text or text == self._last_clipboard_text or not self.client:
+        if not text or text == self._last_clipboard_text or not self.client or self.info.view_only:
             logger.debug("VncDisplay._on_local_clipboard_read | sortie rien à envoyer")
             return
         self._last_clipboard_text = text
@@ -1483,6 +1505,9 @@ class VncDisplay(Gtk.Picture):
 
     def _setup_input_controllers(self):
         logger.debug("VncDisplay._setup_input_controllers: entrée")
+        if self.info.view_only:
+            logger.debug("VncDisplay._setup_input_controllers: sortie lecture seule")
+            return
         key_ctrl = Gtk.EventControllerKey()
         key_ctrl.connect("key-pressed", self._on_key_pressed)
         key_ctrl.connect("key-released", self._on_key_released)
