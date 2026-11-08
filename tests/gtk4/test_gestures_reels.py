@@ -468,6 +468,20 @@ def _terminal_en_onglet(fenetre, pomper):
     return terminal
 
 
+def _afficher_arbre(widget, profondeur: int = 0) -> None:
+    """Diagnostic : arbre des enfants avec tailles (journal des échecs)."""
+    print(
+        "  "
+        * profondeur
+        + f"{type(widget).__name__} ({widget.get_width()}x{widget.get_height()}) "
+        f"visible={widget.get_visible()}"
+    )
+    enfant = widget.get_first_child()
+    while enfant is not None:
+        _afficher_arbre(enfant, profondeur + 1)
+        enfant = enfant.get_next_sibling()
+
+
 def _bouton(racine, libelle: str):
     """Premier ``Gtk.Button`` de l'arbre de ``racine`` portant ``libelle``.
 
@@ -502,9 +516,14 @@ def test_selection_mot_et_ligne_du_terminal(app_fixture, pomper):
     # pressions suivantes, à une autre position, repartent d'un clic
     # simple (le déplacement remet le compteur de clics à zéro)
     _clic_sur(terminal, 10, terminal.get_height() - 10, 1, pomper)
+    chaine: list[str] = []
+    courant_focus = fenetre.get_focus()
+    while courant_focus is not None:
+        chaine.append(type(courant_focus).__name__)
+        courant_focus = courant_focus.get_parent()
     print(
-        f"ETAT: terminal mappé={terminal.get_mapped()} réalisé={terminal.get_realized()} "
-        f"taille=({terminal.get_width()},{terminal.get_height()}) focus fenêtre={fenetre.get_focus()}"
+        f"ETAT: focus={' < '.join(chaine)} "
+        f"terminal taille=({terminal.get_width()},{terminal.get_height()})"
     )
     assert terminal.has_focus()
 
@@ -528,9 +547,14 @@ def test_focus_apres_clic_simple(app_fixture, pomper):
     _clic_sur(fenetre.arbre.recherche, 30, 10, 1, pomper)
     assert not terminal.has_focus()
     _clic_sur(terminal, 10, 10, 1, pomper)
+    chaine: list[str] = []
+    courant_focus = fenetre.get_focus()
+    while courant_focus is not None:
+        chaine.append(type(courant_focus).__name__)
+        courant_focus = courant_focus.get_parent()
     print(
-        f"ETAT: terminal mappé={terminal.get_mapped()} réalisé={terminal.get_realized()} "
-        f"taille=({terminal.get_width()},{terminal.get_height()}) focus fenêtre={fenetre.get_focus()}"
+        f"ETAT: focus={' < '.join(chaine)} "
+        f"terminal taille=({terminal.get_width()},{terminal.get_height()})"
     )
     assert terminal.has_focus()
 
@@ -556,10 +580,7 @@ def test_clic_milieu_ferme_l_onglet(app_fixture, pomper):
     annuler = _bouton(dialogue, _("Cancel"))
     assert annuler is not None
     _attendre_presentation(dialogue, pomper)
-    print(
-        f"ETAT: dialogue visible={dialogue.get_visible()} mappé={dialogue.get_mapped()} "
-        f"taille=({dialogue.get_width()},{dialogue.get_height()}) bouton=({annuler.get_width()},{annuler.get_height()})"
-    )
+    _afficher_arbre(dialogue)
     _clic_sur(annuler, annuler.get_width() // 2, annuler.get_height() // 2, 1, pomper)
     assert fenetre.onglets.get_n_pages() == etiquettes
     # le rappel « annuler » a tourné, l'animation de fermeture est finie
@@ -600,6 +621,7 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
     while racine.get_parent() is not None:
         racine = racine.get_parent()
     assert _est_dans(racine.get_focus(), entree)
+    _activer(entree)  # vieux Adw : fenêtre X séparée, le clavier X y va
     _touche("a", avec_ctrl=True)
     _xdotool("type", "--delay", "30", "LABO")
     print(f"ETAT: entrée={entree.get_text()!r} après frappe")
