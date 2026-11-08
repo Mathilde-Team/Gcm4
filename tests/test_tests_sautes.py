@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Un test sauté alors que sa dépendance est installée échoue (issue #160).
 
-Le mécanisme est dans ``tests/exigences.py`` : marqueurs ``requires_gettext``,
-``requires_gtk4`` et ``requires_vte``, variable ``GCM_TESTS_EXIGES``. Les cas
-de bout en bout lancent un vrai pytest dans un sous-processus, sur un module
-de test écrit dans un dossier temporaire, avec ce module chargé comme greffon
-et les marqueurs de ``pyproject.toml``.
+Le mécanisme est dans ``tests/exigences.py`` : marqueurs ``requires_gettext``
+et ``requires_gtk4``, variable ``GCM_TESTS_EXIGES``. Les cas de bout en bout
+lancent un vrai pytest dans un sous-processus, sur un module de test écrit
+dans un dossier temporaire, avec ce module chargé comme greffon et les
+marqueurs de ``pyproject.toml``.
 """
 
 from __future__ import annotations
@@ -34,11 +34,6 @@ MODULE = textwrap.dedent(
     @pytest.mark.requires_gtk4
     def test_gtk4_saute():
         pytest.skip("GTK4 absent")
-
-    @pytest.mark.requires_gtk4
-    @pytest.mark.requires_vte
-    def test_gtk4_vte_saute():
-        pytest.skip("Vte absent")
 
     def test_sans_marqueur_saute():
         pytest.skip("autre raison")
@@ -122,23 +117,6 @@ def test_les_deux_dependances(tmp_path):
     assert issues["test_gettext_saute"] == "FAILED"
     assert issues["test_gtk4_saute"] == "FAILED"
     assert issues["test_sans_marqueur_saute"] == "SKIPPED"
-
-
-def test_gtk4_seul_declare_tolere_le_saut_gtk4_vte(tmp_path):
-    """Marqué gtk4+vte, job déclarant gtk4 seul : le saut reste un saut (#72).
-
-    Rocky 9 offre GTK4 mais pas la typelib Vte : les tests de terminal
-    peuvent y être sautés sans fausser le bilan du job.
-    """
-    issues = _lancer(tmp_path, GCM_TESTS_EXIGES="gtk4")
-    assert issues["test_gtk4_saute"] == "FAILED"
-    assert issues["test_gtk4_vte_saute"] == "SKIPPED"
-
-
-def test_gtk4_et_vte_declares_font_echouer_le_saut(tmp_path):
-    """Marqué gtk4+vte, job déclarant les deux : le saut devient un échec."""
-    issues = _lancer(tmp_path, GCM_TESTS_EXIGES="gtk4,vte")
-    assert issues["test_gtk4_vte_saute"] == "FAILED"
 
 
 def test_raison_d_origine_dans_l_echec(tmp_path):

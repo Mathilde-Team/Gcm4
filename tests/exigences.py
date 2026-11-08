@@ -7,9 +7,7 @@ et ``tests/gtk4/conftest.py`` portent le même nom de module, un test ne
 peut pas importer l'un sans risquer d'obtenir l'autre.
 
 - ``requires_gettext`` : le test a besoin de ``msgfmt`` ;
-- ``requires_gtk4`` : ajouté à chaque test de ``tests/gtk4`` ;
-- ``requires_vte`` : le test a besoin de la typelib VTE (Rocky 9 ne
-  l'offre pas, #72).
+- ``requires_gtk4`` : ajouté à chaque test de ``tests/gtk4``.
 
 ``GCM_TESTS_EXIGES`` (``gettext``, ``gtk4``, séparés par des virgules ;
 ``GCM_TESTS_GTK4=1`` vaut ``gtk4``) déclare les dépendances installées par
@@ -25,11 +23,7 @@ from pathlib import Path
 import pytest
 
 DOSSIER_GTK4 = Path(__file__).resolve().parent / "gtk4"
-MARQUEURS_DEPENDANCES = {
-    "requires_gettext": "gettext",
-    "requires_gtk4": "gtk4",
-    "requires_vte": "vte",
-}
+MARQUEURS_DEPENDANCES = {"requires_gettext": "gettext", "requires_gtk4": "gtk4"}
 
 
 def dependances_exigees(environ: Mapping[str, str] = os.environ) -> set[str]:
@@ -54,26 +48,20 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
 
 @pytest.hookimpl(wrapper=True)
 def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo[None]) -> pytest.TestReport:
-    """Un test sauté alors que toutes ses dépendances sont déclarées échoue (#160).
-
-    Un test peut marquer plusieurs dépendances (``requires_gtk4`` et
-    ``requires_vte`` par exemple) : tant que le job n'en déclare pas
-    toutes, le saut reste légitime — la dépendance manquante peut en
-    être la cause.
-    """
+    """Un test sauté alors que sa dépendance est déclarée installée échoue (#160)."""
     rapport: pytest.TestReport = yield
     if not rapport.skipped or hasattr(rapport, "wasxfail"):
         return rapport
     exigees = dependances_exigees()
-    marquees = sorted(
+    manquantes = sorted(
         dependance
         for marqueur, dependance in MARQUEURS_DEPENDANCES.items()
-        if item.get_closest_marker(marqueur) is not None
+        if dependance in exigees and item.get_closest_marker(marqueur) is not None
     )
-    if marquees and set(marquees) <= exigees:
+    if manquantes:
         raison = (
             rapport.longrepr[2] if isinstance(rapport.longrepr, tuple) else str(rapport.longrepr)
         )
         rapport.outcome = "failed"
-        rapport.longrepr = f"test sauté alors que GCM_TESTS_EXIGES déclare {', '.join(marquees)} installé : {raison}"
+        rapport.longrepr = f"test sauté alors que GCM_TESTS_EXIGES déclare {', '.join(manquantes)} installé : {raison}"
     return rapport

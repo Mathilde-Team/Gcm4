@@ -11,10 +11,11 @@ la fenêtre :
   groupe et la zone vide, la ligne sous le pointeur étant sélectionnée ;
 - clic milieu sur l'étiquette d'un onglet : fermeture confirmée par
   défaut, directe quand l'option est désactivée ;
-- double/triple-clic dans un ``Vte.Terminal`` : sélection mot/ligne
-  native, lue dans le presse-papiers primaire ;
-- clic simple : le focus suit le clic (le contournement GTK3 est mort) ;
 - F2 sur un groupe sélectionné : dialogue de renommage, frappe réelle.
+
+Les gestes dans un ``Vte.Terminal`` (sélection mot/ligne, focus du clic
+simple) sont dans ``test_gestes_terminal.py`` : ils exigent la typelib
+VTE, absente de Rocky 9 (#223).
 
 Les menus contextuels du terminal et de l'étiquette d'onglet portés en
 sessions 39-41 vivaient dans le cœur GTK3 (``widgets.py``), retiré du
@@ -514,34 +515,6 @@ def test_clic_droit_groupe_et_zone_vide(app_fixture, pomper):
     pomper()
 
 
-def _vte_disponible() -> bool:
-    """VTE est-il introspectable ? Rocky 9 n'offre pas la typelib Vte."""
-    try:
-        from gi.repository import Vte  # noqa: F401 (simple sonde d'import)
-    except (ImportError, ValueError):
-        return False
-    return True
-
-
-#: Tests exigeant un terminal : sautés sans VTE (Rocky 9, #72).
-VTE = pytest.mark.skipif(not _vte_disponible(), reason="Vte absent : terminal indisponible")
-
-
-def _terminal_en_onglet(fenetre, pomper):
-    """Onglet « Manuel » contenant un ``Vte.Terminal`` nu, comme gcm4 le crée."""
-    from gi.repository import Vte
-
-    terminal = Vte.Terminal()
-    fenetre.ajouter_onglet("Manuel", terminal)
-    for _essai in range(50):  # la page prend sa taille définitive tard
-        pomper(2)
-        if terminal.get_height() > 100:
-            break
-        time.sleep(0.05)
-    pomper(5)
-    return terminal
-
-
 def _bouton(racine, libelle: str):
     """Premier ``Gtk.Button`` alloué de l'arbre de ``racine`` portant ``libelle``.
 
@@ -565,88 +538,6 @@ def _bouton(racine, libelle: str):
             pile.append(enfant)
             enfant = enfant.get_next_sibling()
     return de_repli
-
-
-@pytest.mark.requires_vte
-@VTE
-def test_selection_mot_et_ligne_du_terminal(app_fixture, pomper):
-    """Double-clic : mot seul ; triple-clic : ligne entière (sélection VTE native)."""
-    app, _dossier = app_fixture
-    fenetre = app.get_active_window()
-    terminal = _terminal_en_onglet(fenetre, pomper)
-    terminal.feed(b"alpha beta\ngamma delta\n")
-    pomper()
-    cw, ch = terminal.get_char_width(), terminal.get_char_height()
-    assert cw > 0 and ch > 0
-
-    # clic simple de prise de focus, sur une zone sans texte : les
-    # pressions suivantes, à une autre position, repartent d'un clic
-    # simple (le déplacement remet le compteur de clics à zéro) ; assez
-    # loin du séparateur pour échapper au geste de glissement du panneau
-    _clic_sur(terminal, 60, terminal.get_height() - 10, 1, pomper)
-    assert terminal.has_focus()
-
-    # triple-clic sur la ligne « gamma delta » (ligne 1) : ligne entière
-    _clic_sur(terminal, 4 * cw, 1.5 * ch, 1, pomper, repetitions=3)
-    # La marge gauche du terminal fait partie de la sélection de ligne
-    # (cellules de remplissage), d où le nettoyage des espaces de bord.
-    assert _presse_papiers_primaire().strip() == "gamma delta"
-
-    # double-clic sur « beta » (colonnes 6-9 de la ligne 0) : mot seul
-    _clic_sur(terminal, 6.5 * cw, ch / 2, 1, pomper, repetitions=2)
-    assert _presse_papiers_primaire() == "beta"
-
-
-@pytest.mark.requires_vte
-@VTE
-def test_focus_apres_clic_simple(app_fixture, pomper):
-    """Clic simple : le focus suit le clic (le contournement GTK3 est mort)."""
-    app, _dossier = app_fixture
-    fenetre = app.get_active_window()
-    terminal = _terminal_en_onglet(fenetre, pomper)
-    # le focus part de la recherche, pas du terminal
-    _clic_sur(fenetre.arbre.recherche, 30, 10, 1, pomper)
-    assert not terminal.has_focus()
-    # clic au milieu du terminal : le bord gauche est trop proche du
-    # séparateur, que le geste de glissement du ``Gtk.Paned`` revendique
-    # jusque GTK 4.12 (la pression y est consommée, sans focus)
-    _clic_sur(terminal, terminal.get_width() // 2, terminal.get_height() // 2, 1, pomper)
-    assert terminal.has_focus()
-
-
-@pytest.mark.requires_vte
-@VTE
-def test_clic_milieu_ferme_l_onglet(app_fixture, pomper):
-    """Clic milieu : confirmation par défaut (Échap annule), directe sans l'option."""
-    app, _dossier = app_fixture
-    fenetre = app.get_active_window()
-    terminal = _terminal_en_onglet(fenetre, pomper)
-    etiquettes = fenetre.onglets.get_n_pages()
-    assert etiquettes >= 2  # « Home » + le terminal
-    etiquette = fenetre.onglets.get_tab_label(terminal)
-    assert etiquette is not None
-
-    # Clic sur la zone de texte de l'étiquette : le bouton « fermer » est à
-    # l'extrémité droite, et un clic-milieu dessus déclencherait la
-    # confirmation « fermer l'onglet » (bouton ordinaire), pas celle du
-    # clic-milieu.
-    _clic_sur(etiquette, etiquette.get_width() // 4, etiquette.get_height() // 2, 2, pomper)
-    # comportement par défaut : confirmation demandée, onglet encore là
-    assert terminal in fenetre.confirmations_onglets
-    dialogue = fenetre.confirmations_onglets[terminal]
-    annuler = _bouton(dialogue, _("Cancel"))
-    assert annuler is not None
-    _attendre_presentation(dialogue, pomper)
-    _clic_sur(annuler, annuler.get_width() // 2, annuler.get_height() // 2, 1, pomper)
-    assert fenetre.onglets.get_n_pages() == etiquettes
-    # le rappel « annuler » a tourné, l'animation de fermeture est finie
-    assert terminal not in fenetre.confirmations_onglets
-    _attendre_disparition(dialogue, pomper)
-
-    # option désactivée : fermeture directe
-    fenetre.config.options.confirm_close_tab_middle = False
-    _clic_sur(etiquette, etiquette.get_width() // 4, etiquette.get_height() // 2, 2, pomper)
-    assert fenetre.onglets.get_n_pages() == etiquettes - 1
 
 
 def test_f2_renomme_un_groupe(app_fixture, pomper):
