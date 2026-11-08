@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:24+0000\n"
+"POT-Creation-Date: 2026-11-08 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2324,6 +2324,10 @@ msgid "Shared (everyone)"
 msgstr ""
 
 #: plugins/ssh/gtk4.py
+msgid "Shared session (tmux)"
+msgstr "เซสชันที่ใช้ร่วมกัน (tmux)"
+
+#: plugins/ssh/gtk4.py
 msgid "Shared — bastion, all users (/etc/ssh/ssh_config.d/config_gcm.conf)"
 msgstr ""
 
@@ -2783,6 +2787,10 @@ msgstr ""
 #: plugins/ssh/session.py
 msgid "Seconds before giving up on the connection"
 msgstr ""
+
+#: plugins/ssh/session.py
+msgid "Session name: use 1 to 64 ASCII letters, digits, underscores or hyphens."
+msgstr "ชื่อเซสชัน: ใช้ตัวอักษร ASCII ตัวเลข ขีดล่าง หรือยัติภังค์ 1 ถึง 64 ตัว"
 
 #: plugins/ssh/session.py
 msgid "e.g. 10m, or yes"

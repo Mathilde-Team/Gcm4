@@ -460,6 +460,14 @@ Gcm4 s'appuie sur deux bibliothèques asynchrones dédiées, développées en pa
 
 La roadmap coordonnée des trois dépôts est dans [Gcm4 #106](https://github.com/Mathilde-Team/Gcm4/issues/106), avec un tableau de bord dans [Gcm4 #107](https://github.com/Mathilde-Team/Gcm4/issues/107).
 
+Le tableau de bord est une synthèse manuelle dont les tableaux historiques
+restent datés. Conformément au choix de l'autrice dans #107, le workflow
+« Suivi des phases d'intégration » publie le rapport courant uniquement
+dans le [résumé de ses exécutions GitHub Actions](https://github.com/Mathilde-Team/Gcm4/actions/workflows/integration-phases.yml) :
+il ne réécrit ni le corps de l'issue ni un commentaire et conserve ses
+permissions de lecture. Les issues ouvertes ne signifient pas nécessairement
+qu'aucun code n'a été livré ; vérifier leurs commentaires et PR associées.
+
 | Phase | Objectif | Issues clés |
 |-------|----------|-------------|
 | 1 | Stabilisation bibliothèques | AsyncVnc4 #22, #34 · AsyncRdp4 #36 |
