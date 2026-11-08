@@ -1,0 +1,59 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Environnements de test manuels de gcm4 (#427, lot 5), version swarm.
+# Mêmes services que docker-compose.yml, adaptés à `docker stack deploy` :
+# pas de `build` (l'image VNC est construite avant), pas de `container_name`
+# ni de `restart` (remplacés par `deploy`), /dev/shm monté en tmpfs (swarm
+# ignore `shm_size`). Mode d'emploi : README.md.
+#
+#   docker compose -f environnements-test/docker-compose.yml build vnc
+#   docker stack deploy -c environnements-test/docker-stack.yml gcm4-tests
+#
+# Sur un swarm de plusieurs nœuds, pousser gcm4-test-vnc:latest dans un
+# registre accessible à tous les nœuds, ou contraindre le service au nœud
+# qui l'a construite (placement.constraints).
+
+services:
+  rdp:
+    image: lscr.io/linuxserver/rdesktop:ubuntu-xfce
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Etc/UTC
+    volumes:
+      - rdp-config:/config
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 1073741824
+    ports:
+      - target: 3389
+        published: 3389
+        protocol: tcp
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  vnc:
+    image: gcm4-test-vnc:latest
+    environment:
+      VNC_PASSWORD: ${VNC_PASSWORD:-testpass}
+      VNC_DISPLAY: ":1"
+      VNC_GEOMETRY: 1280x800
+      VNC_DEPTH: "24"
+    volumes:
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 268435456
+    ports:
+      - target: 5901
+        published: 5901
+        protocol: tcp
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+volumes:
+  rdp-config:

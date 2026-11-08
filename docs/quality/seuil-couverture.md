@@ -6,7 +6,7 @@ Issue #128, reprise des mécanismes de Netcross (#224, #246).
 
 `[tool.coverage.run]` dans `pyproject.toml` :
 
-- **périmètre** : le code de l'application (`source = [".", "src/gcm4"]`), sans `tests/`, les sous-projets vendorisés (`SSH-Studio/`, `gtk-frdp/`), `tools/`, `scripts/`, `rdp/` et `vnc/`. Avec `source`, un module qu'aucun test n'importe compte pour 0 % au lieu d'être ignoré : la mesure ne flatte pas la couverture réelle. `src/gcm4` est nommé à part (#163) : `src/` n'est pas un paquet Python, coverage.py n'y cherchait donc pas les modules jamais importés, et `src/gcm4/ui/` (que seul `tests/gtk4` importe) manquait du total du job Qualité au lieu d'y compter à 0 % ;
+- **périmètre** : le code de l'application (`source = [".", "src/gcm4"]`), sans `tests/`, les sous-projets vendorisés (`SSH-Studio/`, `gtk-frdp/`), `tools/`, `scripts/` et `environnements-test/`. Avec `source`, un module qu'aucun test n'importe compte pour 0 % au lieu d'être ignoré : la mesure ne flatte pas la couverture réelle. `src/gcm4` est nommé à part (#163) : `src/` n'est pas un paquet Python, coverage.py n'y cherchait donc pas les modules jamais importés, et `src/gcm4/ui/` (que seul `tests/gtk4` importe) manquait du total du job Qualité au lieu d'y compter à 0 % ;
 - **chemins relatifs** (`relative_files = true`, #163) : les données du runner « maison » et du conteneur GTK4, aux chemins de checkout différents, se fusionnent ;
 - **branches** (`branch = true`) en plus des lignes : la couverture d'un `if` dont un seul côté est exécuté est comptée à moitié.
 

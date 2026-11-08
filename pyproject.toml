@@ -303,8 +303,7 @@ omit = [
     "tools/*",
     "scripts/*",
     ".venv/*",
-    "rdp/*",
-    "vnc/*",
+    "environnements-test/*",
 ]
 
 [tool.coverage.report]
