@@ -59,8 +59,8 @@ def creer(
 
     def _reponse_unique(_d: Adw.AlertDialog | Adw.MessageDialog, reponse: str) -> None:
         """Rappel du dialogue joué une seule fois, première réponse gagnante."""
-        nonlocal deja_repondu
         logger.debug("dialogue: réponse « {} »", reponse)
+        nonlocal deja_repondu
         if deja_repondu:
             logger.debug("dialogue: réponse déjà jouée, ignorée")
             return
@@ -84,8 +84,8 @@ def creer(
         # Return lui-même.
         def _valider_par_return(*_args: object) -> None:
             """Return dans l'entrée : réponse directe sous vieux libadwaita."""
-            nonlocal deja_repondu
             logger.debug("_valider_par_return: Return dans l'entrée du dialogue")
+            nonlocal deja_repondu
             if deja_repondu or not dialogue.get_response_enabled(defaut):
                 logger.debug("_valider_par_return: sans effet, ignoré")
                 return
