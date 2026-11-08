@@ -25,6 +25,7 @@ testés ici — voir l'issue #72 pour le suivi.
 from __future__ import annotations
 
 import ctypes
+import os
 import shutil
 import subprocess
 import time
@@ -564,10 +565,30 @@ def test_focus_apres_clic_simple(app_fixture, pomper):
     app, _dossier = app_fixture
     fenetre = app.get_active_window()
     terminal = _terminal_en_onglet(fenetre, pomper)
+    # DIAGNOSTIC #72 : jusqu'où le clic XTEST descend-il dans l'arbre ?
+    _sonde = terminal
+    _cibles_sonde: list[Gtk.Widget] = []
+    while _sonde is not None:
+        _cibles_sonde.append(_sonde)
+        _sonde = _sonde.get_parent()
+    for _cible in _cibles_sonde:
+        _geste = Gtk.GestureClick()
+        _geste.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
+        _geste.connect(
+            "pressed",
+            lambda _g, _n, _x, _y, _c=_cible: print(
+                f"SONDE CAPTURE ({type(_c).__name__}): pressé n={_n} à ({_x:.0f},{_y:.0f})"
+            ),
+        )
+        _cible.add_controller(_geste)
     # le focus part de la recherche, pas du terminal
     _clic_sur(fenetre.arbre.recherche, 30, 10, 1, pomper)
     assert not terminal.has_focus()
     _clic_sur(terminal, 10, 10, 1, pomper)
+    print(f"SONDE: has_focus={terminal.has_focus()} focus={type(fenetre.get_focus()).__name__}")
+    print(f"SONDE: grab_focus direct → {terminal.grab_focus()}")
+    pomper()
+    print(f"SONDE: après grab direct, has_focus={terminal.has_focus()}")
     chaine: list[str] = []
     courant_focus = fenetre.get_focus()
     while courant_focus is not None:
@@ -644,15 +665,34 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
     assert _est_dans(racine.get_focus(), entree)
     _activer(entree)  # vieux Adw : fenêtre X séparée, le clavier X y va
     print("X FOCUS: " + _xdotool("getwindowfocus").strip())
+    # DIAGNOSTIC #72 : où les lettres meurent-elles ?
+    print(
+        "SONDE CLAVIER: "
+        f"GTK_IM_MODULE={os.environ.get('GTK_IM_MODULE')!r} "
+        f"XMODIFIERS={os.environ.get('XMODIFIERS')!r} "
+        f"gtk-im-module={Gtk.Settings.get_default().get_property('gtk-im-module')!r}"
+    )
+    _texte_focus = racine.get_focus()
+    _sonde_texte = Gtk.EventControllerKey()
+    _sonde_texte.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
+    _sonde_texte.connect(
+        "key-pressed",
+        lambda _c, valeur, _code, _etat: (
+            print(f"SONDE CLAVIER (focus, capture): {valeur}"),
+            False,
+        )[1],
+    )
+    _texte_focus.add_controller(_sonde_texte)
     for _cible, _nom in ((racine, "dialogue"), (fenetre, "principale")):
         _controleur = Gtk.EventControllerKey()
-        _controleur.connect(
-            "key-pressed",
-            lambda _c, valeur, _code, _etat, _nom=_nom: (
-                print(f"TOUCHE REÇUE ({_nom}): {valeur}"),
-                False,
-            )[1],
-        )
+        for _signal in ("key-pressed", "key-released"):
+            _controleur.connect(
+                _signal,
+                lambda _c, valeur, _code, _etat, _nom=_nom, _signal=_signal: (
+                    print(f"TOUCHE {_signal[4:]} ({_nom}): {valeur}"),
+                    False,
+                )[1],
+            )
         _cible.add_controller(_controleur)
     _touche("a", avec_ctrl=True)
     _xdotool("type", "--delay", "30", "LABO")
