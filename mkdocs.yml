@@ -73,6 +73,7 @@ nav:
       - Renommage GCM vers gcm4: gcm4-rename.md
       - Typage statique: typage.md
       - Seuil de couverture: quality/seuil-couverture.md
+      - Validation Wayland native: quality/wayland.md
       - Publication: release.md
   - Suivi:
       - Roadmap: roadmap.md
