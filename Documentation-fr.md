@@ -238,6 +238,30 @@ L'entrée clavier reste disponible (pseudo-TTY interactif via VTE).
 
 Voir la section [Tunnels SSH](#15-tunnels-ssh).
 
+### Session SSH partagée via tmux
+
+Dans les options de connexion SSH GTK4, activez **Session partagée (tmux)**
+et choisissez un nom (vide : `gcm4`). Les connexions au même serveur avec
+le même compte Unix et le même nom rejoignent la même session tmux.
+Le nom accepte de 1 à 64 lettres ASCII, chiffres, `_` ou `-`.
+
+`tmux` doit être installé sur le serveur, pas sur le poste gcm4.
+L'option est désactivée par défaut. Elle force un pseudo-terminal et
+remplace `RemoteCommand` du profil ou de `~/.ssh/config` par
+`exec tmux new-session -A -s <nom>`. Si tmux est absent, son erreur reste
+visible dans le terminal ; il n'y a pas de repli silencieux.
+
+Les participants voient le même écran et peuvent saisir des commandes
+simultanément : réservez le partage aux personnes de confiance. Il ne
+donne aucun droit à un autre compte Unix et n'ajoute aucun relais réseau.
+Pour se détacher sans arrêter la session, utilisez `Ctrl+B`, puis `D`.
+Les commandes envoyées après connexion s'exécutent aussi dans la session
+partagée : vérifiez leur contenu avant d'activer l'option.
+
+Le réglage de partage VNC demandé dans
+[#82](https://github.com/Mathilde-Team/Gcm4/issues/82) reste à exposer
+après intégration du composant VNC au formulaire d'hôte GTK4.
+
 ---
 
 ## 6. Protocole RDP

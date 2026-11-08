@@ -9,6 +9,8 @@ from pathlib import Path
 import pytest
 
 import plugins.ssh.session as session
+from gcm4.core.config import load_config, save_config
+from gcm4.core.model import Host
 
 SSH = "/usr/bin/ssh"
 EXPECT = "/usr/bin/expect"
@@ -25,6 +27,63 @@ def test_sans_utilisateur_ni_port():
     """Utilisateur et port vides : ni ``-l`` ni ``-p`` (``~/.ssh/config`` s'applique)."""
     resultat = session.lancement("alias", None, "", "", "", {}, SSH, None)
     assert resultat.argv == [SSH, "alias"]
+
+
+@pytest.mark.parametrize("nom", ["", "  ", "gcm4", "equipe-42_a", "A" * 64])
+def test_partage_tmux(nom):
+    """Tmux crée ou rejoint la session nommée, sous un vrai pseudo-terminal."""
+    options = {
+        session.OPT_SESSION_PARTAGEE: "yes",
+        session.OPT_NOM_SESSION: nom,
+        "remote_command": "autre-commande",
+        "request_tty": "no",
+    }
+    resultat = session.lancement("alias", 2222, "alice", "", "-T", options, SSH, None)
+    assert resultat.argv[1:3] == ["-o", "RemoteCommand=none"]
+    assert resultat.argv[-4:] == [
+        "-tt",
+        "--",
+        "alias",
+        f"exec tmux new-session -A -s {nom.strip() or 'gcm4'}",
+    ]
+    assert resultat.argv.index("-T") < resultat.argv.index("-tt")
+
+
+@pytest.mark.parametrize(
+    "nom", ["a.b", "a:b", "a b", "$(id)", "a;id", "a\nid", "'a'", "équipe", "A" * 65]
+)
+def test_nom_tmux_invalide(nom):
+    """Aucun métacaractère shell/tmux ni nom trop long n'atteint ssh."""
+    options = {session.OPT_SESSION_PARTAGEE: "True", session.OPT_NOM_SESSION: nom}
+    with pytest.raises(ValueError, match="Session name"):
+        session.lancement("h", None, "", "", "", options, SSH, None)
+
+
+def test_partage_desactive_conserve_la_commande():
+    """Un nom invalide conservé dans un profil désactivé n'altère pas SSH."""
+    options = {session.OPT_SESSION_PARTAGEE: "False", session.OPT_NOM_SESSION: "a;id"}
+    assert session.lancement("h", None, "", "", "", options, SSH, None).argv == [SSH, "h"]
+
+
+def test_partage_avec_expect():
+    """Le même lancement tmux passe par expect sans exposer le mot de passe."""
+    options = {session.OPT_SESSION_PARTAGEE: "True"}
+    resultat = session.lancement("h", None, "", "secret", "", options, SSH, EXPECT)
+    assert resultat.argv[:5] == [EXPECT, "-f", str(session.SCRIPT_EXPECT), SSH, "-o"]
+    assert resultat.argv[-1] == "exec tmux new-session -A -s gcm4"
+    assert resultat.mot_de_passe == "secret" and "secret" not in repr(resultat)
+
+
+def test_partage_persiste_dans_ini(tmp_path):
+    """Le partage et son nom font un aller-retour réel sans préfixe INI ajouté."""
+    chemin = tmp_path / "gcm4.conf"
+    cfg = load_config(str(chemin))
+    options = {session.OPT_SESSION_PARTAGEE: "True", session.OPT_NOM_SESSION: "equipe-42"}
+    cfg.store.add(Host("serveur", host="h", protocol="ssh", protocol_options={"ssh": options}))
+    save_config(str(chemin), cfg)
+    relu = load_config(str(chemin)).store.find("serveur")
+    assert relu.protocol_options["ssh"] == options
+    assert "shared_session_name = equipe-42" in chemin.read_text()
 
 
 def test_avec_mot_de_passe_expect():
