@@ -310,12 +310,15 @@ jobs:
         # vrai terminal et vrai script expect, telnet simulé).
         # WebKitGTK 6.0 : plugin web (#397, tests/gtk4/test_plugin_web_webkit.py,
         # vraie page HTTP et HTTPS locale).
+        # xdotool/XTEST : gestes réels (#72, tests/gtk4/test_gestures_reels.py,
+        # vrais clics et frappes dans le serveur X de Xvfb).
         run: |
           DEBIAN_FRONTEND=noninteractive apt-get update -qq
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
             git ca-certificates python3 python3-venv python3-gi \
             gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 \
-            expect xvfb xauth dbus-daemon weston
+            expect xvfb xauth dbus-daemon weston \
+            xdotool x11-utils libxtst6
 
       - name: Checkout du dépôt
         uses: actions/checkout@v7
