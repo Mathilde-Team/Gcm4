@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 08:26+0000\n"
+"POT-Creation-Date: 2026-11-08 09:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,8 +150,8 @@ msgstr "Tidak dapat membuka file log untuk ditulis"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/utils.py GTK3.OLD/widgets.py
 #: plugins/import_ovirt/gtk4.py plugins/plugin_spice.py plugins/plugin_ssh.py
-#: plugins/sftp/gtk4.py src/gcm4/ui/contexte.py src/gcm4/ui/echange.py
-#: src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
+#: plugins/sftp/gtk4.py plugins/ssh/gtk4.py src/gcm4/ui/contexte.py
+#: src/gcm4/ui/echange.py src/gcm4/ui/fichiers.py src/gcm4/ui/host_dialog.py
 #: src/gcm4/ui/main_window.py src/gcm4/ui/menu_arbre.py
 #: src/gcm4/ui/mot_de_passe_maitre.py src/gcm4/ui/raccourcis.py
 msgid "Cancel"
@@ -568,7 +568,7 @@ msgstr "Tidak ada konsol yang terbuka"
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
 #: plugins/netmiko_push/gtk4.py plugins/plugin_spice.py
-#: plugins/snmp_push/gtk4.py
+#: plugins/snmp_push/gtk4.py plugins/ssh/gtk4.py
 msgid "OK"
 msgstr "OK"
 
@@ -3447,7 +3447,7 @@ msgstr ""
 msgid "Compression (-C)"
 msgstr "Kompresi"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Connections will be added to the « ssh_config » group, with name = host = SSH alias."
 msgstr ""
 
@@ -3469,37 +3469,37 @@ msgstr ""
 msgid "Extra ssh args"
 msgstr "Argumen tambahan"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, python-format
 msgid "Host «%s» is already managed by a ssh_config file — it cannot be moved a 2nd time."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, python-format
 msgid "Host «%s» moved to %s."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, python-format
 msgid "Host «%s» was not migrated (not an SSH host?)."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, python-format
 msgid "Import done — imported: %d, already present: %d, errors: %d"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy, python-format
 #| msgid "Imported"
 msgid "Import failed: %s"
 msgstr "Diimpor"
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Import from ssh_config…"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, fuzzy
 #| msgid "Import from libvirt"
 msgid "Import from which file?"
@@ -3522,7 +3522,7 @@ msgstr ""
 msgid "Migration done — moved: %d, skipped: %d, already managed: %d, errors: %d"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, python-format
 msgid "Migration failed: %s"
 msgstr ""
@@ -3549,29 +3549,29 @@ msgstr ""
 msgid "Move all to ssh_config…"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, python-format
 msgid ""
 "Move host «%s» from gcm.conf to %s?\n"
 "A backup of both files will be created."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, python-format
 msgid ""
 "Move host «%s» from gcm.conf to the SHARED file %s?\n"
 "This will be usable by every user of this machine and requires root privileges (a polkit prompt may appear). A timestamped backup of both files will be created."
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Move to ssh_config…"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Personal (me)"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 #, python-format
 msgid ""
 "Personal: only for you, ~/.ssh/config.\n"
@@ -3613,15 +3613,15 @@ msgstr ""
 msgid "Seconds before giving up on the connection"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Shared"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Shared (everyone)"
 msgstr ""
 
-#: plugins/plugin_ssh.py
+#: plugins/plugin_ssh.py plugins/ssh/gtk4.py
 msgid "Which file?"
 msgstr ""
 
@@ -4166,9 +4166,17 @@ msgstr ""
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
 
+#: plugins/ssh/gtk4.py src/gcm4/ui/main_window.py
+msgid "Configuration not loaded"
+msgstr "Konfigurasi tidak dimuat"
+
 #: plugins/ssh/gtk4.py src/gcm4/ui/mot_de_passe_maitre.py
 msgid "Confirm"
 msgstr "Konfirmasi"
+
+#: plugins/ssh/gtk4.py src/gcm4/ui/contexte.py
+msgid "No configuration is open: nothing to import into."
+msgstr "Tidak ada konfigurasi terbuka: tidak ada tujuan impor."
 
 #: plugins/ssh/gtk4.py
 msgid "Permissions too open: ssh will refuse this key"
@@ -4491,10 +4499,6 @@ msgid "gcm4 is already running with another configuration folder: close it to us
 msgstr "gcm4 sudah berjalan dengan folder konfigurasi lain: tutup untuk menggunakan {requested}."
 
 #: src/gcm4/ui/contexte.py
-msgid "No configuration is open: nothing to import into."
-msgstr "Tidak ada konfigurasi terbuka: tidak ada tujuan impor."
-
-#: src/gcm4/ui/contexte.py
 #, python-brace-format
 msgid "Password for {target}"
 msgstr "Kata sandi untuk {target}"
@@ -4659,10 +4663,6 @@ msgstr "Cari host"
 #: src/gcm4/ui/main_window.py
 msgid "Close tab"
 msgstr "Tutup tab"
-
-#: src/gcm4/ui/main_window.py
-msgid "Configuration not loaded"
-msgstr "Konfigurasi tidak dimuat"
 
 #: src/gcm4/ui/main_window.py
 msgid "Home"
