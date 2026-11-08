@@ -198,10 +198,14 @@ jobs:
             --combinee .coverage >> "$GITHUB_STEP_SUMMARY"
 
       - name: Total combiné, seuil bloquant (fail_under)
-        # Même seuil que le job Qualité (pyproject.toml), appliqué ici au
-        # total fusionné ; l'étape échoue s'il passe dessous.
+        # Un seul seuil dans pyproject.toml : appliqué séparément aux lignes
+        # et branches du total fusionné (#293), puis au rapport historique.
         run: |
+          set -o pipefail
           uv run coverage xml -o coverage-combinee.xml --fail-under=0
+          uv run coverage json -o coverage-combinee.json --fail-under=0
+          uv run python scripts/verifier_couverture.py coverage-combinee.json \
+            | tee -a "$GITHUB_STEP_SUMMARY"
           uv run coverage report --skip-covered
 
       - name: Publication du rapport combiné (artifact)
@@ -209,7 +213,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report-combinee
-          path: coverage-combinee.xml
+          path: |
+            coverage-combinee.xml
+            coverage-combinee.json
           if-no-files-found: warn
 
   types:
