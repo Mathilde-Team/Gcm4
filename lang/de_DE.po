@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:59+0000\n"
+"POT-Creation-Date: 2026-11-08 12:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3084,7 +3084,7 @@ msgstr "Beenden"
 msgid "Save configuration as…"
 msgstr "Konfiguration speichern unter…"
 
-#: src/gcm4/core/menu.py
+#: src/gcm4/core/menu.py src/gcm4/ui/xterm.py
 msgid "Search"
 msgstr "Suchen"
 
@@ -3886,7 +3886,7 @@ msgstr "Abwechselnde Streifen im Host-Fenster deaktivieren"
 msgid "Dynamic title"
 msgstr "Dynamischer Titel"
 
-#: src/gcm4/ui/preferences.py
+#: src/gcm4/ui/preferences.py src/gcm4/ui/xterm.py
 msgid "Error"
 msgstr "Fehler"
 

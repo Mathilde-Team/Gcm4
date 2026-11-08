@@ -17,12 +17,8 @@ import sys
 import time
 from pathlib import Path
 
-import gi
 import pytest
-
-gi.require_version("Vte", "3.91")
-
-from gi.repository import GLib, Gtk, Vte  # noqa: E402
+from gi.repository import GLib, Gtk  # noqa: E402
 
 from gcm4.core import registre  # noqa: E402
 from gcm4.core.model import Host  # noqa: E402
@@ -135,10 +131,10 @@ def _attendre(condition, delai=15.0):
 
 def _texte(terminal):
     """Texte du terminal, historique compris (API de VTE 0.70 à 0.84)."""
-    lignes = terminal.get_row_count() + 200
-    if hasattr(terminal, "get_text_range_format"):
-        return terminal.get_text_range_format(Vte.Format.TEXT, 0, 0, lignes, 500)[0]
-    return terminal.get_text_range(0, 0, lignes, 500, None)[0]
+    resultat = []
+    terminal.texte(resultat.append)
+    assert _attendre(lambda: resultat)
+    return resultat[0]
 
 
 def _trace(fichier):

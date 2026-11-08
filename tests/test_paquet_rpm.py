@@ -25,7 +25,7 @@ SMOKE = (ROOT / "scripts" / "smoke-test-packages.sh").read_text(encoding="utf-8"
 CI = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
 PYPROJECT = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
 APP_ID = "io.github.MathildeDec.gcm4"
-DEPENDANCES_DE_PLUGIN = re.compile(r"vte|gtk-?vnc|spice|freerdp|expect|paramiko", re.I)
+DEPENDANCES_DE_PLUGIN = re.compile(r"vte|webkit|gtk-?vnc|spice|freerdp|expect|paramiko", re.I)
 
 
 def requires() -> dict[str, str]:
