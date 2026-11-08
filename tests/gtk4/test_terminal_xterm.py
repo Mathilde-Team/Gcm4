@@ -1,14 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Vrai WebKit/xterm local : ANSI, PTY, presse-papiers, recherche et refus (#76).
 
-Le sandbox WebKit reste actif en production. Comme test_plugin_web_webkit,
-ces tests seuls le désactivent dans les conteneurs sans user namespaces.
+Le sandbox WebKit reste actif en production. Le conftest GTK4 configure
+seulement le processus de test dans les conteneurs sans user namespaces.
 """
 
 from __future__ import annotations
 
 import json
-import os
 import signal
 import sys
 import time
@@ -16,8 +15,6 @@ from types import SimpleNamespace
 
 import pytest
 from gi.repository import GLib, Gtk
-
-os.environ.setdefault("WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS", "1")
 
 from gcm4.core.terminal import Lancement  # noqa: E402
 from gcm4.ui import xterm  # noqa: E402

@@ -10,16 +10,16 @@ auto-signé généré par ``cryptography`` (dépendance de paramiko).
 Le bac à sable du processus web de WebKit (bubblewrap) ne démarre pas dans
 les conteneurs de la CI, privés d'espaces de noms utilisateur : WebKit
 s'arrête alors sur ``g_error`` (SIGTRAP ou SIGABRT). Il est désactivé pour
-ces tests seulement (``WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS``, avant le
-premier ``WebView``) ; les pages chargées sont celles des serveurs locaux du
-test. L'application, elle, garde le bac à sable.
+le processus de test seulement, dans le conftest GTK4 commun
+(``WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS``, avant le premier ``WebView``) ;
+les pages chargées sont celles des serveurs locaux du test. L'application,
+elle, garde le bac à sable.
 """
 
 from __future__ import annotations
 
 import datetime
 import http.server
-import os
 import ssl
 import sys
 import threading
@@ -29,7 +29,6 @@ from pathlib import Path
 import gi
 import pytest
 
-os.environ.setdefault("WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS", "1")
 gi.require_version("WebKit", "6.0")
 
 from gi.repository import GLib, WebKit  # noqa: E402
