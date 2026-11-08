@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3976,6 +3976,14 @@ msgstr "열린 구성이 없어 가져올 곳이 없습니다."
 #: plugins/ssh/gtk4.py
 msgid "Permissions too open: ssh will refuse this key"
 msgstr "권한이 너무 개방되어 있습니다: ssh가 이 키를 거부합니다"
+
+#: plugins/ssh/gtk4.py
+msgid "Shared session (tmux)"
+msgstr "공유 세션 (tmux)"
+
+#: plugins/ssh/session.py
+msgid "Session name: use 1 to 64 ASCII letters, digits, underscores or hyphens."
+msgstr "세션 이름: ASCII 문자, 숫자, 밑줄 또는 하이픈을 1~64자 사용하세요."
 
 #: plugins/web/core.py
 msgid "The URL must start with http:// or https://"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3691,12 +3691,20 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
+#: plugins/ssh/gtk4.py
+msgid "Shared session (tmux)"
+msgstr ""
+
 #: plugins/ssh/gtk4.py src/gcm4/ui/main_window.py
 msgid "Configuration not loaded"
 msgstr ""
 
 #: plugins/ssh/gtk4.py src/gcm4/ui/contexte.py
 msgid "No configuration is open: nothing to import into."
+msgstr ""
+
+#: plugins/ssh/session.py
+msgid "Session name: use 1 to 64 ASCII letters, digits, underscores or hyphens."
 msgstr ""
 
 #: plugins/web/core.py

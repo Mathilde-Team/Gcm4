@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3976,6 +3976,14 @@ msgstr "没有打开的配置：没有可导入的目标。"
 #: plugins/ssh/gtk4.py
 msgid "Permissions too open: ssh will refuse this key"
 msgstr "权限过于开放：ssh 将拒绝此密钥"
+
+#: plugins/ssh/gtk4.py
+msgid "Shared session (tmux)"
+msgstr "共享会话 (tmux)"
+
+#: plugins/ssh/session.py
+msgid "Session name: use 1 to 64 ASCII letters, digits, underscores or hyphens."
+msgstr "会话名称：使用 1 至 64 个 ASCII 字母、数字、下划线或连字符。"
 
 #: plugins/web/core.py
 msgid "The URL must start with http:// or https://"

@@ -15,6 +15,14 @@ le fichier est absent sur `dev`, le chercher sur `main`).
 
 ## État courant
 
+- **Partage SSH, #82 (08/11/2026)** : option d'hôte GTK4
+  `shared_session` (désactivée par défaut), nom `shared_session_name`
+  (vide : `gcm4`, 1–64 caractères ASCII alphanumériques, `_`, `-`).
+  Lance tmux sur le serveur sous pseudo-terminal, sans toucher à l'éditeur
+  SSH #97. Le réglage VNC demandé reste à exposer après intégration du
+  composant pluginvnc2 dans le contrat v1 ; ne pas déclarer #82 terminée.
+  Voir `docs/partage-sessions.md`.
+
 GCM est un gestionnaire de connexions distantes multi-protocoles (SSH, RDP,
 VNC, SPICE, série, telnet, local, IPMI SOL, Web/BMC) pour GNOME/GTK3, en
 onglets dans une fenêtre unique, avec import d'infrastructure virtualisée

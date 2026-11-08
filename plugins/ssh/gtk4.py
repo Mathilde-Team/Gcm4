@@ -37,6 +37,7 @@ from gcm4.core.i18n import _  # noqa: E402
 from gcm4.core.model import Host  # noqa: E402
 from gcm4.core.plugins import ConnectionPlugin, MenuItem  # noqa: E402
 from gcm4.core.terminal import Lancement  # noqa: E402
+from gcm4.core.validation import FieldError  # noqa: E402
 from gcm4.ui import dialogues, fichiers  # noqa: E402
 from gcm4.ui.terminal import SessionTerminal, zone_options  # noqa: E402
 
@@ -3662,6 +3663,19 @@ class SshPlugin(ConnectionPlugin):
     version = "1.0"
     protocols = ("ssh",)
 
+    def validate_options(self, protocol: str, options: Mapping[str, str]) -> list[FieldError]:
+        """Refuse un nom tmux invalide seulement quand le partage est activé."""
+        logger.debug("SshPlugin.validate_options: entrée")
+        erreurs: list[FieldError] = []
+        if session.booleen(options.get(session.OPT_SESSION_PARTAGEE, "")):
+            try:
+                session.nom_session(options)
+            except ValueError as exc:
+                logger.debug("SshPlugin.validate_options: nom tmux refusé")
+                erreurs.append(FieldError(session.OPT_NOM_SESSION, str(exc)))
+        logger.debug("SshPlugin.validate_options: sortie | {} erreur(s)", len(erreurs))
+        return erreurs
+
     def default_port(self, protocol: str) -> int | None:
         """Port 22."""
         logger.debug("SshPlugin.default_port: {!r}", protocol)
@@ -3681,6 +3695,34 @@ class SshPlugin(ConnectionPlugin):
         )
         carnet.append_page(_page_sshfs(options, changed), Gtk.Label(label=_("SSHFS")))
         zone.append(carnet)
+        partage = Gtk.CheckButton(
+            label=_("Shared session (tmux)"),
+            active=session.booleen(options.get(session.OPT_SESSION_PARTAGEE, "")),
+        )
+        partage.connect(
+            "toggled", _bascule_booleen(options, session.OPT_SESSION_PARTAGEE, changed)
+        )
+        nom = Gtk.Entry(
+            text=options.get(session.OPT_NOM_SESSION, ""),
+            placeholder_text="gcm4",
+            sensitive=partage.get_active(),
+            max_length=64,
+        )
+        partage.bind_property("active", nom, "sensitive", GObject.BindingFlags.SYNC_CREATE)
+
+        def nom_modifie(champ: Gtk.Entry) -> None:
+            """Écrit le nom du profil, conservé lorsque le partage est désactivé."""
+            logger.debug("nom_modifie: entrée")
+            options[session.OPT_NOM_SESSION] = champ.get_text()
+            changed()
+            logger.debug("nom_modifie: sortie")
+
+        nom.connect("changed", nom_modifie)
+        ligne_partage = Gtk.Box(spacing=6)
+        ligne_partage.append(partage)
+        ligne_partage.append(Gtk.Label(label=_("Name")))
+        ligne_partage.append(nom)
+        zone.append(ligne_partage)
         zone.append(zone_options(options, changed))
         logger.debug("SshPlugin.build_host_options_widget: fait")
         return zone

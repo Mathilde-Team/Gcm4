@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:28+0000\n"
+"POT-Creation-Date: 2026-11-08 11:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3976,6 +3976,14 @@ msgstr "لا يوجد إعداد مفتوح: لا شيء للاستيراد إل
 #: plugins/ssh/gtk4.py
 msgid "Permissions too open: ssh will refuse this key"
 msgstr "الأذونات مفتوحة أكثر من اللازم: سيرفض ssh هذا المفتاح"
+
+#: plugins/ssh/gtk4.py
+msgid "Shared session (tmux)"
+msgstr "جلسة مشتركة (tmux)"
+
+#: plugins/ssh/session.py
+msgid "Session name: use 1 to 64 ASCII letters, digits, underscores or hyphens."
+msgstr "اسم الجلسة: استخدم من 1 إلى 64 حرف ASCII أو رقمًا أو شرطة سفلية أو شرطة."
 
 #: plugins/web/core.py
 msgid "The URL must start with http:// or https://"
