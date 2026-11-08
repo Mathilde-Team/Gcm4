@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-101 modules · 166 classes · 401 fonctions publiques de module.
+101 modules · 166 classes · 404 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -403,6 +403,8 @@ classDiagram
         +valider(options) list~FieldError~
         +taille(options) tuple~int, int~
         +suit_onglet(options) bool
+        +peripheriques_usb(options) list~str~
+        +multi_ecran(options) bool
         +reglages(host) Reglages
     }
     class plugins_rdp_core_Reglages {
@@ -415,11 +417,13 @@ classDiagram
         +tuple~str, str~ None dossier
         +str None remote_app
         +bool suit_onglet
+        +bool multimon
     }
     class mod_plugins_rdp_gtk4 {
         <<module>>
         +charger_asyncrdp(config, environ) AsyncRdp
         +classe_vue(base) type
+        +moniteurs_multiecran(module, affichage) list~Any~
         +options_asyncrdp(module, reglages) Any
         +zone_options(options, changed) Gtk.Widget
     }
