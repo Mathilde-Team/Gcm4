@@ -52,6 +52,25 @@ def creer(
     if extra is not None:
         dialogue.set_extra_child(extra)
     dialogue.connect("response", lambda _d, reponse: rappel(reponse))
+    if extra is not None and isinstance(extra, (Gtk.Entry, Gtk.PasswordEntry)):
+        # Vieux libadwaita (< 1.5) : le repli ``AdwMessageDialog`` ne pose
+        # le widget par défaut de sa fenêtre qu'au premier changement
+        # d'enfant visible du squeezer ; s'il est absent, le Return de
+        # l'entrée n'active rien (constaté #72 sous Adw 1.2/1.4). On
+        # valide alors le dialogue directement — inopérant dès que le
+        # défaut est posé, et pour ``Adw.AlertDialog`` (libadwaita ≥ 1.5)
+        # qui gère le Return lui-même.
+        def _valider_par_return(*_args: object) -> None:
+            if (
+                hasattr(dialogue, "get_default_widget")
+                and dialogue.get_default_widget() is None
+                and dialogue.get_response_enabled(defaut)
+            ):
+                logger.debug("_valider_par_return: défaut absent, réponse directe")
+                dialogue.response(defaut)
+                dialogue.set_visible(False)
+
+        extra.connect("activate", _valider_par_return)
     if isinstance(dialogue, Adw.MessageDialog):
         dialogue.present()
     else:

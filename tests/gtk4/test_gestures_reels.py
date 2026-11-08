@@ -621,8 +621,13 @@ def test_f2_renomme_un_groupe(app_fixture, pomper):
     pomper()
     assert entree.get_text() == "LABO"
     _bouton_valider = _bouton(menu.dialogue, _("Rename"))
+    # la sonde tient la preuve attendue : sous vieux libadwaita le repli
+    # AdwMessageDialog n'a pas de widget par défaut posé et le Return de
+    # l'entrée n'active alors rien (gcm4 y pallie via dialogues.creer)
+    _defaut = racine.get_default_widget() if hasattr(racine, "get_default_widget") else None
     print(
-        f"SONDE: focus={type(racine.get_focus()).__name__} "
+        f"SONDE: défaut={type(_defaut).__name__ if _defaut is not None else None} "
+        f"focus={type(racine.get_focus()).__name__} "
         f"bouton={type(_bouton_valider).__name__} sensible="
         f"{_bouton_valider.get_sensitive() if _bouton_valider is not None else None}"
     )
