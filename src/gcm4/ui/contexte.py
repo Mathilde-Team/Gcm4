@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Contexte injecté dans chaque plugin (contrat v1, ``docs/plugins.md``, #151).
 
-Le plugin ne voit ni l'application ni la fenêtre : seulement ces six
-membres. La fenêtre est cherchée à chaque appel (le registre est construit
-au démarrage, avant elle).
+Le plugin ne voit ni l'application ni la fenêtre : seulement les membres
+du contrat (log, config, ask_password, notify, open_tab, import_hosts,
+question, chemin_configuration, recharger). La fenêtre est cherchée à
+chaque appel (le registre est construit au démarrage, avant elle).
 """
 
 from __future__ import annotations
@@ -141,3 +142,53 @@ class ContexteApplication:
             fenetre.arbre.recharger()
         logger.debug("import_hosts: {} ajouté(s)", len(rapport.ajoutes))
         return rapport
+
+    def question(
+        self,
+        titre: str,
+        corps: str,
+        reponses: Sequence[tuple[str, str]],
+        defaut: str,
+        fermeture: str,
+        rappel: Callable[[str], None],
+    ) -> None:
+        """Question modale au-dessus de la fenêtre ; ``rappel(identifiant)`` (#97).
+
+        Sans fenêtre, le rappel reçoit ``fermeture`` immédiatement : la
+        question est annulée, jamais perdue.
+        """
+        logger.debug("question: {!r}", titre)
+        fenetre = self._fenetre()
+        if fenetre is None:
+            rappel(fermeture)
+            logger.debug("question: aucune fenêtre, annulé")
+            return
+        self.dialogue = dialogues.creer(
+            fenetre,
+            titre,
+            corps,
+            [(identifiant, libelle, None) for identifiant, libelle in reponses],
+            defaut,
+            fermeture,
+            rappel,
+        )
+        logger.debug("question: dialogue affiché")
+
+    def chemin_configuration(self) -> str | None:
+        """Chemin du ``gcm4.conf`` ouvert, ou ``None`` si rien n'est chargé (#97)."""
+        logger.debug("chemin_configuration: {!r}", self.nom)
+        fenetre = self._fenetre()
+        if fenetre is None or getattr(fenetre, "config", None) is None:
+            logger.debug("chemin_configuration: aucune configuration")
+            return None
+        chemin = str(fenetre.config_file)
+        logger.debug("chemin_configuration: {}", chemin)
+        return chemin
+
+    def recharger(self) -> None:
+        """Relit ``gcm4.conf`` depuis le disque et reconstruit l'arbre (#97)."""
+        logger.debug("recharger: {!r}", self.nom)
+        fenetre = self._fenetre()
+        if fenetre is not None:
+            fenetre.recharger_configuration()
+        logger.debug("recharger: fait")
