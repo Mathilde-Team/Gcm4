@@ -3838,7 +3838,9 @@ class SshPlugin(ConnectionPlugin):
                 "files will be created."
             ) % (host.name, cible)
         else:
-            corps = _("Move host «%s» from gcm.conf to %s?\nA backup of both files will be created.") % (
+            corps = _(
+                "Move host «%s» from gcm.conf to %s?\nA backup of both files will be created."
+            ) % (
                 host.name,
                 cible,
             )
@@ -3852,9 +3854,7 @@ class SshPlugin(ConnectionPlugin):
         )
         logger.debug("SshPlugin._confirmer_deplacement: confirmation demandée")
 
-    def _deplacer_vers_cible(
-        self, host: Host, cible: Path, chemin: str, reponse: str
-    ) -> None:
+    def _deplacer_vers_cible(self, host: Host, cible: Path, chemin: str, reponse: str) -> None:
         """Exécute la migration après confirmation, puis notifie et recharge."""
         logger.debug("SshPlugin._deplacer_vers_cible: {!r}", reponse)
         if reponse != "deplacer":
@@ -3895,7 +3895,9 @@ class SshPlugin(ConnectionPlugin):
         logger.debug("SshPlugin.importer_depuis_ssh_config: entrée")
         self.context.question(
             _("Import from which file?"),
-            _("Connections will be added to the « ssh_config » group, with name = host = SSH alias."),
+            _(
+                "Connections will be added to the « ssh_config » group, with name = host = SSH alias."
+            ),
             [
                 ("annuler", _("Cancel")),
                 ("partage", _("Shared")),

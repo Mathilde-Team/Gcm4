@@ -44,7 +44,12 @@ def test_question_reponse(app_fixture, pomper):
     contexte = ContexteApplication(app, "ssh")
     recus: list[str] = []
     contexte.question(
-        "Titre", "Corps", [("perso", "Perso"), ("partage", "Partagé")], "perso", "annuler", recus.append
+        "Titre",
+        "Corps",
+        [("perso", "Perso"), ("partage", "Partagé")],
+        "perso",
+        "annuler",
+        recus.append,
     )
     pomper()
     assert contexte.dialogue is not None

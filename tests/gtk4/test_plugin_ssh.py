@@ -597,7 +597,9 @@ def test_deplacer_vers_ssh_config(plugin, tmp_path, monkeypatch):
     cible.rappel("perso")
     confirmation = plugin.context.questions[1]
     assert confirmation.titre == "Confirm"
-    assert "bastion" in confirmation.corps and str(tmp_path / ".ssh" / "config") in confirmation.corps
+    assert (
+        "bastion" in confirmation.corps and str(tmp_path / ".ssh" / "config") in confirmation.corps
+    )
     confirmation.rappel("deplacer")
 
     ssh_config = tmp_path / ".ssh" / "config"
@@ -746,7 +748,9 @@ def test_importer_depuis_ssh_config(plugin, tmp_path, monkeypatch):
     assert relu.get("host bastion", "name") == "bastion"
     assert relu.get("host bastion", "group") == "ssh_config"
     assert relu.get("host bastion", "ssh_config_managed") == "true"
-    assert plugin.context.notifications == ["Import done — imported: 1, already present: 0, errors: 0"]
+    assert plugin.context.notifications == [
+        "Import done — imported: 1, already present: 0, errors: 0"
+    ]
     assert plugin.context.rechargements == 1
 
 
@@ -754,7 +758,9 @@ def test_importer_echec_de_l_import(plugin, tmp_path, monkeypatch):
     """Le cœur échoue (chemin de configuration invalide) : erreur notifiée, rien de rechargé."""
     monkeypatch.setattr(Path, "home", lambda: tmp_path)
     (tmp_path / ".ssh").mkdir()
-    (tmp_path / ".ssh" / "config").write_text("Host bastion\n  HostName b.example.com\n", encoding="utf-8")
+    (tmp_path / ".ssh" / "config").write_text(
+        "Host bastion\n  HostName b.example.com\n", encoding="utf-8"
+    )
     plugin.context.chemin = str(tmp_path / ".ssh")  # un dossier : écriture impossible
 
     plugin.importer_depuis_ssh_config()
