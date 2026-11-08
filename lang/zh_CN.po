@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 11:33+0000\n"
+"POT-Creation-Date: 2026-11-08 11:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -467,8 +467,8 @@ msgstr ""
 msgid "🔍  Scan VirtualBox hosts"
 msgstr "🔍  扫描 Proxmox 主机"
 
-#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/serial/gtk4.py
-#: plugins/ssh/gtk4.py plugins/telnet/gtk4.py
+#: plugins/ipmisol/gtk4.py plugins/local/gtk4.py plugins/pluginvnc2/gtk4.py
+#: plugins/serial/gtk4.py plugins/ssh/gtk4.py plugins/telnet/gtk4.py
 #, python-brace-format
 msgid "{program} not found"
 msgstr "未找到 {program}"
@@ -773,6 +773,34 @@ msgstr ""
 msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
 
+#: plugins/pluginvnc2/core.py
+msgid "VNC display number must be between 0 and 59635."
+msgstr "VNC 显示编号必须介于 0 和 59635 之间。"
+
+#: plugins/pluginvnc2/gtk4.py src/gcm4/ui/host_dialog.py
+msgid "Display"
+msgstr "显示"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "Fullscreen"
+msgstr "全屏"
+
+#: plugins/pluginvnc2/gtk4.py plugins/rdp/gtk4.py
+msgid "Share clipboard"
+msgstr "共享剪贴板"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "Shared session (VNC)"
+msgstr "共享会话 (VNC)"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "VNC needs asyncio in the GTK main loop (PyGObject 3.50 or later)"
+msgstr "VNC 需要 GTK 主循环中的 asyncio（PyGObject 3.50 或更高版本）"
+
+#: plugins/pluginvnc2/gtk4.py
+msgid "View only"
+msgstr "仅查看"
+
 #: plugins/rdp/core.py
 msgid "Choose the folder to share"
 msgstr ""
@@ -859,10 +887,6 @@ msgstr ""
 #| msgid "Remote"
 msgid "RemoteApp"
 msgstr "远程"
-
-#: plugins/rdp/gtk4.py
-msgid "Share clipboard"
-msgstr ""
 
 #: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
@@ -3341,10 +3365,6 @@ msgstr "放弃"
 #: src/gcm4/ui/host_dialog.py
 msgid "Discard changes?"
 msgstr "放弃更改？"
-
-#: src/gcm4/ui/host_dialog.py
-msgid "Display"
-msgstr "显示"
 
 #: src/gcm4/ui/host_dialog.py
 msgid "Errors"
