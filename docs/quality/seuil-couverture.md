@@ -2,6 +2,11 @@
 
 Issue #128, reprise des mécanismes de Netcross (#224, #246).
 
+Le seuil courant est **95 % pour les lignes et 95 % pour les branches
+indépendamment** (#293). Les anciennes mesures ci-dessous sont historiques,
+notamment celles du code GTK3 supprimé depuis ; la mesure courante reste
+le résumé du job requis « Couverture combinée ».
+
 ## Ce qui est mesuré
 
 `[tool.coverage.run]` dans `pyproject.toml` :
@@ -48,9 +53,9 @@ fail-under=95.0 »).
 
 Le code d'interface `src/gcm4/ui/` n'est exécuté que par `tests/gtk4`, sous Xvfb, dans le job « Tests GTK4 (Xvfb) ». Les deux jobs mesurent la couverture et publient leurs données (artefacts `coverage-data-qualite`, `coverage-data-gtk4`) ; le job « Couverture combinée » les fusionne (`coverage combine`) :
 
-- le **seuil `fail_under`** s'applique au total combiné **seulement** (`coverage report`, l'étape échoue dessous). Le job « Couverture combinée » est requis par la protection de `dev` (`.github/branch-protection/dev.json`, #278) ; le job Qualité passe `--cov-fail-under=0` (même commande dans `make ci`), car son total n'exécute pas `src/gcm4/ui/`. Le seuil du cœur (95 %) reste appliqué dans le job Qualité ;
+- le **seuil `fail_under`** s'applique au total combiné **seulement** : `scripts/verifier_couverture.py` lit le même seuil via l'API publique de coverage.py et vérifie séparément les instructions et les branches, sans arrondir les compteurs avant comparaison. `coverage report` conserve aussi son contrôle historique agrégé. Le job « Couverture combinée » est requis par la protection de `dev` (`.github/branch-protection/dev.json`, #278) ; le job Qualité passe `--cov-fail-under=0` (même commande dans `make ci`), car son total n'exécute pas `src/gcm4/ui/`. Le seuil du cœur (95 %) reste appliqué dans le job Qualité ;
 - le **résumé du job** détaille, par périmètre (`src/gcm4/ui/`, `src/gcm4/core/`, `src/gcm4/`), la couverture du job Qualité seul, du job GTK4 seul et combinée (`scripts/couverture_combinee.py`) ;
-- `coverage-combinee.xml` est publié en artefact `coverage-report-combinee`.
+- `coverage-combinee.xml` et `coverage-combinee.json` sont publiés en artefact `coverage-report-combinee`. Le résumé affiche les deux mesures indépendantes et le statut de chaque seuil.
 
 Les données fusionnées sont téléchargées dans un sous-dossier : coverage.py 7.16 fusionne puis supprime d'office les fichiers `.coverage.*` voisins du fichier de données à chaque rapport.
 
@@ -106,12 +111,53 @@ passent également. Aucun code de production, périmètre de couverture ou
 exclusion n'est modifié. `fail_under` passe de 79 à **81**, entier inférieur
 de la mesure combinée locale ; la CI doit confirmer ce palier avant fusion.
 
+### Palier 19 : lignes et branches indépendantes à 95 % (#293, 08/11/2026)
+
+Après retrait du code GTK3 dans #453 et portage SPICE dans #456, mesure
+locale sur la base `efd2d81` avec les 36 nouveaux tests de limites :
+**17 749/18 024 instructions (98,474257 %) et 3 363/3 536 branches
+(95,107466 %)**, soit 97,922078 % au total agrégé. Les données de la suite
+Qualité (1 569 tests et 132 sous-tests) et des 481 tests GTK4 sous Xvfb
+ont été fusionnées dans un répertoire isolé. La CI doit confirmer la mesure
+sur la dernière tête avant fusion.
+
+Les tests portent sur les erreurs d'API oVirt sans callback optionnel,
+les clients de rebond fermés après échec, l'annulation et les routes manuelles
+invalides, les métadonnées de VM atypiques, les ports VirtualBox fermés,
+les sondes netcat et les replis de traduction. Aucun code de production,
+périmètre de couverture ou règle d'exclusion n'est modifié.
+
+`fail_under` passe de 81 à **95**. Le rapport agrégé ne suffit plus :
+24 tests supplémentaires verrouillent le vérificateur indépendant,
+ses seuils exacts, la lecture de la configuration et les erreurs de données.
+Ce script rejoint également le périmètre de mypy. Les chiffres de cette
+reproduction précèdent les éventuelles fusions suivantes ; les valeurs
+courantes sont dans le résumé Actions, pas dans un tableau réécrit
+automatiquement dans la branche.
+
 ## Où le voir
 
 - **job Couverture combinée** (`ci.yml`) : total fusionné Qualité + GTK4 et tableau par périmètre dans le résumé du job ;
 - **job Qualité** (`ci.yml`) : `pytest --cov`, rapport `term-missing` dans les logs, `coverage.xml` publié en artefact `coverage-report`. L'étape échoue sous le seuil ;
 - **commentaire de PR** (`pr-coverage.yml`, `scripts/pr_coverage_comment.py`) : chaque PR vers `dev` reçoit un commentaire unique, mis à jour à chaque push. Il donne la couverture de la base et de la PR, le delta, la ligne du cœur (`src/gcm4/core/`) et les fichiers dont la couverture baisse. La base est mesurée avec la configuration de la PR, pour comparer le même périmètre. Il ne mesure que la suite hors GTK4 et le dit (« Périmètre de ce commentaire… ») : `src/gcm4/ui/` y figure à 0 %. Il n'en compare plus le total au seuil, qui s'applique au total combiné, visible dans le résumé du job « Couverture combinée » (#278).
 
-## Suite prévue
+## Reproduire le contrôle combiné
 
-- relever `fail_under` palier par palier jusqu'à 95 % (#293) : en tête des modules les moins couverts, le cœur GTK3 historique (`gnome_connection_manager.py`) et les plugins ;
+Télécharger les deux artefacts de données dans `donnees-couverture/`
+(`.coverage.qualite` et `.coverage.gtk4`), puis exécuter :
+
+```sh
+make coverage-combined
+```
+
+Pour produire ces données localement, exécuter la suite Qualité avec
+`COVERAGE_FILE=donnees-couverture/.coverage.qualite` et la suite GTK4 sous
+Xvfb avec `COVERAGE_FILE=donnees-couverture/.coverage.gtk4`, chacune avec
+`--cov --cov-report= --cov-fail-under=0`, comme les jobs de CI. Le contrôle
+ne s'applique pas à la seule suite sans GTK4 de `make ci`.
+
+Le script refuse un rapport sans mesure des branches ou aux compteurs
+incohérents. Les tests verrouillent notamment 95 % exact (accepté) et
+94,999 % (refusé), même avec une moyenne agrégée annoncée à 99,9 %.
+Il reste à conserver ce seuil sur les évolutions suivantes, sans exclusion
+de complaisance ni diminution du périmètre.

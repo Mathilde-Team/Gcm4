@@ -15,7 +15,7 @@ GCM4_PY     = $(sort $(shell git ls-files 'src/gcm4/*.py' 'src/gcm4/*.css'))
 PLUGINS_PY  = $(sort $(shell find plugins -name '*.py' -not -path '*/tests/*' -not -name 'conftest.py' -not -path '*/__pycache__/*'))
 
 # ── Cibles principales ────────────────────────────────────────────────────────
-.PHONY: all run-gtk4 deb deb-gcm4 smoke-deb rpm-gcm4 smoke-rpm translate i18n-update i18n-check i18n-report class-diagram ci check-desktop icons test lint validate clean help docs
+.PHONY: all run-gtk4 deb deb-gcm4 smoke-deb rpm-gcm4 smoke-rpm translate i18n-update i18n-check i18n-report class-diagram ci coverage-combined check-desktop icons test lint validate clean help docs
 
 all:  test lint deb rpm-gcm4 translate validate
 
@@ -35,6 +35,7 @@ help:
 	@echo "  make run-gtk4 → lance gcm4 (GTK4) dans .venv ; venv créé par bootstrap-dev.sh"
 	@echo "  make class-diagram → régénère docs/class-diagram.md"
 	@echo "  make ci       → rejoue les étapes des jobs Qualité, Types, i18n, bureau et documentation"
+	@echo "  make coverage-combined → fusionne donnees-couverture/ et vérifie lignes et branches"
 	@echo "  make check-desktop → valide lanceur, AppStream et icônes (data/)"
 	@echo "  make icons   → régénère data/icons/hicolor/ depuis data/icon.png"
 	@echo "  make docs     → construit la documentation MkDocs (site/, strict)"
@@ -113,6 +114,16 @@ ci:
 	scripts/i18n-update.sh --check
 	scripts/check-desktop.sh
 	uvx --with mkdocs-material --with pymdown-extensions --from "mkdocs<2" mkdocs build --strict
+
+# Données des deux jobs de CI, ou reproduction locale documentée (#293).
+# Le rapport historique est conservé, mais ne suffit pas à lui seul :
+# une moyenne >= 95 % peut masquer des branches sous le seuil.
+coverage-combined:
+	uv run coverage combine --keep donnees-couverture/.coverage.qualite donnees-couverture/.coverage.gtk4
+	uv run coverage xml -o coverage-combinee.xml --fail-under=0
+	uv run coverage json -o coverage-combinee.json --fail-under=0
+	uv run python scripts/verifier_couverture.py coverage-combinee.json
+	uv run coverage report --skip-covered
 
 # ── Intégration au bureau (issue #155) ──
 # check-desktop : lanceur, AppStream et icônes (desktop-file-utils, appstream).
