@@ -47,6 +47,11 @@ ultérieure ». Trois régimes coexistent donc dans ce dépôt :
 - MIT : src/gcm4/core/pyaes.py (ancien pyAES.py), Copyright (c) 2007 Brandon Sterne
   (http://brandon.sternefamily.net/files/mit-license.txt), repris de
   l'amont avec sa licence d'origine.
+- MIT : bundles xterm.js 6.0.0, addon-fit 0.11.0 et addon-search 0.16.0
+  dans src/gcm4/ui/xterm_assets/, inclus dans les paquets. Les avis complets
+  des auteurs sont conservés dans LICENSE-xterm, LICENSE-addon-fit et
+  LICENSE-addon-search à côté des fichiers originaux. versions.json fixe
+  versions, archives, intégrités et empreintes des ressources.
 
 Le programme distribué (paquets .deb et .rpm) combine ces fichiers : il
 est donc diffusé, dans son ensemble, sous GPL-3.0-only. Le code de

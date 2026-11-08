@@ -40,6 +40,14 @@ jobs:
       - name: Installation des dépendances (groupe dev)
         run: uv sync
 
+      - name: Node pour les tests du frontend terminal, pas pour l'application
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22.16.0"
+
+      - name: Terminal JavaScript (lignes et branches, seuil du dépôt)
+        run: bash scripts/test-xterm.sh
+
       - name: gettext (validation des catalogues .po)
         run: |
           SUDO=""; if [ "$(id -u)" != "0" ]; then SUDO="sudo -n"; fi
@@ -314,7 +322,7 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt-get update -qq
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
             git ca-certificates python3 python3-venv python3-gi \
-            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 \
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-webkit-6.0 \
             expect xvfb xauth dbus-daemon weston
 
       - name: Checkout du dépôt
@@ -406,16 +414,16 @@ jobs:
         shell: bash
 
     steps:
-      - name: Paquets Debian 12 (GTK 4.8, libadwaita 1.2, VTE 0.70, python3-gi)
-        # VTE GTK4 et expect : plugin telnet (#290) testé avec un vrai
-        # Vte.Terminal, comme dans le job « Tests GTK4 (Xvfb) ».
+      - name: Paquets Debian 12 (GTK 4.8, libadwaita 1.2, WebKitGTK 6.0, python3-gi)
+        # xterm.js et expect : vrais terminaux et vraie authentification,
+        # comme dans le job « Tests GTK4 (Xvfb) », sans installer VTE (#76).
         run: |
           DEBIAN_FRONTEND=noninteractive apt-get update -qq
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
             git ca-certificates python3 python3-venv python3-gi \
-            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 expect xvfb xauth
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-webkit-6.0 expect xvfb xauth
           dpkg-query -W -f='- ${Package} ${Version}\n' python3 python3-gi \
-            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-vte-3.91 gir1.2-webkit-6.0 expect \
+            gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-webkit-6.0 expect \
             | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Checkout du dépôt
@@ -513,11 +521,11 @@ jobs:
             exit 1
           fi
 
-      # EL9 n'a pas VTE GTK4 (vte291 0.64 est GTK3, #223) : le plugin telnet
+      # EL9 n'a pas WebKitGTK 6.0 dans ses dépôts de base (#76) : le plugin telnet
       # ne peut pas y fonctionner. Ses tests (tests/gtk4/test_plugin_telnet.py)
       # sont écartés nommément ; l'étape suivante vérifie à la place qu'il est
       # signalé en erreur (Préférences > Extensions) sans empêcher le démarrage.
-      - name: Plugins telnet et ssh signalés en erreur, faute de VTE GTK4
+      - name: Plugins telnet et ssh signalés en erreur, faute de WebKitGTK 6.0
         run: |
           /tmp/venv/bin/python - <<'EOF'
           from gcm4.core import registre
@@ -525,7 +533,7 @@ jobs:
           for nom in ("telnet", "ssh"):
               erreur = etats[nom].erreur or ""
               print(nom, ":", erreur)
-              assert etats[nom].plugin is None and "Vte" in erreur, erreur
+              assert etats[nom].plugin is None and "WebKit" in erreur, erreur
           EOF
 
       - name: Tests gcm4 sous Xvfb (tests/gtk4, tests/test_gcm4_*.py), aucun test sauté
@@ -540,11 +548,14 @@ jobs:
             --ignore=tests/gtk4/test_plugin_serial.py \
             --ignore=tests/gtk4/test_plugin_ipmisol.py \
             --ignore=tests/gtk4/test_plugin_web_webkit.py \
+            --ignore=tests/gtk4/test_terminal_xterm.py \
             --ignore=tests/gtk4/test_host_dialog_local.py \
             --ignore=tests/gtk4/test_plugin_ssh.py \
             --ignore=tests/gtk4/test_ssh_editeur_config.py \
             --ignore=tests/gtk4/test_ssh_selecteur_cle.py \
             --ignore=tests/gtk4/test_ssh_gestionnaire_cles.py | tee /tmp/rocky9.txt
+          # test_terminal_xterm.py : vrai WebKitGTK 6.0 absent d'EL9,
+          # exécuté sans saut sur Debian 12 et dans le job GTK4 requis.
           # test_plugin_local.py, test_plugin_serial.py,
           # test_plugin_ipmisol.py et
           # test_host_dialog_local.py ignorés comme

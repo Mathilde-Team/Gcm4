@@ -24,7 +24,7 @@ ajouter un protocole n'implique pas de modifier le cœur de l'application.
 
 | Protocole | Implémentation | Description |
 |-----------|---------------|-------------|
-| **SSH** | VTE intégré | Terminal complet avec agent, tunnels, cluster mode |
+| **SSH** | xterm.js intégré (WebKitGTK 6) | Terminal complet avec agent, tunnels, cluster mode |
 | **RDP** | XEmbed + xfreerdp | Bureau Windows **directement dans l'onglet** GCM (XEmbed X11) ou fenêtre externe (Wayland) |
 | **VNC** | vncviewer / vinagre / remmina (ou widget natif `GtkVnc.Display` si dispo) | Connexion VNC avec authentification |
 | **SPICE** | remote-viewer / virt-viewer (ou widget natif `SpiceClientGtk.Display` si dispo) | Console VM SPICE haute performance (mode URI, tunnel libvirt, ticket Proxmox) |
@@ -51,7 +51,7 @@ ajouter un protocole n'implique pas de modifier le cœur de l'application.
 - Domaine `CORP\user` géré automatiquement (`/d:` + `/u:`)
 
 ### 🔌 Console Série RS-232 / RS-485
-- Terminal VTE **embarqué** (pas de fenêtre externe)
+- Terminal xterm.js **embarqué** (WebKitGTK 6, ressources locales, pas de fenêtre externe)
 - Contrôles dédiés : débit, bits de données, parité, bits de stop, contrôle de flux
 - **11 templates constructeurs** pré-configurés :
 
@@ -183,12 +183,17 @@ sudo apt install python3-paramiko python3-libvirt
 # pip3 install --user paramiko
 ```
 
-### Dépendances (Fedora / RHEL)
+### Dépendances (Fedora)
 
 ```bash
-sudo dnf install python3 python3-gobject vte291 expect freerdp \
+sudo dnf install python3 python3-gobject gtk4 libadwaita webkitgtk6.0 expect freerdp \
                  tigervnc virt-viewer picocom python3-paramiko python3-pycryptodome
 ```
+
+`webkitgtk6.0` fournit le backend GTK4 des terminaux sur
+[Fedora](https://packages.fedoraproject.org/pkgs/webkitgtk/webkitgtk6.0/index.html).
+Cela ne rend pas ces commandes applicables telles quelles à Rocky 9 :
+voir [les limites du terminal](docs/guide/terminal-xterm.md).
 
 ### Qualité du code
 
@@ -289,7 +294,7 @@ make validate   # valider .po avant commit
 
 Dépendances Python gérées par [uv](https://docs.astral.sh/uv/) (`pyproject.toml`
 + `uv.lock`, projet non empaqueté — `[tool.uv] package = false`). Installation
-automatisée, paquets système GTK/VTE inclus :
+automatisée, paquets système GTK/WebKit inclus :
 
 ```bash
 ./bootstrap-dev.sh              # installe tout, support SNMP inclus
@@ -375,7 +380,7 @@ pre-commit run --all-files  # vérification manuelle
 - **Corrections GTK3** : audit complet dépréciations v1.3.2 (`override_font→CssProvider`, `GtkPaned`, `get_color→get_rgba`, etc.)
 
 ### v1.3.1
-- **SerialTab** : console série RS-232/RS-485 embarquée dans VTE — picocom / minicom / screen
+- **SerialTab** : console série RS-232/RS-485 embarquée dans xterm.js : picocom / minicom / screen
   - 11 templates constructeurs (Cisco, HP, Aruba, Juniper, Fortinet, Palo Alto, F5, Linux, Arduino, Modbus, Libre)
   - Combos dédiés : débit, bits de données, parité, bits de stop, contrôle de flux
 - **VncTab** : connexion VNC native (vncviewer / vinagre / remmina)

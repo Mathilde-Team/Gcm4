@@ -205,42 +205,48 @@ def test_aucun_gi_hors_de_ui():
 def test_require_version_uniquement_dans_ui_init():
     """``gi.require_version`` n'apparaît que dans ``src/gcm4/ui/__init__.py``.
 
-    Seule exception : ``ui/terminal.py`` fixe VTE 3.91, et rien d'autre. VTE
-    ne peut pas être exigé dans ``ui/__init__.py`` : la base doit démarrer
-    là où VTE GTK4 manque (Rocky 9 et 10, #223) ; seuls les plugins terminal
-    importent ``ui/terminal.py`` (#295).
+    Seule exception : ``ui/xterm.py`` fixe WebKit 6.0, et rien d'autre.
+    La base doit démarrer sans ce backend optionnel ; seuls les plugins
+    importent la session commune de ``ui/terminal.py`` (#76).
     """
     fichiers = sorted(
         str(p.relative_to(ROOT))
         for p in SRC.rglob("*.py")
         if "require_version" in p.read_text(encoding="utf-8")
     )
-    assert fichiers == ["src/gcm4/ui/__init__.py", "src/gcm4/ui/terminal.py"]
-    texte = (SRC / "ui" / "terminal.py").read_text(encoding="utf-8")
-    assert re.findall(r"require_version\((.*?)\)", texte) == ['"Vte", "3.91"']
+    assert fichiers == ["src/gcm4/ui/__init__.py", "src/gcm4/ui/xterm.py"]
+    texte = (SRC / "ui" / "xterm.py").read_text(encoding="utf-8")
+    assert re.findall(r"require_version\((.*?)\)", texte) == ['"WebKit", "6.0"']
 
 
 def _importe_ui_terminal(texte: str, dans_ui: bool) -> bool:
     """Vrai si ``texte`` importe ``gcm4.ui.terminal`` (absolu, ``from gcm4.ui import terminal`` ou, dans ``ui/``, relatif)."""
     for n in ast.walk(ast.parse(texte)):
-        if isinstance(n, ast.Import) and any(a.name == "gcm4.ui.terminal" for a in n.names):
+        if isinstance(n, ast.Import) and any(
+            a.name in ("gcm4.ui.terminal", "gcm4.ui.xterm") for a in n.names
+        ):
             return True
         if isinstance(n, ast.ImportFrom):
             noms = {a.name for a in n.names}
-            if n.level == 0 and n.module == "gcm4.ui.terminal":
+            if n.level == 0 and n.module in ("gcm4.ui.terminal", "gcm4.ui.xterm"):
                 return True
-            if n.level == 0 and n.module == "gcm4.ui" and "terminal" in noms:
+            if n.level == 0 and n.module == "gcm4.ui" and noms.intersection(("terminal", "xterm")):
                 return True
-            if dans_ui and n.level == 1 and (n.module == "terminal" or "terminal" in noms):
+            if (
+                dans_ui
+                and n.level == 1
+                and (n.module in ("terminal", "xterm") or noms.intersection(("terminal", "xterm")))
+            ):
                 return True
     return False
 
 
-def test_terminal_vte_reserve_aux_plugins():
-    """Aucun module de la base n'importe ``gcm4.ui.terminal`` (VTE GTK4 facultatif, #295)."""
+def test_terminal_xterm_reserve_aux_plugins():
+    """La session et son backend restent réservés aux plugins, jamais à la base."""
     fautes = [
         str(p.relative_to(ROOT))
         for p in sorted(SRC.rglob("*.py"))
+        if p != SRC / "ui" / "terminal.py"
         if _importe_ui_terminal(p.read_text(encoding="utf-8"), "ui" in p.relative_to(SRC).parts)
     ]
     assert fautes == []
@@ -254,6 +260,11 @@ def test_terminal_vte_reserve_aux_plugins():
         ("from gcm4.ui.terminal import SessionTerminal\n", False, True),
         ("from . import terminal\n", True, True),
         ("from .terminal import zone_options\n", True, True),
+        ("import gcm4.ui.xterm\n", False, True),
+        ("from gcm4.ui import xterm\n", False, True),
+        ("from gcm4.ui.xterm import Terminal\n", False, True),
+        ("from .xterm import Terminal\n", True, True),
+        ("from . import xterm\n", True, True),
         ("from . import terminal\n", False, False),
         ("from gcm4.core import terminal\n", False, False),
         ("from . import dialogues\n", True, False),
