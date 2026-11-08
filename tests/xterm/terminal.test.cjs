@@ -80,6 +80,8 @@ test("pont local, clavier, Unicode, options, recherche et acquittement", () => {
   const event = key => ({
     key, type: "keydown", ctrlKey: false, shiftKey: false,
     altKey: false, metaKey: false, isTrusted: true,
+    defaultPrevented: false,
+    preventDefault() { this.defaultPrevented = true; },
   });
   assert.equal(terminal.key({ ...event("x"), type: "keyup" }), true);
   assert.equal(terminal.key(event("x")), true);
@@ -87,9 +89,13 @@ test("pont local, clavier, Unicode, options, recherche et acquittement", () => {
   assert.equal(terminal.key({ ...event("Delete"), metaKey: true }), true);
   assert.equal(terminal.key({ ...event("C"), ctrlKey: true }), true);
   for (const [key, type] of [["c", "copy"], ["V", "paste"], ["f", "search"]]) {
-    assert.equal(terminal.key({ ...event(key), ctrlKey: true, shiftKey: true }), false);
+    const trusted = { ...event(key), ctrlKey: true, shiftKey: true };
+    assert.equal(terminal.key(trusted), false);
+    assert.equal(trusted.defaultPrevented, true, "pas de seconde action native WebKit");
     assert.deepEqual(messages.pop(), { type });
-    assert.equal(terminal.key({ ...event(key), ctrlKey: true, shiftKey: true, isTrusted: false }), false);
+    const synthetic = { ...event(key), ctrlKey: true, shiftKey: true, isTrusted: false };
+    assert.equal(terminal.key(synthetic), false);
+    assert.equal(synthetic.defaultPrevented, true);
     assert.equal(messages.length, 0);
   }
   for (let n = 0; n < 5; n++) {
