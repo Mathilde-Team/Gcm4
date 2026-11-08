@@ -15,7 +15,7 @@ GCM4_PY     = $(sort $(shell git ls-files 'src/gcm4/*.py' 'src/gcm4/*.css'))
 PLUGINS_PY  = $(sort $(shell find plugins -name '*.py' -not -path '*/tests/*' -not -name 'conftest.py' -not -path '*/__pycache__/*'))
 
 # ── Cibles principales ────────────────────────────────────────────────────────
-.PHONY: all run-gtk4 deb deb-gcm4 smoke-deb rpm-gcm4 smoke-rpm translate i18n-update i18n-check i18n-report class-diagram ci coverage-combined check-desktop icons test lint validate clean help docs
+.PHONY: all run-gtk4 deb deb-gcm4 smoke-deb rpm-gcm4 smoke-rpm translate i18n-update i18n-check i18n-report class-diagram ci coverage-combined check-desktop icons test test-xterm lint validate clean help docs
 
 all:  test lint deb rpm-gcm4 translate validate
 
@@ -40,6 +40,7 @@ help:
 	@echo "  make icons   → régénère data/icons/hicolor/ depuis data/icon.png"
 	@echo "  make docs     → construit la documentation MkDocs (site/, strict)"
 	@echo "  make test     → lance la suite pytest"
+	@echo "  make test-xterm → teste le pont JavaScript (Node 22.16.0)"
 	@echo "  make lint     → ruff"
 	@echo "  make validate → valide .po (msgfmt) + .glade/.xml/.json"
 	@echo "  make clean    → supprime les paquets et répertoires temporaires"
@@ -102,6 +103,7 @@ smoke-rpm:
 # Types, i18n et documentation) ; tests/test_make_ci.py vérifie que chaque commande `run:`
 # de ces jobs figure ici.
 ci:
+	bash scripts/test-xterm.sh
 	uv run ruff check .
 	uv run python scripts/generate_class_diagram.py --check
 	uv run ruff format --check .
@@ -142,6 +144,10 @@ docs:
 # ── Tests unitaires ───────────────────────────────────────────────────────────
 test:
 	python3 -m pytest tests/ -v
+
+# Node 22.16.0 est figé dans la CI ; aucun Node requis à l'exécution de gcm4.
+test-xterm:
+	bash scripts/test-xterm.sh
 
 # ── Lint (ruff) ───────────────────────────────────────────────────────────────
 # Historique : flake8 ne couvrait que le fichier principal de l'application

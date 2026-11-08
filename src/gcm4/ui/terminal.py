@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Terminal VTE GTK4 commun aux plugins terminal (telnet, local…), #295.
+"""Terminal xterm.js commun aux plugins terminal (telnet, local…), #76.
 
 Repris de ``plugins/telnet/gtk4.py`` (#290) pour ne pas recopier la même
 session dans chaque plugin terminal. La logique sans GTK est dans
 :mod:`gcm4.core.terminal`.
 
-**Seuls les plugins importent ce module**, jamais la base : il exige VTE
-GTK4 (``Vte-3.91``), absent de Rocky Linux 9 et 10 (#223). Sur ces
+**Seuls les plugins importent ce module**, jamais la base : il exige
+WebKitGTK 6.0, absent des dépôts de base de Rocky Linux 9 (#223). Sur ces
 systèmes, l'import échoue dans le plugin, qui est signalé en erreur dans
 Préférences > Extensions sans empêcher gcm4 de démarrer.
 """
@@ -14,21 +14,15 @@ Préférences > Extensions sans empêcher gcm4 de démarrer.
 from __future__ import annotations
 
 import os
-import signal
 from collections.abc import Callable
 
-import gi
-
-# GTK 4.0 est fixé par ``gcm4.ui`` (#119). VTE est fixé ici et non dans
-# ``gcm4/ui/__init__.py`` : la base doit démarrer sans VTE GTK4.
-gi.require_version("Vte", "3.91")
-
-from gi.repository import Gdk, GLib, Gtk, Vte  # noqa: E402
+from gi.repository import Gdk, GLib, Gtk  # noqa: E402
 from loguru import logger  # noqa: E402
 
 from gcm4.core import terminal  # noqa: E402
 from gcm4.core.i18n import N_, _  # noqa: E402
 from gcm4.core.model import Host  # noqa: E402
+from gcm4.ui.xterm import Terminal  # noqa: E402
 
 #: Palette Tango (16 couleurs) appliquée avec les couleurs de l'hôte, comme
 #: GTK3 ; GTK3 répétait par erreur ``#729FCF`` en 14ᵉ couleur (magenta
@@ -91,10 +85,10 @@ def rgba(texte: str) -> Gdk.RGBA | None:
 
 
 class SessionTerminal:
-    """Onglet terminal : un ``Vte.Terminal`` et son défilement ; ``close()`` arrête le programme.
+    """Onglet xterm.js et son PTY ; ``close()`` arrête le programme.
 
     Attributes:
-        terminal: le ``Vte.Terminal``.
+        terminal: le widget ``gcm4.ui.xterm.Terminal``.
         widget: ce que gcm4 place dans l'onglet.
         pid: processus lancé ; 0 avant la fin du lancement et après sa fin.
         fermee: onglet fermé (``close()`` appelé).
@@ -134,23 +128,18 @@ class SessionTerminal:
         #: Envois de commandes pas encore partis : rang → source GLib.
         self._minuteries: dict[int, int] = {}
         options = host.protocol_options.get(protocole, {})
-        self.terminal = Vte.Terminal()
+        self.terminal = Terminal()
         self.terminal.set_hexpand(True)
         self.terminal.set_vexpand(True)
-        self.terminal.set_backspace_binding(
-            Vte.EraseBinding(terminal.liaison(options, terminal.OPT_RETOUR_ARRIERE))
-        )
-        self.terminal.set_delete_binding(
-            Vte.EraseBinding(terminal.liaison(options, terminal.OPT_SUPPRESSION))
-        )
+        self.terminal.set_backspace_binding(terminal.liaison(options, terminal.OPT_RETOUR_ARRIERE))
+        self.terminal.set_delete_binding(terminal.liaison(options, terminal.OPT_SUPPRESSION))
         #: Encodage effectif de l'onglet (#85), aussi celui des messages de gcm4.
         self.encodage = self._appliquer_encodage(terminal.encodage(options))
         avant, fond = rgba(host.font_color), rgba(host.back_color)
         if avant is not None and fond is not None:
             self.terminal.set_colors(avant, fond, [rgba(c) for c in PALETTE])
         self.terminal.connect("child-exited", self._fin)
-        self.widget = Gtk.ScrolledWindow(child=self.terminal)
-        self.widget.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        self.widget = self.terminal
         self._lancer(lancement, terminal.environnement(options))
         commandes = terminal.lire_commandes(options.get(terminal.OPT_COMMANDES, ""))
         for rang, (delai, texte) in enumerate(terminal.etapes(commandes, debut_commandes_ms)):
@@ -158,7 +147,7 @@ class SessionTerminal:
         logger.debug("SessionTerminal.__init__: {} envoi(s) programmé(s)", len(self._minuteries))
 
     def _appliquer_encodage(self, nom: str) -> str:
-        """Règle l'encodage de VTE ; refusé (VTE sans ICU) : UTF-8, signalé dans l'onglet.
+        """Règle le transcodage Python ; refusé : UTF-8, signalé dans l'onglet.
 
         Returns:
             L'encodage effectif.
@@ -168,7 +157,6 @@ class SessionTerminal:
             logger.debug("SessionTerminal._appliquer_encodage: défaut")
             return nom
         try:
-            # Déprécié depuis VTE 0.54 mais seul moyen de lire un flux non UTF-8.
             self.terminal.set_encoding(nom)
         except GLib.Error as exc:
             self.log.warning("{}: encodage {} refusé : {}", self.protocole, nom, exc.message)
@@ -188,33 +176,7 @@ class SessionTerminal:
     def _lancer(self, lancement: terminal.Lancement, envv: list[str]) -> None:
         """Lance la commande ; le mot de passe éventuel part dans un tube vers le descripteur 3."""
         logger.debug("SessionTerminal._lancer: {!r}", lancement)
-        fds: list[int] = []
-        if lancement.mot_de_passe:
-            lecture, ecriture = os.pipe()
-            try:
-                os.write(ecriture, lancement.mot_de_passe.encode("utf-8") + b"\n")
-            finally:
-                os.close(ecriture)
-            fds = [lecture]
-        # VTE prend possession des descripteurs de ``fds`` et les ferme
-        # après le lancement, réussi ou non. ``lancement.env`` complète
-        # l'environnement (ex. ``IPMI_PASSWORD``, #179).
-        if lancement.env:
-            envv = list(envv) + list(lancement.env)
-        self.terminal.spawn_with_fds_async(
-            Vte.PtyFlags.DEFAULT,
-            None,
-            lancement.argv,
-            envv,
-            fds,
-            [3] * len(fds),
-            GLib.SpawnFlags.DEFAULT,
-            None,
-            None,
-            -1,
-            None,
-            self._lance,
-        )
+        self.terminal.spawn(lancement, envv, self._lance)
         logger.debug("SessionTerminal._lancer: demandé")
 
     def _lance(self, _terminal, pid: int, erreur, *_args) -> None:
@@ -272,11 +234,7 @@ class SessionTerminal:
     def _arreter(self) -> None:
         """Envoie SIGHUP au programme, comme à la fermeture d'un terminal."""
         logger.debug("SessionTerminal._arreter: pid={}", self.pid)
-        if self.pid > 0:
-            try:
-                os.kill(self.pid, signal.SIGHUP)
-            except ProcessLookupError:
-                logger.debug("SessionTerminal._arreter: déjà terminé")
+        self.terminal.stop()
         logger.debug("SessionTerminal._arreter: fait")
 
     def close(self) -> None:

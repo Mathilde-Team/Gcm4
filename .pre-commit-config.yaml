@@ -39,7 +39,9 @@ repos:
       - id: trailing-whitespace
         exclude: ^tests/data/config/
       - id: end-of-file-fixer
-        exclude: ^tests/data/config/
+        # Bundles npm originaux : préserver leurs octets, contrôlés par SHA-256.
+        # Le bootstrap terminal.js écrit par le projet reste contrôlé.
+        exclude: ^(tests/data/config/|src/gcm4/ui/xterm_assets/(xterm|addon-fit|addon-search)\.js$)
       - id: check-merge-conflict
       - id: check-added-large-files
         args: [--maxkb=2048]

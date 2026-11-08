@@ -6,7 +6,7 @@
 > toute modification manuelle sera écrasée. Le régénérer avec `make class-diagram` ;
 > le job Qualité échoue s'il est périmé (`--check`).
 
-98 modules · 164 classes · 399 fonctions publiques de module.
+101 modules · 166 classes · 401 fonctions publiques de module.
 
 Conventions : `+` public, `-` privé (préfixe `_`) ; `list~str~` = `list[str]` ; `<<module>>`
 regroupe les fonctions publiques d'un module ; `<<…>>` sur une classe liste `dataclass` et les
@@ -30,7 +30,7 @@ flowchart TD
     g1 -->|1| g3
     g2 -->|1| g1
     g3 -->|2| g1
-    g3 -->|64| g2
+    g3 -->|66| g2
 ```
 
 ## Plugins
@@ -1055,6 +1055,8 @@ classDiagram
 | `gcm4.core.onglets` | `src/gcm4/core/onglets.py` | Onglets ouverts, enregistrés à la fermeture et restaurés au démarrage (#246). |
 | `gcm4.core.plugins` | `src/gcm4/core/plugins.py` | Contrat v1 entre la base gcm4 et ses plugins de connexion (#149), sans GTK. |
 | `gcm4.core.preferences` | `src/gcm4/core/preferences.py` | Préférences générales de la base GTK4, sans GTK (lot 5a, #147). |
+| `gcm4.core.pty_child` | `src/gcm4/core/pty_child.py` | Amorce isolée du PTY, sans ``preexec_fn`` dans le processus GTK multithread (#76). |
+| `gcm4.core.pty_process` | `src/gcm4/core/pty_process.py` | Processus POSIX sous PTY, indépendant de GTK et de l'émulateur (#76). |
 | `gcm4.core.pyaes` | `src/gcm4/core/pyaes.py` | AES encryption/decryption implementation in pure Python. |
 | `gcm4.core.raccourcis` | `src/gcm4/core/raccourcis.py` | Raccourcis de la fenêtre principale modifiables : section ``[shortcuts]`` (#247), sans GTK. |
 | `gcm4.core.registre` | `src/gcm4/core/registre.py` | Découverte des plugins et isolation de leurs erreurs (#150), sans GTK. |
@@ -1537,6 +1539,21 @@ classDiagram
         +str portee
         +str None action
     }
+    class mod_gcm4_core_pty_child {
+        <<module>>
+        +main(arguments) None
+    }
+    class ProcessusPty {
+        +pret() bool
+        +envoyer_secret() bool
+        +read() bytes
+        +write(donnees) int
+        +resize(colonnes, lignes) None
+        +erase() bytes
+        +poll() int None
+        +signaler(numero) None
+        +close() None
+    }
     class mod_gcm4_core_pyaes {
         <<module>>
         +rotate(word, n)
@@ -1698,7 +1715,8 @@ classDiagram
 | `gcm4.ui.mot_de_passe_maitre` | `src/gcm4/ui/mot_de_passe_maitre.py` | Mot de passe maître de ``.gcm4.key`` : déverrouillage, recouvrement, réglages (#98). |
 | `gcm4.ui.preferences` | `src/gcm4/ui/preferences.py` | Préférences de la base GTK4 : pages Général et Apparence (lot 5a, #147). |
 | `gcm4.ui.raccourcis` | `src/gcm4/ui/raccourcis.py` | Raccourcis modifiables (#247) : noms de touches GDK, saisie d'une combinaison. |
-| `gcm4.ui.terminal` | `src/gcm4/ui/terminal.py` | Terminal VTE GTK4 commun aux plugins terminal (telnet, local…), #295. |
+| `gcm4.ui.terminal` | `src/gcm4/ui/terminal.py` | Terminal xterm.js commun aux plugins terminal (telnet, local…), #76. |
+| `gcm4.ui.xterm` | `src/gcm4/ui/xterm.py` | Widget xterm.js local dans WebKitGTK 6 ; aucun serveur ni URL distante (#76). |
 | `gcm4.ui.zone_notification` | `src/gcm4/ui/zone_notification.py` | Icône de la zone de notification de gcm4 (#83) : StatusNotifierItem sur D-Bus. |
 
 ```mermaid
@@ -1863,6 +1881,23 @@ classDiagram
     }
     class SessionTerminal {
         +close() None
+    }
+    class mod_gcm4_ui_xterm {
+        <<module>>
+        +contexte()
+    }
+    class Terminal {
+        <<Gtk.Box>>
+        +texte(callback)
+        +set_encoding(nom)
+        +get_encoding()
+        +set_backspace_binding(valeur)
+        +set_delete_binding(valeur)
+        +set_colors(avant, fond, palette)
+        +feed(donnees)
+        +feed_child(donnees)
+        +spawn(lancement, envv, callback)
+        +stop()
     }
     class IconeNotification {
         +demarrer() None

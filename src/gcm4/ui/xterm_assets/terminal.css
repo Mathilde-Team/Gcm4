@@ -1,0 +1,5 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+html, body, #terminal { height: 100%; width: 100%; margin: 0; overflow: hidden; }
+body { background: #000; }
+#terminal { box-sizing: border-box; padding: 2px; }
+.xterm { height: 100%; }

@@ -190,7 +190,9 @@ session dans chacun :
 | Module | GTK | Contenu |
 |---|---|---|
 | `gcm4.core.terminal` | non | clés d'options `commands`, `backspace-key`, `delete-key`, `term` (mêmes clés INI que GTK3) et `encoding` (#85, `ENCODAGES`, `encodage`, `encoder`) ; `Lancement(argv, mot_de_passe, env)` — `env` ajoute des variables d'environnement au processus (ex. `IPMI_PASSWORD` pour ipmisol, #179 ; valeurs jamais dans `repr`, #145) ; `environnement`, `liaison`, `lire_commandes`, `ecrire_commandes`, `etapes(commandes, debut_ms)` |
-| `gcm4.ui.terminal` | VTE 3.91 | `SessionTerminal(host, protocole, lancement, log, debut_commandes_ms)` : `Vte.Terminal` dans un défilement, lancement asynchrone, mot de passe éventuel sur le descripteur 3, commandes programmées, « Session ended » en fin de programme, `close()` qui annule les envois et envoie SIGHUP ; `zone_options(options, changed)` : zone d'options de l'hôte ; `PALETTE`, `rgba` |
+| `gcm4.core.pty_process` | non | `ProcessusPty` : vrai PTY POSIX, terminal de contrôle via une amorce isolée sans `preexec_fn`, FD3 privé, confirmation d'exec, entrées/sorties non bloquantes, dimensions et statut waitpid |
+| `gcm4.ui.xterm` | WebKitGTK 6.0 | xterm.js local figé, pont fermé sans serveur, recherche et presse-papiers explicites, contre-pression du PTY |
+| `gcm4.ui.terminal` | WebKitGTK 6.0 | `SessionTerminal(host, protocole, lancement, log, debut_commandes_ms)` : lancement asynchrone, mot de passe éventuel sur FD3, commandes programmées, « Session ended », fermeture du groupe et récolte ; `zone_options(options, changed)` : mêmes clés INI ; `PALETTE`, `rgba` |
 
 Exemple, le plugin local (`plugins/local/gtk4.py`) :
 
@@ -200,11 +202,14 @@ class LocalSession(SessionTerminal):
         super().__init__(host, "local", lancement, log, 700)
 ```
 
-`gcm4.ui.terminal` exige VTE GTK4 (`gi.require_version("Vte", "3.91")`).
+`gcm4.ui.terminal` utilise xterm.js et exige WebKitGTK 6.0 via `gcm4.ui.xterm` (#76).
 Seuls les plugins l'importent, jamais la base (vérifié par
-`tests/test_gcm4_paquet.py`) : là où VTE GTK4 manque (Rocky Linux 9 et 10,
+`tests/test_gcm4_paquet.py`) : là où WebKitGTK 6.0 manque (dépôts de base de Rocky 9,
 #223), gcm4 démarre et le plugin est signalé en erreur dans Préférences >
 Extensions.
+
+Le [guide du terminal xterm.js](guide/terminal-xterm.md) décrit les limites,
+les dépendances, le pont local et la validation de ce remplacement.
 
 ## Plugins outils
 
