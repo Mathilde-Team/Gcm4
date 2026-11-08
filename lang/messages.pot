@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 12:49+0000\n"
+"POT-Creation-Date: 2026-11-08 13:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -773,6 +773,26 @@ msgid "Share folder"
 msgstr ""
 
 #: plugins/rdp/gtk4.py plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Audio capture"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "Multi-screen"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "id:046d:0825, id:046d:0826"
+msgstr ""
+
+#: plugins/rdp/gtk4.py
+msgid "USB devices"
+msgstr ""
+
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
 msgstr ""
 
@@ -1267,10 +1287,6 @@ msgstr ""
 
 #: plugins/spice/gtk4.py
 msgid "Share USB devices"
-msgstr ""
-
-#: plugins/spice/gtk4.py
-msgid "Share audio"
 msgstr ""
 
 #: plugins/spice/gtk4.py
