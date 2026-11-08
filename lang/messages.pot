@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Connection Manager\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-07 20:18+0000\n"
+"POT-Creation-Date: 2026-11-08 08:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -387,8 +387,8 @@ msgid "Edit Host"
 msgstr ""
 
 #: GTK3.OLD/gnome_connection_manager.py GTK3.OLD/widgets.py
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
-#: plugins/plugin_spice.py
+#: plugins/netmiko_push/gtk4.py plugins/plugin_spice.py
+#: plugins/snmp_push/gtk4.py
 msgid "OK"
 msgstr ""
 
@@ -2199,7 +2199,7 @@ msgid "Add"
 msgstr ""
 
 #: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
-#: plugins/plugin_snmp_push.py
+#: plugins/snmp_push/gtk4.py
 msgid "1. Configuration"
 msgstr ""
 
@@ -2210,7 +2210,7 @@ msgid "Waiting…"
 msgstr ""
 
 #: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
-#: plugins/plugin_snmp_push.py
+#: plugins/snmp_push/gtk4.py
 msgid "2. Suivi"
 msgstr ""
 
@@ -2248,7 +2248,7 @@ msgid "⬇  Import selected"
 msgstr ""
 
 #: plugins/import_hyperviseurs/ui.py plugins/netmiko_push/gtk4.py
-#: plugins/plugin_snmp_push.py
+#: plugins/snmp_push/gtk4.py
 msgid "3. Résultats"
 msgstr ""
 
@@ -2516,35 +2516,35 @@ msgstr ""
 msgid "{program} not found"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Rejeté"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Échec"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Ignoré"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "En attente"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "En cours"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Inventaire (CSV) :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Gabarit de configuration :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Charger l'inventaire"
 msgstr ""
 
@@ -2552,19 +2552,19 @@ msgstr ""
 msgid "Profils de connexion (constructeur, identifiants…)"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Ligne"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "IP / hôte"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Profil"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Variables"
 msgstr ""
 
@@ -2580,19 +2580,19 @@ msgstr ""
 msgid "Valider (à blanc, sans se connecter)"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Lancer le déploiement →"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Choisir un fichier…"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Nom"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Constructeur"
 msgstr ""
 
@@ -2600,23 +2600,23 @@ msgstr ""
 msgid "device_type"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Utilisateur"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Nouveau"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Supprimer"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Fichier :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Nom du profil (= colonne 'type'/'profile' du CSV) :"
 msgstr ""
 
@@ -2656,7 +2656,7 @@ msgstr ""
 msgid "Commande de sauvegarde (optionnel, ex. 'save force') :"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Enregistrer ce profil"
 msgstr ""
 
@@ -2664,7 +2664,7 @@ msgstr ""
 msgid "Écrire profiles.ini sur disque"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Erreur de chargement : {e}"
 msgstr ""
@@ -2674,7 +2674,7 @@ msgstr ""
 msgid "Profils chargés depuis {p}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Le profil doit avoir un nom."
 msgstr ""
 
@@ -2682,7 +2682,7 @@ msgstr ""
 msgid "Choisissez un constructeur et un modèle."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Profil '{n}' mis à jour (en mémoire)."
 msgstr ""
@@ -2691,107 +2691,107 @@ msgstr ""
 msgid "Choisissez d'abord un fichier profiles.ini."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Erreur d'écriture : {e}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Profils écrits dans {p}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Choisissez l'inventaire CSV et le gabarit."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "{n} hôte(s) chargé(s) depuis {csv}."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "⚠ Variables absentes du CSV : {v}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Chargez d'abord un inventaire."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Validation : {ok} prêt(s), {err} en erreur."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Statut"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Détail"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Durée (s)"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Annuler l'envoi"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Voir les résultats →"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Aucune ligne cochée."
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "0 / {n}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "{d} / {n}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "OK : {n}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Rejetés : {n}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Échecs : {n}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "En attente : {n}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "Ouvrir le dossier des journaux"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 msgid "← Nouveau déploiement"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Total : {total}  |  OK : {ok}  |  Rejetés : {rejected}  |  Échecs : {failed}  |  Ignorés : {skipped}"
 msgstr ""
 
-#: plugins/netmiko_push/gtk4.py plugins/plugin_snmp_push.py
+#: plugins/netmiko_push/gtk4.py plugins/snmp_push/gtk4.py
 #, python-brace-format
 msgid "Impossible de lire le journal : {e}"
 msgstr ""
@@ -3028,153 +3028,6 @@ msgstr ""
 
 #: plugins/plugin_serial.py plugins/serial/gtk4.py src/gcm4/ui/preferences.py
 msgid "Tool"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Push SNMP"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Profils SNMP (constructeur, identifiants…)"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Serveur de dépôt du fichier (SFTP / FTP / TFTP)"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Envoyer"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Envois en parallèle :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Valider (à blanc, sans envoyer)"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "SNMP"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "snmp_profiles.ini"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Constructeur (driver de push SNMP) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Version SNMP :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Communauté (v2c, en écriture — jamais 'public') :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Utilisateur USM (v3) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "(aucune)"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Protocole d'authentification (v3) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Clé d'authentification (v3) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "(aucun)"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Protocole de confidentialité (v3) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Clé de confidentialité (v3) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Afficher les secrets"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Port SNMP :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Timeout requête SNMP (s) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Écrire snmp_profiles.ini sur disque"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "IP du serveur de dépôt (TFTP/FTP/SFTP) :"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "⚠ L'équipement doit pouvoir joindre ce serveur pour aller chercher le fichier de configuration. Les paramètres de transfert (protocole, credentials) doivent être configurés à part."
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "Profils SNMP chargés depuis {p}"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Choisissez un constructeur."
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Choisissez d'abord un fichier snmp_profiles.ini."
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "⚠ profil inconnu : {p}"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-#, python-brace-format
-msgid "⚠ variables manquantes : {v}"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "OK : 0"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Rejetés : 0"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Échecs : 0"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "En attente : 0"
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Aucune exécution pour le moment."
-msgstr ""
-
-#: plugins/plugin_snmp_push.py
-msgid "Déploiement SNMP…"
 msgstr ""
 
 #: plugins/plugin_spice.py
@@ -3866,6 +3719,155 @@ msgstr ""
 
 #: plugins/sftp/gtk4.py
 msgid "No address"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Profils SNMP (constructeur, identifiants…)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Serveur de dépôt du fichier (SFTP / FTP / TFTP)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Envois en parallèle :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Valider (à blanc, sans envoyer)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "SNMP"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Constructeur (driver de push SNMP) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "SNMPv2c (communauté)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "SNMPv3 (USM, auth+priv)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Version SNMP :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Communauté (v2c, en écriture — jamais 'public') :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Utilisateur USM (v3) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "(aucune)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Protocole d'authentification (v3) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Clé d'authentification (v3) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "(aucun)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Protocole de confidentialité (v3) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Clé de confidentialité (v3) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Afficher les secrets"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Port SNMP :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Timeout requête SNMP (s) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Écrire snmp_profiles.ini sur disque"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Déposer le fichier rendu sur ce serveur avant l'envoi SNMP"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Protocole de dépôt :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Adresse du serveur de dépôt :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Port (0 = défaut du protocole) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Utilisateur (SFTP/FTP) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Mot de passe (SFTP/FTP) :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Dossier distant du dépôt :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "(automatique)"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Protocole de récupération par l'équipement :"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "⚠ L'équipement doit pouvoir joindre ce serveur pour aller chercher le fichier de configuration. Les paramètres de transfert (protocole, credentials) doivent être configurés à part."
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+#, python-brace-format
+msgid "Profils SNMP chargés depuis {p}"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Choisissez un constructeur."
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Choisissez d'abord un fichier snmp_profiles.ini."
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Déploiement SNMP…"
+msgstr ""
+
+#: plugins/snmp_push/gtk4.py
+msgid "Push SNMP"
 msgstr ""
 
 #: plugins/ssh/gtk4.py
