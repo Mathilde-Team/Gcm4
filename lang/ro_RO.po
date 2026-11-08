@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "Nume VM"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Se așteaptă…"
 
@@ -864,13 +864,13 @@ msgstr "Remote"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Partajați folderul"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Calea folderului partajat"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Alegeți folderul de partajat."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Eroare: sunt necesare nodul Proxmox și VMID"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Eroare: este necesar URI-ul libvirt"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Parametri suplimentari nevalizi: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "Eroare la tichetul SPICE: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "Portul TLS trebuie să fie un număr între 1 și 65535."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "tichet incomplet"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "Certificat CA"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "URI directă"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Deconectare"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Încheiat (cod {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Eroare la pornirea vizualizatorului"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Deschis în {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Nod Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Reconectați-vă"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "Se solicită tichetul SPICE…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "Eroare SSH: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Sesiune încheiată"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "Partajați dispozitivele USB"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Partajați sunetul"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "Port TLS"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "Sesiunea SPICE se deschide într-o fereastră remote-viewer separată."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Prin Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "Prin libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "URI libvirt"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program} nu a fost găsit: instalați pachetul virt-viewer"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3949,10 +4067,6 @@ msgid "Send commands after login"
 msgstr "Trimite comenzi după autentificare"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Sesiune încheiată"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3984,7 +4098,6 @@ msgid "Show window"
 msgstr "Afișează fereastra"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Deconectare"
 
@@ -4049,7 +4162,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Cluster"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Cluster"
 
@@ -4080,12 +4192,10 @@ msgstr "Afișează fereastra"
 #~ msgstr "Conectare la hostul selectat sau la toate hosturile din grupul selectat"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Conectare"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Se conectează…"
 
@@ -4096,7 +4206,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Modul de jurnalizare continuă este activ și nu poate fi dezactivat per filă."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Cluster"
 
@@ -4122,7 +4231,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Comenzi personalizate"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Comenzi personalizate"
 
@@ -4137,9 +4245,6 @@ msgstr "Afișează fereastra"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Ținte Proxmox detectate (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Deconectare"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Sigur doriți să eliminați toate hosturile din grup"
@@ -4156,10 +4261,6 @@ msgstr "Afișează fereastra"
 #~ msgid "Enable logging"
 #~ msgstr "Activează jurnalizarea"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Încheiat (cod {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Introduceți noul nume"
 
@@ -4170,11 +4271,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Introduceți textul de trimis către console: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Eroare la conectarea la server"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Eroare la conectarea la server"
 
 #~ msgid "Error saving host. Description"
@@ -4193,7 +4289,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Exportă lista de servere în fișier"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Exportă servere"
 
@@ -4201,7 +4296,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Argumente suplimentare de transmis liniei de comandă"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "Argumente suplimentare"
 
@@ -4212,7 +4306,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Flux"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Control flux:"
 
@@ -4236,12 +4329,10 @@ msgstr "Afișează fereastra"
 #~ msgstr "Culoare text:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "Redirecționare X11"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Grup"
 
@@ -4249,7 +4340,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Nume host"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Nume host"
 
@@ -4275,7 +4365,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Importat"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "Importat"
 
@@ -4298,7 +4387,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "Nume VM"
 
@@ -4321,12 +4409,10 @@ msgstr "Afișează fereastra"
 #~ msgstr "Cale jurnale"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Adaugă host nou"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "Nume VM"
 
@@ -4346,7 +4432,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Numărul de biți de date pe octet (8 = standard)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Adaugă"
 
@@ -4375,7 +4460,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Pagina web a proiectului"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Comandă"
 
@@ -4383,7 +4467,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Reconectează la host"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Comandă"
 
@@ -4403,7 +4486,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "SPICE  (indisponibil aici: Proxmox necesită ticket/proxy API)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Niciun tip de conexiune selectat."
 
@@ -4442,7 +4524,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Trimite comenzi simultan către mai multe hosturi"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "serial"
 
@@ -4456,7 +4537,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Lista de servere va fi suprascrisă, continuați?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Servere"
 
@@ -4485,7 +4565,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Stop"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Biți de stop:"
 
@@ -4493,12 +4572,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Biți de stop: 1 = standard, 2 = RS-485 / hardware vechi"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Port serial:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Șablon:"
 
@@ -4528,11 +4601,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "Utilizează fontul implicit cu lățime fixă"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4547,7 +4615,6 @@ msgstr "Afișează fereastra"
 #~ msgstr "_Editare"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "Importat"
 
@@ -4575,11 +4642,6 @@ msgstr "Afișează fereastra"
 #~ msgid "label"
 #~ msgstr "etichetă"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "URI libvirt detectat"
-
 #~ msgid "local"
 #~ msgstr "local"
 
@@ -4596,12 +4658,10 @@ msgstr "Afișează fereastra"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp nu a fost găsit"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "Opțiuni xfreerdp:"
 

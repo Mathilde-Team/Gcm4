@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM neve"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Várakozás…"
 
@@ -864,13 +864,13 @@ msgstr "Távoli"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Mappa megosztása"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Megosztott mappa elérési útja"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Válassza ki a megosztani kívánt mappát."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Hiba: Proxmox-csomópont és VMID szükséges"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Hiba: libvirt URI szükséges"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Érvénytelen extra paraméterek: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "SPICE-jegyhiba: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "A TLS-portnak 1 és 65535 közötti számnak kell lennie."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "hiányos jegy"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "CA-tanúsítvány"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "Közvetlen URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Kapcsolat bontása"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Befejeződött (kód: {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Hiba a megjelenítő indításakor"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Megnyitva ezzel: {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Proxmox-csomópont"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Újracsatlakozás"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "SPICE-jegy kérése…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "SSH-hiba: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "A munkamenet véget ért"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "USB-eszközök megosztása"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Hang megosztása"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "TLS-port"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "A SPICE-munkamenet külön remote-viewer ablakban nyílik meg."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Proxmoxon keresztül"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "libvirten keresztül"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "libvirt URI"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "A(z) {program} nem található: telepítse a virt-viewer csomagot"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3949,10 +4067,6 @@ msgid "Send commands after login"
 msgstr "Parancsok küldése bejelentkezés után"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "A munkamenet véget ért"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3984,7 +4098,6 @@ msgid "Show window"
 msgstr "Ablak megjelenítése"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Kapcsolat bontása"
 
@@ -4049,7 +4162,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Klaszter"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Klaszter"
 
@@ -4080,12 +4192,10 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Csatlakozás a kijelölt hoszthoz vagy a kijelölt csoport összes hosztjához"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Csatlakozás"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Csatlakozás…"
 
@@ -4096,7 +4206,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "A folyamatos naplózási mód aktív, és lapszintenként nem kapcsolható ki."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Klaszter"
 
@@ -4122,7 +4231,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Egyéni parancsok"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Egyéni parancsok"
 
@@ -4137,9 +4245,6 @@ msgstr "Ablak megjelenítése"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Észlelt Proxmox célok (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Kapcsolat bontása"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Biztosan eltávolítja az összes hosztot a csoportból"
@@ -4156,10 +4261,6 @@ msgstr "Ablak megjelenítése"
 #~ msgid "Enable logging"
 #~ msgstr "Naplózás engedélyezése"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Befejeződött (kód: {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Adja meg az új nevet"
 
@@ -4170,11 +4271,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Adja meg a konzoloknak küldendő szöveget: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Hiba a szerverhez csatlakozás során"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Hiba a szerverhez csatlakozás során"
 
 #~ msgid "Error saving host. Description"
@@ -4193,7 +4289,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Szerverlista exportálása fájlba"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Szerverek exportálása"
 
@@ -4201,7 +4296,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Parancssorban átadandó további argumentumok"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "További argumentumok"
 
@@ -4212,7 +4306,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Folyamvezérlés"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Folyamvezérlés:"
 
@@ -4236,12 +4329,10 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Előtérszín:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "X11 továbbítás"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Csoport"
 
@@ -4249,7 +4340,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Hoszt neve"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Hoszt neve"
 
@@ -4275,7 +4365,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Importálva"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "Importálva"
 
@@ -4298,7 +4387,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "VM neve"
 
@@ -4321,12 +4409,10 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Naplók útvonala"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Új hoszt hozzáadása"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "VM neve"
 
@@ -4346,7 +4432,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Adatbitek száma byte-onként (8 = standard)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Hozzáadás"
 
@@ -4375,7 +4460,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "A projekt honlapja"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Parancs"
 
@@ -4383,7 +4467,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Újracsatlakozás a hoszthoz"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Parancs"
 
@@ -4403,7 +4486,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "SPICE  (itt nem elérhető: a Proxmox API jegyet/proxyt igényel)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Nincs kiválasztott kapcsolattípus."
 
@@ -4442,7 +4524,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Parancsok küldése egyszerre több hosztnak"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "soros"
 
@@ -4456,7 +4537,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "A szerverlista felülíródik, folytatja?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Szerverek"
 
@@ -4485,7 +4565,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Stop"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Stopbitek:"
 
@@ -4493,12 +4572,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Stopbitek: 1 = standard, 2 = RS-485 / régi hardver"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Soros port:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Sablon:"
 
@@ -4528,11 +4601,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Alapértelmezett rögzített szélességű betűtípus használata"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4547,7 +4615,6 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "Sz_erkesztés"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "Importálva"
 
@@ -4575,11 +4642,6 @@ msgstr "Ablak megjelenítése"
 #~ msgid "label"
 #~ msgstr "felirat"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "Észlelt libvirt URI"
-
 #~ msgid "local"
 #~ msgstr "helyi"
 
@@ -4596,12 +4658,10 @@ msgstr "Ablak megjelenítése"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp nem található"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "xfreerdp beállítások:"
 

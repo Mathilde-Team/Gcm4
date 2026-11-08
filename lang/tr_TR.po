@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "VM adı"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Bekleniyor…"
 
@@ -864,13 +864,13 @@ msgstr "Uzak"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Klasörü paylaş"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Paylaşılan klasör yolu"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Paylaşılacak klasörü seçin."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Hata: Proxmox düğümü ve VMID gerekli"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Hata: libvirt URI gerekli"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Ek parametreler geçersiz: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "SPICE bileti hatası: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "TLS bağlantı noktası 1 ile 65535 arasında bir sayı olmalıdır."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "eksik bilet"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "CA sertifikası"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "Doğrudan URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Bağlantıyı kes"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Sona erdi (kod {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Görüntüleyici başlatılırken hata oluştu"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "{program} içinde açıldı"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Proxmox düğümü"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Yeniden bağlan"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "SPICE bileti isteniyor…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "SSH hatası: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Oturum sona erdi"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "USB aygıtlarını paylaş"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Sesi paylaş"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "TLS bağlantı noktası"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "SPICE oturumu ayrı bir remote-viewer penceresinde açılır."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Proxmox üzerinden"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "libvirt üzerinden"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "libvirt URI"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "{program} bulunamadı: virt-viewer paketini yükleyin"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3949,10 +4067,6 @@ msgid "Send commands after login"
 msgstr "Girişten sonra komut gönder"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Oturum sona erdi"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3984,7 +4098,6 @@ msgid "Show window"
 msgstr "Pencereyi göster"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Bağlantıyı kes"
 
@@ -4049,7 +4162,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Küme"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Küme"
 
@@ -4080,12 +4192,10 @@ msgstr "Pencereyi göster"
 #~ msgstr "Seçilen sunucuya veya seçilen gruptaki tüm sunuculara bağlan"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Bağlan"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Bağlanıyor…"
 
@@ -4096,7 +4206,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Sürekli günlük modu etkin ve sekme başına devre dışı bırakılamaz."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Küme"
 
@@ -4122,7 +4231,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Özel komutlar"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Özel komutlar"
 
@@ -4137,9 +4245,6 @@ msgstr "Pencereyi göster"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Tespit edilen Proxmox hedefleri (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Bağlantıyı kes"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Gruptaki tüm sunucuları kaldırmak istediğinizden emin misiniz"
@@ -4156,10 +4261,6 @@ msgstr "Pencereyi göster"
 #~ msgid "Enable logging"
 #~ msgstr "Günlük kaydını etkinleştir"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Sona erdi (kod {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Yeni ad girin"
 
@@ -4170,11 +4271,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Konsollara gönderilecek metni girin: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Sunucuya bağlanırken hata"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Sunucuya bağlanırken hata"
 
 #~ msgid "Error saving host. Description"
@@ -4193,7 +4289,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Sunucu listesini dosyaya aktar"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Sunucuları Dışa Aktar"
 
@@ -4201,7 +4296,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Komut satırına geçirilecek ek argümanlar"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "Ek argümanlar"
 
@@ -4212,7 +4306,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Akış"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Akış kontrolü:"
 
@@ -4236,12 +4329,10 @@ msgstr "Pencereyi göster"
 #~ msgstr "Ön plan rengi:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "X11 Yönlendirme"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Grup"
 
@@ -4249,7 +4340,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Sunucu adı"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Sunucu adı"
 
@@ -4275,7 +4365,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "İçe aktarıldı"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "İçe aktarıldı"
 
@@ -4298,7 +4387,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "VM adı"
 
@@ -4321,12 +4409,10 @@ msgstr "Pencereyi göster"
 #~ msgstr "Günlük yolu"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Yeni sunucu ekle"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "VM adı"
 
@@ -4346,7 +4432,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Bayt başına veri biti sayısı (8 = standart)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Ekle"
 
@@ -4375,7 +4460,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Projenin Ana Sayfası"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Komut"
 
@@ -4383,7 +4467,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Sunucuya yeniden bağlan"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Komut"
 
@@ -4403,7 +4486,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "SPICE  (burada kullanılamaz: Proxmox API bileti/proxy gerektirir)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Bağlantı türü seçilmedi."
 
@@ -4442,7 +4524,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Birden çok sunucuya aynı anda komut gönder"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "seri"
 
@@ -4456,7 +4537,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Sunucu listesi üzerine yazılacak, devam edilsin mi?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Sunucular"
 
@@ -4485,7 +4565,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Durdurma"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Durdurma bitleri:"
 
@@ -4493,12 +4572,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Durdurma bitleri: 1 = standart, 2 = RS-485 / eski donanım"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Seri port:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Şablon:"
 
@@ -4528,11 +4601,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "Varsayılan sabit genişlikli yazı tipini kullan"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4547,7 +4615,6 @@ msgstr "Pencereyi göster"
 #~ msgstr "_Düzenle"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "İçe aktarıldı"
 
@@ -4575,11 +4642,6 @@ msgstr "Pencereyi göster"
 #~ msgid "label"
 #~ msgstr "etiket"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "Tespit edilen libvirt URI'si"
-
 #~ msgid "local"
 #~ msgstr "yerel"
 
@@ -4596,12 +4658,10 @@ msgstr "Pencereyi göster"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "xfreerdp bulunamadı"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "xfreerdp seçenekleri:"
 

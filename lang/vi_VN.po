@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "Tên VM"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "Đang chờ…"
 
@@ -864,13 +864,13 @@ msgstr "Từ xa"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "Chia sẻ thư mục"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "Đường dẫn thư mục được chia sẻ"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "Chọn thư mục để chia sẻ."
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "Lỗi: Cần có nút Proxmox và VMID"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "Lỗi: Cần có URI libvirt"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "Tham số bổ sung không hợp lệ: {error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "Lỗi vé SPICE: {out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "Cổng TLS phải là một số từ 1 đến 65535."
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "vé chưa hoàn chỉnh"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "Chứng chỉ CA"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "URI trực tiếp"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "Ngắt kết nối"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "Đã kết thúc (mã {rc})"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "Lỗi khi khởi chạy trình xem"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "Đã mở bằng {program}"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Nút Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "Kết nối lại"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "Đang yêu cầu vé SPICE…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "Lỗi SSH: {exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "Phiên đã kết thúc"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "Chia sẻ thiết bị USB"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "Chia sẻ âm thanh"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "Cổng TLS"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "Phiên SPICE sẽ mở trong một cửa sổ remote-viewer riêng."
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "Qua Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "Qua libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "URI libvirt"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "Không tìm thấy {program}: hãy cài đặt gói virt-viewer"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3949,10 +4067,6 @@ msgid "Send commands after login"
 msgstr "Gửi lệnh sau khi đăng nhập"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "Phiên đã kết thúc"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3984,7 +4098,6 @@ msgid "Show window"
 msgstr "Hiện cửa sổ"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "Ngắt kết nối"
 
@@ -4049,7 +4162,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Cluster"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "Cluster"
 
@@ -4080,12 +4192,10 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Kết nối đến host đã chọn hoặc tất cả host trong nhóm đã chọn"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "Kết nối"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "Đang kết nối…"
 
@@ -4096,7 +4206,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Chế độ ghi nhật ký liên tục đang hoạt động và không thể tắt theo từng tab."
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "Cluster"
 
@@ -4122,7 +4231,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Lệnh tùy chỉnh"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "Lệnh tùy chỉnh"
 
@@ -4137,9 +4245,6 @@ msgstr "Hiện cửa sổ"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "Đích Proxmox được phát hiện (dconf):"
-
-#~ msgid "Disconnect"
-#~ msgstr "Ngắt kết nối"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "Bạn có chắc muốn xóa tất cả host trong nhóm"
@@ -4156,10 +4261,6 @@ msgstr "Hiện cửa sổ"
 #~ msgid "Enable logging"
 #~ msgstr "Bật ghi nhật ký"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "Đã kết thúc (mã {rc})"
-
 #~ msgid "Enter new name"
 #~ msgstr "Nhập tên mới"
 
@@ -4170,11 +4271,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Nhập văn bản để gửi đến console: "
 
 #~ msgid "Error connecting to server"
-#~ msgstr "Lỗi kết nối đến server"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "Lỗi kết nối đến server"
 
 #~ msgid "Error saving host. Description"
@@ -4193,7 +4289,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Xuất danh sách server ra tệp"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "Xuất Server"
 
@@ -4201,7 +4296,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Đối số bổ sung truyền cho dòng lệnh"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "Đối số bổ sung"
 
@@ -4212,7 +4306,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Luồng"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "Điều khiển luồng:"
 
@@ -4236,12 +4329,10 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Màu chữ:"
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "Chuyển tiếp X11"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "Nhóm"
 
@@ -4249,7 +4340,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Tên host"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "Tên host"
 
@@ -4275,7 +4365,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Đã nhập"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "Đã nhập"
 
@@ -4298,7 +4387,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Keep-Alive"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "Tên VM"
 
@@ -4321,12 +4409,10 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Đường dẫn nhật ký"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "Thêm host mới"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "Tên VM"
 
@@ -4346,7 +4432,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Số bit dữ liệu trên mỗi byte (8 = chuẩn)"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "Thêm"
 
@@ -4375,7 +4460,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Trang chủ của dự án"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "Lệnh"
 
@@ -4383,7 +4467,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Kết nối lại với host"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "Lệnh"
 
@@ -4403,7 +4486,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "SPICE  (không khả dụng ở đây: Proxmox yêu cầu ticket/proxy API)"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "Chưa chọn loại kết nối."
 
@@ -4442,7 +4524,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Gửi lệnh đến nhiều host cùng lúc"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "serial"
 
@@ -4456,7 +4537,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Danh sách server sẽ bị ghi đè, tiếp tục?"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_Server"
 
@@ -4485,7 +4565,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Stop"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "Bit stop:"
 
@@ -4493,12 +4572,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Bit stop: 1 = chuẩn, 2 = RS-485 / phần cứng cũ"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "Cổng serial:"
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "Mẫu:"
 
@@ -4528,11 +4601,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "Sử dụng phông chữ độ rộng cố định mặc định"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4547,7 +4615,6 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "_Chỉnh sửa"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "Đã nhập"
 
@@ -4575,11 +4642,6 @@ msgstr "Hiện cửa sổ"
 #~ msgid "label"
 #~ msgstr "nhãn"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "URI libvirt được phát hiện"
-
 #~ msgid "local"
 #~ msgstr "cục bộ"
 
@@ -4596,12 +4658,10 @@ msgstr "Hiện cửa sổ"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "Không tìm thấy xfreerdp"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "Tùy chọn xfreerdp:"
 

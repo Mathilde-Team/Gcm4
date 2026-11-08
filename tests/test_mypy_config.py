@@ -22,6 +22,7 @@ MODULES_TYPES_MINIMUM = {
     "plugins/import_putty/core.py",
     "plugins/snmp_push/core.py",
     "plugins/ssh/core.py",
+    "plugins/spice/core.py",
 }
 
 

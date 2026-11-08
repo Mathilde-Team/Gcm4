@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/Mathilde-Team/Gcm4/issues\n"
-"POT-Creation-Date: 2026-11-08 10:43+0000\n"
+"POT-Creation-Date: 2026-11-08 11:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Target already present: {uri}"
 msgstr ""
 
-#: plugins/import_hyperviseurs/ui.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py
 msgid "VM name"
 msgstr "虚拟机名称"
 
-#: plugins/import_hyperviseurs/ui.py plugins/web/gtk4.py
+#: plugins/import_hyperviseurs/ui.py plugins/spice/gtk4.py plugins/web/gtk4.py
 msgid "Waiting…"
 msgstr "等待中…"
 
@@ -864,13 +864,13 @@ msgstr "远程"
 msgid "Share clipboard"
 msgstr ""
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Share folder"
-msgstr ""
+msgstr "共享文件夹"
 
-#: plugins/rdp/gtk4.py
+#: plugins/rdp/gtk4.py plugins/spice/gtk4.py
 msgid "Shared folder path"
-msgstr ""
+msgstr "共享文件夹路径"
 
 #: plugins/rdp/gtk4.py
 msgid "Size"
@@ -1274,6 +1274,124 @@ msgstr ""
 #: plugins/snmp_push/gtk4.py
 msgid "⚠ Renseignez le serveur de dépôt avant de lancer."
 msgstr ""
+
+#: plugins/spice/core.py
+msgid "Choose the folder to share."
+msgstr "选择要共享的文件夹。"
+
+#: plugins/spice/core.py
+msgid "Error: Proxmox node and VMID required"
+msgstr "错误：需要 Proxmox 节点和 VMID"
+
+#: plugins/spice/core.py
+msgid "Error: libvirt URI required"
+msgstr "错误：需要 libvirt URI"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "Invalid extra parameters: {error}"
+msgstr "无效的额外参数：{error}"
+
+#: plugins/spice/core.py
+#, python-brace-format
+msgid "SPICE ticket error: {out}"
+msgstr "SPICE 票据错误：{out}"
+
+#: plugins/spice/core.py
+msgid "The TLS port must be a number from 1 to 65535."
+msgstr "TLS 端口必须是 1 到 65535 之间的数字。"
+
+#: plugins/spice/core.py
+msgid "incomplete ticket"
+msgstr "不完整的票据"
+
+#: plugins/spice/gtk4.py
+msgid "CA certificate"
+msgstr "CA 证书"
+
+#: plugins/spice/gtk4.py
+msgid "Direct URI"
+msgstr "直接 URI"
+
+#: plugins/spice/gtk4.py
+msgid "Disconnect"
+msgstr "断开连接"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Ended (code {rc})"
+msgstr "已结束（代码 {rc}）"
+
+#: plugins/spice/gtk4.py
+msgid "Error launching viewer"
+msgstr "启动查看器时出错"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "Opened in {program}"
+msgstr "已在 {program} 中打开"
+
+#: plugins/spice/gtk4.py
+msgid "Proxmox node"
+msgstr "Proxmox 节点"
+
+#: plugins/spice/gtk4.py
+msgid "Reconnect"
+msgstr "重新连接"
+
+#: plugins/spice/gtk4.py
+msgid "Requesting the SPICE ticket…"
+msgstr "正在请求 SPICE 票据…"
+
+#: plugins/spice/gtk4.py
+msgid "SPICE"
+msgstr "SPICE"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "SSH error: {exc}"
+msgstr "SSH 错误：{exc}"
+
+#: plugins/spice/gtk4.py src/gcm4/ui/terminal.py
+msgid "Session ended"
+msgstr "会话已结束"
+
+#: plugins/spice/gtk4.py
+msgid "Share USB devices"
+msgstr "共享 USB 设备"
+
+#: plugins/spice/gtk4.py
+msgid "Share audio"
+msgstr "共享音频"
+
+#: plugins/spice/gtk4.py
+msgid "TLS port"
+msgstr "TLS 端口"
+
+#: plugins/spice/gtk4.py
+msgid "The SPICE session opens in a separate remote-viewer window."
+msgstr "SPICE 会话将在单独的 remote-viewer 窗口中打开。"
+
+#: plugins/spice/gtk4.py
+msgid "VMID"
+msgstr "VMID"
+
+#: plugins/spice/gtk4.py
+msgid "Via Proxmox"
+msgstr "通过 Proxmox"
+
+#: plugins/spice/gtk4.py
+msgid "Via libvirt"
+msgstr "通过 libvirt"
+
+#: plugins/spice/gtk4.py
+msgid "libvirt URI"
+msgstr "libvirt URI"
+
+#: plugins/spice/gtk4.py
+#, python-brace-format
+msgid "{program} not found: install the virt-viewer package"
+msgstr "未找到 {program}：请安装 virt-viewer 软件包"
 
 #: plugins/ssh/gtk4.py
 #, fuzzy, python-brace-format
@@ -3949,10 +4067,6 @@ msgid "Send commands after login"
 msgstr "登录后发送命令"
 
 #: src/gcm4/ui/terminal.py
-msgid "Session ended"
-msgstr "会话已结束"
-
-#: src/gcm4/ui/terminal.py
 msgid "TERM"
 msgstr "TERM"
 
@@ -3984,7 +4098,6 @@ msgid "Show window"
 msgstr "显示窗口"
 
 #, fuzzy, python-format
-#~| msgid "Disconnect"
 #~ msgid "%s has disconnected."
 #~ msgstr "断开连接"
 
@@ -4049,7 +4162,6 @@ msgstr "显示窗口"
 #~ msgstr "集群"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "Cluster…"
 #~ msgstr "集群"
 
@@ -4080,12 +4192,10 @@ msgstr "显示窗口"
 #~ msgstr "连接到所选主机或所选分组中的所有主机"
 
 #, fuzzy
-#~| msgid "Connect"
 #~ msgid "ConnectTimeout"
 #~ msgstr "连接"
 
 #, fuzzy
-#~| msgid "Connecting…"
 #~ msgid "Connection closed"
 #~ msgstr "正在连接…"
 
@@ -4096,7 +4206,6 @@ msgstr "显示窗口"
 #~ msgstr "连续日志模式已激活，无法按标签单独禁用。"
 
 #, fuzzy
-#~| msgid "Cluster"
 #~ msgid "ControlMaster"
 #~ msgstr "集群"
 
@@ -4122,7 +4231,6 @@ msgstr "显示窗口"
 #~ msgstr "自定义命令"
 
 #, fuzzy
-#~| msgid "Custom commands"
 #~ msgid "Custom commands…"
 #~ msgstr "自定义命令"
 
@@ -4137,9 +4245,6 @@ msgstr "显示窗口"
 
 #~ msgid "Detected Proxmox targets (dconf):"
 #~ msgstr "检测到的 Proxmox 目标 (dconf)："
-
-#~ msgid "Disconnect"
-#~ msgstr "断开连接"
 
 #~ msgid "Do you really want to remove all hosts in group"
 #~ msgstr "您确实要删除该组中的所有主机吗"
@@ -4156,10 +4261,6 @@ msgstr "显示窗口"
 #~ msgid "Enable logging"
 #~ msgstr "启用日志记录"
 
-#, python-brace-format
-#~ msgid "Ended (code {rc})"
-#~ msgstr "已结束（代码 {rc}）"
-
 #~ msgid "Enter new name"
 #~ msgstr "输入新名称"
 
@@ -4170,11 +4271,6 @@ msgstr "显示窗口"
 #~ msgstr "输入要发送到控制台的文本："
 
 #~ msgid "Error connecting to server"
-#~ msgstr "连接服务器时出错"
-
-#, fuzzy
-#~| msgid "Error connecting to server"
-#~ msgid "Error launching viewer"
 #~ msgstr "连接服务器时出错"
 
 #~ msgid "Error saving host. Description"
@@ -4193,7 +4289,6 @@ msgstr "显示窗口"
 #~ msgstr "将服务器列表导出到文件"
 
 #, fuzzy
-#~| msgid "Export Servers"
 #~ msgid "Exports"
 #~ msgstr "导出服务器"
 
@@ -4201,7 +4296,6 @@ msgstr "显示窗口"
 #~ msgstr "传递给命令行的额外参数"
 
 #, fuzzy
-#~| msgid "Extra arguments"
 #~ msgid "Extra ssh args"
 #~ msgstr "额外参数"
 
@@ -4212,7 +4306,6 @@ msgstr "显示窗口"
 #~ msgstr "流控"
 
 #, fuzzy
-#~| msgid "Flow control:"
 #~ msgid "Flow control"
 #~ msgstr "流量控制："
 
@@ -4236,12 +4329,10 @@ msgstr "显示窗口"
 #~ msgstr "前景颜色："
 
 #, fuzzy
-#~| msgid "X11 Forwarding"
 #~ msgid "ForwardAgent"
 #~ msgstr "X11 转发"
 
 #, fuzzy
-#~| msgid "Group"
 #~ msgid "Group name:"
 #~ msgstr "分组"
 
@@ -4249,7 +4340,6 @@ msgstr "显示窗口"
 #~ msgstr "主机名"
 
 #, fuzzy
-#~| msgid "Host name"
 #~ msgid "HostName"
 #~ msgstr "主机名"
 
@@ -4275,7 +4365,6 @@ msgstr "显示窗口"
 #~ msgstr "已导入"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "Imports"
 #~ msgstr "已导入"
 
@@ -4298,7 +4387,6 @@ msgstr "显示窗口"
 #~ msgstr "保持连接 (Keep-Alive)"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "Key name"
 #~ msgstr "虚拟机名称"
 
@@ -4321,12 +4409,10 @@ msgstr "显示窗口"
 #~ msgstr "日志路径"
 
 #, fuzzy
-#~| msgid "Add new host"
 #~ msgid "New host"
 #~ msgstr "添加新主机"
 
 #, fuzzy
-#~| msgid "VM name"
 #~ msgid "New name:"
 #~ msgstr "虚拟机名称"
 
@@ -4346,7 +4432,6 @@ msgstr "显示窗口"
 #~ msgstr "每字节的数据位数（8 = 标准）"
 
 #, fuzzy
-#~| msgid "Add"
 #~ msgid "Odd"
 #~ msgstr "添加"
 
@@ -4375,7 +4460,6 @@ msgstr "显示窗口"
 #~ msgstr "项目主页"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "ProxyCommand"
 #~ msgstr "命令"
 
@@ -4383,7 +4467,6 @@ msgstr "显示窗口"
 #~ msgstr "重新连接主机"
 
 #, fuzzy
-#~| msgid "Command"
 #~ msgid "RemoteCommand"
 #~ msgstr "命令"
 
@@ -4403,7 +4486,6 @@ msgstr "显示窗口"
 #~ msgstr "SPICE（此处不可用：Proxmox 需要 API 票据/代理）"
 
 #, fuzzy
-#~| msgid "No connection type selected."
 #~ msgid "SSH connection failed"
 #~ msgstr "未选择连接类型。"
 
@@ -4442,7 +4524,6 @@ msgstr "显示窗口"
 #~ msgstr "同时向多个主机发送命令"
 
 #, fuzzy
-#~| msgid "serial"
 #~ msgid "Serial"
 #~ msgstr "串口"
 
@@ -4456,7 +4537,6 @@ msgstr "显示窗口"
 #~ msgstr "服务器列表将被覆盖，是否继续？"
 
 #, fuzzy
-#~| msgid "_Servers"
 #~ msgid "Servers"
 #~ msgstr "_服务器"
 
@@ -4485,7 +4565,6 @@ msgstr "显示窗口"
 #~ msgstr "停止位"
 
 #, fuzzy
-#~| msgid "Stop bits:"
 #~ msgid "Stop bits"
 #~ msgstr "停止位："
 
@@ -4493,12 +4572,6 @@ msgstr "显示窗口"
 #~ msgstr "停止位：1 = 标准，2 = RS-485 / 旧设备"
 
 #, fuzzy
-#~| msgid "Serial port:"
-#~ msgid "TLS port"
-#~ msgstr "串口："
-
-#, fuzzy
-#~| msgid "Template:"
 #~ msgid "Template"
 #~ msgstr "模板："
 
@@ -4528,11 +4601,6 @@ msgstr "显示窗口"
 #~ msgstr "使用默认等宽字体"
 
 #, fuzzy
-#~| msgid "Libvirt"
-#~ msgid "Via libvirt"
-#~ msgstr "Libvirt"
-
-#, fuzzy
 #~ msgid ""
 #~ "VirtualBox has no central registry (unlike virt-manager/dconf).\n"
 #~ "Add your hosts manually below."
@@ -4547,7 +4615,6 @@ msgstr "显示窗口"
 #~ msgstr "_编辑"
 
 #, fuzzy
-#~| msgid "Imported"
 #~ msgid "_Import"
 #~ msgstr "已导入"
 
@@ -4575,11 +4642,6 @@ msgstr "显示窗口"
 #~ msgid "label"
 #~ msgstr "标签"
 
-#, fuzzy
-#~| msgid "Detected libvirt URI"
-#~ msgid "libvirt URI"
-#~ msgstr "检测到的 libvirt URI"
-
 #~ msgid "local"
 #~ msgstr "本地"
 
@@ -4596,12 +4658,10 @@ msgstr "显示窗口"
 #~ msgstr "rdp"
 
 #, fuzzy
-#~| msgid "xfreerdp not found"
 #~ msgid "remote-viewer not found"
 #~ msgstr "未找到 xfreerdp"
 
 #, fuzzy
-#~| msgid "xfreerdp options:"
 #~ msgid "remote-viewer options:"
 #~ msgstr "xfreerdp 选项："
 

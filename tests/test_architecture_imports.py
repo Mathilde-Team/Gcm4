@@ -102,6 +102,7 @@ class TestContratsImports(unittest.TestCase):
         # supprimés (#179, #182).
         self.assertGreaterEqual(len(NOMS_PLUGINS), 3)
         self.assertIn("plugins/ssh/core.py", CORES_DE_PLUGINS)
+        self.assertIn("plugins/spice/core.py", CORES_DE_PLUGINS)  # portage #179
         # Cœurs des outils rangés dans leur plugin (#427, lot 3).
         for coeur in (
             "plugins/import_hyperviseurs/core.py",

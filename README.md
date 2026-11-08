@@ -172,7 +172,7 @@ sudo apt install python3 python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 expect python3-p
 sudo apt install tigervnc-viewer       # ou vinagre, remmina
 
 # SPICE
-sudo apt install gir1.2-spiceclientgtk-3.0       # fournit remote-viewer
+sudo apt install virt-viewer       # remote-viewer et virt-viewer (gcm4 et GTK3)
 
 # Console série
 sudo apt install picocom               # ou minicom
