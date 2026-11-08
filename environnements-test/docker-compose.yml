@@ -1,0 +1,48 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Environnements de test manuels de gcm4 (#427, lot 5) : un serveur RDP et un
+# serveur VNC jetables, pour essayer les plugins rdp et vnc contre un vrai
+# serveur. Version standard (docker compose) ; la version swarm est dans
+# docker-stack.yml. Mode d'emploi : README.md.
+#
+#   docker compose -f environnements-test/docker-compose.yml up -d
+#   docker compose -f environnements-test/docker-compose.yml up -d vnc
+#
+# Ne jamais exposer ces serveurs hors du poste de test : mots de passe de test.
+
+name: gcm4-tests
+
+services:
+  rdp:
+    image: lscr.io/linuxserver/rdesktop:ubuntu-xfce
+    container_name: gcm4-test-rdp
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Etc/UTC
+    volumes:
+      # Volume nommé : l'état du bureau (session X11, dbus, .gnupg, cœurs)
+      # ne s'accumule plus dans le dépôt comme avec l'ancien rdp/data.
+      - rdp-config:/config
+    ports:
+      - "3389:3389"
+    shm_size: 1gb
+    restart: unless-stopped
+
+  vnc:
+    build: ./vnc
+    image: gcm4-test-vnc:latest
+    container_name: gcm4-test-vnc
+    environment:
+      VNC_PASSWORD: ${VNC_PASSWORD:-testpass}
+      VNC_DISPLAY: ":1"
+      VNC_GEOMETRY: 1280x800
+      VNC_DEPTH: "24"
+    ports:
+      - "5901:5901"
+    shm_size: 256m
+    restart: unless-stopped
+
+volumes:
+  rdp-config:
