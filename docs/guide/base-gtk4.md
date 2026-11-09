@@ -1,34 +1,22 @@
 # gcm4, base GTK4 : installation et premiers pas
 
 `gcm4` est la nouvelle génération de Gnome Connection Manager, réécrite en
-GTK 4 et libadwaita (épopée #118). Cette page décrit sa **base** (#126) :
-l'application sans aucun plugin de connexion. L'application GTK3
-(`gnome-connection-manager`) reste disponible à côté jusqu'à son retrait
-(#177).
+GTK 4 et libadwaita (épopée #118). Cette page décrit l'installation et les
+premiers pas. Depuis la version 4.0.0, tous les plugins de connexion sont
+livrés (SSH, RDP, VNC, SPICE, série, telnet, local, SFTP, IPMI SOL, web,
+imports d'hyperviseurs, PuTTY, Netmiko/SNMP) et l'application GTK3 a été
+retirée du dépôt (#177, #179, #182).
 
-## Limites de la base
+## Plugins de connexion
 
-**Aucune connexion ne peut être ouverte sans plugin.** La base n'en contient
-aucun, et les plugins GTK4 (SSH, RDP, VNC, série...) ne sont pas encore
-publiés. Avec la base seule :
-
-- l'arbre des groupes et des hôtes, la recherche, le glisser-déposer, les
-  couleurs de groupe, le dialogue d'hôte (création, modification,
-  duplication) et l'édition de plusieurs hôtes à la fois fonctionnent ;
-- le choix du protocole dans le dialogue d'hôte indique « Aucune extension
-  n'est installée. » ; les options d'un protocole sans plugin sont
-  conservées telles quelles ;
-- **Connecter** (menu de l'arbre, double-clic ou Entrée) affiche « Aucune extension
-  ne gère le protocole « ssh ». Installez-la pour ouvrir cette
-  connexion. » : aucun onglet ne s'ouvre, l'hôte n'est pas modifié ;
-- les onglets de la session précédente ne sont pas restaurés : un message
-  liste les hôtes sans extension ; les hôtes passés sur la ligne de
-  commande (`gcm4 groupe/nom`) sont acceptés mais ne s'ouvrent pas ;
-- l'import et l'export de configuration ne sont pas encore dans la base
-  (#152, #153).
+Tous les protocoles ont leur plugin GTK4 (`plugins/<nom>/`, contrat v1 :
+`core.py` + `gtk4.py`), chargés automatiquement au démarrage. Les
+terminaux (SSH, série, telnet) utilisent xterm.js embarqué dans WebKitGTK 6
+(#76), le RDP le plugin `plugins/rdp/` sur AsyncRdp, le VNC le widget natif
+`pluginvnc2`/AsyncVnc.
 
 **Paramètres > Extensions** liste les plugins trouvés, chargés ou en erreur
-(avec la raison) ; sans plugin, elle indique « Aucune extension trouvée. ».
+(avec la raison).
 
 ## Installation
 
@@ -41,8 +29,8 @@ Distributions testées par la CI (job « Paquets ») : **Debian 13**,
 **Ubuntu 24.04**, **Ubuntu 26.04** et **Fedora 44**. Il faut Python 3.12 ou
 plus récent : Ubuntu 22.04, Debian 12 et EL 9 ne conviennent pas.
 
-Le paquet `.deb` est joint aux releases à partir de la prochaine (#156) ; le
-`.rpm` pas encore. Les deux se construisent aussi depuis le dépôt (voir
+Le paquet `.deb` est joint aux releases (#156), le `.rpm` aussi (release
+v4.0.0). Les deux se construisent aussi depuis le dépôt (voir
 [Publication](../release.md)) ou se téléchargent
 comme artefacts `paquet-deb-gcm4` / `paquet-rpm-gcm4` d'une exécution de la
 CI.

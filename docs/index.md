@@ -5,8 +5,8 @@ fork de [Gnome Connection Manager](https://github.com/kuthulux/gnome-connection-
 Il regroupe dans une seule fenêtre à onglets les accès distants : terminal
 SSH, bureau RDP, console série RS-232/485, VNC, SPICE, telnet, session
 locale, console BMC IPMI SOL et visualiseur web BMC. Chaque protocole est
-un plugin chargé au démarrage. L'application est en cours de migration de
-GTK3 vers GTK4.
+un plugin chargé au démarrage. La migration vers GTK4 (version 4.0.0) est
+terminée ; l'application GTK3 a été supprimée.
 
 ## Par où commencer
 

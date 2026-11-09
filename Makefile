@@ -21,13 +21,11 @@ all:  test lint deb rpm-gcm4 translate validate
 
 help:
 	@echo "Cibles disponibles :"
-	@echo "  make          → deb + rpm (défaut)"
+	@echo "  make          → test + lint + deb + rpm-gcm4 (défaut)"
 	@echo "  make deb      → paquet .deb de gcm4 (build-deb/dist/gcm4_*.deb)"
 	@echo "  make smoke-deb → installe ce paquet (sudo apt) et le vérifie"
 	@echo "  make rpm-gcm4 → paquet .rpm de la base GTK4 (build-rpm/dist/gcm4-*.rpm)"
 	@echo "  make smoke-rpm → vérifie le contenu de ce paquet (rpm -qpl, sans l'installer)"
-	@echo "  make rpm      → paquet .rpm (Fedora/RHEL/CentOS)"
-	@echo "  make opensuse → paquet .rpm (openSUSE — dépendances zypper)"
 	@echo "  make translate → compile tous les .po → .mo"
 	@echo "  make i18n-update → extrait les chaînes et met à jour lang/*.po"
 	@echo "  make i18n-check  → échoue si lang/messages.pot ou un .po est périmé"

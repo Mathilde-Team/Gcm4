@@ -1,6 +1,6 @@
 # GCM — Documentation utilisateur (français)
 
-**Gnome Connection Manager v1.3.3**
+**Gnome Connection Manager v4.0.0 (gcm4, GTK4)**
 Fork maintenu par [MathildeDec](https://github.com/Mathilde-Team/Gcm4)
 
 ---
@@ -44,16 +44,16 @@ fenêtre unique, ce qui évite de jongler entre de nombreuses fenêtres et appli
 
 ### Protocoles supportés
 
-| Protocole | Binaire utilisé | Intégration |
+| Protocole | Implémentation | Intégration |
 |-----------|----------------|-------------|
-| **SSH** | `ssh` + `expect` | Terminal VTE embarqué |
-| **RDP** | `xfreerdp` | Bureau XEmbed (onglet) ou fenêtre externe |
-| **VNC** | `vncviewer` / `vinagre` / `remmina` | Fenêtre ou URI |
-| **SPICE** | `remote-viewer` / `virt-viewer` | URI `spice://`, tunnel libvirt ou ticket Proxmox |
-| **Série** | `picocom` / `minicom` / `screen` | Terminal VTE embarqué |
-| **Telnet** | `telnet` + `expect` | Terminal VTE embarqué |
-| **Local** | shell système | Terminal VTE embarqué |
-| **IPMI SOL** | `ipmitool` | Console BMC Serial-over-LAN (iLO/iDRAC/IMM…), terminal VTE embarqué — voir §23 |
+| **SSH** | `ssh` + xterm.js (WebKitGTK 6) | Terminal embarqué dans l'onglet |
+| **RDP** | plugin `plugins/rdp/` sur AsyncRdp (FreeRDP 3) | Bureau **dans l'onglet** : audio, USB, multi-écran, presse-papier, dossier, RemoteApp |
+| **VNC** | plugin `plugins/pluginvnc2/` sur AsyncVnc | Widget natif dans l'onglet, mode lecture seule |
+| **SPICE** | `remote-viewer` / `virt-viewer` (fichier `.vv`) | Tunnel libvirt ou ticket Proxmox |
+| **Série** | `picocom` / `minicom` / `screen` | Terminal xterm.js embarqué |
+| **Telnet** | `telnet` + `expect` | Terminal xterm.js embarqué |
+| **Local** | shell système | Terminal xterm.js embarqué |
+| **IPMI SOL** | `ipmitool` | Console BMC Serial-over-LAN (iLO/iDRAC/IMM…), terminal embarqué — voir §23 |
 | **Web** | vue HTML5 intégrée (WebKitGTK) | Visualiseur console BMC (iLO/iDRAC/IMM) ou n'importe quelle URL — voir §24 |
 
 Au-delà des connexions elles-mêmes, GCM importe l'inventaire d'infrastructures
@@ -63,7 +63,8 @@ SNMP §26).
 
 ### Architecture
 
-Chaque protocole de connexion est un **plugin** (`plugins/plugin_*.py`),
+Chaque protocole de connexion est un **plugin** (`plugins/<nom>/`, contrat v1 :
+`core.py` pour la logique sans GTK + `gtk4.py` pour l'interface),
 découvert et enregistré automatiquement au démarrage (`PluginRegistry`) —
 ajouter un protocole n'implique pas de modifier le cœur de l'application. Les
 imports d'infrastructure (libvirt, Proxmox, VirtualBox, oVirt, CSV, JSON,
@@ -82,7 +83,6 @@ plugins/                      ← un dossier par plugin (contrat v1)
 └── netmiko_push/, snmp_push/ ← déploiement de masse
 
 (L'application GTK3 de GTK3.OLD/ a été supprimée avec le cœur GTK3, #182.)
-└── plugin_netmiko_push.py, plugin_snmp_push.py  ← déploiement en masse (batch)
 
 tools/
 ├── libvirt_inventory.py      ← inventaire CLI : JSON/CSV/Ansible, détection OS/ports
@@ -99,18 +99,18 @@ Le fichier de configuration est stocké dans `~/.config/gnome-connection-manager
 ### Prérequis communs
 
 ```bash
-# Debian / Ubuntu
-sudo apt install python3 python3-gi gir1.2-vte-2.91 gir1.2-gtk-3.0 expect
+# Debian / Ubuntu (gcm4, GTK4)
+sudo apt install python3 python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 \
+                 gir1.2-webkit-6.0 expect python3-pycryptodome
 ```
 
 ### Protocoles optionnels
 
 ```bash
-# RDP
-sudo apt install freerdp2-x11        # ou freerdp3-x11
+# RDP : FreeRDP 3 côté système (plugin plugins/rdp/ sur AsyncRdp)
+sudo apt install freerdp3-x11
 
-# VNC
-sudo apt install tigervnc-viewer     # ou vinagre, remmina
+# VNC : aucun paquet externe — widget natif AsyncVnc (plugin pluginvnc2)
 
 # SPICE
 sudo apt install virt-viewer         # fournit remote-viewer
@@ -125,10 +125,6 @@ pip3 install paramiko
 # IPMI SOL (console BMC Serial-over-LAN)
 sudo apt install ipmitool
 
-# Web (console BMC HTML5 embarquée) — repli automatique vers le navigateur
-# système si absent
-sudo apt install gir1.2-webkit2-4.1
-
 # Déploiement en masse Netmiko / SNMP
 pip3 install netmiko ezsnmp   # ezsnmp nécessite les en-têtes net-snmp système
                               # (libsnmp-dev sous Debian/Ubuntu) ; à défaut,
@@ -138,8 +134,8 @@ pip3 install netmiko ezsnmp   # ezsnmp nécessite les en-têtes net-snmp systèm
 ### Fedora / RHEL
 
 ```bash
-sudo dnf install python3 python3-gobject vte291 expect freerdp \
-                 tigervnc virt-viewer picocom python3-libvirt
+sudo dnf install python3 python3-gobject gtk4 libadwaita webkitgtk6.0 expect \
+                 freerdp virt-viewer picocom python3-libvirt
 pip3 install paramiko
 ```
 
@@ -147,7 +143,7 @@ pip3 install paramiko
 
 ```bash
 git clone https://github.com/Mathilde-Team/Gcm4
-cd gnome-connection-manager
+cd Gcm4
 uv sync
 uv run gcm4
 ```
@@ -266,14 +262,14 @@ après intégration du composant VNC au formulaire d'hôte GTK4.
 
 ## 6. Protocole RDP
 
-### Modes d'affichage
+### Affichage
 
-| Mode | Condition | Description |
-|------|-----------|-------------|
-| **XEmbed** (onglet) | Session X11 active | Le bureau Windows s'affiche **dans l'onglet** GCM |
-| **Fenêtre externe** | Wayland pur (sans XWayland) | `xfreerdp` ouvre sa propre fenêtre |
+La session Windows s'affiche **directement dans l'onglet** gcm4, via le plugin
+`plugins/rdp/` construit sur AsyncRdp (binding asyncio sur libfreerdp3) —
+plus de mécanisme XEmbed/X11 ni de fenêtre externe.
 
-GCM détecte automatiquement le mode via `Gdk.Display.get_default()`.
+Fonctions supportées : audio, redirection USB, multi-écran, presse-papier,
+dossier partagé, RemoteApp. Le domaine `CORP\user` est géré automatiquement.
 
 ### Paramètres
 
@@ -282,18 +278,13 @@ GCM détecte automatiquement le mode via `Gdk.Display.get_default()`.
 | Hôte | `192.168.1.20` | Adresse du serveur Windows |
 | Utilisateur | `DOMAIN\admin` | Le domaine est extrait automatiquement |
 | Port | `3389` | Port RDP (défaut 3389) |
-| Mot de passe | `****` | Passé via `/p:` à xfreerdp |
-| Paramètres supp. | `+clipboard /drive:home,/home/user` | Options xfreerdp directes |
+| Mot de passe | `****` | Chiffré dans la configuration |
 
-### Options xfreerdp automatiques
+### Prérequis
 
-GCM ajoute toujours : `/cert:ignore /dynamic-resolution /rfx`
-
-Pour passer des options supplémentaires, utilisez le champ **Paramètres supp.** :
-
-```
-+clipboard /sound /drive:partage,/mnt/data
-```
+FreeRDP 3 côté système et PyGObject ≥ 3.50 (boucle asyncio GLib). Le
+répertoire des intégrations se configure via `[plugin rdp] integrations`
+dans `gcm4.conf` ou la variable `ASYNCRDP_GTK4_DIR`.
 
 ### Domaine Windows
 
@@ -304,11 +295,13 @@ automatiquement le domaine et génère `/d:DOMAIN /u:user`.
 
 ## 7. Protocole VNC
 
-### Binaires supportés (auto-détectés)
+### Widget natif AsyncVnc
 
-1. `vncviewer` (TigerVNC — recommandé)
-2. `vinagre` (GNOME — URI `vnc://`)
-3. `remmina` (URI `vnc://`)
+La connexion VNC s'affiche **dans l'onglet** gcm4, via le plugin
+`plugins/pluginvnc2/` construit sur la bibliothèque AsyncVnc (client RFB pur
+Python) — pas de binaire externe (`vncviewer`, `vinagre`, `remmina` ne sont
+plus utilisés). Options : mode lecture seule sans entrée distante, partage
+de session.
 
 ### Paramètres
 
@@ -316,17 +309,7 @@ automatiquement le domaine et génère `/d:DOMAIN /u:user`.
 |-------|---------|-------------|
 | Hôte | `192.168.1.30` | Adresse du serveur VNC |
 | Port | `5900` | Port VNC (défaut 5900 ; display :1 = 5901) |
-| Mot de passe | `****` | Passé en argument ou via l'URI |
-
-### Format de commande selon le binaire
-
-```bash
-# vncviewer (TigerVNC)
-vncviewer -passwd <(echo "motdepasse") 192.168.1.30:5900
-
-# vinagre / remmina
-vinagre vnc://motdepasse@192.168.1.30:5900
-```
+| Mot de passe | `****` | Authentification VNC, chiffré dans la configuration |
 
 ---
 
@@ -758,8 +741,7 @@ sans l'avoir purgé (utilisez l'export avec redaction).
 Depuis v1.3.3, GCM suit automatiquement le thème GTK du bureau :
 
 1. Lecture de `gsettings get org.gnome.desktop.interface gtk-theme` (GNOME, XFCE, MATE)
-2. Fallback : `~/.config/gtk-3.0/settings.ini`
-3. Si `gsettings get org.gnome.desktop.interface color-scheme` retourne `prefer-dark`, le mode sombre GTK est activé
+2. Si `gsettings get org.gnome.desktop.interface color-scheme` retourne `prefer-dark`, le mode sombre GTK est activé
 
 Pour forcer un thème en ligne de commande :
 ```bash
@@ -898,16 +880,17 @@ session utilisateur ou lancez GCM avec `sudo` (déconseillé en production).
 
 ### RDP : fenêtre noire ou onglet vide
 
-- Vérifiez que `xfreerdp` est installé : `which xfreerdp`
-- Sur Wayland pur (sans XWayland), GCM utilise automatiquement la fenêtre externe.
-  Si XWayland n'est pas disponible, installez `xwayland` ou activez-le dans votre
-  compositeur Wayland.
+- Vérifiez que FreeRDP 3 est installé côté système (paquet `freerdp3-x11`
+  sous Debian/Ubuntu) et que PyGObject ≥ 3.50 est présent (boucle asyncio
+  GLib)
+- Le journal (`--debug`) indique si le répertoire des intégrations est
+  trouvé (`[plugin rdp] integrations` ou `ASYNCRDP_GTK4_DIR`)
 
 ### VNC : "unable to connect"
 
 ```bash
 # Tester la connectivité manuellement
-vncviewer 192.168.1.30:5900
+nc -v 192.168.1.30 5900
 ```
 
 ### SSH : "expect: spawn id exp4 not open"
@@ -922,15 +905,16 @@ ssh user@hôte
 
 ### Aucun onglet ne s'ouvre
 
-Vérifiez que VTE est correctement installé :
+Vérifiez que WebKitGTK 6 (backend des terminaux xterm.js) est correctement
+installé :
 
 ```bash
-python3 -c "import gi; gi.require_version('Vte','2.91'); from gi.repository import Vte; print(Vte.MAJOR_VERSION)"
+python3 -c "import gi; gi.require_version('WebKit','6.0'); from gi.repository import WebKit; print(WebKit.get_major_version())"
 ```
 
-Résultat attendu : `0` (VTE 0.x.x). Si erreur, installer :
+Si erreur, installer :
 ```bash
-sudo apt install gir1.2-vte-2.91
+sudo apt install gir1.2-webkit-6.0
 ```
 
 ### Erreur "No module named 'gi'"

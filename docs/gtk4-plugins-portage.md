@@ -1,5 +1,10 @@
 # Portage des plugins GTK3 vers GTK4 : tableau de décision (#179)
 
+> **Chantier terminé** (4.0.0) : tous les plugins ont été portés en
+> `plugins/<nom>/` (`core.py` + `gtk4.py`, contrat v1) et le cœur GTK3 a été
+> supprimé (#182). Ce tableau est conservé comme archive des décisions et
+> des mesures de disponibilité des bibliothèques par distribution.
+
 **Décision de l'autrice** (#179, 01/10/2026) : « tous les plugin seront portés
 en gtk4 ». Aucun plugin n'est abandonné. Pour chacun, ce tableau indique
 **comment** le porter, avec quelle bibliothèque GTK4, et ce qui bloque sur les
