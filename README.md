@@ -1,11 +1,11 @@
-# Gnome Connection Manager (GCM) — v1.3.3
+# gcm4 (Gnome Connection Manager) — v4.0.0
 
 > **Le gestionnaire de connexions multi-protocoles le plus complet pour GNOME / GTK4.**
 
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://python.org)
 [![GTK 4](https://img.shields.io/badge/GTK-4.0-green.svg)](https://gtk.org)
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-780-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-1701-brightgreen.svg)](tests/)
 [![Ruff](https://img.shields.io/badge/ruff-pass-brightgreen.svg)](pyproject.toml)
 
 **Fork de [kuthulux/gnome-connection-manager](https://github.com/kuthulux/gnome-connection-manager)**
@@ -19,15 +19,16 @@ GCM regroupe dans une seule fenêtre à onglets **tous vos accès distants** :
 terminal SSH, bureau RDP embarqué, console série RS-232/485, VNC, SPICE,
 telnet, session locale, console BMC IPMI SOL et visualiseur web BMC. Plus
 besoin de jongler entre dix outils différents. Chaque protocole est un
-**plugin** (`plugins/plugin_*.py`), chargé automatiquement au démarrage —
+**plugin** (`plugins/<nom>/` : `core.py` pour la logique sans GTK +
+`gtk4.py` pour l'interface), chargé automatiquement au démarrage —
 ajouter un protocole n'implique pas de modifier le cœur de l'application.
 
 | Protocole | Implémentation | Description |
 |-----------|---------------|-------------|
 | **SSH** | xterm.js intégré (WebKitGTK 6) | Terminal complet avec agent, tunnels, cluster mode |
-| **RDP** | XEmbed + xfreerdp | Bureau Windows **directement dans l'onglet** GCM (XEmbed X11) ou fenêtre externe (Wayland) |
-| **VNC** | vncviewer / vinagre / remmina (ou widget natif `GtkVnc.Display` si dispo) | Connexion VNC avec authentification |
-| **SPICE** | remote-viewer / virt-viewer (ou widget natif `SpiceClientGtk.Display` si dispo) | Console VM SPICE haute performance (mode URI, tunnel libvirt, ticket Proxmox) |
+| **RDP** | plugin `plugins/rdp/` sur AsyncRdp (FreeRDP 3) | Bureau Windows **directement dans l'onglet** : audio, redirection USB, multi-écran, presse-papier, dossier partagé, RemoteApp |
+| **VNC** | plugin `plugins/pluginvnc2/` sur AsyncVnc (widget natif) | Connexion VNC avec authentification, mode lecture seule, partage de session |
+| **SPICE** | remote-viewer / virt-viewer via fichier `.vv` | Console VM SPICE haute performance (tunnel libvirt, ticket Proxmox) |
 | **Série** | picocom / minicom / screen | Port série RS-232/RS-485 avec **11 templates constructeurs** |
 | **Telnet** | telnet / expect | Sessions Telnet classiques |
 | **Local** | shell | Terminal local |
@@ -44,11 +45,15 @@ ajouter un protocole n'implique pas de modifier le cœur de l'application.
 - Chaque connexion conserve ses propres paramètres (police, couleurs, tunnel…)
 - Sauvegarde chiffrée des mots de passe (AES)
 
-### 🔷 RDP intégré via XEmbed
-- La session Windows s'affiche **dans l'onglet GCM** (pas une fenêtre séparée)
-- Bascule automatique sur fenêtre externe si Wayland pur est détecté
-- Support `xfreerdp2` et `xfreerdp3`, `/cert:ignore`, `/dynamic-resolution`
-- Domaine `CORP\user` géré automatiquement (`/d:` + `/u:`)
+### 🔷 RDP intégré (plugin `plugins/rdp/`)
+- La session Windows s'affiche **dans l'onglet gcm4**, via le client AsyncRdp
+  (binding asyncio sur libfreerdp3, pas d'X11/XEmbed)
+- Support **FreeRDP 3**, audio, redirection USB, multi-écran, presse-papier,
+  dossier partagé et RemoteApp
+- Exige PyGObject ≥ 3.50 (boucle asyncio GLib) ; le répertoire des
+  intégrations se configure via `[plugin rdp] integrations` dans
+  `gcm4.conf` ou la variable `ASYNCRDP_GTK4_DIR`
+- Domaine `CORP\user` géré automatiquement
 
 ### 🔌 Console Série RS-232 / RS-485
 - Terminal xterm.js **embarqué** (WebKitGTK 6, ressources locales, pas de fenêtre externe)
@@ -89,11 +94,11 @@ ajouter un protocole n'implique pas de modifier le cœur de l'application.
 ### 📥 Autres imports d'infrastructure
 - **VirtualBox** : Menu Fichier → Importer depuis VirtualBox… — saisie manuelle d'une URI `vbox+ssh://user@host[:port]/`
 - **oVirt** : Menu Fichier → Importer depuis oVirt… — pilotage de l'Engine oVirt (URL + API REST + utilisateur SSH)
-- **CSV / JSON** : import et export d'hôtes (l'export ne contient jamais les mots de passe)
+- **PuTTY** : Menu Fichier → Importer depuis PuTTY… — import des sessions depuis le registre Windows (`.reg` exporté)
 
 ### 🚀 Déploiement de configuration en masse
-- **Netmiko** (`plugin_netmiko_push.py`) : envoi de commandes CLI en masse sur un inventaire d'équipements réseau (SSH), profils réutilisables, gabarits `#colonne#` alimentés depuis l'inventaire CSV
-- **SNMP** (`plugin_snmp_push.py`) : dépôt de configuration TFTP/FTP puis déclenchement par `SNMP SET`, exécution parallèle (`ThreadPoolExecutor`) ; constructeurs supportés : Cisco, H3C **et Huawei VRP** (`HUAWEI-CONFIG-MAN-MIB`)
+- **Netmiko** (`plugins/netmiko_push/`) : envoi de commandes CLI en masse sur un inventaire d'équipements réseau (SSH), profils réutilisables, gabarits `#colonne#` alimentés depuis l'inventaire CSV
+- **SNMP** (`plugins/snmp_push/`) : dépôt de configuration TFTP/FTP puis déclenchement par `SNMP SET`, exécution parallèle (`ThreadPoolExecutor`) ; constructeurs supportés : Cisco, H3C **et Huawei VRP** (`HUAWEI-CONFIG-MAN-MIB`)
 
 ### 🛠️ Outils en ligne de commande (`tools/`)
 
@@ -126,13 +131,12 @@ ko · nb · nl · pl · pt · ro · ru · sv · th · tr · uk · vi · zh
 
 ### 🎨 Thème GTK bureau
 - GCM lit automatiquement le thème GTK du bureau au démarrage (`gsettings org.gnome.desktop.interface gtk-theme`)
-- Fallback : `~/.config/gtk-3.0/settings.ini`
 - Mode sombre activé si `color-scheme = prefer-dark`
 
 ### 🧙 Qualité du code
 - **ruff** (linter + formateur, style Google docstring)
 - **pre-commit** : hooks automatisés à chaque commit (`pre-commit install`)
-- 1491 tests unitaires pytest dans `tests/` (sans dépendance GTK) et 449
+- 1701 tests unitaires pytest dans `tests/` (sans dépendance GTK) et 522
   tests d'interface dans `tests/gtk4/` (GTK4 réels sous Xvfb) —
   l'ancienne suite `tests/test_gcm.py` de l'application GTK3 a été
   supprimée avec le cœur GTK3 (#182)
@@ -145,14 +149,15 @@ ko · nb · nl · pl · pt · ro · ru · sv · th · tr · uk · vi · zh
 
 ```bash
 git clone https://github.com/Mathilde-Team/Gcm4
-cd gnome-connection-manager
+cd Gcm4
 uv sync
 uv run gcm4
 ```
 
 ### Dossier de configuration alternatif
 
-Par défaut, GCM stocke sa configuration dans `~/.gcm/`. Pour utiliser un autre
+Par défaut, gcm4 stocke sa configuration dans `~/.config/gcm4/` (migration
+automatique depuis `~/.gcm/`, jamais destructive). Pour utiliser un autre
 emplacement (poste partagé, tests, profils multiples) :
 
 ```bash
@@ -168,11 +173,10 @@ sudo apt install python3 python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 expect python3-p
 
 # RDP : FreeRDP 3 côté système (le plugin GTK4 plugins/rdp/ s'en charge,
 # plus besoin de la bibliothèque gtk-frdp héritée, supprimée en #182)
-# VNC
-sudo apt install tigervnc-viewer       # ou vinagre, remmina
+# VNC — aucun paquet externe : widget natif AsyncVnc (plugin pluginvnc2)
 
 # SPICE
-sudo apt install virt-viewer       # remote-viewer et virt-viewer (gcm4 et GTK3)
+sudo apt install virt-viewer       # remote-viewer (gcm4 et GTK3)
 
 # Console série
 sudo apt install picocom               # ou minicom
@@ -250,41 +254,39 @@ LANG=de_DE.UTF-8 uv run gcm4
 
 ---
 
-## Packaging (deb / rpm / opensuse)
-
-### Prérequis
-
-```bash
-# Debian/Ubuntu
-sudo apt install git ruby ruby-dev build-essential gettext python3-paramiko
-sudo gem install fpm
-
-# Fedora/RHEL
-sudo dnf install git ruby ruby-devel make gettext python3-paramiko
-sudo gem install fpm
-```
+## Packaging (deb / rpm)
 
 ### Cibles `make`
 
 | Commande | Description |
 |----------|-------------|
-| `make` | Génère `.deb` + `.rpm` Fedora |
+| `make` | Teste, lint, puis génère `.deb` + `.rpm` gcm4 + traductions + validation |
 | `make deb` | `.deb` Debian / Ubuntu de gcm4 (`build-deb/dist/`) |
-| `make rpm` | `.rpm` Fedora / RHEL / CentOS |
-| `make opensuse` | `.rpm` **openSUSE / SLES** (dépendances zypper : `typelib-1_0-Vte-2.91`) |
+| `make smoke-deb` | Installe le `.deb` (sudo apt) et le vérifie |
+| `make rpm-gcm4` | `.rpm` de la base GTK4 (`build-rpm/dist/`) |
+| `make smoke-rpm` | Vérifie le contenu du `.rpm` (`rpm -qpl`, sans l'installer) |
 | `make translate` | Compile les `.po` de `lang/LINGUAS` → `.mo` |
 | `make i18n-update` | Extrait les chaînes (`lang/messages.pot`) et met à jour les `.po` |
 | `make i18n-check` | Échoue si le `.pot` ou un `.po` est périmé (CI) |
+| `make i18n-report` | Taux de traduction par langue |
 | `make validate` | Valide `.po` (msgfmt) + `.glade` / `.xml` / `.json` |
 | `make test` | Lance la suite pytest |
+| `make test-xterm` | Teste le pont JavaScript du terminal (Node 22) |
 | `make lint` | ruff |
 | `make check` | validate + lint + test + vérification git propre |
-| `make clean` | Supprime paquets et `__pycache__` |
+| `make ci` | Rejoue les étapes Qualité, Types, i18n, bureau et documentation |
+| `make coverage-combined` | Fusionne les données de couverture et vérifie le seuil (95 % sur `src/gcm4/core`) |
+| `make check-desktop` | Valide lanceur, AppStream et icônes (`data/`) |
+| `make icons` | Régénère `data/icons/hicolor/` depuis `data/icon.png` |
+| `make class-diagram` | Régénère `docs/class-diagram.md` |
+| `make docs` | Construit la documentation MkDocs (`site/`, strict) |
+| `make run-gtk4` | Lance gcm4 (GTK4) dans `.venv` |
+| `make clean` | Supprime paquets et répertoires temporaires |
 | `make help` | Affiche l'aide |
 
 ```bash
 git clone https://github.com/Mathilde-Team/Gcm4
-cd gnome-connection-manager
+cd Gcm4
 make deb        # deb de gcm4
 make rpm-gcm4   # rpm de gcm4
 make validate   # valider .po avant commit
@@ -346,18 +348,36 @@ pre-commit run --all-files  # vérification manuelle
 
 | Hook | Fichiers ciblés | Action |
 |------|----------------|--------|
-| `trailing-whitespace` | tous | supprime espaces en fin de ligne |
-| `end-of-file-fixer` | tous | assure un `\n` final |
-| `check-yaml` / `check-toml` / `check-json` | `.yaml` / `.toml` / `.json` | syntaxe |
 | `ruff` | `.py` | lint + autofix |
 | `ruff-format` | `.py` | formatage |
-| `flake8` | `.py` | lint complémentaire |
-| `validate-po` | `.po` | `msgfmt --check` — bloque si traduction invalide |
-| `validate-xml-glade-json` | `.glade` / `.xml` / `.json` | parser XML/JSON Python — bloque si syntaxe cassée |
+| `trailing-whitespace` | tous | supprime espaces en fin de ligne |
+| `end-of-file-fixer` | tous | assure un `\n` final |
+| `check-merge-conflict` | tous | bloque les marqueurs de conflit oubliés |
+| `check-added-large-files` | tous | bloque les fichiers > 2 Mo ajoutés par erreur |
+| `check-circular-imports` | `.py` | refuse les imports circulaires (`tools/check_circular_imports.py`) |
+| `class-diagram` | `.py` | régénère et vérifie `docs/class-diagram.md` |
 
 ---
 
 ## Nouveautés
+
+### v4.0.0 — migration GTK4
+- **GTK4 + libadwaita** : refonte complète de l'interface (stratégie MVC),
+  application `gcm4` en Python ≥ 3.12, configuration dans
+  `~/.config/gcm4/gcm4.conf` (migration automatique depuis `~/.gcm/`)
+- **GTK3 supprimé** : l'ancienne application `GTK3.OLD/` a été retirée (#179,
+  #182) ; verrou CI « zéro fichier GTK3 »
+- **Architecture à plugins `core.py` + `gtk4.py`** pour tous les protocoles
+  (contrat v1), cœur neutre vis-à-vis des protocoles
+- **RDP en widget intégré** : plugin `plugins/rdp/` sur AsyncRdp/FreeRDP 3 —
+  audio, redirection USB, multi-écran, presse-papier, dossier partagé,
+  RemoteApp (#71, #105)
+- **VNC natif** : plugin `plugins/pluginvnc2/` sur AsyncVnc (#102)
+- **Terminal xterm.js** (WebKitGTK 6) pour SSH, série et telnet
+- **Import PuTTY** (#436), imports d'hyperviseurs livrés (#439) :
+  libvirt, Proxmox, VirtualBox, oVirt
+- **Déploiement en masse** : `netmiko_push` (#441) et `snmp_push` (#445)
+- 2223 tests (1701 unitaires + 522 interface GTK4)
 
 ### v1.3.3
 - **Résolution IP Proxmox améliorée** : pipeline 4 niveaux QGA → `ipconfig0` → ARP filtré par MAC → nmap ping scan (identique libvirt)
@@ -407,7 +427,7 @@ uv run gcm4 --debug          # ou GCM_DEBUG=1
 GCM_LOG_LEVEL=TRACE uv run gcm4
 ```
 
-Le journal permanent est `~/.gcm/log/gcm-app.log`. Niveaux, variables
+Le journal permanent est `~/.config/gcm4/log/gcm-app.log`. Niveaux, variables
 d'environnement, données sensibles à relire avant de joindre un journal à
 un bug, règles pour les contributeurs : voir
 [docs/journalisation.md](docs/journalisation.md).
@@ -457,7 +477,9 @@ Gcm4 s'appuie sur deux bibliothèques asynchrones dédiées, développées en pa
 ### AsyncRdp — client RDP asynchrone
 
 - **Dépôt :** [Mathilde-Team/AsyncRdp4](https://github.com/Mathilde-Team/AsyncRdp4)
-- **Rôle :** Binding asyncio sur libfreerdp3 via cffi (122 tests), destiné à remplacer GtkFrdp
+- **Rôle :** Binding asyncio sur libfreerdp3 via cffi, **intégré** dans gcm4
+  via le plugin `plugins/rdp/` (#71, #105) — remplace l'ancien GtkFrdp,
+  avec audio, USB, multi-écran, presse-papier, dossier partagé, RemoteApp
 - **Annonce :** [Gcm4 #103](https://github.com/Mathilde-Team/Gcm4/issues/103)
 - **Liaison plugin :** [Gcm4 #105](https://github.com/Mathilde-Team/Gcm4/issues/105)
 
@@ -473,11 +495,11 @@ il ne réécrit ni le corps de l'issue ni un commentaire et conserve ses
 permissions de lecture. Les issues ouvertes ne signifient pas nécessairement
 qu'aucun code n'a été livré ; vérifier leurs commentaires et PR associées.
 
-| Phase | Objectif | Issues clés |
-|-------|----------|-------------|
-| 1 | Stabilisation bibliothèques | AsyncVnc4 #22, #34 · AsyncRdp4 #36 |
-| 2 | Intégration plugins Gcm4 | Gcm4 #104, #105, #71 |
-| 3 | Tests serveurs réels | AsyncVnc4 #27-#32 · AsyncRdp4 #34, #37 |
-| 4 | Migration GTK4 + nettoyage | Gcm4 #97, #96, #98, #99 |
+| Phase | Objectif | Issues clés | État |
+|-------|----------|-------------|------|
+| 1 | Stabilisation bibliothèques | AsyncVnc4 #22, #34 · AsyncRdp4 #36 | livrée |
+| 2 | Intégration plugins Gcm4 | Gcm4 #104, #105, #71 | livrée |
+| 3 | Tests serveurs réels | AsyncVnc4 #27-#32 · AsyncRdp4 #34, #37 | livrée |
+| 4 | Migration GTK4 + nettoyage | Gcm4 #97, #96, #98, #99 | livrée |
 
 Priorités unifiées (P1-P4) et tracks de travail parallèle (VNC / RDP / Gcm4) communs aux trois dépôts.

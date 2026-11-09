@@ -6,7 +6,8 @@ Issue #162.
 
 Rejoue localement les étapes des jobs Qualité, Types, i18n, Intégration au
 bureau et documentation de `.github/workflows/ci.yml`, dans le même ordre :
-ruff, flake8, format, imports circulaires, pytest avec couverture, mypy,
+ruff, diagramme de classes, format, pre-commit, imports circulaires, pytest
+avec couverture (seuil 95 % sur `src/gcm4/core`), mypy,
 validation et fraîcheur des catalogues, lanceur et AppStream, MkDocs. `tests/test_make_ci.py` échoue si une étape est
 ajoutée à la CI sans l'être à `make ci`.
 
