@@ -92,6 +92,13 @@ une tâche de ce backlog, demande ponctuelle.)*
 
 ## Pas encore fait
 
+> ⚠️ **État au 2026-11-09** : la migration GTK4 est **terminée** (livrée en
+> 4.0.0 — l'entrée « Migration GTK4 » ci-dessous est conservée pour mémoire
+> historique), le mot de passe maître est câblé dans gcm4 (#98), le chantier
+> RDP est livré (#71/#105) et tous les plugins sont portés (#179). Les
+> autres entrées non raturées restent d'actualité, à vérifier contre les
+> issues GitHub ouvertes.
+
 Légende urgence : ⚠️ Haute · 🟠 Moyenne · 🟢 Faible (reprise des priorités
 ⭐⭐⭐/⭐⭐/⭐ de la roadmap d'origine).
 

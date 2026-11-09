@@ -1,16 +1,15 @@
 # Roadmap — Gcm4
 
-> Dernière mise à jour : 2026-09-21
+> Dernière mise à jour : 2026-11-09
 > Source : GitHub issues, `docs/features-backlog.md`, `docs/gtk4-migration.md`
 
 ## Vue d'ensemble
 
 | Métrique | Valeur |
 |----------|--------|
-| Issues ouvertes | 31 |
-| Issues closes | 70 (sessions + fonctionnalités) |
-| Migration GTK4 | 4/4 menus contextuels portés, 3/3 GestureClick, 2/4 signaux éditeur inline |
-| Chantiers GTK4 restants | 3 (audités, #96, #97, #71) |
+| Issues ouvertes | 7 (#107, #106, #79, #78, #242, #101, #95) |
+| Migration GTK4 | **terminée** (4.0.0) — menus contextuels, GestureClick, éditeur inline, `plugins/ssh/gtk4.py`, RDP, VNC, tous les plugins portés, GTK3.OLD/ supprimé |
+| Chantiers GTK4 restants | aucun |
 
 ## Phases d'intégration
 
@@ -24,17 +23,17 @@
 | #98 | Master password (comportement oubli + protection) — tranché le 12/10/2026 (facultatif, code de recouvrement), câblé dans gcm4 (PR en relecture) | Débloque câblage GTK |
 | #74 | Sort de snmp_push_core.py (supprimer ou fusionner) | Nettoyage architecture |
 
-### Phase 1 — Migration GTK4 + Qualité 🔄
+### Phase 1 — Migration GTK4 + Qualité ✅ (livrée en 4.0.0)
 
-**Chantiers GTK4 (3 indépendants, audités) :**
+**Chantiers GTK4 (3 indépendants, audités) — tous livrés :**
 
-| Issue | Chantier | Lignes | Difficulté | Bloque |
-|-------|----------|--------|------------|--------|
-| #96 | focus-out / populate-popup (éditeur inline) | — | Haute | — |
-| #97 | plugins/ssh/gtk4.py | 4435 | Haute | #73 |
-| #71 | Chantier RDP | — | Haute | AsyncRdp4 #36 |
-| #72 | Vérification GestureClick (manuel) | — | Moyenne | — |
-| #73 | Généraliser core.py/gtk4.py | — | Moyenne | (après #97) |
+| Issue | Chantier | État |
+|-------|----------|------|
+| #96 | focus-out / populate-popup (éditeur inline) | livré |
+| #97 | plugins/ssh/gtk4.py | livré |
+| #71 | Chantier RDP | livré (#105, AsyncRdp) |
+| #72 | Vérification GestureClick (manuel) | livré |
+| #73 | Généraliser core.py/gtk4.py | livré (#179) |
 
 **Qualité / dette technique :**
 
@@ -45,13 +44,14 @@
 | #90 | Pre-commit hook | Faible | Avec #88, #89, #91 |
 | #91 | Relecture docstrings tests | Faible | Avec #88, #89, #90 |
 
-**Avancement GTK4** :
+**Avancement GTK4 — terminé (4.0.0)** :
 - ✅ Verrou GTK3 levé (plugin_base.py)
-- ✅ Plugin pilote SSH réorganisé (core.py)
+- ✅ Plugin pilote SSH réorganisé (core.py), puis tous les plugins (contrat v1)
 - ✅ 4/4 menus contextuels portés (Gio.Menu/Popover)
 - ✅ 3/3 sites GestureClick portés
-- ✅ 2/4 signaux éditeur inline portés (key-press, button-press)
-- 🔄 3 chantiers restants (focus-out/populate-popup, plugins/ssh/gtk4.py, RDP)
+- ✅ 4/4 signaux éditeur inline portés
+- ✅ `plugins/ssh/gtk4.py` porté (#97), chantier RDP livré (#71, #105), VNC
+  natif (`pluginvnc2`/AsyncVnc), cœur GTK3 et `GTK3.OLD/` supprimés (#179, #182)
 
 ### Phase 2 — Fonctionnalités post-GTK4 + PluginVNC2 🔜
 
@@ -87,8 +87,8 @@
 
 ## Dépendance cross-repo
 
-- **AsyncRdp4 #36** (assembler RDP dans GCM) dépend de Gcm4 #71, #96, #97
-- Si gtk-frdp n'a pas de chemin GTK4, l'alternative asyncrdp (dépôt AsyncRdp4) remplace le plugin RDP
+- **AsyncRdp4 #36** (assembler RDP dans GCM) — livré : le plugin
+  `plugins/rdp/` utilise AsyncRdp, gtk-frdp a été abandonné avec GTK3 (#182)
 
 ## Voir aussi
 

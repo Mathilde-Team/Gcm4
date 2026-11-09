@@ -119,6 +119,26 @@ dans `docs/gtk4-migration.md`, clôturé.
 
 ## Prochaine étape
 
+> ⚠️ La section « Historique des étapes » ci-dessous décrit le chantier GTK4
+> tel qu'il était en cours — **elle est achevée** : migration GTK4 livrée en
+> 4.0.0 (menus contextuels, GestureClick, éditeur inline, `plugins/ssh/gtk4.py`,
+> RDP `plugins/rdp/` sur AsyncRdp, VNC `plugins/pluginvnc2/`, tous les plugins
+> portés en `core.py`+`gtk4.py` et GTK3.OLD/ supprimé, #179/#182). Elle est
+> gardée pour mémoire.
+
+État courant, post-4.0.0 :
+
+- **Migration GTK4 terminée** (voir ci-dessus) ; verrous CI « zéro fichier
+  GTK3 » (`tests/test_gtk3_retrait.py`) et couverture ≥ 95 % sur
+  `src/gcm4/core` actifs.
+- **Reste ouvert** (voir les issues GitHub) : #107, #106, #79, #78, #242,
+  plus les issues marquées HUMAIN (#101, #95) à ne pas traiter sans
+  l'autrice.
+- **Renommage GCM → gcm4 dans le code** : toujours pas exécuté (décisions de
+  noms à trancher) — voir `docs/gcm4-rename.md`.
+
+## Historique des étapes (achevées — garder pour mémoire)
+
 0. Point isolé traité (session-25, 2026-09-10) : verrou GTK3
    (`gi.require_version("Gtk", "3.0")`) de `plugins/plugin_base.py` levé —
    voir `gtk4-migration.md` §3.6 pour le détail et pour la réponse (fourchette
@@ -526,9 +546,9 @@ make validate  # .po (+ .xml/.glade/.json si le dépôt en contient un jour)
 make check     # validate + lint + test + check-gitignore
 ```
 
-⚠️ **`ruff check .` passe désormais sans aucune erreur (corrigé session-36,
-2026-09-16)** — `make lint` dans son ensemble (`ruff check .` **+**
-`flake8 gnome_connection_manager.py`) ne passe toujours pas : en
+⚠️ **`ruff check .` passe sans aucune erreur** — le hook pre-commit `flake8`
+a été retiré avec le cœur GTK3 (#182) : `make lint` est désormais
+`ruff check .` seul. Historique de l'époque GTK3 : en
 corrigeant les 423 erreurs `tests/test_gcm.py` ci-dessous, un second écart
 distinct a été découvert sur `flake8`, jamais configuré pour ce dépôt (ni
 `.flake8` ni `setup.cfg`) — tournait donc avec sa limite par défaut de 79
